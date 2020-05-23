@@ -1,4 +1,9 @@
+
+type game = {
+    name: string,
+};
+
 [@react.component]
-let make = (~name) => {
-    <div>{ReasonReact.string("Game " ++ name)}</div>
+let make = (~game) => {
+    <div>{ReasonReact.string("Game " ++ game.name)}</div>
 };
