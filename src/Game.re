@@ -5,5 +5,14 @@ type game = {
 
 [@react.component]
 let make = (~game) => {
-    <div>{ReasonReact.string("Game " ++ game.name)}</div>
+    let url = "/game.html?game=" ++ game.name;
+    <iframe
+        src={url}
+        style={
+            ReactDOMRe.Style.make(
+                ~flexGrow="1",
+                ()
+            )
+        }
+    />
 };

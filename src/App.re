@@ -26,13 +26,24 @@ let make = () => {
     | Some(game) => (<Game game={game} />)
     };
 
-    <>
+    let style = ReactDOMRe.Style.make(
+        ~position="absolute",
+        ~display="flex",
+        ~flexDirection="row",
+        ~left="0",
+        ~right="0",
+        ~top="0",
+        ~bottom="0",
+        ()
+    );
+
+    <div className="app" style={style}>
         <div className="game-list">
             {ReactDOMRe.createDOMElementVariadic(
                 "div",
                 allGames
             )}
         </div>
-        {gameComponent}
-    </>
+        gameComponent
+    </div>
 };
