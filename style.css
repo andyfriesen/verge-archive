@@ -1,0 +1,31 @@
+
+.app {
+    background: #0a0804;
+    color: #a8a0a0;
+    font-family: sans-serif;
+    padding: 5px;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+}
+
+.app .game-list {
+    min-width: 15em;
+    border-right: 1px solid #888;
+    margin-right: 5px;
+    padding-right: 5px;
+}
+
+.app .game-list .entry:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.game-frame {
+    flex-grow: 1;
+    border: 0;
+}
