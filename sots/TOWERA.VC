@@ -1,0 +1,1249 @@
+event //autoexec
+{
+flags[153]=0;
+flags[154]=1;
+flags[155]=2;
+flags[156]=3;
+flags[72]=0;
+flags[80]=0;
+flags[81]=0;
+flags[82]=0;
+flags[83]=0;
+flags[84]=0;
+flags[85]=0;
+layervc=1;
+a=1;
+b=1;
+c=1;
+d=1;
+if(flags[161])
+        {
+        alterftile(64,61,0,0);
+        alterftile(64,62,0,0);
+        alterftile(64,63,0,0);
+        alterftile(64,64,0,0);
+        alterftile(64,65,0,0);
+        alterbtile(64,66,89,0);
+        alterbtile(65,66,90,0);
+        alterbtile(66,66,91,0);
+        entity.locx(5)=0;
+        entity.locy(5)=0;
+        }
+}
+event //1
+{
+mapswitch("tower.map",187,66,0);
+}
+event //2
+{
+warp(49,24,0);
+}
+event //3
+{
+warp(37,21,0);
+flags[72]=0;
+flags[150]=0;
+}
+event //4
+{
+warp(78,24,0);
+flags[72]=0;
+flags[150]=0;
+}
+event //5
+{
+warp(66,24,0);
+}
+event //6
+{
+warp(20,47,0);
+}
+event //7
+{
+warp(95,15,0);
+}
+event //8
+{
+warp(49,47,0);
+}
+event //9
+{
+warp(37,47,0);
+}
+event //10
+{
+warp(79,47,0);
+}
+event //11
+{
+warp(66,38,0);
+}
+event //12
+{
+warp(20,70,0);
+}
+event //13
+{
+warp(95,47,0);
+flags[153]=0;
+flags[154]=1;
+flags[155]=2;
+flags[156]=3;
+}
+event //14
+{
+warp(49,70,0);
+flags[153]=0;
+flags[154]=1;
+flags[155]=2;
+flags[156]=3;
+}
+event //15
+{
+warp(37,70,0);
+}
+event //16
+{
+warp(78,70,0);
+}
+event //17
+{
+warp(66,61,0);
+}
+event //18
+{
+warp(20,108,0);
+}
+event //19
+{
+warp(95,61,0);
+}
+event //20
+{
+warp(50,114,0);
+}
+event //21
+{
+warp(37,109,0);
+}
+event //22
+{
+warp(20,92,0);
+}
+event //23
+{
+warp(67,114,0);
+flags[72]=0;
+flags[150]=0;
+}
+event //24
+{
+warp(49,92,0);
+flags[72]=0;
+flags[150]=0;
+}
+event //25
+{
+warp(37,92,0);
+}
+event //26
+{
+warp(78,92,0);
+Partymove("R1");
+setface(1,3);
+text(1,"This warp doesn't seem to","work...","I'll have to activate it to");
+text(1,"get back down...","","");
+}
+event //27
+{
+text(0,"These breeding techniques not","only produce predatory beasts","to eliminate natural threats,");
+text(0,"but also have produced bigger","and leaner animals for meat!","");
+}
+event //28
+{
+text(0,"Although some of these","creatures may be strong enough","to break the bars or their");
+text(0,"cages, as long as there are","keepers here to maintain the","elemental restraints,");
+text(0,"they cannot break free.","","");
+}
+event //29
+{
+text(0,"Through our research, we have","made it so some of these","creatures do not age.");
+text(0,"It is hoped that we can change","ourselves someday in the","future in the same manner,");
+text(0,"eliminating infirmity and","death from living too long.","");
+}
+event //30
+{
+text(0,"Not only do we breed beasts","for genetics here,","but also we keep endangered");
+text(0,"species for preservation's","sake. Although we were too","late to save the Moogles or");
+text(0,"Chocobos, we have managed to","keep other species, such as","the WildKitty and the Talking");
+text(0,"Clam, alive.","","");
+}
+event //31
+{
+text(0,"We have several varieties of","Elementals here for study.","To this day we cannot figure");
+text(0,"out how these creatures exist,","composed of no living flesh.","They are unlike any other");
+text(0,"kind of beast known to us.","","");
+}
+event //32
+{
+text(0,"We are also using our research","to answer one of the most","puzzling questions in history:");
+text(0,"Why do wandering monsters","carry around so much gold?","");
+}
+event //33
+{
+//left bell
+text(0,"**Ding**","","");
+if(flags[73]=2 and flags[69]=5 and flags[70]=6 and flags[71]=7 and flags[68]=4)
+        flags[82]=1;
+if(flags[73]=4 and flags[69]=11 and flags[70]=12 and flags[71]=13 and flags[68]=4)
+        flags[84]=1;
+flags[73]++;
+}
+event //34
+{
+text(0,"**Ding**","","");
+if(flags[72] and !C and !flags[73])
+        flags[80]=1;
+if(flags[73]=1 and flags[69]=1 and flags[70]=2 and flags[71]=3 and flags[68]=4)
+        flags[81]=1;
+if(flags[73]=3 and flags[71]=8 and flags[70]=9 and flags[69]=10 and flags[68]=4)
+        flags[83]=1;
+flags[73]++;
+}
+event //35
+{
+//north
+C++;
+flags[68]=C;
+}
+event //36
+{
+//east
+C++;
+flags[69]=C;
+}
+event //37
+{
+//south
+C++;
+flags[69]=C;
+}
+event //38
+{
+//west
+C++;
+flags[70]=C;
+}
+event //39 (gong)
+{
+text(0,"!!GONG!!","","");
+if(!flags[72] and !flags[150])
+        {
+        flags[68]=0;
+        flags[69]=0;
+        flags[70]=0;
+        flags[71]=0;
+        flags[73]=0;
+        C=0;
+        D=0;
+        text(1,"*sigh*...","This ritual is so tedious...","I wonder how many died of");
+        text(1,"starvation in the past because","of the delay in eating this","caused...");
+        }
+if(flags[72] and !flags[150])
+        {
+        if(flags[73]=5 and flags[69]=11 and flags[70]=12 and flags[71]=13 and flags[68]=14)
+                flags[85]=1;
+        if(!flags[150] and flags[73]=5 and flags[80]=1 and flags[81]=1 and flags[82]=1 and flags[83]=1 and flags[84]=1 and flags[85]=1)
+                {
+                if(locx>48 and locx<67 and !flags[151])
+                        {
+                        soundeffect(9);
+                        text(0,"Got location A's item.","","");
+                        flags[151]=1;
+                        flags[80]=0;
+                        flags[81]=0;
+                        flags[82]=0;
+                        flags[83]=0;
+                        flags[84]=0;
+                        flags[85]=0;
+                        flags[72]=0;
+                        }
+                if(locx>19 and locx<31 and !flags[152])
+                        {
+                        soundeffect(9);
+                        text(0,"Got location B's item.","","");
+                        flags[152]=1;
+                        flags[80]=0;
+                        flags[81]=0;
+                        flags[82]=0;
+                        flags[83]=0;
+                        flags[84]=0;
+                        flags[85]=0;
+                        flags[72]=0;
+                        }
+                flags[150]=1;
+                }
+        if(!flags[150])
+                {
+                soundeffect(12);
+                text(1,"I didn't do the ritual","properly...","");
+                flags[72]--;
+                flags[72]--;
+                }
+        }
+flags[72]++;
+flags[150]=0;
+}
+event //40
+{
+text(0,"Above all things else, hold","this law close to heart:","No person shall ever murder");
+text(0,"Never in our history has any","sane person ever willingly","injured another, and if one");
+text(0,"ever does, we will lose our","divinity, and lose the","Creator's grace.");
+}
+event //41
+{
+text(0,"All things can be accomplished","through calm rationalization.","This is the negotiator's creed");
+}
+event //42
+{
+text(0,"Sages exist to guide, teach,","and watch.","Never to rule or order.");
+}
+event //43
+{
+text(0,"Remember, it is an honor to","study in this tower.","Even the lowest mage here is");
+text(0,"better than most anyone else.","","");
+}
+event //44
+{
+text(1,"This shelf is filled","with music books.","");
+}
+event //45
+{
+text(0,"Studying and researching is","well and good, but do remember","to take some time to enjoy");
+text(0,"life. It may pass you by if","you are too busy doing","other things.");
+}
+event //46
+{
+text(0,"...2 parts fire,","3 parts earth,","2 parts lightning,");
+text(0,"and 1 part light...","Yes, I'm sure that'll be what","this needs...");
+text(0,"I'll be the most reknowned","Mage in the land after I","create this...");
+text(0,"I just need to request","the material from Bastien...","");
+}
+event //47
+{
+text(1,"This orb...","...I can feel energy flowing","through it...");
+text(1,"Erikk said that things such as","these were used to carry and","manipulate pure elemental");
+text(1,"streams...","","");
+}
+event //48
+{
+text(0,"Sometimes, a Mage's ward","requires the use of physical","material to seal it. Likewise,");
+text(0,"sometimes a Mage will use","elemental shards in a spell's","actual casting, to greatly");
+text(0,"magnify the end result.","","");
+}
+event //49
+{
+text(0,"Water is the element of life,","of healing, and of calmness.","But beware, it also contains");
+text(0,"the fury of a storm,","and the wrath of a Tsunami.","");
+}
+event //50
+{
+text(0,"Fire, the element of anger,","of heat, of passion.","We all burn with desires...");
+text(0,"...and try not to let our","desires burn us.","");
+}
+event //51
+{
+text(0,"Earth, the element of","stability, of eternity,","of immensity.");
+text(0,"The power of the mountain","is the same as the grain","of sand.");
+text(0,"They are both forever.","","");
+}
+event //52
+{
+text(0,"Air, the element of freedom,","of mirth, of joy.","But the winds of happyness can");
+text(0,"cry out in pain,","and howl in anguish.","There cannot be joy without");
+text(0,"sadness.","","");
+}
+event //53
+{
+text(0,"Although there are only four","main material elements of","which all things are made,");
+text(0,"there are infinite","combinations of them.","Usually, things are made up of");
+text(0,"all four in varying degrees,","and it is rare to find","something that is lacking a");
+text(0,"single element,","let alone conisting","entirly of only one.");
+}
+event //54
+{
+text(0,"Air and Fire in equal parts","make Lightning.","Water and Earth make Ice.");
+text(0,"Fire and Earth create lava","and magma,","and Water and Air give us rain");
+text(0,"and mist.","","");
+}
+event //55
+{
+text(0,"If a subject is wet,","then a Lightning stike will","wound him more than if dry.");
+}
+event //56
+{
+text(0,"If a subject is wet,","then Ice will burn more than","if the subject was dry.");
+}
+event //57
+{
+text(0,"There are forces in our","universe that we cannot","contol...");
+text(0,"...Time, the Sun, and the very","Stars, for example.","To attempt to meddle with");
+text(0,"these is to bring your","own doom upon yourself.","");
+}
+event //58
+{
+text(0,"To control how fast something","happens, a flow of Air can be","used to regulate speed.");
+}
+event //59
+{
+text(0,"Earth has domain over all","things solid,","as Water does fluid,");
+text(0,"and Air have gaseous.","Fire has dominion over the","changing from one to another.");
+}
+event //60
+{
+text(0,"What do Light and Dark","represent?","Is one 'right',");
+text(0,"and one 'wrong'?","What is good and what is","evil depends on your");
+text(0,"point of view...","","");
+}
+event //61
+{
+
+}
+event //62
+{
+text(0,"...I write this journal in","case I do not live to tell my","tale...");
+text(0,"We knew something had happened","earlier, but he'd been keeping","to himself lately...");
+text(0,"He left after a commotion from","his lab and study, but has","returned...");
+text(0,"Everyone that could escape","did, after he started","incinerating people...");
+text(0,"He keeps laughing,","and murmuring to himself...","He almost seemed to enjoy");
+text(0,"killing those men,","but to look in his eyes is","to see chaos...");
+text(0,"He cannot be sane,","he must think he","is doing good...");
+text(0,"I pray to Quillidor that I","may escape from here,","before he turns on me, too...");
+}
+event //63
+{
+text(0,"Pure shards of Elemental","material are very hard to","find. Although it is possible");
+text(0,"to find them naturally,","usually they can only be","created during a long and");
+text(0,"tedious refining process.","We are lucky to have so many","of them for research...");
+}
+event //64
+{
+text(0,"Finding pure material of","mixed Elements,","like Lightning and Ice,");
+text(0,"is even harder than finding","the four major Elements...","there just are less of them");
+text(0,"in the world.","","");
+}
+event //65
+{
+text(0,"Although sound itself is","controlled mainly by Air,","Music can manipulate all four");
+text(0,"material Elements,","as well as Dark and Light...","A song can be composed so the");
+text(0,"chords and phrases are as","wards,","in effect becoming a spell.");
+}
+event //66
+{
+text(0,"It has been thought that when","the proper Song is played,","and four pieces of pure");
+text(0,"Elemental are put together,","they will form the legendary","Philosopher's Stone.");
+text(0,"Of course, this remains largly","an old wife's tale,","even though some have spent");
+text(0,"their whole lives trying","to create this Song.","");
+}
+event //67
+{
+text(0,"This institution has been","studying the new phenomenon","known as 'Psionics'.");
+text(0,"Although our research has","shown that Psionics and","Thaumaturgics are similar,");
+text(0,"and can produce the same","end results, we have yet to","isolate exactly how one");
+text(0,"becomes a Psion, or why most","Psions cannot use a Mage's","wards.");
+}
+event //68
+{
+text(0,"Although Wards are most","commonly put into books,","a ward can take most any form");
+text(0,"once set. This is why mages","sometimes wear pendants and","rings to cast magics.");
+}
+event //69
+{
+text(0,"Quillidor is the patron of the","Magical arts and the arts of","intrigue.");
+text(0,"His worshipers are noted for","their cleverness and","craftyness.");
+}
+event //70
+{
+text(0,"Selnor is the patron of the","meek, the compationate, and","the downtrodden.");
+text(0,"Always does she look with","kindness upon those who suffer","misfortunes, and those that");
+text(0,"help these poor people.","","");
+}
+event //71
+{
+text(0,"Maalidi is the patron of","courage, the spirit of","adventure, and those who risk");
+text(0,"all to gain their goals.","His followers are robust","people, always full of life");
+text(0,"and vigor.","","");
+}
+event //72
+{
+text(0,"It is possible to link a","ward to one of the Creators","power, greatly magnifying the");
+text(0,"potential for the spell.","But if you do so, the spell","can only be used to do");
+text(0,"things that the Creator wishes","done, and the ward will not","work if the Creator doesnt");
+text(0,"wish it to.","","");
+}
+event //73
+{
+text(0,"The Creators are seldom seen","by us, but on occasion they","have talked to mortals when");
+text(0,"they saw fit.","","");
+}
+event //74
+{
+text(0,"In over a thousand years of","civilization, one person has","not willingly harmed another,");
+text(0,"but before then, our kind were","not much better than animals,","roaming in tribes and");
+text(0,"slaughtering each other","indiscriminatly.","");
+}
+event //75
+{
+text(0,"Light and Dark have power","over our minds, and our","emotions.");
+text(0,"Both can motivate great deeds,","and both can cause great","sorrow...");
+}
+event //76
+{
+text(0,"When your heart sings with","happyness and love, Light","fills your soul.");
+text(0,"When hatred and disgust wash","over you, Darkness resides in","our soul.");
+text(0,"When your soul is balanced","between the two, only then","will you feel content.");
+}       
+event //77
+{
+text(0,"If your soul is unbalanced","with too much Light or Dark,","your judgement will be");
+text(0,"clouded, and you may do","things that you will regret.","");
+}
+event //78
+{
+text(0,"The Elements of Light and","Dark, although not material","themselves, have some control");
+text(0,"over the four Material","elements.","This is most apparant when a");
+text(0,"Psion with an unbalanced soul","casts a spell,","tainting the material forces");
+text(0,"with Light or Dark,","and changing the results","in unexpected ways...");
+}
+event //79
+{
+text(0,"...I have made some intresting","discoverys in the fields of","Omens...Bastien himself has");
+text(0,"taken great intrest in my","project, to the point of","studying my results obsessivly");
+text(0,"for the last few weeks...","I wonder what will come of","this...Everytime in the past");
+text(0,"when he has hidden away like","this, he emerges with an","amazing new ward, or an");
+text(0,"impressive new discovery...","I just hope he gives me some","credit for this one...");
+}
+event //80
+{
+text(0,"I am certain that our research","in large-field effect spells","will cure Aldencia of it's");
+text(0,"Monster plauge within a few","years...The Sage has given us","his blessing...We just need to");
+text(0,"coordinate efforts between","the Mages and Psions...","Together, it seems like");
+text(0,"nothing is impossible...","","");
+}
+event //81
+{
+text(0,"I have noted a strange pattern","in Mage's strengths...","It seems that fair-skinned");
+text(0,"people have some common","ability for Magic, but are","mostly weak...");
+text(0,"The darker skinned mages seem","to be stronger on average,","but much weaker...strangely,");
+text(0,"even with all the similaritys","we have seen between Mages and","Psions, this particular oddity");
+text(0,"doesn't seem to hold...","The ones who weave with their","minds alone are as varied in");
+text(0,"strength and commanality","in every race...","");
+}
+event //82
+{
+text(0,"...I cannot see what I'm","meant to see...","I made those accursed warded");
+text(0,"items and gave them to each of","the three nations off of a","hunch from earlier");
+text(0,"divinations, but what","is my role in all this?","...");
+text(0,"What does Fate want me to do?","...The frustration is eating","me away...");
+text(0,"The visions I've had are","truly horrible...","I must do all I can to stop");
+text(0,"this from happening,","no matter the cost...","...");
+text(0,"Sometimes the burden of being","the Sage is too much to bear...","May the Creators guide me...");
+}
+event //83
+{
+text(0,"I have been studying Omens","again fervently for the last","six weeks, ever since");
+text(0,"Bathidar came up with those","plans for an Omen-enhacing","machine...It is rather");
+text(0,"ingenious, using Darkness and","Light in such ways...","but as I've been refining this");
+text(0,"project, I cannot help but","feel anxious...I need to know","what the future will be...");
+text(0,"I need to be assured that all","that I've done so far will","make sure that our fair Emtara");
+text(0,"is not ravaged so...","It pains me to think that one","person would kill another");
+text(0,"freely, even in a vision...","To see a War occur where it","isn't Soldiers fighting");
+text(0,"Monsters, but brother killing","brother is truly harrowing...","Only madmen harm or kill...");
+text(0,"I cannot let my people become","barbarians...I must finish","this device...This one in my");
+text(0,"study will be done tonite,","but I fear it won't have the","range I desire...thankfully,");
+text(0,"my most trusted and talented","Wizards are following my plans","for a larger one, and are");
+text(0,"constructing it in the lab","underneath Alden Castle...","Soon, the truth will be");
+text(0,"revealed...","","");
+}
+event //84
+{
+text(1,"This book is filled with","cryptic diagrams, and some of","the pages are burned...");
+}
+event //85
+{
+text(1,"This is a book with equations","and ratios of elemental","manipulation...");
+}
+event //86
+{
+text(0,"...The visions from this","device are maddening...they","vary from day to day...");
+text(0,"Is the future this volitile?","Can all of my actions affect","the future this much?");
+text(0,"I need the Larger device to be","completed...I cannot stand the","wait much longer...");
+text(0,"Bathidar insists that it will","be done soon,","thank the Creators...");
+}
+event //87
+{
+text(1,"This book is in the Old","Tounge...only a scholar","could read this...");
+}
+event //88
+{
+text(0,"Today, the small device showed","me something more horrid than","any previous vision...");
+text(0,"Always in the past, the time","of crisis was shown to be","many years in te future...");
+text(0,"Today it was scant days away!","The large device will be","complete this afternoon...");
+text(0,"It will be more accurate...","I must hurry, time is no","longer on my side...");
+}
+event //89
+{
+text(1,"These broken pieces look","almost like the orbs in the","room above Father's throne...");
+}
+event //90
+{
+if(flags[153])
+        {
+        text(0,"...I am sure the locator...","...lies in the chest...","...It seems to be locked");
+        text(0,"magically...","","");
+        }
+if(!flags[162])
+        {
+        text(1,"This handwriting looks","familiar...","");
+        text(0,"I have traveled this tower","upon great risk to myself,","being assualted by a great");
+        text(0,"many beasts, but not in vain.","It seems that in their haste","to seal this building,");
+        text(0,"they did not search it,","for I found one of my nations","relics in this very room.");
+        text(0,"The Sword of Virtue now","resides in my hands.","I write this to any that may");
+        text(0,"come on this same quest if","I fail...I want you to know","that I have done as my father");
+        text(0,"told me, and will continue","until I have completed my","task. I will be heading");
+        text(0,"southward, in the hopes of","finding some trace of the","missing relics, as there are");
+        text(0,"no leads left in my own","country.","I am sure that the locator");
+        text(0,"that Bastien made to find his","greatest works lies in the","chest in the rooms corner,");
+        text(0,"but it seems to be locked","magically and I cannot open","it. Who knows where this great");
+        text(0,"adventure will take me...","I only hope I do my father","proud...");
+        text(1,"Signed...","...Amineth Emaxis Alden?","");
+        stopmusic();
+        wait(100);
+        text(1,"Amin?","...","...");
+        playmusic("AMIN.XM");
+        wait(350);
+        text(1,"...Amin","...","I know you are alive...");
+        wait(200);
+        text(1,"I will find you, brother...","...And we will both make","father proud...");
+        wait(100);
+        setface(1,2);
+        text(1,"...so, this must be","Amin's sword...","I'm sure he won't mind if I");
+        text(0,"use it for now...","","");
+        giveitem(41);
+        alterbtile(84,89,203,0);
+        setface(1,1);
+        wait(200);
+        text(1,"I will find you, Amin...","","");
+        wait(200);
+        text(1,"I will...","","");
+        wait(200);
+        setface(1,0);
+        flags[162]=1;
+        // playmusic("TOWER.XM");
+        }
+}
+event //91
+{
+text(1,"This Orb feels different than","the others...","I don't think it's just");
+text(1,"storing energy...","It may be being doing","something at the moment...");
+}
+event //92
+{
+if(!flags[162])
+        text(1,"Ergh...","...Won't budge.","");
+if(flags[162])
+        {
+        text(1,"Well, Amin thought that","something important was in","here, so I guess I should try");
+        text(1,"and get it...","","");
+        wait(50);
+        setface(1,2);
+        wait(25);
+        setface(1,3);
+        wait(25);
+        setface(1,0);
+        text(1,"Well, no switches around here.","...I guess I'll look for some","wards...");
+        setface(1,1);
+        wait(100);
+        text(1,"...","...","...aha!");
+        text(1,"...a simple locking mechanism.","...this really wasn't meant to","keep people from taking it...");
+        text(1,"Heh, after all,","who'd take something from the","Sage?");
+        text(1,"Hmmm...","...","I'll bet that if I just...");
+        soundeffect(4);
+        for(x,1,51,2)
+                {
+                PaletteMorph(0,63,0,x,63);
+                wait(1);
+                }
+        for(x,51,1,-2)
+                {
+                PaletteMorph(0,63,0,x,63);
+                wait(1);
+                }
+        text(1,"...","...no...","...maybe a little...");
+        soundeffect(6);
+        for(x,1,51,2)
+                {
+                PaletteMorph(63,0,0,x,63);
+                wait(1);
+                }
+        alterbtile(95,83,697,2);
+        soundeffect(3);
+        for(x,51,1,-2)
+                {
+                PaletteMorph(63,0,0,x,63);
+                wait(1);
+                }
+        giveitem(58);
+        text(1,"Heh...","That was easy...","I wonder what...");
+        soundeffect(12);
+        QuakeX=3;
+        QuakeY=3;
+        Quake=1;
+        hooktimer(94);
+        text(1,"What the...?","","");
+        playmusic("DANGER.XM");
+        cameratracking=0;
+        Z=1;                
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        wait(3);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        palettemorph(63,0,0,100,63);
+        soundeffect(8);
+        alterbtile(80,83,50,2);
+        alterftile(80,83,655,2);
+        for(x,100,1,-1)
+                {
+                PaletteMorph(63,0,0,x,63);
+                wait(1);
+                }
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        wait(3);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        palettemorph(0,63,0,100,63);
+        soundeffect(8);
+        alterbtile(93,83,50,2);
+        alterftile(93,83,655,2);
+        for(x,100,1,-1)
+                {
+                PaletteMorph(0,63,0,x,63);
+                }
+        setface(1,3);
+        text(1,"Oh no!","My spell must've upset their","balance...");
+        text(1,"I hope they aren't","too important...","");
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        wait(3);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        palettemorph(0,0,63,100,63);
+        soundeffect(8);
+        alterbtile(84,83,50,2);
+        alterftile(84,83,655,2);
+        for(x,100,1,-1)
+                {
+                PaletteMorph(0,0,63,x,63);
+                wait(1);
+                }
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        wait(3);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(3);
+        PaletteMorph(63,63,63,0,63);
+        palettemorph(63,63,0,100,63);
+        soundeffect(8);
+        alterbtile(89,83,50,2);
+        alterftile(89,83,655,2);
+        for(x,100,1,-1)
+                {
+                PaletteMorph(63,63,0,x,63);
+                wait(1);
+                }
+        wait(20);
+        fadeout(10);
+        layer1=0;
+        layer0=0;
+        quake=0;
+        cameratracking=1;
+        layervc=1;
+        fadein(1);
+        playvas("Tower1.pcx",6, 320, 200, 0, 0);
+        playvas("Tower2.pcx",6, 320, 200, 0, 0);
+        fadeout(200);
+        flags[163]=1;
+        layervc=0;
+        vcclear();
+        warp(10,130,1);
+        hooktimer(0);
+        timer=0;
+        hooktimer(95);
+        setface(1,0);
+        wait(200);
+        fadein(100);
+        text(1,"...I guess those orbs","were important,","after all...");
+        text(1,"...Urg...","","");
+        specialframe(0)=20;
+        wait(100);
+        specialframe(0)=21;
+        wait(100);
+        soundeffect(3);
+        specialframe(0)=22;
+        wait(1);
+        fadeout(200);
+        layer0=1;
+        layer1=1;
+        stopmusic();
+        flags[168]=1;
+        volume=100;
+        wait(1);
+        mapswitch("TILDE.MAP",59,13,0);
+        }
+}
+event //93
+{
+if(!flags[153])
+        text(1,"This sword looks modern...","Certainly out of place","here...");
+}
+event //94
+{
+if(timer=200)
+        {
+        soundeffect(13);
+        }
+if(z=1 and q<128)
+        {
+        for(q,1,128,1)
+                {
+                xwin--;
+                timer=0;
+                }
+        }
+}
+event //95
+{
+if(timer=2 and volume>0)
+        {
+        volume--;
+        timer=0;
+        }
+}
+event //96
+{
+}
+event //97
+{
+}
+event //98
+{
+}       
+event //99
+{
+}
+event //100
+{
+}
+event //101
+{
+}
+event //102
+{
+}
+event //103
+{
+}
+event //104
+{
+}
+event //105
+{
+}
+event //106
+{
+}
+event //107
+{
+}
+event //108
+{
+}
+event //109
+{
+}
+event //110
+{
+}
+event //111
+{
+}
+event //112
+{
+}
+event //113
+{
+}
+event //114
+{
+}
+event //115
+{
+}
+event //116
+{
+}
+event //117
+{
+}
+event //118
+{
+}
+event //119
+{
+}
+event //120
+{
+}
+event //121
+{
+}
+event //122
+{
+}
+event //123
+{
+}
+event //124
+{
+waitkeyup();
+callevent(132,153,57,69);
+}
+event //125
+{
+waitkeyup();
+callevent(132,154,54,66);
+}
+event //126
+{
+waitkeyup();
+callevent(132,155,57,63);
+}
+event //127
+{
+waitkeyup();
+callevent(132,156,60,66);
+}
+event //128
+{
+
+}
+event //129
+{
+if(!flags[157])
+        {
+        flags[158]=0;
+        alterftile(64,61,596,2);
+        alterftile(64,62,596,2);
+        alterftile(64,63,596,2);
+        alterftile(64,64,596,2);
+        alterftile(64,65,596,2);
+        alterbtile(64,66,634,2);
+        alterbtile(65,66,634,2);
+        alterbtile(66,66,634,2);
+        }
+if(flags[157]=1)
+        {
+        flags[158]=1;
+        alterftile(64,61,618,2);
+        alterftile(64,62,618,2);
+        alterftile(64,63,618,2);
+        alterftile(64,64,618,2);
+        alterftile(64,65,618,2);
+        alterbtile(64,66,637,2);
+        alterbtile(65,66,637,2);
+        alterbtile(66,66,637,2);
+        }
+if(flags[157]=2)
+        {
+        flags[158]=2;
+        alterftile(64,61,616,2);
+        alterftile(64,62,616,2);
+        alterftile(64,63,616,2);
+        alterftile(64,64,616,2);
+        alterftile(64,65,616,2);
+        alterbtile(64,66,635,2);
+        alterbtile(65,66,635,2);
+        alterbtile(66,66,635,2);
+        }
+if(flags[157]=3)
+        {
+        flags[158]=3;
+        alterftile(64,61,619,2);
+        alterftile(64,62,619,2);
+        alterftile(64,63,619,2);
+        alterftile(64,64,619,2);
+        alterftile(64,65,619,2);
+        alterbtile(64,66,638,2);
+        alterbtile(65,66,638,2);
+        alterbtile(66,66,638,2);
+        }
+if(flags[157]=4)
+        {
+        flags[158]=4;
+        alterftile(64,61,617,2);
+        alterftile(64,62,617,2);
+        alterftile(64,63,617,2);
+        alterftile(64,64,617,2);
+        alterftile(64,65,617,2);
+        alterbtile(64,66,636,2);
+        alterbtile(65,66,636,2);
+        alterbtile(66,66,636,2);
+        }
+}
+event //130
+{
+text(0,"Remember, If two pure and","opposite charges are brought","together,");
+text(0,"they will destroy","each other...","");
+if(!flags[161])
+        {
+        prompt(0,"Do you want to call","back the orb?","",34,"Yes","No");
+        if(!flags[34])
+                {
+                entity.locx(5)=53;
+                entity.locy(5)=62;
+                }
+        }
+}
+event //131 (orb)
+{
+if(!flags[159])
+        specialframe(5)=20;
+if(facing(0))
+        entitymove(5,"D1");
+if(facing(1))
+        entitymove(5,"U1");
+if(facing(2))
+        entitymove(5,"R1");
+if(facing(3))
+        entitymove(5,"L1");
+wait(1);
+if(entity.locx(5)=56 and entity.locy(5)=69)
+        callevent(134,153);
+if(entity.locx(5)=58 and entity.locy(5)=69)
+        callevent(134,153);
+if(entity.locx(5)=57 and entity.locy(5)=68)
+        callevent(134,153);
+if(entity.locx(5)=57 and entity.locy(5)=70)
+        callevent(134,153);
+if(entity.locx(5)=53 and entity.locy(5)=66)
+        callevent(134,154);
+if(entity.locx(5)=55 and entity.locy(5)=66)
+        callevent(134,154);
+if(entity.locx(5)=54 and entity.locy(5)=65)
+        callevent(134,154);
+if(entity.locx(5)=54 and entity.locy(5)=67)
+        callevent(134,154);
+if(entity.locx(5)=56 and entity.locy(5)=63)
+        callevent(134,155);
+if(entity.locx(5)=58 and entity.locy(5)=63)
+        callevent(134,155);
+if(entity.locx(5)=57 and entity.locy(5)=62)
+        callevent(134,155);
+if(entity.locx(5)=57 and entity.locy(5)=64)
+        callevent(134,155);
+if(entity.locx(5)=59 and entity.locy(5)=66)
+        callevent(134,156);
+if(entity.locx(5)=61 and entity.locy(5)=66)
+        callevent(134,156);
+if(entity.locx(5)=60 and entity.locy(5)=65)
+        callevent(134,156);
+if(entity.locx(5)=60 and entity.locy(5)=67)
+        callevent(134,156);
+
+if(entity.locx(5)=63 and entity.locy(5)<67)
+        callevent(136);
+if(entity.locx(5)>63 and entity.locx(5)<67 and entity.locy(5)=67)
+        callevent(136);        
+}
+event //132
+{
+flags[var(0)]++;
+if(flags[var(0)]=4)
+        flags[var(0)]=0;
+if(flags[var(0)]=3)
+        {
+        alterbtile(var(1),var(2),636,2);
+        callevent(133,var(0));
+        }
+if(flags[var(0)]=2)
+        {
+        alterbtile(var(1),var(2),638,2);
+        callevent(133,var(0));
+        }
+if(flags[var(0)]=1)
+        {
+        alterbtile(var(1),var(2),635,2);
+        callevent(133,var(0));
+        }
+if(!flags[var(0)])
+        {
+        alterbtile(var(1),var(2),637,2);
+        callevent(133,var(0));
+        }
+flags[157]=0;
+flags[160]=0;
+alterbtile(57,66,634,2);
+if(A>B and A>C and A>D)
+        {
+        flags[157]=1;
+        alterbtile(57,66,637,2);
+        flags[160]=1;
+        }
+if(B>A and B>C and B>D)
+        {
+        flags[157]=2;
+        alterbtile(57,66,635,2);
+        flags[160]=2;
+        }
+if(C>A and C>B and C>D)
+        {
+        flags[157]=3;
+        alterbtile(57,66,638,2);
+        flags[160]=3;
+        }
+if(D>A and D>B and D>C)
+        {
+        flags[157]=4;
+        alterbtile(57,66,636,2);
+        flags[160]=4;
+        }
+if(A=B and B=C and C=D)
+        {
+        flags[157]=0;
+        alterbtile(57,66,634,2);
+        flags[160]=0;
+        }
+}
+event //133
+{
+if(!flags[var(0)])
+        {
+        A++;
+        D--;
+        }
+if(flags[var(0)]=1)
+        {
+        B++;
+        A--;
+        }
+if(flags[var(0)]=2)
+        {
+        C++;
+        B--;
+        }
+if(flags[var(0)]=3)
+        {
+        D++;
+        C--;
+        }
+}
+event //134
+{
+if(var(0)=157 and flags[var(0)])
+        {
+        flags[157]=E;
+        E++;
+        E=flags[160];
+        callevent(135,flags[160]);
+        }
+if(var(0)=157 and !flags[var(0)])
+        {
+        flags[160]=5;
+        callevent(135,flags[160]);
+        }
+if(var(0)!=157)
+        callevent(135,flags[var(0)]);
+}
+event //135
+{
+if(!var(0))
+        {
+        flags[159]=1;
+        specialframe(5)=23;
+        }
+if(var(0)=1)
+        {
+        flags[159]=2;
+        specialframe(5)=21;
+        }
+if(var(0)=2)
+        {
+        flags[159]=3;
+        specialframe(5)=24;
+        }
+if(var(0)=3)
+        {
+        flags[159]=4;
+        specialframe(5)=22;
+        }
+if(var(0)=5)
+        {
+        flags[159]=0;
+        specialframe(5)=20;
+        }
+}        
+event //136
+{
+if(flags[159]=1 and flags[158]=3)
+        callevent(137);
+if(flags[159]=2 and flags[158]=4)
+        callevent(137);
+if(flags[159]=3 and flags[158]=1)
+        callevent(137);
+if(flags[159]=4 and flags[158]=2)
+        callevent(137);
+}
+event //137
+{
+if(!flags[161])
+        {
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(1);
+        PaletteMorph(63,63,63,0,63);
+        wait(1);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(9);
+        wait(1);
+        alterftile(64,61,0,0);
+        alterftile(64,62,0,0);
+        alterftile(64,63,0,0);
+        alterftile(64,64,0,0);
+        alterftile(64,65,0,0);
+        alterbtile(64,66,89,0);
+        alterbtile(65,66,90,0);
+        alterbtile(66,66,91,0);
+        PaletteMorph(63,63,63,0,63);
+        flags[161]=1;
+        entity.locx(5)=0;
+        entity.locy(5)=0;
+        }
+}
+

@@ -1,0 +1,11 @@
+playmusic Bastien.xm
+showpcx grue1.pcx 100
+wait 100
+showpcx grue2.pcx 100
+wait 100
+showpcx grue3.pcx 100
+wait 100
+showpcx grue4.pcx 100
+wait 100
+end
+

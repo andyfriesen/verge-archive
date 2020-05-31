@@ -1,0 +1,266 @@
+event //autoexec
+{
+enforceanimation();
+
+if(flags[170])
+        alterftile(54,97,177,2);
+}
+event //1
+{
+warp(75,164,0);
+}
+event //2
+{
+warp(47,186,0);
+}
+event //3
+{
+warp(94,164,0);
+}
+event //4
+{
+warp(20,180,0);
+}
+event //5
+{
+warp(13,24,0);
+}
+event //6
+{
+warp(48,172,0);
+}
+event //7
+{
+warp(76,178,0);
+}
+event //8
+{
+warp(30,19,0);
+}
+event //9
+{
+warp(91,19,0);
+}
+event //10
+{
+warp(12,164,0);
+}
+event //11
+{
+warp(13,102,0);
+}
+event //12
+{
+warp(62,15,0);
+}
+event //13
+{
+warp(94,178,0);
+}
+event //14
+{
+warp(34,99,0);
+}
+event //15
+{
+warp(14,60,0);
+}
+event //16
+{
+warp(48,97,0);
+}
+event //17
+{
+mapswitch("Townc.map",33,33,0);
+}
+event //18
+{
+mapswitch("Tilde.map",67,26,0);
+}
+event //19
+{
+text(0,"Sir,","if you a member of the group,","please stay behind us...");
+}
+event //20
+{
+text(0,"There've been a lot of people","coming from the south and","settling in Aldencia's");
+text(0,"farmland regions...","Why are they fleeing from","their own homes?");
+}
+event //21
+{
+text(0,"These mountains are so nice.","Seeing them warms my heart...","So little has of late...");
+}
+event //22
+{
+text(0,"I hear that in Aldencia you","have to work to make food...","Well, some sacrifices must be");
+text(0,"made, I guess...","","");
+}
+event //23
+{
+if(flags[164])
+        text(0,"...","","");
+if(!flags[164])
+        {
+        text(0,"Is Aldencia a nice place?","","");
+        text(1,"The best place I know of!","Why are you going there,","if I may ask?");
+        text(0,"...","","");
+        text(1,"*Hmmm...Guess I can't ask...*","","");
+        flags[164]=1;
+        }
+}
+event //24
+{
+text(0,"Heehee...","","");
+text(1,"Are you going to Aldencia,","too?","");
+text(0,"Uh...yeah,","whatever you say...","*snicker*...");
+}
+event //25
+{
+text(0,"I hope these mountaineers","can protect us well...","They've done well so far,");
+text(0,"but I hear the mountains","harbor some nasty beasts...","");
+}
+event //26
+{
+text(0,"The Mountaineer's Guild is","prospering under all of these","recent contracts...but so far,");
+text(0,"most of them have only","been one-way...","");
+}
+event //27
+{
+text(0,"I had to sell most of my","possesions to get this far...","I hope I can start my life");
+text(0,"over in Aldencia...","","");
+}
+event //28
+{
+text(0,"I hope nothing bad is going","on in Allrusen, but why are","all of these people leaving");
+text(0,"such a paradise?","","");
+}
+event //29
+{
+text(0,"Whenever I ask one of the","Allrusenians what's wrong, or","if I can help, they go dead");
+text(0,"silent...","","");
+}
+event //30
+{
+if(flags[165])
+        text(0,"Heehee...","","");
+if(!flags[165])
+        {
+        text(0,"Are you comeing to Aldencia,","too?","");
+        text(1,"Nah...","I'm going the other way...","");
+        text(0,"Really?","You might run into some","friends of mine, then...");
+        text(0,"Say 'Hi' for me...","Heehee...","");
+        text(1,"Ummm...","Okay...","What's your name?");
+        text(0,"HeehEh...ummm...","...'Dorg'...","Hee...");
+        text(1,"Well,","nice meeting you, Dorg.","");
+        text(0,"Hee...","...Heehee...","");
+        flags[165]=1;
+        }
+}
+event //31
+{
+entitymove(22,"F0F3");
+text(0,"Hey...","How much we get from","this pass? These Allrusenians");
+text(0,"are easier marks than those","Aldencian chumps...","");
+entitymove(21,"F0F2");
+text(0,"We're not done yet...","Dorg and Learg are still","working the camp...");
+setface(1,1);
+if(flags[165])
+        {
+        text(1,"*Hmm....","These must be Dorg's","Friends...*");
+        text(1,"Hello?","Your friend Dorg said","to say hi?");
+        }
+if(!flags[165])
+        {
+        text(1,"Hello?","Would you mind moving out of","my way?");
+        text(1,"I need to pass through...","","");
+        }
+Entitymove(22,"F0");
+Entitymove(21,"F0");
+Entitymove(20,"F0");
+Entitymove(19,"F0");
+Entitymove(18,"F0");
+Entitymove(17,"F0");
+wait(100);
+text(1,"Err...","...Hi?","");
+entitymove(23,"D1");
+text(0,"Who are you?","What did you hear?","");
+Entitymove(22,"F2");
+Entitymove(20,"F2");
+Entitymove(18,"F2");
+Entitymove(21,"F3");
+Entitymove(19,"F3");
+Entitymove(17,"F3");
+text(1,"Hear?","Err...just some of your men","talking, sir...");
+text(1,"...I really didnt overhear","anything...","");
+text(0,"My aged uncle's mother you","didn't hear anything...","Men...Seize him!");
+Entitymove(22,"D1");
+Entitymove(20,"D1");
+Entitymove(18,"D1");
+Entitymove(21,"D1");
+Entitymove(19,"D1");
+Entitymove(17,"D1");
+text(1,"*GULP*","","");
+specialframe(0)=5;
+partymove("D1");
+text(1,"What am I gonna do???","","");
+fadeout(100);
+soundeffect(6);
+layer1=0;
+layer0=0;
+wait(1);
+setface(1,0);
+warp(10,10,1);
+fadein(10);
+text(0,"Hey!","Where'd that kid go?","");
+text(1,"What the?","I don't remember an eclipse","being scheduled today...");
+text(9,"That's because there isn't...","I just saved your hide,","you dolt!");
+text(1,"Grue!","I was wondering where you'd","show up this time...");
+text(1,"I guess this means we've","reached the current demo's","end...");
+text(9,"That's right!","","");
+text(1,"Hmm...","It was kinda a short update...","Getting lazy?");
+text(9,"For a 16x32 collection of","pixels, you sure are mouthy...","I didn't want to give away too");
+text(9,"much of the story to the nice","folks playing the demo...","This'll be the last demo until");
+text(9,"the final version of the game","is ready...If I put in more of","the story, the game'd be");
+text(9,"ruined for the players!","","");
+text(1,"Game?","Players??","...");
+text(1,"This is my -LIFE- you're","talking about!!!","");
+text(9,"Yeah, well...It's my game,","so there...","Your life is putty in my");
+text(9,"hands...","","");
+text(1,"...","","");
+text(9,"Say, Onam...","you look a little stressed...","Why don't you head out to");
+text(9,"Paradise Island for a while?","I hear that Darin's throwing a","little party...and I won't");
+text(9,"need you until summer...","","");
+text(1,"Really?","Who'll be there?","");
+text(9,"Oh, a bunch of you demo-heros","are invited...","");
+text(9,"Who knows...maybe Liam and","Kita'll show up...","It's supposed to be a");
+text(9,"veritable VERGE-con!","","");
+text(1,"Kita!?!","Meee-ow! I'm sold!","");
+text(9,"I thought you'd be...","Seeya Later, Onam!","");
+cameratracking=0;
+warp(100,100,1);
+text(9,"Now, email any questions,","comments, either SotS or VERGE","related, to McGrue@juno.com.");
+text(9,"I hope you enjoyed this demo,","and happy VERGEing!","");
+layervc=1;
+wait(50);
+vccentertext(100,"***Saga of the Stars***");
+wait(150);
+while(!z)
+        {
+        readcontrols();
+        if(b1)
+                {
+                fadeout(200);
+                quit("Coming to a PC near you.");
+                }
+        }
+}
+event //32
+{
+if(!flags[170])
+        {
+        soundeffect(3);
+        alterftile(54,97,177,2);
+        giveitem(35);
+        flags[170]=1;
+        }
+}

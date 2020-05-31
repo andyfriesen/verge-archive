@@ -1,0 +1,511 @@
+event //autoexec
+{
+if(flags[167])
+        playmusic("Hick.Xm");
+enforceanimation();
+volume=60;
+}
+event //1
+{
+mapswitch("TOWNA.MAP",72,31,1);
+}
+event //2
+{
+mapswitch("TOWNA.MAP",73,47,1);
+}
+event //3
+{
+mapswitch("TOWNA.MAP",67,61,1);
+}
+event //4
+{
+mapswitch("TOWNA.MAP",15,72,1);
+}
+event //5
+{
+mapswitch("TOWNA.MAP",46,59,1);
+}
+event //6
+{
+mapswitch("TOWNA.MAP",61,79,1);
+}
+event //7
+{
+mapswitch("TOWNA.MAP",73,79,1);
+}
+event //8
+{
+mapswitch("TOWNA.MAP",21,48,1);
+}
+event //9
+{
+mapswitch("TOWNA.MAP",33,48,1);
+}
+event //10
+{
+flags[167]=0;
+mapswitch("TOWNA.MAP",38,22,1);
+}
+event //11
+{
+flags[167]=0;
+mapswitch("TOWNA.MAP",48,22,1);
+}                         
+event //12
+{
+flags[167]=0;
+mapswitch("TOWNA.MAP",43,13,1);
+}
+event //13
+{
+flags[167]=0;
+mapswitch("TOWNA.MAP",33,13,1);
+}
+event //14
+{
+mapswitch("TOWNA.MAP",16,24,1);
+}
+event //15
+{
+mapswitch("TOWNA.MAP",43,82,1);
+}
+event //16
+{
+text(0,"Oh! The prince is here! I","should've cleaned up a bit...","");
+}
+event //17
+{
+text(0,"Good day, Prince Onam...It's","been a while since you've","visited our fair capital.");
+}
+event //18
+{
+text(0,"I love our stoves...The chip","of elemental fire inside keeps","the house nice and warm...");
+text(0,"...without barbaric firewood!","","");
+}
+event //19
+{
+text(0,"I wanna play outside, but","mommy sez the monsters'll eat","me!");
+if(item(51))
+        {
+        text(0,"Oh! Cool! An 'Onam Doll'!","Wouldja trade it to me?","My friends all have them.");
+        text(1,"*Boy, I'm popular","around here...*","");
+        prompt(0,"So, will ya trade it?","","",120,"sure","nah");
+        if(!flags[120])
+                {
+                text(0,"Yeah! Thank you, mister!","I'll give you this in trade.","");
+                giveitem(52);
+                destroyitem(51,0);
+                text(0,"Now I can go play house and","dress Onam up and...","");
+                text(1,"What???","","");
+                }
+        if(flags[120])
+                text(0,"Oh...Okay...","...","*sniff*");
+        }
+}
+event //20
+{
+text(0,"Get to work, you lazy bastard!","...","...");
+text(0,"Oh!","Not you Prince Onam!","");
+}
+event //21
+{
+text(0,"My battle-ax of a wife doesn't","approve of my line of work...","stupid whore...");
+text(1,"Hmmmm...maybe I should start a","national marrage-counsiling","service when I'm the king...");
+}
+event //22
+{
+text(0,"Isn't it scary....Bastien's","creepy tower spinning like a","top...shouldn't it fall?");
+}
+event //23
+{
+text(0,"Hmmm...The last of the great","sages sure is an enigma...I've","studied Bastien's works for");
+text(0,"my whole life, and there is","much I still don't know.","");
+}
+event //24
+{
+text(0,"Oh! Prince Onam! I do hope our","beds are good enough for","royalty.");
+}
+event //25
+{
+text(0,"Daddy works all day, he almost","never gets to play with me...","");
+}
+event //26
+{
+text(0,"*sigh*","Keeping my husband's accounts","straight is hard work...");
+}
+event //27
+{
+text(0,"The kid next door won't play","with me anymore...","...Maybe putting a frog in his");
+text(0,"bed wasn't such a good idea...","","");
+}
+event //28
+{
+text(0,"Our family is proud of my","husband's works...He designed","the armor that the cavalrymen");
+text(0,"use!","","");
+}
+event //29
+{
+text(0,"Hmmm...Is seems that the","natural flows of elemental","energy have been ebbing in the");
+text(0,"last fifty years...","","");
+text(0,"Of course, that's what it's","supposed to do...It'll be back","in time...in the way the tide");
+text(0,"comes in and out, you see...","","");
+}
+event //30
+{
+text(0,"I like our house, It's one of","the biggest in the whole","country!");
+}
+event //31
+{
+text(0,"I love it here...Aldencia is","so peaceful, and we have the","best army in the world to");
+text(0,"protect us from monsters...","","");
+}
+event //32
+{
+text(0,"Our father is one of Amaxis's","eldars...He studies things","that intrest him all day...You");
+text(0,"hardly ever see him outside of","his study, unless he's at the","library.");
+}
+event //33
+{
+text(0,"Ow! These pointy sticks sure","am sharp! I almost poked mah","eye out!");
+}
+event //34
+{
+text(0,"Why does that hick keep poking","himself in the eye?...","...*sigh*...");
+text(0,"...stupid hicks...","","");
+}
+event //35
+{
+text(0,"Yee-Haw!","The king's gonna make beer","free like I asked him ta!");
+text(0,"I know it!","An' all I havta do is find him","a pig that flies!");
+}
+event //36
+{
+text(0,"Mah bruthers all excited, but","ah don't think he'll find a","pig that flies...");
+}
+event //37
+{
+if(!flags[32])
+        {
+        text(0,"Gosh! Imma all outta clothes","...what'm I gonna wear tommary?","");
+        text(1,"Hmmmm...Why don't you wash","your clothes? Then you could","wear them again.");
+        text(0,"...","...","...Huh?");
+        text(1,"*sigh*","Nevermind...","");
+        flags[32]=1;
+        }
+If(flags[32])
+        {
+        text(0,"Wa...ass...shh?","","");
+        text(1,"*sigh*","","");
+        }
+}
+event //38
+{
+text(0,"Git outta mah house, vermant!","","");
+text(1,"*phaugh! I wish i had a mint.","...I'd gladly give it to this","woman to better the world...*");
+}
+event //39
+{
+text(0,"I wish people wouldn't judge","me by my appearances...I'm not","a hick, really, I just don't");
+text(0,"have enough money to afford","better clothes or a nicer","house...Such is the plight of");
+text(0,"a student!","","");
+}
+event //40
+{
+text(0,"Daddy is one of the few people","in the town that knows that","the king has been acting");
+text(0,"strangely...It troubles daddy","deeply...","");
+}
+event //41
+{
+text(0,"Oh! Prince Onam! What a","pleasure it is to have you in","our humble city.");
+}
+event //42
+{
+text(0,"Your highness, I trust all is","well in the castle?","");
+}
+event //43
+{
+warp(87,56,0);
+setface(1,2);
+}
+event //44
+{
+warp(87,79,0);
+setface(1,2);
+}
+event //45
+{
+warp(47,74,0);
+setface(1,2);
+}
+event //46
+{
+warp(47,13,0);
+setface(1,2);
+}
+event //47
+{
+warp(71,74,0);
+setface(1,3);
+}
+event //48
+{
+warp(71,13,0);
+setface(1,3);
+}
+event //49
+{
+warp(47,61,0);
+setface(1,2);
+}
+event //50
+{
+warp(47,34,0);
+setface(1,2);
+}
+event //51
+{
+warp(71,61,0);
+setface(1,3);
+}
+event //52
+{
+warp(71,34,0);
+setface(1,3);
+}
+event //53
+{
+text(0,"I wanna be just like my big","brother when I grow up...","");
+}
+event //54
+{
+text(0,"Shan is very worried for some","reason...He's worried about","the trees, I guess...");
+}
+event //55
+{
+text(0,"Hello, again, my prince...","","");
+}
+event //56
+{
+// shopping stuff here...
+}
+event //57
+{
+//shopping stuff here
+}
+event //58
+{
+text(0,"With the level of monsters","that've always been around","here, you need a good weapon");
+text(0,"at your side...","","");
+}
+event //59
+{
+text(0,"Buy my quality armor, Fully","endorsed by the Aldencian","Unicorn Cavalry!");
+}
+event //60
+{
+text(0,"Hyuck! We have nice earbs,","yup, we do!","");
+}
+event //61
+{
+text(0,"Gosh...Ya wont find better","mecidines 'round here...","");
+}
+event //62
+{
+//inn stuff here
+}
+event //63
+{
+text(0,"Ahh...A customer! And a","princly one, at that!","");
+}
+event //64
+{
+text(0,"...Aldencia has been around","for more than 700 years,","founded by those who wanted to");
+text(0,"escape the chaos of the","Wilderlands.","");
+}
+event //65
+{
+text(1,"Hmmm...This looks to be a book","of nursery rhymes...","");
+}
+event //66
+{
+text(0,"'How to drive your mate insane","without really trying'","");
+text(1,"Ya gotta love 'self-help'","manuals...","");
+}
+event //67
+{
+text(0,"...Bastien was the last of the","Great Sages...He went insane","before he choose a wife and");
+text(0,"left an heir...He was just","reaching the age to choose a","wife, the sagely age of 120");
+text(0,"years, when the tragedy","struck...","");
+}
+event //68
+{
+text(0,"The manufacture of arms has","been refined over the last 600","years...Swords are now often");
+text(0,"reinforced with pieces of","elemental Earth to enhance","strength...");
+}
+event //69
+{
+text(0,"Aldencians have always favored","the sword as the preferred","weapon, unlike our southern");
+text(0,"neighbors, who prefer the","spear and bow...","");
+}
+event //70
+{
+text(0,"This chest is empty.","","");
+}
+event //71
+{
+text(0,"This chest is locked.","","");
+}
+event //72
+{
+text(0,"Aldencia was famous for it's","Enchanted armors, but in","recent years, the mages of");
+text(0,"Aldencia haven't been able to","weave the proper","Enchantments...");
+}
+event //73
+{
+text(0,"The cycles of nature are","constant, the ebb and flow of","Elemental energies waiver in a");
+text(0,"400 year cycle...","","");
+}
+event //74
+{
+text(0,"The world is currently","half-way through the waning","period of Elemental activity,");
+text(0,"one hundred years away from","the Nadir of activity...","");
+}
+event //75
+{
+text(0,"Light and Dark...Are they","constant? What are Good and","Evil but different viewpoints");
+text(0,"to see the world in?","","");
+}
+event //76
+{
+text(0,"Bastien was a Great Sage","indeed, crafting Enchantments","and relics to rival those of");
+text(0,"his grandfather, Okihram...","","");
+}
+event //77
+{
+text(1,"Hmmm....this book is titled","'Kalkoolis'...must be a branch","of the Dark arts...");
+}
+event //78
+{
+text(1,"'Mechanical Theory'? What is","this fellow studying?","");
+}
+event //79
+{
+text(0,"...Amaxis city, founded 700","years ago, is recognized as","the capital of our fair");
+text(0,"nation...It is acclaimed for","it's magnificent library,","built by the Great Sage");
+text(0,"Okihram...","","");
+}
+event //80
+{
+text(0,"Aldencia was first settled","here in the West, but now","spreads across the east, past");
+text(0,"the Alden Mountains...","","");
+}
+event //81
+{
+text(1,"Looks like some medicinal","herbs...","");
+}
+event //82
+{
+text(1,"Some childrens toys line the","shelves.","");
+}
+event //83
+{
+text(1,"Hmmm....these plants look","vile...almost poisionous!","");
+}
+event //84
+{
+if(!flags[33])
+        {
+        text(1,"There are several potions","here...","");
+        prompt(0,"Do you like them, my prince?","I will gladly share one...","",33,"Why, thank you!","No, not today.");
+                if(flags[33]=0)
+                {
+                giveitem(3);
+                flags[33]=2;
+                }
+        }
+if(flags[33])
+        {
+        text(1,"There are several potions","here...","");
+        }
+}
+event //85
+{
+text(1,"These seem to be metalurgical","devices...","");
+}
+event //86
+{
+text(1,"Hmmm....metal working tools...","","");
+}
+event //87
+{
+text(0,"To effectively rule a nation,","listen to their needs, and try","to accomodate them. Sincerity,");
+text(0,"even when not sincere, is","always endearing.","");
+}
+event //88
+{
+text(0,"The forests of Aldencia have","always had an air of mystery","about them...that is why the");
+text(0,"settlers built on their","outskirts, only taking wood","sparingly from the edges...");
+}
+event //89
+{
+text(1,"These herbs have a healthy","glow to them...","");
+}
+event //90
+{
+text(1,"Ahh...nice and warm...","","");
+}
+event //91
+{
+text(0,"The wilderlands. What lays","there now? They were fierce","enough to drive our ancestors");
+text(0,"away from their homeland and","onto this continent. Do we","dare ever go back?");
+}
+event //92
+{
+text(0,"The process of Enchanting","armor involves a mage that is","aligned elementaly to both");
+text(0,"Earth and Fire...a very rare","combination...","");
+}
+event //93
+{
+text(0,"...There is something wrong","with the forest...I can feel","it...The day after tomorrow,");
+text(0,"I'll go petition the king","about this, maybe he'll know...","...The heart of the woods...");
+}
+event //94
+{
+text(1,"...This looks cryptic...Runes","and numbers clutter the page.","'the square-root of the");
+text(1,"derivative...'? This is utter","gibberish...","");
+}
+event //95
+{
+text(0,"...never in all of our history","have we not had a Sage for","guidance...This troubles me");
+text(0,"greatly...","Why hasn't a new Sage been","found?");
+}
+event //96
+{
+}
+event //97
+{
+text(1,"Eeewww...This smells bad!","","");
+}
+event //98
+{
+if(!flags[119])
+        {
+        text(0,"Prince Onam!","What brings you here?","");
+        text(1,"Ah, Mayor Brenan. My father","has sent me on a quest, and","I've been told that the Sage's");
+        text(1,"Tower may have something","that can help me.","");
+        text(0,"Hmmm...So, you'd be wantin'","a crystal, eh?","");
+        text(1,"Yes, I'd like a ke...","...a crystal?","");
+        text(0,"Yah, the Tower was sealed with","a complex ward. If we just put","a lock on it, then someone");
+        text(0,"could pick it. Only a highly","skilled mage or someone with","one of these crystals can get");
+        text(0,"past this ward, though.","","");
+        text(1,"Ah, well...","...Can I have one?","");
+        text(0,"Oh, yah, certainly!","","");
+        Giveitem(50);
+        flags[119]=1;
+        }
+text(0,"Now you take care now,","ya hear!","");
+}
+event //99
+{
+}
+

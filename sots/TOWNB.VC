@@ -1,0 +1,303 @@
+event //autoexec
+{
+volume=100;
+}
+event //1
+{
+mapswitch("Tilde.map",71,19,0);
+}
+event //2
+{
+flags[167]=1;
+mapswitch("SOMATA.MAP",49,42,0);
+}
+event //3
+{
+mapswitch("SOMATA.MAP",49,85,0);
+}
+event //4
+{
+mapswitch("SOMATA.MAP",49,20,0);
+}
+event //5
+{
+flags[167]=1;
+mapswitch("SOMATA.MAP",49,64,0);
+}
+event //6
+{
+mapswitch("SOMATA.MAP",31,16,0);
+}
+event //7
+{
+mapswitch("SOMATA.MAP",31,33,0);
+}
+event //8
+{
+mapswitch("SOMATA.MAP",31,50,0);
+}
+event //9
+{
+mapswitch("SOMATA.MAP",31,67,0);
+}
+event //10
+{
+mapswitch("SOMATA.MAP",31,84,0);
+}
+event //11
+{
+mapswitch("SOMATA.MAP",84,20,0);
+}
+event //12
+{
+mapswitch("SOMATA.MAP",103,20,0);
+}
+event //13
+{
+if(!flags[105])
+	{
+	giveitem(16);
+	flags[105]=1;
+	}
+}
+event //14
+{
+if(!flags[106])
+	{
+	giveitem(16);
+	flags[106]=1;
+	}
+}
+event //15
+{
+if(!flags[107])
+	{
+	giveitem(28);
+	flags[107]=1;
+	}
+}
+event //16
+{
+if(!flags[108])
+	{
+	giveitem(30);
+	flags[108]=1;
+	}
+}
+event //17
+{
+if(!flags[109]) 
+	{
+	givegp(40);
+	banner("Got 40 GP",1);
+	flags[109]=1;
+	}
+}
+event //18
+{
+if(!flags[109])
+	{
+	giveitem(16);
+	flags[109]=1;
+	}
+}
+event //19
+{
+if(!flags[110])
+	{
+	giveitem(31);
+	flags[110]=1;
+	}
+}
+event //20
+{
+if(!flags[111])
+	{
+	giveitem(28);
+	flags[111]=1;
+	}
+}
+event //21
+{
+if(!flags[112])
+	{
+	givegp(35);
+	banner("Got 35 GP",1);
+	flags[112]=1;
+	}
+}
+event //22
+{
+if(!flags[113])
+	{
+	giveitem(16);
+	flags[113]=1;
+	}
+}
+event //23
+{
+text(0,"Welcome to Somata!","","");
+}
+event //24
+{
+text(0,"I sawr ah flyin' pig, I did!","Gawsh, It flew raght ov'r the","ocean!");
+}
+event //25
+{
+text(0,"I shure like the trees...","sometimes, when I'm in a","forest, I can almost hear");
+text(0,"the trees whisper to me...","Hyuck, sounds silly,","don't it?");
+}
+event //26
+{
+text(0,"So, you crossed the mountains","by destroying Bastien's Tower,","eh?");
+text(0,"Most people just hire us","mountaineers to get around","them...");
+}
+event //27
+{
+text(0,"Zap! Zap!","I'm a wizard! Zap!","");
+}
+event //28
+{
+text(0,"A lad that looks quite a bit","like you passed this way a","year ago, only he had darker");
+text(0,"hair and larger pecks.","","");
+}
+event //29
+{
+text(0,"The southern branch of the","Alden mountains is much higher","and harder to cross than the");
+text(0,"ones to the west.","","");
+}
+event //30
+{
+text(0,"So many soldiers garrisoned","here for our saftey...","and they're all so cute!");
+}
+event //31
+{
+text(0,"Prince Onam! It is a surprise","to see you in this part of the","country.");
+}
+event //32
+{
+text(0,"We must be ever vigilant, to","protect these fair citizens","from bestial hordes of");
+text(0,"monsters.","","");
+}
+event //33
+{
+text(0,"It's part of our training to","train in-the-field, as it","were. By frying monsters with");
+text(0,"spells, we gain on-the job","experience!","");
+}
+event //34
+{
+text(0,"It's sometimes tedious to","fight so many monsters, but","the populous does need");
+text(0,"protection. And besides,","What else would an army do but","fight monsters?");
+}
+event //35
+{
+text(0,"My son was on a trading","vessel, and the ship hasn't","come back in over a year...");
+text(0,"The bum probably ran off with","some foriegn floozy!","");
+}
+event //36
+{
+text(0,"Did you see the tower fall to","the west? I always knew that","thing'd come down...");
+}
+event //37
+{
+if(flags[115])
+	text(0,"I'm an honest man now, mister.","Honest!","");
+if(!flags[115])
+	{
+	text(0,"Hee hee...","","");
+	A=random(1,10);
+	if(A<10 and gp>20)
+		{
+		takegp(20);
+		flags[114]+20;
+		}
+	if(A=10)
+		{
+		text(1,"Hey, You just tried to pick my","pocket!","");
+		text(0,"Ack! Please don't turn me in.","I'll give back all I've taken!","");
+		text(1,"Well...","","");
+		givegp(flags[114]+20);
+		text(1,"...Okay, but you should mend","your ways...","");
+		text(0,"Sure thing...","","");
+		flags[115]=1;
+		}
+       }
+}
+event //38
+{
+text(0,"Sometimes, monsters will come","pretty close to the town.","Most of the time we just hunt");
+text(0,"them down in the wild, though.","","");
+}
+event //39
+{
+text(0,"I wish that just once my","platoon could go to the","wilderlands...");
+text(0,"We could fight against a","legendary Axorn! What a trophy","that'd make...");
+}
+event //40
+{
+text(0,"Alla these soldiers are cool!","I'm gonna go to the castle and","train to fight monsters when");
+text(0,"I grow up!","","");
+}
+event //41
+{
+text(0,"Has trade with Allrusen and","Fenslyd stopped? Why haven't","the ships come back?");
+}
+event //42
+{
+text(0,"Bah!","Kids these days are bums!","Chasing each other around all");
+//onam starts backing away...
+text(0,"day doin' nothin'...","...Why i outta...","Hey, come back here! Ya Bum!");
+}
+event //43
+{
+text(0,"By Selnor! Training around","mages is bad enough, but","having to bunk with them?");
+text(0,"I think I'll petition for more","quarters in the outposts next","year...");
+}
+event //44
+{
+text(0,"Faugh!","Those soldiers always moan and","complain...");
+text(0,"I think they're all just","bitter because they weren't","good enough to be Cavalrymen.");
+}
+event //45
+{
+text(0,"Thank the Creators!","Just one more month before I","get to go home and marry my");
+text(0,"sweetheart! No more zapping","Imps and Slimes for me! I","think I'll find a nice cooshy");
+text(0,"desk job...","","");
+}
+event //46
+{
+text(0,"I think I'll run away with the","next caravan that comes","through here...");
+text(0,"It's a pretty dull life in","such a well-protected land...","I wanna live my life on the");
+text(0,"edge!","","");
+}
+event //47
+{
+text(0,"There are reports of local","band of theifs burgalering the","area...");
+text(0,"I don't believe it though...","Why would anyone steal from","another?");
+}
+event //48
+{
+text(0,"The mountain town of Telluro","is south of here...Mostly","Aldencians live there, but");
+text(0,"It's not part of any country...","","");
+}
+event //49
+{
+text(0,"Hey thar, sweet cheeks!","Wanna come home with me?","**Wheeze**");
+//shocked Onam
+text(1,"Madam!","I...er....","...Ek!");
+}
+event //50
+{
+text(0,"I don need tha Guverment ta","pratect me! Soldiers go home!","I don wanna pay tha extra");
+text(0,"taxes ta keep 'em here!","","");
+}
+event //51
+{
+text(0,"Taxes er bad!","Boo! Hiss!","...Hyuck!");
+}
+event //52
+{
+text(0,"The view from the tops of the","Alden Mountains is breathtaking!","You can see all of Aldencia");
+text(0,"from some of them.","","");
+}
+

@@ -1,0 +1,465 @@
+event //autoexec
+{
+if(flags[167])
+        playmusic("Hick.Xm");
+volume=60;
+}
+event //1
+{
+mapswitch("Townb.map",74,31,0);
+}
+event //2
+{
+mapswitch("Townb.map",41,51,0);
+}
+event //3
+{
+mapswitch("Townb.map",52,63,0);
+}
+event //4
+{
+mapswitch("Townb.map",57,74,0);
+}
+event //5
+{
+mapswitch("Townb.map",45,81,0);
+}
+event //6
+{
+mapswitch("Townb.map",66,19,0);
+}
+event //7
+{
+flags[167]=0;
+mapswitch("Townb.map",13,18,0);
+}
+event //8
+{
+flags[167]=0;
+mapswitch("Townb.map",17,42,0);
+}
+event //9
+{
+mapswitch("Townb.map",45,30,0);
+}
+event //10
+{
+mapswitch("Townb.map",19,70,0);
+}
+event //11
+{
+mapswitch("Townb.map",29,70,0);
+}
+event //12
+{
+warp(84,32,0);
+}
+event //13
+{
+warp(104,32,0);
+}
+event //14
+{
+warp(84,10,0);
+}
+event //15
+{
+warp(104,10,0);
+}
+event //16
+{
+warp(104,62,0);
+}
+event //17
+{
+warp(69,17,0);
+}
+event //18
+{
+text(0,"A few books, seemingly unread,","are in the drawers","");
+}
+event //19
+{
+text(0,"Diarys litter the shelves.","","");
+}
+event //20
+{
+text(0,"Herbs, jars, foodstuffs...","","");
+}
+event //21
+{
+text(1,"I believe this is some sort","of medication....","'Pra-zic'?");
+}
+event //22
+{
+text(0,"A travel guide to the Newlands","is on the shelf.","");
+}
+event //23
+{
+text(0,"Knick-knacks.","A jumble of Knick-knacks.","");
+}
+event //24
+{
+text(1,"Hmmm...some handcuffs...","","");
+}
+event //25
+{
+text(0,"Books on law enforcement","are on this shelf.","");
+}
+event //26
+{
+text(1,"Looks like ....Orange Soda?","","");
+}
+event //27
+{
+text(0,"Generic goods","occupy the drawer.","");
+}
+event //28
+{
+text(1,"These are pretty generic","books.","");
+}
+event //29
+{
+text(1,"Generic items on the shelves.","...This whole house is","pretty dull.");
+}
+event //30
+{
+text(0,"Receipts litter this drawer.","","");
+}
+event //31
+{
+text(1,"'Creative Accounting'","Intresting title, I wonder if","Rinbel's read this...");
+}
+event //32
+{
+text(1,"This stuff looks expensive...","","");
+}
+event //33
+{
+text(0,"Small drawings of a family","are in this drawer.","");
+}
+event //34
+{
+text(0,"In this drawer is a book","entitled 'Promotion Through","Sucking Up'");
+}
+event //35
+{
+text(0,"Some trashy romance novels","are in this drawer.","");
+}
+event //36
+{
+text(1,"Books on Philosopy are","in the drawers","");
+}
+event //37
+{
+text(1,"This book is titled","'Inbreeding in Modern Times'","");
+}
+event //38
+{
+text(1,"Sweet smelling herbs are","in these drawers.","");
+}
+event //39
+{
+text(1,"Hmm...razors and combs.","","");
+}
+event //40
+{
+text(1,"Looks like....crumpets?","","");
+}
+event //41
+{
+text(1,"Hmm...Poems about Selnor...","","");
+}
+event //42
+{
+text(1,"Books about military","tactics...","");
+}
+event //43
+{
+text(0,"Records of battles fill the","shelves.","");
+}
+event //44
+{
+text(0,"Awards and Medals clutter","this drawer.","");
+}
+event //45
+{
+text(1,"Looks like the begining","of a memoir.","");
+}
+event //46
+{
+text(0,"An ordinary shelf of","random items.","");
+}
+event //47
+{
+text(0,"Books on problem resolution","","");
+}
+event //48
+{
+text(0,"Books on how to handle a","crisis","");
+}
+event //49
+{
+text(0,"Books on effective governing.","","");
+}
+event //50
+{
+text(0,"Books on red tape and","the application thereof.","");
+}
+event //51
+{
+text(0,"Books on civil logistics.","","");
+}
+event //52
+{
+text(0,"Books on child raising.","","");
+}
+event //53
+{
+text(0,"Books on proper speech","and ettiquette.","");
+}
+event //54
+{
+text(0,"Books on charisma and proper","grooming.","");
+}
+event //55
+{
+text(1,"'How to Look Sincere'...","","");
+}
+event //56
+{
+text(0,"Oh my! I'm glad nobody was","hurt when the tower fell. I've","always thought that thing was");
+text(0,"a liability.","","");
+}
+event //57
+{
+text(0,"I don't know what Bastien was","thinking all those years ago.","Building a spinning tower...");
+text(0,"How dangerous!","","");
+}
+event //58
+{
+text(0,"Some people in the last","caravan to come by here were","whispering about troubles in");
+text(0,"Allrusen.","I hope it's nothing really bad,","I was hoping to take a");
+text(0,"vacation there soon!","","");
+}
+event //59
+{
+text(0,"Oh, how nice it would be to","head south for the winter.","I hate shoveling snow...");
+}
+event //60
+{
+text(0,"I'm sick of being a town","magistrate.","I think I'll try an occupation");
+text(0,"full of excitement,","like...","...Accounting!");
+}
+event //61
+{
+if(flags[121])
+        text(0,"I still think you look","familiar...","");
+if(!flags[121])
+        {
+        text(0,"You look familiar,","are you someone famous?","");
+        text(1,"Umm...maybe...","How do you feel about","prince Onam?");
+        text(0,"Prince Onam?","*sigh*","I hear he's such a stud...");
+        text(0,"I wish I could get someone","like him for a husband...","Why do you ask?");
+        text(0,"Is the Prince coming here?","","");
+        text(1,"No, no he's not.","Not coming here.","Definatly not.");
+        text(0,"Oh...","*sigh*","");
+        flags[121]=1;
+        }
+}
+event //62
+{
+text(0,"Do you just barge into","everyone's house like that,","or just mine?");
+text(1,"Everyone's, Ma'am","","");
+text(0,"Oh, I guess it's alright then.","","");
+}
+event //63
+{
+text(0,"I saw that building fall!","Like, it was noisy!","");
+}
+event //64
+{
+text(0,"*Boom*! *Crash*!","Look at me! I'm the Tower!","");
+}
+event //65
+{
+text(0,"Have you heard the rumors?","There is supposedly a band of","thieves going from town to");
+text(0,"town stealing things!","I believe it too, I'm missing","a couple hundred GP!");
+}
+event //66
+{
+text(0,"Teehee!","Daddy doesn't know I went","shopping!");
+}
+event //67
+{
+text(0,"Commanding is so much better","than being enlisted...Ya just","shout orders and sit back!");
+text(0,"I love it!","","");
+}
+event //68
+{
+text(0,"This town is the largest","settlement this side of the","mountains.");
+text(0,"It's pretty easy to defend.","Of course, alla those single","family farmhouses in the");
+text(0,"countryside are such a pain!","It's dangerous out there!","");
+}
+event //69
+{
+text(0,"Thankfully it's summer,","we pretty much just got done","killing all of the Plasms.");
+text(0,"Sure, there are a few","stragglers, but even a child","could defeat a lone Plasm.");
+}
+event //70
+{
+text(0,"*sigh*","While all of the other Wizards","are sipping Cappacino in their");
+text(0,"homes, I'm over here","commanding Eastern","Aldencia's Mages...");
+text(0,"Damn that Short straw!","","");
+}
+event //71
+{
+text(0,"Nothing like the end of Plasm","season!","It's been a week since the");
+text(0,"last battle, and we still are","partying at night in","celebration!");
+}
+event //72
+{
+text(0,"Heh, It's not so bad being","infanty. We get to relax and","enjoy ourselfs when the");
+text(0,"yearly horde has been","repelled.","Those Cavalrymen are always");
+text(0,"out, always patroling,","never partying.","Sad, really...");
+}
+event //73
+{
+text(0,"Soldiers and Mages usually get","along...It's those cavalrymen","that are so uppity.");
+}
+event //74
+{
+text(0,"I haven't seen a ship in quite","a while. Of course, I've been","out in the field for a few");
+text(0,"months, but there isn't any","Fenslydian Whiskey around!","I hate the native brew!");
+}
+event //75
+{
+text(0,"Ah...Sweet relief.","We've been out in the","wilderness for two months");
+text(0,"zapping Plasms.","Of course, the ground was","softer to sleep on than these");
+text(0,"beds...","Oh, my back!","");
+}
+event //76
+{
+text(0,"There's nothing like coming in","from a long campaign to a town","filled with young girls.");
+text(0,"I personally think that magic","is somehow connected to the","libido...");
+}
+event //77
+{
+text(0,"One more campaign like that,","and I'm putting in for","advancement.");
+text(0,"I think I'm getting competant","enough to become a full","Wizard...");
+}
+event //78
+{
+if(flags[123] and flags[122])
+        text(0,"I was just trying to be nice.","","");
+if(flags[123] and !flags[122])
+        text(0,"Hope you can put that","book to good use!","");
+if(!flags[123])
+        {
+        text(0,"This spell book is getting","pretty ratty...I'll be getting","a new one soon...");
+        prompt(0,"I don't suppose you'd","want it,","would you?",122,"Sure!","Nope");
+        if(!flags[122])
+                {
+                giveitem(55);
+                text(1,"Thanks!","","");
+                text(0,"No problem.","","");
+                flags[123]=1;
+                }
+        if(flags[122])
+                {
+                Text(1,"No,","I don't want your ratty book!","");
+                text(0,"Fine!","I was just offering, ya jerk!","");
+                flags[123]=1;
+                }
+        }               
+}
+event //79
+{
+text(0,"Praise Selnor,","that was a fine campaign!","I don't think we had any");
+text(0,"casualtys.","","");
+text(1,"That's good to hear.","","");
+}
+event //80
+{
+text(0,"We may be hicks,","but that doesn't mean we","cannot be civilized.");
+}
+event //81
+{
+text(0,"Vincent,","do we have any more crumpets?","I cannot have tea without");
+text(0,"my crumpets!","","");
+}
+event //82
+{
+text(0,"Buffy, I think the crumpets","are in the cupboard, dear.","");
+}
+event //83
+{
+text(0,"Hyuck!","I was Sir Henry of Alden,","but now I've retired.");
+}
+event //84
+{
+text(0,"Gawrsh, I wuz Sir Joe!","Me an henry were the reknowned","'Hick Warriors'!");
+}
+event //85
+{
+text(0,"We are the mountaineers,","providing escort across the","Alden mountains.");
+}
+event //86
+{
+text(0,"Aldencia is odd, split in","two by a mountain range.","We provide a service to let");
+text(0,"people visit their relatives","and such.","");
+}
+event //87
+{
+text(0,"We could have our own guild","shop, but we prefer to hang","out in this restaurant.");
+}
+event //88
+{
+text(0,"We don't mind the boys...","They are steady customers,","after all!");
+}
+event //89
+{
+text(0,"One order of Lasangia!","","");
+}
+event //90
+{
+text(0,"Coming right up!","","");
+}
+event //91
+{
+text(0,"Oh!","You look like a soldier,","but cooler!");
+}
+event //92
+{
+if(flags[124])
+        text(0,"Good day, prince Onam!","","");
+if(!flags[124])
+        {
+        text(0,"Aren't you Prince Onam?","","");
+        text(1,"Sure am!","","");
+        text(0,"I thought so...","I went on a trip to the castle","with my daddy once,");
+        text(0,"and you looked familiar.","","");
+        flags[124]=1;
+        }
+}
+event //93
+{
+text(0,"Welcome to the Mayor's house!","","");
+}
+event //94
+{
+if(flags[125])
+        text(0,"Enjoy your stay in Somata","","");
+if(!flags[125])
+        {
+        text(0,"Hello, my prince.","It has been a while since","royalty has visited Somata,");
+        text(0,"about a year, I'd say...","","");
+        text(1,"Really?","Did Amin pass by here?","");
+        text(0,"Yes.","It was your brother.","...How is he?");
+        text(1,"I wish I knew, Mayor Rendil","...Do you know where he","was heading?");
+        text(0,"I believe he was heading south","...Why do you ask?","");
+        text(1,"Well, he might be in possesion","of something I need.","Thank you, Mayor.");
+        text(0,"My pleasure, my prince.","","");
+        flags[125]=1;
+        }
+}

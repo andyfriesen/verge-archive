@@ -1,0 +1,94 @@
+/* =======================================================================
+   = effects.vc =
+   ==============    There are a few differences between EFFECTS.VC and
+                     ordinary MAP-based VCs. First, you'll notice that
+"effect" denotes the beginning of a script, not "event". VCC handles it
+differently, it recognizes it simply by filename and compiles to
+EFFECTS.VCS instead of appending the compiled code to the MAP.  Upon entering
+a script, var(0) contains the pointer to whoever was selected to receive
+the effect. If you have an AA or AE effect, however, you will need to cycle
+through the characters individually. For an AA effect, use this example:
+
+for (x, 1, numchars(0), 1)
+{
+  Heal(partyindex(x), 50);
+}
+
+Obviously, AE effects are not yet implemented.
+The valid effect commands currently are:
+
+Heal(character,amount);
+RestoreMP(character,amount);
+ReviveChar(character);
+
+========================================================================== */
+
+effect //porno
+{
+text(1,"Whoa!...This 'Rydia' chick is","**Hot** !","");
+}
+effect //ledger                          
+{
+text(1,"Endless rows of numbers...I","can't look at them too long or","I get dizzy...");
+}
+effect //enc water                           
+{
+Restoremp(var(0),10);
+}                          
+effect //Trendy bev
+{
+text(1,"I really don't like coffee...","...but it IS trendy...","");
+}
+effect
+{
+text(0,"...It is extremly difficult to","destroy, but it can be done.","It is possible to destroy");
+text(0,"anything, for destuction has","always been easier than","creation.");
+}
+effect
+{
+text(0,"Hence, it has some domain over","quicksilver and lava, both","being partially liquid");
+}
+effect
+{
+text(0,"...It has inspired doctor and","artisan alike, over the ages.","");
+}
+effect
+{
+text(0,"The shard of Elemental Earth","scintilates in your hand.","");
+}
+effect
+{
+text(0,"The shard of Elemental Fire","glows warmly...","");
+}
+effect
+{
+text(0,"The shard of Elemental Water","glitters silently...","");
+}
+effect
+{
+text(0,"The shard of Elemental Air","emits a soft humm...","");
+}
+effect //onam doll
+{
+text(1,"It's not a doll!","It's an **Action Figure**!","");
+}
+effect //yo-yo
+{
+text(0,"Made of high-impact plastic,","this Yo-yo can provide","hours of entertainment.");
+}
+effect //Purple stone
+{
+text(1,"Erikk was right!","It does help you relax...","");
+}
+effect //cookbook
+{
+text(1,"Delicious recipes!","I want some Hasenpfeffer!","Bring me Hasenpfeffer!");
+}
+effect //acid
+{
+text(1,"Phew!","This stuff reeks!","");
+}
+effect //compass
+{
+text(1,"It's pointing south...","I wonder what it's","pointing to...");
+}

@@ -1,0 +1,254 @@
+
+event //0
+{
+enforceanimation();
+volume=100;
+if(flags[102]=1)
+        {
+        Entity.Chasing(6)=0;
+        speed(6)=2;
+        }
+if(flags[101]=1)
+        {
+        Entity.Chasing(7)=0;
+        speed(7)=2;
+        }
+if(flags[100]=1)
+        {
+        Entity.chasing(8)=0;
+        speed(8)=2;
+        }
+}
+event //1
+{
+mapswitch("AMAXIS.MAP",31,19,1);
+}
+event //2
+{
+mapswitch("AMAXIS.MAP",29,35,1);
+}
+event //3
+{
+mapswitch("AMAXIS.MAP",29,52,1);
+}
+event //4
+{
+mapswitch("AMAXIS.MAP",29,70,1);
+}
+event //5
+{
+mapswitch("AMAXIS.MAP",29,86,1);
+}
+event //6
+{
+mapswitch("AMAXIS.MAP",52,44,1);
+}
+event //7
+{
+mapswitch("AMAXIS.MAP",65,44,1);
+}
+event //8
+{
+mapswitch("AMAXIS.MAP",52,23,1);
+}
+event //9
+{
+mapswitch("AMAXIS.MAP",65,23,1);
+}
+event //10
+{
+flags[167]=1;
+mapswitch("AMAXIS.MAP",95,24,1);
+}
+event //11
+{
+flags[167]=1;
+mapswitch("AMAXIS.MAP",114,24,1);
+}
+event //12
+{
+flags[167]=1;
+mapswitch("AMAXIS.MAP",114,46,1);
+}
+event //13
+{
+flags[167]=1;
+mapswitch("AMAXIS.MAP",95,46,1);
+}
+event //14
+{
+mapswitch("AMAXIS.MAP",94,92,1);
+}
+event //15
+{
+mapswitch("AMAXIS.MAP",65,100,1);
+}
+event //16
+{
+mapswitch("TILDE.MAP",42,22,0);
+}
+event //17
+{
+text(0,"Welcome to Amaxis city, Prince","Onam! It's been a while since","you've visited...");
+}
+event //18
+{
+text(0,"Praise Selnor! The epidemic of","hemmaroids has come to an end!","");
+text(1,"umm...yeah!","...","...");
+text(1,"...","...","Please get away from me...");
+}
+event //19
+{
+text(0,"I'm very pleased! Some miners","in the Alden Mountains have","recently found a rich vein of");
+text(0,"pure elemental Earth! My","business will boom!","");
+}
+event //20
+{
+if(flags[103])
+        text(0,"The secrets of the ancients","are within for you to see!","...I think...");
+if(!flags[103])
+        {
+        text(0,"Behold!","The library of Amaxis, one of","the world's finest!");
+        text(0,"Who knows what untold","knowledge resides within?","");
+        text(1,"If you like it so much, why","are you walking around","outside of it?");
+        text(0,"Err...well, why spoil the","mystery? It's much more","impressive if I remain");
+        text(0,"ignorant!","","");
+        flags[103]=1;
+        }
+}
+event //21
+{
+text(0,"Hyuck! Shhhh...I'm hiding from","the pigs with wings...They're","out to git me!");
+}
+event //22
+{
+text(0,"Gawrsh...Shiny clothes...We","don't git too many people with","shiny clothes in this part of");
+text(0,"town...","","");
+}
+event //23
+{
+text(0,"Ah...It's wonderful to get out","of the office from time to","time...The stench of politics");
+text(0,"can drive oneself batty...","","");
+}
+event //24
+{
+text(0,"I'm glad we have the Calvalry","to defend our nation from the","native monsters...some can be");
+text(0,"pretty fierce...I wonder how","mean the ones in the","Wilderlands are...They did");
+text(0,"drive our ancestors away,","after all...","");
+}
+event //25
+{
+text(0,"What a fair city we have! How","proud you must be to know that","you will rule over such a fine");
+text(0,"land one day.","","");
+text(1,"Sure am!","","");
+text(0,"*Hmph*","He must be still learning","eloquence...");
+}
+event //26
+{
+text(0,"Ooooh! Prince Onam!","What a hunk!","");
+text(1,"*sigh*","Royalty groupies...","");
+flags[102]=1;
+Entity.Chasing(6)=0;
+Entity.Chasedist(6)=0;
+movecode(6)=0;
+wait(1);
+}
+event //27
+{
+text(0,"Prince Onam!","Whatcha in town for?","...");
+text(0,"Looking for a......wife?","","");
+text(1,"*GULP*...errr...no...","","");
+flags[101]=1;
+Entity.Chasing(7)=0;
+Entity.Chasedist(7)=0;
+movecode(7)=0;
+wait(1);
+}
+event //28
+{
+if(!flags[100])
+        {
+        text(0,"Oh! Prince Onam! could I have","an autograph....","");
+        text(1,"I'd be happy to!","","");
+        text(0,"Oh, not your autograph...could","you get me Minister Rinbel's","autograph? He's so dreamy...");
+        text(1,"...Well, I won't be back in","the castle for quite some","time...");
+        text(1,"...but I could give you my","autograph, instead!","");
+        text(0,"Err....that's alright....","thanks anyway....","");
+        flags[100]=1;
+        Entity.chasing(8)=0;
+        Entity.Chasedist(8)=0;
+        movecode(8)=0;
+        wait(1);
+        }
+if(flags[100])
+        text(0,"...Rinbel...","*sigh*","");
+}
+event //29
+{
+text(0,"Didna ah see ya in tha","castle yesturday?","");
+text(1,"Errr...no...that mustve","been another prince...","");
+text(0,"Hyuck!","Yeah, yer right...sorry!","");
+}
+event //30
+{
+text(0,"Your majesty! I heard you are","going off on a quest for the","good of Aldencia! What a fine");
+text(0,"boy you are, unlike my own bum","lad...","...bah!");
+}
+event //31
+{
+text(0,"What a bountiful season we've","been having! The crops have","been plenty, and the beast");
+text(0,"attacks scarce!","Selnor bless the king!","");
+}
+event //32
+{
+if(flags[104])
+        text(0,"Go on, lad! Chase the girls!","How I wish I were young again.","...*sigh*");
+if(!flags[104])
+        {
+        text(0,"Bah! most of Amaxis' young","lads have run off to join the","cavalry, leaving all the");
+        text(0,"lasses to idly daydream of","becoming princesses...","");
+        text(1,"How do they plan on that?","","");
+        text(0,"Well, since none of the","cavalrymen can marry,","That young prince in the");
+        text(0,"castle has become the most","elegible bachelor this side of","the Alden Mountains!");
+        //insert gaping mouth-buggy eyes Onam chr frame
+        text(1,"aahhh...really?","","");
+        text(0,"Why yes! But don't worry lad,","you're handsome enough to","compete with that Onam fellah.");
+        text(1,"Err...thanks, I think...","","");
+        flags[104]=1;
+        }
+}
+event //33
+{
+text(0,"How long has it been since any","ships have returned to","Aldencia? They've never been");
+text(0,"this late before...","...I wonder what's wrong.","");
+}
+event //34
+{
+text(0,"The Library contains","information about the","Wilderlands,");
+text(0,"as well as the Newlands!","Books that old are very rare!","");
+}
+event //35
+{
+text(0,"How are things in the castle,","young Prince? We sometimes","hear troubling rumors...");
+text(1,"Err...","...all is....well.","");
+text(0,"Really?","That's reassuring.","Thank you my prince!");
+//sulky Onam chr frame here
+}
+event //36
+{
+text(0,"I really like trees,","but the forest is spooky!","Maybe I'll be a forester");
+text(0,"when I grow up!","","");
+}
+event //37
+{
+text(0,"Why do those ickky hicks have","to live in the same town?","");
+}
+event //38
+{
+mapswitch("library.map",19,22,0);
+}
+
+
+
+
+

@@ -1,0 +1,682 @@
+event //autoexec
+{
+volume=60;
+if(flags[127]=2)
+        {
+        Entity.LocX(28)=0;
+        Entity.LocX(28)=0;
+        }
+}
+event //1
+{
+mapswitch("Towna.map",65,16,0);
+}
+event //2
+{
+warp(46,9,0);
+}
+event //3
+{
+warp(12,9,0);
+}
+event //4
+{
+warp(76,9,0);
+}
+event //5
+{
+warp(60,9,0);
+}
+event //6
+{
+warp(76,34,0);
+}
+event //7
+{
+warp(90,9,0);
+}
+event //8
+{
+warp(12,34,0);
+}
+event //9
+{
+warp(90,34,0);
+}
+event //10
+{
+warp(46,34,0);
+}
+event //11
+{
+warp(26,34,0);
+}
+event //12
+{
+text(0,"An unseen barrier blocks","your path...","");
+}
+event //13
+{
+text(0,"This Library was built by the","Great Sage Okirham in the year","526 AC, to store books for");
+text(0,"public use. It was the first","such library in the world.","");
+}
+event //14
+{
+text(0,"Although all are free to read","the books in the library,","you must gain special");
+text(0,"permission to remove a book","from the library from","the head librarian.");
+}
+event //15
+{
+text(1,"These are cookbooks for","Aldencian cuisine...","");
+text(1,"...mmm...these pictures of","Spaghetti look good","enough to eat!");
+}
+event //16
+{
+text(0,"The current king of Aldencia,","Enton Onata Alden III,","was coronated in 789 AC,");
+text(0,"His son Amineth Emaxis was","born 5 years later,","and Onim Bartrin 7 years after");
+text(0,"that, in 801 AC.","","");
+text(1,"...They just had to get","my name wrong...","");
+}
+event //17
+{
+text(0,"During the winter of 811,","thousands of Aldencians died","due to the epidemic, including");
+text(0,"our fair Queen.","","");
+text(1,"...","...","...mom...");
+}
+event //18
+{
+text(0,"Trade between Aldencia,","Fenslyd, and Allrusen has","always existed, but the");
+text(0,"nations have been growing","apart without a Great Sage","to guide them.");
+}
+event //19
+{
+text(0,"The three Creators watch over","us, and guide our fate,","protecting us as thier own");
+text(0,"children.","","");
+}
+event //20
+{
+text(1,"Ahh...The card catalog!","","");
+}
+event //21
+{
+text(0,"To the south of Aldencia,","past the Alden Mountains,","is the kingdom of Allrusen.");
+}
+event //22
+{
+text(0,"Allrusen is covered mostly in","thick forests, with fruit and","game so plentiful, that");
+text(0,"farming is almost","non-existant.","");
+}
+event //23
+{
+text(0,"Although Fenslyd is nearly as","south as Allrusen, it has a","much more temperate climate,");
+text(0,"mainly due to the Alden","mountain range.","");
+}
+event //24
+{
+text(0,"South and East of Aldencia is","the Kingdom of Fenslyd.","The capital of Fenslyd is");
+text(0,"the world's largest city.","","");
+}
+event //25
+{
+text(0,"While most Aldencians worship","Selnor,","Allrusans prefer Maalidi,");
+text(0,"and Fenslydians praise","Quillidor's name","");
+}
+event //26
+{
+text(0,"Allrusens love a good hunt,","as well as any other sort of","competition.");
+text(0,"They prefer the bow as a","weapon because of the skill","it requires.");
+}
+event //27
+{
+text(0,"While Aldencians and Allrusens","are generally looked upon as","being warm, good-natured folk,");
+text(0,"Fenslydians seem to be more","self-centered and arrogant.","");
+}
+event //28
+{
+text(0,"Apart from The three kingdoms","in the Newlands, there are","many indepandant caravans and");
+text(0,"ships that carry on trade","between the nations.","");
+}
+event //29
+{
+text(0,"When in Fenslyd City, be wary","of your pocket. Fenslydians","have a penchant for being");
+text(0,"shrewd bargainers.","","");
+}
+event //30
+{
+text(0,"Never in the history of Emtara","has anyone intentionally","killed one another, although");
+text(0,"tension during the time of","Bastien's insanity almost","broke this age-old covenant.");
+}
+event //31
+{
+text(0,"Although the Sage's tower was","amoungst the first building","erected upon reaching the");
+text(0,"Newlands, Bastien modified the","original design heavily to","suit his studies.");
+}
+event //32
+{
+text(0,"The royal familys of the three","kingdoms are decendants of the","captains of the three main");
+text(0,"ships in the Crossing.","","");
+}
+event //33
+{
+text(0,"Emtara has had recorded","history for over 1600 years,","only about half of which have");
+text(0,"been After Crossing.","","");
+}
+event //34
+{
+text(0,"The Wilderlands were lush and","verdant in ancient days.","The Crossing was neccesary");
+text(0,"because of serious upheavals","in the land over the course of","hundreds of years. Luckily,");
+text(0,"the great ships of the","Crossing were completed days","before the worst catastrophes");
+text(0,"began.","","");
+}
+event //35
+{
+text(0,"As far back as any records","show, the people of our world","have always been guided by a");
+text(0,"Great Sage.","","");
+}
+event //36
+{
+text(0,"Although many ships have tried","to return to the Wilderlands,","none have ever returned...");
+}
+event //37
+{
+text(0,"There are three main","continents on Emtara:","The Wilderlands, our");
+text(0,"ancestoral home,","The Newlands,","where we currently live,");
+text(0,"and The Southerlands,","which remain largly a mystery.","");
+}
+event //38
+{
+text(0,"To the north of the newlands,","on a icy isle,","is a strange shrine.");
+text(0,"There is no record of anyone","building such a structure.","It seems to be dedicated to");
+text(0,"the creator Quilidor, though.","Who built it?","");
+}
+event //39
+{
+text(0,"The greatest mystery of our","time is the madness of the","Great Sage Bastien.");
+text(0,"What could drive such a","powerful man insane?","");
+}
+event //40
+{
+text(0,"Bastien lead an intresting","life. He created the first","'warp' spells, allowing Mages");
+text(0,"and Psions alike to travel","great distances","instantaneously.");
+}
+event //41
+{
+text(0,"Bastien was fascinated by","divination. He was troubled","that the Talent of Omens,");
+text(0,"which allowed for insight","into the future, was so","sporatic and uncontrolable.");
+text(0,"He created many devices to","study divination, working","towards the end of clearly");
+text(0,"seeing the future. Although he","had some sucess, he never","finished his studies...");
+}
+event //42
+{
+text(0,"On the day of his maddening,","Bastien was researching in his","study in the Sage's Tower.");
+text(0,"Halfway through that day,","witnesses saw him rushing into","his Laboratory under Alden");
+text(0,"Castle, with a troubled,","urgent look on his face.","Later that day, he emerged");
+text(0,"from his Lab, sealed the","entrance, and stole the Three","Relics of Aldencia from thier");
+text(0,"display cases, wild eyed and","laughing the whole way. After","taking the Relics, he");
+text(0,"disappeared in a flash,","never to be seen again.","");
+}
+event //43
+{
+text(0,"Bastien's Grandfather,","the Great Sage Okirham,","was still alive at the time");
+text(0,"Bastien disappeared. Even","though Okirham had stepped","down as Sage, he felt");
+text(0,"responsible to find out what","happened to his grandson.","At the advanced age of 460,");
+text(0,"the oldest Sage on record, he","set out to find Bastien. For","several years after the");
+text(0,"incident, Okirham was","sometimes sighted in populated","regions seeking clues,");
+text(0,"but he has not been","seen since 688 AC.","");
+}
+event //44
+{
+text(0,"Why Bastien made the Nine","Relics is not known.","He created them after months");
+text(0,"of studying divination, and","felt compelled to make these","objects. In the years after");
+text(0,"his madness, Researchers","studied the remaining Relics","for some clue if they were");
+text(0,"connected to his sudden","insanity. Although they didnt","find any links to divination");
+text(0,"that they suspected, they did","find something of note.","Intricatly woven into the");
+text(0,"Relics Patterns are sigils to","the Creators. This makes them","very effective at what their");
+text(0,"purpose is hypothesised to be:","protecting the populace of","Emtara from beasts.");
+}
+event //45
+{
+text(0,"Bastien also studied spells of","mass destruction. He never","liked the fact that Armies");
+text(0,"were needed to protect the","kingdoms from monsters. He was","known to create spells with a");
+text(0,"large target range, able to","decimate hordes of Plasms or","Necromorphs in seconds.");
+text(0,"Unfortunatly, nobody with","suffiecient strength to wield","such a ward has appeared in");
+text(0,"quite a while.","","");
+}
+event //46
+{
+text(0,"Bastien was reknowned as being","able to create the most","intricate protective wards the");
+text(0,"world has ever seen. This is","why we cannot open anything he","sealed on the day of his");
+text(0,"maddening.","","");
+}
+event //47
+{
+text(0,"Although he stayed in his","study in the Sage's Tower most","often, the Great Sage Bastien");
+text(0,"had workshops in each of the","three major palaces that he","frequented from time to time.");
+}
+event //48
+{
+text(0,"Ever since coming to the","Newlands, It has been","neccesary to form armys to");
+text(0,"fight off the native monsters.","Although most of the monsters","are weak, they usually attack");
+text(0,"with overwhelming numbers.","","");
+}
+event //49
+{
+text(0,"In the course of history,","there have been people that","have inadvertantly used magic");
+text(0,"while attacking. These people","cannot usually use wards","without a weapon, having a");
+text(0,"kind of sub-conscious block.","Talents like SwordDancing, and","BlitzBlade are examples of");
+text(0,"this happening.","","");
+}
+event //50
+{
+text(0,"Trained armies were not needed","in the Wilderlands, for","although the beast there were");
+text(0,"stronger, they were fewer, and","seldom attacked settlements.","Great heros were reknowned in");
+text(0,"those days, able to defeat an","Axorn or Garouak,","singlehandedly.");
+}
+event //51
+{
+text(0,"Although Aldencia and Allrusen","need large, well trained","armies, the native beasts of");
+text(0,"Fenslyd are not as agressive,","and so, Fenslyd doesnt need to","concentrate as much");
+text(0,"on defense.","","");
+}
+event //52
+{
+text(0,"Aldencia is home to several","types of agressive monsters.","Plasms form out of the ground");
+text(0,"after spring thaw, oozing out","of the ground and attacking","any animal they come across.");
+text(0,"They have an acid touch,","trying to dissove and eat any","flesh they touch.");
+text(0,"Necromorphs are related to","Plasms, but seem to thrive on","carrion, and so will try to");
+text(0,"kill living creatures so the","corpse can rot a bit to become","palatable to them.");
+text(0,"Both Plasms and Necromorphs","are weak to fire, and easy to","kill in small numbers.");
+}
+event //53
+{
+text(0,"Aldencian Stone Bears are","larger than their more docile","brown and black cousins,");
+text(0,"but seem to enjoy attacking","settlements. They are weak to","Wind attacks, the main reason");
+text(0,"why Cavalrymen use","Air-enchanted swords.","");
+}
+event //54
+{
+text(0,"The most insidious beast in","Aldencia is the avian Crawbie.","They like to attack small,");
+text(0,"isolated groups of people.","They are the main reason why","you should always travel in");
+text(0,"large numbers in Aldencia's","wilds. Of course, a pack of","Crawbies is easily defeated by");
+text(0,"most trained soldiers, as","their armor takes a lot out of","thier slashing attacks.");
+}
+event //55
+{
+text(0,"There are many small outposts","all over Aldencia, with twenty","to thirty soldiers each.");
+text(0,"These outposts protect an area","of Aldencia's rural","inhabitants from the yearly");
+text(0,"Plasm attack. All of the","Plasms must be destroyed","before the farmers can start");
+text(0,"planting seed, so eliminating","the hordes is vital for not","only saftey's sake, but to");
+text(0,"feed the nation, as well.","Of course, as the plasms","swiftly decompose after death,");
+text(0,"they fertilize the soil,","making for boutiful harvests.","");
+}
+event //56
+{
+text(0,"It has long been a wish of","many Aldencians to stop the","Plasms from coming back each");
+text(0,"spring, as it is a constant,","and dangerous, chore to","eliminate them.");
+}
+event //57
+{
+text(0,"Although it is difficult to","learn, if a mage learns the","process of enchanting weaponry");
+text(0,"with magic, He can usually","retire a wealthy man in","scant years.");
+}
+event //58
+{
+text(0,"Magic is the applied","manipulation of the elements,","be it through wards, direct,");
+text(0,"or subconscious means.","","");
+}
+event //59
+{
+text(0,"By mixing the elements in a","spell, you can achieve diverse","effects. Simple combinations");
+text(0,"like Earth and Water can make","Ice, or Air and Fire to make","Lightning.");
+}
+event //60
+{
+text(0,"If a mage desires to make a","new spell, he must research","it, and write down the ward in");
+text(0,"a book with meticulous care.","When he is done, the spell may","be freely copied with relative");
+text(0,"ease from the original","manuscript.","");
+}
+event //61
+{
+text(0,"If a Psion wishes to make a","new spell, He needs only to","experiment with the wards in");
+text(0,"his mind, finding the","combination he desires.","Once the desired spell is");
+text(0,"learned, he will remember it","until he wishes to forget it,","but the spell cannot be");
+text(0,"duplicated in another Psion","unless that Psion goes through","the same process as the");
+text(0,"original","","");
+}
+event //62
+{
+text(0,"It is a misnomer that mages","may only write wards within","books. Although paper is the");
+text(0,"easiest medium to transcribe a","ward to, any object can hold","wards. Weapons, crystals, even");
+text(0,"mundane objects like pots and","pans may retain wards for use.","");
+}
+event //63
+{
+text(0,"It has been long thought that","we have not yet discovered all","of the major elements.");
+text(0,"Some argue that Time itself is","a major element, but even","though spells can speed up,");
+text(0,"slow down, or stop a target,","this is done through","manipulation of the bodies own");
+text(0,"elements, to either bind or","speed up natural functions.","Time itself is an intangible");
+text(0,"force, and cannot be","manipulated through wards.","");
+}
+event //64
+{
+text(0,"Another hot subject in","elemental debate is the","existance of a Grand Unifying");
+text(0,"Element, or element X, that","binds the others together.","Opponents to this theory state");
+text(0,"that the balance between the","elements is enough to hold","themselves in check.");
+text(0,"Since to learn the answer we","would have to objectivly look","from the outside of elemental");
+text(0,"forces, we will never know the","truth.","");
+}
+event //65
+{
+text(0,"It is possible to create small","areas where elemental flows","cannot reach. These elemental");
+text(0,"vacuums can render a mage","powerless, and will kill any","living being if left in one");
+text(0,"for an extended length of time.","","");
+}
+event //66
+{
+text(0,"Welcome to the Okirham","Memorial Library, the greatest","library on Emtara!");
+}
+event //67
+{
+text(0,"This floor is devoted to","material about other countrys","in the Newlands.");
+}
+event //68
+{
+text(0,"History files are on this","floor.","");
+}
+event //69
+{
+text(0,"This floor is devoted to the","greatest man in recent times,","the Great Sage Bastien");
+}
+event //70
+{
+text(0,"This floor has information","about the arcane science","of Magic!");
+}
+event //71
+{
+text(0,"This floor has records on the","art of warfare.","");
+}
+event //72
+{
+text(0,"There are ten floors in this","library, and four levels of","basement, but we cannot go");
+text(0,"above the sixth floor. When","Bastien went mad, automatic","wards snapped into place");
+text(0,"barring access to those","floors...","");
+}
+event //73
+{
+text(0,"Knowing of the other nations","is a good thing! Who wants to","be xenophobic?");
+}
+event //74
+{
+text(0,"Those who do not pay heed to","history's lessons are doomed","to repeat it!");
+}
+event //75
+{
+text(0,"Everyone wants to know what","happened to Bastien, so we","dedicated a floor to research");
+text(0,"on him...Back in his day, this","floor had books on the lost","art of 'Basketweaving'.");
+}
+event //76
+{
+text(0,"That man is a Wizard from","Allrusen! He just teleported","in to do some research.");
+text(0,"See, this library is","world-reknowned!","");
+}
+event //77
+{
+text(0,"Information on fighting is","vital to survival in the","Newlands!");
+}
+event //78
+{
+text(0,"I am finishing up writing a","book about Allrusen.","It's a very pleasant place!");
+text(0,"You should visit it sometime,","prince Onam!","");
+}
+event //79
+{
+text(0,"Hoo-boy! This says that","Fenslydians like to dance and","party as much as they like to");
+text(0,"haggle!","","");
+}
+event //80
+{
+text(0,"I am going abroad to study","other cultures, just as soon","as a ship comes in...");
+text(0,"Why are they so overdue?","","");
+}
+event //81
+{
+text(0,"The Crossing was our race's","greatest deed. What great","deeds does the future hold for us?");
+}
+event //82
+{
+text(0,"I wonder if there are people","still alive in the Wilderlands","...could some have lived");
+text(0,"through the catastrophes?","","");
+}
+event //83
+{
+text(0,"Why hasn't any expeditions to","land on the Southerlands ever","come back? We know they exist,");
+text(0,"but not what is on them...","","");
+}
+event //84
+{
+text(0,"When I figure out why Bastien","went mad, I'll be the most","famous person in the world!");
+}
+event //85
+{
+text(0,"I am trying to find the key to","unlocking the sealed areas of","this library...Who knows what");
+text(0,"knowledge is hidden behind","the seals...","");
+}
+event //86
+{
+text(0,"Ever since we Crossed, Sages","and Mages alike have been","living longer...could Bastien");
+text(0,"still be alive somewhere?","","");
+}
+event //87
+{
+text(0,"I am trying to learn the","secrets of Enchantment...","I could sell them to a mage");
+text(0,"for a fortune!","","");
+}
+event //88
+{
+text(0,"Why do the Plasms come every","spring? If we eliminated thier","cause, we would never need to");
+text(0,"fight them again!","","");
+}
+event //89
+{
+text(0,"Bastien made three Swords, and","three Shields as part of the","nine Relics...These are tools");
+text(0,"of war...what purpose do they","have but to fight?","");
+}
+event //90
+{
+text(0,"Why do Mages and Psions age","slower in the Newlands? Mages","didn't live so long in the");
+text(0,"Wilderlands, according to the","records...","");
+}
+event //91
+{
+text(0,"Why have Psions appeared since","coming to the Newlands?","Nobody has seemed to come up");
+text(0,"with an answer to this","question...","");
+}
+event //92
+{
+text(0,"I am on a quest to find a new","Sage, but am coming up dry.","No Psion alive can use a Mages");
+text(0,"wards...That is one of the","most stringent requirements of","being a Sage...");
+}
+event //93
+{
+text(0,"We are all students and","researchers, all looking for","meaning to everything...");
+}
+event //94
+{
+text(0,"There are so many unanswered","questions in the world...","Will we ever find answers to");
+text(0,"them all?","","");
+}
+event //95
+{
+if(flags[127]=1)
+        {
+        text(0,"My research is almost","done here...","");
+        Entity.LocX(29)=45;
+        Entity.LocY(29)=34;
+        EntityMove(29,"X51Y38F2");
+        While(movecode[29])
+                {
+                wait(10);
+                }
+        text(6,"Aha!","","");
+        setface(0,2);
+        text(1,"Erikk?","","");
+        if(locx=56 and locy=39)
+                {
+                entitymove(29,"X58Y39F3");
+                While(movecode[29])
+                        {
+                        wait(10);
+                        }
+                entitymove(28,"F2");
+                While(movecode[28])
+                        {
+                        wait(10);
+                        }
+                setface(0,2);
+                text(0,"What is going on here?","","");
+                text(6,"Allow me to introduce myself.","My Name is Erikk, and I am the","Minister of Magic of Alden.");
+                text(6,"Would you, by any chance,","happen to be a mage?","");
+                text(0,"Sir, I am the High Wizard","of all of Allrusen!","Of course I'm a mage!");
+                text(6,"Good, very good....","Would you consider yourself","'Strong' in the magical arts?");
+                text(0,"I am the strongest Mage in all","my land.","Where are you going with this?");
+                text(1,"*sigh*","Erikk...","");
+                text(6,"Quiet kid, I'm busy!","","");
+                text(0,"I am nearly done with my","research...would you mind","shoving off for a bit?");
+                text(6,"Not until I get what I want","from you...","I propose we Duel.");
+                text(0,"Duel?","Do you Aldencians often come","up to complete strangers and");
+                text(0,"request a Duel?","","");
+                text(6,"Not really,","but I want to test a theory...","");
+                text(1,"...and bolster your ego...","","");
+                text(6,"...well, anyway, shall we face","off our Magicks against one","another at my place or yours?");
+                entitymove(28,"F0W20F3");
+                While(movecode[28])
+                        {
+                        wait(10);
+                        }
+                text(0,"What is this man's problem?","","");
+                text(1,"Oh, He's a little wacko,","that's all...","");
+                text(6,"Onam,","you aren't helping very much...","");
+                entitymove(28,"F0W20F2");
+                While(movecode[28])
+                        {
+                        wait(10);
+                        }
+
+                text(0,"Listen, 'Erikk',","I don't know how you run your","Mages in this country,");
+                text(0,"but I am a very busy man.","I have what I came for.","Good day sir!");
+                for(x,1,100,1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                Entity.LocX(28)=0;
+                Entity.LocX(28)=0;
+                for(x,100,1,-1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                text(6,"Don't think you can get","away that easy!","");
+                for(x,1,100,1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                Entity.LocX(29)=0;
+                Entity.LocX(29)=0;
+                for(x,100,1,-1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                text(1,"Heh...","I hope he doesn't hurt","Erikk too much...");
+                flags[127]=2;
+                }
+        if(locx!=56)
+                {
+                entitymove(29,"X56Y39F2");
+                While(movecode[29])
+                        {
+                        wait(10);
+                        }
+                entitymove(28,"F3");
+                While(movecode[28])
+                        {
+                        wait(10);
+                        }
+                text(0,"What is going on here?","","");
+                text(6,"Allow me to introduce myself.","My Name is Erikk, and I am the","Minister of Magic of Alden.");
+                text(6,"Would you, by any chance,","happen to be a mage?","");
+                text(0,"Sir, I am the High Wizard","of all of Allrusen!","Of course I'm a mage!");
+                text(6,"Good, very good....","Would you consider yourself","'Strong' in the magical arts?");
+                text(0,"I am the strongest Mage in all","my land.","Where are you going with this?");
+                text(1,"*sigh*","Erikk...","");
+                text(6,"Quiet kid, I'm busy!","","");
+                text(0,"I am nearly done with my","research...would you mind","shoving off for a bit?");
+                text(6,"Not until I get what I want","from you...","I propose we Duel.");
+                text(0,"Duel?","Do you Aldencians often come","up to complete strangers and");
+                text(0,"request a Duel?","","");
+                text(6,"Not really,","but I want to test a theory...","");
+                text(1,"...and bolster your ego...","","");
+                text(6,"...well, anyway, shall we face","off our Magicks against one","another at my place or yours?");
+                entitymove(28,"F0W20F2");
+                While(movecode[28])
+                        {
+                        wait(10);
+                        }
+                text(0,"What is this man's problem?","","");
+                text(1,"Oh, He's a little wacko,","that's all...","");
+                text(6,"Onam,","you aren't helping very much...","");
+                entitymove(28,"F0W20F3");
+                While(movecode[28])
+                        {
+                        wait(10);
+                        }
+                text(0,"Listen, 'Erikk',","I don't know how you run your","Mages in this country,");
+                text(0,"but I am a very busy man.","I have what I came for.","Good day sir!");
+                for(x,1,100,1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                Entity.LocX(28)=0;
+                Entity.LocX(28)=0;
+                for(x,100,1,-1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                text(6,"Don't think you can get","away that easy!","");
+                for(x,1,100,1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                Entity.LocX(29)=0;
+                Entity.LocX(29)=0;
+                for(x,100,1,-1)
+                        {
+                        PaletteMorph(63,63,63,x,63);
+                        wait(1);
+                        }
+                text(1,"Heh...","I hope he doesn't hurt","Erikk too much...");
+                flags[127]=2;
+                }
+        }
+if(!flags[127])
+        {
+        text(0,"Hello. I am Meltharus,","High Wizard of Allrusen.","You would be the crown prince");
+        text(0,"Onam, yes?","","");
+        text(1,"Yes, I am Onam.","What brings you to our","fine country?");
+        text(0,"Ah, inquisitive!","Gaining information is to gain","power, a fine trait for a");
+        text(0,"potential leader...","I have come to this library to","finish a bit of research for");
+        text(0,"an important ward I have","been weaving.","");
+        text(1,"Really?","What will this ward do?","");
+        text(0,"Well, young prince,","that is a trade secret.","Rest assured, it will be a");
+        text(0,"great doing when it","is complete.","");
+        text(1,"Ah, well I'm glad that our","library could help you with","your work.");
+        text(1,"Good day,","Meltharus of Allrusen.","");
+        text(0,"Good day, Prince Onam.","","");
+        flags[127]=1;
+        }
+}

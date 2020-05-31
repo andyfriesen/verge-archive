@@ -1,0 +1,72 @@
+event //autoexec
+{
+volume=100;
+if(flags[168])
+        {
+        fadeout(1);
+        alterbtile(59,13,416,0);
+        alterbtile(59,14,417,0);
+        alterftile(56,13,0,0);
+        layer1=1;
+        layer0=1;
+        cameratracking=1;
+        wait(1);
+        fadein(200);
+        specialframe(0)=21;
+        text(1,"Wha..","","");
+        wait(100);
+        specialframe(0)=20;
+        wait(30);
+        specialframe(0)=0;
+        text(1,"Urgh...","Well, I'm still alive...","That tower must've had some");
+        text(1,"magical saftey measures","on it...","");
+        wait(50);
+        specialframe(0)=20;
+        text(1,"And what is this thing?","It looks like a compass,","but I've never seen a compass");
+        text(1,"with a crystal needle before...","and it's not even pointing","north...");
+        text(1,"looks like it's pointing","southeast to me...","");
+        specialframe(0)=0;
+        text(1,"Oh well,","onward on my 'holy quest'.","...Heh...");
+        flags[168]=0;
+        }
+if(flags[162])
+        {
+        alterbtile(59,13,416,0);
+        alterbtile(59,14,417,0);
+        alterftile(56,13,0,0);
+        }
+if(flags[166])
+        {
+        fadeout(1);
+        layer1=1;
+        layer0=1;
+        cameratracking=1;
+        wait(1);
+        fadein(200);
+        flags[166]=0;
+        }
+enforceanimation();
+}
+event //1
+{
+mapswitch("MOUNTAIN.MAP",62,121,0);
+}
+event //2
+{
+mapswitch("TOWNA.MAP",50,90,0);
+}
+event //3
+{
+}
+event //4
+{
+mapswitch("TOWER.MAP",11,21,0);
+}
+event //5
+{
+mapswitch("TOWNB.MAP",41,89,0);
+}
+event //6
+{
+mapswitch("MOUNT.MAP",4,188,0);
+}

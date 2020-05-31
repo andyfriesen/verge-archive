@@ -1,0 +1,15 @@
+1
+// Ancient Sword
+ATK +10
+MAG +3
+DEF +7
+MBL -2
+EQABLE 1
+- 
+
+2
+// Dulcea's Staff
+MAG +10
+DEF +10
+EQABLE 5
+- 

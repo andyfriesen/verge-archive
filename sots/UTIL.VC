@@ -1,0 +1,373 @@
+event /* Function  1 : Scan Lines */
+{
+// var(0) = XPos
+// var(1) = YPos
+// var(2) = XSize
+// var(3) = MemAddr
+// var(4) = YSize
+// var(5) = Time Delay
+flags[6722] = 0;
+
+while (flags[6722] < VAR(4))
+{
+VCTBlitImage (VAR(0), VAR(1)+flags[6722], VAR(2), 1, VAR(3)+(VAR(2)*flags[6722]));
+// Redraw();
+Wait (var(5));
+flags[6722]++;
+flags[6722]++;
+}
+
+flags[6722]--;
+
+while (flags[6722] > 1)
+{
+VCBlitImage (VAR(0), VAR(1)+flags[6722], VAR(2), 1, VAR(3)+VAR(2)*flags[6722]);
+// Redraw();
+Wait(var(5));
+flags[6722]--;
+flags[6722]--;
+
+}
+
+}
+
+event /* Function  2 : Fall Into Place */
+{
+// var(0) = XPos
+// var(1) = YPos
+// var(2) = XSize
+// var(3) = MemAddr
+// var(4) = YSize
+// var(5) = Time Delay
+flags[6723] = 0;
+while (flags[6723] < var(4))
+{
+flags[6722] = 0;
+
+while (flags[6722] < var(4)-flags[6723])
+{
+VCTBlitImage (var(0), var(1)+flags[6722], var(2), 2, var(3)+var(2)*flags[6722]);
+flags[6722]++;
+flags[6722]++;
+if (var(5))
+{
+Wait (var(5));
+}
+VCClearRegion(var(0), var(1)+flags[6722]-6, var(0)+var(2), var(1)+flags[6722]-3);
+Redraw();
+}
+flags[6723]++;
+flags[6723]++;
+}
+
+}
+
+event /* Function  3 : Shatter */
+{
+// var(0) = XPos
+// var(1) = YPos
+// var(2) = XSize
+// var(3) = YSize
+// var(4) = Iterations
+
+flags[6724] = 0;
+
+while (flags[6724] < var(4))
+{
+flags[6722] = 0;
+flags[6723] = 0;
+
+while (flags[6723] < var(3))
+{
+
+flags[6725] = screen[flags[6722]+var(0), flags[6723]+var(1)];
+
+screen[flags[6722]+var(0), flags[6723]+var(1)] = 0;
+
+flags[6726] = ((flags[6722] - (var(2)/2))/4)+var(0)+flags[6722]+random(0, 2)-random(0, 2);
+flags[6727] = ((flags[6723] - (var(3)/2))/4)+var(1)+flags[6723]+random(0, 2)-random(0, 2);
+if (flags[6726] < 320)
+{
+if (flags[6727] < 200)
+{
+screen[flags[6726],flags[6727] ] = flags[6725];
+}
+}
+flags[6722]++;
+if (flags[6722] >= var(2))
+{
+flags[6722] = 0;
+flags[6723]++;
+}
+
+}
+Redraw();
+flags[6724]++;
+}
+
+}
+
+event /* Function  4 : Blur Filter */
+// var(0) X Corner 1
+// var(1) Y Corner 1
+// var(2) X Corner 2
+// var(3) Y Corner 2
+// var(4) Number of blurs
+{
+
+flags[6730] = 0;
+
+while (flags[6730] < var(4))
+{
+flags[6722] = 0;
+flags[6723] = 0;
+
+while (flags[6723] < var(3)-var(1))
+{
+
+flags[6724] = screen[flags[6722]+var(0), flags[6723]+var(1)];
+flags[6725] = screen[flags[6722]+var(0)+1, flags[6723]+var(1)];
+flags[6726] = screen[flags[6722]+var(0)-1, flags[6723]+var(1)];
+flags[6727] = screen[flags[6722]+var(0), flags[6723]+var(1)+1];
+flags[6728] = screen[flags[6722]+var(0), flags[6723]+var(1)-1];
+
+flags[6729] = (flags[6724]+flags[6725]+flags[6726]+flags[6727]+flags[6728])/5;
+screen [flags[6722]+var(0), flags[6723]+var(1)] = flags[6729];
+
+flags[6722]++;
+
+if (flags[6722] > var(2)-var(0))
+{
+flags[6722] = 0;
+flags[6723]++;
+}
+
+}
+
+flags[6730]++;
+Redraw();
+
+}
+
+}
+
+event /* Function  5 : Scroll VC */
+{
+// var(0) Time Delay (I wouldn't :)
+
+flags[6724] = 0;
+while (flags[6724] < 160)
+{
+flags[6722] = 5;
+flags[6723] = 0;
+
+while (flags[6723] < 200)
+{
+flags[6725] = screen[flags[6722], flags[6723]];
+
+screen[flags[6722]-5, flags[6723]] = flags[6725];
+
+flags[6722]++;
+
+if (flags[6722] > 160)
+{
+flags[6722] = 5;
+flags[6723]++;
+}
+
+}
+
+flags[6722] = 315;
+flags[6723] = 0;
+
+while (flags[6723] < 200)
+{
+flags[6725] = screen[flags[6722], flags[6723]];
+
+screen[flags[6722], flags[6723]] = 0;
+screen[flags[6722]+5, flags[6723]] = flags[6725];
+
+flags[6722]--;
+
+if (flags[6722] < 160)
+{
+flags[6722] = 315;
+flags[6723]++;
+}
+}
+
+flags[6724]++;
+flags[6724]++;
+flags[6724]++;
+flags[6724]++;
+flags[6724]++;
+Redraw();
+
+}
+
+}
+
+event /* Function  6 : Scroll PCX */
+// var(0) = XPos
+// var(1) = YPos
+// var(2) = XSize
+// var(3) = YSize
+// var(4) = MemAddr
+// var(5) = Delay Time
+{
+flags[6722] = 1;
+while (flags[6722] < var(2))
+{
+flags[6723] = 0;
+flags[6724] = 0;
+
+while (flags[6723] < var(3))
+{
+switch (flags[6724])
+{
+case 0: VCTBlitImage (var(0)-flags[6722], flags[6723], var(2), 1, var(4)+var(2)*flags[6723]);
+case 1: VCTBlitImage (var(0)+flags[6722], flags[6723], var(2), 1, var(4)+var(2)*flags[6723]);
+}
+switch (flags[6724])
+{
+case 0: flags[6724] = 1;
+case 1: flags[6724] = 0;
+}
+flags[6723]++;
+}
+flags[6722]++;
+VCClearRegion (0, 0, var(0), 200);
+VCClearRegion (var(0)+var(2), 0, 320, 200);
+Redraw();
+if (var(5)) Wait(var(5));
+VCClear();
+}
+}
+
+event /* Function 7 : The VAS VS Code */
+{
+/*
+               __
+|  /    /-/   /
+| /    /-/   \--\
+|/ () / /()  __/()
+Verge Animation Script (or System)
+
+READ THIS 1ST
+!!! You must have your vc buffer set to 1,000,000 (just under 1 meg of ram)
+in order for to work.  Verge Defults to 250,000bytes. Read the verge
+setup.doc to do this !!!
+
+!!! Please Give me credit in your verge game.  If you don't I will get a
+little upset at you for not doing that.  Is it that hard to put me in your
+Thanks to section of the credits? !!!
+
+This is an animation standard for verge, any res. It runs
+at any fps and it looks nice.  
+Have fun.
+
+This modification was possible due to xBig_D's code. Thanks
+*/
+
+/*
+In this version of Vas, the animation script acts as a called event...
+Load the animation BEFORE calling the event...
+VAS deletes the contents of variables A and B. Be aware.
+*/
+// var(0) = frames
+// var(1) = sizex
+// var(2) = sizey
+// var(3) = delay in ms per frame...
+// var(4) = XPos
+// var(5) = YPos
+// var(6) = MemPos
+// var(7) = Overlay?  (not needed. 0 = non-overlay, 1 = overlay w\ 0 as transparent)
+// var(8) = Repeat Number
+   b = 0;
+   while (b < var(8))
+   {
+   a = 0;
+   while (a < var(0))
+   {
+   if (var(7))
+   {
+   vctblitimage(var(4),var(5),var(1),var(2),(var(1)*var(2)*a)+var(6)); /* 1 */
+   }
+   if (!var(7))
+   {
+   vcblitimage(var(4),var(5),var(1),var(2),(var(1)*var(2)*a)+var(6)); /* 1 */
+   }
+   wait(var(3));
+   Redraw();
+   if (var(7))
+   {
+   VCClearRegion (var(4), var(5), var(4)+var(1), var(5)+var(2));
+   }
+   a++;
+   }
+   b++;
+   }
+   wait(100); /* change this wait to suit your needs I like to have 1-2
+                 seconds at the end.  you must have a wait of so the user
+                 can see the last frame */
+   VCClearRegion (var(4), var(5), var(4)+var(1), var(5)+var(2));
+   /*anyother code you want to be in here */
+   
+}
+
+/* Thats all of V.A.S.  I hope this helps you in making verge games */
+
+event /* Function  8 : Mosaic */
+// var(0) X Corner 1
+// var(1) Y Corner 1
+// var(2) X Corner 2
+// var(3) Y Corner 2
+// var(4) Mosaic Resolution (2 is a 2x2 square, 3 is 3x3, etc)
+{
+
+flags[6722] = 0;
+flags[6723] = 0;
+
+while (flags[6723] < var(3)-var(1))
+{
+
+flags[6724] = screen[flags[6722]+var(0), flags[6723]+var(1)];
+
+flags[6726] = 0;
+flags[6727] = 0;
+while (flags[6727] < var(4))
+{
+screen [flags[6722]+var(0)+flags[6726], flags[6723]+var(1)+flags[6727]] = flags[6724];
+flags[6726]++;
+if (flags[6726] >= var(4)) {
+flags[6726] = 0;
+flags[6727]++;
+}
+}
+
+flags[6725] = 0;
+
+while (flags[6725] < var(4))
+{
+flags[6722]++;
+flags[6725]++;
+}
+
+if (flags[6722] > var(2)-var(0))
+{
+flags[6722] = 0;
+
+flags[6725] = 0;
+while (flags[6725] < var(4))
+{
+flags[6723]++;
+flags[6725]++;
+}
+}
+
+}
+
+Redraw();
+
+}
+

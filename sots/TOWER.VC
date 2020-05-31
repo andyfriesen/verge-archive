@@ -1,0 +1,1156 @@
+event //0
+{
+if(flags[75]=1)
+        alterftile(76,63,564,2);
+if(flags[77]=1)
+        alterftile(84,63,572,2);
+if(flags[76]=1)
+        alterftile(76,69,568,2);
+if(flags[78]=1)       
+        alterftile(84,69,560,2);
+if(flags[0]<2)
+        {
+        flags[0]=2;
+        a=0;
+        b=0;
+        c=0;
+        d=0;
+        }
+if(flags[75] and flags[76] and flags[77] and flags[78])
+        {
+        alterbtile(79,67,480,2);
+        alterbtile(80,67,500,2);
+        alterbtile(81,67,520,2);
+        alterftile(79,66,489,2);
+        alterftile(80,66,509,2);
+        alterftile(81,66,529,2);
+        }
+if(flags[131])
+        {
+        alterftile(154,63,0,2);
+        alterbtile(154,64,182,2);
+        }
+if(flags[134])
+        {
+        alterbtile(158,60,580,0);
+        }
+}
+event //1
+{
+mapswitch("TILDE.MAP",56,15,0);
+}
+event //2
+{
+if(item(50))
+        {
+        for(x,1,100,1)
+                {
+                PaletteMorph(63,63,63,x,63);
+                wait(2);
+                }
+        PaletteMorph(63,63,63,0,63);
+        wait(1);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(4);
+        wait(1);
+        PaletteMorph(63,63,63,0,63);
+        wait(1);
+        PaletteMorph(63,63,63,100,63);
+        soundeffect(4);
+        wait(1);
+        PaletteMorph(63,63,63,0,63);
+        text(0,"The Crystal neutralizes","the barrier.","");
+        warp(51,31,1);
+        }
+if(!item(50))
+        {
+        soundeffect(6);
+        for(x,1,100,1)
+                {
+                PaletteMorph(63,63,63,x,63);
+                }
+        PaletteMorph(63,63,63,0,63);
+        specialframe(0)=5;
+        partymove("D1");
+        text(0,"An invisible barrier","repels you.","");
+        specialframe(0)=0;
+        }
+}
+event //3
+{
+warp(11,14,1);
+}
+event //4
+{
+warp(97,27,0);
+setface(1,2);
+}
+event //5
+{
+warp(47,27,0);
+setface(1,2);
+}
+event //6
+{
+warp(155,27,0);
+setface(1,3);
+}
+event //7
+{
+warp(105,27,0);
+setface(1,3);
+}
+event //8
+{
+warp(25,77,0);
+setface(1,2);
+}
+event //9
+{
+warp(147,27,0);
+setface(1,2);
+}
+event //10
+{
+warp(85,77,0);
+setface(1,3);
+}
+event //11
+{
+warp(33,77,0);
+setface(1,3);
+}
+event //12
+{
+text(0,"It has been a tradition of the","Great Sages to weed out those","not cleaver enough to talk to,");
+text(0,"by laying out puzzles in the","lower half of their towers.","This tradition was started by");
+text(0,"the Great Sage Mkraan. He","didn't have many friends...","");
+}
+event //13
+{
+text(0,"This tower, built by Lan'ti,","has been used since the","Crossing from the Wilderlands.");
+text(0,"Even though the tower has over","twenty floors, it is but a","pale shadow of the original");
+text(0,"which had to be abandoned at","the time of the Crossing...","");
+}
+event //14
+{
+text(0,"The first Sage, Qumordu, shone","greatly in his works and","deeds. The fire in his eye");
+text(0,"burned long and brightly.","","");
+}
+event //15
+{
+text(0,"It is a Sage's duty to guide","the peoples that look to him","for help. Those that do not");
+text(0,"wish to be affiliated should","not be scorned, nor pitied. It","is their free choice, as");
+text(0,"everyone has the right to ","choose for themselves...","");
+}
+event //16
+{
+text(0,"The Aldencian 'Dinner Ritual'","is really quite easy...After","initiating the ritual, ring");
+text(0,"the right bell once, travel","the table with the clock, ring","the right bell once again,");
+text(0,"travel around with the clock","again, this time to the left","bell, ring that bell, travel");
+text(0,"against the clock back to the","right bell, whereupon you ring","that bell, travel with the");
+text(0,"clock again to the left bell","and ring that, then complete","the ritual as you started it..");
+text(1,"Simple, eh? It seems to me","that this ritual may have been","what drove the Sage mad...");
+}
+event //17
+{
+text(0,"Knive-Throwing was a popular","sport in the Wilderlands, but","was given up for safetys sake");
+text(0,"after the Crossing. Many","throwing techniques have","colorful names such as 'The");
+text(0,"Maiden Waives a Fan', commonly","known as the 'Maidens Fan',","and 'The Dagger and the Lion',");
+text(0,"also known as the 'Daggertip',","in reference to a Myth...","");
+}
+event //18
+{
+text(0,"Although we may have moved to","this fair land recently,","people have been lead by the");
+text(0,"Sages for 800 years before we","Crossed.","");
+callevent(69,40,87,10,87,9);
+}
+event //19
+{
+text(0,"The first three of the Great","Sages are often acknowleged in","the form of a grouping of");
+text(0,"three fires, burning in","accordance to their","accomplisments.");
+}
+event //20
+{
+text(0,"The three kingdoms of the","Newlands, Aldencia, Fenslyd,","and Allrusen, all look to the");
+text(0,"Great Sage equally.","","");
+}
+event //21
+{
+text(0,"The Great Sage Olimika is","regarded as one of the most","powerful Sages of all time. It");
+text(0,"was her research that made the","Crossing possible 70 years","later.");
+}
+event //22
+{
+text(0,"The four material elements and","the two etherial elements make","up our world. Balance is");
+text(0,"maintained throught nature.","Thank the Creators, for it is","their work.");
+}
+event //23
+{
+text(0,"Alamda was the only Sage to","suceeded her own husband at","the post. Odds are against");
+text(0,"such an occurance, for the","qualifications to be a Sage","are very strict, and Sages");
+text(0,"seldom marry.","","");
+}
+event //24
+{
+text(0,"Selnor.","The wise.","");
+text(0,"Selnor.","The just.","");
+text(0,"Selnor.","The fair.","");
+text(0,"These words best describe her.","Selnor, the Creator.","");
+}
+event //25
+{
+text(0,"The forests of Aldencia are","quite odd, unexplained","occurances often happen within");
+text(0,"them...Disappearances and","reappearances of travelers...","Voices heard from nowhere...");
+text(0,"These oddities cause","Aldencians to have a healthy","respect for the forest...");
+callevent(69,41,101,10,101,9);
+}
+event //26
+{
+text(0,"Telamord, the second Sage,","shown even brighter than","Qumordu in his accomplisments,");
+text(0,"the fire of his","accomplishments rising event","higher.");
+}
+event //27
+{
+text(0,"Some people posess the talent","of Bonding, where they can","bond their soul to another");
+text(0,"creatures and bring the bonded","creature to them for a short","period of time. Bonding is");
+text(0,"very similar to Summoning, but","shouldn't be confused with ","'bondage'...");
+}
+event //28
+{
+text(1,"Hmmm...This book looks like it","was written in...crayon?","");
+text(0,"...Green is Life.","Turtles are green.","Therefore, Turtles are Life...");
+text(1,"Fascinating...Utterly moronic,","but fascinating...","");
+}
+event //29
+{
+text(0,"Quilidor.","The Noble.","");
+text(0,"Quilidor.","The Rightious.","");
+text(0,"Quilidor.","The Giver of Hope.","");
+text(0,"These words best describe him.","Quilidor, the Creator.","");
+}
+event //30
+{
+text(0,"Water. The element of","knowledge. Water cradles life","and inspires beauty.");
+callevent(69,42,111,10,111,9);
+}
+event //31
+{
+text(0,"Aldencia's patron is Selnor,","her Star guiding us. May the","Light shine upon her face");
+text(0,"eternally.","","");
+}
+event //32
+{
+text(0,"Music has always been known to","be linked to the elements in","some way. Because of this,");
+text(0,"symphonies are are often","written by mages to provide","study, as well as being");
+text(0,"culturally stimulating.","","");
+}
+event //33
+{
+text(0,"We left the Wilderlands","because life was too rough","there. It was hard to grow");
+text(0,"crops, The land was prone to","quakes and violent storms, and","the beasts there were");
+text(0,"extremely ferocious. Mothers","can still frighten their","children into obedience with");
+text(0,"stories of some of the beasts,","such as the Axorn, the","Garouak, and the undead Shade.");
+}
+event //34
+{
+text(0,"Posidurn was most remarkable","in his term as Sage in the","aspect of sleeping. No other");
+text(0,"Sage had ever slept as much as","he, nor is likely ever to.","");
+}
+event //35
+{
+text(0,"Death should not be feared. It","is the natural process of","returning to the world that");
+text(0,"which you have taken from it.","Still, caution is advised to","prevent an untimely gift to");
+text(0,"the world.","","");
+callevent(69,43,85,15,85,14);
+}
+event //36
+{
+text(0,"Psions did not exist in the","Wilderlands. We have seen this","ability appear in the people");
+text(0,"since the first generation","born in the Newlands.","");
+}
+event //37
+{
+text(0,"The Great Sage Lemtesis led","the earliest known studies of","the Elements, but had an odd");
+text(0,"obsession with finding","'elemental cheese'. A small","following still pursues the");
+text(0,"quest that he started, never","resting until they find the","perfect cheese...");
+}
+event //38
+{
+text(0,"Water. This element does not","consist merely of the oceans","and rivers, but all things");
+text(0,"liquid.","","");
+callevent(69,44,101,15,101,14);
+}
+event //39
+{
+text(0,"Before any musical performance","can be given, the instruments","must be tuned and warmed up.");
+text(0,"Traditionally, the Strings","warm up in an ascending","pattern, while the Woodwinds");
+text(0,"go in a descending order.","","");
+}
+event //40
+{
+text(0,"People from outside Aldencia","find our 'Dinner Ritual' odd.","...They do not think that it");
+text(0,"is proper to move around so","much before a meal...","");
+}
+event //41
+{
+text(0,"...the only book more valuable","to a mage than his spell book","is his Ledger. The power to");
+text(0,"bend the world to your will is","nothing compared to the power","of angry accountants...");
+}
+event //42
+{
+text(0,"Although the stomach is our","center of Fire, eating and","foodstuffs are most commonly");
+text(0,"associated with Earth, for it","is from the earth where the","food comes from, ultimately.");
+}
+event //43
+{
+text(0,"The third Sage, Fengrai, was a","pale flame in comparison to","Telamord and Qumordu, being");
+text(0,"'adequate' in his duties. The","fires of his accomplisments","being dim and low...");
+}
+event //44
+{
+text(0,"Tarado, Notable amongst the","Sages for his invention of","combining the elements for new");
+text(0,"and different effects. In this","way he made several barriers","around towns in the");
+text(0,"Wilderlands, lessening the","onslaught of monsters and","weather somewhat.");
+}
+event //45
+{
+text(0,"Water, the resiliant. Spill","it. Boil it. Poison it. Water","will always disappear in time");
+text(0,"and come back clean with a new","rainfall...","");
+callevent(69,45,87,20,87,19);
+}
+event //46
+{
+text(0,"Foods that are typically","called 'Aldencian' in other","lands often include some sort");
+text(0,"of grain and a sauce. One of","the most popular dishes from","Aldencia is the infamous");
+text(0,"'Macaroni and Cheese'. This","particular dish was invented","by the Sage Lemtesis");
+}
+event //47
+{
+text(0,"The Talent of the Omen, one of","the rarest of all Talents, is","still largely an enigma.");
+text(0,"Someone with this talent can","glimpse into the future, and","gain a vauge impression of");
+text(0,"things to come. When good","things are prophecised, it is","called a 'Light Omen'. When");
+text(0,"disaster is prophecized, it is","a 'Dark Omen'.","");
+}
+event //48
+{
+text(0,"The Great Sages exist to","provide insight to the people","that wish it. Magic, Politics,");
+text(0,"Agriculture...A Sage must know","all of these things, and much","more...");
+callevent(69,46,103,20,103,19);
+}
+event //49
+{
+text(0,"Only one Great Sage has ever","been assassinated. Exkeln, the","tenth Sage, was killed by an");
+text(0,"unknown group. To this day the","murderers are still unknown...","");
+}
+event //50
+{
+text(0,"Maalidi.","The Courageous.","");
+text(0,"Maalidi.","The Chivalrous.","");
+text(0,"Maalidi.","The Virtuous.","");
+text(0,"These words best describe him.","Maalidi, The Creator.","");
+}
+event //51
+{
+text(0,"Although he made many","preparations for the Crossing,","The Great Sage Bardur did not");
+text(0,"live to see it through...","","");
+callevent(69,47,119,20,119,19);
+}
+event //52
+{
+if(!flags[50])
+        {
+        text(0,"...It has inspired doctor and","artisan alike, over the ages.",""); 
+        if(flags[39])
+                {
+                text(1,"Hmmmm...I'm already carrying a","book...I'd better not take","another one until I get rid of");
+                text(1,"this one...I might get them","confused...","");
+                }
+        if(!flags[39])
+                {
+                prompt(0,"Do you want to take this book?","","",38,"Yes","No");
+                if(!flags[38])
+                       {
+                        giveitem(11);
+                        alterbtile(92,18,182,2);
+                        flags[39]=1;
+                        flags[50]=1;
+                        }
+               }
+        }
+}
+event //53
+{
+if(!flags[49])
+        {
+        text(0,"...hence, it has some domain","over quicksilver and lava,","both being partially liquid.");
+        if(flags[39])
+                {
+                text(1,"Hmmmm...I'm already carrying a","book...I'd better not take","another one until I get rid of");
+                text(1,"this one...I might get them","confused...","");
+                }
+        if(!flags[39])
+                {
+                prompt(0,"Do you want to take this book?","","",38,"Yes","No");
+                if(!flags[38])
+                        {
+                        giveitem(10);
+                        alterbtile(95,18,182,2);
+                        flags[39]=1;
+                        flags[49]=1;
+                        }
+                }
+        }
+}
+event //54
+{
+if(!flags[48])
+        {
+        text(0,"...It is extremly difficult to","destroy, but it can be done.","It is possible to destroy");
+        text(0,"anything, for destruction has","always been easier than","creation...");
+        if(flags[39])
+                {
+                text(1,"Hmmmm...I'm already carrying a","book...I'd better not take","another one until I get rid of");
+                text(1,"this one...I might get them","confused...","");
+                }
+        if(!flags[39])
+                {
+                prompt(0,"Do you want to take this book?","","",38,"Yes","No");
+                if(!flags[38])
+                        {
+                        giveitem(9);
+                        alterbtile(109,18,182,2);
+                        flags[39]=1;
+                        flags[48]=1;
+                        }
+                }
+        }
+}
+
+event //55
+{
+flags[38]=1;
+callevent(67,35,35,9,38,10);
+}
+event //56
+{
+flags[38]=2;
+callevent(67,36,48,9,51,10);
+}
+event //57
+{
+flags[38]=3;
+callevent(67,37,61,9,64,10);
+}
+event //58
+{
+text(0,"Mi","","");
+A++;
+flags[58]=A;
+callevent(70);
+}
+event //59
+{
+text(0,"Ti","","");
+A++;
+flags[59]=A;
+callevent(70);
+}
+event //60
+{
+text(0,"Do","","");
+A++;
+flags[60]=A;
+callevent(70);
+}
+event //61
+{
+text(0,"Sol","","");
+A++;
+flags[61]=A;
+callevent(70);
+}
+event //62
+{
+text(0,"Ti","","");
+B++;
+flags[62]=B;
+callevent(70);
+}
+event //63
+{
+text(0,"Do","","");
+B++;
+flags[63]=B;
+callevent(70);
+}
+event //64
+{
+text(0,"Me","","");
+B++;
+flags[64]=B;
+callevent(70);
+}
+event //65
+{
+text(0,"Sol","","");
+B++;
+flags[65]=B;
+callevent(70);
+}
+event //66
+{
+text(0,"The Wilderlands may still have","people living there...some","people refused to join the");
+text(0,"Crossing, and some wandering","tribes were not found...","");
+}
+event //67
+{
+prompt(0,"There is a dial here. Turn it","which way?","",34,"Right","Left");
+if(flags[34])
+        {
+        if(!flags[var(0)])
+                soundeffect(13);
+        if(flags[var(0)])
+                {
+                flags[var(0)]--;
+                callevent(68,var(0),var(1),var(2),var(3),var(4));
+                }
+        }
+if(!flags[34])
+        {
+        if(flags[var(0)]=4)
+                soundeffect(13);
+        if(flags[var(0)]!=4)
+                {
+                flags[var(0)]++;
+                callevent(68,var(0),var(1),var(2),var(3),var(4));
+                }
+        }
+}
+event //68
+{
+if(!flags[var(0)])
+        {
+        alterbtile(var(1),var(2),25,1);
+        alterbtile(var(3),var(4),394,1);
+        soundeffect(1);
+        }
+if(flags[var(0)]=1)
+        {
+        alterbtile(var(1),var(2),26,1);
+        alterbtile(var(3),var(4),400,1);
+        soundeffect(1);
+        }
+if(flags[var(0)]=2)
+        {
+        alterbtile(var(1),var(2),27,1);
+        alterbtile(var(3),var(4),404,1);
+        soundeffect(1);
+        }
+if(flags[var(0)]=3)
+        {
+        alterbtile(var(1),var(2),28,1);
+        alterbtile(var(3),var(4),408,1);
+        soundeffect(1);
+        }
+if(flags[var(0)]=4)
+        {
+        alterbtile(var(1),var(2),29,1);
+        alterbtile(var(3),var(4),412,1);
+        soundeffect(1);
+        }
+if(flags[36]>flags[35] and flags[35]>flags[37] and !flags[56])
+        {
+        soundeffect(10);
+        alterbtile(51,12,540,1);
+        for(x,1,100,1)
+                {
+                PaletteMorph(63,0,0,x,63);
+                }
+        PaletteMorph(63,63,63,0,63);
+        flags[56]=1;
+        }
+}
+event //69
+{
+flags[51]=0;
+if(flags[var(0)])
+        {
+        prompt(0,"Would you like to take this","book out?","",34,"Yes","No");
+        flags[51]=1;
+        if(!flags[34])
+                {
+                if(flags[39])
+                        {
+                        text(1,"Hmmmm...I'm already carrying a","book...I'd better not take","another one until I get rid of");
+                        text(1,"this one...I might get them","confused...","");
+                        }
+                if(!flags[39])
+                        {
+                        giveitem(flags[var(0)]);
+                        if(flags[var(0)]=9 and var(1)=87 and var(2)=20)
+                                flags[52]=0;
+                        if(flags[var(0)]=10 and var(1)=101 and var(2)=15)
+                                flags[53]=0;
+                        if(flags[var(0)]=11 and var(1)=105 and var(2)=10)
+                                flags[54]=0;
+                        alterbtile(var(1),var(2),155,2);
+                        alterftile(var(3),var(4),135,2);
+                        flags[var(0)]=0;
+                        flags[39]=1;
+                        }
+                }
+        }
+if(!flags[51])
+        {
+        if(Item(9))
+                {
+                prompt(0,"Would you like to put the book","in here?","",34,"Yes","No");
+                        if(!flags[34])
+                        {
+                        flags[var(0)]=9;
+                        destroyitem(9,0);
+                        alterbtile(var(1),var(2),115,2);
+                        alterftile(var(3),var(4),95,2);
+                        if(var(1)=87 and var(2)=20)
+                                flags[52]=1;
+                        flags[39]=0;
+                        }
+                }
+        if(Item(10))
+                {
+                prompt(0,"Would you like to put the book","in here?","",34,"Yes","No");
+                if(!flags[34])
+                        {
+                        flags[var(0)]=10;
+                        destroyitem(10,0);
+                        alterbtile(var(1),var(2),115,2);
+                        alterftile(var(3),var(4),95,2);
+                        if(var(1)=101 and var(2)=15)
+                                flags[53]=1;
+                        flags[39]=0;
+                        }
+                }
+        if(Item(11))
+                {
+                prompt(0,"Would you like to put the book","in here?","",34,"Yes","No");
+                if(!flags[34])
+                        {
+                        flags[var(0)]=11;
+                        destroyitem(11,0);
+                        alterbtile(var(1),var(2),115,2);
+                        alterftile(var(3),var(4),95,2);
+                        if(var(1)=111 and var(2)=10)
+                                flags[54]=1;
+                        flags[39]=0;
+                        }
+                }
+        }
+if(flags[52] and flags[53] and flags[54] and !flags[55])
+{
+soundeffect(10);
+alterbtile(94,18,544,1);
+for(x,1,100,1)
+        {
+        PaletteMorph(0,0,63,x,63);
+        }
+PaletteMorph(63,63,63,0,63);
+flags[55]=1;
+}
+flags[51]=0;
+}
+event //70
+{
+if(A=4)
+        {
+        if(flags[60]=1 and flags[58]=2 and flags[61]=3 and flags[59]=4 and !flags[57])
+                {
+                soundeffect(10);
+                text(0,"Strings Done!","","");
+                flags[66]=1;
+                }
+        if(!flags[66])
+                soundeffect(13);
+        A=0;
+        }
+if(B=4)
+        {
+        if(flags[62]=1 and flags[65]=2 and flags[64]=3 and flags[63]=4 and !flags[67])
+                {
+                soundeffect(10);
+                text(0,"Winds Done!","","");
+                flags[67]=1;
+                }
+        if(!flags[67])
+                soundeffect(13);
+        B=0;
+        }
+if(flags[67] and flags[66] and !flags[57])
+        {
+        soundeffect(10);
+        alterbtile(152,13,548,1);
+        for(x,1,100,1)
+                {
+                PaletteMorph(0,63,0,x,63);
+                }
+        PaletteMorph(63,63,63,0,63);
+        flags[57]=1;
+        }
+}
+event //71
+{
+//north table
+C++;
+flags[68]=C;
+}
+event //72
+{
+//east table
+C++;
+flags[69]=C;
+}
+event //73
+{
+//south table
+C++;
+flags[70]=C;
+}
+event //74
+{
+//west table
+C++;
+flags[71]=C;
+}
+event //75
+{
+//left bell
+text(0,"**Ding**","","");
+if(flags[73]=2 and flags[69]=5 and flags[70]=6 and flags[71]=7 and flags[68]=4)
+        flags[82]=1;
+if(flags[73]=4 and flags[69]=11 and flags[70]=12 and flags[71]=13 and flags[68]=4)
+        flags[84]=1;
+flags[73]++;
+}
+event //76
+{
+//right bell
+text(0,"**Ding**","","");
+if(flags[72] and !C and !flags[73])
+        flags[80]=1;
+if(flags[73]=1 and flags[69]=1 and flags[70]=2 and flags[71]=3 and flags[68]=4)
+        flags[81]=1;
+if(flags[73]=3 and flags[71]=8 and flags[70]=9 and flags[69]=10 and flags[68]=4)
+        flags[83]=1;
+
+flags[73]++;
+}
+event //77
+{
+//Gong
+text(0,"!!GONG!!","","");
+if(!flags[72] and !flags[74])
+        {
+        flags[68]=0;
+        flags[69]=0;
+        flags[70]=0;
+        flags[71]=0;
+        flags[73]=0;
+        C=0;
+        D=0;
+        text(1,"That's the beginning of the","ritual...I'd better see it","through...");
+        }
+if(flags[72] and !flags[74])
+        {
+        if(flags[73]=5 and flags[69]=11 and flags[70]=12 and flags[71]=13 and flags[68]=14)
+                flags[85]=1;
+        if(!flags[74] and flags[73]=5 and flags[80]=1 and flags[81]=1 and flags[82]=1 and flags[83]=1 and flags[84]=1 and flags[85]=1)
+                {
+                flags[74]=1;
+                soundeffect(10);
+                alterftile(30,62,552,1);
+                for(x,1,100,1)
+                        {
+                        PaletteMorph(63,63,0,x,63);
+                        }
+                PaletteMorph(63,63,63,0,63);
+                }
+        if(!flags[74])
+                {
+                soundeffect(13);
+                text(1,"I didn't do the ritual","properly...","");
+                flags[72]--;
+                flags[72]--;
+                }
+        }
+flags[72]++;
+}
+event //78
+{
+text(0,"Remember, only sound the gong","at the start and finish of the","ritual...");
+}
+event //79
+{
+if(flags[74]=1)
+        {
+        giveitem(12);
+        alterftile(30,62,205,0);
+        flags[74]=2;
+        }
+}
+event //80
+{
+if(flags[56]=1)
+        {
+        giveitem(13);
+        alterbtile(51,12,91,0);
+        flags[56]=2;
+        }
+}
+event //81
+{
+if(flags[55]=1)
+        {
+        giveitem(14);
+        alterbtile(94,18,182,1);
+        flags[55]=2;
+        }
+}
+event //82
+{
+if(flags[57]=1)
+        {
+        giveitem(15);
+        alterbtile(152,13,105,0);
+        flags[57]=2;
+        }
+}
+event //83
+{
+if(item(14))
+        {
+        destroyitem(14,0);
+        alterftile(76,63,564,2);
+        flags[75]=1;
+        callevent(87);
+        }
+}
+event //84
+{
+if(item(12))
+        {
+        destroyitem(12,0);
+        alterftile(84,63,572,2);
+        flags[77]=1;
+        callevent(87);
+        }
+}
+event //85
+{
+if(item(15))
+        {
+        destroyitem(15,0);
+        alterftile(76,69,568,2);
+        flags[76]=1;
+        callevent(87);
+        }
+}
+event //86
+{
+if(item(13))
+        {
+        destroyitem(13,0);
+        alterftile(84,69,560,2);
+        flags[78]=1;
+        callevent(87);
+        }
+}
+event //87
+{
+if(flags[75] and flags[76] and flags[77] and flags[78])
+        {
+        for(x,100,1,-1)
+                {
+                PaletteMorph(63,63,63,x,63);
+                }
+        alterbtile(79,67,480,2);
+        alterbtile(80,67,500,2);
+        alterbtile(81,67,520,2);
+        alterftile(79,66,489,2);
+        alterftile(80,66,509,2);
+        alterftile(81,66,529,2);
+        flags[88]=1;
+        for(x,1,100,1)
+                {
+                PaletteMorph(63,63,63,x,63);
+                }
+        PaletteMorph(63,63,63,0,63);
+        }
+}
+event //88
+{
+if(flags[88])
+        {
+        warp(29,94,0);
+        }
+}
+event //89
+{
+warp(80,67,0);
+}
+event //90
+{
+text(1,"This handwriting is a bit old","fashioned, but I can make it","out...");
+text(1,"They appear to be journals of","apprentices.","");
+}
+event //91
+{
+text(0,"...Being under the Great Sages","tutilidge is a high honor,","but it doesn't make cleaning");
+text(0,"the beasts cages any easier...","","");
+}
+event //92
+{
+warp(41,94,0);
+}
+event //93
+{
+warp(29,103,0);
+}
+event //94
+{
+warp(70,103,0);
+}
+event //95
+{
+text(0,"Mixing opposing elements","directly will cause a violent","explosion that will destroy");
+text(0,"both elementals.","","");
+}
+event //96
+{
+text(0,"Although everything is","composed of the four material","elements,");
+text(0,"if an object has equal levels","of all four it becomes","elementally neutral.");
+}
+event //97
+{
+text(0,"The results of bringing two","pure and opposingly aligned","objects are an explosion,");
+text(0,"the destruction of most of the","material, and the creation of","a small shard of neutral");
+text(0,"material.","","");
+}
+event //98
+{
+text(0,"Fire opposes Water,","Air opposes Earth.","");
+text(0,"Be cautious when handling","these combinations in pure.","");
+}
+event //99
+{
+text(0,"To successfully combine","opposing elements to a useful","end, neutral material needs to");
+text(0,"be put into the mix.","The material will prevent the","opposing elements from");
+text(0,"completely obliterating each","other.","");
+}
+event //100
+{
+text(0,"Although Light and Dark are","not found naturally in Ores","and Crystals, They can be");
+text(0,"artificially infused in an","object by artificial means.","");
+}
+event //101
+{
+warp(58,103,0);
+}
+event //102
+{
+warp(112,69,0);
+}
+event //103
+{
+text(0,"Be sure not to bring food,","drink, or research material","into the lounge area.");
+}
+event //104
+{
+text(0,"Smoking is prohibited","in the Sages Tower. Smouldering,","however, is allowed.");
+}
+event //105
+{
+warp(87,103,0);
+}
+event //106
+{
+warp(141,69,0);
+}
+event //107
+{
+text(0,"Keep your beasts feed and","clean. A clean beast is a","happy beast.");
+}
+event //108
+{
+text(0,"All is not neccesarily always","seen. Look for the hidden","truth in your life.");
+}
+event //109
+{
+text(0,"Home is where the beast is.","","");
+text(1,"What a quaint plauque.","","");
+}
+event //110
+{
+warp(129,60,0);
+}
+event //111
+{
+if(flags[134])
+        warp(170,66,0);
+if(!flags[134])
+        {
+        if(!item(56))
+                text(1,"This skull is in my way,","and it won't budge...","");
+        if(item(56))
+                {
+                text(1,"This acid should","dissolve the skull...","");
+                //hiss sound
+                //blur
+                alterbtile(158,60,580,0);
+                destroyitem(56,0);
+                text(1,"*COUGH*","","");
+                text(1,"It worked!","","");
+                flags[134]=1;
+                }
+        }
+}
+event //112
+{
+text(0,"Welcome to the Lan'ti Memorial","Biological Labs.","We hope you've been enjoying");
+text(0,"your tour of the worlds","premiere scientific and","thaumaturgic facility.");
+}
+event //113
+{
+text(0,"Bettering life through","Genetic Manipulation.","");
+}
+event //114
+{
+text(0,"By grafting wings on this cat,","It should be able to catch","flying mice...");
+text(1,"How absurd....","Flying cats! Ha!","");
+}
+event //115
+{
+text(0,"...Acid is able to score and","dissolve bones...must try to","get more Fire and Water, and");
+text(0,"add a bit of Earth to the mix","to make some more...","");
+}
+event //116
+{
+warp(158,60,0);
+}
+event //117
+{
+mapswitch("towera.map",20,21,0);
+}
+event //118
+{
+text(0,"These beasts are kept and","altered to study the","processes of life.");
+}
+event //119
+{
+text(0,"Although they prefer meat,","These beasts have been adapted","to sustain themselves off of");
+text(0,"the ambient elemental fields","in this area.","");
+}
+event //120
+{
+text(0,"Predators are bred here in","the hopes of one day creating","a strain that will hunt down");
+text(0,"and destroy Plasms and other","natural menaces without need","of assistance.");
+}
+event //121
+{
+text(0,"Don't worry folks. The beasts","may be dangerous, but are kept","safly away by the unbreakable");
+text(0,"bars. As long as the bars","are intact, they cannot","harm you.");
+}
+event //122
+{
+text(0,"Some of the beasts have been","irradiated with high levels of","elemental energy, to study the");
+text(0,"effects of such a treatment.","","");
+}
+event //123
+{
+text(0,"Results of past testing have","not all been conclusive, but","effects such as increased");
+text(0,"strength, armoring, and","intelligence have occured.","");
+}
+event //124
+{
+text(1,"Boxes of rotten monster","chow....","Eww....");
+}
+event //125
+{
+if(flags[128])
+        text(1,"This box is empty","","");
+if(!flags[128])
+        {
+        text(0,"Fire Shards for experiments.","","");
+        giveitem(13);
+        flags[128]=1;
+        }
+}
+event //126
+{
+if(flags[129])
+        text(1,"This box is empty","","");
+if(!flags[129])
+        {
+        text(0,"Earth Shards for experiments.","","");
+        giveitem(12);
+        flags[129]=1;
+        }
+}
+event //127
+{
+if(flags[130])
+        text(1,"This box is empty","","");
+if(!flags[130])
+        {
+        text(0,"Water Shards for experiments.","","");
+        giveitem(14);
+        flags[130]=1;
+        }
+}
+event //128
+{
+if(!flags[131])
+        {
+        text(1,"An empty flask...","This might be useful...","");
+        if(flags[132] and !item(12)) 
+                {
+                text(1,"That book said I could make","acid in a flask. Now if I only","had some Fire, Water,");
+                text(1,"and Earth...","","");
+                flags[34]=1;
+                }
+        if(flags[132] and !item(13) and !flags[34]) 
+                {
+                text(1,"That book said I could make","acid in a flask. Now if I only","had some Fire, Water,");
+                text(1,"and Earth...","","");
+                }
+        if(flags[132] and !item(14) and !flags[34]) 
+                {
+                text(1,"That book said I could make","acid in a flask. Now if I only","had some Fire, Water,");
+                text(1,"and Earth...","","");
+                }
+        if(flags[132] and item(12) and item(13) and item(14))
+                {
+                //manga (stones in flask)
+                text(1,"Well...","Here it goes...","");
+                //manga (concentrating)
+                text(1,"Errrrgh!","","");
+                //flash
+                //manga (bubbling acid (3-frame repeating animation))
+                //unflash
+                text(1,"It worked!","Erikk would be proud if","he was here...");
+                alterbtile(154,64,182,2);
+                alterftile(154,63,0,2);
+                giveitem(56);
+                destroyitem(12,0);
+                destroyitem(13,0);
+                destroyitem(14,0);
+                flags[131]=1;
+                }
+        }
+}
+event //129
+{
+text(0,"To combine elements into","simple substances, just focus","a neutral magical blast at the");
+text(0,"intended elements. If the end","product is expected to be","volitile, however, it is");
+text(0,"recommended that you combine","the elements in a flask.","");
+flags[132]=1;
+}

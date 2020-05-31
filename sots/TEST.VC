@@ -1,0 +1,22 @@
+event // autoexec
+{
+//giveitem(50);
+flags[35]=2;
+flags[36]=0;
+flags[37]=4;
+if(!flags[1])
+//mapswitch("Wilder.map",10,10,0);
+//mapswitch("Mount.map",4,188,0);
+//mapswitch("Mounta.map",75,145,0);
+//mapswitch("TownB.MAP",50,80,0);
+//mapswitch("library.map",10,10,0);
+mapswitch("mountain.MAP",14,17,0);
+//mapswitch("Tower.map",10,63,0);
+//mapswitch("Townc.map",50,45,0);
+//mapswitch("allrusen.map",88,61,0);
+//mapswitch("fenslyd.map",46,110,0);
+}
+event //1
+{
+mapswitch("mountain.MAP",14,17,0);
+}

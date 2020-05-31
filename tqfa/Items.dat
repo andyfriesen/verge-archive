@@ -1,0 +1,52 @@
+23
+Ancient_Sword 0 A_Powerful_Blade    0 0 0 1 1 0 0 
+Sage 1 Restores_5_HP                1 0 2 0 0 0 15   
+Meal 2 To_keep_you_going            1 0 2 0 0 0 40   
+Wine 3 For_cool_guys                1 0 2 0 0 0 100   
+Milk 4 For_wimps                    1 0 2 0 0 0 10     
+Withered_Sage 5 No_effects          1 0 2 0 0 0 0 
+Skin 6 For_keeping_water            0 0 2 0 0 0 0
+Desert_Rose 7 Flower_of_Hope        0 0 2 0 0 0 0
+Herbs 8 Restores_status             1 0 2 0 0 0 10 
+Blue_Vial 9 Healing_Potion          5 0 1 0 0 0 40
+Green_Vial 10 Poison                5 0 3 0 0 0 30
+Dagger 11 Rusted_and_useless        0 0 0 0 0 0 0
+Four_Leaf_Clover 12 A_lucky_charm   0 0 0 0 0 0 150
+Mysterious_Vial 13 Holy_Water(?)    1 0 0 0 0 0 75
+Lyre 14 Entertainment               0 0 0 0 0 0 50 
+Toy_Animal 15 Caen's_Teddybear      0 0 2 0 0 0 0
+Faerie_Dust 16 (?)                  0 0 2 0 0 0 0
+Signet_Ring 17 Family_Symbol        0 0 2 0 0 0 0 
+Keys 18 Dungeon_Keys                0 0 2 0 0 0 0
+Ruby_Ring 19 A_Family_Jewel         0 0 2 0 0 0 0
+Wig 20 For_Masquarades              0 0 0 0 0 0 300 
+Dress 21 Green_Ball_Dress           0 0 0 0 0 0 300
+Dulcea's_Staff 22 Enchanted_Rod     0 0 0 1 2 0 0
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <price>
+
+<use>: 0 for nonusable.
+       1 for usable once, then it goes away.
+       2 for usable an infinite number of times.
+       3 for usable ONLY camped, only once.
+       4 for usable ONLY camped, infinitely
+       5 for usable in combat only, once, then it goes away.
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to EFFECTS.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: 0 if it is nonequipable by anyone.
+             1 Equipment is right-hand (weapon)
+             2 Equipment is left-hand (shield)
+             3 Equipment is armor
+             4 Equipment is helmet
+             5 Equipment is acc1
+             6 Equipment is acc2
+<equipidx> is a pointer to EQUIP.DAT when necessary.
+<price>: Is the cost to buy the item in a store. It can be sold for half the
+         cost. Note that it might not necessarily appear in any stores for
+         sale, such as Althena's sword, but you can still sell it or something.

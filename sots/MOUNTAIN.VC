@@ -1,0 +1,1920 @@
+event /* 0 */
+{
+EnforceAnimation();
+if(!flags[0])
+flags[0]=1;
+if(flags[169])
+        mappalettegradient(144,159,1,0);
+if(flags[8]=1)
+        {
+        AlterBtile(141,27,100,0);
+        alterftile(141,26,0,0);
+        }
+if(flags[13])
+        alterftile(120,48,97,2);
+if(flags[17]=1 and !flags[5])
+        {
+        alterbtile(13,25,400,1);
+        alterbtile(14,25,400,1);
+        alterbtile(15,25,400,1);
+        }
+if(flags[19]=1)
+            alterbtile(69,13,100,0);
+if(flags[22]=1)
+        Alterbtile(182,46,236,2);
+if(!flags[2])
+        {
+        alterbtile(13,25,400,1);
+        alterbtile(14,25,400,1);
+        alterbtile(15,25,400,1);
+        }
+if(!flags[3])
+        {
+        alterbtile(107,89,751,1);
+        alterbtile(108,89,495,1);
+        alterbtile(109,89,752,1);
+        alterbtile(108,90,816,1);
+        }
+if(!flags[6])
+        {
+        alterbtile(17,89,751,1);
+        alterbtile(18,89,659,1);
+        alterbtile(19,89,752,1);
+        alterbtile(18,90,817,1);
+        }
+if(flags[5])
+        {
+        Entity.LocX(23)=0;
+        Entity.LocY(23)=0;
+        Entity.LocX(24)=0;
+        Entity.LocY(24)=0;
+        Entity.LocX(25)=0;
+        Entity.LocY(25)=0;
+        Entity.LocX(26)=0;
+        Entity.LocY(26)=0;
+        Entity.LocX(27)=0;
+        Entity.LocY(27)=0;
+        Entity.LocX(28)=0;
+        Entity.LocY(28)=0;
+        Entity.LocX(29)=0;
+        Entity.LocY(29)=0;
+        alterbtile(30,54,100,0);
+        alterbtile(29,58,100,0);
+        alterbtile(31,62,100,0);
+        alterbtile(41,54,100,0);
+        alterbtile(39,57,100,0);
+        alterbtile(41,58,100,0);
+        alterbtile(43,60,100,0);
+        alterftile(30,53,0,0);
+        alterftile(29,57,0,0);
+        alterftile(31,61,0,0);
+        alterftile(41,53,0,0);
+        alterftile(39,56,0,0);
+        alterftile(41,57,0,0);
+        alterftile(43,59,0,0);
+        changezone(30,54,0);
+        changezone(29,58,0);
+        changezone(31,62,0);
+        changezone(41,54,0);
+        changezone(39,57,0);
+        changezone(41,58,0);
+        changezone(43,60,0);
+        alterftile(179,58,825,2);
+        alterbtile(178,56,824,1);
+        alterbtile(177,57,824,1);
+        }
+if(flags[26]=1)
+        {
+        alterbtile(117,84,834,1);
+        alterbtile(117,86,834,1);
+        alterbtile(119,87,834,1);
+        alterbtile(120,86,834,1);
+        alterbtile(118,85,835,1);
+        alterbtile(119,85,835,1);
+        alterbtile(121,84,835,1);
+        alterbtile(121,87,835,1);
+        alterbtile(118,86,818,1);
+        alterftile(117,83,813,0);
+        alterftile(117,85,813,0);
+        alterftile(121,86,813,0);
+        alterftile(118,84,812,0);
+        alterftile(121,83,812,0);
+        alterftile(119,84,814,0);
+        alterftile(119,86,814,0);
+        alterftile(120,85,814,0);
+        alterftile(14,9,0,2);
+        alterbtile(14,10,47,0);
+        }
+if(flags[26])
+        {
+        alterbtile(107,89,751,0);
+        alterbtile(108,89,0,0);
+        alterbtile(109,89,752,0);
+        alterbtile(108,90,612,0);
+        alterbtile(17,89,751,0);
+        alterbtile(18,89,0,0);
+        alterbtile(19,89,752,0);
+        alterbtile(18,90,612,0);
+        alterftile(172,23,0,1);
+        alterftile(173,23,0,1);
+        alterftile(174,23,0,1);
+        alterftile(175,23,0,1);
+        alterftile(176,23,0,1);
+        alterftile(63,47,0,1);
+        alterftile(63,48,0,1);
+        alterftile(63,49,0,1);
+        alterftile(63,50,0,1);
+        changezone(62,47,82);
+        changezone(62,48,82);
+        changezone(62,49,82);
+        changezone(62,50,82);
+        }
+}
+event //1
+{
+if(!flags[2])
+        {
+        wait(10);
+        vcputpcx("m1.pcx",1,1);
+        layervc=1;
+        wait(100);
+        text(11,"Onam, my son, Things are","looking dire. The failure of","my countermeasures has done");
+        text(11,"nothing to change the....","","");
+        vcputpcx("m4.pcx",193,1);
+        wait(100);
+        text(1,"What do you mean, Father?","","");
+        vcputpcx("m2.pcx",34,45);
+        text(11,"That is not for you to know at","this time, Onam. All too soon","it will be apparent...all too");
+        text(11,"soon...","","");
+        vcputpcx("m5.pcx",193+20,20);
+        text(1,"*What could he be talking","about? Ever since Mother passed","away six years ago, he's been");
+        text(1,"*acting more and more","forbodeing...changing laws in","the kingdom...sending Amin on");
+        text(1,"*a quest he hasn't returned","from...Does father know","something everyone else");
+        text(1,"*doesn't, or has grief driven","him mad?*","");
+        text(11,"Onam, We need to take action,","if all is not to be lost...","");
+        text(1,"What do you wish me to do","father","");
+        vcputpcx("m3.pcx",34,45);
+        text(11,"Even in times like this, I","must keep up my civic duties.","Today is Petition day, so I");
+        text(11,"cannot do much, as I'll be too","busy listening to a bunch of","hicks squabble about taxes and");
+        text(11,"livestock. Usually the more","intelligent citizens can work","out their problems without the");
+        text(11,"aide of the king.","","");
+        text(1,"*That almost sounded like","Father before he changed...","maybe things aren't as bad");
+        text(1,"*with him as I thought.*","","");
+        text(11,"So, I want you to go around","and tell my Ministers that","there will be a council");
+        text(11,"meeting held tomorrow.","","");
+        text(1,"Yes, Father.","","");
+        alterbtile(13,25,400,0);
+        alterbtile(14,25,400,0);
+        alterbtile(15,25,400,0);
+        flags[2]=1;
+        layervc=0;
+        vcclear();
+        }
+if(!flags[5])
+        text(11,"Go now, Onam. The hicks will","be here any time now...","");
+if(flags[5])
+        {
+        if(!flags[89])
+                {
+                text(11,"Do not fail me in your quest,","Onam. Find the Three Relics","that the Great Sage Bastien");
+                text(11,"made for Aldencia...","","");
+                text(11,"The Sword of Virtue, shown at","my feet...","");
+                text(11,"The Sheild of Hope, shown on","my left...","");
+                text(11,"And the Stave of Truth, to my","right...","");
+                text(11,"These three items are our only","hope, Onam.","");
+                }
+        }
+if(flags[86])
+        {
+        warp(157,126,0);
+        }
+}
+event //2
+{
+text(0,"I hate these dress uniforms.","They're so gaudy...","");
+}
+event //3
+{
+text(0,"The Royal Throne has all sorts","of buttons on it. One day I","pressed one, and these doors");
+text(0,"shut! I had a hell of a time","getting them open again.","");
+}
+event //4
+{
+if(!flags[5])
+        {
+        text(0,"There are four Ministers in","Aldencia. Minister Rinbel, of","Finince, Minister Fillat, of");
+        text(0,"the People, Minister Erikk, of","Magic, and Minister Velirk, of","War.");
+        }
+if(flags[5])
+        Text(0,"I miss Prince Amin...He was a","nice fellow","");
+}
+event //5
+{
+if(!flags[5])
+        {
+        stext(0," *YAWN* ","","");
+        text(0,"!!!","Err...Alls well here at the","Conference Room, M'lord");
+        }
+if(flags[5])
+        text(0,"Good luck, on your quest,","m'lord","");
+}
+event //6
+{
+warp(38,30,0);
+setface(1,2);
+if(!flags[17] and !flags[5])
+        flags[17]=1;
+if(flags[5])
+        flags[17]=0;
+}
+event //7
+{
+warp(8,30,0);
+setface(1,2);
+}
+event //8
+{
+warp(44,47,0);
+setface(1,3);
+}
+event //9
+{
+warp(52,30,0);
+setface(1,3);
+}
+event //10
+{
+warp(63,47,0);
+setface(1,3);
+}
+event //11
+{
+warp(67,30,0);
+setface(1,2);
+}
+event //12
+{
+warp(9,47,0);
+setface(1,2);
+}
+event //13
+{
+warp(134,30,0);
+setface(1,2);
+}
+event //14
+{
+warp(100,30,0);
+setface(1,2);
+}
+event //15
+{
+warp(83,30,0);
+setface(1,3);
+}
+event //16
+{
+warp(166,26,0);
+setface(1,2);
+}
+event //17
+{
+warp(150,30,0);
+setface(1,3);
+}
+event //18
+{
+warp(62,88,0);
+setface(1,0);
+if(flags[3] and !flags[26])
+        {
+        alterbtile(107,89,751,0);
+        alterbtile(108,89,0,0);
+        alterbtile(109,89,752,0);
+        alterbtile(108,90,612,0);
+        }
+if(flags[6])
+        {
+        alterbtile(17,89,751,0);
+        alterbtile(18,89,0,0);
+        alterbtile(19,89,752,0);
+        alterbtile(18,90,612,0);
+        }
+if(flags[26])
+        {
+        alterbtile(17,89,751,1);
+        alterbtile(18,89,0,1);
+        alterbtile(19,89,752,1);
+        alterbtile(18,90,612,0);
+        }
+
+}
+event //19
+{
+warp(35,68,0);
+setface(1,1);
+}
+event //20
+{
+warp(117,64,0);
+}
+event //21
+{
+warp(108,90,0);
+if(flags[6] and !flags[26])
+        {
+        alterbtile(17,89,751,0);
+        alterbtile(18,89,0,0);
+        alterbtile(19,89,752,0);
+        alterbtile(18,90,612,0);
+        }
+}
+event //22
+{
+warp(142,53,0);
+setface(1,2);
+}
+event //23
+{
+warp(110,54,0);
+setface(1,2);
+}
+event //24
+{
+warp(172,54,0);
+}
+event //25
+{
+warp(157,53,0);
+}
+event //26
+{
+warp(86,64,0);
+}
+event //27
+{
+warp(18,90,0);
+}
+event //28
+{
+warp(187,81,0);
+}
+event //29
+{
+warp(79,54,0);
+}
+event //30
+{
+warp(155,81,0);
+}
+event //31
+{
+warp(172,81,0);
+}
+event //32
+{
+if(flags[3]=1 and !item(2))
+        {
+        text(10,"Have you found the ledger yet?","","");
+        text(1,"Errr..no, but I'm on the case..","","");
+        text(10,"Good. It's imperative we find","that book today.","");
+        }
+if(!flags[3])
+        {
+        vcputpcx("m10.pcx",1,1);
+        layervc=1;
+        wait(100);
+        text(10,"Oh dear,oh dear...where is it?","","");
+        text(1,"What are you looking around","for, Rinbel?","");
+        text(10,"Oh, hello Onam....","It's sheer tragedy! I've lost","my ledger!");
+        text(10,"All of the Kingdoms balances","were in that book...I have to","find it!");
+        vcputpcx("m7.pcx",193,50);
+        text(1,"The whole kingdoms balances?","If you don't find that,","the kingdom will fall into");
+        text(1,"Economic Ruin! We have to find","that book! I don't want to ","inherit a destitute nation!");
+        text(10,"Then you'll help me find it?","","");
+        vcputpcx("m11.pcx",110,1);
+        text(1,"Most definatly! I will have","that book back to you before","the day is out.");
+        text(10,"oh, thank you, Prince Onam.","You'll make a fine king one","day.");
+        flags[3]=1;
+        layervc=0;
+        vcclear();
+        text(1,"By the way, Minister Rinbel,","Father has called a meeting","to be held tommorow.");
+        text(10,"Hmmm..? Oh yes...sure...","I'll be there..but we must find","the ledger first!");
+        }
+if(item(2))
+        {
+        text(1,"Rinbel, I've found your ledger!","","");
+        banner("Gave the ledger",1);//probly should have a sfx...
+        vcputpcx("m12.pcx",48,11);
+        layervc=1;
+        text(10,"Oh, thank you so much, Onam...","...by the way, where did you","find it?");
+        text(1,"Ummmm....I found it in the","Courtyard, you must have left","it there while taking a walk.");
+        text(10,"Hmmm...I don't remember","taking a walk......","...");
+        text(10,"...","Oh well, the memory's the first","to go, you know...");
+        text(1,"(PHEW!)","","");
+        layervc=0;
+        vcclear();
+        destroyitem(2,0);
+        flags[3]=2;
+        }
+if(flags[3]=2 and !flags[5])
+        text(10,"See you tomorrow at the","Council meeting.","");
+if(flags[5] and flags[3]!=3)
+        {
+        text(10,"Hello, my prince, come for","your money?","");
+        text(1,"Yes, Rinbel, do you have it?","","");
+        text(10,"Here you go, Onam.","","");
+        Givegp(200);
+        banner("Recieved 200 GP",1);
+        text(10,"I added a little extra from my","own pay... please come back","safly, Onam.");
+        text(1,"You're a nice guy, Rinbel, a","really nice guy...","");
+        text(10,"Aww...shucks...","","");
+        flags[3]=3;
+        flags[25]=flags[25]+1;
+        }
+if(flags[3]=3)
+        text(10,"Good luck on your quest, Onam","","");
+}
+event //33
+{
+text(0,"This is Minister Rinbel's","office. He's the minister of","finances.");
+}
+event //34
+{
+text(0,"Rinbel's a penny-pincher.","He tries to short everyone","come payday.");
+text(0,"I'd swear he makes up some","of the taxes just to spite us","decent working men.");
+if(flags[3]=3)
+        {
+        text(1,"Give the old man a break! No","one likes the taxman...He's","just an old man doing his job.");
+        text(0,"Well...I still don't have to","like him...","");
+        text(1,"*sigh*","","");
+        }
+}
+event //35
+{
+text(0,"This is Minister Fillat's ","office. He's the minister of","the people.");
+}
+event //36
+{
+text(0,"Ya see this blue banner","Nexta me? On it is the 'Star","of Selnor', our national icon.");
+}
+event //37
+{
+if(!flags[4])
+text(0,"Fillat works us to the bone","while he lounges all day!","");
+if(flags[4])
+text(0,"....Must....",".....work.....",".......faster.......");
+}
+event //38
+{
+if(!flags[4])
+{
+        text(0,"The Ministry of the People","makes sure the peasants are","reasonably happy, 'cuz nobody");
+        text(0,"wants unhappy peasants.","","");
+}
+if(flags[4])
+text(0,"Busy,busy,busy!","","");
+}
+event //39
+{
+if(!flags[4])
+text(0,"This office takes care of all","matter of state, foriegn and","domestic. We're busy people!");
+if(flags[4])
+text(0,"...I need a less stressful","job...","");
+}
+event //40
+{
+if(!flags[4])
+text(0,"The Star of Selnor symbolizes","peace and prosperity, which","fits Aldencia to a tee.");
+if(flags[4])
+{
+text(0,"...work...work...","...","...");
+text(0,"OWWWW!","...","Jeez, hand cramp.");
+}
+}
+event //41
+{
+if(flags[4]=1 and !flags[5])
+text(0,"Good day, young prince.","","");
+if(!flags[4])
+{
+        vcputpcx("m13.pcx",50,0);
+        layervc=1;
+        text(12,"Ahhh...Prince Onam! What","brings you here?","");
+        text(1,"Just bringing word around","that Father has called a","Council meeting for tomorrow");
+        vcputpcx("m14.pcx",75,0);
+        text(12,"Ahhh...Of course, of course,","and what is this meeting about?","");
+        wait(100);
+        text(1,"I don't exactly know...","Father's hard to predict these","days...");
+        text(12,"Ahhh...Hmmmm...Yes,yes,","you're quite right. Hmmmm...","silly for me to have asked.");
+        if(flags[3]=1 and !flags[10])
+                {
+                text(1,"Minister, Have you seen a","ledger around?","");
+                text(12,"Ahhh...A ledger? Can't say","that I have. Why do you ask?","");
+                text(1,"Oh, no reason, really...","","");
+                flags[10]=1;
+                }
+        text(12,"Hmmmm...well then, good day to","you Prince Onam.","");
+        text(1,"Good day, Minister","","");
+        layervc=0;
+        vcclear();
+        flags[4]=1;
+}
+if(flags[4]=1 and flags[5]=1)
+{
+        text(12,"Ahhh...Onam. I wish you","well on your journey, but we're","pretty busy here right now...");
+        flags[4]=2;
+}
+if(flags[3]=1 and !flags[10])
+        {
+        text(1,"Minister, Have you seen a","ledger around?","");
+        text(12,"Ahhh...A ledger? Can't say","that I have. Why do you ask?","");
+        text(1,"Oh, no reason, really...","","");
+        flags[10]=1;
+        }
+if(flags[4]=2)
+text(12,"Good day, young prince.","","");
+}
+event //42
+{
+text(0,"Rest soundly with the","knowledge that I guard","Your room whilst you rest");
+}
+event //43
+{
+text(0,"This was Prince Amin's","room, before......","");
+}
+event //44
+{
+if(flags[3]=2 and flags[4]>=1 and flags[6]>=2 and !flags[8])
+{
+        text(0,"Good night, young sahr","","");
+        AlterBtile(141,27,100,0);
+        alterftile(141,26,0,0);
+        flags[8]=1;
+}
+if(!flags[8])
+text(0,"It is much too early to go to","sleep, young sahr, and the","staff is still cleaning.");
+}
+event //45
+{
+if(locx=149 and locy=50)
+        text(0,"See this cabinet behind me?","It's where we keep the magical","herbs...");
+if(locx=150 and locy=49)
+        text(0,"See this cabinet behind me?","It's where we keep the magical","herbs...");
+}
+event //46
+{
+text(0,"This is the king's bedchamber.","","");
+if(flags[26])
+        text(0,"Please leave your father be.","He doesn't get much sleep","these days...");
+}
+event //47
+{
+text(0,"We must guard his room","ceaslessly. It is a duty and","an honor");
+}
+event //48
+{
+if(!flags[6])
+        {
+        vcputpcx("m15.pcx",0,0);
+        layervc=1;
+        wait(100);
+        text(6,"Ah, my favorite pupil has","arrived! Here for a lesson?","");
+        vcputpcx("m6.pcx",260,1);
+        text(1,"Not today...","","");
+        if(Locx=179 and locy=57)
+                {
+                setface(1,0);
+                wait(91);
+                text(1,"What's this you're working","on here?","");
+                text(6,"Huh? Oh, this....I've been","working on disproving that","old-wive's tale that says");
+                text(6,"that only fair-skinned peoples","can use magic...in fact I've","made some intresting");
+                text(6,"discoveries.","","");
+                setface(1,2);
+                text(1,"Such as...?","","");
+                text(6,"Well...to start, it seems the","old rumor had some basis in","reality, for fairer people");
+                text(6,"show magical talent more","often, but darker people are","much more powerful on average,");
+                text(6,"if rarer to find","","");
+                text(1,"Why hasn't anyone figured this","out before?","");
+                text(6,"Onam, we live so far to the","north, almost everyone here is","light-skinned, and since");
+                text(6,"blondes and red-heads are more","commonly magical than,","brunettes and the such,");
+                text(6,"everyone just assumed that it","must be so.","");
+                wait(91);
+                setface(1,0);
+                wait(91);
+                setface(1,2);
+                text(1,"All very facinating...but why","are you staring at these","purple rocks?");
+                wait(72);
+                text(6,"Ah, well I think they're","pretty...they help me think...","");
+                text(1,"Oh...Is this what the Minister","of Magic does all day? Look at","pretty rocks and daydream?");
+                text(6,"You're forgetting my duties of","teaching promising young lads","magic...");
+                text(6,"...as well as teaching upstart","little princes....","");
+                text(1,"well...maybe you have some","use.....","");
+                text(6,"enough of this jesting. Why","did you come up here, if not","to listen to my long-winded");
+                text(6,"speeches?","","");
+                text(1,"Father has requested a council","meeting for tommorow...","");
+                text(6,"Really? Whats the meeting","about?","");
+                text(1,"I don't know...","","");
+                wait(182);
+                vcputpcx("m16.pcx",20,20);
+                text(6,"You realize, tommorow will be","the anniversary of your","brother's leaving.");
+                setface(1,0);
+                wait(182);
+                vcputpcx("m8.pcx",206,1);
+                text(1,"....","....","I know.");
+                wait(132);
+                text(6,"....I'm sorry I brought it up,","Onam. I liked Amin too...","");
+                text(1,"It's ok...I've also been","thinking that that may be the","reason for the meeting....");
+                text(6,"Well, I've probably kept you","too long...","");
+                text(1,"Yeah, I still have to find","Velirk and tell him about the","meeting....");
+                text(6,"See yah around, kid","","");
+                flags[6]=1;
+                if(flags[3]=1 and !flags[9])
+                        {
+                        text(1,"Oh! I almost forgot...Have you","seen a ledger around anywhere?","");
+                        vcputpcx("m19.pcx",114,0);
+                        text(6,"A...ledger? No, can't...say...","that...I...have...","");
+                        text(6,"...","...","...Honestly.");
+                        text(1,"*Hmmmm....*","","");
+                        flags[9]=1;
+                        layervc=0;
+                        vcclear();
+                        }
+                text(1,"See ya, Erikk","","");
+        }
+}
+if(flags[3]=1 and !flags[9])
+        {
+        text(1,"Hey, Erikk, have you seen a","ledger around anywhere?","");
+        vcputpcx("m19.pcx",114,0);
+        layervc=1;
+        text(6,"A...ledger? No, can't...say...","that...I...have...","");
+        text(6,"...","...","...Honestly.");
+        text(1,"*Hmmmm....*","","");
+        flags[9]=1;
+        layervc=0;
+        vcclear();
+        }
+if(flags[9]=1 and flags[11]=2 and flags[6]!=2)
+        {
+        text(1,"Are you SURE you've haven't","seen a ledger around here?","");
+        text(6,"Yeah, kid, I'm sure.","","");
+        text(1,"Y'know, that's kinda funny,","'cuz Velirk swore he saw you","coming out of Rinbel's office");
+        text(1,"with some kind of large","book...","");
+        text(6,"Oh, yeah?...well...","...err...","..umm....that is...");
+        text(6,"There's plenty of books in","Rinbel's office, I just went","in to get a dictionary.");
+        text(1,"Is that so?","","");
+        text(6,"Yeah, I wanted to look up","'Nosey Brat', it said","'see:Onam'");
+        text(1,"...sure...","","");
+        wait(50);
+        vcclear();
+        text(6,"You're not buying any of this,","are ya, kid?","");
+        text(1,"Nope.","","");
+        vcputpcx("m17.pcx",145,0);
+        layervc=1;
+        text(6,"Alright, It's on my desk","against the wall...","");
+        text(1,"But the only books there are","covered in magic runes...","");
+        text(6,"Ha! Look again kid, that's","just the way Rinbel writes.","");
+        flags[6]=2;
+        layervc=0;
+        vcclear();
+        }
+if(!item(2) and flags[6]=2 and !flags[5])
+        text(6,"C'mon kid, go get the book, Ya","dragged it out of me already!","");
+if(item(2) and !flags[24] and !flags[5])
+        {
+        text(1,"So why'd you take it, Erikk?","","");
+        text(6,"I had a feeling that Rinbel","was cheating me out of cash","from the payroll...");
+        text(1,"Well, what did you find out?","","");
+        text(6,"Absolutly nothing. I couldn't","make heads or tails out of","those endless columns of");
+        text(6,"numbers. I'm a sorceror, not","a miracle worker.","");
+        text(1,"..but I thought sorcerors did","work miracles.","");
+        text(6,"Kid...","","");
+        text(1,"Yeah?","","");
+        text(6,"Shut up.","","");
+        text(1,"","","");
+        text(6,"That's a good boy. Who says","kids today don't listen?","");
+        flags[24]=1;
+        }
+if(flags[3]=2 and !flags[24] and !flags[5])
+        {
+        text(1,"So why'd you take it, Erikk?","","");
+        text(6,"I had a feeling that Rinbel","was cheating me out of cash","from the payroll...");
+        text(1,"Well, what did you find out?","","");
+        text(6,"Absolutly nothing. I couldn't","make heads or tails out of","those endless columns of");
+        text(6,"numbers. I'm a sorceror, not","a miracle worker.","");
+        text(1,"..but I thought sorcerors did","work miracles.","");
+        text(6,"Kid...","","");
+        text(1,"Yeah?","","");
+        text(6,"Shut up.","","");
+        text(1,"","","");
+        text(6,"That's a good boy. Who says","kids today don't listen?","");
+        flags[24]=1;
+        }
+if(flags[24] and !flags[5])
+        text(6,"See ya at the meeting","tommorow, kid.","");
+if(flags[5] and flags[24]!=2)
+        {
+        text(6,"Hey kid, come around for your","magic stuff?","");
+        text(1,"Yeah...","","");
+        setface(1,0);
+        wait(50);
+        setface(1,3);
+        wait(50);
+        setface(1,2);
+        wait(25);
+        text(1,"Is all this for me?","","");
+        text(6,"Don't flatter yourself, kid...","I'm going on a little trip","myself...");
+        text(1,"Oh yeah, why?","","");
+        text(6,"Oh, a few reasons... The","Wizards were keeping me up,","listening to their damn");
+        text(6,"Cappacino machine whrling all","night, and Rinbel's taxes on","'Stylish Maroon Hats' kinda");
+        text(6,"threw me over the edge...","","");
+        text(1,"Very funny, now what's the","real reason?","");
+        text(6,"Hehheh, ok kid. I'll tell...","","");
+        text(6,"...I wanted","to go see if I could meet up","with any darker-skinned");
+        text(6,"wizards, y'know, see if I","could duel a few, see how I","stand?");
+        text(1,"...But you said they're","stronger than fair-skinned","mages...you'll be crushed...");
+        text(6,"Kid, you weren't listening","earlier, were ya? I said","Fair-skinned mages were weaker");
+        text(6,"on AVERAGE...I'm the exception","to the rule...The strongest","mage Aldencia has ever seen!");
+        text(1,"Hmmm...and the most modest,","too....eh?","");
+        text(6,"Yeah well, anyway....I also","want to meet up with some","Psions I knew before they were");
+        text(6,"forced out of the country...","","");
+        text(1,"Hmmmm... Who's taking up your","duties in your place?","");
+        text(6,"Eh, well, most of the","Journeyman Wizards are strong","enough to hold down the fort");
+        text(6,"in my absence, and besides,","I've got a lot of vacation","time saved up!");
+        wait(100);
+        text(1,"Erikk, how am I ever going","to find the Relics?","");
+        text(6,"Well, you're gonna need some","luck kid.","");
+        text(6,"Every treasure hunter in the","world's been looking for those","three relics for over a");
+        text(6,"hundred years, and they've all","come up empty.","");
+        text(1,"That's encouraging...","","");
+        text(6,"Heh,","well I guess 'holy quests'","aren't supposed to be easy");
+        text(1,"...but where should look for","them? I don't have the","faintest idea where to start!");
+        text(6,"Well, It's probably a good","idea to start your quest at","the Sages tower.");
+        text(6,"It was where Bastien was with","the Relics last. Of course,","It was sealed up to protect");
+        text(6,"the tower from looters, as","well as the looters from","the tower.");
+        text(1,"Very funny...","","");
+        text(6,"Sheesh, the kid thinks I'm","kidding. Well, at any rate,","you'll need to stop by Amaxis");
+        text(6,"to get a key. The mayor'll","probably just give it to you,","being a Crown Prince and all.");
+        text(1,"Thanks Erikk.","","");
+        text(6,"Yeah, well, enough chat kid,","Here's your stuff...","");
+        soundeffect(4);
+        giveitem(3);
+        soundeffect(4);
+        giveitem(3);
+        soundeffect(4);
+        giveitem(3);
+        soundeffect(4);
+        giveitem(4);
+        flags[24]=2;
+        flags[25]=flags[25]+1;
+        }
+if(flags[24]=2)
+        text(6,"See ya around, kid. Maybe","we'll even see each other","traveling, now and then...");
+}
+event //49
+{
+text(0,"Cramped quarters? Ha! We're","the Wizards! Only those Novice","Mages get to stay in this");
+text(0,"tower. We all have stately","manors in the countryside!","");
+}
+event //50
+{
+text(0,"These books seem to indicate","that magic was stronger in the","ancient days, but how can that");
+text(0,"be so?","","");
+}
+event //51
+{
+text(0,"Yeah, bein' a wizard is much","easier than bein' a mage...","...no classes...do whatever ya");
+text(0,"want...and sit around here all","day drinkin' trendy beverages.","...mmmm....trendy beverages...");
+text(0,"Of course, alla this caffiene","is making me a little jittery.","...");
+if(item(1))
+        {
+        prompt(0,"Hmmm...I see you have a Porno","Magazine there. Would you trade","it for a trendy beverage?",18,"Sure.","You Joking?");
+        if(!flags[18])
+                {
+                text(1,"Sure, but why do you want it?","","");
+                text(0,"Even when you're a wizard, you","like to taunt Cavalymen with","things they can't have.");
+                text(0,"*snicker*","","");
+                destroyitem(1,0);
+                giveitem(8);
+                }
+        if(flags[18]=1)
+                text(0,"Oh, never mind, then...","","");
+        }
+}
+event //52
+{
+text(0,"Ancient legends say that there","was a race of gods that","created many different");
+text(0,"worlds...just for amusement!","The ancients had names for","some of these gods...");
+text(0,"..Haan..Tarckuus..Nijamaan...","...and their king, Vekkna, who","made a magical artifact that");
+text(0,"made these worlds, called Verj.","","");
+text(1,"Sure, buddy....Ya sure you","haven't been into those 'magic","herbs' behind you?");
+text(0,"Welll...Maybe a few....","","");
+text(1,"Thats what I thought.","","");
+flags[12]=2;
+}
+event //53
+{
+text(0,"Welcome to the Mages'","quarters, and remember,","gambling is stictly");
+text(0,"prohibited.","","");
+}
+event //54
+{
+text(0,"The Great Sage Bastien made","many great things, but his","most famous were the Nine");
+text(0,"Relics. They were a set of","Three Swords, Shields, and","Staves. One of each Relic was");
+text(0,"given to each of the three","kingdoms.","");
+}
+event //55
+{
+text(0,"Those cavalrymen are big","bullies!...but we get back at","them...they ride unicorns, so");
+text(0,"they have to maintain a","'higher level of purity',","heehee...");
+}
+event //56
+{
+text(0,"Most people can learn to do","magic, It just takes years of","hard study! Although there are");
+text(0,"those whom have the ability","inborn, and hardly need","to study at all...");
+}
+event //57
+{
+text(0,"*sigh*","I wish the female mages' dorms","were in the castle. They're");
+text(0,"taught out in the countryside,","in a 'secret' school...","");
+}
+event //58
+{
+text(0,"There are some people who can","do a type of magic without","spells! These people just use");
+text(0,"their minds to do magic!","They're called Psions...but","you won't find any in");
+text(0,"Aldencia, because the King","outlawed them here almost five","years ago, right out of the");
+text(0,"blue!","","");
+}
+event //59
+{
+if(!flags[13])
+        {
+        text(0,"Dice?? What dice? I don't see","any dice...","");
+        text(1,"Then, whats that behind you?","","");
+        text(0,"Those?..mmmmm...they're","magical aides! You wouldn't","know anything about them,");
+        text(0,"being a prince and all'.","","");
+        text(1,"Really? Well I know a little","magic, Erikk himself teaching","me, and I don't recall any");
+        text(1,"magical aides looking like","dice...","");
+        text(0,"*GULP*","uhh...Erikk Himself!?!!","Oh, please don't tell him I've");
+        text(0,"been gambling, I'll be kicked","out of mage school.","");
+        text(1,"Weeelllll....","","");
+        text(0,"PLEASE! I'm begging you!","","");
+        text(1,"Oh, alright, but you really","should put those things away.","");
+        text(0,"Thats a good idea! Thanks.","","");
+        alterftile(120,48,97,2);
+        flags[13]=1;
+        }
+if(flags[13]=1 and !flags[14])
+        {
+        text(0,"Now remember, your highness,","no telling!","");
+        text(1,"Your secret's safe with me.","","");
+        }
+if(flags[14]=1)
+        {
+        text(0,"Hello, your highness.","","");
+        text(1,"Hi. I heard you have a","floating craps game from time","to time...");
+        text(0,"WAAAHHH! Who told you about","that! Erikk doesn't know, does","he?");
+        text(1,"Don't worry, You're safe...","","");
+        text(0,"Well, because you're a nice","guy, I'll give you a standing","invitation...We play in the");
+        text(0,"courtyard at night. Come when","ya can...","");
+        text(1,"OK, I might take you up on","that sometime. Thanks.","");
+        text(0,"No problem.","","");
+        flags[13]=2;
+        }
+if(flags[13]=2 and !flags[5])
+        {
+        text(0,"Remember, at night in the","courtyard.","*wink*");
+        }
+if(flags[13]=2 and flags[5])
+        {
+        text(0,"Your highness, There's a BIG","game tonight, we'll probably","play throught dawn!");
+        text(1,"Hmmm...I might stop by tonight","...","");
+        }
+}
+event //60
+{
+text(0,"Did you know that only","fair-skinned people can learn","magic? Yeah, and Red-heads are");
+text(0,"the most powerful, 'cuz","there's nobody more","fair-skinned than a red-head.");
+}
+event //61
+{
+text(0,"Welcome to the Cavalryman","trainee's bunks. Our Unicorn","Cavalry is the envy of the");
+text(0,"world!","","");
+}
+event //62
+{
+text(0,"Bah! Those damn mages are","jerks! They always flaunt the","fact they don't have to be as");
+text(0,"'pure' as us...but we get back","by pummeling them black and","blue! Heehee...");
+}
+event //63
+{
+text(0,"Did you know your father was a","heralded Cavalryman? That's","why his royal symbol is a");
+text(0,"Unicorn. He had to give it up,","though...His father was","worried that he'd never have");
+text(0,"any heirs...","","");
+}
+event //64
+{
+text(0,"Those mages are wimps! They","whine about their living","conditions so much...Our beds");
+text(0,"are twice as hard, we're twice","as crowded, and we dont get to","keep any personal items!");
+}
+event //65
+{
+text(0,"There's one mage that's a good","fellow, he runs a floating","craps game at nights! I'm sure");
+text(0,"you could get in on it if you","wanted to...","");
+flags[14]=1;
+}
+event //66
+{
+text(0,"The Cavalry is made of","Aldencia's best soldiers.","We are the elite of the army,");
+text(0,"always defending the citizenry","from the bestial hordes native","to the land.");
+}
+event //67
+{
+text(0,"Upstairs is the classroom,","there we learn tactics.","");
+}
+event //68
+{
+text(0,"It is a great honor to be a","Cavalryman. Unicorns are rare","to find, and hard to train,");
+text(0,"but will be a trusty","friend for life.","");
+}
+event //69
+{
+text(0,"*sigh*","I wish I could have a 'trendy","beverage'....");
+if(item(8))
+        {
+        prompt(0,"You have one!? Would you","mind giving it to me?","",118,"Yes","No");
+        if(flags[118])
+                text(0,"*sniff*","...oh...alright...","");
+        if(!flags[118])
+                {
+                text(0,"Really?!","Thank you so much,","Your majesty!");
+                text(0,"Here, take this as a","token of my gratitude!","");
+                destroyitem(8,0);
+                giveitem(51);
+                }
+        }
+}
+event //70
+{
+text(0,"The stables are through this","door, but only cavalrymen are","allowed through.");
+}
+event //71
+{
+if(!flags[7])
+        {
+        vcputpcx("m26.pcx",110,0);
+        layervc=1;
+        wait(75);
+        text(7,"Hello Prince Onam...It is an","honor to see you.","");
+        text(1,"The honor is all mine,","Minister Velirk.","");
+        text(7,"You're too kind. What brings","you here today?","");
+        text(1,"Father is calling a council","meeting for tommorow.","");
+        text(7,"Really? Hmmm...Well, Thank you","for telling me, Onam. Is there","anything else?");
+        flags[7]=1;
+        if(!flags[3])
+                {
+                text(1,"No, not really.","","");
+                text(7,"Well then, Good day, Onam.","","");
+                text(1,"Good Day, Velirk","","");
+                }
+        if(flags[3]=1)
+                {
+                text(1,"Well, have you seen a ledger","anywhere?","");
+                text(7,"A ledger? Why? Is Rinbel","missing his book?","");
+                text(1,"That's right. Do you know","where it is?","");
+                text(7,"Well, I don't know about a","ledger, but I did see Minister","Erikk sneaking out of Rinbel's");
+                text(7,"office with some kind of large","book last night...","");
+                if(flags[9]=1)
+                        {
+                        text(1,"Really? That's odd, I already","asked him about it, and he","said he hadn't seen it. He did");
+                        text(1,"act rather suspicious, though.","","");
+                        text(7,"Maybe you should ask him again","about it, eh?","");
+                        text(1,"Yes, I'll do that. Thank you,","Minister","");
+                        text(7,"A pleasure, my Prince.","","");
+                        flags[11]=2;
+                        }
+                if(!flags[9])
+                        {
+                        text(1,"Hmmm...maybe I should talk to","Erikk.","");
+                        text(7,"Maybe you should.","","");
+                        text(1,"Good Day, Minister.","","");
+                        flags[11]=1;
+                        }
+                }
+        layervc=0;
+        vcclear();
+        }
+if(flags[3]=1 and flags[11]=1 and !flags[9])
+text(7,"Have you talked to Erikk yet?","","");
+
+if(flags[3]=1 and !flags[11] and flags[7]=1)
+        {
+        text(1,"Velirk, have you seen a ledger","anywhere?","");
+        text(7,"A ledger? Why? Is Rinbel","missing his book?","");
+        text(1,"That's right. Do you know","where it is?","");
+        text(7,"Well, I don't know about a","ledger, but I did see Minister","Erikk sneaking out of Rinbel's");
+        text(7,"office with some kind of large","book last night...","");
+        if(flags[9]=1)
+                {
+                text(1,"Really? That's odd, I already","asked him about it, and he","said he hadn't seen it. He did");
+                text(1,"act rather suspicious, though.","","");
+                text(7,"Maybe you should ask him again","about it, eh?","");
+                text(1,"Yes, I'll do that. Thank you,","Minister","");
+                text(7,"A pleasure, my Prince.","","");
+                flags[11]=2;
+                }
+        if(!flags[9])
+                {
+                text(1,"Hmmm...maybe I should talk to","Erikk.","");
+                text(7,"Maybe you should.","","");
+                text(1,"Good Day, Minister.","","");
+                flags[11]=2;
+                }
+        }
+if(!flags[3] and flags[7]=1)
+        text(7,"Hmmm...This map is vastly out","of proportion. I need new","cartographers.");
+if(flags[6]>=2 and !flags[5])
+        text(7,"Good day, my prince. I'll see","you tommorow at the meeting.","");
+if(flags[5] and flags[7]!=2)
+        {
+        text(7,"Hello, my Prince, Although it","pains me to greet you today...","");
+        text(1,"Oh, come on, Velirk, I'll be","fine...","");
+        text(7,"Be careful out there in the","world, Onam. It can be a","dangerous place.");
+        text(1,"Awww...C'mon Velirk...Ya","always struck me as being a","little 'soft' for a minister");
+        text(1,"of war...","","");
+        text(7,"Oh, SOFT am I??? Just","remember, lad, you've NEVER","beaten me at swordplay...");
+        text(1,"Hah, I know...I'll miss you","too, Velirk...","");
+        text(7,"...Ummm...","...well...","Lad, just take your stuff and");
+        text(7,"leave.","","");
+        flags[7]=2;
+        soundeffect(4);
+        giveitem(5);
+        soundeffect(4);
+        giveitem(6);
+        soundeffect(4);
+        giveitem(7);
+        flags[25]=flags[25]+1;
+        }
+if(flags[7]=2)
+        {
+        text(7,"C'mon lad, get out of here","","");
+        text(1,"*Hmmm...he looks a little","puffy-eyed, I better leave so","I don't embarass him...");
+        }
+}
+event //72
+{
+if(!flags[15])
+{
+        text(0,"If there was a battle system,","This'd be where you'd learn","about fighting...");
+        flags[15]=1;
+}
+if(flags[15])
+        text(0,"Shhhh...We've got a *BIG*","test tomorrow!","");
+}
+event //73 **the Hick-o-Matic** tm. (It doesn't work right now :(...but it will someday)
+{
+text(0,"Gee, I shoulda brought Momma","and 'Sis along to see this...","...");
+text(0,"Hyuck! I fergot! Momma is","'Sis! How'd I ferget thet?","");
+text(1,"*Hmmm...maybe it's the genetic","defects...*","");
+}
+event //74
+{
+if(!flags[5])
+        text(0,"Have you ever seen so many","hicks in your life?","");
+if(flags[5] and !flags[26])
+        text(0,"Finally! The main hall is","clear of Hicks, once more!","");
+if(flags[26])
+        text(0,"Hmmm...Did you think that the","guards would be sleeping, this","late at night?");
+}
+event //75
+{
+if(!flags[5])
+        text(0,"Geez, I don't know what's","worse, the stupidity or the","stench.");
+if(flags[5] and !flags[26])
+        text(0,"Even though the Hicks repulse","me, they are citizens, and I","must protect them...");
+if(flags[26])
+        text(0,"Hehheh...those trainees","outside think we don't know","they're gambling");
+}
+event //76
+{
+if(!flags[5])
+        text(0,"I just hope one of them","doesn't try to touch me.","");
+if(flags[5])
+        text(0,"Sometimes I wish we still had","a Sage to guide us, like our","grandfathers did.");
+}
+event //77
+{
+if(!flags[5])
+        text(0,"Why does there have to be a","'Petition Day'?","");
+if(flags[5] and !flags[26])
+        {
+        text(0,"Only Aldencia has lost all of","it's Relics. The other","kingdoms still have some of");
+        text(0,"theirs.","","");
+        }
+if(flags[26])
+        text(0,"I was upstairs earlier, and it","was strangly cold there...","");
+}
+event //78
+{
+text(0,"Behind this door lies the","ancient workshop of the Great","Sage Bastien.");
+text(0,"I sometimes wonder why he had","this workshop, as well as the","whole Sages Tower to the east.");
+text(0,"...Why did he need both?","","");
+}
+event //79
+{
+text(0,"Bastien sealed this door","magically right before he went","mad. What did he imprison in");
+text(0,"there? We don't know, so we","guard the door.","");
+}
+event //80
+{
+text(0,"This stairway leads to the","Throne room.","");
+}
+event //81
+{
+text(0,"This stairway leads to the","Royal Quarters","");
+}
+event //82
+{
+text(0,"This stairway leads to the","Ministers Offices","");
+if(flags[26])
+        text(0,"The offices are closed for the","night...","");
+}
+event //83
+{
+text(0,"Hello, my prince. I'm not a","hick, but I've come to","petition the King.");
+text(1,"That is most unusual.","","");
+text(0,"I know, but it is a very","important matter.","");
+text(1,"Well then, I wish you well on","your petition.","");
+text(0,"Thank you, my lord","","");
+}
+event //84
+{
+text(0,"Thes is one umpressuve castle,","or my name aint Billy Joe Bob","Jimmy Bob Billy McBob.");
+}
+event //85
+{
+text(0,"Hyuck, This is ah biug","castle.","");
+}
+event //86
+{
+text(0,"Oooooh, Pardy carpet.","","");
+}
+event //87
+{
+if(flags[17]=1 and !flags[5])
+        {
+        text(0,"You shouldn't bother your","father, he's busy with a bunch","of hicks.");
+        alterbtile(13,25,400,1);
+        alterbtile(14,25,400,1);
+        alterbtile(15,25,400,1);
+        }
+if(flags[26] and !flags[31])
+        text(0,"You feel an odd draft from the","throne...","");
+}
+event //88
+{
+prompt(0,"Do you want to go to sleep?","","",18,"No","Yes");
+if(flags[18] and !flags[5])
+        {
+        fadeout(30);
+        mappalettegradient(144,159,1,0);
+        stopmusic();
+        wait(10);
+        fadein(30);
+        text(1,"*YAWN*...","...Hmmm...that was a pretty","intresting day...");
+        wait(200);
+        text(1,"I wonder what this meeting's","going to be about...","");
+        wait(200);
+        text(1,"...Father, why do you act like","this?","");
+        setface(1,2);
+        wait(200);
+        setface(1,3);
+        text(1,"And Amin...Tomorrow makes one","year since he went on Father's","quest...Oh, Amin...where are");
+        text(1,"you...","...","...");
+        playmusic("AMIN.XM");
+        wait(200);
+        hooktimer(0);
+        text(1,"I still remember you, Amin...","","");
+        fadeout(250);
+        layer1=0;
+        layer0=0;
+        screengradient=0;
+        vcputpcx("m20.pcx",110,0);
+        layervc=1;
+        wait(10);
+        fadein(10);
+        wait(200);
+        text(1,"I still remember...Amin was","the best soldier in the castle","...not a single time did");
+        text(1,"anyone best him in practice","...we were all so proud of","him...");
+        text(1,"...all was well, until one","year ago, when...","");
+        fadeout(50);
+        vcclear();
+        vcputpcx("m21.pcx",85,0);
+        wait(10);
+        fadein(50);
+        text(2,"Onam...I have to go now...Dad","seemed urgent, I cannot let","him down...");
+        text(3,"But why? He didn't give you a","reason, did he? Why do you","have to go?");
+        wait(150);
+        text(2,"I have to do as Dad says...I","would not go against his","wishes...Don't worry, Onam...");
+        text(2,"Dad must have his reasons...","I'll be all right...","");
+        wait(100);
+        vcputpcx("m22.pcx",255,20);
+        text(3,"Really?","You sure you'll be okay?","");
+        text(2,"Yeah, really, squirt...","","");
+        vcclear();
+        fadeout(100);
+        vcclear();
+        layer0=1;
+        layer1=1;
+        layervc=0;
+        screengradient=1;
+        wait(10);
+        fadein(100);
+        wait(100);
+        text(1,"...","...","...Amin...");
+        timer=0;
+        hooktimer(125);
+        text(1,"...",".","");
+        wait(50);
+        text(1,"...zzz...","","");
+        wait(100);
+        hooktimer(0);
+        boxfadeout(100);
+        ScreenGradient=0;
+        warp(45,18,1);
+        setface(1,1);
+        alterftile(41,13,486,2);
+        alterftile(41,14,506,2);
+        alterftile(43,13,484,2);
+        alterftile(43,14,504,2);
+        alterftile(45,13,483,2);
+        alterftile(45,14,503,2);
+        alterftile(47,13,485,2);
+        alterftile(47,14,505,2);
+        alterftile(49,13,487,2);
+        alterftile(49,14,507,2);
+        boxfadein(100);
+        stopmusic();
+        playmusic("ONAM.XM");
+        volume=100;
+        banner("The fateful day.",2);
+        vcputpcx("m27.pcx",15,1);
+        layervc=1;
+        text(11,"Onam, Ministers of the Court,","this is a dire occasion. A","dire occasion, indeed. The");
+        text(11,"failure of my son Amin to","recover the three lost relics","that the Great Sage Bastien");
+        text(11,"made for our kingdom has","resulted in nearly sealing our","fate.............our...fate...");
+        vcputpcx("m23.pcx",236,1);
+        text(6,"Your Majesty, with all due","respect, Amin's quest was","quite trying....It's not his");
+        text(6,"fault that...","","");
+        vcputpcx("m24.pcx",1,1);
+        text(11,"NOT HIS FAULT!!! I trusted him","with the hope of my people,","and he has all but destroyed");
+        text(11,"that hope...","No, Erikk, It IS his fault,","And alive or dead, he is no");
+        text(11,"longer my son.","","");
+        text(6,"Your Majesty...","","");
+        text(11,"Minister Erikk, if you","continue.....","");
+        text(6,"...","","");
+        wait(100);
+        vcclear();
+        vcputpcx("m25.pcx",80,0);
+        text(11,"Now, my ONLY son, Onam, the","quest falls to you....do not","fail me...");
+        text(1,"I will not fail you father...","","");
+        vcclear();
+        text(1,"*What is he hiding, what is so","important that he disowns","Amin...*");
+        text(1,"*.....Why don't I feel to good","about this?...*","");
+        text(11,"Minister Velirk, my son has","shown aptitude with a sword?","");
+        text(7,"Yes, M'lord, Onam is quite","adept at swordplay. We've","dueled to a draw in practice");
+        text(7,"more times than I'd like to","admit...but he shows no talent","for fighting while mounted...");
+        text(11,"Hmmm...well, he won't be","leading the Unicorns into","battle, so that won't be a");
+        text(11,"problem...Erikk, how are his","magical studies coming along?","");
+        text(6,"...He is proficient in some","magics, but his main","Alignments haven't manifested");
+        text(6,"as of yet...","","");
+        text(11,"Hmmm...still, he has an","advantage that 'other' man","didn't...but you don't have");
+        text(11,"much time, Onam...","...scarcely months remain...","");
+        text(1,"*scarcely months untill WHAT","!?!! Father, why do you have","to be so enigmatic?");
+        text(11,"As it was before, this must be","a pure quest, and so will be","provided with minimal");
+        text(11,"provisions...Velirk, supply","him with a trainee's","equipment...");
+        text(7,"Yes, M'lord","","");
+        text(11,"Rinbel, provide him with 50","pieces of gold from the","treasury...");
+        text(10,"Yes, M'lord","","");
+        text(11,"Erikk, you will give Onam the","same provisions a Mage","recieves at induction?");
+        text(6,"Of course, My Lord","","");
+        text(11,"And Fillat, you will make a","Royal proclamation to all of","the nation, telling that the");
+        text(11,"Prince has gone on a quest for","the good of the people...","");
+        text(12,"Yes, your majesty.","","");
+        text(11,"Now remember, Onam,","this must be a pure quest.","If anyone accompanies you in");
+        text(11,"your journeys, they must do","so of their own free will.","If you force anyone to");
+        text(11,"accompany you, the Relics will","not accept you, and all will","be lost.");
+        text(1,"I will not fail you, Father","","");
+        text(11,"Hmmmm...Time will tell, Onam,","time will tell. Go to your","room to prepare for your");
+        text(11,"quest. You will set out","tommorow. Go seek the","ministers today to get your");
+        text(11,"provisions.","","");
+        text(1,"Yes, Father.","","");
+        text(11,"This Council is adjourned.","","");
+        //gavel sound fx here.
+        flags[5]=1;
+        boxfadeout(100);
+        layervc=0;
+        vcclear();
+        alterftile(41,13,189,2);
+        alterftile(41,14,209,2);
+        alterftile(43,13,189,2);
+        alterftile(43,14,209,2);
+        alterftile(45,13,189,2);
+        alterftile(45,14,209,2);
+        alterftile(47,13,189,2);
+        alterftile(47,14,209,2);
+        alterftile(49,13,189,2);
+        alterftile(49,14,209,2);
+        alterbtile(13,25,400,0);
+        alterbtile(14,25,400,0);
+        alterbtile(15,25,400,0);
+        alterbtile(30,54,100,0);
+        alterbtile(29,58,100,0);
+        alterbtile(31,62,100,0);
+        alterbtile(41,54,100,0);
+        alterbtile(39,57,100,0);
+        alterbtile(41,58,100,0);
+        alterbtile(43,60,100,0);
+        alterftile(30,53,0,0);
+        alterftile(29,57,0,0);
+        alterftile(31,61,0,0);
+        alterftile(41,53,0,0);
+        alterftile(39,56,0,0);
+        alterftile(41,57,0,0);
+        alterftile(43,59,0,0);
+        changezone(30,54,0);
+        changezone(29,58,0);
+        changezone(31,62,0);
+        changezone(41,54,0);
+        changezone(39,57,0);
+        changezone(41,58,0);
+        changezone(43,60,0);
+        alterftile(179,58,825,2);
+        alterbtile(178,56,824,1);
+        alterbtile(177,57,824,1);
+        Entity.LocX(23)=0;
+        Entity.LocY(23)=0;
+        Entity.LocX(24)=0;
+        Entity.LocY(24)=0;
+        Entity.LocX(25)=0;
+        Entity.LocY(25)=0;
+        Entity.LocX(26)=0;
+        Entity.LocY(26)=0;
+        Entity.LocX(27)=0;
+        Entity.LocY(27)=0;
+        Entity.LocX(28)=0;
+        Entity.LocY(28)=0;
+        Entity.LocX(29)=0;
+        Entity.LocY(29)=0;
+
+        warp(139,19,1);
+        setface(1,0);
+        boxfadein(100);
+        }
+if(flags[18] and flags[5])
+        {
+        if(flags[25]!=3)
+                {
+                text(1,"Hmmm...Better not go to sleep","until I've gotten all of my","things from the ministers...");
+                }
+        if(flags[25]=3)
+                {
+                fadeout(50);
+                mappalettegradient(144,159,1,0);
+                ScreenGradient=1;
+                wait(1);
+                fadein(50);
+                setface(1,2);
+                wait(50);
+                setface(1,3);
+                wait(50);
+                setface(1,2);
+                text(0,"I just can't sleep tonight...","...It may be my last time","being in the castle...");
+                flags[26]=1;
+                flags[89]=1;
+                flags[169]=1;
+                alterbtile(117,84,834,1);
+                alterbtile(117,86,834,1);
+                alterbtile(119,87,834,1);
+                alterbtile(120,86,834,1);
+                alterbtile(118,85,835,1);
+                alterbtile(119,85,835,1);
+                alterbtile(121,84,835,1);
+                alterbtile(121,87,835,1);
+                alterbtile(118,86,818,1);
+                alterftile(117,83,813,0);
+                alterftile(117,85,813,0);
+                alterftile(121,86,813,0);
+                alterftile(118,84,812,0);
+                alterftile(121,83,812,0);
+                alterftile(119,84,814,0);
+                alterftile(119,86,814,0);
+                alterftile(120,85,814,0);
+                alterftile(14,9,0,2);
+                alterbtile(14,10,47,0);
+                alterbtile(107,89,751,1);
+                alterbtile(108,89,0,1);
+                alterbtile(109,89,752,1);
+                alterbtile(108,90,612,0);
+                alterbtile(17,89,751,1);
+                alterbtile(18,89,0,1);
+                alterbtile(19,89,752,1);
+                alterbtile(18,90,612,0);
+                alterftile(172,23,0,1);
+                alterftile(173,23,0,1);
+                alterftile(174,23,0,1);
+                alterftile(175,23,0,1);
+                alterftile(176,23,0,1);
+                alterftile(63,47,0,1);
+                alterftile(63,48,105,1);
+                alterftile(63,49,107,1);
+                alterftile(63,50,107,1);
+                changezone(62,47,82);
+                changezone(62,48,82);
+                changezone(62,49,82);
+                changezone(62,50,82);
+                }
+        if(flags[26]=1)
+                {
+                text(0,"...I just can't rest yet...","","");
+                }
+        }
+}
+event //89
+{
+if(!flags[19])
+        {
+        text(1,"Hmmm...Seems to be a different","kind of book than the rest...I","think I'll keep this one...");
+        giveitem(1);
+        alterbtile(69,13,100,0);
+        flags[19]=1;
+        }
+}
+event //90
+{
+if(flags[26]=1)
+        {
+        text(1,"*Hmmmm...There are two buttons","on the throne","");
+        prompt(0,"Push which button?","","",21,"Red Button","Green Button");
+        if(!flags[21])
+                {
+                hooktimer(124);
+                wait(100);
+                text(1,"Whoops! The silent alarm...I","forgot about that...","");
+                hooktimer(0);
+                mappalettegradient(144,159,1,0);
+                }
+        if(flags[21])
+                {
+                Text(1,"Ahhh! Something's moving!","","");
+                fadeout(10);
+                alterftile(11,9,521,1);
+                alterbtile(12,9,25,1);
+                alterbtile(13,9,26,1);
+                alterftile(11,10,520,1);
+                alterbtile(12,10,47,1);
+                alterbtile(13,10,46,1);
+                alterbtile(14,9,0,1);
+                alterbtile(14,10,0,0);
+                alterftile(12,8,5,2);
+                alterbtile(15,9,86,2);
+                alterbtile(15,10,86,2);
+                alterftile(14,8,0,1);
+                warp(14,11,1);
+                fadein(10);
+                flags[86]=1;
+                }
+        }
+}
+event //91
+{
+if(!flags[20])
+        {
+        prompt(0,"Ahh! Prince Onam, care to join","our little game?","",18,"Yes","No");
+        if(!flags[18])
+                {
+                callevent(121);
+                flags[20]=1;
+                }
+        if(flags[18])
+                {
+                text(0,"Oh...ok...","","");
+                }
+        }
+if(flags[20])
+        {
+        prompt(0,"Care to play again?","","",18,"Yes","No");
+        if(!flags[18])
+                callevent(121);
+        }
+}
+event //92
+{
+if(!flags[22])
+        {
+        text(0,"A strange book filled with","tiny runes...","");
+        }
+if(flags[6]=2 and flags[3]=1 and !flags[22])
+        {
+        giveitem(2);
+        text(0,"You now can see that the runes","are actually numbers.","");
+        flags[22]=1;
+        Alterbtile(182,46,236,2);
+        }
+}
+event //93
+{
+text(0,"Books on the finer points of","accounting...Or a cure for","insomnia, depending on your");
+text(0,"point of view.","","");
+}
+event //94
+{
+if(!flags[2])
+        {
+        text(0,"Do not avoid me, my son. Come","to the throne.","");
+        }
+}
+event //95
+{
+text(0,"The Forces that feed a mages","powers pulse through the land,","sea, and sky, in invisible");
+text(0,"rivers of elemental energy...","","");
+}
+event //96
+{
+text(0,"...There are six major","elements we know of...Earth,","Wind, Water, Fire, Light, and");
+text(0,"Dark...These forces shape and","affect every aspect of our","lives...");
+}
+event //97
+{
+text(1,"Hmmm...I can almost make out","these words, but not quite.","");
+}
+event //98
+{
+text(1,"These books are in the old","tounge...I can't possibly read","them...");
+}
+event //99
+{
+text(0,"...The Mage uses relics and","enchantments to harness the","worlds natural powers...The");
+text(0,"Psionics use their minds to","harness these same powers...","");
+}
+event //100
+{
+text(0,"Our very bodys are made of all","of the elements...Earth in the","flesh...Air in the lungs...");
+text(0,"...Water in the blood...Fire","in the Stomach and Entrails...","and Light and Dark to shade");
+text(0,"our very Souls...","","");
+}
+event //101
+{
+text(0,"When a Mage routes power","through his machinations, that","power is as pure as it was");
+text(0,"before...when a Psionic routes","power through his mind, it is","stained by his souls'");
+text(0,"alignment...","","");
+}
+event //102
+{
+text(0,"The shelves are lined with","odd-looking herbs and various","animal body-parts...");
+}
+event //103
+{
+text(0,"Although there are only six","major elements, there are an","unlimited number of minor");
+text(0,"elements. All that is needed","is the pure extract of an item","to be a minor elemental. In");
+text(0,"this way, you could have","elemental grass, elemental","sofas, and even elemental");
+text(0,"cheese!","","");
+}
+event //104
+{
+if(!flags[23])
+        {
+        text(12,"Ahhh...What's next on the","agenda?","");
+        text(0,"Well, sir, there is a shortage","of grain in Calto province.","");
+        text(12,"Ahhh...well, isn't there a","surplus of cheese from Onsin","province?");
+        text(0,"Yes, sir, but cheese isn't","grain.","");
+        text(12,"Ahhh...I know that, but","they'll be too constipated to","think about grain.");
+        wait(91);
+        text(0,"If you say. Very good, sir.","","");
+        text(12,"All this hard work tires me...","Take five, boys.","");
+        flags[23]=1;
+        }
+if(flags[23]=1 and flags[4]=1)
+        {
+        text(12,"Back to work, boys...Now what","should we do with the surplus","of grain in Orkyewn province?");
+        text(0,"Workers: *sigh*","","");
+        flags[23]=2;
+        }
+}
+event //105
+{
+if(!flags[3])
+        {
+        text(0,"We're all busy with lessons","right now. Why don't you go","back to the castle? You");
+        text(0,"probably have business to do","there, and when you're done,","our lessons will probably be");
+        text(0,"over.","","");
+        text(1,"*Hmmm...that sounded","remarkably like a hint...*","");
+        }
+if(flags[26])
+        {
+        text(0,"I'm the lookout for the craps","game...They're just to the","side of this tower.");
+        }
+}
+event //106
+{
+if(!flags[6])
+        {
+        text(0,"We're busy with training","right now. Why don't you go","Visit the mages? You");
+        text(0,"probably have business to do","there, and when you're done,","our lessons will probably be");
+        text(0,"over.","","");
+        text(1,"*Hmmm...that sounded","remarkably like a hint...*","");
+        }
+if(flags[26])
+        text(0,"Darn it, It's my turn to be on","lookout fer the craps game...","and I even felt lucky tonight.");
+}
+event //107
+{
+text(0,"M'lord, you know your father","won't let anyone go into your","brother's room...");
+}
+event //108
+{
+text(0,"The crystal ball glimmers","eeirily","");
+}
+event //109
+{
+text(0,"This book appears to be your","fathers diary","");
+prompt(0,"Read it?","","",18,"yes","no");
+if(!flags[18])
+        {
+        text(0,"The first entry is dated seven","years ago...","");
+        text(1,"Seven years ago...that'd be","right after Mom had died...","");
+        text(0,"Grief fills my heart...My dear","Basilia...why?...","");
+        text(0,"I have opened this sealed","vault...This divining chamber","that my father had shown me,");
+        text(0,"to find out what took her","life...","");
+        text(0,"...my findings are most","unusual...troubling...I could","not get the device to show me");
+        text(0,"the past...only the future,","Oh Basilia, basilia...","...");
+        text(1,"Hmmm...This next entry is","dated six years ago.","");
+        text(0,"My grief from the loss of my","wife has subsided...I can see","know that I have two darling");
+        text(0,"sons still, and a nation","depending on me.","..But still, I find myself");
+        text(0,"drawn to this room...","There was something...wrong...","in the viewing last year...");
+        text(0,"something menacing...but it is","unclear...fuzzy...what is it?","The viewing tonight was");
+        text(0,"sparsly any better...I wish I","knew what it is...This has","been giving me restless");
+        text(0,"nights...","","");
+        text(1,"This entry is from five years","back...","");
+        text(0,"Tonight was most unnerving...","Visions of plauge...cataclysm","...horror upon horror...and it");
+        text(0,"was all linked somehow to a","Psion...I must do whatever I","can to protect Aldencia...");
+        text(0,"Tomorrow, I expell all Psions","from the country...","");
+        text(1,"This is getting kind of","creepy...This entry is four","years old");
+        text(0,"My actions last year seem to","have had some effect on the","future...Now there are just");
+        text(0,"vauge shadows...and yet, these","are more terrifying than the","fire and brimstone of last");
+        text(0,"years viewing...could these","visions be what drove Bastien","insane, almost one hundred");
+        text(0,"years ago? My sleepless nights","have been turned into fits of","night terrors...");
+        text(1,"Stranger and stranger...This","entry is two years old...","");
+        text(0,"DAMN THIS CONTRAPTION! Why","cannot I find what this...thing","...is? Of that it will destroy");
+        text(0,"us all, I am certain! It must","be stopped, but how? I can now","see that Bastien must have");
+        text(0,"known something about these","events...I have found texts","written by him that describe");
+        text(0,"some of these visions exactly.","...What am I to do?","");
+        text(1,"Hmmm...This entry is from last","year, the night before Father","sent Amin away...");
+        text(0,"The Nine Great Relics that","Bastien made are somehow tied","to this...disaster...they are");
+        text(0,"meant to stop it somehow...The","Horrors are closer now, scant","years away...I am too old to");
+        text(0,"find the Relics myself...I","must send Amin to get them...","Our world depends on it...Amin");
+        text(0,"will not fail me, he is a","fine, strong boy. If this","crisis can be averted, he will");
+        text(0,"be a King to put me to shame...","","");
+        text(1,"So, that is why Amin was sent,","and me in his place...Father,","why do you force yourself to");
+        text(1,"bear this burden alone?","","");
+        text(1,"The last Entry is from last","night...","");
+        text(0,"NO! Tonight, the globe was","black...There was nothing to","view...Our world has less then");
+        text(0,"a year...Amin must have failed","...Onam must go, but I fear it","is too late...These last few");
+        text(0,"months, I havent slept at all.","...","");
+        wait(10);
+        playmusic("AMIN.XM");
+        wait(100);
+        text(1,"So...this is why...this is why","father has been acting strange","...This is why Amin was sent");
+        text(1,"off, and now I must go...","","");
+        text(1,"This...is....why....","","");
+        fadeout(200);
+        layer0=0;
+        layer1=0;
+        layervc=1;
+        vccentertext(92,"...And so, Onam's quest begins...");
+        screengradient=0;
+        cameratracking=0;
+        Entity.LocX(0)=0;
+        Entity.LocY(0)=0;
+        wait(1);
+        fadein(100);
+        wait(400);
+        fadeout(200);
+        layervc=0;
+        vcclear();
+        flags[166]=1;
+        wait(1);
+        flags[169]=0;
+        mapswitch("TILDE.MAP",22,16,1);
+        }
+}
+event //110
+{
+if(flags[26]=1)
+        {
+        text(0,"C'mon, baby...Daddy needs a","new pair of shoes...","");
+        }
+}
+event //111
+{
+Mapswitch("TILDE.MAP",23,16,0);
+}
+event //112
+{
+if(flags[26]=1)
+        {
+        text(0,"I've been rakin' it in,","tonight!","");
+        }
+}
+event //113
+{
+if(flags[26]=1)
+        {
+        text(0,"I've lost the shirt off of my","back...","");
+        }
+}
+event //114
+{
+if(flags[26]=1)
+        {
+        text(0,"Yahoo! I love craps!","","");
+        }
+}
+event //115
+{
+if(flags[26]=1)
+        {
+        text(0,"*sigh*...","I wish there were a floating","poker game, instead...");
+        }
+}
+event //116
+{
+if(flags[26]=1)
+        {
+        text(0,"Leave me alone...I've gotta","concentrate on this roll!","");
+        }
+}
+event //117
+{
+if(flags[26]=1)
+        {
+        text(0,"C'mon seven...lucky seven!","...C'mon baby...","");
+        }
+}
+event //118
+{
+text(0,"I'm sorry, my prince. Your","father will not allow you to","re-enter the castle until");
+text(0,"you've completed your quest.","","");
+}
+event //119
+{
+text(0,"Good luck, m'lord. Please come","back safly.","");
+}
+event //120
+{
+text(0,"Raw elemental energy flows","into our world, feeding it the","energy it needs to survive.");
+text(0,"Where exactly it flows from,","nobody has ever figured out...","");
+}
+event //121
+{
+        prompt(0,"Alright, How much do you bet?","","",18,"20 GP","40 GP");
+        if(!flags[18])
+                {
+                if(GP<20)
+                        {
+                        text(0,"Hey, you don't have enough","cash...Scram!","");
+                        flags[27]=1;
+                        }
+                if(GP>=20)
+                        {
+                        takegp(20);
+                        flags[27]=0;
+                        flags[28]=1;
+                        }
+                }
+        if(flags[18])
+                {
+                if(GP<40)
+                        {
+                        text(0,"Hey, you don't have enough","cash...Scram!","");
+                        flags[27]=1;
+                        }
+                if(GP>=40)
+                        {
+                        takegp(40);
+                        flags[27]=0;
+                        flags[28]=2;
+                        }
+                }
+//first roll!
+        flags[A]=random(1,6);
+        flags[B]=random(1,6);
+        flags[29]=flags[A]+flags[B];
+        if(flags[29]=2 and !flags[27])
+                {
+                text(0,"You rolled Snake eyes...That's","Craps! You lose.","");
+                }
+        if(flags[29]=3 and !flags[27])
+                {
+                text(0,"You rolled a three...Thats","craps!, You lose.","");
+                }
+        if(flags[29]=4 and !flags[27])
+                {
+                text(0,"You rolled a four, now roll","again...","");
+                callevent(122);
+                }
+        if(flags[29]=5 and !flags[27])
+                {
+                text(0,"You rolled a five, now roll","again...","");
+                callevent(122);
+                }
+        if(flags[29]=6 and !flags[27])
+                {
+                text(0,"You rolled a six, now roll","again...","");
+                callevent(122);
+                }
+        if(flags[29]=7 and !flags[27])
+                {
+                text(0,"You rolled a seven. That's a","Natural! You win!","");
+                if(flags[28]=1)
+                        giveGP(60);
+                if(flags[28]=2)
+                        giveGP(120);
+                }
+        if(flags[29]=8 and !flags[27])
+                {
+                text(0,"You rolled an eight, now roll","again...","");
+                callevent(122);
+                }
+        if(flags[29]=9 and !flags[27])
+                {
+                text(0,"You rolled a nine, now roll","again...","");
+                callevent(122);
+                }
+        if(flags[29]=10 and !flags[27])
+                {
+                text(0,"You rolled a four, now roll","again...","");
+                callevent(122);
+                }
+        if(flags[29]=11 and !flags[27])
+                {
+                text(0,"You rolled an eleven. That's a","Natural! You win!","");
+                if(flags[28]=1)
+                        giveGP(60);
+                if(flags[28]=2)
+                        giveGP(120);
+                }
+        if(flags[29]=12 and !flags[27])
+                {
+                text(0,"You rolled Boxcars...That's","craps! You lose.","");
+                }
+        flags[18]=1;
+}
+event //122
+{
+        flags[A]=random(1,6);
+        flags[B]=random(1,6);
+        flags[30]=flags[A]+flags[B];
+        if(flags[30]=flags[29])
+                {
+                text(0,"Your second roll matched the","first! You win!","");
+                if(flags[28]=1)
+                        giveGP(60);
+                if(flags[28]=2)
+                        giveGP(120);
+                }
+        if(flags[30]!=flags[29])
+                {
+                text(0,"Your second roll didn't match","the first roll, You lose.","");
+                }
+        flags[18]=1;
+}
+event //123
+{
+}
+event //124
+{
+mappalettegradient(x,(x+6),0,0);
+x++;
+}
+event //125
+{
+if(timer=2 and volume>1)
+        {
+        volume--;
+        timer=0;
+        }
+}
+event //126
+{
+if(timer=2 and volume<100)
+        {
+        volume++;
+        timer=0;
+        }
+
+}
+event //127
+{
+}
