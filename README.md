@@ -11,5 +11,5 @@ npm i --dev
 npm start # Start the compile watcher
 npm run server # Run the server locally.  Hit localhost:8000/indexDev.html
 
-npm build && npm run release # Build an optimized release
+npm run build && npm run release # Build an optimized release.  Hit localhost:8000/index.html to test locally
 ```

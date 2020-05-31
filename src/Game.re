@@ -5,7 +5,7 @@ type game = {
 
 [@react.component]
 let make = (~game) => {
-    let url = "/game.html?game=" ++ game.name;
+    let url = "://game.html?game=" ++ game.name;
     <iframe
         src={url}
         style={
