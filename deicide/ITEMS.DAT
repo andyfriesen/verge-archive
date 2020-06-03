@@ -1,0 +1,55 @@
+24
+Circuit_Board 0 Gadgetry            0 0 0 0 0  0 200
+Light_Armor 1 +5_DEF                0 0 0 3 1  0 10 
+Bowie_Knife 2 +5_ATK                0 0 0 1 2  0 10   
+Engagement_Ring 3 Gold_jewelry      0 0 0 0 0  0 700   
+NuDruk 4 Synthetic_hooch            0 0 0 0 0  0 5     
+Light_Amulet 5 Magical_artifact	    0 0 0 5 3  0 375
+Longsword 6 +15_ATK		    0 0 0 1 4  0 400
+Bionic_Ripper 7 +20_ATK		    0 0 0 1 5  0 475
+Seimstic_Counter 31 Gadgetry        0 0 0 0 0  0 400
+Heavy_Cloak 8 +10_DEF		    0 0 0 3 6  0 30
+Iridium_Suit 9 +20_DEF		    0 0 0 3 7  0 500
+Wrist_Phaser 11 +20_ATK             0 0 0 3 8  0 375
+Plasma_Laser 12 +30_ATK             0 0 0 1 9  0 550
+Shining_Cloak 13 +10_DEF,+20_MBL    0 0 0 3 11 0 250
+Riot_Gear 17 +30_DEF                0 0 0 3 12 0 100
+Metal_Shield 26 +20_DEF,+10_DOD     0 0 0 2 13 0 150
+Arcadian_Rock 22 Resonates_magic    0 0 0 0 0  0 0 
+Gaemean's_Stave 10 Rift_Key         0 0 0 0 0  0 0
+Wormwood_Stave 10 +40 MAG           0 0 0 6 10 0 0 
+Spectral_Potion 16 Mana_Potion      1 1 0 0 0  0 0 50
+Dablias 16 Restorative              1 2 0 0 0  0 0 50
+Toadstool 30 Magic_plant	    0 0 0 0 0  0 0
+Keycard 18 Electronic_key           0 0 0 0 0  0 0
+Mana_Ring 23 +20_MAG                0 0 0 5 14 0 400
+
+
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <price>
+
+<use>: 0 for nonusable.
+       1 for usable once, then it goes away.
+       2 for usable an infinite number of times.
+       3 for usable ONLY camped, only once.
+       4 for usable ONLY camped, infinitely
+       5 for usable in combat only, once, then it goes away.
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to EFFECTS.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: 0 if it is nonequipable by anyone.
+             1 Equipment is right-hand (weapon)
+             2 Equipment is left-hand (shield)
+             3 Equipment is armor
+             4 Equipment is helmet
+             5 Equipment is acc1
+             6 Equipment is acc2
+<equipidx> is a pointer to EQUIP.DAT when necessary.
+<price>: Is the cost to buy the item in a store. It can be sold for half the
+         cost. Note that it might not necessarily appear in any stores for
+         sale, such as Althena's sword, but you can still sell it or something.

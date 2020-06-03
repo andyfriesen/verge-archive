@@ -1,0 +1,50 @@
+12
+// Light_Armor
+DEF +5
+EQABLE 1 2 
+- // Bowie Knife
+ATK +5
+EQABLE 1 2
+- // Light_Amulet
+MAG +10
+MGR +10
+EQABLE 1 2
+- // Longsword
+MBL -10
+ATK +15
+EQABLE 1 2
+- // Bionic_Ripper
+ATK +20
+EQABLE 1 2
+- // Heavy_Cloak
+DEF +10
+EQABLE 1 2
+- // Iridium_Suit
+DEF +20
+REA +10
+EQABLE 1 2
+- // Wrist_Phaser
+ATK +20
+EQABLE 2
+- // Plasma_Laser
+ATK +30
+MGR -20
+EQABLE 2
+- // Shining_Cloak
+DEF +10
+MBL +20
+EQABLE 1
+- // Riot_Gear
+DEF +30
+MBL -10
+EQABLE 1
+- // Metal_Shield
+DEF +20
+DOD +10
+EQABLE 1
+- // Mana_Ring
+MAG +20
+MGR +10
+REA -10
+EQABLE 1
+-

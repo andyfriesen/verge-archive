@@ -16,6 +16,11 @@ let games: array(Game.game) = [|
         description: "A game based on Carnage from the SpiderMan comics. Made by CLIPs!"
     },    
     {
+        name: "deicide",
+        title: "Deicide",
+        description: "Game made by torquemanda!"
+    },        
+    {
         name: "diver",
         title: "Diver Down",
         description: "Excellent game made by Grenideer!"
