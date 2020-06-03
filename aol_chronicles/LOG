@@ -1,0 +1,12 @@
+Changelog from 12/24/97 to 1/9/97:
+ - VCTextNum now actually works. :)
+ - ChangeCHR now works *properly*. (on characters other than the 1st one, and
+   loads the specframe data properly, too.)
+ - Gave VergeC access (read-only) to character stat variables: ATK, DEF, HIT,
+   DOD, MAG, MGR, REA, MBL, FER. All variables take a party.dat character index;
+   So VCTextNum(1,1,ATK[1]); would print Darin's attack power in the upper-
+   left corner of the screen.
+
+*NOTE*: It did not take me this long to do those three items. I completed
+        everything in this patch in the last 2 days. :) I have been doing
+        research the last several weeks, as detailed on the web page.

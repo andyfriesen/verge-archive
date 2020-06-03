@@ -1,0 +1,108 @@
+GOT BATTLE ENGINE?
+
+                no? thats what I thought..  :)  
+Verge doesn't have an official battle engine yet.. but hard working coders have given us quite a few we can use.. among these is Ric's Battle Engine
+which is my personal favorite and uses FF-style battles.. and heres how to add it into YOUR verge game..
+
+updated Fri. May 17th
+
+
+Step 1: Downloading the Battle Engine 
+download the damn thing :) for this you simply go to extended play and download it from the files section..
+
+Step 2: installing the Battle ENgine
+okay, now first of all I'll assume you have your map made.. :) (which is kinda important) 
+if not, del test.vc and type maped test.map, then screw around, and make your own (alternatively you can make a new map using NEWMAP, see the docs for details.. anyways.. once you have your map finished.. 
+unzip ricbatsm.zip into the same directory as your game 
+Important: make sure you unzip it with -d (pkunzip -d ricbatsm.zip)
+(trust me on this ;) ) but everytime it asks you to overwrite.. select no 
+
+Step 3: adding the coding into your map
+alright now on the harder stuff.. okay.. first we'll add the battle to your map coding (follow this step for every map that will have battles in it) okay first place event 0 and either type or copy and paste the following:
+
+event /* 0 */
+{
+  LayerVC=0;
+  Layer0=1;
+  Layer1=1;
+  DrawParty=1;
+  VCClear();
+  Redraw();
+}
+
+this will basicllay just clear the map of all the monster images and menus after a battle.. otherwise the screen would get quite messy...
+
+okay.. now back to coding.. event 1 you can make:  
+
+event /* 1 */
+{
+ flags[7001]=LocX;
+ flags[7002]=LocY;
+ flags[7003]=1;
+ MapSwitch("batgrass.map",0,0,0);
+}
+
+okay I'm not quite sure what this event does, this is NOT the event you run to change to your battle map.. 
+
+anyways.. event 2 should be:
+
+event /* 2 */
+{
+ flags[7001] = LocX;
+ flags[7002] = LocY;
+ flags[7003]=1;
+ MapSwitch("batwoods.map",0,0,0);
+}
+
+okay this is different from the normal one.. this one takes you to a different battle scene.. a forest..
+you can have as many different battle maps and settings as you wish, but we'll deal with that later..
+
+event /* 3 */
+{
+ if(!flags[106])
+ {
+  flags[7001]=LocX;
+  flags[7002]=LocY;
+  flags[7003]=1;
+  MapSwitch("batgrass.map",0,0,0);
+ }
+}
+
+and finally.. THIS is the default event which takes you the the battle screen while walking aorund your map.. (a grassy plain) okay but battle still won't work, not until you do one more thing..
+
+Step 4: adding the battle zone
+okay, now save your test.vc file and exit.. then go into your map (maped test.map) okay now right now, the map won't use your events that you just put in, so we're going to make it.. to do this we use zones.. okay go into zone mode (n) and hit ctrl, a grap dialog box should pop up.. and it should say zone 1 in the upper right hand corner.. change to zone 0 (z key) and enter the following:
+
+ZONE:   (leave blank)
+EVENT:   3
+CHANCE:  20
+DELAY:  0
+DESC:   (leav blank if you wish)
+
+okay Zone 0 is the default zone for every tile.. when you make a new map every tile is automatically zone 0.. so a battle can happen anywhere in your map (if you don't want battles to occur in some tiles then change the tiles zone) 
+the CHANCE is the chance of a battle every time you step in zone 0 this can be anywhere from 0 (never happens) to 255 (always happens) you can change the chance now if you like..  now all thats left to do is save and compile your map (F10)
+and test it out! :)
+
+Step 5: adding an alternate battle setting
+neat huh? but that grassy plain was getting pretty repetitive.. we'll add somethign different.. forest battles.. okay load up your map again in maped.. and if you don't already have some.. add some forests in.. then go into the zone editor (n) and hit ctl, okay.. this time keep it on zone 1, this is the zone we'll be using for the forests.. change the values to the following..
+
+ZONE:
+EVENT:  2
+CHANCE:  40
+DELAY:  0
+DESC: Forest fight!
+
+okay.. if you'll recall, event 3 was the grass battle and event 2 was the forest..  note the chance is increased.. (because forests are more dangerous and battles happen more often) you can change this if you like.. okay.. go back to main map editing mode.. and make sure your on zone 1 (it should say Zone 1,   in the bottom right, if it doesn't, fiddle with the A and Z keys until it does..
+okay now any place there are forests.. click and add zone 1 to them... a transparent black square should appear.. add them to all the forest tiles.. then save and try it out again.. walk into a forest tile and voila!! :)
+
+Step 6: altering the battle maps and music
+okay I don't really recommend you do this, but if you must, heres how.. the 2 battle maps are 
+batgrass.map and batwoods.map
+if you wish to change them type maped batgrass.map or maped batwoods.map now make any changes you want.. if you want to change the battle music.. hit the M key and change 
+MUSIC:   to whatever you like.. :)  ( try changing it to AURORA.MOD just to test it out) 
+
+--------------------------------------------------------------------------
+
+okay in my next update (probably tommorrow which is saturday I'll tell you how to use different CHR's, how to disable and change flee.. how to make a game over thing when you die.. and how to change and alter the dinosaur monsters.. and lots more.. but for now.. I'm tried.. so c-ya :)
+
+any problems? mail me:  lord91@aol.com
