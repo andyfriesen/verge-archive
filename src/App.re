@@ -13,7 +13,12 @@ let games: array(Game.game) = [|
     {
         name: "tqfa",
         title: "The Quest for Atyre",
-        description: "TODO: Write something about the game and its author here!"
+        description: "Written by Lady Starmage. More info to be added later!"
+    },
+    {
+        name: "thorny",
+        title: "Thorny's Quest",
+        description: "A Verge compo game made by Jeff Brooks when he was merely 13!"
     },
 |];
 
