@@ -1,0 +1,32 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("grow3.map",35,4,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Hamster: The only reason we","survived here is because of","this water... and the trees.");
+}
+Event /* 3 */
+{
+TEXT(0,"Hamster: We've been here in","this cave for YEARS!","Thank you for saving us!");
+}
+Event /* 4 */
+{
+IF(Flags[44]=0)
+{
+TEXT(0,"Hamster: I'm a master","of boot making!","I can change your boots");
+TEXT(0,"so you can walk over quicksand!","Joe: YES!","");
+Flags[44]=1;
+Flags[42]=4;
+SoundEffect(4);
+}
+IF(Flags[44]=1)
+{
+TEXT(0,"Hamster: Thank you for saving","me!","");
+}
+}
+

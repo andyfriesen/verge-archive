@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",30,56,0);
+}
+Event /* 2 */
+{
+MapSwitch("moto.map",28,45,0);
+}
+

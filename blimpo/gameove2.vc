@@ -1,0 +1,18 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(60);  
+TEXT(0,"Here lies Joe...","","");
+TEXT(0,"He's DEAD...","","");
+TEXT(0,"","      dead...","");
+TEXT(0,"And it's thanks to YOU!","","");
+TEXT(0,"LOOK AT WHAT YOU'VE DONE!","","");
+TEXT(0,"ASSASIN!","KILLER!","..");
+STEXT(0,"MURDERER!!!!!","","");
+TEXT(0,"No hard feelings...","","");
+TEXT(0,"The game ends here..","Hope you save often...","");
+Wait(30);
+TEXT(0,"Now press ESC and choose","EXIT or LOAD GAME.","");
+}
+
+

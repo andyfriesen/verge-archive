@@ -1,0 +1,103 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Rat.map",16,20,0);
+}
+Event /* 2 */
+{
+MapSwitch("Poo.map",181,36,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Hamster: Rat Town is too","noisy, I like it here better.","");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Welcome to the town","where EVERYONE likes baseball,","except for me!");
+}
+Event /* 5 */
+{
+TEXT(0,"Soldier: Man! I cant see the","little league game because","of my JOB!");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: That over there is","the only shower in Furland.","");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Merchant: Why sell tools","if I can watch the GAME!","WHOO! Go Lardinals!");
+}
+Event /* 8 */
+{
+TEXT(0,"Furballette: That's my","Joey batting!","Hit a homerun honey! or");
+TEXT(0,"I wont serve you any food","for the next 3 weeks!","");
+SoundEffect(7);
+}
+Event /* 9 */
+{
+TEXT(0,"Ricky Manto: No-one hits","the ball in this direc-","tion! Cool!");
+}
+Event /* 10 */
+{
+TEXT(0,"Pete Gross: He wont hit a","homer! THe ball is too","soft!");
+}
+Event /* 11 */
+{
+TEXT(0,"Ken Fifi Jr: Take me out","to the ball game...","Sniff.. i get chills!");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+TEXT(0,"Babe Truth: I'm ready for","anything!","");
+}
+EVENT /* 13 */
+{
+TEXT(0,"Wendy Alomar: Get out of","way! Or I'll spit you in...","wait! That's my brother!");
+SoundEffect(7);
+TEXT(0,"Joe: Baseball Joke...","","");
+}
+Event /* 14 */
+{
+TEXT(0,"Yogi Bear: If I find a","million bucks... I'd return","them only if the owner is");
+TEXT(0,"very poor..","Spram: Real Yogi Berra Quote.","");
+SoundEffect(7);
+}
+Event /* 15 */
+{
+TEXT(0,"Bolas Pesadas: I havent","touched a ball in years!","");
+}
+Event /* 16 */
+{
+TEXT(0,"Lead Maduxxxx: I'm going","to throw a fastball!","");
+TEXT(0,"NO! Wait a curveball!","","");
+TEXT(0,"Nah! Fastball!","","");
+TEXT(0,"HEY NO!","Why not a curveball","");
+TEXT(0,"Mmmm...","ALL: Throw it already!","");
+SoundEffect(7);
+TEXT(0,"Lead Maduxxx: A curveball it is!","","");
+TEXT(0,"No! A FASTBALL!","Fastballs are fast and that","means hard to hit...");
+SoundEffect(7);
+TEXT(0,"But curveballs are hard","to hit too!","Joe: Why dont you just");
+TEXT(0,"throw an easy one and let","an outfielder catch it?","");
+TEXT(0,"Lead Maduxxx: Yeah right!","Real Ball Players dont do","That...");
+}
+Event /* 17 */
+{
+TEXT(0,"Doh Jackson: I'm going","to send this ball to","Blimpo Village!");
+}
+Event /* 18 */
+{
+TEXT(0,"Mike Pizza: An 100mph ball","hurts real bad...","Get out of the way!");
+}
+Event /* 19 */
+{
+TEXT(0,"Furball: They dont let me","play baseball!","Sniff...");
+}
+
+
+
+

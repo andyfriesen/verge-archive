@@ -1,0 +1,36 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",155,89,0);
+}
+Event /* 2 */
+{
+IF(Flags[29]>0)
+{
+IF(Flags[30]=0)
+{
+TEXT(0,"Furball: Sorry...","No-one can enter with","foreginers..");
+TEXT(0,"Samu: Please! It's important!","We MUST meet the king!","Furball: No-can-do!");
+TEXT(0,"Joe: I think we gotta sneak","in...","Bollo: Yeah!");
+TEXT(0,"Samu: Then we better head","north to the port town","of Zazen.");
+Flags[30]=1;
+}
+IF(Flags[30]>0)
+{
+TEXT(0,"Furball: You cant pass...","never will!","HAHAHA!");
+}
+}
+IF(Flags[29]=0)
+{
+TEXT(0,"Furball: Go away...","Foreginers cant enter this","castle!");
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Samurai: Cant pass...","Joe: Ok.","Whatever you say!!!");
+}
+
+

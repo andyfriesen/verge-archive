@@ -1,0 +1,73 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[98]=1)     
+{
+ AlterFtile(3,16,541,2);          
+ }
+IF(Flags[99]=1)  
+{
+ AlterFtile(34,7,0,2);            
+ }
+IF(Flags[100]=1)     
+{
+ AlterFtile(7,23,541,2);          
+ }
+}
+Event /* 1 */
+{
+MapSwitch("Surreal.map",19,19,0);
+}
+Event /* 2 */
+{
+MapSwitch("Surreal.map",25,19,0);
+}
+Event /* 3 */
+{
+IF(Flags[98]=1)
+ {
+  TEXT(0,"Empty.","","");
+ }
+IF(Flags[98]=0)
+ {
+  SoundEffect(3);      
+  AlterFtile(3,16,541,2);
+  GiveGP(75);
+  BANNER("Got 75 Gold",200);
+  Flags[98]=1;
+ }
+}
+Event /* 4 */
+{
+IF(Flags[99]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 80 EXP",200);
+GiveXP(1,80);
+GiveXP(2,80);
+GIVEXP(5,80);
+Flags[99]=1;
+AlterFtile(34,7,0,2);
+}
+}
+Event /* 5 */
+{
+TEXT(0,"Sign Says: Must you walk on","Air? Should you?","");
+}
+Event /* 6 */
+{
+IF(Flags[100]=1)
+ {
+  TEXT(0,"Empty.","","");
+ }
+IF(Flags[100]=0)
+ {
+  SoundEffect(3);      
+  AlterFtile(7,23,541,2);
+  GiveGP(100);
+  BANNER("Got 100 Gold",200);
+  Flags[100]=1;
+ }
+}
+

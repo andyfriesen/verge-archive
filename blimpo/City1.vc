@@ -1,0 +1,141 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",11,98,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Merchant: Welcome to the","Big city Hick.. er","I mean, country folk!");
+TEXT(0,"Bollo: ...","Joe: What do you have?","");
+Shop(1,2,3,4,13,14,25,28,42);
+TEXT(0,"Bollo: You sell the same pooh","the people on the counrty","sell..!!");
+TEXT(0,"Merchant: Thank you!","","");
+}
+Event /* 3 */
+{
+TEXT(0,"Innkeeper: Welcome Turists!!","Stay here!","");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Innkeeper: You Hicks","never have any money!","");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(20);
+TEXT(0,"InnKeeper: Thank you!","Bollo: The beds where cozy!","Innkeeper: Then come again.");
+}
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Bartender: Want to taste","the beer of the city?","Joe: What?");
+SoundEffect(7);
+TEXT(0,"Bartender: ZIMU!!!","Bollo: YES! I love Zimu!","Bartender: Smart thinkin'!");
+TEXT(0,"Bartender: Here orange guy..","have a zip...","Joe: NO.");
+TEXT(0,"Bollo: Come on, dude..","Joe: I wont.. It taste like","crap, only. not...");
+TEXT(0,"Bartender: Well then..","YOU have it!","Bollo: me?");
+TEXT(0,"Thank you!","Bartender: Only 50 gold..","Bollo: Screw you!");
+SoundEffect(7);
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: Hello.","Joe: Does this place","serve Zimu?");
+TEXT(0,"Furball: Oh yeah!","That's the only thing they","serve!");
+TEXT(0,"Bollo: this is a dream","come true!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furballette: Since you're","dumb and harmless country","folk.. I wont call the");
+TEXT(0,"soldiers for you breaking","in my house...","Bollo: Excuse me! The door");
+TEXT(0,"was open.!","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: There is absolutely","nothing behind me...","really..");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: I wish I could","live in the Industrial Zone!","Joe: Why?");
+TEXT(0,"Furball: They have a weapons","factory.. making weapons is","cool...");
+TEXT(0,"Joe: Weapons?","Bollo: You mean they mass","produce weapons??");
+}
+Event /* 9 */
+{
+TEXT(0,"Soldier: Welcome to the city","of San Ramon...","Recidential area...");
+}
+Event /* 10 */
+{
+TEXT(0,"Soldier: Watch it..","You punks can get in","trouble if I catch you");
+TEXT(0,"breakin' the law...","*snicker*...","");
+}
+Event /* 11 */
+{
+TEXT(0,"Soldier: hello..","Welcome to the barracs.. ","want to join the army?");
+TEXT(0,"Joe: No...","Bollo: No..","Soldier: Then get out!");
+}
+Event /* 12 */
+{
+TEXT(0,"Furball: Can I help you?","Bollo: No...","Joe: Well.. ye..");
+TEXT(0,"Bollo: I said NO!","Joe: But...","Bollo: NO!!");
+TEXT(0,"Joe: What's the matter with","you, you whirp!","Bollo: Wanna take it outside?");
+PartyMove("L8");  
+SetFace(1,2);                 
+TEXT(0,"Joe: Go ahead.. Make my..","Bollo: I'm so sorry..","sniff...");
+SoundEffect(7);
+TEXT(0,"Joe: It's alright!","Bollo:...",".. well..");
+SoundEffect(3);           
+EarthQuake(5,5,40); 
+TEXT(0,"Bollo: HAHAHA!","Joe: You...","...");
+SoundEffect(3);           
+EarthQuake(5,5,40); 
+AlterFtile(6,18,50,1);
+TEXT(0,"Joe: DIE!!!!","Soldier (far away): Hey you","two!");
+TEXT(0,"What's going on there?","Joe: Nothing...","Soldier: Good...");
+TEXT(0,"Bollo: You wuzzy...","","");
+}
+Event /* 13 */
+{
+TEXT(0,"Secretary: Hi!","What can I do for you?","Joe: Is the Mayor here?");
+TEXT(0,"Secretary: Yes..","He's taking a nap over there...","");
+SOundEffect(7);
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: They call me Lake Guy!","Joe: Wierd..","Bollo: creepy..");
+}
+Event /* 15 */
+{
+IF(Flags[15]=0)
+{
+TEXT(0,"Slime: Hey Joe!","Come here!","Joe: Yeah?");
+TEXT(0,"Slime: The factory in","the west makes weapons...","and the people here");
+TEXT(0,"Ship them to the Blimpo","Army!","Joe: WHAT???");
+TEXT(0,"Slime: Yes!","Please turn on the auto-","destruct sequence in");
+TEXT(0,"factory and destroy all","the weapons!","Joe: Right-O!");
+TEXT(0,"Slime: The password is..","DooDoo...","Bollo: That's easy!");
+Flags[15]=1;
+}
+IF(Flags[15]=1)
+{
+TEXT(0,"Slime: Go!","","");
+}
+IF(Flags[15]>1)
+{
+TEXT(0,"Slime: Good Job!","Go to the man near the","sewer entrance...");
+TEXT(0,"He can help you escape...","","");
+}
+}
+Event /* 16 */
+{
+SoundEffect(15);
+}
+

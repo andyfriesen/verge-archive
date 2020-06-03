@@ -1,0 +1,16 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Mike: Oh Nora...","I really do think we","should have another kid...");
+TEXT(0,"Nora: Really?","But... The world is not","a safe place for them...");
+Wait(50);
+TEXT(0,"Mike: That's not true..","I saw Joe this morning and","he told me...");
+Wait(80);
+TEXT(0,"Nora: REALLY!!","Yes!","Come on Mikey..");
+TEXT(0,"Let's get it on...","","");
+Wait(100);
+MapSwitch("end5.map",1,1,0);
+}
+ 

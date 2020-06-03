@@ -1,0 +1,30 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("grow2.map",10,15,0);
+}
+Event /* 2 */
+{
+IF(Flags[43]=0)
+{
+TEXT(0,"Furball: Gosh! I need some TNT!","","");   
+TEXT(0,"Joe: Maybe we can get you some?","Furball: Yeah right...","");
+}
+IF(Flags[43]=1)
+{
+TEXT(0,"Furball: Gosh! I need some TNT!","","");   
+TEXT(0,"Joe: Like this?","Furball: YES! YES!","Thank you!");
+DestroyItem(41,0);  
+SoundEffect(8);
+Flags[43]=2;
+Flags[42]=3;
+}
+IF(Flags[43]=2)
+{
+TEXT(0,"Furball: Excuse me.. but I got to","blow things up!","");
+}
+}
+

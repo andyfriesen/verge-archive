@@ -1,0 +1,815 @@
+Event /* 0 */
+{
+EnforceAnimation();
+volume=60;
+IF (FLAGS[9]=1)
+{
+Playmusic("XMASONG.S3M");
+}
+IF(Flags[9]=2)
+{
+Playmusic("nightcai.s3m");
+}
+IF(Flags[9]=0)
+{
+Playmusic("Aurora.mod");
+}
+IF (Flags[10]>6)
+{
+AlterBTile(174,44,92,0);
+}
+IF(Flags[18]>0)
+{
+AlterBtile(146,24,115,0);
+}
+IF(Flags[25]=1)
+{
+AlterBtile(179,164,350,0);
+AlterBtile(178,164,342,0);
+AlterBtile(177,164,342,0);
+AlterBtile(176,164,349,0);
+}
+IF(Flags[64]=22)
+{
+AlterFtile(98,129,0,20);
+}
+IF(Flags[67]=22)
+{
+AlterFtile(3,186,0,2);
+}
+}
+Event /* 1 */
+{
+MapSwitch("test.map",9,40,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Hello fellow! You","might wonder what a guy like","me is doin' out here..");
+TEXT(0,"Keep wonderin'","'Cause I dont have a clue...","");
+SoundEffect(7);
+}
+Event /* 3 */
+{
+MapSwitch("cave1.map",4,4,0);
+}
+Event /* 4 */
+{
+MapSwitch("cave1.map",54,39,0);
+}
+Event /* 5 */
+{
+TEXT(0,"THis is the Slime","Forest!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Hi!","","");
+}
+Event /* 7 */
+{
+MapSwitch("nora.map",4,4,0);
+}
+Event /* 8 */
+{
+TEXT(0,"Joe:Get me somewhere!","","");
+}
+Event /* 9 */
+{
+MapSwitch("cave2.map",6,6,0);
+}
+Event /* 10 */
+{
+MapSwitch("cave2.map",29,32,0);
+}
+Event /* 11 */
+{
+MapSwitch("bh.map",20,38,0);
+}
+Event /* 12 */
+{
+MapSwitch("home.map",1,5,0);
+}
+Event /* 13 */
+{
+MapSwitch("cave3.map",3,2,0);
+}
+Event /* 14 */
+{
+MapSwitch("cave3.map",49,50,0);
+}
+Event /* 15 */
+{
+TEXT(0,"Slime: I am a Healer Slime!","","");
+HealAll();
+SoundEffect(4);
+TEXT(0,"Slime: Come again, buddy!","","");
+SoundEffect(8);
+}
+Event /* 16 */
+{
+MapSwitch("cave3.map",45,3,0);
+}
+Event /* 17 */
+{
+MapSwitch("cave3.map",15,36,0);
+}
+Event /* 18 */
+{
+MapSwitch("train.map",1,9,0);
+}
+Event /* 19 */
+{
+MapSwitch("train.map",78,10,0);
+}
+Event /* 20 */
+{
+MapSwitch("Pupunia.map",14,28,0);
+}
+Event /* 21 */
+{
+MapSwitch("warp.map",12,12,0);
+}
+Event /* 22 */
+{
+TEXT(0,"SOLDIER: THe king sent me","to tell you this:","");
+TEXT(0,"Go West until you find your","homeland, there you will","find the answers..");
+TEXT(0,"Joe: Thanks.","","");
+}
+Event /* 23 */
+{
+MapSwitch("cave4.map",2,1,0);
+}
+Event /* 24 */
+{
+MapSwitch("cave4.map",57,1,0);
+}
+Event /* 25 */
+{
+MapSwitch("rat.map",22,39,0);
+}
+Event /* 26 */
+{
+MapSwitch("Furt.map",1,2,0);
+}
+Event /* 27 */
+{
+MapSwitch("castle.map",7,38,0);
+}
+Event /* 28 */
+{
+MapSwitch("Nock.map",23,43,0);
+}
+Event /* 29 */
+{
+MapSwitch("GB.MAP",1,5,0);
+}
+Event /* 30 */
+{
+PlayMusic("XMASONG.S3M");
+Flags[9]=1;
+}
+Event /* 31 */
+{
+PlayMusic("AURORA.MOD");
+Flags[9]=0;
+}
+Event /* 32 */
+{
+MapSwitch("WC.map",28,58,0);
+}
+Event /* 33 */
+{
+MapSwitch("for.map",41,1,0);
+}
+Event /* 34 */
+{
+MapSwitch("for.map",18,48,0);
+}
+Event /* 35 */
+{
+MapSwitch("cave5.map",2,1,0);
+}
+Event /* 36 */
+{
+MapSwitch("cave5.map",44,38,0);
+}
+Event /* 37 */
+{
+MapSwitch("ice1.map",16,28,0);
+}
+Event /* 38 */
+{
+MapSwitch("fc.map",15,28,0);
+}
+Event /* 39 */
+{
+MapSwitch("ICEWARP.MAP",12,8,0);
+}
+Event /* 40 */
+{
+TEXT(0,"Whale: Save me!","Joe: Cant help you!","You're too big!");
+TEXT(0,"Whale: That's ok..","I like it here anyway..","");
+}
+Event /* 41 */
+{
+MapSwitch("igloo2.map",14,28,0);
+}
+Event /* 42 */
+{
+MapSwitch("cave7.map",33,34,0);
+}
+Event /* 43 */
+{
+MapSwitch("cave7.map",5,3,0);
+}
+Event /* 44 */
+{
+MapSwitch("city1.map",1,20,0);
+}
+Event /* 45 */
+{
+MapSwitch("cap.map",20,38,0);
+}
+Event /* 46 */
+{
+MapSwitch("fact.map",48,44,0);
+}
+Event /* 47 */ 
+{
+MapSwitch("sewer.map",21,48,0);
+}
+Event /* 48 */
+{
+MapSwitch("dst.map",13,28,0);
+}
+Event /* 49 */
+{
+MapSwitch("cave8.map",5,3,0);
+}
+Event /* 50 */
+{
+MapSwitch("cave8.map",29,30,0);
+}
+Event /* 51 */
+{
+MapSwitch("cacatown.map",17,22,0);
+}
+Event /* 52 */
+{
+MapSwitch("cave8.map",45,2,0);
+}
+Event /* 53 */
+{
+MapSwitch("phome.map",9,18,0);
+}
+Event /* 54 */
+{
+IF(Flags[18]>0)
+{
+MapSwitch("phome2.map",9,18,0);
+}
+}
+Event /* 55 */
+{
+MapSwitch("castle2.map",20,34,0);
+}
+Event /* 56 */
+{
+MapSwitch("c2t.map",33,22,0);
+}
+Event /* 57 */
+{
+MapSwitch("cabin.map",11,18,0);
+}
+Event /* 58 */
+{
+MapSwitch("cave9.map",7,3,0);
+}
+Event /* 59 */
+{
+MapSwitch("cave9.map",50,47,0);
+}
+Event /* 60 */
+{
+MapSwitch("Ram1.map",19,28,0);
+}
+Event /* 61 */
+{
+MapSwitch("pyr.map",31,17,0);
+}
+Event /* 62 */
+{
+MapSwitch("cabin2.map",10,10,0);
+}
+Event /* 63 */
+{
+Warp(190,189,0);
+}
+Event /* 64 */
+{
+Warp(21,152,0);
+}
+Event /* 65 */
+{
+MapSwitch("heaven.map",19,34,0);
+}
+Event /* 66 */
+{
+IF(Flags[26]=0)
+{
+TEXT(0,"Joe: This boats looks cool.","","");
+}
+IF(Flags[26]=1)
+{
+IF(Flags[29]=0)
+{
+RemoveCharacter(2);
+ChangeCHR(1,"Boat.chr");
+Entity.LocX[5]=0;           
+Warp(131,164,0);
+Flags[27]=1;
+}
+IF(Flags[29]>0)
+{
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"Boat.chr");
+Entity.LocX[5]=0;           
+Warp(131,164,0);
+Flags[27]=1;
+}
+DisableSave();
+}
+}
+Event /* 67 */
+{
+IF(Flags[27]=1)
+{
+IF(Flags[29]>0)
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+Warp(130,163,0);
+Flags[27]=0;
+Entity.LocX[5]=131;  
+}
+IF(Flags[29]=0)
+{
+AddCharacter(2);
+ChangeCHR(1,"Furball.chr");
+Warp(130,163,0);
+Flags[27]=0;
+Entity.LocX[5]=131;  
+}
+EnableSave();
+}
+}
+Event /* 68 */
+{
+MapSwitch("Port.map",9,22,0);
+}
+Event /* 69 */
+{
+IF(Flags[28]=0)
+{
+Warp(188,147,0);
+Flags[28]=1;
+Entity.LocX[6]=0;     
+Return;
+}
+IF(Flags[28]=1)
+{
+Warp(122,129,0);
+Flags[28]=0;
+Entity.LocX[5]=0;     
+Return;
+}
+}
+Event /* 70 */
+{
+IF(Flags[26]=0)
+{
+TEXT(0,"Joe: This boats looks cool.","","");
+}
+IF(Flags[26]=1)
+{
+IF(Flags[29]=0)
+{
+RemoveCharacter(2);
+ChangeCHR(1,"Boat.chr");
+Entity.LocX[6]=0;           
+Warp(187,140,0);
+Flags[27]=1;
+}
+IF(Flags[29]>0)
+{
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"Boat.chr");
+Entity.LocX[6]=0;           
+Warp(187,140,0);
+Flags[27]=1;
+}
+DisableSave();
+}
+}
+Event /* 71 */
+{
+IF(Flags[27]=1)
+{
+ IF(Flags[29]=0)
+ {
+  AddCharacter(2);
+  ChangeCHR(1,"Furball.chr");
+  Warp(186,139,0);
+  Flags[27]=0;
+  Entity.LocX[6]=187;  
+ }
+ IF(Flags[29]>0)
+ {
+  AddCharacter(2);
+  AddCharacter(5);
+  ChangeCHR(1,"Furball.chr");
+  Warp(186,139,0);
+  Flags[27]=0;
+  Entity.LocX[6]=187;  
+  }
+  EnableSave();
+ }
+}
+Event /* 72 */
+{
+MapSwitch("port2.map",28,9,0);
+}
+Event /* 73 */
+{
+MapSwitch("jap1.map",38,12,0);
+}
+Event /* 74 */
+{
+IF(Flags[27]=1)
+{
+ IF(Flags[29]=0)
+ {
+  AddCharacter(2);
+  ChangeCHR(1,"Furball.chr");
+  Warp(151,113,0);
+  Flags[27]=0;
+  Entity.LocX[6]=152;  
+ }
+ IF(Flags[29]>0)
+ {
+  AddCharacter(2);
+  AddCharacter(5);
+  ChangeCHR(1,"Furball.chr");
+  Warp(151,113,0);
+  Flags[27]=0;
+  Entity.LocX[6]=152;  
+  }
+  EnableSave();
+ }
+}
+Event /* 75 */
+{
+IF(Flags[26]=0)
+{
+TEXT(0,"Joe: This boats looks cool.","","");
+}
+IF(Flags[26]=1)
+{
+IF(Flags[29]=0)
+{
+RemoveCharacter(2);
+ChangeCHR(1,"Boat.chr");
+Entity.LocX[6]=0;           
+Warp(152,1140,0);
+Flags[27]=1;
+}
+IF(Flags[29]>0)
+{
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"Boat.chr");
+Entity.LocX[6]=0;           
+Warp(152,114,0);
+Flags[27]=1;
+}
+DisableSave();
+}
+}
+Event /* 76 */
+{
+MapSwitch("toll.map",18,9,0);
+}
+Event /* 77 */
+{
+MapSwitch("mt1.map",18,22,0);
+}
+Event /* 78 */
+{
+MapSwitch("mt2.map",19,1,0);
+}
+Event /* 79 */
+{
+IF(Facing(1))
+{
+MapSwitch("japcas.map",50,34,0);
+}
+If(Facing(3))
+{
+MapSwitch("japcas.map",50,34,0);
+}
+IF(flacing(0))
+{
+MapSwitch("japcas.map",1,20,0);
+}
+IF(facing(2))
+{
+MapSwitch("japcas.map",1,20,0);
+}
+}
+Event /* 80 */
+{
+MapSwitch("japfor.map",1,12,0);
+}
+Event /* 81 */
+{
+MapSwitch("cave10.map",32,4,0);
+}
+Event /* 82 */
+{
+MapSwitch("dungo.map",20,34,0);
+}
+Event /* 83 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=2;
+CurHP(2)-=2;
+CurHP(3)-=2;
+CurHP(5)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0)
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 84 */
+{
+IF(Flags[64]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 20 EXP",200);
+GiveXP(1,20);
+GiveXP(2,20);
+GiveXP(3,20);
+GiveXP(5,20);
+Flags[64]=22;
+AlterFtile(98,129,0,20);
+}
+}
+Event /* 85 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND Char(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND Char(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 86 */
+{
+IF(Flags[67]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 40 EXP",200);
+GiveXP(1,40);
+GiveXP(2,40);
+GiveXP(5,40);
+Flags[67]=22;
+AlterFtile(3,186,0,2);
+}
+}
+Event /* 87 */
+{
+TEXT(0,"Joe: Could it be?","","");
+BANNER("Found 2 gold",200);
+GIVEGP(2);
+TEXT(0,"Joe: The Endless Supply","of Pennies Spot!","");
+}
+Event /* 88 */
+{
+PaletteMorph(63,10,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(5)-=1;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHar(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHar(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 89 */
+{
+MapSwitch("lastcave.map",97,56,0);
+}
+Event /* 90 */
+{
+MapSwitch("lastcave.map",24,10,0);
+}
+Event /* 91 */
+{
+MapSwitch("Blimpo1.map",19,22,0);
+}
+

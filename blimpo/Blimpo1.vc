@@ -1,0 +1,88 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",89,78,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Bunny: The Blimpo Lord is","just ahead...","");
+}
+
+Event /* 3 blimpo */
+{
+IF(Flags[166]=0)
+{
+TEXT(0,"Joe: Hello Evil Lord of","Blimp!","");
+TEXT(0,"Blimpo: We meet again..","Joe...","");
+TEXT(0,"And you brought friends...","What a coward..","");
+TEXT(0,"What do you want from me","this time?","");
+Wait(20);
+TEXT(0,"Joe: Tell us the location","of the Evil Red Orb...","");
+TEXT(0,"Blimpo: What?","I dont anything!","");
+Wait(20);
+TEXT(0,"Joe: Dont lie or we will","kick your arse so hard","you'll feel it in your nose!");
+TEXT(0,"Blimpo: Really..","I dont know anything...","");
+TEXT(0,"Samu: I got a neato mini","lie detector here that says","that the Blimpo Lord is saying");
+TEXT(0,"the truth?","","");
+Wait(20);
+TEXT(0,"Blimpo: See?","You've wasted your time...","I havent done anything");
+TEXT(0,"bad lately...","","");
+Wait(20);
+TEXT(0,"Joe: Yeah..","Well.. let's go to dungo and","meet RedOrb..");
+TEXT(0,"IF he is there...","Oh Gee... so much adventuring","for nothing...");
+Flags[166]=1;
+}
+TEXT(0,"Blimpo: Well..","Then please leave my","castle...");
+}
+Event /* 4 */
+{
+IF(Flags[166]=1)
+ {
+ TEXT(0,"Samu: Wait..","I feel something..","");
+ Wait(60);
+ EarthQuake(20,20,60);
+ Wait(30);
+ TEXT(0,"Samu: RedOrb...","","");
+ TEXT(0,"Joe: What about..","","");
+ TEXT(0,"Samu: He's here...","","");
+ TEXT(0,"Samu: Behind us!","","");
+ SetFace(1,1);   
+ SetFace(2,1);   
+ SetFace(3,1);   
+ Wait(20);
+ AlterFtile(20,7,329,1);
+ PlayMusic("caca.s3m");
+ Wait(50);
+ PaletteMorph(63,0,0,70,60);   
+ Earthquake(10,10,40); 
+ PaletteMorph(63,0,0,0,60);  
+ Wait(50);
+ TEXT(0,"RedOrb: I'm here!","Hahahaha!","");
+ TEXT(0,"Joe: RedOrb?","Or..","Evil RedOrb?");
+ Wait(50);
+ TEXT(0,"RedOrb: Hahahaha!","I cant beleive you falled for","that stupid trick!");
+ TEXT(0,"There is only ONE RedOrb","and he is EVIL!!!!!","EVIL!!!!!");
+ TEXT(0,"I can control people with weak","minds like all other evil","entities!");
+ TEXT(0,"So I used you guys to come","here and defeat the good","Blimpo Lord!");
+ TEXT(0,"HAHAHHAHAHAHAHHA","HAHAHAHAHAH!","");
+ Wait(50);
+ TEXT(0,"Bollo: Eh...","He did use us...","But..");
+ TEXT(0,"Joe: How dumb of you!","We are the good guys!","Blimpo is a bad guy!");
+ TEXT(0,"RedOrb: No in MY point of","view!","Hahahaha!");
+ TEXT(0,"Joe: RedOrb...","","");
+ TEXT(0,"Joe: You are going DOWN!","","");
+ TEXT(0,"RedOrb: Let's see about that!","I'll warp you to my super","evil machine of hurties!");
+ TEXT(0,"Joe: Let's do it!","","");
+ Wait(50);
+ MapSwitch("boss6.map",9,26,0);
+ }
+}
+
+
+ 
+
+
+

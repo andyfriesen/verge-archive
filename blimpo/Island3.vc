@@ -1,0 +1,29 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("diver2.map",18,7,0);
+}
+Event /* 2 */
+{
+MapSwitch("destop.map",1,17,0);
+}
+Event /* 3 */
+{
+MapSwitch("Diver3.map",10,1,0);
+}
+Event /* 4 */
+{
+MapSwitch("Cruise.map",1,12,0);
+}
+Event /* 5 */
+{
+GiveItem(51);
+}
+Event /* 6 */
+{
+MapSwitch("morro1.map",16,48,0);
+}
+

@@ -1,0 +1,74 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(FLags[150]=1)
+ {
+  Alterftile(10,10,0,0);
+  Alterftile(9,10,0,0); 
+ }
+}
+
+Event /* 1 */
+{
+MapSwitch("surcas13.map",6,5,0);   
+}
+
+Event /* 2 */
+{
+IF(!Item(16))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Shout Magic from");
+ TEXT(0,"here.","Bring a Shout Scroll and use","me.");
+ }
+IF(item(16))
+ {
+ Prompt(0,"Joe: This is a Shout Desk","We can use Shout magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+  TEXT(0,"Desk: You used me!","SHOUT!","AAAHHHHHHHHHHH!");
+  SoundEffect(13);
+  EarthQuake(10,10,50); 
+  AlterFtile(10,10,0,0);
+  AlterFtile(9,10,0,0); 
+  CurMP(1)-=5;   
+  CurMP(2)-=5;       
+  Flags[150]=1;
+ }
+ }
+  }
+  }
+}
+{
+
+Event /* 3 */
+{
+TEXT(0,"Box: Hi!","Exit here!","Go back to outside!");
+}
+Event /* 4 */
+{
+MapSwitch("Surreal.map",46,32,0);
+}
+Event /* 5 */
+{
+MapSwitch("surcas11.map",20,4,0);
+}
+Event /* 6 */
+{
+MapSwitch("surcas13.map",6,5,0);
+}
+

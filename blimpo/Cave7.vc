@@ -1,0 +1,161 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[12]>0)
+{
+Entity.LocX[5]=100;                                                
+}
+IF(Flags[12]=100)
+{
+AlterBTile(31,26,166,0); 
+AlterBTile(32,26,166,0); 
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",11,66,0);
+}
+Event /* 2 */
+{
+MapSwitch("Poo.map",14,86,0);
+}
+Event /* 3 not in map */
+{
+TEXT(0,"Hamster: Hey!","How are you today?","Joe: Fine.");
+TEXT(0,"Hamster: My name is Bollo, what's","your's?","Joe: Joe.");
+TEXT(0,"Bollo: Glad to meet you Joe!","Joe: Same here!","Bollo: So...");
+TEXT(0,"What are you doing here?","Joe: I'm trying to get past","this cave and explore");
+TEXT(0,"The world beyond...","Bollo: That sounds pretty neat!","Joe: Maybe...");
+TEXT(0,"Bollo: Why? It must be da' bomb","to go on adventures...","look at me... I'm here");
+TEXT(0,"Looking for gold...","cant find any...","Joe: Well... It's not that");
+TEXT(0,"cool... I'm trying to find","The Blimpo Lord and...","Bollo: What???");
+TEXT(0,"Joe: Blimpo Lord.","Bollo: Oh GOD!","I'm was looking for the");
+TEXT(0,"Blimpo Lord too!","I MUST avenge the death of","my picasso trading cards!");
+SoundEffect(7);
+TEXT(0,"Joe: Oh the HORROR!","Bollo: Yes...*sniff*..","May I come with you?");
+TEXT(0,"Joe: No way Jose...","It's too dangerous...","Bollo: Yeah right...");
+TEXT(0,"Anyway, you cant get past those","torches if you dont have me!","Joe: Why is that???");
+TEXT(0,"Bollo: Lame excuse for getting","another character...","Feywood would love this!");
+TEXT(0,"Joe: Hehehehe...","Ok, Come with me, you're","cool...");
+TEXT(0,"Bollo: Thanks! BUT...","I'm kind of annoying...","once you get to know me...");
+TEXT(0,"Joe: ...","...ok...","");
+Entity.LocX[5]=100;                 
+AddCharacter(2);
+TEXT(0,"Bollo: Let's go kick some","fondillo!!","Joe: What are you? German?");
+HEALALL();
+Flags[12]=42;
+}
+Event /* 4 */
+{
+IF(Flags[12]<2)
+{
+TEXT(0,"Joe: Man...","This fire things are in my","way!!!");
+}
+IF(Flags[12]=42)
+{
+TEXT(0,"Joe: Ok Bollo...","get them outta my way!","Bollo: Ok!");
+AlterBTile(31,26,166,0); 
+AlterBTile(32,26,166,0); 
+TEXT(0,"Bollo: Man...","Joe: That was lame...","I've could have done that.");
+Flags[12]=100;
+}
+}
+Event /* 5 */
+{
+TEXT(0,"Bollo: I tould you we should","not go this way!","Joe: ...");
+}
+Event /* 6 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=2;
+CurHP(2)-=2;
+CurHP(3)-=2;
+CurHP(5)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHar(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 7 */
+{
+IF(X=0)
+{
+EntityMove(9,"D4R7");
+X=1;
+}
+}
+Event /* 8 */
+{
+IF(B=0)
+{
+EntityMove(11,"U8");
+B=1;
+}
+}
+
+
+
+

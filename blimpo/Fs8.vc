@@ -1,0 +1,230 @@
+Event /* 0 */
+{
+EnforceAnimation();
+             FadeIn(4);                      
+ TEXT(0,"Bean: Oh no!","Intruders!!!","Get them!!!");
+}
+Event /* 1 */
+{
+TEXT(0,"Bean: Hi!","What are you going to do","to me?");
+}
+Event /* 2 */
+{
+IF(item(26))
+ {
+ SoundEffect(5);
+ Speed(0)=7;  
+ PartyMove("R12");
+ Speed(0)=4;  
+ }
+}
+Event /* 3 */
+{
+IF(item(26))
+ {
+ SoundEffect(5);
+ Speed(0)=7;  
+ PartyMove("U6");
+ Speed(0)=4;  
+ }
+}
+Event /* 4 */
+{
+IF(item(26))
+ {
+ SoundEffect(5);
+ Speed(0)=7;  
+ PartyMove("L12");
+ Speed(0)=4;  
+ }
+}
+Event /* 5 */
+{
+IF(item(26))
+ {
+ SoundEffect(5);
+ Speed(0)=7;  
+ PartyMove("D6");
+ Speed(0)=4;  
+ }
+}
+
+Event /* 6 */
+{
+IF(Flags[156]=1)
+ {
+ TEXT(0,"Computer: Robot 102 status:","Garbage Disposal.","");
+ }
+IF(Flags[156]=0)
+ {
+ TEXT(0,"Computer: Warping Robot 102","to Garbage Disposal.","");
+ Entity.LocX(6)=18;      
+ Entity.LocY(6)=18;      
+ Flags[160]+=1;
+  IF(Flags[160]=4)
+  {
+  TEXT(0,"Bean: Oh, oh...","I better leave!","");
+  AlterBtile(9,2,840,0);
+  EntityMove(5,"U4");        
+  Wait(30);  
+  Entity.LocX(5)=18;      
+  Entity.LocY(5)=18;      
+  }
+ }
+}
+
+Event /* 7 */
+{
+IF(Flags[157]=1)
+ {
+ TEXT(0,"Computer: Robot 100 status:","Garbage Disposal.","");
+ }
+IF(Flags[157]=0)
+ {
+ TEXT(0,"Computer: Warping Robot 100","to Garbage Disposal.","");
+ Entity.LocX(7)=18;      
+ Entity.LocY(7)=18;      
+ Flags[160]+=1;
+  IF(Flags[160]=4)
+  {
+  TEXT(0,"Bean: Oh, oh...","I better leave!","");
+  AlterBtile(9,2,840,0);
+  EntityMove(5,"U4");        
+  Wait(30);
+  Entity.LocX(5)=18;      
+  Entity.LocY(5)=18;      
+  }
+ }
+}
+
+Event /* 8 */
+{
+IF(Flags[158]=1)
+ {
+ TEXT(0,"Computer: Robot 092 status:","Garbage Disposal.","");
+ }
+IF(Flags[158]=0)
+ {
+ TEXT(0,"Computer: Warping Robot 092","to Garbage Disposal.","");
+ Entity.LocX(8)=18;      
+ Entity.LocY(8)=18;      
+ Flags[160]+=1;
+  IF(Flags[160]=4)
+  {
+  TEXT(0,"Bean: Oh, oh...","I better leave!","");
+  AlterBtile(9,2,840,0);
+  EntityMove(5,"U4");        
+  Wait(60);  
+  Entity.LocX(5)=18;      
+  Entity.LocY(5)=18;      
+  }
+ }
+}
+
+Event /* 9 */
+{
+IF(Flags[159]=1)
+ {
+ TEXT(0,"Computer: Robot 166 status:","Garbage Disposal.","");
+ }
+IF(Flags[159]=0)
+ {
+ TEXT(0,"Computer: Warping Robot 166","to Garbage Disposal.","");
+ Entity.LocX(9)=18;      
+ Entity.LocY(9)=18;      
+ Flags[160]+=1;
+  IF(Flags[160]=4)
+  {
+  TEXT(0,"Bean: Oh, oh...","I better leave!","");
+  AlterBtile(9,2,840,0);
+  EntityMove(5,"U4");        
+  Wait(60);  
+  Entity.LocX(5)=18;      
+  Entity.LocY(5)=18;      
+  }
+ }
+}
+
+Event /* 9 */
+{
+IF(FLags[160]=4)
+ {
+ MapSwitch("Fs9.map",2,2,0);
+ }
+}
+
+Event /* 10 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=6;
+CurHP(2)-=6;
+CurHP(3)-=6;
+CurHP(5)-=6;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}

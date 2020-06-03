@@ -1,0 +1,222 @@
+Event /* 0 */
+{
+EnforceAnimation();
+             FadeIn(4);  
+             
+PartyMove("U7"); 
+PlayMusic("gee.s3m");           
+TEXT(0,"Joe: Who are you?","","");
+TEXT(0,"Dragon: Please help me!","I'm stuck here!","I'm going crazy!!!");
+TEXT(0,"Joe: What?","Arent you an enemy boss?","");
+TEXT(0,"Dragon: NO!","I'm really a good guy!","Dont get any closer or you will");
+TEXT(0,"Be hit by my tentacles or","breath!","I'm trying to get loose!");
+TEXT(0,"Joe: But we HAVE to get by...","We need to beat the boss of","this castle!");
+TEXT(0,"Dragon: Really?","Cool! Go then! But be careful!","I cant stop moving... If I do");
+TEXT(0,"I'll die!","Hurry! Hit one of those two","buttons to open the way!");
+TEXT(0,"Joe: Ok...","","");
+TEXT(0,"Dragon: If you destroy the","boss then you'll free me!","Please save me!");
+AlterBtile(14,16,745,1);
+AlterBtile(15,16,745,1);        
+AlterBtile(16,16,745,1);        
+TEXT(0,"Dragon: Oops!","I pressed the close door","button! Sorry...");
+TEXT(0,"Samu: There's no going back","now...","");
+}
+
+Event /* 1 */
+{
+AlterFtile(15,6,825,0);
+}
+Event /* 2 */
+{
+AlterFtile(15,6,826,0);
+}
+Event /* 3 */
+{
+IF(FLags[148]=0)
+ {
+ AlterBtile(1,1,764,2);
+ EarthQuake(10,10,10);
+ SoundEffect(3);             
+ AlterBtile(15,1,746,2);
+ Flags[148]=1;
+ }
+}
+Event /* 4 */
+{
+IF(FLags[149]=0)
+ {
+ AlterBtile(28,1,764,2);
+ EarthQuake(10,10,10);
+ SoundEffect(3);             
+ Flags[149]=1;
+ }
+}
+
+
+Event /* 5 */
+{
+IF(Flags[148]=1)
+ {
+ MapSwitch("Surcas11.map",1,1,0);
+ }
+}
+
+
+Event /* 6 enemy */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 7 Fireball Enemy */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(11);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Entity.LocX(11)=15;
+Entity.LocY(11)=6;  
+
+Flags[60]=1;
+CurHP(1)-=2;
+CurHP(2)-=2;
+CurHP(3)-=2;
+CurHP(5)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+
+
+

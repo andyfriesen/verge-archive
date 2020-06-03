@@ -1,0 +1,207 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[129]=1)
+ {
+ AlterFtile(27,21,0,0);
+ AlterFtile(28,21,0,0);      
+ AlterFtile(29,21,0,0);      
+ }
+ IF(Flags[131]=1)
+ {
+ AlterFtile(28,18,541,1); 
+ }
+}
+Event /* 1 */
+{
+MapSwitch("morro1.map",6,11,0);
+}
+Event /* 2 */
+{
+IF(!Item(17))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Shout 2 Magic from");
+ TEXT(0,"here.","Brink a Shout 2 Scroll and use","me.");
+ }
+IF(item(17))
+ {
+ Prompt(0,"Joe: This is a Shout 2 Desk","We can use Shout 2 magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<10)
+   {
+   IF(CurMP(2)<10) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>9) 
+  {
+  IF(CurMP(2)>9)        
+  {
+  TEXT(0,"Desk: You used me!","SHOUT!","AAAHHHHHHHHHHH!");
+  SoundEffect(13);
+  EarthQuake(10,10,50); 
+  AlterFtile(27,21,0,0);
+  AlterFtile(28,21,0,0);      
+  AlterFtile(29,21,0,0);      
+  CurMP(1)-=10;   
+  CurMP(2)-=10;       
+  Flags[129]=1;
+ }
+ }
+  }
+  }
+}
+Event /* 3 */
+{
+ IF(Flags[130]=0)
+ {
+ TEXT(0,"Samu: It's getting dark..?","","");
+ PaletteMorph(0,0,0,50,30); 
+ Flags[130]=1;
+ }
+}
+Event /* 4 */
+{
+Flags[130]=0;
+}
+
+Event /* 5 */
+{
+IF(!Item(22))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a light desk!","You can use Light Magic from");
+ TEXT(0,"here.","Bring a Light Scroll and use","me.");
+ }
+IF(item(22))
+ {
+ Prompt(0,"Joe: This is a Light Desk","We can use Light magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<2)
+   {
+   IF(CurMP(2)<2) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>1) 
+  {
+  IF(CurMP(2)>1)        
+  {
+  TEXT(0,"Desk: You used me!","Light!!","");
+  SoundEffect(4);
+  CurMP(1)-=2;   
+  CurMP(2)-=2;       
+  Flags[130]=0;
+  PaletteMorph(0,0,0,0,63);   
+ }
+ }
+  }
+  }
+}
+Event /* 6 */
+{
+GiveItem(22);
+}
+Event /* 7 */
+{
+IF(Flags[131]=0)
+{
+AlterFtile(28,18,541,1);  
+GiveItem(51);
+Flags[131]=1;
+}
+}
+Event /* 8 Enemies */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+IF(Flags[130]=0)
+{
+PaletteMorph(63,0,0,0,60);  
+}
+IF(Flags[130]=1)
+{
+PaletteMorph(0,0,0,50,30);    
+}
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}

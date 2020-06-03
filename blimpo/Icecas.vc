@@ -1,0 +1,82 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[81]=1)
+ {
+ AlterFtile(2,2,0,2);
+ }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",53,22,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Joe: Know anything about","the Magic SnowFlakes?","");
+TEXT(0,"King: ...","","");
+TEXT(0,"King: mmm...","No...","");
+}
+Event /* 3 */
+{
+TEXT(0,"Penguin: If everything","else fails...","Search the fire...");
+}
+Event /* 4 */
+{
+TEXT(0,"Penguin: Looking for the","Magical SnowFlake?","Then search for the");
+TEXT(0,"Mirror version of this","area.","");
+}
+Event /* 5 */
+{
+TEXT(0,"Penguin: Buy our stuff!","","");
+Shop(1,2,3,4,25,28,32);
+TEXT(0,"Penguin: Come back and","buy something!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Penguin: You are so wierd","","");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Innkeeper: Welcome Turists!!","Stay here!","");
+Prompt(0,"Want to stay here?","Just 10 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"Innkeeper: You Hicks","never have any money!","");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Thank you!","Bollo: The beds where cozy!","Innkeeper: Then come again.");
+}
+}
+}
+Event /* 9 */
+{
+TEXT(0,"Joe: Samples","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Joe: Why do we talk to","walls?","");
+}
+Event /* 11 */
+{
+IF(Flags[81]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("All get 20 EXP",200);
+GiveXP(1,20);
+GiveXP(2,20);
+GiveXP(5,20);
+Flags[81]=1;
+AlterFtile(2,2,0,2);
+}
+}
+

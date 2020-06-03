@@ -1,0 +1,176 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[36]=1)
+{
+AlterFtile(17,2,0,0);
+AlterFtile(18,2,0,0);
+AlterFtile(19,2,0,0);
+AlterFtile(20,2,0,0);
+AlterFtile(21,2,0,0);
+AlterFtile(22,2,0,0);
+AlterFtile(23,2,0,0);
+AlterFtile(31,8,0,0);
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",111,84,0);
+}
+Event /* 2 */
+{
+IF(Flags[36]=0)
+{
+PlayMusic("CACA.S3M");
+TEXT(0,"RedOrb: Hello Friends!","Joe: We are here!","RedOrb: Yes, I see...");
+SoundEffect(7);
+TEXT(0,"RedOrb: You must go to space!","The EVIL has built a titanic","space base that protects");
+TEXT(0,"The Blimpo Lords castle!","You cannot enter until you","destroy the space station!");
+TEXT(0,"But before destroying the","Space Station you must first","Destroy the Shield generators");
+TEXT(0,"on the other 4 planets!","Joe: That's a lot!","Bollo: No kidding!");
+TEXT(0,"RedOrb: You must destroy","the evil!","Remember.. The evil is evil!");
+TEXT(0,"Samu: I will risk my life to","destroy the evil and the Blimpo","Lord!");
+TEXT(0,"RedOrb: Yes!","That's the spirit!","Now go to the space port.");
+TEXT(0,"I will remove the guards.","Joe: Let's - a - go!","");
+Flags[36]=1;
+AlterFtile(17,2,0,0);
+AlterFtile(18,2,0,0);
+AlterFtile(19,2,0,0);
+AlterFtile(20,2,0,0);
+AlterFtile(21,2,0,0);
+AlterFtile(22,2,0,0);
+AlterFtile(23,2,0,0);
+AlterFtile(31,8,0,0);
+SoundEffect(4);
+}
+}
+Event /* 3 */
+{
+IF(Flags[36]=0)
+{
+TEXT(0,"Soldiers: You can't pass..","This over here is the","space port of Dungo!");
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: I came from Moto, the","desert planet.","");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: We will all DIE!","AHHHHHHH!","");
+Wait(100);
+TEXT(0,"Bollo: That was wierd..","","");
+SoundEffect(7);
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Gaky likes electronic","devices...","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: I made this garden..","It's beautiful isn't it?","");
+TEXT(0,"Bollo: It sucks.","","");
+SoundEffect(7);
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: There is a hidden town","near Furleguard...","It's in the forest.");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: What hour is it?","","");
+ IF(!item(33))
+  {
+  TEXT(0,"Joe: I dont know!","If I just had a watch.","");
+  }
+ IF(item(33))
+  {
+  IF(Flags[110]=0)
+   {
+   TEXT(0,"Joe: It's 4 o clock.","Time for Power Troopers","");
+   Flags[110]=1;
+   TEXT(0,"Furball: Here! For telling me","the time, I'll give you this!","");
+   GiveGP(200);
+   Banner("Got 200 Gold!",20000);
+   TEXT(0,"Joe: Are you crazy????!","Furball: Yeah..","");
+   SoundEffect(7);
+   }
+  TEXT(0,"Furball: Thanks!","","");
+  }
+}
+Event /* 10 */
+{
+TEXT(0,"Furballette: Going to space?","Then buy stuff for the","trip.");
+Shop(1,2,3,4,25,43,42,45);
+TEXT(0,"Furballette: Not much..","If you want good stuff","shop in Zazen.");
+}
+Event /* 11 */
+{
+TEXT(0,"Hamster: Get out of my house!","","");
+}
+Event /* 12 */
+{
+TEXT(0,"Hamster: Aren't we cute?","Bollo: Yeah and 'tuff too!","");
+}
+Event /* 13 */
+{
+TEXT(0,"Innkeeper: Hi there!","Stay here!","");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Innkeeper: You dont have","enough Meseta...","Bollo: Meseta?");
+TEXT(0,"Innkeeper: I mean.. Gil.","Bollo: Gil?","Innkeeper: HEY!");
+TEXT(0,"I cant kleep track of all","the different currencies!","");
+SoundEffect(7);
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(20);
+TEXT(0,"InnKeeper: Thank you!","Bollo: The beds where cozy!","Innkeeper: Then come again.");
+}
+}
+}
+Event /* 14 */
+{
+IF(Flags[36]=0)
+{
+TEXT(0,"Penguin: This is the command","center.","");
+}
+IF(Flags[36]=1)
+{
+TEXT(0,"Penguin: Good luck.","","");
+}
+}
+Event /* 15 */
+{
+TEXT(0,"Furball: RedOrb told me every-","thing it knew about you...","Not much..");
+SoundEffect(7);
+}
+Event /* 16 */
+{
+IF(Flags[36]=1)
+{
+TEXT(0,"Gaky: Ok.. Here's how to get","somewhere once you're in","space..");
+TEXT(0,"Planets are connected by","sparkling stars.. Dont ask why.","Dont wander off course or");
+TEXT(0,"you might get lost.","Ok, be careful.","");
+}
+IF(Flags[36]=0)
+{
+TEXT(0,"Gaky: Hello Joe!","Joe: Hi Gaky!","Gaky: Talk to RedOrb there...");
+}
+}
+Event /* 17 */
+{
+TEXT(0,"Samu: I wouldn't touch that if","I were you...","");
+}
+Event /* 18 */
+{
+MapSwitch("launch.map",9,11,0);
+}
+

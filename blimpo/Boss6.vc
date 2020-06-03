@@ -1,0 +1,170 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{ 
+SoundEffect(5);
+Entity.LocY(5)=4;     
+Entity.LocY(6)=4;     
+}
+Event /* 2 */
+{
+IF(Flags[167]=0)
+ {
+ SoundEffect(3);
+ AlterBtile(7,5,896,0);
+ AlterBtile(8,5,908,1);
+ Flags[167]=1;
+ }
+}
+Event /* 3 */
+{
+IF(Flags[168]=0)
+ {
+ SoundEffect(3);
+ AlterBtile(12,5,907,1);
+ AlterBtile(11,5,908,1);
+ Flags[168]=1;
+ }
+}
+Event /* 4 */
+{
+IF(Flags[168]=1)
+ {
+ IF(Flags[169]=0)
+ {
+ AlterBtile(12,5,908,1);
+ AlterBtile(9,18,907,1);
+ TEXT(0,"Joe:I heard something...","To the north..","");
+ Flags[169]=1;
+ }
+}
+}
+
+Event /* 5 last button */
+{
+ IF(Flags[169]=1)
+ {
+ SoundEffect(3);
+ AlterBtile(3,9,763,0);
+ AlterBtile(16,9,763,2);    
+ AlterBtile(9,18,908,1);
+ Flags[170]=1;
+ }
+}
+
+Event /* 6 hurt machine */
+{
+IF(FLags[170]=1)
+ {
+ PaletteMorph(44,44,0,70,60);   
+ SoundEffect(14);     
+ Earthquake(10,10,40); 
+ PaletteMorph(44,44,0,0,60);  
+ TEXT(0,"RedOrb: OUCH!!!","Go away!","");
+ Flags[171]+=1;
+  IF(Flags[171]<=4)
+   {
+   Warp(9,26,0);
+   Return;
+   }
+  IF(Flags[171]=5)
+   {
+   TEXT(0,"RedOrb: What?","My machine!","");
+   PaletteMorph(44,44,0,70,60);   
+   SoundEffect(11);  
+   Earthquake(10,10,80); 
+   PaletteMorph(44,44,0,0,60);  
+   Entity.LocY(7)=25;   
+   Entity.LocY(8)=25;   
+   Wait(40);
+   TEXT(0,"RedOrb: No!!!","NOOOOO!","My Machine!");
+   Earthquake(5,5,40);    
+   TEXT(0,"RedOrb: I will defeat you!","","");
+   Wait(20);
+   PaletteMorph(44,44,0,70,60);   
+   SoundEffect(11);  
+   Earthquake(10,10,80); 
+   PaletteMorph(44,44,0,0,60);  
+   TEXT(0,"RedOrb: Later....","","");
+   MapSwitch("blimpo2.map",20,10,0);
+   }
+ }
+}
+
+Event /* 7 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=5;
+CurHP(2)-=5;
+CurHP(3)-=5;
+CurHP(5)-=5;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}

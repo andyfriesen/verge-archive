@@ -1,0 +1,154 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("morro7.map",34,19,0);
+}
+Event /* 2 */
+{
+SoundEffect(4);
+PartyMove("D1");
+}
+Event /* 3 */
+{
+SoundEffect(4); 
+PartyMove("R1");
+}
+Event /* 4 */
+{
+SoundEffect(4); 
+PartyMove("U1");
+}
+Event /* 5 */
+{
+SoundEffect(4); 
+PartyMove("L1");
+}
+Event /* 6 */
+{
+MapSwitch("morro9.map",25,20,0);
+}
+Event /* 7 Enemies & Lava */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 8 */
+{
+SaveMenu();
+}
+Event /* 9 */
+{
+IF(!Item(13))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Heal Magic from");
+ TEXT(0,"here.","Bring a Heal Scroll and use","me.");
+ }
+IF(item(13))
+ {
+ Prompt(0,"Joe: This is a Heal Desk","We can use Heal magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<2)
+   {
+   IF(CurMP(2)<2) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>1) 
+  {
+  IF(CurMP(2)>1)        
+  {
+  TEXT(0,"Desk: You used me!","HEAL!","");
+  BoxFadeOut(50);
+  CurHP(1)=MaxHP(1);    
+  CurHP(2)=MaxHP(2);      
+  CurHP(5)=MaxHP(5);      
+  CurMP(1)-=2;   
+  CurMP(2)-=2;       
+  SoundEffect(4);
+  BoxFadeIn(50);
+ }
+ }
+  }
+  }
+}
+

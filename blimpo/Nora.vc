@@ -1,0 +1,187 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[55]=22)
+{
+AlterFtile(7,38,0,2);    
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",29,22,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball:Hello!","Welcome to Nora!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Furball:Many people dont dare","to live to the north.","They are afraid of the");
+TEXT(0,"Evil Tarkuss Bug.","","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: I live pretty up","north...","Nothing happens!");
+TEXT(0,"Furball: HA!","Just wait and see!","");
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Soldier: THis town is green","and peaceful!","Much better than the");
+TEXT(0,"Castle...","","");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: Hello hero!","","");
+TEXT(0,"Joe: Hello!","Give me a clue!","");
+TEXT(0,"Furball: The cave to the south","Is the only way to get to","the western land");
+TEXT(0,"Joe:Thanks buddy!","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Merchant:Hi ho there!","","");
+TEXT(0,"Joe: Hi ho! Merchant!","What do you have?","");
+TEXT(0,"Merchant: Lots of stuff! BUT...","Why sell you anything when","there are NO battles!");
+TEXT(0,"Joe: Makes sense.","","");
+TEXT(0,"Joe: Or is it lazyness?","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furballette: Hi there","Handsome!","");
+TEXT(0,"Joe: Hey baby...","What's your sign?","");
+TEXT(0,"Furballette: Oooooh!","You're so original!","I wish I could go with you");
+SoundEffect(7);
+TEXT(0,"Joe: No babe, the journey","is way to dangerous...","and I wanna go alone...");
+IF(Flags[12]>41)
+{
+TEXT(0,"Furballette: Then what","is that hamster doing with","you???");
+TEXT(0,"Joe: Uh...","I just dont like you!","");
+SoundEffect(7);
+}
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Hi!","My neighbor, over there is","freaking me out!...");
+TEXT(0,"Can you do something?","","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: I wanna join the","Blimpo Army!","");
+TEXT(0,"Joe: Why you freak?","","");
+TEXT(0,"Furball: I'm evil!","Mhuahahahahahaha!","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: This scares me","Joe: Agreed.","");
+}
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: Now it's a good time","to go to the beach...","Seen the beach my friend?");
+TEXT(0,"Joe: Yeah, I've seen the WORLD!","","");
+TEXT(0,"Furball: Seen the Awakara","Waterfalls? The Poopoonian","Express?");
+TEXT(0,"Joe: Yeah, of course..","...","*Where the hell is that?*");
+SoundEffect(7);
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: Not me!","","");
+}
+}
+Event /* 11 */
+{
+TEXT(0,"Furball: My name is nilan","the 64th and they call me","N64...");
+TEXT(0,"Why so many people say I suck?","I'm sad... ","Very... sad... ");
+TEXT(0,"Joe: You dont suck!","","");
+SoundEffect(8);
+}
+Event /* 12 */
+{
+TEXT(0,"Furball: My pet slime","is sooooooooo cute!","");
+}
+Event /* 13 */
+{
+TEXT(0,"Slime: Give me all your","money!","");
+SoundEffect(7);
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: You aint getting a","penny from me!","Slime: Yes, gimme!");
+TEXT(0,"Bollo: NO!","Slime: Yes, gimmee!!!","Bollo: No AHHH!! STOP!!");
+SoundEffect(7);
+}
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: I'm a very smart","Furball. I can help you","with thy quest.");
+TEXT(0,"Joe: Cool!","Where is the rainbow barf?","");
+TEXT(0,"Furball: Search my son...","Search... the world...","");
+TEXT(0,"Joe: Coool!","...","HEY!");
+SoundEffect(7);
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: I think he bested","you...","Joe: What do you mean?");
+}
+}
+Event /* 15 */
+{
+TEXT(0,"Furball: That guy has been","stranded there for years...","");
+}
+Event /* 16 */
+{
+TEXT(0,"Joe: Hey you! Wake up!","Swim to the shore!","Swim baby, swim!");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: Why dont YOU swim?","Joe: Nah!","I have to save the world!");
+}
+}
+Event /* 17 */
+{
+TEXT(0,"Mayor: Hello Joe!","","");
+TEXT(0,"Joe: hello mayor!","","");
+TEXT(0,"Mayor: I was saving some","candy for your quest but...","Alas! It was stolen!");
+TEXT(0,"Joe: That's HORRIBLE!","","");
+}
+Event /* 18 */
+{
+TEXT(0,"Slime: I live in the","Southern forest!","Many forest in the world");
+TEXT(0,"are populated by peaceful","slimes like me!","They're very friendly!");
+}
+Event /* 19 */
+{
+TEXT(0,"Furball: Go to the cave down","South!","there are no treasures, but");
+TEXT(0,"the view rocks!","","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: It makes Joe wanna","Barf!!! Hahaha!","Furball: HAHAHAHA!");
+TEXT(0,"Joe:.. ","that's.. not true...","sniff...");
+SoundEffect(10);
+}
+}
+Event /* 20 */
+{
+TEXT(0,"Furball: Hi!","Here's a stupid puzzle for YOU!","Count the number");
+TEXT(0,"of blue furballs and orange","ones...","Is it the same?");
+}
+Event /* 21 */
+{
+TEXT(0,"Nora: Hi!","I'm Nora!","I made this town!");
+TEXT(0,"And all the inhabitants...","my kids...","");
+TEXT(0,"Joe: ALL OF THEM?","","");
+SoundEffect(7);
+TEXT(0,"Nora: Yeah!","Like Papa Smurf!","");
+SoundEffect(7);
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: GOD!","","");
+}
+}
+Event /* 22 */
+{
+IF(Flags[55]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 8 EXP",200);
+GiveXP(1,8);
+Flags[55]=22;
+AlterFtile(7,38,0,2);
+}
+}
+

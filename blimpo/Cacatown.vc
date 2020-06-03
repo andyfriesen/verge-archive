@@ -1,0 +1,71 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",79,127,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Hamster: Welcome to the","town of Churreta!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: This is where we","all eat... Except that","penguin who cant leave");
+TEXT(0,"his house...","Always in there...","With air conditioner...");
+TEXT(0,"Darn you penguin!","DARN YOU!","");
+SoundEffect(7);
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: This is not an","INN! It's an HOTEL!","");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Furball: Go away...","Joe: Why?","Furball: You have no cash.");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"Furball: Come back!","That's an ORDER!!","");
+SoundEffect(7);
+}
+}
+}
+Event /* 5 */
+{
+TEXT(0,"Penguin: I hate this darn","weather!","thank God I have an");
+TEXT(0,"air conditioner...","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Yadayadayadayada","yadayadayadayadayada...","yadayadayadayada...");
+Shop(1,2,3,4,25,28,30,42,43);
+TEXT(0,"Furball: Yadayadayadayada","yadayadayadayadayada...","yadayadayadayada...");
+}
+Event /* 7 */
+{
+TEXT(0,"Furballette: Hello!","","");
+SoundEffect(7);
+TEXT(0,"...","","");
+TEXT(0,"Joe: Who's laughing?","Bollo: Yeah?","Furballette: huh?");
+SoundEffect(7);
+TEXT(0,"Joe: There it goes again...","Furballette: What?","Bollo: Wierd...");
+SoundEffect(7);
+TEXT(0,"Joe: Hey!","Bollo: STOP IT! It's not","funny!");
+SoundEffect(7);
+TEXT(0,"Furballette: Calm down!","Joe: Stop it you...","Furballette: get out");
+SoundEffect(7);
+TEXT(0,"of my house, before I","call the cops!","Joe: Ok..");
+SoundEffect(7);
+}
+
+
+

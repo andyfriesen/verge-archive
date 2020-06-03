@@ -1,0 +1,69 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(flags[14]=1)
+{
+AlterFtile(9,3,0,0);
+}
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",104,39,0);
+}
+Event /* 2 */
+{
+MapSwitch("Poo.map",124,23,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Soldier: The Train is free!","","");
+}
+Event /* 4 */
+{
+Prompt(0,"Furball: Want to take the","Train to Poopoonia?","",1,"Yes","No");
+if (flags[1]=0)
+{
+  Warp(70,9,0);
+  SoundEffect(9);
+}
+}
+Event /* 5 */
+{
+Prompt(0,"Furball: Want to take the","Train to the east?","",1,"Yes","No");
+if (flags[1]=0)
+{
+  Warp(10,9,0);
+  SoundEffect(9);
+}
+}
+Event /* 6 */
+{
+TEXT(0,"Furballette: I love to ride!","","");
+}
+Event /* 7 */
+{
+IF(Flags[14]=0)
+{
+TEXT(0,"Bollo: Hello sir...","Soldier: oh! Sorry..","I'll go now...");
+AlterFtile(9,3,0,0);
+SoundEffect(8);
+Flags[14]=1;
+}
+}
+Event /* 8 */
+{
+If(Flags[14]=0)
+{
+TEXT(0,"Soldier: We dont know if these","warps work...","So you wont hop into");
+TEXT(0,"One until someone from the","other side comes first...","");
+}
+}
+Event /* 9 */
+{
+TEXT(0,"Sign Reads: Experimental WARP","Do not use...","");
+}
+Event /* 10 */
+{
+MapSwitch("cap.map",18,4,0);
+}
+

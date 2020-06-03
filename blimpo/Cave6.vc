@@ -1,0 +1,50 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF (Flags[11]>1)
+{
+AlterBtile(9,12,211,1);
+AlterBtile(9,13,211,1); 
+AlterBtile(9,14,211,1); 
+AlterBtile(9,15,211,1); 
+AlterBtile(10,12,211,1); 
+AlterBtile(10,13,211,1); 
+AlterBtile(10,14,211,1); 
+AlterBtile(10,15,211,1); 
+AlterBtile(11,12,211,1); 
+AlterBtile(11,13,211,1); 
+AlterBtile(11,14,211,1); 
+AlterBtile(11,15,211,1); 
+}
+}
+Event /* 1 */
+{
+MapSwitch("fc.map",27,2,0);
+}
+Event /* 2 */
+{
+If (Flags[11]<2)
+{
+SoundEffect(11);
+EarthQuake(10,10,430);
+AlterBtile(9,12,211,1);
+AlterBtile(9,13,211,1); 
+AlterBtile(9,14,211,1); 
+AlterBtile(9,15,211,1); 
+AlterBtile(10,12,211,1); 
+AlterBtile(10,13,211,1); 
+AlterBtile(10,14,211,1); 
+AlterBtile(10,15,211,1); 
+AlterBtile(11,12,211,1); 
+AlterBtile(11,13,211,1); 
+AlterBtile(11,14,211,1); 
+AlterBtile(11,15,211,1); 
+TEXT(0,"Joe: Oops!","","");
+Flags[11]=2;
+}
+}
+Event /* 3 */
+{
+MapSwitch("fc.map",27,2,0);
+}
+

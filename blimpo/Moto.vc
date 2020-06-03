@@ -1,0 +1,187 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Takeoff2.map",9,11,0);
+}
+Event /* 2 */
+{
+MapSwitch("cave11.map",17,10,0);
+}
+Event /* 3 */
+{
+MapSwitch("Prision.map",30,34,0);
+}
+Event /* 4 */
+{
+MapSwitch("AbMoto.Map",20,22,0);
+}
+Event /* 5 */
+{
+TEXT(0,"SIGN READS: There's an Oasis","if you go south...","Slimy: South is North to you");
+}
+Event /* 6 */
+{
+MapSwitch("oasis1.map",9,14,0);
+}
+Event /* 7 */
+{
+MapSwitch("cave12.map",20,1,0);
+}
+Event /* 8 */
+{
+MapSwitch("cave12.map",20,34,0);
+}
+Event /* 9 */
+{
+MapSwitch("pyr2.map",9,18,0);
+}
+Event /* 10 */
+{
+IF(Flags[44]=0)
+{
+TEXT(0,"Joe: Quicksand!","NOOOOOOO!","We're sinking!");
+MapSwitch("quick.map",10,5,0);
+}
+}
+Event /* 11 */
+{
+IF(Flags[42]=0)
+{
+MapSwitch("grow0.map",17,22,0);
+}
+IF(Flags[42]=1)
+{
+MapSwitch("grow1.map",17,22,0);
+}
+IF(Flags[42]=2)
+{
+MapSwitch("grow2.map",17,22,0);
+}
+IF(Flags[42]=3)
+{
+MapSwitch("grow3.map",17,22,0);
+}
+IF(Flags[42]=4)
+{
+MapSwitch("grow4.map",17,22,0);
+}
+IF(Flags[42]=5)
+{
+MapSwitch("grow5.map",17,22,0);         
+}
+}
+
+Event  /* 12 */
+{
+MapSwitch("pyr3.map",4,3,0);
+}
+Event  /* 13 */
+{
+MapSwitch("qst.map",28,11,0);
+}
+Event /* 14 */
+{
+MapSwitch("cave14.map",31,20,0);
+}
+Event /* 15 */
+{
+MapSwitch("motogras.map",17,22,0);
+}
+Event /* 16 */
+{
+MapSwitch("cave15.map",18,34,0);
+}
+Event /* 17 */
+{
+MapSwitch("cave15.map",36,15,0);
+}
+Event /* 18 */
+{
+PaletteMorph(63,10,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(5)-=4;
+CurHP(7)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+ IF(!char(5))
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+ IF(Char(7) AND !Char(5))
+ {
+ IF(CurHP(7)>99990)
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+ Healall();
+ SoundEffect(4);
+ }
+ }
+IF(curHP(7)=0 AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(Char(7) AND !Char(5))
+{
+IF(CurHP(7)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(7)>99999 AND !char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* big Pyr */
+{
+MapSwitch("bigpyr.map",1,1,0);
+}
+

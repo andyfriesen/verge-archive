@@ -1,0 +1,27 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+TEXT(0,"Furball: Want to rent a","sub?","Going back is free!");
+Prompt(0,"Happiness comes to those","who say yes to me!","Try it!",6,"No","Yes");
+IF (Flags[6]=1)
+{
+BoxFadeOut(50);
+TakeGP(40);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"sub.chr");
+MapSwitch("sub.map",42,38,0);
+}
+}
+Event /* 2 */
+{
+TEXT(0,"Joe: Boxes!","","");
+}
+Event /* 3 */
+{
+MapSwitch("island3.map",5,4,0);
+}
+

@@ -1,0 +1,12 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Morro9.map",36,11,0);
+}
+Event /*  2 */
+{
+MapSwitch("bossno.map",15,18,0);            
+}

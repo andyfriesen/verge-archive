@@ -1,0 +1,26 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",5,142,0);
+}
+Event /* 2 */
+{
+MapSwitch("cabin.map",10,4,0);
+}
+Event /* 3 */
+{
+text(0,"Furball: Hi!","So RedOrb sent you?","Well..");
+Prompt(0,"Furball: Want to stay?","On the house!", "",3,"Yes","No");
+if (flags[3]=0)
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+TEXT(0,"Furball: Bye!","","");
+}
+

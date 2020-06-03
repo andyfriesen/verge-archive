@@ -1,0 +1,35 @@
+EVENT /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+TEXT(0,"Sign Reads: Hi!","I found you on the hills!","Please rest here as much");
+TEXT(0,"as you want to.","","");
+}
+Event /* 2 */
+{
+text(0,"Joe: Shall we sleep?","Bollo: There's only one bed...","Samu: Let's take turns!");
+Prompt(0,"Joe: Ok, You sleep on the","floor and furry sleeps outside.","",3,"Yes","No");
+if (flags[3]=0)
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+TEXT(0,"Joe: Lets-e-go!","","");
+}
+Event /* 3 */
+{
+IF(Flags[101]=0)
+ {
+ TEXT(0,"Joe: Huh?","Where are we?","");
+ Flags[101]=1;
+ }
+}
+Event /* 4 */
+{
+MapSwitch("Surreal.map",7,62,0);
+}
+

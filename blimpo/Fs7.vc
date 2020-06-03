@@ -1,0 +1,93 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("fs6.map",22,14,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Computer: Use arrows with","Staff of Mud to go faster.","");
+}
+Event /* 3 */
+{
+IF(item(26))
+ {
+ SoundEffect(5);
+ Speed(0)=7;  
+ PartyMove("R24U4L17D2R15D19L24U1");
+ Speed(0)=4;  
+ }
+}
+Event /* 4 */
+{
+IF(!Item(13))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Heal Magic from");
+ TEXT(0,"here.","Bring a Heal Scroll and use","me.");
+ }
+IF(item(13))
+ {
+ Prompt(0,"Joe: This is a Heal Desk","We can use Heal magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<2)
+   {
+   IF(CurMP(2)<2) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>1) 
+  {
+  IF(CurMP(2)>1)        
+  {
+  TEXT(0,"Desk: You used me!","HEAL!","");
+  BoxFadeOut(50);
+  CurHP(1)=MaxHP(1);    
+  CurHP(2)=MaxHP(2);      
+  CurHP(5)=MaxHP(5);      
+  CurMP(1)-=2;   
+  CurMP(2)-=2;       
+  SoundEffect(4);
+  BoxFadeIn(50);
+ }
+ }
+  }
+  }
+}
+Event /* 5 */
+{
+TEXT(0,"Computer: You are on the","Basement of Building D-5.","");
+}
+Event /* 6 */
+{
+TEXT(0,"Computer: To create Ice magic","Use a Green light.","");
+}
+Event /* 7 */
+{
+TEXT(0,"Computer: To create Fire magic","Use a Blue Light.","");
+}
+Event /* 8 */
+{
+TEXT(0,"Computer: To create Bolt magic","Use a Red light.","");
+}
+Event /* 9 */
+{
+TEXT(0,"Computer: Write down whatever","you think is important.","");
+}
+Event /* 10 */
+{
+MapSwitch("fs8.map",9,11,0);
+}
+
+Event /* 11 */
+{
+SaveMenu();
+}
+

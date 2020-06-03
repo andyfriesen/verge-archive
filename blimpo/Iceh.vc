@@ -1,0 +1,43 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[80]=2)
+ {
+ AlterBtile(16,3,222,0);                               
+ }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",52,50,0);
+}
+Event /* 2 */
+{
+IF(flags[75]=0)
+ {
+ TEXT(0,"Joe: Do you know anything","about the Magic SnowFlakes?","");
+ TEXT(0,"Penguin: No, I do not.","","");
+ }
+IF(Flags[75]=1)
+ {
+ TEXT(0,"Joe: Hi.","","");
+ }
+}
+Event /* 3 */
+{
+IF(Flags[80]=0)
+ {
+ TEXT(0,"Joe: A switch?","","");
+ SoundEffect(4);
+ AlterBtile(16,3,222,0);
+ Flags[80]=2;
+ }
+}
+Event /* 4 */
+{
+IF(Flags[80]=2)
+ {
+ MapSwitch("SF3.map",1,1,0);
+ }
+}
+
+

@@ -1,0 +1,17 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 Take off */
+{
+fadeout(50);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"nave.chr");
+MapSwitch("takeoff3.map",9,56,0);
+}
+Event /* 2 */
+{
+MapSwitch("ice.map",71,52,0);
+}
+

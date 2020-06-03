@@ -1,0 +1,59 @@
+Event /* 0 */
+{
+EnforceANimation();
+}
+Event /* 1 */
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+MapSwitch("Launch.map",9,4,0);
+}
+Event /* 2 */
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+MapSwitch("Takeoff2.map",9,5,0);
+}
+Event /* 3 */
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+MapSwitch("Launch2.map",9,5,0);
+}
+Event /* 4 */
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+MapSwitch("Launch4.map",9,4,0);
+}
+Event /* 5 */
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+MapSwitch("Launch5.map",8,4,0);
+}
+Event /* 6 */
+{
+SoundEffect(5);
+Warp(97,97,0);
+}
+Event /* 7 evil battleship */
+{
+IF(Flags[151]=1)
+ {
+ AddCharacter(2);
+ AddCharacter(5);
+ ChangeCHR(1,"Furball.chr");
+ MapSwitch("fs1.map",1,13,0);
+ }
+IF(Flags[151]=0)
+ {
+ TEXT(0,"Joe: We cant land here!","There's an energy field","protecting this place!");
+ }
+}
+

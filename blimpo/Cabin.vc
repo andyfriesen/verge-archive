@@ -1,0 +1,39 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[24]=1)
+{
+ALTERBTILE(11,4,155,0);
+}
+IF(Flags[66]=22)
+{
+AlterFtile(12,1,0,2);
+}
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",115,135,0);
+}
+Event /* 2 */
+{
+IF(Flags[24]=1)
+{
+MapSwitch("cabin2.map",8,4,0);
+}
+}
+Event /* 3 */
+{
+IF(Flags[66]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 30 EXP",200);
+GiveXP(1,30);
+GiveXP(2,30);          
+GiveXP(5,30);          
+GiveXP(3,30);          
+Flags[66]=22;
+AlterFtile(12,1,0,2);
+}
+}
+

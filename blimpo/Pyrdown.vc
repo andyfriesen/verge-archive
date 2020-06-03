@@ -1,0 +1,114 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[111]=1)
+ {
+ AlterFtile(36,19,541,1);   
+ }
+}
+Event /* 1 */
+{
+MapSwitch("Saltpyr.map",24,4,0);
+}
+Event /* 2 */
+{
+IF(Flags[111]=0)
+{
+AlterFtile(36,19,541,1);  
+GiveGP(300);
+Banner("Found 300 Gold!",2000);
+Flags[111]=1;
+}
+}
+Event /* 3 Exit */
+{
+MapSwitch("Pyrflow.map",3,4,0);
+}
+Event /* 4 */
+{
+PaletteMorph(63,10,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(5)-=4;
+CurHP(7)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+ IF(!char(5))
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+ IF(Char(7) AND !Char(5))
+ {
+ IF(CurHP(7)<=0)
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+ Healall();
+ SoundEffect(4);
+ }
+ }
+IF(curHP(7)=0 AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(Char(7) AND !Char(5))
+{
+IF(CurHP(7)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(7)>99999 AND !char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 5 */
+{
+TEXT(0,"Wall: I would recommend you","to bring an ice scroll.","");
+TEXT(0,"If you dont have the money,","get the 300 gold in the chest in","this room.");
+}
+

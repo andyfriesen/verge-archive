@@ -1,0 +1,33 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Island3.map",37,22,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Want to play the","sub game?","Find the treasure while");
+TEXT(0,"you evade the yellow subs","who can steal your money!","It's FUN!");
+TEXT(0,"Furball: Want to rent a","sub?","Only 40 Gold pieces!");
+Prompt(0,"Happiness comes to those","who say yes to me!","Try it!",6,"No","Yes");
+IF (Flags[6]=1)
+{
+IF (GP<40)
+{
+TEXT(0,"Furball: You need to pay","me 40 bucks and you dont","have any. Go catch golf balls");
+TEXT(0,"at the hotel!","","");
+}
+IF (GP>39)
+{
+BoxFadeOut(50);
+TakeGP(40);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"sub.chr");
+MapSwitch("sub2.map",11,2,0);
+}
+}
+}
+

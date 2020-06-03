@@ -1,0 +1,137 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("morro8.map",21,11,0);
+}
+Event /* 2 */
+{
+ IF(Flags[130]=0)
+ {
+ TEXT(0,"Samu: It's getting dark..?","Again!","");
+ PaletteMorph(0,0,0,50,30); 
+ Flags[130]=1;
+ }
+}
+Event /* 3 */
+{
+Flags[130]=0;
+}
+Event /* 4 */
+{
+MapSwitch("Preboss3.map",4,4,0);
+}
+Event /* 5 */
+{
+TEXT(0,"Joe: We're falling!","","");
+MapSwitch("Morro8.map",21,11,0);
+}
+Event /* 6 */
+{
+PaletteMorph(0,0,0,0,63);
+TEXT(0,"Box: Hi!","I'm a talking Machine!","Please be careful!");
+TEXT(0,"If you step into the darkness","you will fall!","Where will you land?");
+TEXT(0,"I dont know!","Ok, Let me turn off the","Lights again!");
+TEXT(0,"Joe: Wait...","","");
+PaletteMorph(0,0,0,50,30);
+TEXT(0,"Joe: Ack!","","");
+}
+Event /* 7 */
+{
+PaletteMorph(0,0,0,0,63);
+TEXT(0,"Box: Hi!","I'm a talking Machine!","Please be careful!");
+TEXT(0,"Dont touch the enemies in","front of you!","They have the ability to...");
+TEXT(0,"Warp you!","YES! they can","take you to another place!");
+TEXT(0,"Let me turn off the lights","again..","Joe: NO!");
+PaletteMorph(0,0,0,50,30);
+TEXT(0,"Box: Ok.. Let me try..","No, I cant.","");
+}
+Event /* 8 */
+{
+SaveMenu();
+}
+Event /* 9 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);     
+PaletteMorph(0,0,0,50,30);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* warp */
+{
+Warp(30,20,0);
+PaletteMorph(0,0,0,50,30);   
+}
+

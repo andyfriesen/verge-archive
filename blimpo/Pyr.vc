@@ -1,0 +1,281 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[24]=1)
+{
+AlterFtile(12,12,0,0);
+}
+IF(Flags[20]=1)
+{
+AlterBtile(37,3,119,0);
+AlterBtile(37,4,119,0);  
+AlterBtile(37,5,119,0);  
+AlterBtile(38,3,119,0);  
+AlterBtile(38,4,154,0);  
+AlterBtile(38,5,119,0);  
+AlterBtile(39,3,119,0);  
+AlterBtile(39,4,119,0);  
+AlterBtile(39,5,119,0);  
+}
+IF(Flags[21]=1)
+{
+AlterFtile(41,53,0,0);
+AlterFtile(40,53,0,0);
+}
+IF(Flags[22]=1)
+{
+AlterFtile(7,51,0,0); 
+}
+IF(Flags[23]=1)
+{
+AlterFtile(57,19,0,0);                  
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",43,143,0);
+}
+Event /* 2 */
+{
+IF(Flags[18]=2)
+{
+TEXT(0,"Paranoid: I dont want","to go in!","Let's turn back...");
+TEXT(0,"Take me to the nearest","town...","");
+Partymove("L1");
+}
+}
+Event /* 3 */
+{
+Warp(2,1,0);
+}
+Event /* 4 */
+{
+Warp(30,21,0);
+}
+Event /* 5 */
+{
+Warp(35,1,0);
+}
+Event /* 6 */
+{
+Warp(33,21,0);
+}
+Event /* 7 */
+{
+Warp(56,1,0);
+}
+Event /* 8 */
+{
+Warp(30,24,0);
+}
+Event /* 9 */
+{
+Warp(43,50,0);
+}
+Event /* 10 */
+{
+Warp(33,24,0);
+}
+Event /* 11 */
+{
+IF(Flags[20]=0)
+{
+SoundEffect(3);
+AlterBtile(37,3,119,0);
+AlterBtile(37,4,119,0);  
+AlterBtile(37,5,119,0);  
+AlterBtile(38,3,119,0);  
+AlterBtile(38,4,154,0);  
+AlterBtile(38,5,119,0);  
+AlterBtile(39,3,119,0);  
+AlterBtile(39,4,119,0);  
+AlterBtile(39,5,119,0);  
+TEXT(0,"Bollo: I heard water","running...","");
+Flags[20]=1;
+}
+}
+Event /* 12 */
+{
+Warp(9,54,0);
+}
+Event /* 13 */
+{
+Warp(39,4,0);
+}
+Event /* 14 */
+{
+IF(Flags[21]=0)
+{
+SoundEffect(3);
+AlterFtile(41,53,0,0);
+AlterFtile(40,53,0,0);
+Flags[21]=1;
+}
+}
+Event /* 15 */
+{
+IF(Flags[22]=0)
+{
+SoundEffect(3);
+AlterFtile(7,51,0,0);
+Flags[22]=1;
+}
+}
+Event /* 16 */
+{
+IF(Flags[23]=0)
+{
+SoundEffect(3);
+AlterFtile(57,19,0,0);
+Flags[23]=1;
+}
+}
+Event /* 17 */
+{
+Warp(2,21,0);
+}
+Event /* 18 */
+{
+Warp(54,23,0);
+}
+Event /* 19 */
+{
+Warp(18,31,0);
+}
+Event /* 20 */
+{
+Warp(51,1,0);
+}
+Event /* 21 */
+{
+Warp(4,45,0);
+}
+Event /* 22 */
+{
+Warp(20,1,0);
+}
+Event /* 23 */
+{
+Warp(30,34,0);
+}
+Event /* 24 */
+{
+IF(Flags[24]=0)
+{
+TEXT(0,"Joe: What is this?","Bollo: I dont know...","Looks like a red orb!");
+TEXT(0,"Joe: Wierd...","Joe: Should I touch it?","Bollo: Uh... yeah?");
+SoundEffect(4);
+Wait(45);
+PlayMusic("caca.s3m");       
+TEXT(0,"RedOrb: Who woke me up from","my deep slumber..?","Bollo: Him, him... JOE!");
+SoundEffect(7);
+TEXT(0,"RedOrb: Thank you Joe!","Bollo: ...","Joe: ?");
+TEXT(0,"RedOrb: It is time...","The evil has awakened again...","And he who wakes me up");
+TEXT(0,"has to become the hero.","Joe: I'm already a hero!","RedOrb: better yet...");
+TEXT(0,"The evil is growing strong...","You must stop it...","before he wreaks havok unto");
+TEXT(0,"the land...","Joe: The Blimpo Lord?","RedOrb: NO!");
+TEXT(0,"Joe: Then, what are you","talking about?","RedOrb: The real evil is 10");
+TEXT(0,"times stronger than anything","you've even seen...","It will come and consume");
+TEXT(0,"this land...","I slumber her waiting for","someone to wake me up,");
+TEXT(0,"and that someone is the HERO!","Joe: ?","RedOrb: Yes, you will have to");
+TEXT(0,"travel to far away worlds","to finish thy quest...","Joe: Explain this like if");
+TEXT(0,"you were talking to a 5","year old...","RedOrb: Ok...");
+TEXT(0,"RedOrb: I will give you","access to another land...","from there you must");
+TEXT(0,"travel until you reach the","space port of Dungo...","I will tell you what to");
+TEXT(0,"do there... when you get","there...","Joe: ok... so we continue");
+TEXT(0,"traveling until we find","the space port?","RedOrb: YES!");
+TEXT(0,"Bollo: What about the","BLIMPO LORD????","RedOrb: He is of no impor-");
+TEXT(0,"tance... The real evil is","controling him anyway...","Joe: Oh!");
+TEXT(0,"Bollo: How can we believe","you?","RedOrb: Age-old entities living");
+TEXT(0,"sealed away in ancient","pyramids never lie...","Bollo: Right...");
+TEXT(0,"RedOrb: Sorry if you didn't","understand me...","but I havent talked in 1000");
+TEXT(0,"centuries...","Joe: no problem...","But.. Where do we find");
+TEXT(0,"the way to Dungo?","RedOrb: I used to live in","a house next to Poota...");
+TEXT(0,"Go to the empty house and","I will make a warp for you","there...");
+TEXT(0,"Bollo: How convinient!","RedOrb: Yes... What did you","expect?");
+TEXT(0,"Joe: Ok, We'll be going now!","RedOrb: Good luck!","Bollo: bye...");
+TEXT(0,"RedOrb: Go to the space port!","I will explain everything","there...");
+TEXT(0,"Joe: Ok...","","");
+Flags[24]=1;
+SoundEffect(4);
+AlterFtile(12,12,0,0);
+}
+}
+Event /* 25 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+
+
+

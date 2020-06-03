@@ -1,0 +1,41 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",87,28,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: Thank you for","Everything!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Merchant: Hi guys!","Here! look at the stuff I","got for sale!");
+Shop(1,2,3,4,25);
+TEXT(0,"Merchant: Not much huh?","But I'll have more later!","");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Hi! It's me!","Thank you for the TNT!","Now we have WATER!");
+TEXT(0,"Go ahead drink it!","","");
+}
+Event /* 5 */
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+Event /* 6 */
+{
+TEXT(0,"Furballette: I was digging","a hole and sudently.. POOF!","I found a cave!");
+TEXT(0,"Cool huh?","","");
+}
+Event /* 7 */
+{
+MapSwitch("cave13.map",29,2,0);
+}
+
+

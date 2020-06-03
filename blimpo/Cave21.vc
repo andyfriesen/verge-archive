@@ -1,0 +1,79 @@
+Event /* 0 */
+{
+EnforceAnimation();
+     IF(Flags[82]=1)
+     {
+      Alterftile(9,11,0,0);
+      AlterFtile(10,11,0,0);
+     }
+ IF(FLags[74]=1)
+  {
+  AlterFtile(4,6,563,0);
+  }
+ IF(FLags[75]=1)
+  {
+  AlterFtile(6,6,563,0);
+  }
+ IF(FLags[76]=1)
+  {
+  AlterFtile(8,6,563,0);
+  }
+ IF(FLags[77]=1)
+  {
+  AlterFtile(11,6,563,0);
+  }
+ IF(FLags[78]=1)
+  {
+  AlterFtile(13,6,563,0);
+  }
+ IF(FLags[79]=1)
+  {
+  AlterFtile(15,6,563,0);
+  }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",67,16,0);
+}
+Event /* 2 */
+{
+TEXT(0,"SIGN READS: All the snowflakes","you find will be displayed","here!");
+Text(0,"Joe: So that means, these","arent for grabs...","");
+TEXT(0,"Bollo: Joe...","What does that mean?","Oh..");
+}
+Event /* 3 */
+{
+IF(FLags[74]=1)
+ {
+ IF(FLags[75]=1)
+  {
+  IF(FLags[76]=1)
+   {
+   IF(FLags[77]=1)
+    {
+    IF(FLags[78]=1)
+     {
+     IF(FLags[79]=1)
+      {
+      IF(Flags[82]=0)
+      {
+      Flags[82]=1;
+      Alterftile(9,11,0,0);
+      AlterFtile(10,11,0,0);
+      TEXT(0,"Joe: At last!","","");
+      }
+      }
+     }
+    }
+   }
+  }
+ }
+}
+Event /* 4 */
+{
+MapSwitch("ice.map",70,34,0);
+}
+
+
+
+

@@ -1,0 +1,76 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[139]=1)
+ {
+ AlterFTile(9,4,0,0);
+ }
+IF(Flags[128]=1)
+ {
+ AlterFTile(9,6,0,0);
+ }
+IF(Flags[115]=1)
+ {
+ AlterFTile(9,8,0,0);
+ }
+IF(FLags[143]=1)
+ {
+ AlterFtile(7,7,0,0);
+ }
+IF(FLags[145]=1)
+ {
+ AlterFtile(11,7,0,0);
+ }
+IF(Flags[151]=1)
+ {
+ AlterFtile(9,8,714,1);
+ }
+}
+
+Event /* 1 */
+{
+MapSwitch("Surreal.map",46,31,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Box: You must complete the","Desert Fortress to pass.","");
+}
+Event /* 3 */
+{
+TEXT(0,"Box: You must complete the","Ice Fortress to pass.","");
+}
+Event /* 4 */
+{
+TEXT(0,"Box: You must complete the","Tropical Fortress to pass.","");
+}
+Event /* 5 */
+{
+MapSwitch("surcas2.map",4,9,0);
+}
+Event /* 6 */
+{
+IF(FLags[143]=0)
+ {
+ AlterFtile(7,7,0,0);
+ SOundEffect(4);
+ Flags[143]=1;
+ }
+}
+Event /* 7 */
+{
+MapSwitch("surcas7.map",4,3,0);
+}
+Event /* 8 */
+{
+IF(FLags[145]=0)
+ {
+ AlterFtile(11,7,0,0);
+ SOundEffect(4);
+ Flags[145]=1;
+ }
+}
+Event /* 9 */
+{
+MapSwitch("surbeach.map",4,8,0);
+}
+

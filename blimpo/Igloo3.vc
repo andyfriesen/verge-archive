@@ -1,0 +1,71 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",78,66,0);
+}
+Event /* 2 */
+{
+TEXT(0,"OUCH!","","");
+TEXT(0,"Bollo: You gotta be real","stupid to touch a burning","flame.");
+}
+Event /* 3 */
+{
+TEXT(0,"Penguin: Dont you dare","enter this dinning room","when it's not time to eat.");
+}
+Event /* 4 */
+{
+AlterFtile(22,15,252,1);
+TEXT(0,"Penguin: HEY! GET OUT OF HERE!","I WORKED REAL HARD TO CLEAN","THIS MESS!");
+}
+Event /* 5 */
+{
+AlterFtile(22,15,255,1);     
+}
+Event /* 6 */
+{
+TEXT(0,"Penguin: This is were everyone","sleeps!","");
+}
+Event /* 7 */
+{
+TEXT(0,"Penguin: Man, this store","is a real piece of caca.","Merchant: Your butt!");
+TEXT(0,"Penguin: Bah!","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Merchant: Hi!","Buy!","...");
+TEXT(0,"..","   .....","     .........");
+TEXT(0,"I SAID BUY!","","Geeez...");
+shop(43,1,2,3,4,25,45);
+TEXT(0,"Geeez...","","");
+}
+Event /* 9 */
+{
+TEXT(0,"Penguin: Welcome!","Stay at the inn...","Dont even think of sleeping");
+TEXT(0,"in my bed...","FREAK!","");
+}
+Event /* 10 */
+{
+TEXT(0,"InnKeeper: This Hotel is CHEAP!","Really!","Try it!");
+Prompt(0,"Want to stay here?","Just 50 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<50)
+{
+TEXT(0,"InnKeeper: Where's the money?","","");
+}
+IF (GP>49)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(50);
+TEXT(0,"InnKeeper: Bye.","","");
+}
+}
+}
+
+

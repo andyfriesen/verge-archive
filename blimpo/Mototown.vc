@@ -1,0 +1,75 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("cave11.map",32,9,0);
+}
+Event /* 2 */
+{
+IF(Flags[37]=0)
+{
+TEXT(0,"Slimes: HEY!","","");                 
+EntityMove(5,"R1");
+EntityMove(6,"L1");                        
+Wait(60);    
+TEXT(0,"SlimeA: Where do you think you","are going?","Joe: Well..");
+TEXT(0,"We need a town to rest...","SlimeB: What?","Samu: Please...");
+TEXT(0,"SlimeA: No Furball has the","right to come here after","what they did to us!");
+TEXT(0,"Joe: Did what?","SlimeB: Yeah right...","SlimeA: Come with us!");
+TEXT(0,"Bollo: Shall we fight?","Samu: Slimes are strong...","Joe: Let's go..");
+TEXT(0,"Maybe we can talk things over...","SLimeA: COME!","");
+Flags[37]=1;
+RemoveCharacter(2);
+RemoveCharacter(5);
+MapSwitch("prision.map",46,8,0);
+}
+IF(Flags[37]=1)
+{
+}
+}
+Event /* 3 */
+{
+TEXT(0,"SlimeGuard: Furball's are now","our friends...","Quick huh?");
+TEXT(0,"We slimes are real happy.","","");
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: If you want to drink","water from the pond..","Go ahead..");
+TEXT(0,"Slime: BUT DONT POOP ON IT!","","");
+SoundEffect(7);
+}
+Event /* 5 */
+{
+TEXT(0,"Slime: I dont like Furballs..","But they have water! YEAH!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Slime: I saw you when you","got arrested..","It was fun!");
+TEXT(0,"Bollo: You dirty Protoplasm!","Slime: Thank you!","Bollo: ???");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Slime: I'm gonna move from","this dump!","Living in a cave sucks!");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Somehow...","I dont feel at home..","");
+}
+Event /* 9 */
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+Event /* 10 */
+{
+TEXT(0,"Slime: Zzzzz...","","");
+TEXT(0,"Bollo: Let's take him and","throw him in the water!","Joe: NO!");
+SoundEffect(7);
+}
+
+

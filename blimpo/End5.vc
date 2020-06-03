@@ -1,0 +1,15 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Blimpo: Oh boy...","We must plan another","attack on Furland...");
+TEXT(0,"Bunny: Short on money","again master?","I'm ready for anything!");
+Wait(80);
+TEXT(0,"Blimpo: Well...","Let's take a break now..","Joe saved me..");
+Wait(40);
+TEXT(0,"Bunny: WHAT?","","");
+TEXT(0,"Blimpo: Oh!","I mean.. I'm tired!","Joe will pay!!! Yeah!");
+Wait(100);
+MapSwitch("end6.map",1,1,0);
+}

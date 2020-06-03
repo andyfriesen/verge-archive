@@ -1,0 +1,87 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF (Flags[11]>1)
+{
+AlterFtile(13,13,27,1);
+AlterFtile(8,24,46,1);        
+AlterFtile(23,25,34,1);        
+AlterFtile(15,4,46,1);        
+}
+IF (Flags[11]=3)
+{
+AlterFTile(17,17,0,0);
+}
+}
+Event /* 1 */
+{
+If (ITEM(29))
+{
+AlterFTile(24,11,0,0);
+SoundEffect(3);
+}
+}
+Event /* 2 */
+{
+MapSwitch("Poo.map",44,41,0);
+}
+Event /* 3 */
+{
+If (Flags[11]=0)
+{
+TEXT(0,"Joe: This guy is frozen!","","");
+Flags[11]=1;
+}
+IF (Flags[11]=1)
+{
+Text(0,"Joe: This guy is frozen!!!","","");
+}
+IF (Flags[11]=2)
+{
+TEXT(0,"Furball: Ow...","I got a headache!","");
+}
+IF (Flags[11]=3)
+{
+TEXT(0,"Furball: Thank you!","","");
+}
+}
+Event /* 4 */
+{
+IF (Flags[11]=0)
+{
+TEXT(0,"Joe: This guy is frozen!","","");
+Flags[11]=1;
+}
+IF (Flags[11]=1)
+{
+TEXT(0,"Joe: This guy is frozen!","","");
+}
+IF (Flags[11]=2)
+{
+TEXT(0,"Mayor: Oww... Ouch!","Being frozen sucks!","Hey! Who are you?");
+TEXT(0,"Joe: I am Joe the Blimpo","Slayer!","Mayor: Did you save us from");
+TEXT(0,"the evil Blimpo curse that","freezed us?","Joe: Uh... Nope..");
+TEXT(0,"It was the lava supply that","was cut...","Mayor: Who cares..");
+TEXT(0,"I'm so happy I'm going to","open the warp to..","ehh.. Forgot!!");
+TEXT(0,"Joe: Dont worry..","I myself dont know where","I'm going! But that's");
+TEXT(0,"because the Blimpo Castle's","wherabouts are unknown!","Mayor: Seek the furball");
+TEXT(0,"that goes by the name of","Paranoid. He knows where the ","castle is!");
+TEXT(0,"Joe: Thank you!","Mayor: Thank YOU!","");
+SoundEffect(3);
+AlterFTile(17,17,0,0);
+Flags[11]=3;
+}
+IF (Flags[11]=3)
+{
+TEXT(0,"Mayor: Thank you!","","");
+}
+}
+Event /* 5 */
+{
+MapSwitch("cave6.map",17,15,0);
+}
+Event /* 6 */
+{
+MapSwitch("icewarp.map",12,6,0);
+}
+

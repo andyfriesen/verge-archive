@@ -1,0 +1,66 @@
+event //0
+{
+layervc=1;
+vcclear();
+drawparty=0;
+cameratracking=0;
+fadein(1);
+vccentertext(50,"This is the end of the demo!");
+vccentertext(60,"");
+vccentertext(70,"Credits:");
+vccentertext(90,"Game Brought to you by:");
+vccentertext(100,"Hatchet, Castles");
+vccentertext(110,"Lady Starmage, CyWolf");
+playmusic("forest.xm");
+
+wait(450);
+vcclear();
+vccentertext(50,"Tile Art:");
+vccentertext(60,"Hachet");
+vccentertext(80,"Main Coding:");
+vccentertext(90,"Castles");
+vccentertext(110,"Godzilla Chr:");
+vccentertext(120,"Lady Starmage");
+vccentertext(140,"Godzilla intro art:");
+vccentertext(150,"CyWolf");
+wait(700);
+vcclear();
+vccentertext(50,"Level Design:");
+vccentertext(60,"Castles");
+vccentertext(80,"Start of intro:");
+vccentertext(90,"CyWolf");
+vccentertext(110,"Main story and whole intro:");
+vccentertext(120,"Castles");
+vccentertext(140,"Auxillery Work");
+Vccentertext(150,"Everyone");
+wait(700);
+vcclear();
+Vccentertext(50,"End of Credits:");
+vccentertext(70,"Comming soon:");
+vccentertext(80,"(Things not put in this demo)");
+vccentertext(100,"Working building punch script");
+vccentertext(110,"Things to kill you");
+vccentertext(120,"Damage meter and attacks");
+vccentertext(130,"People to eat");
+vccentertext(140,"2 player battle game");
+vccentertext(150,"Capability to climb buildings");
+vccentertext(160,"All were dropped from first demo");
+vccentertext(170,"because of unsolvable bugs");
+wait(1400);
+vcclear();
+Vccentertext(50,"Now that the game is through, you");
+vccentertext(60,"will be warped to a test map for");
+vccentertext(70,"you to test out the building");
+vccentertext(80,"bashing script which was basically");
+vccentertext(90,"THE script for this game but");
+vccentertext(100,"Unfortunately, had unsolvable");
+vccentertext(110,"bugs that couldn't be fixed in");
+vccentertext(120,"enough time.");
+wait(1000);
+vcclear();
+cameratracking=1;
+drawparty=1;
+mapswitch("godzilla.map",0,0,0);
+
+}
+

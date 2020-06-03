@@ -1,0 +1,46 @@
+Event /* 0 */
+{
+EnforceAnimation();
+    FadeIn(4);   
+PartyMove("R8");
+SetFace(1,1);   
+SetFace(2,1);   
+SetFace(3,1);   
+TEXT(0,"Joe: Look!","It's Red Orb!","");
+TEXT(0,"RedOrb: Yes! It is I!","Thank you for destroying","the shield generator in");
+TEXT(0,"the Titanic Space Ship!","","");
+TEXT(0,"I will give you a small","boost!","");
+GiveXP(1,1000);
+GiveXP(2,1000);      
+GiveXP(5,1000);      
+Banner("Recieved 1000 EXP!",20000);
+SpecialFrame(1)=20; 
+SpecialFrame(0)=20;          
+SpecialFrame(4)=20; 
+SpecialFrame(2)=20;  
+SpecialFrame(3)=20;
+TEXT(0,"Bollo: Oh Yes!","I feel so much powerful!","");
+TEXT(0,"RedOrb: Yes!","I will fill your HP and MP and","warp you out of here!"); 
+TEXT(0,"RedOrb: Wow!","The way to the blimpo lord's","castle is now open!");  
+TEXT(0,"Go back to you planet and","defeat him AND the evil!","");
+TEXT(0,"Samu: The evil is there?","Bollo: Where's Furry?","");
+TEXT(0,"RedOrb: Furry is fine..","About the evil...","You must first find");
+TEXT(0,"the Blimpo Lord...","He knows where he is...","");
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+  SpecialFrame(0)=0;          
+  SpecialFrame(1)=0; 
+  SpecialFrame(4)=0; 
+  SpecialFrame(2)=0;  
+  SpecialFrame(3)=0;
+  Flags[128]=1;
+TEXT(0,"RedOrb: Restore peace!","","");
+fadeout(50);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"nave.chr");
+MapSwitch("space.map",162,96,0);
+}
+

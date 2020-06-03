@@ -1,0 +1,123 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[30]=2)
+{
+AlterFtile(26,6,0,0);
+AlterFtile(26,7,0,0);
+}
+IF(Flags[69]=22)
+{
+AlterFtile(1,12,0,2);
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",154,110,0);
+}
+Event /* 2 */
+{
+IF(Flags[30]=2)
+{
+TEXT(0,"Furball: Sorry...","Only one bribe a month.","Come next month!");
+}
+IF(flags[30]=0)
+{
+TEXT(0,"Furball: I deal in Bribes!","","");
+}
+IF(flags[30]=1)
+{
+TEXT(0,"Furball: I deal in Bribes!","Joe: Hey!","Bollo: What?");
+TEXT(0,"Joe: Maybe he can help us","bribe the guards!","Furball: Guards? EASY!");
+PROMPT(0,"I have connections you know...","Only 100 dollars!","How about it?",31,"No!","Yes!");
+IF(Flags[31]=0)
+{
+TEXT(0,"Samurai: This is not hono-","rable!","Bollo: Who cares!");
+Return;
+}
+IF(Flags[31]=1)
+{
+IF(GP<100)
+{
+TEXT(0,"Furball: Sorry boys!","You have no gold!","");
+}
+IF(GP>=100)
+{
+TAKEGP(100);
+TEXT(0,"Furball: Ok.. Let me call","them... ","720-6122...");
+TEXT(0,"Hello...","Yeah...","Yes, a code B.R.I.B.E.");
+TEXT(0,"100 gold...","Please!","Ok!");
+TEXT(0,"Yes..","Hu-huh!","Bye!");
+TEXT(0,"Joe: Done?","Furball: YES!","");
+Flags[30]=2;
+AlterFtile(26,6,0,0);
+AlterFtile(26,7,0,0);
+}
+}
+}
+}
+Event /* 3 */
+{
+IF(Flags[30]<2)
+{
+TEXT(0,"Samurai: No foreginer can","pass. It's too dangerous","anyway.");
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: You cant buy fish","until we sun-dry them...","");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: I'm a happy fisherman!","Bollo: You dont look happy.","Furball: I dont want to.");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Dry, dry, dry your","fish... Gently in the sun...","Merily, Merily...");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: This fish looks good!","","");
+}                   
+Event /* 8 */
+{
+TEXT(0,"Furball: Poor fishies!","We also caught a dolphin!","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furballette: My husband","killed the great white","whale!");
+}
+Event /* 10 */
+{
+TEXT(0,"Furballette: I LOVE fish!","When we eat it raw","it's called sushi!");
+TEXT(0,"Bollo: BAAARRRFFF!","","");
+SoundEffect(7);
+}
+Event /* 11 */
+{
+TEXT(0,"Bollo: Smells like dead fish.","Samu: it IS dead fish...","Bollo: Oh.. I feel sick..");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+MapSwitch("Cliff.map",22,58,0);
+}
+Event /* 13 */
+{
+IF(Flags[69]=0)
+{
+IF(Flags[29]>0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 40 EXP",200);
+GiveXP(5,40);
+Flags[69]=22;
+AlterFtile(1,12,0,2);
+}
+IF(Flags[29]=0)
+{
+TEXT(0,"Joe: Mmmm...","Doesn't seem to work","for us...");
+}
+}
+}

@@ -1,0 +1,49 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("surreal.map",52,32,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Ball: Hello. We are pacific","creatures. Do not be afraid.","");
+TEXT(0,"Bollo: What about the ones","in the 'caves'? They","attacked us!");
+TEXT(0,"Ball: Nah, those are animals.","Joe: Oh.","");
+}
+Event /* 3 */
+{
+text(0,"Ball: I am gifted with the","power of healing!","Joe: Ok.");
+Prompt(0,"Ball: Want me to heal you?","","",3,"Yes","No");
+if (flags[3]=0)
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+TEXT(0,"Ball: You are welcomed.","","");
+}
+Event /* 4 */
+{
+Text(0,"Ball: I can sell lots","of very important items!","Buy one of them! Real cheap!");
+Wait(100);
+Text(0,"Ball: What?","You cant even SEE them?","Ok. Bye.");
+}
+Event /* 5 */
+{
+Text(0,"Ball: We are beings of light.","Not balls as you call us!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Ball: Sorry for running away","from you back then...","It's that...");
+Wait(60);
+TEXT(0,"Ball: You look so wierd!","","");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Ball: We can read your mind.","...","Dont worry, I dont care.");
+}
+

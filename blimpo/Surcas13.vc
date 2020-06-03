@@ -1,0 +1,79 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[151]=1)
+ {
+ FadeIn(4);    
+ AlterFtile(12,2,329,0);  
+ TEXT(0,"Bollo: So.. The Evil RedOrb","Is controling my brother","and helping the Blimpo Lord.");
+ TEXT(0,"RedOrb: Right...","","");
+ TEXT(0,"Joe: Hey?","Where's Furry?","");
+ TEXT(0,"RedOrb: Dont worry.","I will take him somewhere","safe...");
+ TEXT(0,"But first...","","");
+ MapSwitch("win4.map",2,7,0);       
+ }
+}
+Event /* 1 */
+{
+MapSwitch("surcas12.map",17,3,0);
+}
+Event /* 2 */
+{
+EntityMove(5,"L2");
+Wait(30);
+TEXT(0,"Bollo: Furry?","","");
+PlayMusic("Abyss.XM"); 
+TEXT(0,"Furry: Bollo...","Look at what you've done!","");
+TEXT(0,"Samu: What?","Joe: Furry is Bollo's Brother!","He used to be in the Jail");
+TEXT(0,"back in Getosburg with Wambo!","Samu: Uh.","");
+IF(Flags[13]=1)
+ {
+ TEXT(0,"Joe: Furry asked Bollo to","help him escape, but he","declined...");
+ TEXT(0,"Furry: Thank you Bollo...","Now Look at me now..","I'm the evil boss of this");
+ TEXT(0,"castle!!","","Thanks.. to ... YOU!");
+ }
+TEXT(0,"Bollo: Furry!","What happened?","");
+TEXT(0,"Furry: I became the boss","of this castle when RedOrb gave","me your Picasso Cards!");
+TEXT(0,"Bollo: My Picasso trading cards?","NOOOOO!","Where are they?");
+TEXT(0,"Furry: Here.. take them...","","");
+GiveItem(52);
+TEXT(0,"Bollo: YES! YES!","The Woman in White!","Guernica! Wow!");
+TEXT(0,"They're all here!","","");
+Wait(100);
+TEXT(0,"Furry: Hello?","What about me?","");
+TEXT(0,"Bollo: I forgot!","Furry! Lets get out of here!","");
+TEXT(0,"Furry: no..","","");
+TEXT(0,"Bollo: Why?","Furry: I got the greatest power","you cant even imagine!");
+TEXT(0,"Bollo: FURRY!","Furry: I dont want to leave!","I love this new world!");
+TEXT(0,"Joe: Furry! Nooooo!","Samu: Nooooo!","Bollo: Noooo!");
+TEXT(0,"Furry: Bye Bollo...","Go back home..","");
+EntityMove(5,"R2");  
+TEXT(0,"Bollo: FURRRRYYYYYY!!!!!","","");
+Wait(140);
+TEXT(0,"Joe: I cant believe RedOrb","is behind all this!!","");
+TEXT(0,"Samu: Then why is he helping","us destroy the shields to","the Titanic Space Fort"); 
+TEXT(0,"that is protecting the Blimpo","Lord's castle?","Joe: Something's Fishy...");
+AlterFtile(12,2,329,0);
+PlayMusic("caca.s3m");   
+TEXT(0,"RedOrb: No!","It is not true!","");
+SetFace(1,1);   
+SetFace(2,1);   
+SetFace(3,1);   
+TEXT(0,"Joe: Explain this to us!","","");
+EntityMove(5,"L1");        
+Wait(20);
+SetFace(1,2);   
+SetFace(2,2);   
+SetFace(3,2);   
+TEXT(0,"Furry: No!","It is true!","You gave me the cards!");
+TEXT(0,"Bollo: Furry!","Explain this to me..","again! it cant be true!");
+TEXT(0,"RedOrb: It is.. ","...","......True...");
+EntityMove(5,"L1");    
+SetFace(1,1);   
+SetFace(2,1);   
+SetFace(3,1);   
+Wait(60);
+TEXT(0,"Joe: NO!","You...","Evil Dumb One!");
+TEXT(0,"RedOrb: It was not me...","It was my evil self...","");
+MapSwitch("Story1.map",1,1,0);
+}

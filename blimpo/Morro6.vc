@@ -1,0 +1,159 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[133]=1)
+ {
+ AlterFtile(10,10,0,0);
+ }
+ IF(Flags[139]=1)
+ {
+ AlterBtile(2,5,771,1);
+ }
+}
+Event /* 1 */
+{
+MapSwitch("Morro1.map",24,16,0);
+}
+Event /* 2 */
+{
+SoundEffect(14);
+Wait(5);
+AlterBtile(29,11,778,2);
+AlterBtile(30,11,778,2);   
+AlterBtile(31,11,778,2);   
+ IF(Flags[134]=0)
+ {
+ Flags[134]=1;
+ AlterBtile(28,11,797,2);
+ AlterFtile(34,8,0,0);  
+ AlterFtile(35,8,0,0);      
+ }
+}
+Event /* 3 off grapple */
+{
+AlterBtile(29,11,0,2);
+AlterBtile(30,11,0,2);   
+AlterBtile(31,11,0,2);   
+Flags[134]=0;
+}
+Event /* 4 Enemies */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* whoo */
+{
+MapSwitch("morro7.map",2,32,0);
+}
+
+Event /* exit spell */
+{
+IF(!Item(15))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Exit Magic from");
+ TEXT(0,"here.","Bring an Exit Scroll and use","me.");
+ }
+IF(item(15))
+ {
+ Prompt(0,"Joe: This is an Exit Desk","We can use Exit magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+  TEXT(0,"Desk: You used me!","EXIT","");
+  SoundEffect(4);
+  BoxFadeOut(50);
+  CurMP(1)-=5;   
+  CurMP(2)-=5;     
+  MapSwitch("island3.map",25,28,0);
+ }
+ }
+  }
+  }
+}
+
+

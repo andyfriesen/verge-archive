@@ -1,0 +1,86 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("launch2.map",9,18,0);
+}
+Event /* 2 */
+{
+MapSwitch("igloo3.map",16,22,0);
+}
+Event /* 3 */
+{
+MapSwitch("cave16.map",35,3,0);
+}
+Event /* 4 */
+{
+MapSwitch("cave16.map",30,18,0);
+}
+Event /* 5 */
+{
+MapSwitch("congel.map",16,28,0);
+}
+Event /* 6 */
+{
+MapSwitch("cave16.map",9,18,0);
+}
+Event /* 7 */
+{
+MapSwitch("icesign.map",9,18,0);
+}
+Event /* 8 */
+{
+MapSwitch("cave17.map",9,43,0);
+}
+Event /* 9 */
+{
+MapSwitch("cave17.map",9,1,0);
+}
+Event /* 10 */
+{
+MapSwitch("it1.map",15,28,0);
+}
+Event /* 11 */
+{
+MapSwitch("cave18.map",7,1,0);
+}
+Event /* 12 */
+{
+MapSwitch("iceh.map",15,18,0);
+}
+Event /* 13 */
+{
+MapSwitch("cave19.map",33,34,0);
+}
+Event /* 14 */
+{
+MapSwitch("icecas.map",7,28,0);
+}
+Event /* 15 */
+{
+MapSwitch("icecas2.map",7,28,0);
+}
+Event /* 16 */
+{
+MapSwitch("iceFire.map",30,36,0);
+}
+Event /* 17 */
+{
+MapSwitch("cave20.map",2,12,0);
+}
+Event /* 18 */
+{
+MapSwitch("cave21.map",9,1,0);
+}
+Event /* 19 */
+{
+MapSwitch("cave21.map",3,37,0);
+}
+Event /* 20 */
+{
+MapSwitch("icebase1.map",23,23,0);
+}
+
+

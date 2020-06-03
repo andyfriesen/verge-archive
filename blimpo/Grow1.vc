@@ -1,0 +1,23 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",87,28,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: Hey! Look at my house!","Thank you so much!","");
+}
+Event /* 3 */
+{
+IF(Flags[42]=1)
+{
+Text(0,"Merchant: I'm going to make","a shop here...","But where?");
+TEXT(0,"Joe: How about near the mayor's","house?","Merchant: Ok!");
+Flags[42]=2;
+}
+TEXT(0,"Merchant: Thank guys!","You rule!","");
+}
+

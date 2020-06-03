@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[45]=1)
+{
+AlterFtile(28,16,123,0);
+}
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",22,29,0);
+}
+Event /* 2 */
+{
+MapSwitch("mototown.map",17,18,0);
+}
+Event /* 3 */
+{
+MapSwitch("cave14.map",26,4,0);
+}
+

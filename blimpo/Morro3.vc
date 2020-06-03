@@ -1,0 +1,30 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("morro1.map",43,11,0);
+}
+Event /* 2 */
+{
+IF(item(51))
+ {
+ SoundEffect(14);
+ Wait(5);
+ AlterBtile(16,10,777,0);
+ AlterBtile(17,10,778,0);            
+ AlterBtile(18,10,779,0);            
+}
+}
+Event /* 3 */
+{
+ AlterBtile(16,10,775,1);
+ AlterBtile(17,10,0,1);            
+ AlterBtile(18,10,776,1);            
+}
+Event /* 4 */
+{
+MapSwitch("Morro4.map",6,43,0);
+}
+

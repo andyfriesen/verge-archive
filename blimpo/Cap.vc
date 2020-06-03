@@ -1,0 +1,200 @@
+Event /* 0 */
+{
+EnforceAnimation();
+If(Flags[15]>3)
+{
+AlterFtile(27,7,0,0);
+AlterFtile(28,6,51,1);        
+}
+}
+Event /* 1 */
+{
+MapSwitch("Train.map",12,3,0);
+}
+Event /* 2 */
+{
+MapSwitch("poo.map",14,126,0);
+}
+Event /* 3 */
+{
+Flags[9]=0;
+}
+Event /* 4 */
+{
+Flags[9]=1;
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: The warp next door","is NEVER used!","Joe: Why?");
+TEXT(0,"Furball: Because the climate","at the other side is too","hot.");
+IF(Flags[14]=0)
+{
+TEXT(0,"Joe: Maybe it's the Poopoonia","warp!!!..","");
+}
+}
+Event /* 6 */
+{
+If(Flags[15]<3)
+{
+TEXT(0,"Soldiers: This are the sewers.","you cant enter..","");
+}
+If(Flags[15]=3)
+{
+TEXT(0,"Soldier: Mr. Slime told","you??? Great!","Hop in!");
+AlterFtile(27,7,0,0);   
+Flags[15]=4;
+AlterFtile(28,6,51,1);       
+}
+}
+Event /* 7 */
+{
+TEXT(0,"Merchant: Hello!","The goods here are real","cheap! Take a look...");
+Shop(1,2,3,4,25,28,32);
+TEXT(0,"Merchant: Real cheap!","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Soldier: Man I need new","weapons...","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: The weapons factory","is our pride and joy!","");
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: This is stupid..","They blame the media for","having lots of violence.");
+TEXT(0,"But we have the right to","bear arms..","Some countries with much");
+TEXT(0,"more violent tv and video","games dont have so much crime.","why? Cause you cant bear arms...");
+SoundEffect(8);
+}
+Event /* 11 */
+{
+TEXT(0,"Furballette: I've been","waiting for you!","....OOps!");
+TEXT(0,"Sorry! You're not him!","","");
+}
+Event /* 12 */
+{
+TEXT(0,"Furball: Isn't this beau-","tiful? You dont see lots of","trees around here...");
+}
+Event /* 13 */
+{
+TEXT(0,"InnKeeper: Welcome to the","PistaBlanca Hotel!","");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"InnKeeper: You dont have","money..","Too bad...");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(20);
+TEXT(0,"InnKeeper: Good Luck!","","");
+}
+}
+}
+Event /* 14 */ 
+{
+TEXT(0,"Penguin: Furballs treat us","like animals!!!","But you know what?...");
+STEXT(0,"I AM NOT AN ANIMAL!!!!","","");
+TEXT(0,"Bollo: I feel your pain...","","");
+}
+Event /* 15 */
+{
+TEXT(0,"Furball: I used to go to","Furleguard on vacation..","But I have too much work now.");
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: I sing jingles for","Doll commercials..","Bollo: Cool...");
+SOundEffect(7);
+TEXT(0,"Joe: Are you crazy??","Bollo: I dont think so..","");
+}
+Event /* 17 */
+{
+TEXT(0,"Furball: The sewers in this","city stink!","Joe: Duh!");
+SoundEffect(7);
+}
+Event /* 18 */
+{
+TEXT(0,"Secretary: The Gobernor is","a really busy guy...","Dont bother him!");
+}
+Event /* 19 */
+{
+TEXT(0,"Secretary: We cant tell","anyone where the weapons","are shipped...");
+}
+Event /* 20 */
+{
+TEXT(0,"Soldier: Welcome to San","Ramon's Capital city...","");
+}
+Event /* 21 */
+{
+TEXT(0,"Soldier: Hello Joe!","I'm also from Furleguard!","Joe: Nice to meet you!");
+TEXT(0,"Soldier: Pssts...","Between you and me...","Dont tell anyone...");
+TEXT(0,"Something is wrong in the","state of San Ramon!","");
+}
+Event /* 22 */
+{
+TEXT(0,"Soldier: Since you look","mighty important and weak..","You can enter the Gobernor's");
+TEXT(0,"Mansion...","Bollo: What a bodyguard...","Soldier: I'm not a bodyguard...");
+}
+Event /* 23 */
+{
+TEXT(0,"Furball: I love San","Ramon...","");
+}
+Event /* 24 */
+{
+TEXT(0,"Furball: This is the annual","Dung-o-licious Mega","Parade!! YEEH!!");
+SoundEffect(8);
+}
+Event /* 25 */
+{
+TEXT(0,"Furball: Yeah..","We ARE moving...","albeit real slow...");
+}
+Event /* 26 */
+{
+TEXT(0,"Furball: We sure stopped","traffic today..","Bollo: There is no");
+TEXT(0,"Traffic..","Furball: Shhh..","Keep it between you and me!");
+SoundEffect(7);
+}
+Event /* 27 */
+{
+TEXT(0,"Furball: I'm dressed as a","baseball player!!!","");
+}
+Event /* 28 */
+{
+TEXT(0,"Hamster: This is a Rat","costume..","Bollo: HAMSTER YOU JEST!!!");
+TEXT(0,"Hamster: Ooops Sorry...","It wont happen again..","I promise...");
+}
+Event /* 29 */
+{
+TEXT(0,"Furballette: Where are","the women in this city?","");
+}
+Event /* 30 */
+{
+IF(Flags[15]<2)
+{
+TEXT(0,"Gobernor: Welcome!","Shop around!","");
+}
+IF(Flags[15]>2)
+{
+TEXT(0,"Gobernor: Oh my!","The factory exploded!","Now we have to go");
+TEXT(0,"back to our old ways..","and be like you hicks!","Joe: ...");
+TEXT(0,"Gobernor: But we will find","the terrorist who did","this and they will");
+TEXT(0,"PAY!!!","Bollo: YEAH!","");
+SoundEffect(7);
+}
+}
+Event /* 31 */
+{
+TEXT(0,"Soldier: The sewers stink...","","");
+}
+Event /* 32 */
+{
+MapSwitch("sewer.map",4,3,0);
+}
+
+

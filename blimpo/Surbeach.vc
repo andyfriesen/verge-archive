@@ -1,0 +1,131 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(FLags[146]=1)
+ {
+ AlterBtile(108,9,823,2);    
+ MoveCode(5)=1;  
+ MoveCode(6)=1;  
+ MoveCode(7)=1;  
+ MoveCode(8)=1;  
+ MoveCode(9)=1;  
+ MoveCode(10)=1;  
+ MoveCode(11)=1;  
+ MoveCode(12)=1;  
+ MoveCode(13)=1;  
+ MoveCode(14)=1;  
+ MoveCode(15)=1;  
+ MoveCode(16)=1;  
+ MoveCode(17)=1;  
+ MoveCode(18)=1;  
+ }
+}
+Event /* 1 */
+{
+MaPSwitch("surcas1.map",15,2,0);
+}
+Event /* 2 destroy sand castle! */
+{
+IF(FLags[146]=0)
+ {
+ AlterBtile(108,9,823,2);
+ Flags[146]=1;
+ TEXT(0,"Urchins: Who steped on our","sacred castle???","");
+ MoveCode(5)=1;  
+ MoveCode(6)=1;  
+ MoveCode(7)=1;  
+ MoveCode(8)=1;  
+ MoveCode(9)=1;  
+ MoveCode(10)=1;  
+ MoveCode(11)=1;  
+ MoveCode(12)=1;  
+ MoveCode(13)=1;  
+ MoveCode(14)=1;  
+ MoveCode(15)=1;  
+ MoveCode(16)=1;  
+ MoveCode(17)=1;  
+ MoveCode(18)=1;  
+ }
+}
+Event /* 3 */
+{
+MapSwitch("surcas9.map",10,6,0);
+}
+
+Event /* 4 Enemies */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+

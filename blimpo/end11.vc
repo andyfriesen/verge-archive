@@ -1,0 +1,56 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+TEXT(0,"Furballs: You cant leave!","It's your day!","Go see the king!");
+}
+Event /* 2 */
+{
+IF(Flags[172]=0)
+{
+TEXT(0,"Paranoid: Congratulations!","I got a present for you!","");
+GiveItem(40);  
+SoundEffect(7);
+TEXT(0,"Joe: Lovely...","","");
+Flags[172]=1;
+}
+TEXT(0,"Paranoid: It's magical!","","");
+}
+Event /* 3 */
+{
+TEXT(0,"Soldier: Go see the king.","","");
+}
+Event /* 4 */
+{
+TEXT(0,"Gaky: Hi!","Congratulations!","");
+}
+Event /* 5 */
+{
+TEXT(0,"Harry: Oh boy!","That was cool Joe!","Next time take me!");
+}
+Event /* 6 */
+{
+TEXT(0,"Barry: Yeah!","Take us next time you","go on an adventure!");
+TEXT(0,"Me, you, Harry, Paranoid","and Gaky...","Those where the days...");
+}
+Event /* 7 */
+{
+TEXT(0,"King: Great job, Joe!","Now.. tell me exactly how","you defeated the Blimpo Lord.");
+TEXT(0,"Joe: The Blimpo Lord wasn't ","the bad guy this time..","");
+TEXT(0,"King: What?","What do you mean?","");
+TEXT(0,"Joe: It was an evil entity..","Like...","");
+TEXT(0,"King: Oh...","Well then...","You will still recieve");
+TEXT(0,"your reward!","Now tell me how you defeated","this entity thing...");
+TEXT(0,"Joe: It's a long story","but here I go...","");
+Wait(100);
+DrawParty=0;     
+MapSwitch("credits.map",1,1,0);
+}
+Event /* 8 */
+{
+SaveMenu();
+}
+
+

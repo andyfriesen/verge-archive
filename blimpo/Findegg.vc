@@ -1,0 +1,25 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Surcas4.map",58,2,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: You found the","Modified Adventure Secret!!!","");
+TEXT(0,"You Nerd!","","");
+SoundEffect(7);
+Wait(60);
+TEXT(0,"Furball: Why Adventure? you ask...","Adventure kicks butt!","");
+TEXT(0,"Isn't it lame?","","");
+TEXT(0,"But it's the first thing that","came to Spram's mind.",""); 
+TEXT(0,"There's another stupid secret","in this game!","Find the slime in Nock Castle!");
+TEXT(0,"Its in the lava...","She or He doesnt say much!","");
+TEXT(0,"This game is PG!","Or PG-13 for the dumb ones...","");
+TEXT(0,"There's a secret item that","Might make the game R","But it's not there so... There!");
+TEXT(0,"Donde diablos jugaran los","ni... Where's the n with the","wavy thing!");
+TEXT(0,"Oh yeah!","Verge doesnt have one..","");
+}
+

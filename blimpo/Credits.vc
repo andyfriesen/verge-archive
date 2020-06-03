@@ -1,0 +1,15 @@
+Event /* 0 */
+{
+EnforceAnimation();
+    FadeIn(4);                                 
+Wait(150);
+
+Speed(0)=2;
+
+PartyMove("D154");
+Wait(300);
+TEXT(0,"Press Enter to start over!","","");
+TEXT(0,"","      CACA!","");
+Exit();
+}
+

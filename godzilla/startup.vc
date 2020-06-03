@@ -1,0 +1,15 @@
+script
+{
+  Sys_DisplayPCX("startup.pcx");
+  VGADump();
+  FadeIn(100);
+  while(B1=0) { ReadControls(); }
+  Sys_DisplayPCX("gzilla2.pcx");
+  VgaDump();
+  FadeIn(30);
+  mapswitch("maze.map",0,0,0);
+  while(B1=1) { ReadControls(); }
+  //OldStartupMenu();
+  //newgame("maze.map");
+  return;
+}

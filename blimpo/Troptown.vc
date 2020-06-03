@@ -1,0 +1,76 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Island1.map",29,9,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Want to stay at","our 1 star hotel??","");
+Prompt(0,"Want to stay here?","Just 1 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<1)
+{
+TEXT(0,"Furball: Too bad!","Joe: Why?","Furball: You have no cash.");
+}
+IF (GP>0)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(1);
+TEXT(0,"Furball: Come back!","It's CHEAP!","");
+SoundEffect(7);
+}
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: Hi! Welcome to...","Uh.. This town doesn't","have a name...");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Dont drink water","from this well!, this","is used to wash clothes!");
+}
+Event /* 5 */
+{
+TEXT(0,"Furballette: This is my","house! Want to stay?","Joe: No!");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Welcome to the","official town dinning","room.. closed now.");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: Where to buy?","","");
+}
+Event /* 8 */
+{
+TEXT(0,"MerchantA: Buy from ME!","","");
+Shop(1,2,3,4,13,14,16,25,30,32,33,34);
+TEXT(0,"MerchantA: Thank you!","Dont buy anything from","The other guy.");
+TEXT(0,"MerchantB: I heard you!","","");
+SoundEffect(7);
+}
+Event /* 9 */
+{
+TEXT(0,"MerchantB: Hi! Welcome to","my store!","");
+Shop(1,2,3,4,13,14,16,25,30,32,33,34);                                 
+TEXT(0,"MerchantB: Better stuff than","the next guy!","MerchantA: Die!");
+SoundEffect(7);
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: If I had a","Spaceship, I would go","to the other planets!");
+TEXT(0,"I heard other planets have","what they call slimes","and they're really cute!");
+}
+Event /* 11 */
+{
+TEXT(0,"Bollo: No secret here.","","");
+}
+
+

@@ -1,0 +1,16 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("surcas2.map",9,8,0);
+}
+Event /* 2 */
+{
+IF(Flags[142]=1)
+ {
+ MapSwitch("Surcas1.map",3,10,0);
+ }
+}
+

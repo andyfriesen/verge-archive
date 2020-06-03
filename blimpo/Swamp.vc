@@ -1,0 +1,101 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("tunnel2.map",58,10,0);
+}
+Event /* 2 */
+{
+MapSwitch("swampt.map",1,14,0);
+}
+Event /* 3 */
+{
+PaletteMorph(0,63,0,70,60);   
+wait(1);
+SoundEffect(14);     
+PaletteMorph(63,0,0,0,60);  
+ Flags[86]=1;
+ CurHP(1)-=1;   
+ CurHP(2)-=1;  
+ CurHP(5)-=1;  
+IF(!item(34) AND !item(35))
+{
+ CurHP(1)-=3;
+} 
+IF(!item(43) AND !item(44))        
+{ 
+ CurHP(2)-=3;
+} 
+IF(!item(46))              
+{
+ CurHP(5)-=3;
+}
+IF(curHP(1)>9999 AND curHP(2)>9999)
+{
+IF(curHP(5)>9999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);  
+Healall();
+SoundEffect(4);
+}
+}
+
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(curHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);  
+Healall();
+SoundEffect(4);
+}
+}
+}
+Event /* 4 */
+{
+IF(Flags[86]=1)
+ {
+ TEXT(0,"Sign Reads: You are","dirty! Use a soap in the","well to wash yourself!");
+ }
+IF(Flags[86]=0)
+ {
+ TEXT(0,"Sign Reads: You are clean!","If you step on swamp goo","you get dirty!");
+ }
+}
+
+Event /* 5 SOAP */
+{
+IF(Flags[86]=0)
+ {
+ TEXT(0,"You are clean!","","");
+ }
+IF(Flags[86]=1)
+ {
+ Prompt(0,"Your face is dirty!","Come! Wash your face!","Yes?",6,"No","Please");  
+ IF (Flags[6]=1)
+ {
+ IF(item(1))          
+  {
+  BoxFadeOut(50);
+  HealAll();
+  SoundEffect(4);
+  BoxFadeIn(50);
+  Flags[86]=0;
+  Banner("Dirt off",1000000);           
+  Banner("HP Restored too",1000000);           
+  }
+ IF(!item(1))
+  {
+  TEXT(0,"Sorry!","You dont have soap!","");
+  }
+ }
+ }
+}  
+Event /* 6 */
+{
+MapSwitch("cave23.map",2,2,0);
+}
+

@@ -1,0 +1,99 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("icebase6.map",7,8,0);
+}
+Event /* 2 */
+{
+IF(!Item(15))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Exit Magic from");
+ TEXT(0,"here.","Bring an Exit Scroll and use","me.");
+ }
+IF(item(15))
+ {
+ Prompt(0,"Joe: This is an Exit Desk","We can use Exit magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+  TEXT(0,"Desk: You used me!","EXIT","");
+  SoundEffect(4);
+  BoxFadeOut(50);
+  CurMP(1)-=5;   
+  CurMP(2)-=5;     
+  MapSwitch("ice.map",72,35,0);
+ }
+ }
+  }
+  }
+}
+Event /* 3 */
+{
+IF(!Item(13))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Heal Magic from");
+ TEXT(0,"here.","Brink a Heal Scroll and use","me.");
+ }
+IF(item(13))
+ {
+ Prompt(0,"Joe: This is a Heal Desk","We can use Heal magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<2)
+   {
+   IF(CurMP(2)<2) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>1) 
+  {
+  IF(CurMP(2)>1)        
+  {
+  TEXT(0,"Desk: You used me!","HEAL!","");
+  BoxFadeOut(50);
+  CurHP(1)=MaxHP(1);    
+  CurHP(2)=MaxHP(2);      
+  CurHP(5)=MaxHP(5);      
+  CurMP(1)-=2;   
+  CurMP(2)-=2;       
+  SoundEffect(4);
+  BoxFadeIn(50);
+ }
+ }
+  }
+  }
+}
+
+
+
+Event /* 4 */
+{
+GiveItem(15);
+}
+Event /* 5 */
+{
+MapSwitch("boss2.map",15,18,0);
+}
+

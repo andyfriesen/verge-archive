@@ -1,0 +1,140 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[107]=1)
+ {
+ AlterFtile(22,6,541,1);       
+ }
+ IF(Flags[108]=1)
+ {
+ AlterFtile(28,23,0,2);    
+ }
+} 
+Event /* 1 */
+{
+MapSwitch("bigpyr.map",17,2,0);
+}
+Event /* 2 */
+{
+SoundEffect(3);
+Wait(10);
+AlterFtile(21,27,0,0);
+}
+Event /* 3 */
+{
+SoundEffect(3);
+Wait(10);
+AlterFtile(30,5,0,0);
+AlterFtile(32,5,0,0); 
+AlterFtile(34,5,0,0); 
+}
+Event /* 4 */
+{
+IF(Flags[107]=0)
+{
+AlterFtile(22,6,541,1);  
+GiveItem(13);
+Flags[107]=1;
+}
+}
+Event /* 5 */
+{
+IF(Flags[108]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Slimy gets 40 EXP",200);
+BANNER("The rest 100 EXP",200);  
+GiveXP(1,100);
+GiveXP(2,100);
+GiveXP(7,40);
+GIVEXP(5,100);
+Flags[108]=1;
+AlterFtile(28,23,0,2);
+TEXT(0,"Slimy: Why me?","","");
+SoundEffect(10);
+}
+}
+Event /* 5 enemy die die! */
+{
+PaletteMorph(63,10,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(5)-=4;
+CurHP(7)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+ IF(!char(5))
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+ IF(Char(7) AND !Char(5))
+ {
+ IF(CurHP(7)<=0)
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+ Healall();
+ SoundEffect(4);
+ }
+ }
+IF(curHP(7)=0 AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(Char(7) AND !Char(5))
+{
+IF(CurHP(7)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(7)>99999 AND !char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+

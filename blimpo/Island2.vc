@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("cave23.map",30,18,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Joe: A road block!","","");
+}
+Event /* 3 */
+{
+MapSwitch("hotel.map",4,58,0);
+}
+Event /* 4 */
+{
+MapSwitch("diver.map",1,11,0);
+}
+

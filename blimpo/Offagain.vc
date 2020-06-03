@@ -1,0 +1,8 @@
+Event /* 0 */
+{
+Fadein(10);
+EnforceAnimation();
+PartyMove("U50");
+MapSwitch("Space.map",70,65,0);
+}
+

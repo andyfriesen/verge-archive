@@ -1,0 +1,76 @@
+Event /* 0 */
+{
+EnforceAnimation();
+Flags[91]=0;
+Flags[92]=0;             
+Flags[93]=0;             
+Flags[94]=0;             
+}
+Event /* 1 */
+{
+AddCharacter(2);
+AddCharacter(5);
+ChangeCHR(1,"Furball.chr");
+MapSwitch("Diver3.map",9,13,0);
+}
+Event /* 2 First treasure! */
+{
+IF(Flags[91]=0)
+ {
+  PaletteMorph(63,0,63,70,60);   
+  wait(5);
+  SoundEffect(2);     
+  PaletteMorph(63,0,0,0,60);  
+  Flags[91]=1;
+  AlterFtile(10,36,0,2);
+  GiveGP(50);
+ }
+}
+Event /* 3 Second treasure! */
+{
+IF(Flags[92]=0)
+ {
+  PaletteMorph(63,0,63,70,60);   
+  wait(5);
+  SoundEffect(2);     
+  PaletteMorph(63,0,0,0,60);  
+  Flags[92]=1;
+  AlterFtile(2,30,0,2);
+  GiveGP(50);
+ }
+}
+Event /* 4 3rd treasure! */
+{
+IF(Flags[93]=0)
+ {
+  PaletteMorph(63,0,63,70,60);   
+  wait(5);
+  SoundEffect(2);     
+  PaletteMorph(63,0,0,0,60);  
+  Flags[93]=1;
+  AlterFtile(20,36,0,2);
+  GiveGP(50);
+ }
+}
+Event /* 5 last treasure! */
+{
+IF(Flags[94]=0)
+ {
+  PaletteMorph(63,0,63,70,60);   
+  wait(5);
+  SoundEffect(2);     
+  PaletteMorph(63,0,0,0,60);  
+  Flags[94]=1;
+  AlterFtile(13,27,0,2);
+  GiveGP(50);
+ }
+}
+Event /* 6 Sub entities */
+{
+PaletteMorph(44,0,44,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+TakeGP(25);
+}
+ 

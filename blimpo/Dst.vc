@@ -1,0 +1,82 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",46,128,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Hey! Go away!","I'm doing my stuff!","Bollo: I can see...");
+SoundEffect(7);
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: The Furballs in","the big city are living","full of SIN!");
+TEXT(0,"We dont let them teach","their ways to the other","countries...");
+TEXT(0,"Bollo: How?","Furball: We breeded lots of","monsters and let them");
+TEXT(0,"Loose on the caves to the","other places...","");
+}
+Event /* 4 */
+{
+TEXT(0,"Furballette: Get away!","I can be crucified if I","get caught with another");
+TEXT(0,"man...","Bollo: Two men...","Furballette: NO! You're a");
+TEXT(0,"furry hamster!","HOW CUTE!!!!","Bollo: oh brother...");
+SoundEffect(7);
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: This is the","village's well..","");
+}
+Event /* 6 */
+{
+TEXT(0,"Slime: We Slimes go to","the sewers to breed..","");
+}
+Event /* 7 */
+{
+TEXT(0,"Soldier: Steal and we","cut your hand!","");
+}
+Event /* 8 */
+{
+TEXT(0,"InnKeeper: Hello!","Stay here!","");
+Prompt(0,"Want to stay here?","Only 10 GP!!","",6,"No","Yep");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper: Where's the MONEY!","HEY SOLDIER!!!","Joe: Let's beat it!");
+SoundEffect(7);
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: May God be","with you!","");
+}
+}
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: Welcome to","Coowayt!","");
+}
+Event /* shop 10 */
+{
+TEXT(0,"Merchant: We dont have many","things thanks to our","No Trade policy!");
+TEXT(0,"You know.. We dont want to","be seduced by the sins","of the west...");
+shop(1,2,3,4);
+TEXT(0,"Merchant: God bless you!","","");
+}
+Event /* 11 */
+{
+TEXT(0,"Furballette: I want to","go out!","");
+}
+Event /* 12 */
+{
+TEXT(0,"Mayor: The Cave northeast","is dangerous...","Go there...");
+}
+
+

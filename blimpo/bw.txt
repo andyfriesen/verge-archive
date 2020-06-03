@@ -1,0 +1,42 @@
+-----------------------------------------------------------
+Name:           Blimpo Warrior
+Author:         Spram
+E-Mail:         mujica@caribe.net
+Home Page:      none
+
+Description:    none
+-----------------------------------------------------------
+
+Features
+-----------------------------
+Style:          Dragon Warrior Rio-Off without a battle system, sort of.
+Graphics:       Created
+Music:          Copied
+Battle System:  Sort of...
+Source Code:    What's that?
+
+Technical Data
+-----------------------------
+Engine:         VERGE 1
+Build Time:     2 years or more
+Programs Used:  MapEd, ACE, Edit, Pictor, PCX2**** and IT (Impulse Tracker)
+Ave. Play Time: 3-4 hours (can be finished in 2?)
+
+Commands
+-----------------------------
+Left -          Left
+Right -         Right
+Up -            Up
+Down -          Down
+Enter -         Talk
+Space -         Subscreen
+Esc -           Game Options
+Alt -           Cancel
+Crtl -          Run
+
+Documentation
+-----------------------------
+none                               
+
+
+

@@ -1,0 +1,41 @@
+Event /* 0 */
+{
+EnforceAnimation();
+    FadeIn(4);   
+PartyMove("R8");
+SetFace(1,1);   
+SetFace(2,1);   
+SetFace(3,1);   
+TEXT(0,"Joe: Look!","It's Red Orb!","");
+TEXT(0,"RedOrb: Yes! It is I!","Thank you for destroying","the shield generator in");
+TEXT(0,"the Tropical planet!","One of the four generators!","");
+TEXT(0,"I will give you a small","boost!","");
+GiveXP(1,500);
+GiveXP(2,500);      
+GiveXP(5,500);      
+Banner("Recieved 500 EXP!",20000);
+SpecialFrame(1)=20; 
+SpecialFrame(0)=20;          
+SpecialFrame(4)=20; 
+SpecialFrame(2)=20;  
+SpecialFrame(3)=20;
+TEXT(0,"Bollo: Oh Yes!","I feel so much powerful!","");
+TEXT(0,"RedOrb: Here! Take this!","","");
+Banner("Got 1000 Gold!",10000);
+GiveGP(1000);
+TEXT(0,"Joe: Oh BABY! Dough!","Bollo: Mucho Dinero!","Samu: Yen, Yen, Yen!");
+TEXT(0,"RedOrb: Yes!","I will fill your HP and MP and","warp you out of here!"); 
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+  SpecialFrame(0)=0;          
+  SpecialFrame(1)=0; 
+  SpecialFrame(4)=0; 
+  SpecialFrame(2)=0;  
+  SpecialFrame(3)=0;
+  Flags[139]=1;
+TEXT(0,"RedOrb: Restore peace!","","");
+MapSwitch("island3.map",27,26,0);         
+}
+

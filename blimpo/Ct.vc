@@ -1,0 +1,188 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("cave4.map",52,47,0);
+}
+Event /* 2 */
+{
+If (Flags[4]=0)
+{
+ TEXT(0,"Mayor: Hello!","Joe: Hi mayor.","I am on a quest to bring");
+ TEXT(0,"down the EVIL Blimpo Lord","Will you help me?","Mayor: What do you mean?");
+ TEXT(0,"Joe: There is this dumb soldier","in my way and I cant cross","to my homeland.");
+ TEXT(0,"Mayor: Well, of course he'll","let you pass...","Go! And bring peace to the");
+ TEXT(0,"Land!","","");
+ Flags[4]=42;
+}
+TEXT(0,"Joe: Thank you Mayor","Mayor: My pleasure!","");
+}
+Event /* 3 */
+{
+TEXT(0,"OUCH!","","");
+}
+Event /* 4 */
+{
+TEXT(0,"Soldier: Hey you!","","");
+If (Flags[4]=42)
+{
+TEXT(0,"Soldier: Oh! It's you Joe!","Good Luck!","");
+}
+}
+Event /* 5 */
+{
+If (Flags[4]=42)
+{
+TEXT(0,"Soldier: Hey! Hi Joe!","How's it going???","Joe: Fine!");
+TEXT(0,"Soldier: Cool! It's JOE!","People! It's JOE!!!!","");
+SoundEffect(8);
+IF(Flags[54]=0)
+{
+TEXT(0,"Soldier: You can have my EXP","Points if you want!","");
+BANNER("Recieved 10 EXP",200);
+GiveXP(1,10);
+Flags[54]=22;
+}
+}
+If (Flags[4]=0)
+{
+TEXT(0,"Soldier: It's too cold for","you!","");
+}
+}
+Event /* 6 */
+{
+If (Flags[4]=42)
+{
+TEXT(0,"Furball: Joe!, You cool, cool","guy!","Joe: Hehe.. Thanks.");
+}
+If (Flags[4]=0)
+{
+TEXT(0,"Furball: AH! You piece of POO!","Get outta my house!","");
+}
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: This town was made","in the cave by mistake!","");
+}
+Event /* 8 */
+{
+TEXT(0,"Merchant: Hello!","","");
+Shop(1,2,3,0);
+TEXT(0,"Merchant: I wish I had more","inventory.","");
+}
+Event /* 9 */
+{
+TEXT(0,"Merchant: Hey you!","OVER HERE!","");
+}
+Event /* 10 */
+{
+IF (Flags[4]=0)
+{
+TEXT(0,"Slime: How did you find this","town?","Joe: I dont know...");
+TEXT(0,"Slime: How are you going to","get out??","Joe: Dont know!!!");
+TEXT(0,"Slime: I can help you..","After you finish your","business here, come to");
+TEXT(0,"me.!","Joe: Ok!","");
+}
+If (Flags[4]=42)
+{
+TEXT(0,"Slime: I will warp you out","of here!","");
+Prompt(0,"Slime: Ready?","","",5,"Yeah!","NO MAN!");
+IF (Flags[5]=0)
+{
+STEXT(0,"Slime: WHOOOPA!","","");
+SoundEffect(4);
+MapSwitch("Cave4.map",3,1,0);
+}
+TEXT(0,"Slime: Good Luck!","","");
+}
+}
+Event /* 11 */
+{
+TEXT(0,"Furball: Hello?","","");
+}
+Event /* 12 */
+{
+}
+Event /* 13 */
+{
+TEXT(0,"Furball: I'm going to","sit here by the fire and","hope not to get frostbite.");
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: This are the soldier's","beds.","");
+}
+Event /* 15 */
+{
+TEXT(0,"Joe: Hello happy Furball!","Furball: Hi!","Joe: May I ask you something?");
+TEXT(0,"Furball: Sure!","Joe: What kinda' bulbs do","those trees have?");
+TEXT(0,"Furball: Bulbs?","Joe: Yeah, the lights.","Furball: NO! Those are natural!");
+}
+Event /* 16 */
+{
+IF (Flags[4]=0)
+{
+TEXT(0,"Furballette: EWW!","You ugly, ugly guy!","");
+}
+IF (Flags[4]=42)
+{
+TEXT(0,"Furballette: Hey hand-","some!","Joe: Go to heck shallow");
+TEXT(0,"HAG!","","");
+SoundEffect(8);
+IF(flags[12]>41)
+{
+TEXT(0,"Bollo: You tell her","brotha..","");
+}
+}
+}
+Event /* 17 */
+{
+TEXT(0,"Furball: We made many images","of our town in the cave..","That way monsters wont");
+TEXT(0,"attack this one..","the fartest one...","");
+}
+Event /* 18 */
+{
+TEXT(0,"InnKeeper: Hello!","Cold weather huh, tourist?","");
+Prompt(0,"Want to stay here?","It's warm!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper: Where's the MONEY!","SHOW ME DA' MONEY!","");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Good Luck!","","");
+}
+}
+}
+Event /* 19 */
+{
+TEXT(0,"Furball: I'm sad!","Joe: Why my friend?","Furball: I want to be cool!");
+TEXT(0,"Joe: Like me?","Furball: ....","...");
+SoundEffect(7);
+TEXT(0,"Furball: Yeah.. ptss... HAHAHAH!","HAHAHAHAHAHA!","Joe: I'm sad...");
+SoundEffect(10);
+}
+Event /* 20 */
+{
+TEXT(0,"Furball: Oh baby..","Mumble.. mumble...","Oh yeah...");
+SoundEffect(7);
+}
+Event /* 21 */
+{
+TEXT(0,"Furball: The room of the","Flames this is...","");
+}
+Event /* 22 */
+{
+TEXT(0,"Joe:MMMMMmmmm...","There's a coin under the","bed?.. Cool!");
+GiveGP(1);
+SoundEffect(8);
+}
+

@@ -1,0 +1,31 @@
+Event /* 0 */
+{
+EnforceAnimation();
+    FadeIn(4);            
+ TEXT(0,"RedOrb: Let me explain...","It was a long time ago...","In the Fur Planet...");
+ Wait(50);
+ TEXT(0,"RedOrb: I was looking for","Flowers in the island of Gooj...","");
+ TEXT(0,"Then something wierd happened...","","");
+ PaletteMorph(10,2,0,50,60);   
+ Wait(10);
+ PaletteMorph(20,4,0,50,60);   
+ Wait(10);
+ PaletteMorph(30,6,0,50,60);   
+ Wait(10);
+ PaletteMorph(40,8,0,50,60);   
+ Wait(10);
+ PaletteMorph(50,10,0,50,60);   
+ Wait(50);
+ AlterFtile(11,5,329,0);
+ TEXT(0,"RedOrb: Something that happens","every 1000 years..","");
+ TEXT(0,"RedOrb: Two RedOrbs...","I reproduce by splitting","myself...");
+ TEXT(0,"But this time...","Something was wrong..","It was...");
+ AlterFtile(11,5,0,0);      
+ PaletteMorph(0,0,0,0,63);   
+ Wait(50);
+ Flags[151]=1;    
+ TEXT(0,"RedOrb: The other Me was..","     Evil.","");
+ MapSwitch("Surcas13.map",13,6,0);
+ 
+}
+

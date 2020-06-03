@@ -1,0 +1,246 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[16]=3)
+{
+Flags[17]=4;
+AlterFtile(29,10,0,0);
+Alterftile(29,11,0,0);
+}
+IF(Flags[62]=2)
+{
+AlterFtile(55,28,541,2);
+}
+IF(Flags[63]=22)
+{
+AlterFtile(2,57,0,2);  
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",24,109,0);
+}
+Event /* 2 */
+{
+MapSwitch("poo.map",67,116,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Slime: Hi!","To open the way to the","other side, step on the");
+TEXT(0,"marks in an orderly fashion.","","");
+}
+Event /* 4 */
+{
+IF(Flags[16]>0)
+{
+Soundeffect(3);
+Flags[16]=0;
+}
+IF(Flags[16]=0)
+{
+SoundEffect(4);
+Flags[16]=1;
+}
+}
+Event /* 5 */
+{
+IF(Flags[16]>1)
+{
+Soundeffect(3);
+Flags[16]=0;
+}
+IF(Flags[16]=1)
+{
+SoundEffect(4);
+Flags[16]=2;
+}
+}
+Event /* 4 */
+{
+IF(Flags[16]>2)
+{
+Soundeffect(3);
+Flags[16]=0;
+}
+IF(Flags[16]=2)
+{
+SoundEffect(4);
+Flags[16]=3;
+}
+}
+Event /* 4 */
+{
+IF(Flags[16]>3)
+{
+Soundeffect(3);
+Flags[16]=0;
+}
+IF(Flags[16]=3)
+{
+SoundEffect(8);
+Flags[17]=4;
+AlterFtile(29,10,0,0);
+Alterftile(29,11,0,0);
+}
+}
+Event /* 8 */
+{
+TEXT(0,"Slime: Dont ask..","Just be thankful there's","a store here..");
+}
+Event /* 9 */
+{
+TEXT(0,"Slime: Hello!","We sell stuff!","");
+Shop(1,2,3,4);
+TEXT(0,"Slime: We get our goods","from Coowayt!","Bollo: I see...");
+}
+Event /* 10 */
+{
+TEXT(0,"Slime: I wish I was a","healer slime!","Joe: Me too!");
+}
+Event /* 11 */
+{
+TEXT(0,"Slime: I am a Healer Slime!","","");
+HealAll();
+SoundEffect(4);
+TEXT(0,"Slime: Come again, buddy!","","");
+SoundEffect(8);
+}
+Event /* 12 */
+{
+AlterFtile(29,10,0,0);
+Alterftile(29,11,0,0);
+SoundEffect(3);
+}
+Event /* 13 */
+{
+TEXT(0,"Slime: We slimes are proud","to make this cave the","most beautiful cave");
+TEXT(0,"in the world!","Now if we only knew how to","get rid of the monsters...");
+}
+Event /* 14 */
+{
+TEXT(0,"Slime: I love my house!","","");
+}
+Event /* 15 */
+{
+TEXT(0,"SIGN READS:","     The Moat  ","");
+}
+Event /* 16 */
+{
+TEXT(0,"Slime: Guess what?","","");
+TEXT(0,"Bollo: Dunno...","Slime: Invisible Doors!","");
+}
+Event /* 17 */
+{
+MapSwitch("Poo.map",78,132,0);
+}
+Event /* 18 */
+{
+AlterFtile(43,4,0,0);
+SoundEffect(3);
+}
+Event /* 19 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=2;
+CurHP(2)-=2;
+CurHP(3)-=2;
+CurHP(5)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND Char(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND Char(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 20 */
+{
+IF(Flags[62]=2)
+{
+TEXT(0,"Empty.","","");
+}
+IF(Flags[62]<2)
+{
+SoundEffect(3);      
+AlterFtile(55,28,541,2); 
+GiveGP(100);
+BANNER("Got 100 Gold",200);
+Flags[62]=2;
+}
+}
+Event /* 21 */
+{
+IF(Flags[63]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 20 EXP",200);
+GiveXP(1,20);
+GiveXP(2,20);
+Flags[63]=22;
+AlterFtile(2,57,0,2);  
+}
+}
+
+
+

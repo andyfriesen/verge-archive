@@ -1,6 +1,16 @@
 
 let games: array(Game.game) = [|
     {
+        name: "blimpo",
+        title: "Blimpo Warrior",
+        description: "The first completed V1 game, made by Spram!"
+    },
+    {
+        name: "carnage",
+        title: "Carnage Killing Spree",
+        description: "A game based on Carnage from the SpiderMan comics. Made by CLIPs!"
+    },
+    {
         name: "sots",
         title: "Saga of the Stars",
         description: {j|Grue made this!  He misspelles "existence" like a million times.  Try it out and then point it out to him!|j}
@@ -19,6 +29,11 @@ let games: array(Game.game) = [|
         name: "thorny",
         title: "Thorny's Quest",
         description: "A Verge compo game made by Jeff Brooks when he was merely 13!"
+    },
+    {
+        name: "godzilla",
+        title: "Wrath of Godzilla",
+        description: "A Verge compo game made Hatchet, cywolf, Lady Starmage and Castles!"
     },
 |];
 

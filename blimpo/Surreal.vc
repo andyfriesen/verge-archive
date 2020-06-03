@@ -1,0 +1,101 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[103]=1)   
+ {
+ AlterbTile(47,63,719,0);
+ }
+}
+Event /* 1 */
+{
+MapSwitch("Darktnnl.map",28,8,0);
+}
+Event /* 2 */
+{
+MapSwitch("Cave24.map",9,3,0);
+}
+Event /* 3 */
+{
+MapSwitch("Cave24.map",32,35,0);
+}
+Event /* 4 */
+{
+IF(Flags[101]=0)
+{
+Wait(50);
+TEXT(0,"Joe: I cant go on...","Bollo: Me too!","All this wierd stuff is...");
+TEXT(0,"making me...","Ugh...","...");
+MapSwitch("kinky.map",5,4,0);
+}
+}
+Event /* 5 */
+{
+MapSwitch("Kinky.map",1,14,0);
+}
+Event /* 6 */
+{
+MapSwitch("Cave25.map",4,4,0);
+}
+Event /* 7 */
+{
+MapSwitch("Cave26.map",2,3,0);
+}
+Event /* 8 */
+{
+IF(Flags[103]=1)
+ {
+ MapSwitch("Brocoli.map",1,5,0);
+ }
+}
+Event /* 9 */
+{
+MapSwitch("Cave27.map",6,14,0);
+}
+Event /* 10 */
+{
+MapSwitch("Cave27.map",5,4,0);
+}
+Event /* 11 */
+{
+MapSwitch("Cave28.map",31,27,0);
+}
+Event /* 12 */
+{
+MapSwitch("Cave28.map",7,10,0);
+}
+Event /* 13 */
+{
+TEXT(0,"Joe: This tree makes me","happy!","");
+SoundEffect(4);         
+Banner("Full HP!",2000);
+HealAll();
+}
+Event /* 14 */
+{
+MapSwitch("Cave29.map",2,4,0);
+}
+Event /* 15 */
+{
+MapSwitch("Cave29.map",15,4,0);
+}
+Event /* 16 */
+{
+TEXT(0,"Sign Reads: This way to the","white shore.","");
+}
+Event /* 17 */
+{
+TEXT(0,"Sign Reads: This way to the","Launch Pad!","");
+}
+Event /* 18 */
+{
+MapSwitch("Cave27.map",23,5,0);
+}
+Event /* 19 */
+{
+MapSwitch("surtown.map",28,12,0);
+}
+Event /* 20 */
+{
+MapSwitch("surcas1.map",9,10,0);
+}
+

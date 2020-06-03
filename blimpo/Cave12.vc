@@ -1,0 +1,136 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[71]=22)
+{
+AlterFtile(1,34,0,2);
+}
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",52,46,0);
+}
+Event /* 2 */
+{
+MapSwitch("Moto.map",82,58,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: I need TOILET PAPER!","NOW!","");
+SoundEffect(13);
+IF(Flags[40]=1)
+{
+TEXT(0,"Furball: Is that...","TOILET PAPER?","Joe: Yeah.. Blue...");
+TEXT(0,"Furball: I dont usually use","colored toilet paper..","But this is an emergency!");
+TEXT(0,"Furball: Colored TP can give","you many illness like gongo-","rhea and Pubic Worms.");
+TEXT(0,"Furball: You can have some","money.. Thank you for","helping me!");
+DestroyItem(38,0);           
+GiveGP(500); 
+Flags[40]=2;      
+SoundEffect(8);
+}
+}
+Event /* 4 */
+{
+MapSwitch("quick.map",15,15,0);
+}
+Event /* 5 */
+{
+IF(Flags[71]=0)
+{
+TEXT(0,"Slimy: EXP for me!","","");
+Wait(50);
+BANNER("Recieved 20 EXP",200);
+GiveXP(7,20);
+TEXT(0,"Joe: What about us?","","");
+BANNER("Recieved 10 EXP",200);
+GIVEXP(1,10);
+GIVEXP(2,10);
+GIVEXP(5,10);
+Flags[71]=22;
+AlterFtile(1,34,0,2);
+}
+}
+Event /* 6 */
+{
+PaletteMorph(63,10,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(5)-=4;
+CurHP(7)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+ IF(!char(5))
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+ IF(Char(7) AND !Char(5))
+ {
+ IF(CurHP(7)<=0)
+ {
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+ Healall();
+ SoundEffect(4);
+ }
+ }
+IF(curHP(7)=0 AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(Char(7) AND !Char(5))
+{
+IF(CurHP(7)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+}
+IF(curHP(7)>99999 AND !char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameove2.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+

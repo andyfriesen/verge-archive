@@ -1,0 +1,73 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",35,81,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Penguin: What kind of","creature are you?","anyway..");
+TEXT(0,"Welcome to Igloo 2","","");
+}
+Event /* 3 */
+{
+Text(0,"Penguin: Oh no!","A MONSTER!!!","AHHHHHHHHH!");
+SoundEffect(7);
+}
+Event /* 4 */
+{
+TEXT(0,"Penguin: Whoa...","What a wierd looking dude","you are...");
+TEXT(0,"That doesn't mean I wont","sell you stuff...","");
+Shop(1,2,3,43);
+TEXT(0,"Penguin: Peace...","","");
+}
+Event /* 5 */
+{
+TEXT(0,"InnKeeper: Hello..","You sure look wierd!","Thank God you use the");
+Prompt(0,"same currency!","Wanna stay here?","10 Gold per night!",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper:Mmm.","I wont be allowing any of","your kind here anymore...");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Bye!","","");
+}
+}
+}
+Event /* 6 */
+{
+TEXT(0,"Penguin: Hello exotic being!","I like to collect exotic","plants and the like!");
+}
+Event /* 7 */
+{
+TEXT(0,"Hamster: Not only do the","penguins of this town","dont know anything"); 
+TEXT(0,"about Furballs.. Most of","them dont know what one","is.. I do!");
+}
+Event /* 8 */
+{
+TEXT(0,"Penguin Dude: Hello Dude!","Man, my sunglasses must","be dirty... You look");
+TEXT(0,"Like a orange ball of hair!","Let me take them off to","see you...");
+SoundEffect(7);
+TEXT(0,"AAAAAHHHHHHHHH!","","");
+TEXT(0,"I need some Bifocals...","","");
+}
+Event /* 9 */
+{
+TEXT(0,"Penguin: I've read about","your race!","But I've never seen one!");
+TEXT(0,"Amazing!","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Penguin: Oh my God..","What are you????","");
+}
+

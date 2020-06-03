@@ -1,0 +1,33 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[72]=1)
+ {
+ AlterFTile(9,18,0,0);                   
+ AlterFTile(8,17,0,0);                   
+ AlterFTile(7,18,0,0);                   
+ AlterFTile(8,19,0,0);                   
+ }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",69,75,0);
+}
+Event /* 2 */
+{
+MapSwitch("ice.map",73,80,0);
+}
+Event /* 3 */
+{
+If(Flags[72]=0)
+ {
+ TEXT(0,"Joe: A fire in an ice","cave?","Bollo: Ironic.");
+ TEXT(0,"Samu: wow...","Joe: It's so wierd...","Bollo: Ditto...");
+ TEXT(0,"...","...","Ok, let's go.");
+ }
+}
+Event /* 2 */
+{
+MapSwitch("ice.map",64,78,0);
+}
+

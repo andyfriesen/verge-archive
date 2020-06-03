@@ -1,0 +1,104 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF (Flags[10]>4)
+{
+AlterBTile(18,6,222,0);  
+}
+IF (Flags[19]=1)
+{
+AlterFTile(12,2,0,0);  
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",188,23,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Warden: The prisioners have","no lava!","Haha! THey must be");
+TEXT(0,"freezing!","","");
+}
+Event /* 3 */
+{
+TEXT(0,"Soldier: I'm sure these","scumbags have a reason","to be locked up.");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Oh man!","They turned out town into","a JAIL!");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: It sure is","wierd living in a jail.","");
+}
+Event /* 6 */
+{
+IF(Flags[19]=0)
+{
+TEXT(0,"Furry: BRRR! it's so cold!","","");
+IF(Flags[12]>41)
+{
+IF(flags[13]=0)
+{
+TEXT(0,"Bollo: FURRY!","Furry: my brother!","Bollo: How are you?");
+TEXT(0,"Furry: What do you think...","Bollo: Well...","Furry: Man. you have to");
+TEXT(0,"get me out of here!!","Bollo: ??","Furry: Yes! I cant stand it!");
+TEXT(0,"Bollo: Furry...","Furry: What?","Bollo: You must be responsible");
+TEXT(0,"for your actions..","You broke the law and now","must pay... even if it hurts.");
+TEXT(0,"Furry: NO! BOLLO!","Bollo: Yes Furry.. sorry...","Furry: I HATE YOU, BOLLO!");
+TEXT(0,"Bollo: Furry.. please!","Furry: Get out!!!!","Bollo: no...");
+Flags[13]=1;
+}
+TEXT(0,"Furry: Go away...","You're not my brother...","");
+}
+}
+}
+Event /* 7 */
+{
+IF (Flags[10]<4)
+{
+TEXT(0,"Wambo: CHEATER!","","");
+}
+IF (Flags[10]=4)
+{
+TEXT(0,"Wambo: You have the key!","Joe: Hello! I think you","know of a secret pass..");
+TEXT(0,"Wambo: Yes yes...","But why?","Joe: I want to get the harp");
+TEXT(0,"Back...","Wambo: I tried to get it too..","And look where I am now...");
+TEXT(0,"Wambo: My best wishes to you!","","");
+Flags[10]=5;
+SoundEffect(4);
+AlterBTile(18,6,222,0);  
+}
+IF (Flags[10]=5)
+{
+TEXT(0,"Wambo: GO get the HARP!","","");
+}
+IF (Flags[10]>5)
+{
+TEXT(0,"Wambo: I like it here...","","");
+}
+}
+Event /* 8 */
+{
+IF (Flags[10]>4)
+{
+MapSwitch("WC.map",34,55,0);
+}
+}
+Event /* 9 */
+{
+If (ITEM(29))
+{
+AlterFTile(11,3,0,0);
+SoundEffect(3);
+}
+}
+Event /* 10 */
+{
+If (ITEM(29))
+{
+AlterFTile(15,5,0,0);
+SoundEffect(3);
+}
+}
+

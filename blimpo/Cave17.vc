@@ -1,0 +1,31 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[73]=1)
+ {
+ AlterFtile(1,8,0,2);         
+ }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",13,89,0);
+}
+Event /* 2 */
+{
+MapSwitch("ice.map",14,81,0);
+}
+Event /* 3 */
+{
+IF(Flags[73]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("All get 20 EXP",200);
+GiveXP(1,20);
+GiveXP(2,20);
+GiveXP(5,20);
+Flags[73]=1;
+AlterFtile(1,8,0,2);
+}
+}
+

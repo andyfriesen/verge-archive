@@ -1,0 +1,55 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",70,77,0);
+}
+Event /* 2 */
+{
+IF(Flags[38]=0 AND Char(7))
+{
+TEXT(0,"Slimy: What?","","");
+PartyMove("U3");
+Setface(char(7),1);      
+Wait(20);
+Setface(char(7),2);      
+Wait(20);
+Setface(char(7),3);   
+Wait(20);
+Setface(char(7),0);      
+Wait(20);
+TEXT(0,"Slimy: NOOO!","My TOWN! It's in.. ruins!","Let's look around..");
+TEXT(0,"Maybe someone's alive...","Joe: Maybe they fled...","");
+SetFace(char(7),1);
+Wait(20);
+TEXT(0,"Slimy: What?","Oh... What's that?","The water..");
+TEXT(0,"It's gone!","Bollo: Man! I'm thirsty!","Joe: Let's look around...");
+Flags[38]=1;
+}
+}
+Event /* 3 */
+{
+TEXT(0,"NOTE READS: This town sucks!","There is no water anymore!","");
+}
+Event /* 4 */
+{
+TEXT(0,"NOTE READS: We must move...","Maybe... live with the","Furballs.. They have water");
+TEXT(0,"in their land..","","");
+}
+Event /* 5 */
+{
+TEXT(0,"NOTE READS: Join the army or","go to jail!!!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Joe: It's a bill...","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Crystal: I am the talking","crystal of caca!","You will surrender to");
+TEXT(0,"my absolute power!","Drool at my muscles!","Eat caca!");
+STEXT(0,"CACACACACACACACA!","Yes! CaCa!","I'm KwEl!");
+}
+

@@ -1,0 +1,53 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",61,13,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Lot's of Slimes","have invaded my little","forest!");
+TEXT(0,"What shall I do?","They look peaceful enough..","");
+}
+Event /* 3 */
+{
+TEXT(0,"Slime: I am a healer slime!","","");
+HealAll();
+SoundEffect(4);
+Text(0,"Slime:Come again!","","");
+TEXT(0,"Joe: Thanks buddy!","","");
+SoundEffect(8);
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: Some slimes believe","that there are actually","more slimes than furballs.");
+TEXT(0,"I cannot believe that.","","");
+}
+Event /* 5 */
+{
+TEXT(0,"Slime: Some Furballs believe","that there are actually","more furballs than slimes.");
+TEXT(0,"I cannot believe that.","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Slime: This is cozy.","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Slime: This view rocks.","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Slime: To us slimes, north","is south and south is","north. West is east and east");
+TEXT(0,"is west.","Just like some fictionary","beings called humans.");
+TEXT(0,"So when a furball says north..","He means south...","It was all fault of a");
+TEXT(0,"furball that had his map","upside down.","He..");
+}
+Event /* 9 */
+{
+TEXT(0,"Slime: I love the way grass","feels on my tummy","We dont have feet you know...");
+}
+
+

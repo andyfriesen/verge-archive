@@ -1,0 +1,335 @@
+Event /* 0. Autoexec */
+{
+VCLoadPCX("CARNY.PCX",0);
+VCLoadPCX("SPI.PCX",110592);
+
+Flags[240] = 150;
+
+BindKey(44,0);
+BindKey(45,0);
+BindKey(57,0);
+
+DrawParty = 0;
+VCLayerWrite = 2;
+VCClear();
+VCLayerWrite = 1;
+VCClear();
+LayerVC=1;
+LayerVC2=1;
+Flags[235] = 0;
+Flags[236] = 0;
+Flags[237] = 0;
+Flags[229] = 16;
+Flags[230] = 64;
+Flags[231] = 208;
+Flags[232] = 64;
+Flags[234] = 1;
+Flags[233] = 1;
+
+FadeIn(50);
+Redraw();
+
+CallEvent(1,0,0);
+wait(50);
+VCCenterText(50, "Carnage V.S. Spider-Man");
+wait(50);
+VCCenterText(70, "Ready");
+wait(50);
+VCCenterText(90, "Set");
+wait(50);
+VCCenterText(110, "FIGHT!");
+wait(25);
+CallEvent(1,0,0);
+
+while(Flags[235] = 0)
+	{
+	/* Counters */
+	Flags[239]++;
+	if(Flags[239]=5) { Flags[238]++; Flags[239]=0; } 
+
+	Flags[245]++;
+	if(Flags[245]=5) { Flags[251]++; Flags[245]=0; } 
+
+	/*Events*/
+	CallEvent(2); /* Check Player 1: RealPlayer, Keyboard */
+	CallEvent(3); /* Check Player 2: Computer Player, AI */
+
+	CallEvent(1,Flags[236],Flags[237]); /* Update Screen */
+	wait(1);
+	}
+
+LayerVC=0;
+LayerVC2=0;
+DrawEntities=1;
+DrawParty = 1;
+VCLayerWrite=2;
+VCClear();
+VCLayerWrite=1;
+VCClear();
+CallScript(15);
+if(Flags[235] = 2) { SoundEffect(18); banner("You lost! Ha Ha!",3); NewGame("Menu.map"); }
+mapswitch("town.map",11,28,1);
+}
+
+
+
+Event /* 1. UPDATE SCREEN */
+{
+VCLayerWrite=2;
+VCClear();
+VCBlitImage( Flags[229], Flags[230], 96, 96, (var(0) * 9216) );
+
+VCLayerWrite=1;
+VCClear();
+VCBlitImage( Flags[231], Flags[232], 96, 96, 110592 + (var(1) * 9216) );
+
+VCLayerWrite = 2;
+VCBox(0,0,320,45);
+VCSpc(5,5,1,0); /* Carnage */
+VCText(45,5,"HP:");
+VCTextNum(46,15,curhp(1));
+VCSpc(190,5,2,0); /* SpiderMan */
+VCText(230,5,"HP:");
+VCTextNum(230,15,Flags[240]);
+
+VCLayerWrite = 1;
+
+if(Flags[240] > 900000) { Flags[235] = 1; }
+if(CurHp(1) > 900000) { Flags[235] = 2; CurHp(1) = 0; }
+}
+
+
+
+Event /* 2. PLAYER 1: CHECK KEYS, REAL PLAYER */
+{
+
+/* Moving: Back, Forth, Crouching, and Jumping */
+if(Flags[233] = 1)
+	{
+	/*Forward(a.k.a. right) */
+	if(Right=1 && Flags[229] < 300)
+		{if(Flags[238] > Flags[252])
+			{
+			Flags[252] = Flags[238];
+			if(Flags[254] = 1)
+				{
+				Flags[236] ++;
+				if(Flags[236] > 6) {Flags[236]=4;}
+				}
+			if(Flags[254] !=1) { Flags[236]=4; }
+			}
+		Flags[254]=1;
+		Flags[229] +=4;
+		CallEvent(4); /* Check For Collision */
+		if(Flags[241] = 1 && Flags[255] !=1) { Flags[231] = Flags[229] + 48; }
+		}
+
+	/* Back(a.k.a. Left) */
+	if(Left=1 && Flags[229] > 10)
+		{
+		if(Flags[238] > Flags[252])
+			{
+			Flags[252] = Flags[238];
+			if(Flags[254] = 2)
+				{
+				Flags[236] ++;
+				if(Flags[236] > 6) {Flags[236]=4;}
+				}
+			if(Flags[254] !=2) { Flags[236]=4; }
+			}
+		Flags[254]=2;
+		Flags[229] -=4;
+		}
+	}
+
+/* Crouching */
+if(Down = 1 && Flags[233] <3)
+	{
+	Flags[233]=2; /* Crouch mode */
+	Flags[236]=3;
+	Flags[254]=4;
+	}
+
+/* Standing Still */
+if(left=0 && Right=0 && Down=0 && Flags[233] <3)
+	{
+	Flags[233]=1; /* Stand mode */
+	if(Flags[236] < 2 && Flags[239] !=3) { Goto Skip; }
+	if(Flags[236]=0) { Flags[236]=1; Goto Skip; }
+	if(Flags[236]=1) { Flags[236]=0; Goto Skip; }
+	Flags[236]=0;
+	SKIP:
+	Flags[254]=9;
+	}
+
+/* Jumping */
+if(up = 1) { Flags[233] = 3; Flags[236]=2; }
+if(Flags[233]=3) /* Jump mode */
+	{
+	Flags[230] -=8;
+	if(Right=1 && Flags[229] < 300) { Flags[229] +=2; }
+	if(Left=1 && Flags[229] > 10) { Flags[229] -=2; }
+	if(Flags[230] <= 20) { Flags[233]=4; Flags[236] = 2; }
+	Flags[254]=3;
+	}
+if(Flags[233]=4) /* Fall Mode */
+	{
+	Flags[230] +=16;
+	if(Right=1 && Flags[229] < 300) { Flags[229] +=2; }
+	if(Left=1 && Flags[229] > 10) { Flags[229] -=2; }
+	if(Flags[230] >= 64) { Flags[233]=2; Flags[236]=3; }
+	Flags[254]=3;
+	}
+
+/* Blocking */
+if(Key(30) = 1 && Flags[233] <3)
+	{
+	Flags[233] = 1;
+	Flags[236] = 10;
+	Flags[254] = 8;
+	}
+
+CallEvent(4); /* Check if Collided */
+
+/* Attack1 */
+if(Key(44) = 1)
+	{
+	if(Flags[233] <3) { Flags[233] = 1; }
+	Flags[236] = 7;
+	if(Flags[241]=1 and Flags[234]=1 and Flags[237] !=10)
+		{
+		Flags[240] -=1; SoundEffect(4); 
+		if(Flags[231] < 300) { Flags[231] +=2; }
+		}
+       	Flags[244] = 50;
+	Flags[254] = 5;
+	}
+
+/* Attack2 */
+if(Key(45) = 1)
+	{
+	if(Flags[233] <3) { Flags[233] = 1; }
+	Flags[236] = 8;
+	if(Flags[241]=1 and Flags[234] !=3 and Flags[237] !=10)
+		{
+		Flags[240] -=2; SoundEffect(4);
+		if(Flags[231] < 300) { Flags[231] +=4; }
+		}
+       	Flags[244] = 50;
+	Flags[254] = 6;
+	}
+
+/* Attack3 */
+if(Key(46) = 1)
+	{
+	if(Flags[233] <3) { Flags[233] = 1; }
+	Flags[236] = 9; 
+	if(Flags[241]=1 and Flags[234] !=2 and Flags[237] !=10)
+		{
+		Flags[240] -=3; SoundEffect(4);
+		if(Flags[231] < 300) { Flags[231] +=6; }
+		}
+       	Flags[244] = 50;
+	Flags[254] = 7;
+	}
+
+}
+
+
+
+
+Event /* 3. PLAYER 2: COMPUTER PLAYER AI */
+{
+CallEvent(4);
+if(Flags[255] < 3 && Flags[241]=1) { Flags[255] = 2; }
+
+If(!Flags[255]) /* Standing */
+	{CallEvent(4);
+	Flags[234]=1;
+	if(Flags[241]=1) /* If too close to stand run away */
+		{
+		if(Flags[251] > Flags[253])
+			{
+			Flags[253]=Flags[251];
+			Flags[237] +=1;
+			if(Flags[237] < 4) { Flags[237]=4; }
+			if(Flags[237] > 6) { Flags[237]=4; }
+			}
+		Flags[231] +=6;
+		}
+	if(!Flags[241]) /* If in a safe place */
+		{
+		if(Flags[237] < 2 && Flags[245] !=3) { Goto Ski; }
+		if(Flags[237]=0) { Flags[237]=1; Goto Skip; }
+		if(Flags[237]=1) { Flags[237]=0; Goto Skip; }
+		Flags[237]=0;
+		SKI:
+		}
+	}
+if(Flags[255]=1) /* Running to position */
+	{CallEvent(4);
+	Flags[234]=1;
+	if(Flags[241]=1) { Flags[255]=0; }
+	if(Flags[251] > Flags[253])
+		{
+		Flags[253]=Flags[251];
+		Flags[237] +=1;
+		if(Flags[237] < 4) { Flags[237]=4; }
+		if(Flags[237] > 6) { Flags[237]=4; }
+		}
+	if(Flags[231]>Flags[229]) { Flags[231] -=4; }
+	if(Flags[241] = 1 && Right=0 && Left=0 && Flags[229] > 10) { Flags[229]-=4;}
+	}
+if(Flags[255]=2) /* Attacking */
+	{CallEvent(4);
+	t=random(1,3);
+	if(t=1 && Flags[241]=1) {Flags[234] = 1;
+		Flags[237] = 7;	
+		if(Flags[233] =1 and Flags[236] !=10) { CurHp(1) -=1; SoundEffect(4); Flags[229] -=3; }
+		}
+	if(t=2 && Flags[241]=1) {Flags[234] = 2;
+		Flags[237] = 8;	
+		if(Flags[233] !=3 and Flags[236] !=10) { CurHp(1) -=1; SoundEffect(4); Flags[229] -=2;  }
+		}
+	if(!Flags[241]) { Flags[255]=0; }
+	if(t=3) { Flags[234] = 3; Flags[255]=5; Flags[257]=random(0,2); }
+	}
+if(Flags[255]=3) /* Blocking */
+	{CallEvent(4);
+	if(Flags[241]=1)
+		{
+		Flags[234]=4;
+		Flags[237]=10;
+		}
+	if(!Flags[241]) { Flags[255]=0; }
+	}
+if(Flags[255]=5) /* Jumping */
+	{
+	Flags[232] -=8;
+	if(Flags[257]=0 && Flags[231] < 300) { Flags[231] +=2; }
+	if(Flags[257]=1 && Flags[231] > 0) { Flags[231] -=2; }
+	if(Flags[232] <= 20) { Flags[234]=4; Flags[237] = 2; Flags[255]=6; Flags[257]=random(0,2); }
+	CallEvent(4);
+	if(Flags[257]=2 && Flags[241]=1) { if(Flags[233] !=2 and Flags[236] !=10) { CurHp(1)-=2; SoundEffect(4); }}
+	}
+if(Flags[255]=6) /* Falling */
+	{
+	Flags[232] +=8;
+	if(Flags[257]=0 && Flags[231] < 300) { Flags[231] +=2; }
+	if(Flags[257]=1 && Flags[231] > 0) { Flags[231] -=2; }
+	if(Flags[232] >= 64) { Flags[234]=4; Flags[237] = 3; Flags[255]=0; }
+	CallEvent(4);
+	if(Flags[257]=2 && Flags[241]=1) { if(Flags[233] !=2 and Flags[236] !=10) { CurHp(1)-=2; SoundEffect(4); }}
+	}
+if(!Flags[255] && random(1,5)=3) { Flags[255] = random(0,3); }
+}
+
+
+
+Event /* 4. Check if in hit range */
+{
+Flags[241]=0;
+if(Flags[231]>=Flags[229] && Flags[231]<=(Flags[229]+70) && Flags[232] >= Flags[230] && Flags[232] <= (Flags[230]+70))
+			{Flags[241] = 1;}
+}
+ 

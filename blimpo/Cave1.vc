@@ -1,0 +1,140 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+
+Event /* 1 */
+{
+Mapswitch("poo.map",35,1,0);
+}
+
+Event /* 2 */
+{
+Mapswitch("poo.map",44,3,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Joe: I'm getting sick!","I think... ","Think I'm going to puke..");
+SoundEffect(7);
+If(Flags[12]>41)
+{
+TEXT(0,"Bollo: Hahahaha!","wussie!","oh.. I..");
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Soldier: Umm..","You see Joe, this cave is","filled with monsters and stuff.");
+TEXT(0,"If you die.. I'll go look","for you and use my powers","to revive you.");
+TEXT(0,"I'll heal you...","","");
+BoxFadeOut(50);
+Healall();
+SoundEffect(4);
+BoxFadeIn(50);
+TEXT(0,"Soldier: Come again.","","");
+}
+Event /* 5 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=2;
+CurHP(2)-=2;
+CurHP(3)-=2;
+CurHP(5)-=2;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0)
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999)
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     Warp(13,6,0);
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 6 */
+{
+TEXT(0,"Joe: AHHH! It's in my hair!","","");
+IF(Flags[12]>41) 
+{
+TEXT(0,"Bollo: Mine too!","Lets run!!!","AAAAHHHH!");
+}
+}
+Event /* 7 */
+{
+IF(XP(1)<10)
+{
+TEXT(0,"Soldier: Man! You made it this","far! Take some Experience","Points!");
+Prompt(0,"Want to know what Experience","Points do?","",6,"No","Please");
+IF (Flags[6]=1)
+{
+TEXT(0,"Soldier: Experience Points","are like brownie points","given by the God Of War!");
+TEXT(0,"The God Of War wants people to","fight, he helps those who do","By giving them Experience");
+TEXT(0,"Points.. Also called Exp Points","or EP.","When you get a certain amount");
+TEXT(0,"of EXP Points, you will","become stronger!","Get it?");
+TEXT(0,"Joe: Yeah.. All RPGs have","EXP Points...","Now... Do we have");
+TEXT(0,"Materia Points too?","Soldier: No!","There's no Materia in this");
+TEXT(0,"World.. Or so I think...","Joe: Mmmmmm...","");
+}
+TEXT(0,"Soldier: Ok, Bye!","Use those points wisely!","");
+GiveXP(1,10);
+HealAll();
+TEXT(0,"I healed you too..","Now GO!","");
+}
+TEXT(0,"Soldier: Long live the","king!","");
+}

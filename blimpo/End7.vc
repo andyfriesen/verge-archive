@@ -1,0 +1,12 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Ball: Hey!","","");
+TEXT(0,"Other Ball: What?","","");
+TEXT(0,"Ball: I sense good..","radiating from the","blue planet!");
+TEXT(0,"Other Ball: Which Blue","planet?","");
+Wait(100);
+MapSwitch("end8.map",1,1,0);
+}

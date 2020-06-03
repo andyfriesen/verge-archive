@@ -1,0 +1,29 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",91,43,0);
+}
+Event /* 2 */
+{
+AlterBtile(6,18,481,1);
+IF(Flags[43]=1)
+{
+TEXT(0,"Empty","","");
+}
+IF(Flags[43]=0)
+{
+SoundEffect(4);
+TEXT(0,"Joe: Found some TNT.","","");
+GiveItem(41);
+SoundEffect(8);
+Flags[43]=1;
+}
+IF(Flags[43]=2)
+{
+TEXT(0,"Empty","","");
+}
+}
+

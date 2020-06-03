@@ -1,0 +1,45 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",87,28,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: Those hamsters are real","hard workers!","This town will be great!");
+}
+Event /* 3 */
+{
+TEXT(0,"Merchant: Hi guys!","Here! look at the stuff I","got for sale!");
+Shop(1,2,3,4,25,50);
+TEXT(0,"Merchant: Not much huh?","But I'll have more later!","");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Hi! It's me!","Thank you for the TNT!","Now we have WATER!");
+TEXT(0,"Go ahead drink it!","","");
+}
+Event /* 5 */
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+Event /* 6 */
+{
+TEXT(0,"Hamster: I live alone.. without","a woman... boo hoo...","");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Hamster: Thank you so much.","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Hamster: I can't get used to","the light.","");
+}
+
+

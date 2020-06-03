@@ -1,0 +1,18 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("fc.map",25,17,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Joe: This guy is frozen...","and I dont think I can","save him...");
+SoundEffect(10);
+}
+Event /* 3 */
+{
+MapSwitch("Poo.map",8,48,0);
+}
+

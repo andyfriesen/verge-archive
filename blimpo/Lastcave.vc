@@ -1,0 +1,148 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(FLags[163]=1)
+ {
+ AlterFtile(73,51,0,0);
+ }
+ IF(FLags[164]=1)
+ {
+ AlterFtile(73,45,0,0);                   
+ }
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",106,79,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Sign: This cave protected","by the Titanic Space Ship","Anti-Theft System.");
+}
+Event /* 3 */
+{
+TEXT(0,"Sign: To deactivate door,","deactivate the shield","generator.");
+}
+Event /* 4 */
+{
+Warp(3,51,0);
+}
+Event /* 5 */
+{
+Warp(64,51,0);
+}
+Event /* 6 */
+{
+ IF(FLags[164]=0)
+ {
+ AlterFtile(73,45,0,0);
+ SoundEffect(3);
+ TEXT(0,"Samu: The sound came","from the east...","");
+ }
+}
+Event /* 7 */
+{
+Warp(5,30,0);
+}
+Event /* 8 */
+{
+Warp(96,35,0);
+}
+Event /* 9 */
+{
+Warp(71,20,0);
+}
+Event /* 10 */
+{
+Warp(76,35,0);
+}
+Event /* 11 */
+{
+Warp(53,21,0);
+}
+Event /* 12 */
+{
+Warp(93,6,0);
+}
+Event /* 13 Enemies */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=8;
+CurHP(2)-=8;
+CurHP(3)-=8;
+CurHP(5)-=8;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+
+Event /* 14 */
+{
+MapSwitch("poo.map",85,81,0);
+}
+
+

@@ -1,0 +1,32 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",68,31,0);
+}
+Event /* 2 */
+{
+AlterBtile(9,3,481,1);
+IF(Flags[39]=1)
+{
+TEXT(0,"Empty","","");
+}
+IF(Flags[39]=0)
+{
+SoundEffect(4);
+TEXT(0,"Joe: Found some toilet paper.","","");
+GiveItem(38);
+SoundEffect(8);
+Flags[40]=1;
+Flags[39]=1;
+}
+}
+Event /* 3 */
+{
+Warp(9,14,0);
+}
+
+
+

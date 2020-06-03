@@ -1,0 +1,34 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(flags[161]=1)
+ {
+ AlterFtile(2,6,541,2);        
+ }
+}
+Event /* 1 */
+{
+TEXT(0,"Joe: It's locked.","","");
+}
+
+Event /* 2 */
+{
+IF(Flags[161]=1)
+ {
+ TEXT(0,"Joe: It's empty!","","");
+ }
+IF(Flags[161]=0)
+ {
+ SoundEffect(3);
+ AlterFtile(2,6,541,2);
+ GiveItem(20);
+ Flags[161]=1;
+ }
+}
+
+Event /* 3 */
+{
+MapSwitch("boss5.map",9,9,0);
+}
+
+

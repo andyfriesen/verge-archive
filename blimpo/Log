@@ -1,0 +1,16 @@
+Changelog from 10/4/97 to 10/13/97
+ - Woohoo! New internal animation system allows animation at nearly zero cpu
+   cost! You can have gigantic strands, and a whole lot of them, all triggered
+   at the same time, and it won't slow down the game even on a low-end 486.
+   Not only is the new system faster, but you can have many different
+   animation patterns! There's normal forward looping (mode 0),
+   backward looping (mode 1),
+   bi-directional looping (mode 3), and random mode (mode 2).
+ - Anytime you start a new game or load a game, all advanced rendering
+   properties are cleared (such as earthquake, screengradient, VC layer, etc)
+ - OPTIMIZATIONS up the wa-hoo. Use the 'vspspeed' switch in your setup.cfg
+   file to majorly speed up the foreground layer (it uses twice as much
+   VSP memory however) The transparency routines have been rewritten in
+   Assembly and are MUCH faster. The fullscreen MapPaletteGradient mode is
+   much less of a speed hit; the night and flashback scenes of the packin
+   demo run smoothly even on my 486/66.

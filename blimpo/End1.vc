@@ -1,0 +1,30 @@
+Event /* 0 */
+{
+EnforceAnimation();
+    FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Furball: Tell us about","your fight with the evil","Fryer King!");
+TEXT(0,"Slime: Yes!","Hamster: Yes!","Tell us about Joe too!");
+Wait(40);
+TEXT(0,"Slimy: Well...","Ok!","I was looking at Joe");
+TEXT(0,"fight, when suddenly...","    POW!","The fryer king kicked");
+TEXT(0,"His butt!","I had no choice but to","save him!");
+TEXT(0,"He was a nice guy tho..","Weak, but really nice...","Hope he got rid of the evil...");
+Wait(100);
+MoveCode(6)=4;     
+CameraTracking=0;
+// copied from Hahn's demo... I'm cheap.
+Timer=0;
+a=XWin;
+b=YWin;
+While(YWin>b-400)
+{
+YWin=b-Timer;
+Redraw();
+}
+Wait(200);
+MapSwitch("end2.map",1,1,0);
+
+}
+
+

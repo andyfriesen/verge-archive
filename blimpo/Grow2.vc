@@ -1,0 +1,24 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",87,28,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: I have a problem!","People wont move here because","there isn't a water source!");
+TEXT(0,"Could you please help us make","the well?","");
+}
+Event /* 3 */
+{
+TEXT(0,"Merchant: Hi guys!","Here! look at the stuff I","got for sale!");
+Shop(1,2,3,4,25);
+TEXT(0,"Merchant: Not much huh?","But I'll have more later!","");
+}
+Event /* 4 */
+{
+MapSwitch("Wellcave.map",1,1,0);
+}
+

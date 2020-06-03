@@ -1,0 +1,126 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[29]>0)
+{
+Entity.LocX[5]=100; 
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",175,91,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Konnichiwa!","Our Inn won five stars on","Leisure Magazine!");
+Prompt(0,"Want to stay here?","Just 30 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<30)
+{
+TEXT(0,"Furball: If you dont have","money, you will not stay!","");
+}
+IF (GP>29)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(30);
+TEXT(0,"Furball: Good Luck!","","");
+}
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Furballette: We love to","dress in school uniforms!","It drives the men crazy!");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Do you think I","should buy a Saturn or PSX?","Bollo: What about a N64?");
+TEXT(0,"Furball: ARE YOU CRAZY!","THAT'S FOR KIDDIES!","Kuso on you!");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: This is my beautiful","garden!","I grow my own food!");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: I wish train to be","a Samurai!","My body says yes, but my");
+TEXT(0,"mind says no...","Bollo: That song's old.","Furball: What song?");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: My mom used to say","that japancheese people are","the most festive... but");
+TEXT(0,"then I went on vacation to","PuertoLico and found out that","they are way too festive");
+TEXT(0,"compared to us...","Bollo: Fondillo!","Joe: Are you german Bollo?");
+SoundEffect(7);
+TEXT(0,"Bollo: No! Fondillo means","Cool in spanish!","Furball: No it doesn't!");
+TEXT(0,"Furball: It means butt!","Bollo: ...","Figures...");
+SoundEffect(7);
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Did ya know Magical","Fruits were invented here?","Bollo: COOL!");
+Shop(25,1,2,3,4,30,32,28,45,47);
+TEXT(0,"Furball: Come back, please!","Joe: We'll see about that!","Bollo: I'll be back...");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: We go along very","well with the Blue and","orange haired...");
+TEXT(0,"Bollo: What about me?","Furball: oh! I like animals","too!");
+SoundEffect(7);
+STEXT(0,"Bollo: I AM NOT AN ANIMAL!","","");
+SoundEffect(7);
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: Here's my Haiku!","Mmmm...","Wait...");
+STEXT(0,"Loves lives in a tree...","Boy goes up to find it...","comes back with a fruit...");
+SoundEffect(8);
+TEXT(0,"Bollo: Where's the rest of","the poem????","");
+SoundEffect(7);
+}
+Event /* 11 */
+{
+TEXT(0,"Furball: I love the culture","here!","");
+}
+Event /* 12 */
+{
+TEXT(0,"Furball: I'm an Otaku for","stampers!","");
+}
+Event /* 13 */
+{
+TEXT(0,"Slime: My owner lets me","eat his plants...","");
+}
+Event /* 14 */
+{
+TEXT(0,"Samurai: Behave!","","");
+}
+Event /* 15 */
+{
+TEXT(0,"Samurai: Konnichawa!","This is Dedo town!","");
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: I envy the man in","that house!","He has a GARDEN!");
+}
+Event /* 17 */
+{
+TEXT(0,"Smaurai: Hey!","Joe: yes?","Samurai: What are you doing");
+TEXT(0,"in this town? Are you spies","for the Blimpo Lord...?","Joe: NEVER! I am the");
+TEXT(0,"Blimpo Slayer!","Bollo: Yeah! We will fight","the Blimpo until peace reigns");
+TEXT(0,"again!","Samurai: Really?","I always wanted to get him.");
+TEXT(0,"He's so evil! He must be","stopped!","Joe: Yes! Come with us, oh");
+TEXT(0,"noble warrior!","Samurai: Yes! I will! You can","call me Samu!");
+TEXT(0,"Joe: Well, Samu, welcome to","party!","");
+Entity.LocX[5]=100;                 
+AddCharacter(5);
+TEXT(0,"Samu: let's get going!","I can help you cross the","brige east of here!");
+TEXT(0,"Samu: We have to talk to the","Emperor! HE knows the Blimpo","well..");
+HEALALL();
+Flags[29]=1;
+}
+
+
+

@@ -1,0 +1,26 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[115]=1)
+  {
+  AlterBtile(16,20,0,1);
+  }
+}
+Event /* 1 */
+{
+MapSwitch("Moto.map",30,43,0);
+}
+Event /* 2 */
+{
+MapSwitch("pyrtop.map",23,26,0);
+}
+Event /* 3 */
+{
+MapSwitch("Saltpyr.map",4,5,0);
+}
+Event /* 4 */
+{
+GiveItem(48);      
+GiveItem(49);     
+GiveItem(50);     
+}

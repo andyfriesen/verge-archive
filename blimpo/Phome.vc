@@ -1,0 +1,30 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",64,146,0);
+}
+Event /* 2 */
+{
+TEXT(0,"SIGN READS: This is NOT","Paranoid's House...","");
+TEXT(0,"Joe: This must be Paranoid's","House...","");
+SoundEffect(7);
+}
+Event /* 3 */
+{
+IF(Flags[18]=1)
+{
+TEXT(0,"Joe: I dont wanna read","this crappy note again.","");
+}
+IF(Flags[18]=0)
+{
+TEXT(0,"Bollo: Look! A note on the","floor!!!","Joe: Let's see..");
+TEXT(0,"NOTE READS: I did not","leave this house...","I am not going to");
+TEXT(0,"build a new one near","Poopoonia...","Signed- not me.");
+TEXT(0,"Bollo: Where's Poopoonia????","Joe: Near the PooPoonia","Express!!!");
+Flags[18]=1;
+}
+}
+

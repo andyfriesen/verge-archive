@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+CameraTracking=1;    
+    FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Furry: We are home!","At last!","");
+Wait(10);
+MoveCode(5)=4;      
+Wait(70);
+TEXT(0,"Bollo: Hello everyone!","Remember me?","");
+TEXT(0,"I'm a HERO!","      YEY!","");
+Wait(40);
+TEXT(0,"Hamster: it's Bollo!","All: Yey! It's the Hero!","");
+Wait(40);
+TEXT(0,"Bollo: Thank you!","But remember, it was","Joe's quest...");
+TEXT(0,"I wonder what Joe is doing ","now? ","");
+DrawParty=1;         
+Wait(100);
+MapSwitch("end11.map",9,39,0);
+}

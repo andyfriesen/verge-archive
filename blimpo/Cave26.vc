@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("surreal.map",65,62,0);
+}
+Event /* 2 */
+{
+IF(Flags[103]=1)
+ {
+ TEXT(0,"Fire: Bro","Co","Liiiii");
+ }
+IF(Flags[103]=0)
+ {
+ TEXT(0,"Fire: The way to the","Brocoli is now open.","Seach for the Brocoli");
+ Flags[103]=1;
+ }
+}
+

@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+CameraTracking=1;    
+    FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Paranoid: What's this?","My radar tells me Joe","Defeated the Evil!");
+TEXT(0,"HAHAHAHA!","That's so good...","I better think of");
+TEXT(0,"something to give to him","as a gift..","");
+Wait(100);
+MapSwitch("end3.map",1,1,0);
+}
+

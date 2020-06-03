@@ -1,0 +1,193 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[153]=1)
+ {
+ AlterFtile(5,32,0,0);
+ }
+}
+Event /* 1 */
+{
+MapSwitch("fs1.map",13,1,0);
+}
+Event /* 2 */
+{
+Warp(5,4,0);
+}
+Event /* 3 */
+{
+Warp(3,23,0);
+}
+Event /* 4 */
+{
+Warp(21,30,0);
+}
+Event /* 5 */
+{
+Warp(11,8,0);
+}
+Event /* 6 wall panel */
+{
+TEXT(0,"Computer: Opening doors.","","");
+AlterBTile(7,7,838,0);
+AlterBTile(10,28,838,0);
+SoundEffect(5);
+}
+Event /* 7 */
+{
+Warp(9,34,0);
+}
+Event /* 8 */
+{
+Warp(7,6,0);
+}
+Event /* 9 */
+{
+Warp(19,2,0);
+}
+Event /* 10 */
+{
+Warp(17,8,0);
+}
+Event /* 11 */
+{
+Warp(20,13,0);
+}
+Event /* 12 */
+{
+Warp(31,24,0);
+}
+Event /* 13 */
+{
+Warp(15,17,0);
+}
+Event /* 14 */
+{
+Warp(33,35,0);
+}
+Event /* 15 */
+{
+Warp(24,23,0);
+}
+Event /* 16 */
+{
+TEXT(0,"Computer: Warp room!","","");
+}
+Event /* 17 */
+{
+TEXT(0,"Computer: Welcome to Doors 93!","","");
+}
+Event /* 18 */
+{
+TEXT(0,"Computer: Do not get lost!","","");
+}
+Event /* 19 */
+{
+IF(Flags[152]=0)
+{
+TEXT(0,"Computer: Searching for","intruders...","");
+TEXT(0,"Bollo: I got an idea!","Let's destroy this machine!","");
+SoundEffect(14);
+Earthquake(10,10,50);
+Flags[152]=1;
+}
+IF(Flags[152]=1)
+{
+TEXT(0,"Joe: The computer is now","broken...","");
+}
+}
+Event /* 20 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=6;
+CurHP(2)-=6;
+CurHP(3)-=6;
+CurHP(5)-=6;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 21 */
+{
+TEXT(0,"Robot: Hey!","Intruders!","Come here!");
+}
+Event /* 22 */
+{
+MapSwitch("fs3.map",3,2,0);
+}
+Event /* 23 */
+{
+AlterBTile(7,7,838,0);
+AlterBTile(10,28,838,0);
+}
+Event /* 24 */
+{
+MapSwitch("fs4.map",4,4,0);
+}
+
+
+

@@ -1,0 +1,142 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+PaletteMorph(0,63,0,70,60);   
+wait(1);
+SoundEffect(14);     
+PaletteMorph(63,0,0,0,60);  
+ CurHP(1)-=1;   
+ CurHP(2)-=1;  
+ CurHP(5)-=1;  
+IF(!item(34) AND !item(35))
+{
+ CurHP(1)-=3;
+} 
+IF(!item(43) AND !item(44))        
+{ 
+ CurHP(2)-=3;
+} 
+IF(!item(46))              
+{
+ CurHP(5)-=3;
+}
+IF(curHP(1)>9999 AND curHP(2)>9999)
+{
+IF(curHP(5)>9999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);  
+Healall();
+SoundEffect(4);
+}
+}
+
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(curHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);  
+Healall();
+SoundEffect(4);
+}
+}
+}
+Event /* 2 */
+{
+MapSwitch("swamp.map",22,25,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Bollo: *GASP*!","Joe: What?","Bollo: I solved the");
+TEXT(0,"riddle of the chests in","the back of stores!","Samu: What is it?");
+TEXT(0,"Bollo: They're for","decoration!","Joe: Spram is such a poopy");
+}
+Event /* 4 */
+{
+TEXT(0,"Merchant: Ooh!","You scared me!","");
+}
+Event /* 5 */
+{
+TEXT(0,"Merchant: Get your","shirts here!","");
+Shop(1,25,2,34,43);
+Text(0,"Merchant: Thank you!","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Merchant: Dont buy this","stuff unless you really","need it!");
+Shop(13,15,16,18,19,20,28);
+TEXT(0,"Merchant: Buy only","what you need","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: You can only","use magic if you have","a magic wand!");
+TEXT(0,"Joe: Poopy!","","");
+TEXT(0,"Bollo: JOE SAID POOPY!","HAHAHA!","");
+SoundEffect(7);
+}
+Event /* 8 */
+{
+TEXT(0,"Furballette: The store","next door is really","noisy... wonder why?");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: I love my super","cool carpet!","Love it!");
+}
+Event /* 10 */
+{
+Text(0,"Furballette: Cleaning","that carpet is heck!","Poop!");
+TEXT(0,"Bollo: SHE SAID POOP!","HAHAHA!","");
+Soundeffect(7);
+}
+Event /* 11 */
+{
+TEXT(0,"Furball: Poopy!","","");
+TEXT(0,"Bollo: HE SAID POOPY!","HAHAHA!","");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+TEXT(0,"Furball: We are going","to build a road!","This is going to be");
+TEXT(0,"a modern town!","whooopie!","");
+ IF(Flags[42]=4)
+ {
+ TEXT(0,"Joe: Reminds me of the town","In the desert planet!","Bollo: The one with the");
+ TEXT(0,"boot making hamsters?","Samu: The growing town you","guys always talk about?");
+ TEXT(0,"Joe: Yeah! Lets go back and","visit!","Bollo: Ok.");
+ Flags[42]=5;
+ }
+TEXT(0,"Bollo: HE SAID POOPY!","HAHAHA!","Joe: He said WHOOOPIE!");
+TEXT(0,"Bollo: Who cares?","","");
+SoundEffect(7);
+}
+Event /* 13 entity */
+{
+TEXT(0,"Furball: I'm so exited!","This road is sooo cool!","");
+}
+Event /* 14 entity 2 */
+{
+TEXT(0,"Furball: Everyone in","this town says the P word.","");
+TEXT(0,"Bollo: HE SAID P!","HAHAHA!","");
+SoundEffect(7);
+}
+Event /* 15 */
+{
+TEXT(0,"Bollo: A weapon!","Let's take it!","Joe: That is not a gun!");
+TEXT(0,"Samu: It's a shovel!","Bollo: NO! It's a gun!","Joe: Lets go...");
+}
+Event /* 16 */
+{
+TEXT(0,"Joe: The box is empty.","Bollo: NO! It has guns!","Joe: lets go..");
+}
+Event /* 17 */
+{
+TEXT(0,"Joe: This box has a","script for Phantasy Star 4","It has all the stuff");
+TEXT(0,"the towns people say!","It's a load of poop.","And weights 100 pounds!");
+TEXT(0,"Bollo: One plus one is...","How cute!","");
+SoundEffect(7);
+}
+

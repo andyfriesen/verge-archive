@@ -1,0 +1,30 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("island1.map",39,37,0);
+}
+Event /* 2 */
+{
+IF(Flags[85]=0)
+ {
+ TEXT(0,"Voice: Haha! Run! Hide!","Little girls! I'm the BUG!","");
+ STEXT(0,"THE TARKUSS BUG!","","");
+ SoundEffect(13);
+ Flags[85]=1;
+ }
+}
+Event /* 3 */
+{
+TEXT(0,"Tarkuss: Hi friends.","As long as you dont bring","a sexy anime babe, you're");
+TEXT(0,"Safe... Whooo!","Care to buy some items?","");
+Shop(1,32,2);
+TEXT(0,"Tarkuss: Gbye.","","");
+}
+Event /* 1 */
+{
+MapSwitch("swamp.map",7,16,0);
+}
+

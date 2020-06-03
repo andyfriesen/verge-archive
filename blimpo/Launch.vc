@@ -1,0 +1,30 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+TEXT(0,"Soldier: Good Luck!","","");
+}
+Event /* 2 */
+{
+TEXT(0,"Soldier: It's not our fault you","were sent to space..","dont look at me!");
+SoundEffect(7);
+}
+Event /* 3 */
+{
+MapSwitch("Dungo.Map",20,1,0);
+}
+Event /* 4 Take off */
+{
+fadeout(50);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"nave.chr");
+MapSwitch("takeoff.map",9,56,0);
+}
+
+
+
+
+

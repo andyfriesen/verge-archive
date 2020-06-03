@@ -1,0 +1,42 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("island3.map",39,29,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Hamster: Hi!","Want to go on a cruise?","It'll take you to the");
+TEXT(0,"Space Port on the Mosquito","Islands!","Your HP will also be refiled!");
+Prompt(0,"Want to go?","Just 50 gold!!","",6,"No","Ok");
+IF (Flags[6]=1)
+{
+IF (GP<50)
+{
+TEXT(0,"Hamster: You dont have any","gold! Go play the submarine","game is you have 40 GP!");
+}
+IF (GP>49)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+TakeGP(50);
+MapSwitch("island1.map",5,7,0);
+}
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Joe: Harry!","Harry: Hi joe! We meet again!","I was looking at the cool");
+TEXT(0,"Colonial Spankish Fort, but","they didnt let me in!","Why? Is it dangerous?");
+SoundEffect(13);
+TEXT(0,"I wouldn't go there unless","I was prepared!","");
+}
+Event /* 4 */
+{
+TEXT(0,"Samu: I wouldn't go in that","tunnel!","");
+}
+
+

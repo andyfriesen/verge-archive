@@ -1,0 +1,91 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",186,160,0);
+}
+Event /* 2 */
+{
+CameraTracking=0;
+// copied from Hahn's demo... I'm cheap.
+Timer=0;
+a=XWin;
+b=YWin;
+While(YWin>b-64)
+{
+YWin=b-Timer;
+Redraw();
+}
+IF(Flags[25]=0) 
+{
+TEXT(0,"Joe: Hello God!","Bollo: Hello God.","God: Hello!");
+TEXT(0,"Bollo: Hey, this place is","really neat...","What do you think... you");
+TEXT(0,"Know... Are my possibilities","of getting here?","Joe: Sheesss...");
+SoundEffect(7);
+TEXT(0,"God: No time to waste!","You must bring peace","to the land!");
+TEXT(0,"Joe: Why dont you bring","peace?","God: I am, I'm just using");
+TEXT(0,"you to do it.","Joe: Oh.","God: GO my children...");
+TEXT(0,"I will open the way!","I will create a rainbow with","my infinite power!");
+TEXT(0,"Joe: Why dont you take us","to the Blipo Castle then...","God: It wouldn't be fun then.");
+SOundEffect(7);
+TEXT(0,"Bollo: Ok, thank you.","God: You're welcome!","");
+Flags[25]=1;
+CameraTracking=1;
+}
+IF(Flags[25]=1)
+{
+TEXT(0,"God: ACHOO!","Joe: God Bless you!","I mean...");
+TEXT(0,"Bless yourself..?","","");
+SoundEffect(7);
+CameraTracking=1;  
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Hamster: Hello!","I cant believe it!!!","I'm in heaven!");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: This place doesn't","look like the field of","dreams, but it's ok.");
+}
+Event /* 5 */
+{
+TEXT(0,"Angel: Welcome to heaven!","Bollo: OH NO! I'M DEAD!!!!","Joe: No you aint...");
+SoundEffect(7);
+TEXT(0,"Bollo: Thank God!","Angel: Amen.","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: I wonder why","this place is kinda","empty...");
+}
+Event /* 7 */
+{
+TEXT(0,"Hamster: I'm a lawyer.","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Furballette: I was a","bad girl...","Why am I here?");
+}
+Event /* 9 */
+{
+TEXT(0,"Slime: Slimes go to heaven","too!","Joe: I see...");
+}
+Event /* 10 */
+{
+TEXT(0,"Penguin: This is not really","heaven... This is the gate","to heaven, we are waiting");
+TEXT(0,"to be pure before we are","allowed in...","");
+}
+Event /* 11 */
+{
+TEXT(0,"Penguin: Did you know Whirl-","pools can take a boat","from one place to another?");
+TEXT(0,"Bollo: WOW! This is a gaming's","first!","");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+TEXT(0,"Tree: Only the few trees","that are pure come here.","");
+}
+
+

@@ -1,0 +1,51 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[77]=1)    
+ {
+ AlterFtile(20,6,0,0);           
+ }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",53,22,0);
+}
+Event /* 2 */
+{
+IF(Flags[77]=0)
+ {
+ TEXT(0,"Joe: I think we found","a Magic SnowFlake!","");
+ AlterFtile(20,6,0,0);
+ Flags[77]=1;
+ BANNER("Got a Snowflake",200);          
+ }
+}
+Event /* 3 */
+{
+TEXT(0,"...","","");
+}
+Event /* 4 */
+{
+TEXT(0,"...","",""); 
+}
+Event /* 5 */
+{
+TEXT(0,"...","",""); 
+}
+Event /* 6 */
+{
+TEXT(0,"...","",""); 
+}
+Event /* 7 */
+{
+TEXT(0,"...","",""); 
+}
+Event /* 9 */
+{
+TEXT(0,"Joe: Samples","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Joe: Why do we talk to","walls?","");
+}
+

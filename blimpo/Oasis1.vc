@@ -1,0 +1,29 @@
+Event /* 1 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",30,89,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Slime: Furballs!","You suck man! You kicked us","from our land!");
+}
+Event /* 3 */
+{
+TEXT(0,"Slime: Let me drink this","water alone...","");
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: Drink the water and","leave us alone...","");
+}
+Event /* 5 */
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+
+

@@ -1,0 +1,60 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",72,40,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: The slimes in the","south didn't coexisr with","the furballs.. and look what");
+TEXT(0,"happened.. They died off...","For being anti-furball.","");
+}
+Event /* 3 */
+{
+TEXT(0,"Mayor: We never hated the","Furballs! Slimes and furballs","can Coexist.");
+}
+Event /* 4 */
+{
+TEXT(0,"Merchant: This is a shop..","We deal in caca and pooh.","");
+Shop(1,2,3,4,25,28,30,48,42);
+TEXT(0,"Merchant: May I trade with","you again...","");
+}
+Event /* 5 */
+{
+TEXT(0,"Slime: I used to think Fur-","balls sucked! But they're quite","cool.");
+}
+Event /* 6 */
+{
+TEXT(0,"Flame: I am the Flame of Wisdom!","I can sell you spells!","Yah!");
+Shop(15,16,18,19,20,25,22,13,14);
+TEXT(0,"Flame: Yah!","Lots of Spells!","GOOD!");
+TEXT(0,"Yah!","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furballette: No vacancy!","Go to the new town.. They have","a well there.. or better yet..");
+TEXT(0,"wait until we can give you","a room!","Joe: The first..");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: You also have Quick-","sand walking shoes? Cool!","");
+}
+Event /* 9 */
+{
+TEXT(0,"PalmTree: I'm a Palm Tree...","Hear me roar...","");
+SoundEffect(7);
+}
+Event /* 10 */
+{
+IF(Flags[45]=0)
+{
+Flags[45]=1;
+}
+}
+Event /* 11 */
+{
+MapSwitch("cave14.map",36,5,0);
+}
+

@@ -1,0 +1,107 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[56]=22)
+{
+AlterFtile(7,38,0,2);  
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",136,12,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Soldier:Welcome to the castle","of Poopoonia.","");
+}
+Event /* 3 */
+{
+TEXT(0,"Furballette:We are proud","of our heritadge.","Whatever that is.");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Our castle used to","be bigger, but the Blimpo","Lord cast a spell on");
+TEXT(0,"us and limited out map size","to 30x30...","But really, this used to be");
+TEXT(0,"the biggest castle in all","Furland.","");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: Welcome to the","garden.","");
+}
+Event /* 6 */
+{
+TEXT(0,"Slime: Arent you getting","tired of talking to","slimes?");
+}
+Event /* 7 */
+{
+TEXT(0,"Merchant: Hi!","Buy my stuff!","");
+Shop(34,32,1,2,4,13);                   
+TEXT(0,"Merchant: Ok!","","");
+}
+Event /* 8 */
+{
+Text(0,"Bartender: Hello Joe!","Joe: How do you know my","name?");
+TEXT(0,"Bartender: You're famous man!","Joe: Cool.","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furballette: Hey everybody!","It's JOE!!!!","..");
+TEXT(0,"Oh..","I'm the only one here...","");
+SoundEffect(7);
+TEXT(0,"Bartender: How bout me?","","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: Hey!","I'm here too!","");
+}
+}
+Event /* 10 */
+{
+TEXT(0,"Soldier: Hello honorable","warrior!","");
+}
+Event /* 11 */
+{
+TEXT(0,"Soldier: We are better","people than the guys from","Furlegard...");
+}
+Event /* 12 */
+{
+TEXT(0,"King: Snore...","Zzzzzzz...","Zzzzzz...");
+SoundEffect(7);
+}
+Event /* 13 */
+{
+TEXT(0,"Inn-Keeper: Since you're a","hero.. It's on me.","Joe: Thanks.");
+Healall();
+SoundEffect(4);
+}
+Event /* 14 */
+{
+Text(0,"Furball: Closed.","","");
+}
+Event /* 15 */
+{
+TEXT(0,"Furball: I wanna take a","swim in the pond...","But cant...");
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: Life is good.","","");
+}
+Event /* 17 */
+{
+TEXT(0,"Furball: What's the matter","with you? huh?","You orange ball of hair!");
+TEXT(0,"Joe: What about you...","","");
+TEXT(0,"Furball: ...","","Get out!");
+SoundEffect(8);
+}
+Event /* 18 */
+{
+IF(Flags[56]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 10 EXP",200);
+GiveXP(1,10);
+Flags[56]=22;
+AlterFtile(7,38,0,2);
+}
+}
+

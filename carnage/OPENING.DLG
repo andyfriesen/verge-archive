@@ -1,0 +1,21 @@
+Hello, and welcome to the V1+
+demo. It's not really a game,
+it's just a plain ol' demo. (:
+In case you hadn't guessed,
+this text is being read in
+from a file named OPENING.DLG.
+Isn't that impressive? (:
+
+
+You're now going to be asked
+which music file you want to
+hear, out of three choices.
+These three choices are
+actually strings, and whatever
+you choose will be loaded
+by means of PlayMusStr, which
+can load a song filename from
+a string, directly.
+Here are the three choices.
+
+          -Wyrdwad

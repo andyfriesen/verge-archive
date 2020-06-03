@@ -1,0 +1,84 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[117]=1)
+ {
+ AlterFtile(21,6,541,1);       
+ }
+}
+Event /* 1 */
+{
+MapSwitch("icebase1.map",14,4,0);
+}
+
+Event /* 2 */
+{
+Flags[116]=0;
+IF(Flags[116]=0)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("U5");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=1;
+ }
+}
+Event /* 3 */
+{
+Flags[116]=1;
+IF(Flags[116]=1)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("D5");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=0;
+ }
+}
+
+Event /* 4 */
+{
+Flags[116]=0;
+IF(Flags[116]=0)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("R6");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=1;
+ }
+}
+Event /* 5 */
+{
+Flags[116]=1;
+IF(Flags[116]=1)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("L6");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=0;
+ }
+}
+
+Event /* 6 */
+{
+IF(Flags[117]=0)
+{
+AlterFtile(21,6,541,1);  
+GiveItem(19);
+Flags[117]=1;
+}
+}

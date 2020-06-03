@@ -1,0 +1,62 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[112]=1)
+ {
+  Alterftile(9,3,0,0);
+  Alterftile(9,4,0,0);      
+  Alterftile(9,5,0,0);      
+ }
+}
+Event /* 1 */
+{
+MapSwitch("pyrtech.map",3,25,0);
+}
+Event /* 2 */
+{
+MapSwitch("Pyrtech2.map",3,2,0);
+}
+Event /* 3 */
+{
+IF(!Item(18))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Ice Magic from");
+ TEXT(0,"here.","Brink a Ice Scroll and use","me.");
+ }
+IF(item(18))
+ {
+ Prompt(0,"Joe: This is a Ice Desk","We can use Ice magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+  TEXT(0,"Desk: You used me!","ICE!!!","");
+  SoundEffect(5);
+  PaletteMorph(11,11,63,75,60); 
+  EarthQuake(10,10,50); 
+  PaletteMorph(11,11,63,0,60); 
+  Alterftile(9,3,0,0);
+  Alterftile(9,4,0,0);      
+  Alterftile(9,5,0,0);      
+  CurMP(1)-=5;   
+  CurMP(2)-=5;       
+  Flags[112]=1;
+ }
+ }
+  }
+  }
+}
+

@@ -1,0 +1,238 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",180,36,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Bartender: Welcome back Joe!","Want a drink?","Joe: No thanks.");
+TEXT(0,"Bartender: Why not?","Joe: What if the King makes","me blow a balloon?");
+SoundEffect(7);
+TEXT(0,"Bartender: Smart guy Joe!","hehehe..That's ma'pal!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: Hey dude...","The king is up there...","Groovy.");
+}
+Event /* 4 */
+{
+TEXT(0,"Soldier: Hello Joe, SIR!","","");
+}
+EVENT /* 5 */
+{
+TEXT(0,"Soldier: hi Joe!","I mean...","Hello Joe, SIR!");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Welcome to your","Homeland JOE!","");
+}
+Event /* 7 */
+{
+TEXT(0,"Merchant: Hello Joe!","Joe: Hello Merchant!","Merchant: Look what we got!");
+Shop(1,2,3,4,13,14,16,25,30,32,33,34);
+TEXT(0,"Merchant: That's a load of crap!","Right Joe?","");
+SoundEffect(7);
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Welcome to the","sand garden!","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: FUN!","","");
+}
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: Welcome back Joe!","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Soldier: Are the barracks","in Furlegarf like this?","Joe: Yeah!");
+TEXT(0,"Soldier: Man! I wanted to","move there...","");
+}
+Event /* 11 */
+{
+TEXT(0,"Soldier: Jack told me to","talk to a wall.","");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+TEXT(0,"Furballette: The Teather next","door is plain sucky!","");
+}
+Event /* 13 */
+{
+Flags[7]=Random(1,5);
+TEXT(0,"Poet: Hi sweety!","welcome to my poetry","corner...");
+IF (Flags[7]=1)
+ {
+ TEXT(0,"Poet: Life is but an","illusion of the mind,","and nothing else...");
+ TEXT(0,"Death is the only thing","certain in life,","and nothing else...");
+ TEXT(0,"People only want to have","sex and money,","and nothing else...");
+ TEXT(0,"But I dont! I want a BMW","convertible,","and nothing else...");
+ }
+IF (Flags[7]=2)
+ {
+ TEXT(0,"Poet: Farting is such","sweet sorrow! I wish I","could make farts escape all");
+ TEXT(0,"day... But not before I get","my new freedom! The freedom","to fart all day and night!");
+ }
+IF (Flags[7]=3)
+ {
+ TEXT(0,"Poet: Yo' my-man!","How it goin'. Hangin' with","my homies and looking at");
+ TEXT(0,"the honeys... Ba-boom","Throw your hands in the air!","say Ohh-Ooooh!");
+ TEXT(0,"All: Ohh-Ooohhh!","Poet: Say OH!","All: OH!");
+ TEXT(0,"Poet: Yo' what's my name?","All: Gangta D!","Poet: That's right my");
+ TEXT(0,"Brotha's and Sista's!","","");
+ }
+IF (Flags[7]=4)
+ {
+ TEXT(0,"Poet: It's been 95 years...","but I still can smell the","fresh paint...");
+ TEXT(0,"to everyone it was way","cool.. But to me it was just","another 32-bit machine");
+ }
+IF (Flags[7]=5)
+ {
+ TEXT(0,"Poet: Oh say can you see!","by the la la li la!","O so proud that we are");
+ TEXT(0,"Da-dada-da-da-da-da","di, di di di di diiii..","di di di di di diiii");
+ TEXT(0,"di di diii.. didi diiii","And our flag was still there!","Oh say our star Sprangled");
+ TEXT(0,"banner.. Oh whatshamacalleit","EIIIIAAAHH!!","For the laaaaand of the free");
+ TEXT(0,"and the home of da'","freeeeeeeeeee","");
+ TEXT(0,"Joe: I think you got it","all wrong.","Poet: it's art man...");
+ }
+SoundEffect(8);
+TEXT(0,"Poet: Thank you!","Thank you very much...","Meet you backstage cutie!");
+}
+Event /* 14 */
+{
+IF (flags[7]=0)
+ {
+ TEXT(0,"Furball: Sit and listen!","","");
+ }
+TEXT(0,"Furball: This guy is way","talented!","");
+}
+Event /* 15 */
+{
+TEXT(0,"Furballette: This is","awesome, baby!","");
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: Bring me some","green Poop capuchino,","please?");
+TEXT(0,"Ooops! Sorry!","I thought you were the","waiter!");
+}
+Event /* 17 */
+{
+TEXT(0,"Slime: This place sucks!","","");
+}
+Event /* 18 */
+{
+TEXT(0,"Soldier: You arent allowed","in here!","Get out!");
+}
+Event /* 19 */
+{
+TEXT(0,"InnKeeper: We have more","beds than the white house!","");
+Prompt(0,"Want to stay here?","Just 10 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper: No Joe...","Even if you're the hero","of the land...");
+TEXT(0,"You must pay me!","I got a wife!","I got KIDS!");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Good Luck!","","");
+}
+}
+}
+Event /* 20 */ 
+{
+TEXT(0,"Furball: Weather ballons are","floating in the sky!","but the king says they");
+TEXT(0,"are extra terrestrial","spaceships!","Yeah Right!");
+TEXT(0,"We all know they are","Weather Ballons!","The truth is out here!");
+SoundEffect(7);
+}
+Event /* 21 */
+{
+TEXT(0,"Hamster: When are they","going to bail Furry!","I want him back!");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: Me too!","Hamster: Who are you???","Bollo: I'm his brother!");
+}
+}
+Event /* 22 */
+{
+TEXT(0,"Joe: Cant reach it!","..But anyway...","Stealing is WRONG!");
+SoundEffect(8);
+}
+Event /* 23 */
+{
+IF (Flags[10]=0)
+{
+TEXT(0,"King: Joe! You're back!","This is terrible!","Joe: What your majesty?");
+TEXT(0,"King: The HARP has been stolen!","Without it you cant enter","the evil lair of the Blimpo");
+TEXT(0,"Lord!","Joe: Oh NO!","King: Oh YES! And we know");
+TEXT(0,"who has it!","Joe: Who?","King: The King of Winter Castle!");
+TEXT(0,"Joe: I'll get it back Sir!","King: Then be on thy way!","");
+Flags[10]=1;
+}
+If (Flags[10]=1)
+{
+TEXT(0,"King: You are wasting","valuable time!","Go forth and find the HARP!");
+}
+If (Flags[10]=2)
+{
+TEXT(0,"King: What's the matter?","Joe: They dont let me in","the castle!");
+TEXT(0,"King: Terrible!","But there is a way!","Seek the KEY!");
+TEXT(0,"Joe: What key?","King: This Key can open any","door!");
+TEXT(0,"King: The King of Nock has","it! You must ask for it!","Joe: Ok, I'll be gone.");
+Flags[10]=3;
+}
+If (Flags[10]=3)
+{
+TEXT(0,"King: Go get the key!","","");
+}
+If (Flags[10]=4)
+{
+TEXT(0,"Joe: I have the key your","highness.","King: Excellent!");
+TEXT(0,"I heard there was a secret","tunnel in the Jail...","GO find it!");
+}
+If (Flags[10]=5)
+{
+TEXT(0,"Joe: I found the secret","passage!","King: Do you have to tell");
+TEXT(0,"me everything you do?","GO!","");
+SoundEffect(7);
+}
+If (Flags[10]=6)
+{
+TEXT(0,"King: Joe! Thank you","on bringing back the harp!","Joe: No problem!");
+TEXT(0,"King: here take some gold!","And take the harp and","bring down the Blimpo Lord!");
+TEXT(0,"Joe: I will!","","");
+GiveGP(200);
+HealAll();
+SoundEffect(8);
+Flags[10]=7;
+}
+If (Flags[10]=7)
+{
+TEXT(0,"King: Oh Joe!","Dont waste your time","here!");
+TEXT(0,"Go north and cross the new","bridge we built just for","you!");
+}
+}
+Event /* 24 */
+{
+TEXT(0,"This is a bat.","They fly in a determined","area and wait for");
+TEXT(0,"it's pray!","Be careful!","");
+}
+Event /* 25 */
+{
+TEXT(0,"This is a BomBom.","They go around in circles","and eats whatever gets near.");
+}
+
+
+

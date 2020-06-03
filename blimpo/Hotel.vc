@@ -1,0 +1,307 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[89]=1)
+ {
+ AlterFtile(90,2,0,2);   
+ }
+}
+Event /* 1 */
+{
+MapSwitch("island2.map",13,15,0);
+}
+Event /* 2 */
+{
+IF(flags[86]=1)
+ {
+ TEXT(0,"Furball: You're too dirty","to enter!","Go take a bath!");
+ }
+IF(flags[86]=0)
+ {
+ TEXT(0,"Furball: Oh!, Come in!","","");
+ AlterFtile(2,53,0,0);
+ AlterFtile(3,53,0,0);              
+ AlterFtile(4,53,0,0);              
+ AlterFtile(5,53,0,0);              
+ AlterFtile(6,53,0,0);              
+ }
+}
+Event /* 3 */ 
+{
+TEXT(0,"Furball: These hotel rooms","are so comfty!","I'll stay here all day!");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: This may not be","MY room, but can you","please get out?");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: I never saw this","movie before!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Hamster: I'm gonna go to","the pool. Even if I dont","want to.. You know..");
+TEXT(0,"Just because it's there.","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Hamster: Geez, get out!","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: ZZZZZ...","","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: Mumble Mumble...","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Sign Reads: Do not","Disturb.","");
+}
+Event /* 11 */
+{
+TEXT(0,"Furball: Wellcome to my","hotel room!","");
+TEXT(0,"WHAT AM I SAYING?!?!","GET OUT!","");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+IF(Flags[86]=0)
+ {
+ TEXT(0,"You are clean!","","");
+ }
+IF(Flags[86]=1)
+ {
+ Prompt(0,"Your face is dirty!","Come! Wash your face!","Yes?",6,"No","Please");  
+ IF (Flags[6]=1)
+ {
+ IF(item(1))          
+  {
+  BoxFadeOut(50);
+  HealAll();
+  SoundEffect(4);
+  BoxFadeIn(50);
+  Flags[86]=0;
+  Banner("Dirt off",1000000);           
+  Banner("HP Restored too",1000000);           
+  }
+ IF(!item(1))
+  {
+  TEXT(0,"Sorry!","You dont have soap!","");
+  }
+ }
+ }
+}  
+Event /* 13 */
+{
+TEXT(0,"Furball: Blah, Blah, Blah...","","");
+}
+Event /* 14 */
+{
+TEXT(0,"Furballette: Welcome to","the Conqueror Hotel.","The best hotel ever!");
+Prompt(0,"A room costs 50 gold","Just 50 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<50)
+{
+TEXT(0,"Furballette: Where's the","money? Show me the","money!");
+}
+IF (GP>49)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(50);
+TEXT(0,"Furballette: Enjoyed your","stay? Of course!","Your HP is full! Whee!");
+}
+}
+}
+Event /* 15 */
+{
+TEXT(0,"Furball: Waiting in the","lobby.. Doo, doo doo, doo...","");
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: Cant let go!","I'm on the deep part!","...!!!");
+}
+Event /* 17 */
+{
+TEXT(0,"Furball: Where are the","cute women?","");
+}
+Event /* 18 */
+{
+TEXT(0,"Furball: Hahahaha!","","");
+}
+Event /* 19 */
+{
+TEXT(0,"Furball: You know the one","about the fish and the","octopus?");
+}
+Event /* 20 */
+{
+TEXT(0,"Furball: Welcome to the","Conqueror Tropical Bar!","It's the coolest!");
+TEXT(0,"We serve ZIMU! THE tropical","drink!","Joe: What? Zimu is Finnish!");
+TEXT(0,"Bollo: No man! Zimu is the","Drink of La Habana!","Joe: I dont care, it tastes");
+TEXT(0,"like...","Bollo: Shut up!","");
+TEXT(0,"Bollo: Gimme some Zimu!","Furball: Ok!","Bollo: Here's the tip!");
+Banner("Lost 1 GP",10000);
+TakeGP(1);
+TEXT(0,"Joe: No!!!","Bollo: Oooh yeah!","");
+}
+Event /* 21 */
+{
+TEXT(0,"Furball: I just finished","eating this huge meal!","");
+}
+Event /* 22 */
+{
+TEXT(0,"Penguin: Look at him","sleep!","");
+}
+Event /* 23 */
+{
+TEXT(0,"Furball: Zzzzzz...","I love penguins!","Zzzzz...");
+}
+Event /* 24 */
+{
+IF(Flags[87]=0)
+ {
+ TEXT(0,"Harry: JOE!","Joe: HARRY!","What are you doing here?");
+ TEXT(0,"Harry: Well, vacationing!","Joe: and how did you get","here?");
+ TEXT(0,"Harry: Spaceship Travel!","Bollo: DUH!","Harry: Who's that guy?");
+ TEXT(0,"Joe: That's Samu.","Samu: Nice to meet you Harry.","Harry: Same here.");
+ TEXT(0,"Bollo: Hi Harry!","Harry: Hi Bollo.","How's Furry?");
+ TEXT(0,"Bollo: My brother?","He's in Jail.","Harry: Haha, that's our furry!");
+ SoundEffect(7);
+ Flags[87]=1;
+ Return;  
+ }
+IF(flags[87]=1)
+ {
+ TEXT(0,"Harry: Stay here for a","while if you want to!","Joe: Thanks!");
+ Flags[87]=2;
+ Return;
+ }
+IF(Flags[87]=2)
+ {
+ TEXT(0,"Harry: Nice weather!","","");
+ Flags[87]=3;
+ Return;
+ }
+IF(Flags[87]=3)
+ {
+ TEXT(0,"Harry: It'll be time to go","to sleep soon.","");
+ Flags[87]=4;
+ Return;
+ }
+IF(Flags[87]=4)
+ {
+ TEXT(0,"Harry: No Joe, I wont join","your party...","");
+ Flags[87]=5;
+ Return;
+ }
+IF(Flags[87]=5)
+ {
+ TEXT(0,"Harry: Mmmm..","...","");
+ Flags[87]=6;
+ Return;
+ }
+IF(Flags[87]=6)
+ {
+ TEXT(0,"Harry: I didnt want to be","mean, but PLEASE!","Get out! Leave me alone!");
+ }
+}
+Event /* 25 */
+{
+TEXT(0,"Hamster: I feel sick!","","");
+}
+Event /* 26 */
+{
+TEXT(0,"Penguin: This is not","a Snow Board. This is my","Moorey Boogie.");
+}
+Event /* 27 */
+{
+TEXT(0,"BomBom: I dont feel like","eating you now...","");
+}
+Event /* 28 */
+{
+TEXT(0,"Furball: Shop here!","Our prices are higher and","our products are crappier!");
+Shop(1,2,4,28,32);
+TEXT(0,"Furball: This stuff is","good.","");
+}
+Event /* 29 */
+{
+TEXT(0,"Hamster: Check this out!","","");
+Shop(34,43,46,48,49,50);
+TEXT(0,"Hamster: Whoa.","","");
+}
+Event /* 30 */
+{
+TEXT(0,"Furball: We sell wierd","Voodoo spells!","");
+Shop(13,14,15,16,18,19,20,22,25);
+TEXT(0,"Furball: Voodoo is wierd","magic.","");
+}
+Event /* 31 */
+{
+TEXT(0,"Sign: Slime Petting Zoo.","","");
+}
+Event /* 32 */
+{
+TEXT(0,"Furballette: Go play","With it!","It's soo cute!");
+}
+Event /* 33 */
+{
+TEXT(0,"Kid: Mommy! Mommy!","I'm scared!","I wanna go peepee!");
+SoundEffect(7);
+}
+Event /* 34 */
+{
+TEXT(0,"Slime: Help me!","I'm not an animal!","");
+}
+Event /* 35 */
+{
+TEXT(0,"Slime: I dont like it","Here!","");
+}
+Event /* 36 */
+{
+TEXT(0,"Slime: I used to be a","healer slime.","Not anymore!");
+}
+Event /* 37 */
+{
+TEXT(0,"ChiChi: Golf! What a great","sport!","Bollo: It's not a sport!");
+SoundEffect(7);
+}
+Event /* 38 */
+{
+TEXT(0,"Tiger: Where's my ball?","","");
+IF(Flags[88]=1)
+{
+TEXT(0,"Bollo: I saw one!","Tiger: Where?","");
+Wait(8);
+TEXT(0,"Tiger: Thanks!","Here's 10 bucks!","");
+BANNER("Got 10 GP",100000);
+GiveGP(10);
+Flags[88]=0;
+}
+}
+Event /* 39 */
+{
+TEXT(0,"Joe: It's a golf ball.","","");
+Flags[88]=1;
+}
+Event /* 40 */
+{
+IF(Flags[89]=0)
+{
+TEXT(0,"Joe: It's a golf ball.","","");
+Wait(50);
+BANNER("Recived 80 EXP",200);
+GiveXP(1,80);
+GiveXP(2,80);
+GIVEXP(5,80);
+Flags[89]=1;
+AlterFtile(90,2,0,2);
+TEXT(0,"Bollo: No it's not.","","");
+}
+}
+
+

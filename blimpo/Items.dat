@@ -1,0 +1,83 @@
+150
+Soap 0 Cleans_Your_Body           0 0 1 0 0 0 10
+Hot_Dog 1 Restores_30_HP          1 1 1 0 0 0 20
+Tonic 2 Restores_50_HP               1 2 1 0 0 0 40
+Antidote 3 Restores_100_HP       1 3 1 0 0 0 70
+Harp 4 Needs_Strings              0 0 0 0 0 0 0
+String_1 5 Sting_1                0 0 0 0 0 0 0
+String_2 6 String_2               0 0 0 0 0 0 0
+String_3 7 String_3               0 0 0 0 0 0 0
+String_4 8 String_4               0 0 0 0 0 0 0
+String_5 9 String_5               0 0 0 0 0 0 0
+String_6 10 String_6              0 0 0 0 0 0 0
+String_7 11 String_7              0 0 0 0 0 0 0
+Heal_Spell 12 Heals_HP__2_MP      0 0 0 0 0 0 200
+Cozy_Spell 13 Cures_Stuff         0 0 0 0 0 0 200
+Exit_Spell 14 Exit_Dungeon__5_MP  0 0 0 0 0 0 400
+Shout_Spell 15 Loud_Scream__5_MP  0 0 0 0 0 0 200
+Shout_Spell_2 16 Louder_Scream__10_MP    0 0 0 0 0 0 1000
+Ice_Scroll 17 Creates_Ice__5_MP   0 0 0 0 0 0 300
+Fire_Spell 18 Creates_Fire__5_MP  0 0 0 0 0 0 300
+Mirror_Spell 19 Reflects_Stuff_5_MP    0 0 0 0 0 0 500
+Super_Heal_Spell 20 Super_Heals   0 0 0 0 0 0 2000
+Light_Spell 21 Creates_Light__2_MP 0 0 0 0 0 0 400
+Absorb_Spell 22 Absorbs_Magic     0 0 0 0 0 0 400
+Perfect_Spell 23 All_MP_and_HP_Up!             0 4 0 0 0 0 5000
+Magic_Fruit 24 Fills_20_MP        0 0 0 0 0 0 50
+Staff_of_Mud 25 Who_Knows!        0 0 0 0 0 0 250
+Cane 26 Freezes_Enemy             0 0 0 0 0 0 500
+Stamper 27 Collect_Them_All!      0 0 0 0 0 0 10
+Key 28 Open_Doors                 0 0 0 0 0 0 0
+Shield 29 Made_of_Cow_Poop        0 0 1 2 2 0 150
+Blimpo_Shield 30 Made_of_Blimpo_Hide            0 0 1 2 3 0 0
+Cap 31 Wear_on_your_head          0 0 0 4 4 0 50
+Watch 32 Tells_Hour                0 0 0 5 5 0 50
+Shirt 33 Wear_on_body             0 0 0 3 6 0 50
+Armor 34 Wear_on_body             0 0 0 3 7 0 0
+Harp 35 Harp_With_Strings         0 0 0 0 0 0 0     
+???? 36 Jamaican_Style            1 0 1 0 0 0 5        
+Toilet_Paper 37 Toilet_Paper      0 0 0 0 0 0 0                                      
+Taco 38 Yo_Quiero_Taco_Hell       1 1 1 0 0 0 10
+Rainbow_Barf 39 Rainbow_Barf      0 0 0 0 0 0 0     
+TNT 40 Big_Candle?                0 0 0 0 0 0 0
+Hamster_Cap 41 Wear_on_Head       0 0 0 4 8 0 50  
+Hamster_Shirt 42 Wear_on_Body     0 0 0 3 9 0 50 
+Hamster_Armor 43 Wear_on_Body     0 0 0 3 10 0 0
+Samurai_Helmet 44 Wear_on_head    0 0 0 4 11 0 100
+Samurai_Armor 45 Wear_on_Body     0 0 0 3 12 0 500
+Samurai_Glove 46 For_Dish_Washing 0 0 0 5 13 0 50
+Slime_Wax 47 Wear_on_Body         0 0 0 3 14 0 100
+Slime_Charm 48 Wear_on_Nucleous   0 0 0 5 15 0 100
+Slime_Shield 49 Made_in_Taiwan    0 0 0 2 16 0 50
+Grapling_Hook 50 Use_to_Graple    0 0 0 0 0 0 0  
+Picasso_Cards 51 Limited_Edition  0 0 0 0 0 0 0
+
+/* 
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <price>
+
+<use>: 0 for nonusable.
+       1 for usable once, then it goes away.
+       2 for usable an infinite number of times.
+       3 for usable ONLY camped, only once.
+       4 for usable ONLY camped, infinitely
+       5 for usable in combat only, once, then it goes away.
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to EFFECTS.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: 0 if it is nonequipable by anyone.
+             1 Equipment is right-hand (weapon)
+             2 Equipment is left-hand (shield)
+             3 Equipment is armor
+             4 Equipment is helmet
+             5 Equipment is acc1
+             6 Equipment is acc2
+<equipidx> is a pointer to EQUIP.DAT when necessary.
+<price>: Is the cost to buy the item in a store. It can be sold for half the
+         cost. Note that it might not necessarily appear in any stores for
+         sale, such as Althena's sword, but you can still sell it or something.
+                 */

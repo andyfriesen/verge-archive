@@ -1,0 +1,83 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("cliff.map",16,1,0);
+}
+Event /* 2 */
+{
+MapSwitch("poo.map",154,102,0);
+}
+Event /* 3 */
+{
+TEXT(0,"Furballette: Welcome to","Tomio!","Did you climb the mountain?");
+TEXT(0,"Joe: YES!","Furballette: You must be","crazy! Why didn't you take");
+TEXT(0,"the bridge?","Samu: Foreginers aren't","allowed in this part of the");
+TEXT(0,"country!","Furballette: Nah!","That's just a rumor!");
+TEXT(0,"Samu: Then, why didn't they","let us cross the bridge?","Furballette: That guy's a");
+TEXT(0,"Xenophobe!","Bollo: What's a Xenophobe?","Furballette: A person that");
+TEXT(0,"hates foreginers!","Bollo: Sad.","");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: I hate it when","people get in my house!","Go to the Inn next door");
+TEXT(0,"If you want to rest.","","");
+}
+Event /* 5 */
+{
+text(0,"Furball: Anyone that climbs","the mountain has my respect!","");
+Prompt(0,"Furball: Want to stay?","On the house!", "",3,"Yes","No");
+if (flags[3]=0)
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+TEXT(0,"Furball: Bye!","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: This is my shop of","strange and wonderful","things.");
+Shop(1,2,3,4,25,45,47);
+TEXT(0,"Furball: That's nice.","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: I'm the owner of","this shop!","I like to see people come");
+TEXT(0,"in and out of the shop!","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: HA!","We deal in imported good!","Want something kwel?");
+Shop(30,32,33,34);       
+TEXT(0,"Furball: Thank you for shopping","here!","");
+}
+Event /* 9 */
+{
+TEXT(0,"ShopOwner: Hello!","Buy stuff from ME!","");
+Shop(16,17,19,20,23,25);       
+TEXT(0,"ShopOwner: Magic rules!","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: I'm the Mayor of","this town!","");
+Wait(10);
+TEXT(0,"Samu: !!!!","Mayor: Dont worry...","We love foreginers..");
+TEXT(0,"Mayor: It's the people from","the other towns that want","all the tourist bucks for");
+TEXT(0,"them and dont let foreginers","enter the REALLY beautiful","part of Japalm");
+TEXT(0,"Joe: Thank God!","God: No problemo.","");
+}
+Event /* 11 */
+{
+TEXT(0,"Samurai: I used to have an","haiku poem for the tourists","but I forgot!");
+}
+Event /* 12 */
+{
+TEXT(0,"Smaurai: Hi!","Bye!","Whatever...");
+}
+
+
+

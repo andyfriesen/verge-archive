@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("surreal.map",69,45,0);
+}
+Event /* 2 */
+{
+MapSwitch("Surreal.map",60,32,0);
+}
+

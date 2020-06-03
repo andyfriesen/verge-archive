@@ -1,0 +1,282 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF (Flags[10]>5)
+{
+AlterFtile(29,55,0,0);
+AlterFtile(30,55,0,0);
+AlterFtile(28,30,0,0);
+AlterFtile(29,30,0,0);
+AlterFtile(30,30,0,0);
+AlterFtile(31,30,0,0);
+Entity.LocX(5)=100;        
+Entity.LocY(5)=100;        
+Entity.LocX(6)=101;       
+Entity.LocY(6)=100;        
+Entity.LocX(7)=100;        
+Entity.LocY(7)=101;       
+Entity.LocX(8)=101;       
+Entity.LocY(8)=101;       
+Entity.LocX(9)=101;       
+Entity.LocY(9)=101;       
+}
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",183,22,0);
+}
+Event /* 2 */
+{
+IF (Flags[10]=0)
+{
+TEXT(0,"Soldier: You cant get in.","","");
+}
+IF (Flags[10]=1)
+{
+TEXT(0,"Soldier: You cant get in...","Joe: I must talk to the","king.");
+TEXT(0,"Soldier: No.","Go away.","");
+Flags[10]=2;
+}
+If (flags[10]=2)
+{
+TEXT(0,"Soldier: We told you to go","away!","");
+}
+IF (Flags[10]=3)
+{
+TEXT(0,"Soldier: There is no way you","can get in.","");
+}
+IF (Flags[10]=4)
+{
+TEXT(0,"Soldier: There is no way you","can get in.","");
+}
+IF (Flags[10]=5)
+{
+TEXT(0,"Soldier: Who are you?","","");
+}
+}
+Event /* 3 */
+{
+MapSwitch("gb.map",17,6,0);
+}
+Event /* 4 */
+{
+IF (Flags[10]<6)
+{
+TEXT(0,"Joe: I better be careful.","","");
+}
+}
+Event /* 5 */
+{
+TEXT(0,"Soldier: Where are you","going?","");
+}
+IF (Flags[10]>5)
+{
+TEXT(0,"Soldier: I can not move","from my post.","");
+}
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: I dont like","the way the king is","acting...");
+TEXT(0,"He'd never win an Academy","Award...","");
+SOundEffect(7);
+}
+Event /* 7 */
+{
+IF (Flags[10]<6)
+{
+TEXT(0,"Furball: Why did the king","steal the harp?","What's the big deal?");
+}
+IF (Flags[10]>5)
+{
+TEXT(0,"Furball: There's still","no reason for stealing the","harp...");
+}
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Nock Castle","finally decided to give","us LAVA!");
+}
+Event /* 9 */
+{
+TEXT(0,"BarTender: This place is","closed for the day.","");
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: I'm cleaning","this palce.","");
+}
+Event /* 11 */
+{
+IF (Flags[10]<6)
+{
+TEXT(0,"Merchant: I havent seen","you before...","Sorry...");
+TEXT(0,"Can't sell stuff to non","residents.","");
+}
+IF (Flags[10]>5)
+{
+TEXT(0,"Merchant: I think I can","sell you stuff now...","");
+Shop(1,2,3,4,20,19,25,27);
+TEXT(0,"Merchant: Come back!","","");
+}
+}
+Event /* 12 */
+{
+IF (Flags[10]<6)
+{
+TEXT(0,"Furball: I remember you!","You're JOE!","Please try to persuade");
+TEXT(0,"the king into giving you","the harp back..","");
+}
+TEXt(0,"Furball: The Harp is useless","without the strings.","");
+}
+Event /* 13 */
+{
+TEXT(0,"Furball: Winter castle","and GetosBurg are not","the only Towns in the snow.");
+}
+Event /* 14 */
+{
+TEXT(0,"InnKeeper: Hello!","Cold weather, huh?","");
+Prompt(0,"Want to stay here?","It's warm!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper: Where's the MONEY!","SHOW ME DA' MONEY!","");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Good Luck!","","");
+}
+}
+}
+EVENT /* 15 */
+{
+IF (Flags[10]<5)
+{
+TEXT(0,"King: ??","","");
+}
+IF (Flags[10]=5)
+{
+TEXT(0,"King: An who are YOU?","Joe: I'm from Nock Castle...","I'm here to talk to you...");
+TEXT(0,"about LAVA!","King: Oh, pardon me. How may I","help you?");
+TEXT(0,"Joe: The King of Nock Castle","is not cormftable with","your quarrels with the");
+TEXT(0,"Kingdom of Furleguard...","He wants you to give them","back the HARP.");
+TEXT(0,"King: NEVER!","Joe: Well, then sir... It's","no lava for you!");
+TEXT(0,"King: Oh!!!","What have I done!!!???","Yes, yes!");
+TEXT(0,"King: I'll give him his","stupid harp! I doesn't","have any strings anyway!");
+GiveITem(5);
+TEXT(0,"Joe: Thank you, your","Majesty.","");
+Flags[10]=6;
+AlterFtile(29,55,0,0);
+AlterFtile(30,55,0,0);
+AlterFtile(28,30,0,0);
+AlterFtile(29,30,0,0);
+AlterFtile(30,30,0,0);
+AlterFtile(31,30,0,0);
+Entity.LocX(5)=100;        
+Entity.LocY(5)=100;        
+Entity.LocX(6)=101;       
+Entity.LocY(6)=100;        
+Entity.LocX(7)=100;        
+Entity.LocY(7)=101;       
+Entity.LocX(8)=101;       
+Entity.LocY(8)=101;       
+Entity.LocX(9)=101;       
+Entity.LocY(9)=101;       
+}
+IF (Flags[10]=6)
+{
+TEXT(0,"King: LAVA!","","");
+SoundEffect(7);
+}
+IF (Flags[10]=7)
+{
+TEXT(0,"King: How's the lave busi-","ness going?","Joe: Fine.");
+}
+}
+Event /* 16 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=3;
+CurHP(2)-=3;
+CurHP(3)-=3;
+CurHP(5)-=3;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0)
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 17 */
+{
+IF(Flags[52]=0)
+{
+TEXT(0,"Soldier: HEY!","Wasn't that an intruder???","I think so...");
+EntityMove(9,"L2D2R10");
+Flags[52]=1;
+}
+}

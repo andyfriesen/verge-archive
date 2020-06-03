@@ -1,0 +1,38 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+PlayMusic("Somlofty.s3m");         
+TEXT(0,"Bollo: FURRY!","","");
+TEXT(0,"Furry: Bollo.","I miss you!","Let's go back home.");
+TEXT(0,"Samu: Yeah, me too...","What a waste of time...","");
+TEXT(0,"Joe: So the Blimpo Lord","wasn't really our enemy this","time..."); 
+TEXT(0,"RedOrb was it...","and now he's gone..","");
+Wait(50);
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+AlterFtile(18,4,329,1);
+Playmusic("caca.s3m");
+TEXT(0,"RedOrb: It's not over","YET!","");
+Wait(40);
+TEXT(0,"Joe: NOOOOO!","","");
+TEXT(0,"RedOrb: Dont worry...","I'm the good RedOrb!","");
+TEXT(0,"Samu: My mini lie detector","says yes...","He's Right!");
+TEXT(0,"RedOrb: Yep!","Thank you for defeating","my evil twin...");
+TEXT(0,"Now.. Let's get out of here!","","");
+DrawParty=0;     
+MapSwitch("end1.map",9,38,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Blimpo: Take this rat","away from me...","and get out!");
+}
+Event /* 3 */
+{
+SaveMenu();
+}
+

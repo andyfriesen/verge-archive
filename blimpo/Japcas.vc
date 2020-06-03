@@ -1,0 +1,160 @@
+Event /* 0 */
+{
+EnforceANimation();
+IF(Flags[32]>1)
+{
+volume=1;
+}
+IF(Flags[32]=2)
+{
+AlterFtile(10,20,0,0);
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",148,90,0);
+}
+Event /* 2 */
+{
+IF(Flags[32]=2)
+{
+TEXT(0,"Emperor: I want my SHOW!","","");
+SoundEffect(7);
+}
+IF(Flags[32]=1)
+{
+TEXT(0,"Emperor: Too bad...","I was watching my favorite","show!");
+TEXT(0,"Who are you anyway?","Samu: We are the B-Team!","Joe: No! That name sucks!");
+SoundEffect(7);
+TEXT(0,"Samu: Uh.. Ok.","We are going to defeat the","Blimpo Lord!");
+TEXT(0,"Emperor: Finally some-one is","making a stand!","Here.. Go thru the door on");
+TEXT(0,"the left side of this castle..","I'll open it for you.","GO my friends!");
+TEXT(0,"And YOU Samu...","Take this!","");
+BANNER("Samu got 50 EXP",200);
+GiveXP(5,50);
+Flags[32]=2;
+AlterFtile(10,20,0,0);
+}
+IF(Flags[32]=0)
+{
+TEXT(0,"Emperor: Leave me alone!","I'm watching TV!","");
+Flags[33]=1;
+}
+}
+Event /* 3 */
+{
+IF(Flags[33]=0)
+{
+TEXT(0,"Joe: This shuts down the power.","But who wants to do that?","");
+}
+IF(Flags[32]=0)
+{
+IF(Flags[33]=1)
+{
+TEXT(0,"Joe: No maybe this will make","the Emperor listen to us!","Bollo: Whooo!");
+TEXT(0,"Bollo: Wont he suspect anything?","Samu: Nah.. Blackouts occur","frequently!");
+Flags[32]=1;
+SoundEffect(12);
+volume=1;     
+}
+}
+}
+Event /* 4 */
+{
+IF(Flags[32]=0)
+{
+TEXT(0,"Samurai: Uh...","...",".......");
+}
+IF(Flags[32]>0)
+{
+TEXT(0,"Samurai: What am I doing in","here?","");
+}
+}
+Event /* 5 */
+{
+IF(Flags[32]=0)
+{
+TEXT(0,"Furball: TV!","TV!","TTTTTVVVVVV!!!!!");
+}
+IF(Flags[32]>0)
+{
+TEXT(0,"Furball: I want my TV!","","");
+}
+}
+Event /* 6 */
+{
+IF(Flags[32]=0)
+{
+TEXT(0,"Furball: SHHHH!","","");
+}
+IF(Flags[32]>0)
+{
+TEXT(0,"Furball: Oh MAN!","","");
+}
+}
+Event /* 7 */
+{
+IF(Flags[32]=0)
+{
+TEXT(0,"Furball: That chick is hot!","","");
+}
+IF(Flags[32]>0)
+{
+TEXt(0,"Furball: I can still se the","babe if I close my eyes","hard enough!");
+SoundEffect(7);
+}
+}
+Event /* 8 */
+{
+IF(Flags[32]=0)
+{
+TEXT(0,"TV: Hahahaha...","That was funnier than a post-","man hitting a post...");
+SoundEffect(7);
+TEXT(0,"and now, lock in your votes","for the funniest video!","...");
+}
+IF(Flags[32]>0)
+{
+TEXT(0,"Joe: The TV is off...","","");
+}
+}
+Event /* 9 */
+{
+IF(Flags[32]=0)
+{
+TEXT(0,"Samurai: This show sucks!","","");
+}
+IF(Flags[32]>0)
+{
+TEXT(0,"Samurai: Wheeeeee!","","");
+SoundEffect(7);
+}
+}
+Event /* 10 */
+{
+IF(Flags[34]=0)
+{
+TEXT(0,"Samu: This is wierd...","the castle is empty!","");
+Flags[34]=1;
+}
+}
+Event /* 11 */
+{
+IF(Flags[34]=1)
+{
+TEXT(0,"Samu: OH NO!","Someone must have kidnapped","the people of the castle!");
+Flags[34]=2;
+}
+}
+Event /* 12 */
+{
+IF(Flags[34]=2)
+{
+TEXT(0,"Samu: Oh...","","");
+Flags[34]=42;
+}
+}
+Event /* 13 */
+{
+MapSwitch("poo.map",147,89,0);
+}
+

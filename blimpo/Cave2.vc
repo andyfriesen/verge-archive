@@ -1,0 +1,23 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",43,13,0);
+}
+Event /* 2 */
+{
+MapSwitch("poo.map",78,13,0);
+}
+Event /* 3 */
+{
+AlterBtile(30,22,118,0);
+EarthQuake(16,16,45);
+SoundEffect(3);
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: I'm the king of this","cave. But no other slime","wants to live here.");
+}
+

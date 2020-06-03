@@ -1,0 +1,255 @@
+Event /* 0 */
+{
+EnforceAnimation();
+      FadeIn(4);    
+ TEXT(0,"Bunny: I will not let you","power down the space station!","");
+ TEXT(0,"Joe: Yeah, let see you stop","us!","");
+ TEXT(0,"Bunny: Fools!","I'm a level 1 aprentice mage!","I know 3!!!");
+ TEXT(0,"Count them... THREE!!!","3 magic spells!","Hahaha!");
+ TEXT(0,"Get ready for this!","See if you can counter-","attack my magic!!");
+ AlterFtile(9,3,867,2);
+ Flags[162]=1;
+}
+
+Event /* 1 ICE SCROLL USE */
+{
+ Prompt(0,"Joe: This is a Ice Desk","We can use Ice magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  TEXT(0,"Desk: You used me!","ICE!!!","");
+  SoundEffect(5);
+  PaletteMorph(11,11,63,75,60); 
+  EarthQuake(10,10,50); 
+  PaletteMorph(11,11,63,0,60); 
+   IF(Flags[162]=1) 
+    {
+    TEXT(0,"Bunny: Haha!","That didn't stop my spell!","");
+    SoundEffect(5);
+    PaletteMorph(63,11,0,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(11,11,63,0,60); 
+    CallEvent(4);   
+    AlterFtile(9,3,871,2);    
+    Flags[162]=3;
+    Return;
+    }
+   IF(Flags[162]=3) 
+    {
+    TEXT(0,"Bunny: Haha!","That didn't stop my spell!","");
+    SoundEffect(5);
+    PaletteMorph(63,11,0,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(11,11,63,0,60); 
+    CallEvent(4);   
+    AlterFtile(9,3,871,2);    
+    Flags[162]=3;
+    }
+   IF(Flags[162]=2)
+    {
+    AlterFtile(9,3,871,2);    
+    TEXT(0,"Bunny: ACK!","My Fire ball vanished!","Take this instead!");
+    Flags[162]=3;
+    }
+    }
+  }
+}
+
+Event /* 2 FIRE SCROLL USE */
+{
+ Prompt(0,"Joe: This is a Fire Desk","We can use Fire magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  TEXT(0,"Desk: You used me!","FIRE!!!","");
+  SoundEffect(5);
+  PaletteMorph(63,11,0,75,60); 
+  EarthQuake(10,10,50); 
+  PaletteMorph(11,11,63,0,60); 
+   IF(Flags[162]=2) 
+    {
+    TEXT(0,"Bunny: Haha!","That didn't stop my spell!","");
+    SoundEffect(5);           
+    PaletteMorph(11,11,63,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(11,11,63,0,60); 
+    CallEvent(4);   
+    AlterFtile(9,3,869,2);    
+    Flags[162]=2;
+    }
+   IF(Flags[162]=3) 
+    {
+    TEXT(0,"Bunny: Haha!","That didn't stop my spell!","");
+    SoundEffect(5);           
+    PaletteMorph(11,11,63,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(11,11,63,0,60); 
+    CallEvent(4);   
+    AlterFtile(9,3,869,2);    
+    Flags[162]=2;
+    }
+   IF(Flags[162]=1)
+    {
+    AlterFtile(9,3,869,2);    
+    TEXT(0,"Bunny: ACK!","My Ice ball vanished!","Take this instead!");
+    Flags[162]=2;
+    }
+  }
+  }
+}
+
+Event /* 3 BOLT SCROLL USE */
+{
+IF(!Item(20))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Mirror Magic from");
+ TEXT(0,"here.","Bring a Mirror Scroll and use","me.");
+ }
+IF(item(20))
+ {
+ Prompt(0,"Joe: This is a Mirror Desk","We can use Mirror magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+   TEXT(0,"Desk: You used me!","No I'll form a mirror to","protect you!");
+   IF(Flags[162]=1) 
+    {
+    TEXT(0,"Bunny: Haha!","That didn't stop my spell!","");
+    SoundEffect(5);           
+    PaletteMorph(55,55,0,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(55,55,0,0,60); 
+    CallEvent(4);   
+    AlterFtile(9,3,867,2);    
+    Flags[162]=1;
+    }
+   IF(Flags[162]=2) 
+    {
+    TEXT(0,"Bunny: Haha!","That didn't stop my spell!","");
+    SoundEffect(5);           
+    PaletteMorph(55,55,0,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(55,55,0,0,60); 
+    CallEvent(4);   
+    AlterFtile(9,3,867,2);    
+    Flags[162]=1;
+    }
+   IF(Flags[162]=3)
+    {
+    PaletteMorph(55,55,0,75,60); 
+    EarthQuake(10,10,50); 
+    PaletteMorph(55,55,0,0,60); 
+    AlterFtile(9,3,873,2);    
+    TEXT(0,"Bunny: You...","You reflected my magic?","Ug...");
+    TEXT(0,"I know I shouldn't have"," had those desks there!","Poop...");
+    Flags[163]=1;
+    MapSwitch("win5.map",2,7,0);       
+    }
+}
+ }
+  }
+  }
+}
+
+
+Event /* 4 */
+{
+CurHP(1)-=35;
+CurHP(2)-=35;
+CurHP(3)-=35;
+CurHP(5)-=35;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+
+Event /* 5 */
+{
+TEXT(0,"Bunny: Leave me alone!","I'm doing a magic spell!","");
+TEXT(0,"Joe: Bollo!","Check out if he's ticklish!","");
+Wait(60);
+TEXT(0,"Bollo: No...","Joe: Dang!","We must think of another");
+TEXT(0,"way to defeat this bunny!","","");
+}
+

@@ -1,0 +1,22 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[79]=1)
+ {
+ AlterFtile(14,5,0,0);       
+ }
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",96,23,0);
+}
+Event /* 2 */
+{
+IF(Flags[79]=0)
+ {
+ TEXT(0,"Joe: I think we found","a Magic SnowFlake!","");
+ AlterFtile(14,5,0,0);
+ Flags[79]=1;
+ BANNER("Got a Snowflake",200);          
+ }
+}

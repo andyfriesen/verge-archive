@@ -1,0 +1,167 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+b=0;
+MapSwitch("poo.map",80,149,0);
+}
+Event /* 2 */
+{
+IF(Flags[18]=0)
+{
+TEXT(0,"Soldier: Only Poota residents","are allowed in.","Unless of course you come");
+TEXT(0,"shopping here...","","");
+}
+IF(Flags[18]=1)
+{
+TEXT(0,"Soldier: Only Poota residents","are allowed in.","Unless of course you come");
+TEXT(0,"shopping here...","Joe: Maybe Paranoid came","here to shop?");
+}
+IF(Flags[18]=2)
+IF(b=0)
+{
+TEXT(0,"Soldier: Hello Paranoid...","Go ahead and shop...","");
+AlterFtile(19,29,0,0);
+AlterFtile(20,29,0,0);
+b=1;
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Soldier: This is the Poota","treasure room...","You can't enter.");
+}
+Event /* 4 */
+{
+TEXT(0,"Soldier: This is the King's","Room..","");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: This is the Castle","of Poota.","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: I finally bought","a house!","Now I can do whatever");
+TEXT(0,"I want!","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: The King is a","a great talker!","");
+}
+Event /* 8 */
+{
+TEXT(0,"BarTender: Hello!","We're out of drinks","right now... But feel");
+TEXT(0,"free to drink some cold","water...","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furballette: I can","fly....","Joe: What did she have?");
+TEXT(0,"BarTender: ZIMU!","Bollo: I want some!","BarTender: All out!");
+}
+Event /* 10 */
+{
+TEXT(0,"Furball: I wish I had a","woman.","");
+}
+Event /* 11 */
+{
+TEXT(0,"Furballette: I wish I had","a man...","");
+}
+Event /* 12 */
+{
+TEXT(0,"Furball: My brother and I","own the Bar next door.","Joe: WHy do you tell us");
+TEXT(0,"that?","Furball: uh....","");
+SoundEffect(7);
+}
+Event /* 13 */
+{
+TEXT(0,"Furball: Some slimes went","north and founded a city","inside a cave...");
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: Hello!","","");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Furball: Too bad, you dont","have any money!","");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"Furball: Thanks!","Hope your stay was a","nice one...");
+SoundEffect(7);
+}
+}
+}
+Event /* 15 */
+{
+TEXT(0,"Slime: Man, I saw a movie","the other day.. and it","was sooooo bad!!!!");
+TEXT(0,"Joe: People in this town","are pretty boring...","Slime: I'm not a 'people'");
+SoundEffect(7);
+}
+Event /* 16 */
+{
+TEXT(0,"Soldier: Behave...","","");
+}
+Event /* 17 */
+{
+TEXT(0,"Soldier: Mmmm...","Bee-HAVE!!!","Baby, BEE-HAVE!");
+}
+Event /* 18 */
+{
+IF(Flags[19]=0)
+{
+TEXT(0,"King: I, King Molasious of","the Castle and town of","Poota, welcome thee to");
+TEXT(0,"my humble Throne room.","To reach the next level of","experience thou shall kill");
+TEXT(0,"tons of enemies and gather","cash to buy better weapons","and then rest at the Inn to");
+TEXT(0,"regain lost HP and MP lost","in honorable battles between","good and very evil baddies...");
+TEXT(0,"Then thou shall get enough","points that will make your","stats higher and make you");
+TEXT(0,"mind and body better at","battle, thus killing more","monsters and more and more");
+TEXT(0,"and more and more and more","and more and more and more","and more and more and more...");
+TEXT(0,"until your experience goes","up one level again and your","stats will increase by 1 or");
+TEXT(0,"two points.. and then thou","must keep fighting and fight-","ing and fighting until");
+TEXT(0,"you can walk into the next","village, castle or cave","and talk to the townsfolk");
+TEXT(0,"who bombard you with all","sort of useless drivel and","dung... But it will all be");
+TEXT(0,"worthwhile because of the","100 people you talk to","ONE will give you a vital");
+TEXT(0,"clue that you NEED to go to","the next town or stay in","the old one for a long time.");
+TEXT(0,"Would thou like to have your","adventures inscribed in","the imperial scrolls of");
+TEXT(0,"honor?","Joe: zzzzzz","King: Well then... No..");
+SoundEffect(7);
+TEXT(0,"May my blessing help you","and gide you throught the","cave of Poota, west of here...");
+TEXT(0,"With this blessing thou","can enter the mysterious cave.","Joe: zzzzzz");
+SoundEffect(7);
+Text(0,"King: I will repeat...","","");
+TEXT(0,"May my blessing help you","and gide you throught the","cave of Poota, west of here...");
+TEXT(0,"With this blessing thou","can enter the mysterious cave.","Go out and bring peace to");
+TEXT(0,"the world!","Now dont bore me with","your tales of wonder...");
+TEXT(0,"Here you have 30 EXP points","use them wisely...","You hear?");
+GiveXP(1,30);
+GiveXP(2,30);
+GIveXP(3,30);
+BANNER("Recieved 30 EXP",200);
+TEXT(0,"King: And some gold too.","","");
+GiveGP(200);
+BANNER("Recieved SOME GP",200);
+TEXT(0,"Bollo: Joe, wake up...","It's over...","Joe: Uh... Let's go!");
+SoundEffect(7);
+Flags[19]=1;
+}
+If(Flags[19]=1)
+{
+TEXT(0,"May my blessing help you","and gide you throught the","cave of Poota, west of here...");
+TEXT(0,"With this blessing thou","can enter the mysterious cave.","");
+}
+}       
+Event /* 19 */
+{
+TEXT(0,"ShopOwner: Hello paranoid.","What is it this time?","");
+Shop(1,2,3,4,25,27,30,32,34,42);
+TEXT(0,"ShopOwner: Buy.. I mean...","BYE!","");
+}
+

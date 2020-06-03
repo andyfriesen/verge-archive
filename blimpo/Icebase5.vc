@@ -1,0 +1,118 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(FLags[121]=1)
+ {
+ AlterFtile(15,9,539,2);    
+ }
+}
+Event /* 1 */
+{
+MapSwitch("icebase4.map",23,10,0);
+}
+Event /* 2 */
+{
+Flags[116]=0;
+IF(Flags[116]=0)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("R11");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=1;
+ }
+}
+Event /* 3 */
+{
+Flags[116]=1;
+IF(Flags[116]=1)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("L11");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=0;
+ }
+}
+Event /* 4 */
+{
+Flags[116]=0;
+IF(Flags[116]=0)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("D4");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=1;
+ }
+}
+Event /* 5 */
+{
+Flags[116]=1;
+IF(Flags[116]=1)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("U4");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=0;
+ }
+}
+Event /* 6 */
+{
+Flags[116]=0;
+IF(Flags[116]=0)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("R4");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=1;
+ }
+}
+Event /* 7 */
+{
+Flags[116]=1;
+IF(Flags[116]=1)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("L4");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=0;
+ }
+}
+Event /* 8 */
+{
+IF(Flags[121]=0)
+{
+AlterFtile(15,9,539,2); 
+GiveGP(100);
+Banner("Got 100 gold!",10000);
+Flags[121]=1;
+}
+}
+
+Event /* 9 */
+{
+MapSwitch("icebase6.map",11,8,0);
+}
+

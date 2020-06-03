@@ -1,0 +1,109 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",82,148,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Man! This HAS to","be the most beautiful town","in all the planet!");
+TEXT(0,"Bollo: I dont think so!","Furball: NOOOOOOO!!!!","It IS!");
+SoundEffect(7);
+}
+Event /* 3 */
+{
+TEXT(0,"Soldier: Be careful!","We have an eye on you!","");
+}
+Event /* 4 */
+{
+TEXT(0,"Soldier: This is the shopping","district.","");
+}
+Event /* 5 */
+{
+TEXT(0,"Furballette: Hi sweeties!","Wanna shop?","Please DO!");
+Shop(2,3,4,19,20,16,13,25,30,32,42);
+TEXT(0,"Bollo: What's your sign,","babe?","Furballette: Gemini!");
+TEXT(0,"Bollo: EEEWW!","Forget it!","");
+SoundEffect(7);
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Hello! Stay here","and regain HP and MP!","Joe: What's that?");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Furball: Go away...","Joe: Why?","Furball: You have no cash.");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"Furball: Come back!","That's an ORDER!!","");
+SoundEffect(7);
+}
+}
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: Man!","I just got this thing...","an Hatari 2601!!!");
+TEXT(0,"It's soooooo coooool!","","");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Welcome to the town","of Poota!","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: There is a rumor","about slimes coming from","another planet...");
+TEXT(0,"Yeah RIGHT!","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Soldier: I want to be a","general someday...","");
+}
+Event /* 11 */
+{
+TEXT(0,"Soldier: I just dont get it!","Why are ALL the barracks","the same???");
+}
+Event /* 12 */
+{
+TEXT(0,"Chef: Hello children!","Joe: Hello chef!","Bollo: What's for lunch?");
+TEXT(0,"Chef: The usual!","Bollo: What's that?","Chef: Cheese Ice-Cream!");
+SoundEffect(7);
+TEXT(0,"Bollo: Give me!","Chef: Sorry children, but","this is for the soldiers!");
+TEXT(0,"Bollo: Dog-Gone it!","Joe: Dog-gone it????","");
+If(Flags[18]=2)
+{
+TEXT(0,"Paranoid: Dog-Gone sounds","dumb!","");
+SoundEffect(7);
+}
+}
+Event /* 13 */
+{
+TEXT(0,"Soldier: I hate this food!","","");
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: I'm here hangin'","with my beautiful girlfriend!","");
+}
+Event /* 15 */
+{
+TEXT(0,"Furballette: This guy","has lots of money!","");
+SoundEffect(7);
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: This are the ta-","bles in which we eat!","");
+}
+Event /* 17 */
+{
+TEXT(0,"Slime: All towns look","the same...","I'm tired...");
+}
+

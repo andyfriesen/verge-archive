@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("surcas3.map",9,10,0);
+}
+Event /* 2 */
+{
+MapSwitch("surcas4.map",28,1,0);
+}
+

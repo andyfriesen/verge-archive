@@ -1,0 +1,141 @@
+Event /* 0 */
+{
+EnforceANimation();
+IF(Flags[59]=22)
+{
+AlterFtile(21,1,0,2);        
+}
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",20,40,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Hamster: Hello!","That penguin gave me","shelter! Arent they nice?");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: yes!","Joe: No!","Bollo: Psst.. psst..");
+TEXT(0,"Joe: Yeah?","Bollo: penguins dont like","Furballs!");
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Penguin: Mm...","You look mighty suspicious...","");
+}
+Event /* 4 */
+{
+TEXT(0,"Penguin: Just in case","you furball haven't noticed","pink penguins are female.");
+TEXT(0,"Penguin: We still dont know","what the blue ones (like me)","are..");
+SoundEffect(7);
+TEXT(0,"Joe: Tough one.","","");
+}
+Event /* 5 */
+{
+TEXT(0,"Penguin: Yes! I'm a","woman!","");
+}
+Event /* 6 */
+{
+if(k=0)
+{
+TEXT(0,"Penguin Dude: Hey...","Where do you think","you're going?");
+TEXT(0,"this is the world famous","WhitePoo peak!","You cant just go into it");
+TEXT(0,"like that!","You need a board and","Furballs are too fat to"); 
+TEXT(0,"use one.","","");
+TEXT(0,"Joe: Oh.","And I guess you're real","skinny!");
+SoundEffect(8);
+TEXT(0,"Penguin Dude: Man..","Dont talk about my","phisique like that...");
+TEXt(0,"It hurts...","","");
+SOundEffect(10);
+TEXT(0,"Joe: Sorry!","","");
+k=1;
+}
+TEXT(0,"Penguin Dude: Ok.","","");
+}
+Event /* 7 */
+{
+TEXT(0,"Penguin: Welcome...","","");
+TEXT(0,"To...","","");
+TEXT(0,"The","","");
+TEXT(0,"Coldest...","","");
+TEXT(0,"Town..","","");
+TEXT(0,"In...","","");
+TEXT(0,"The..","","");
+TEXT(0,"Eastern...","","");
+TEXT(0,"Part...","Joe: Hurry up you Poopy face!","");
+TEXT(0,"ofthecamolopingacontinent","southoffurlegarf!","");
+SoundEffect(7);
+}
+Event /* 8 */
+{
+TEXT(0,"Penguin: Welcome to","Igloo.","");
+}
+Event /* 9 */
+{
+TEXT(0,"Penguin: Welcome to","my shop!","");
+shop(1,2,3,4,13,14,15,16,25,30);
+TEXT(0,"Penguin: Come back!","","");
+}
+Event /* 10 */
+{
+TEXT(0,"Slime: Howdy!","Slimes can survive in cold","weather too!");
+}
+Event /* 11 */
+{
+TEXT(0,"Embasador: Hello!","Welcome to the Furleguard","Embassy!");
+Prompt(0,"Want to stay here?","Just 10 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"Embasador: Hey!","We need FUNDS!","");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"Embasador: Good Luck!","","");
+}
+}
+}
+Event /* 12 */
+{
+TEXT(0,"Hamster: Sneaking into","the Embassy.. heh?","");
+}
+Event /* 13 */
+{
+TEXT(0,"Haster: I was attacked","by penguins! SO I had to","run here!");
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: Snore...","","");
+SoundEffect(7);
+}
+Event /* 15 */
+{
+TEXT(0,"Mayor: I am the Mayor of","this town!","What business do you seek?");
+TEXT(0,"Joe: I journey to the Blimpo","Castle to defeat the","evil Blimpo Lord!");
+TEXT(0,"Mayor: The Blimpos and Penguins","have a non-agression pact!","I cant help you!");
+TEXT(0,"Joe: Ok.","","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: What if I tell you","the same thing...","Mayor: Nope.");
+}
+}
+Event /* 16 */
+{
+IF(Flags[59]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 10 EXP",200);
+GiveXP(1,10);
+GiveXP(2,10);
+Flags[59]=22;
+AlterFtile(21,1,0,2);
+}
+}
+

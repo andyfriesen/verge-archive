@@ -1,0 +1,26 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+TEXT(0,"This is the warp shrine","Jump into the portals to","warp to a place in the");
+TEXT(0,"World.  You cant go back,","so be sure to save the game","");
+}
+Event /* 2 */
+{
+MapSwitch("Poo.map",149,6,0);
+}
+Event /* 3 */
+{
+MapSwitch("Poo.map",104,44,0);
+}
+Event /* 4 */
+{
+MapSwitch("Poo.map",151,31,0);
+}
+Event /* 5 */
+{
+MapSwitch("Poo.map",68,13,0);
+}
+

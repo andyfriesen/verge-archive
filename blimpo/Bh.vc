@@ -1,0 +1,52 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",69,8,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Hello and welcome","to the Beach House!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: It's a party","24 hours a day!","Whoooo! Party!");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: There can never be","not so many chicks.","");
+SoundEffect(8);
+}
+Event /* 5 */
+{
+TEXT(0,"Furballette: Hi!","Tee-hee-hee!","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furballette: You're","so ugly!","");
+SoundEffect(7);
+If(Flags[12]>41)
+{
+TEXT(0,"Bollo: HAHAHAHA!","Take that Looser!","Furballette: You too!");
+TEXT(0,"Joe: HAHA!","Bollo: NOOOOO!!!!","");
+SoundEffect(7);
+}
+}
+Event /* 7 */
+{
+TEXT(0,"Furballette: This","is such a groovy place!","Come and live here, baby.");
+TEXT(0,"Joe: No, thanks.","I'm in a quest!","");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Go west my friend...","If you want to die.","");
+TEXT(0,"Joe: Why?","","");
+TEXT(0,"Furball: I have seen some","Blimpo army men moving to","the west...");
+If(Flags[12]>41)   
+{
+TEXT(0,"Bollo: Not me!","","");
+}
+}
+

@@ -1,0 +1,195 @@
+Event /* 0 */
+{
+EnforceAnimation();
+If (Flags[8]=1)
+{
+AlterBTile(13,34,4,1); 
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",188,40,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Soldier: Welcome to Nock","castle. The home of the","lava Dam.");
+}
+Event /* 3 */
+{
+IF (Flags[8]=0)
+{
+PROMPT(0,"Enviromentalist: Hi!","Want to adopt a tree?","",8,"No","Yes");
+}
+IF (Flags[8]=1)
+{
+TEXT(0,"Enviromentalist: Thank","you! The tree is in a room","way back behind you.");
+AlterBTile(13,34,4,1);
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Furballette: Joe!","Welcome back my friend!","Stay here for a while.");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: Adopt a tree...","WHY? it's dumb!","They must be hiding some-");
+TEXT(0,"thing from us...","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Lava is too hot","But we win money of it..","");
+}
+Event /* 7 */
+{
+TEXT(0,"Merchant: The kid's doin'","great!","");
+TEXT(0,"Kid: Thanks dad..","err...","boss.");
+}
+Event /* 8 */
+{
+TEXT(0,"Kid: Hi.","...",".");
+TEXT(0,"Joe: Hello?","Kid: ...","");
+SoundEffect(7);
+TEXT(0,"Kid: Oh Yeah!","Sorry, i'm new at this...","This are my wares.");
+Shop(1);
+TEXT(0,"Joe: That's it?","Kid: Oops!","Here...");
+Shop(1,2,3,25,28,33,16,17);
+TEXT(0,"Kid: Come back...","","");
+}
+Event /* 9 */
+{
+TEXT(0,"A PLAQUE READS: Barry's Tree","","");
+}
+Event /* 10 */
+{
+IF (Flags[8]=0)
+{
+ TEXT(0,"Barry: Joe? JOE!","I cant believe it's YOU!","Joe: Hi Barry!");
+ TEXT(0,"Barry: How's everything?","Joe: Doing ok.","Barry: Look! I adopted a");
+ TEXT(0,"TREE! Cool huh?","Joe: Maybe I'll adopt one?","How much?");
+ TEXT(0,"Barry: Free! Can you believe","it?","Joe: Cool!");
+ TEXT(0,"Joe: Gonna go get one then.","Where do I get it?","Barry: The store at the");
+ TEXT(0,"Other side of the lava.","","");
+}
+IF (Flags[8]=1)
+{
+ Text(0,"Barry: Got a tree?","Joe: Yeah.","Barry: Cool! And next to mine!");
+ TEXT(0,"Joe: Hey, I gotta go...","Barry: Bye then!","Joe: Bye!");
+}
+}
+Event /* 11 */
+{
+IF (flags[8]=1)
+{
+TEXT(0,"A PLAQUE READS: Jow's tree","","");
+TEXT(0,"Joe: Aw.. gosh!","Got my name wrong...","");
+}
+}
+Event /* 12 */
+{
+TEXT(0,"InnKeeper: Welcome","to the coolest inn!","");
+Prompt(0,"Want to stay here?","Just 10 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper: You must pay!","","");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Good Luck!","","");
+}
+}
+}
+Event /* 13 */
+{
+TEXT(0,"Soldier: THis is my house...","Joe: Who's the other guy?","Soldier: He's just hangin'");
+TEXT(0,"Around...","","");
+}
+Event /* 14 */
+{
+TEXT(0,"Furball: I also came to","this house univited!","");
+}
+Event /* 15 */
+{
+IF (Flags[8]=0)
+{
+TEXT(0,"Furball: I hate trees!","I like lava.","Lava good, tree bad.");
+}
+IF (Flags[8]=1)
+{
+TEXT(0,"Furball: Adopting a tree","is stupid!","You are stupid!");
+SoundEffect(7);
+}
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: Living near the","lava makes me swet...","");
+}
+Event /* 17 */
+{
+TEXT(0,"Furball: Hi Joe!","Long time no see!","");
+}
+Event /* 18 */
+{
+TEXT(0,"Slime: THis is cool!","I love heat!","");
+}
+Event /* 19 */
+{
+IF (Flags[10]=0)
+{
+TEXT(0,"King: Hello Joe!","Joe: Hello!","");
+}
+IF (flags[10]=1)
+{
+TEXT(0,"Joe: Know anything about","the Harp?","King: Yes, The King of");
+TEXT(0,"Winter Castle, down south,","stole it...","Joe: I need that Harp!");
+TEXT(0,"King: there is nothing I can","do... I dont want to get","into a conflict!");
+TEXT(0,"King: And by the way...","Winter castle is our best","lava consumer.");
+}
+IF (Flags[10]=2)
+{
+TEXT(0,"Joe: King! I cant enter","the Winter Castle...","King: ...");
+}
+IF (Flags[10]=3)
+{
+TEXT(0,"Joe: Do you have the key?","King: Well yes..","Oh yeah!");
+TEXT(0,"With this key you can","enter the Jail Cells...","Talk to Wambo...");
+TEXT(0,"he knows a way in...","Joe: Thanks!","");
+GiveItem(29);
+Flags[10]=4;
+}
+IF (Flags[10]=4)
+{
+TEXT(0,"King: Go to the Jail...","in Winter land.","and talk to Wambo.");
+}
+IF (Flags[10]=5)
+{
+TEXT(0,"King: Dont worry, you can","keep the key!","");
+}
+IF (Flags[10]=6)
+{
+TEXT(0,"King: All is well!","","");
+}
+IF (Flags[10]=7)
+{
+TEXT(0,"King: Thank you for helping","us.","Here's a boost!");
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+IF(Flags[53]=0)
+{
+TEXT(0,"King: Here's something that","I think will help you","on your quest.");
+GiveXP(1,20);
+BANNER("Recieved 20 EXP",200);
+Flags[53]=22;
+}
+}
+}
+
+

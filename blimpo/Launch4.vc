@@ -1,0 +1,40 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[83]=22)
+ {
+ AlterFtile(13,10,0,2);     
+ }
+}
+
+
+
+Event /* 1 Take off */
+{
+fadeout(50);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"nave.chr");
+MapSwitch("takeoff4.map",9,56,0);
+}
+
+
+Event /* 2 */
+{
+IF(Flags[83]=0)
+{
+TEXT(0,"Joe: Mmmm... What's","this?","");
+Wait(50);
+BANNER("Recived 20 EXP",200);
+GiveXP(1,20);
+GiveXP(2,20);
+GIVEXP(5,20);
+Flags[83]=22;
+AlterFtile(13,10,0,2);
+}
+}
+Event /* 3 */
+{
+MapSwitch("island1.map",6,5,0);
+}
+

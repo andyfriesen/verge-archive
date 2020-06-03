@@ -1,0 +1,62 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",8,68,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Joe: Looks like my","uncle...","");
+SoundEffect(7);  
+}
+Event /* 3 */
+{
+TEXT(0,"Penguin: You look just","like frozen creature","I found!");
+}
+Event /* 4 */
+{
+TEXT(0,"Penguin: Buy here!","","");
+Shop(1,2,3,4,25,43,42,45);   
+TEXT(0,"Penguin: Come again!","","");
+}
+Event /* 5 */
+{
+TEXT(0,"Penguin: Looking for the","Magic SnowFlakes?","Joe: Yeah...");
+TEXT(0,"Penguin: Some one once","found one, he has it in","his house...");
+}
+Event /* 6 */
+{
+TEXT(0,"Penguin: Welcome to","the Holky Hotel","");
+}
+Event /* 7 */
+{
+TEXT(0,"InnKeeper: Hello..","You sure look wierd!","Thank God you use the");
+Prompt(0,"same currency!","Wanna stay here?","10 Gold per night!",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<10)
+{
+TEXT(0,"InnKeeper:Mmm.","I wont be allowing any of","your kind here anymore...");
+}
+IF (GP>9)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"InnKeeper: Bye!","","");
+}
+}
+}
+Event /* 8 */
+{
+TEXT(0,"Penguin: Oh yeah.","Dressed up like this","I will get all the girls!");
+}
+Event /* 9 */
+{
+TEXT(0,"Penguin: Are you from","around here?","");
+}
+

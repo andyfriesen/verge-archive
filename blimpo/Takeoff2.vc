@@ -1,0 +1,63 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(char(5))
+{
+Entity.LocX[5]=100;           
+}
+IF(char(7))
+{
+Entity.LocX[6]=100;           
+}
+IF(Flags[45]=0)
+{
+Entity.LocX[6]=100;           
+}
+}
+Event /* 1 */
+{
+fadeout(50);
+RemoveCharacter(2);
+RemoveCharacter(5);
+ChangeCHR(1,"nave.chr");
+MapSwitch("offagain.map",9,56,0);
+}
+Event /* 2 */
+{
+mAPsWITCH("MOTO.mAP",16,14,0);
+}
+Event /* 3 */
+{
+if(!char(5)) 
+{
+TEXT(0,"Samu: HEY!","Joe: SAMU!","How did you get out?");
+TEXT(0,"Samu: The ways of the Samurai...","Bollo: Yeah right...","Slimy: he scaped!");
+TEXT(0,"Samu: Yes.. Let's go...","Slimy: I dont wanna leave my","planet..");
+TEXT(0,"Samu: Then you stay...","Joe: Ok...","Slimy: I can wait for you here...");
+AddCharacter(5);
+Entity.LocX[5]=100;              
+}
+}
+Event /* 4 */
+{
+IF(!char(7))
+{
+TEXT(0,"Slimy: You're back!","YEH!","");
+TEXT(0,"","    Slimy Joined AGAIN!","");
+AddCharacter(7);
+SoundEffect(8);
+Entity.LocX[6]=100;              
+}
+}
+Event /* 5 */
+{
+IF(char(7))
+{
+TEXT(0,"Slimy: I'm staying here!","","");
+RemoveCharacter(7);
+Entity.LocX[6]=9;           
+TEXT(0,"Slimy: bye!","Bollo: *coward*...","");
+}
+}
+
+

@@ -1,0 +1,264 @@
+event //0
+{  drawparty=0;
+   cameratracking=0;
+   xwin=0;
+   ywin=0;
+   layervc=1;
+   Fontcolor=70;
+   
+   mapswitch("maze.map",0,0,0);
+   
+   fadein(50);
+   //sys_displaypcx("startup.pcx");
+   //Playmusic("ssi.xm"); 
+   fadein(50);
+   For(A,0,1625,1)
+    {
+     if(A<200)  
+     {
+      VcPutpcx("exp.pcx",0,0);
+          //VcPutpcx("proj.pcx",0,0);
+	  Vccentertext(200-A,"Genocia Science Lab... 19xx");
+     }
+     if(A>25 and A<225)
+     {
+      vccentertext(225-A,"A place of many technological advances..");
+     }
+     if(A>50 and A<250)
+     {
+      vccentertext(250-A,"Division 16 had been studying genetics ");
+     }
+     if(A>75 and A<275)
+     {
+      vccentertext(275-A,"on the Komodo Dragon.  Their studies ");
+     }
+     if(A>100 and A<300)
+     {
+      vccentertext(300-A,"had concluded to be sucessful and they ");
+     }
+     if(A>125 and A<325)
+     {
+      vccentertext(325-A,"were ready to genetically engineer a ");
+     }
+     if(A>150 and A<350)
+     {
+      vccentertext(350-A,"new type of lizard.  Their first 15 ");
+     }
+     if(A>175 and A<375)
+     {
+      vccentertext(375-A,"genetic projects had been unsucessful, ");
+     }
+     if(A>200 and A<400)
+     {
+      //VcPutpcx("tubes.pcx",0,0);
+	  vccentertext(400-A,"but their 16th try was a success.");
+     }
+     if(A>225 and A<425)
+     {
+      vccentertext(425-A,"They had finally produced a super lizard.");
+     }
+     if(A>250 and A<450)
+     {
+      vccentertext(450-A,"It started out small, but in a couple ");
+     }
+     if(A>275 and A<475)
+     {
+      vccentertext(475-A,"of weeks, it had signs of incredible ");
+     }
+     if(A>300 and A<500)
+     {
+      vccentertext(500-A,"strength and intelligence.  Once the ");
+     }
+     if(A>325 and A<525)
+     {
+      vccentertext(525-A,"lizard had matured, they started to ");
+     }
+     if(A>350 and A<550)
+     {
+      vccentertext(550-A,"test the lizard in various experiments.");
+     }
+     if(A>375 and A<575)
+     {
+      vccentertext(575-A,"Each of the 87 experiments harmed the ");
+     }
+     	 if(A>400 and A<600)
+     {
+      //VcPutpcx("scitist.pcx",0,0);
+	  vccentertext(600-A,"creature and had massive psychological ");
+     }
+     if(A>425 and A<625)
+     {
+      vccentertext(625-A,"effects on the lizard.This caused the");
+     }
+     if(A>450 and A<650)
+     {
+      vccentertext(650-A," lizard to hate the 5 scientists and ");
+     }
+     if(A>475 and A<675)
+     {
+      vccentertext(675-A,"started to bust at the heavily shielded");
+     }
+     if(A>500 and A<700)
+     {
+      vccentertext(700-A," pen.  The scientists knew that the ");
+     }
+     if(A>525 and A<725)
+     {
+      vccentertext(725-A,"lizard wouldn't be able to break ");
+     }
+     if(A>550 and A<750)
+     {
+      vccentertext(750-A,"out of the pen, but it still continued");
+     }
+     if(A>575 and A<775)
+     {
+      vccentertext(775-A," it's strikes on the thick door.  This");
+     }
+     if(A>600 and A<800)
+     {
+      vccentertext(800-A," happened for about 3 months....");
+     }
+     if(A>625 and A<825)
+     {
+      vccentertext(825-A,"");
+     }
+     if(A>650 and A<850)
+     {
+      vccentertext(850-A,"The government workers began to");
+     }
+     if(A>675 and A<875)
+     {
+      vccentertext(875-A," tire and began to see the project ");
+     }
+     if(A>700 and A<900)
+     {
+      vccentertext(900-A,"as a project that had no meaning ");
+     }
+     if(A>725 and A<925)
+     {
+      //VcPutpcx("tele.pcx",0,0);
+	  vccentertext(925-A,"anymore and proposed to shut down ");
+     }
+     if(A>750 and A<950)
+     {
+      vccentertext(950-A,"the project.  The scientists were ");
+     }
+     if(A>775 and A<975)
+     {
+      vccentertext(975-A,"against this decision, but finally");
+     }
+     if(A>800 and A<1000)
+     {
+      vccentertext(1000-A," decided to terminate the lizard.");
+     }
+     if(A>825 and A<1025)
+     {
+      vccentertext(1025-A,"They only had one problem in ending");
+     }
+     if(A>850 and A<1050)
+     {
+      vccentertext(1050-A," the project; they didn't know ");
+     }
+     if(A>875 and A<1075)
+     {
+      vccentertext(1075-A,"what to do with the monster...");
+     }
+     if(A>900 and A<1100)
+     {
+      vccentertext(1100-A,"After debating about this problem,");
+     }
+     if(A>925 and A<1125)
+     {
+      vccentertext(1125-A," they decided on one solution.  ");
+     }
+     if(A>950 and A<1150)
+     {
+      //VcPutpcx("exp.pcx",0,0);
+	  vccentertext(1150-A,"They decided to blow up the whole ");
+     }
+     if(A>975 and A<1175)
+     {
+      vccentertext(1175-A,"building since the blast would ");
+     }
+     if(A>1000 and A<1200)
+     {
+      vccentertext(1200-A,"destroy the lizard inside the ");
+     }
+     if(A>1025 and A<1225)
+     {
+      vccentertext(1225-A,"special facility designed for ");
+     }
+     if(A>1050 and A<1250)
+     {
+      vccentertext(1250-A,"it.  So the target day to ");
+     }
+     if(A>1075 and A<1275)
+     {
+      vccentertext(1275-A,"blow up the facility came ");
+     }
+     if(A>1100 and A<1300)
+     {
+      vccentertext(1300-A,"and everything was ready... ");
+     }
+     if(A>1125 and A<1325)
+     {
+      vccentertext(1325-A," The trigger was pressed and ");
+     }
+     if(A>1150 and A<1350)
+     {
+      vccentertext(1350-A,"the place went up in a giant");
+     }
+     if(A>1175 and A<1375)
+     {
+      vccentertext(1375-A," explosion.  The officials ");
+     }
+     if(A>1200 and A<1400)
+     {
+      vccentertext(1400-A,"celebrated and left the area.");
+     }
+     
+	 if(A>1225 and A<1425)
+     {
+      //VcPutpcx("molecule.pcx",0,0);
+	  vccentertext(1425-A,"  In two hours when nobody was ");
+     }
+     if(A>1250 and A<1450)
+     {
+      vccentertext(1450-A,"looking...  A new giant lizard ");
+     }
+     if(A>1275 and A<1475)
+     {
+      vccentertext(1475-A,"was formed from the chemical ");
+     }
+     if(A>1300 and A<1500)
+     {
+      vccentertext(1500-A,"reactions in the building.  ");
+     }
+     if(A>1325 and A<1525)
+     {
+      vccentertext(1525-A,"Nobody knew what had just ");
+     }
+     if(A>1350 and A<1550)
+     {
+      //VcPutpcx("zillaeat.pcx",0,0);
+	  vccentertext(1550-A,"happened so the monster is ");
+     }
+     If(A>1375 and A<1575)
+     {
+      vccentertext(1575-A,"free and walking in the world; ");
+     }
+     If(A>1400 and A<1600)
+     {
+      vccentertext(1600-A," looking for a way to escape...");
+     }
+     If(A>1425)
+     {
+      vccentertext(1625-A,"");
+     }
+wait(10);
+vcclear();    
+
+}
+mapswitch("maze.map",0,0,0);
+return;
+}

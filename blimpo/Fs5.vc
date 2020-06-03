@@ -1,0 +1,182 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("fs4.map",16,12,0);
+}
+Event /* 2 */
+{
+SoundEffect(12);
+AlterFtile(2,6,0,0);
+AlterFtile(3,6,0,0);
+AlterFtile(4,6,0,0);
+AlterFtile(5,6,0,0);
+AlterFtile(6,6,0,0);
+AlterFtile(8,6,850,2);              
+AlterFtile(7,6,0,0);
+Flags[154]=1;
+}
+Event /* 3 */
+{
+IF(FLags[154]=0)
+ {
+ CallEvent(8);   
+ }
+}
+Event /* 4 */
+{
+Flags[154]=0;
+Flags[155]=0;
+}
+Event /* 5 */
+{
+ IF(Flags[155]=0)
+ {
+ AlterFtile(7,18,0,0);
+ AlterFtile(7,19,0,0);
+ AlterFtile(7,20,0,0);
+ AlterFtile(7,17,0,0);     
+ AlterFtile(8,16,0,0);   
+ AlterFtile(9,16,0,0);                 
+ AlterFtile(9,16,0,0);          
+ AlterFtile(13,17,0,0);
+ AlterFtile(13,18,0,0);      
+ AlterFtile(13,19,0,0);      
+ AlterFtile(13,20,0,0);      
+ AlterFtile(13,21,0,0);      
+ AlterFtile(10,16,0,0);                 
+ AlterFtile(11,16,0,0);                 
+ AlterFtile(12,16,0,0);                 
+ AlterFtile(7,21,850,2);              
+ Flags[155]=1;
+ }
+}
+Event /* 6 */
+{
+IF(FLags[155]=0)
+ {
+ CallEvent(8);   
+ }
+}
+Event /* 7 */
+{
+Return;
+}
+
+Event /* 8 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=12;
+CurHP(2)-=12;
+CurHP(3)-=12;
+CurHP(5)-=12;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* 9 */
+{
+Warp(3,21,0);
+}
+Event /* 10 */
+{
+Warp(11,19,0);
+}
+Event /* 11 */
+{
+SoundEffect(14);             
+AlterBtile(34,17,837,1);
+AlterBtile(35,17,837,1);        
+}
+Event /* 12 */
+{
+Warp(16,18,0);
+}
+Event /* 13 */
+{
+Warp(16,12,0);
+}
+Event /* 14 */
+{
+Warp(19,14,0);
+}
+Event /* 15 */
+{
+Warp(19,4,0);
+}
+Event /* 16 */
+{
+SaveMenu();
+}
+Event /* 17 */
+{
+MapSwitch("fs6.map",36,21,0);
+}
+
+

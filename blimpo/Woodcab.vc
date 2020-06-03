@@ -1,0 +1,17 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Island1.map",10,39,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Hi!","Have you seen the acid","swamp to the west?");
+TEXT(0,"Furball: The only way to","cross it is to wear","these shirts and armor");
+TEXT(0,"Furball: Wear this things","and you will only suffer","one point of damage.");
+Shop(34,46,43);
+TEXT(0,"Furball: Thank you!","And..","Dont die!");
+}
+

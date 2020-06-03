@@ -1,0 +1,64 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[18]>1)
+{
+Entity.LocX[5]=100; 
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",146,25,0);
+}
+Event /* 2 not in map */
+{
+IF(Flags[18]=1)
+{
+TEXT(0,"Joe: Paranoid???","Paranoid: OH MY GOD!","Oh! It's you Joe!");
+SoundEffect(7);
+TEXT(0,"Joe: Paranoid, this is Bollo.","Bollo, this is Paranoid..","Paranoid: I'm not touching him!");
+SoundEffect(7);
+TEXT(0,"Bollo: Haha.. *sniker*","Paranoid: What are you","doing here? You scared the");
+TEXT(0,"blue out of me!","Joe: I need your help!","Paranoid: Oh no!");
+TEXT(0,"The Blimpo Lord is at it","again...","Joe: YES! And I must stop him!");
+TEXT(0,"Bollo: Me too!","Paranoid: Well... I can tell","you the location of his"); 
+TEXT(0,"Fortress, but... I'm sure you","wont find it...","Joe: Why?");
+TEXT(0,"Paranoid: I cant explain the","way to get in...","Joe: but you know...?");
+TEXT(0,"Paranoid: Yes.","Joe: Then come with us!","Paranoid: No! They're after");
+TEXT(0,"ME!","Joe: Dont worry... You have me!","Bollo: And me!");
+TEXT(0,"Paranoid: I dont trust you","Hamster...","You might as well be a spy!");
+TEXT(0,"A sp-spy!","Joe: No Paranoid, he can be","trusted... come with us!");
+TEXT(0,"Paranoid: Eh... Ok...","Joe: Good!","");
+SoundEffect(8);
+TEXT(0,""," Paranoid joined the party!","");
+Entity.LocX[5]=100;   
+AddCharacter(3);               
+TEXT(0,"Paranoid: Bye sweet home!","Joe: Cool house!","Bollo: Yeah!");
+TEXT(0,"Paranoid: ...","I think they're after it...","So it's a good idea I left");
+TEXT(0,"it...","Joe: Dont worry P-Man, It's","going to be ok...");
+TEXT(0,"Paranoid: P-Man?","Bollo: P-Man???","Paranoid: That sucks..");
+TEXT(0,"Bollo: Yeah...","You're just trying to sound","cool...");
+TEXT(0,"Paranoid: and Failed!","Bollo: Hahaha!","Joe: ....");
+SoundEffect(7);
+TEXT(0,"Paranoid: Let's head to","Poota and ask the King","how to get past the");
+TEXT(0,"cave...","Joe: Why?","Paranoid: The cave is the way...");
+TEXT(0,"Let's use the warp near the","pool.. so no-one sees us!","");
+FLags[18]=2;
+}
+}
+Event /* 3 */
+{
+IF(Flags[18]=2)
+{
+TEXT(0,"Paranoid: Hope no-one is","inside...","");
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Joe: I wish I could take","a dip...","");
+}
+Event /* 5 */
+{
+MapSwitch("phome.map",14,4,0);
+}
+

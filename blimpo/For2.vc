@@ -1,0 +1,69 @@
+Event /* 0 */
+{
+EnforceANimation();
+}
+Event /* 1 */
+{
+MapSwitch("for.map",25,47,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Shop Owner: Welcome","to the shop!","");
+TEXT(0,"This place used to be","an Inn.. But the Healer","Slime can cure you!");
+Shop(1,2,3,4,13,14,16,25,30,32,33,34); 
+TEXT(0,"Shop Owner: Thank you!","","");
+}
+Event /* 3 */
+{
+TEXT(0,"Sign Reads: Welcome","to ye' old crap shop.","");
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: There's no INN in","town so.. ","I have no choice...");
+HealAll();
+SoundEffect(4);
+TEXT(0,"Slime: Come again, buddy!","","");
+SoundEffect(8);
+}
+Event /* 5 */
+{
+TEXT(0,"Furballette: Who","needs walls and ceilings","when you have trees!");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: I got bird poo","on my head...","");
+TEXT(0,"AGAIN...","","");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Furball: We hide our town","so geeks who have no life","and play Blimpo Warrior");
+TEXT(0,"all day long...","can find something new","after beating the game.");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: I think it's","impossible to go to","outer space..");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: This town was","very scary at night..","but then came a lone");
+TEXT(0,"hero and teached us the","art of torch making...","");
+}
+Event /* 10 */
+{
+TEXT(0,"Furballette: I can't tell","the difference between the","bathroom and the kitchen!");
+}
+Event /* 11 */
+{
+TEXT(0,"Furballette: Welcome","to the secret town","of Collllll.");
+}
+Event /* 12 */
+{
+TEXT(0,"Soldier: I like to","dress up like a soldier.","");
+}
+Event /* 13 */
+{
+TEXT(0,"Furball: I hope Feywood","doesn't like this release!","");
+}
+
+

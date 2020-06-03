@@ -1,0 +1,18 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Warden: Wambo..","You are free to go!","");
+Wait(50);
+TEXT(0,"Wambo: At last!","Liberty!","How I missed you!");
+TEXT(0,"Now I must find out about","Joe!","");
+TEXT(0,"Warden: Joe?","I have heard rumors that","he defeated an evil entity");
+TEXT(0,"or something.","","");
+Wait(50);
+TEXT(0,"Wambo: What?","That's GREAT!","Thank you!");
+Wait(80);
+TEXT(0,"Wambo: And thank YOU Joe!","","");
+Wait(100);
+MapSwitch("end4.map",1,1,0);
+}

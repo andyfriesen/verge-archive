@@ -1,0 +1,83 @@
+event //0
+{
+drawparty=1;
+cameratracking=1;
+speed(0)=3;
+fadein(50);
+Stext(0,"You are Godzilla.  You have",
+        "Survived the explosion!  Now",
+        "you must escape alive before");
+Stext(0,"The humans come and get you!",
+        "The exit it at the bottom",
+        "right.  Proceed there so that");
+Stext(0,"you can survive and be free",
+        "to destroy the whole human",
+        "race!  You have not yet");
+Stext(0,"developed enough strength or",
+        "powers to destroy buildings!",
+        "You should be able to obtain");
+Stext(0,"the ability to destroy",
+        "buildings in the next level!",
+        "");
+}
+
+event //1
+{
+if(flags[1]=0) {
+flags[1]=1;
+}
+if((flags[1]+flags[2]+flags[3]+flags[4]+flags[5])=5)
+{
+alterbtile(49,32,1,0);
+}
+}
+
+event //2
+{
+if(flags[2]=0) {
+flags[2]=1;
+}
+if((flags[1]+flags[2]+flags[3]+flags[4]+flags[5])=5)
+{
+alterbtile(49,32,1,0);
+}
+}
+
+event //3
+{
+if(flags[3]=0) {
+flags[3]=1;
+}
+if((flags[1]+flags[2]+flags[3]+flags[4]+flags[5])=5)
+{
+alterbtile(49,32,1,0);
+}
+}
+
+event //4
+{
+if(flags[4]=0) {
+flags[4]=1;
+}
+if((flags[1]+flags[2]+flags[3]+flags[4]+flags[5])=5)
+{
+alterbtile(49,32,1,0);
+}
+}
+
+event //5
+{
+if(flags[5]=0) {
+flags[5]=1;
+}
+if((flags[1]+flags[2]+flags[3]+flags[4]+flags[5])=5)
+{
+alterbtile(49,32,1,0);
+}
+}
+
+event //6
+{
+mapswitch("end.map",0,0,0);
+}
+

@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("qst.map",5,9,0);
+}
+Event /* 2 */
+{
+TEXT(0,"SIGN READS: Do not enter...","","     -Blimpo Lord");
+}
+Event /* 3 */
+{
+MapSwitch("cave11.map",28,15,0);
+}
+Event /* 4 */
+{
+MapSwitch("moto.map",40,4,0);
+}
+

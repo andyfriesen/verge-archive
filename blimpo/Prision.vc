@@ -1,0 +1,113 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(numchars>1)
+{        
+Entity.LocX[5]=100;        
+Entity.LocX[7]=100;  
+}
+IF(char(5))
+{
+Entity.LocX[6]=100;    
+}
+}
+Event /* 1 */
+{
+TEXT(0,"Joe: Bollo..","Are you ok?","Bollo: Yeah...");
+TEXT(0,"Joe: Come on...","","");
+Entity.LocX[5]=100;        
+AddCharacter(2);
+TEXT(0,"Joe: Heroes always find ways","out of jails...","");
+}
+Event /* 2 */
+{
+IF(numchars=2)
+{
+TEXT(0,"Joe: Hey!","Let us out! We are on a very","important mission!");
+TEXT(0,"Slime Guard: Shuddap!","Joe: Please! The Blimpo Lord","is an enemy to all creatures!");
+TEXT(0,"Bollo: Except for the bad guys...","Joe: We must fight together!","Slime Guard: Blimpo?");
+TEXT(0,"What does all that Blimpo Lord","stuff have to do with you?","Joe: We are the Blimpo Warriors!");
+TEXT(0,"Slime Gurad: Yeah Right!","Joe: no really!","Bollo: Here! Look at our HARP!");
+EntityMove(7,"L1 U1");                      
+Wait(60);
+TEXT(0,"Slime Guard: It's...","TRUE!","");
+TEXT(0,"Joe: See!","We told you! Now get us out of","this place!");
+TEXT(0,"Slime Guard: Ok.. BUT...","Joe: But..?","Bollo: But what?");
+TEXT(0,"Slime Guard: I must come with","you!","Joe: Ok...");
+TEXT(0,"Slime Guard: You can call me","Slimy!","Joe: Ok..");
+AlterFtile(46,11,0,0);
+SoundEffect(4);
+Wait(20);
+TEXT(0,"Slimy: Done!","Let's escape!","");
+AddCharacter(7);
+Entity.LocX[7]=100;              
+TEXT(0,"Slimy: Let's go!","Weeeeee!","");
+SoundEffect(13);
+}
+}
+Event /* 3 */
+{
+IF(!char(5))
+{
+TEXT(0,"Joe: SAMU!","Samu: Joe.. This.. is the end.","Joe: Slimy! Open the cell!");
+TEXT(0,"Slimy: Uh.. Sorry Joe.. But","I dont have the key for this","cell...");
+TEXT(0,"Samu: Dont worry about me...","Defeat the Blimpo Lord!","");
+}
+}
+Event /* 4 */
+{
+TEXT(0,"Slime Guard: HEY!","Those are prisioners!","Slimy: Really?");
+TEXT(0,"Joe: No! We are slimes dressed","up like Furballs and Hamsters!","Slime Guard: Ok..");
+SoundEffect(7);
+}
+Event /*5*/
+{
+IF(numchars<3)         
+{
+TEXT(0,"Joe: This is a potty.","I have to see Bollo doin'","it...");
+SoundEffect(10);
+}
+IF(numchars>2)         
+{
+TEXT(0,"Joe: This is a potty.","I had to see Bollo doin'","it...");
+SoundEffect(10);
+TEXT(0,"Slimy: Me too...","","");
+SoundEffect(7);
+}
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Slimes hate us...","Joe: ?? Why?","Furball: Because most of the");
+TEXT(0,"slimes that live here were once","living in Furland.. but the","Furballs drove them away..");
+TEXT(0,"took all their stuff...","I didn't do anything, but","look where I am now...");
+}
+Event /* 7 */
+{
+TEXT(0,"Slime: I used to help furballs","get out of jail...","Slimy: *GULP*");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: GET ME OUT OF HERE!","HE'S GONNA BLOW!!!","AHHHHHH!");
+SoundEffect(7);
+}
+Event /* 9 */
+{
+TEXT(0,"Slimy: Wait...","I'll use the FORSE!","");
+STEXT(0,"*YOU WILL LET US PASS*","*YOU WILL LET US PASS*","*YOU WILL LET US PASS*");
+}
+Event /*10 */
+{
+TEXT(0,"Slime Guard: We will let you","pass...","");
+}
+Event /* 11 */
+{
+TEXT(0,"Warden: Where do you think","You're going?","Joe: Outside...");
+TEXT(0,"Warden: STOP NOW!","Slimy: No we wont!","Bollo: We'll kick your...");
+TEXT(0,"Warden: I'll call the guards!","Joe: No you wont!","Warden: Why not?");
+TEXT(0,"Joe: If you do.. ","We'll kick your butt!","Warden: Ok... Go.. Quick..");
+}
+Event /* 12 */
+{
+MapSwitch("moto.map",85,76,0);
+}
+

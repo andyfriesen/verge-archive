@@ -1,0 +1,245 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[118]=1)
+ {
+  AlterBtile(9,4,238,0);
+  AlterBtile(10,4,238,0);   
+  AlterBtile(11,4,238,0);    
+  AlterBtile(12,4,238,0);   
+  AlterBtile(13,4,238,0);   
+  AlterBtile(14,4,238,0);   
+  AlterBtile(15,4,238,0);   
+  AlterBtile(9,5,238,0);   
+  AlterBtile(10,5,238,0);   
+  AlterBtile(11,5,238,0);   
+  AlterBtile(9,7,238,0);
+ }
+ IF(Flags[119]=1)
+ {
+ AlterFtile(38,1,541,1); 
+ }
+ IF(Flags[120]=1)
+ {
+  Alterftile(1,8,0,0);
+  Alterftile(2,8,0,0);  
+  Alterftile(3,8,0,0);  
+ }
+}
+Event /* 1 */
+{
+MapSwitch("icebase3.map",22,4,0);
+}
+Event /* 2 ICE SCROLL USE */
+{
+IF(!Item(18))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Ice Magic from");
+ TEXT(0,"here.","Brink a Ice Scroll and use","me.");
+ }
+IF(item(18))
+ {
+ Prompt(0,"Joe: This is a Ice Desk","We can use Ice magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+  TEXT(0,"Desk: You used me!","ICE!!!","");
+  SoundEffect(5);
+  PaletteMorph(11,11,63,75,60); 
+  EarthQuake(10,10,50); 
+  PaletteMorph(11,11,63,0,60); 
+  AlterBtile(9,4,238,0);
+  AlterBtile(10,4,238,0);   
+  AlterBtile(11,4,238,0);    
+  AlterBtile(12,4,238,0);   
+  AlterBtile(13,4,238,0);   
+  AlterBtile(14,4,238,0);   
+  AlterBtile(15,4,238,0);   
+  AlterBtile(9,5,238,0);   
+  AlterBtile(10,5,238,0);   
+  AlterBtile(11,5,238,0);   
+  AlterBtile(9,7,238,0);
+  CurMP(1)-=5;   
+  CurMP(2)-=5;       
+  Flags[118]=1;
+ }
+ }
+  }
+  }
+}
+
+Event /* 3 */
+{
+IF(Flags[119]=0)
+{
+AlterFtile(38,1,541,1);  
+GiveGP(300);
+Banner("Found 300 Gold!",2000);
+Flags[119]=1;
+}
+}
+Event /* 4 ealer Slime */
+{
+text(0,"Slime: I'm a healer slime!","","");
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+TEXT(0,"Slime: Bye!","","");
+}
+Event /* 5 Secret ice spell */
+{
+GiveItem(18);
+}
+Event /* 6 */
+{
+IF(!Item(19))
+ {
+ TEXT(0,"Joe: There is a note here...","Note: This is a magic desk!","You can use Fire Magic from");
+ TEXT(0,"here.","Brink a Fire Scroll and use","me.");
+ }
+IF(item(19))
+ {
+ Prompt(0,"Joe: This is a Fire Desk","We can use Fire magic from","here. Shall we?",6,"No","Yep"); 
+ IF(Flags[6]=0)
+  {
+  Return;
+  }
+ IF(Flags[6]=1)
+  {
+  IF(CurMP(1)<5)
+   {
+   IF(CurMP(2)<5) 
+    {
+     TEXT(0,"Joe: We dont have enough","Magic Points!","");  
+     }
+   }
+ IF(CurMP(1)>4) 
+  {
+  IF(CurMP(2)>4)        
+  {
+  TEXT(0,"Desk: You used me!","FIRE!!!","");
+  SoundEffect(5);
+  PaletteMorph(63,11,0,75,60); 
+  EarthQuake(10,10,50); 
+  PaletteMorph(11,11,63,0,60); 
+  Alterftile(1,8,0,0);
+  Alterftile(2,8,0,0);  
+  Alterftile(3,8,0,0);  
+  CurMP(1)-=5;   
+  CurMP(2)-=5;       
+  Flags[120]=1;
+ }
+ }
+  }
+  }
+}
+Event /* 7 */
+{
+Speed(0)=2;   
+}
+Event /* 8 */
+{
+Speed(0)=4;   
+}
+Event /* 9 enemies */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event /* last */
+{
+MapSwitch("icebase5.map",4,3,0);
+}
+Event /* cheat */
+{
+Savemenu();
+}
+
+
+

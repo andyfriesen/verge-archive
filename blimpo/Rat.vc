@@ -1,0 +1,119 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",173,11,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Hamster: Hello!","This town maybe ","called RAT TOWNE, BUT...");
+TEXT(0,"We are really hamsters!","Joe: Cool!","");
+If(Flags[12]>41)
+{
+TEXT(0,"Bollo: Right!","","");
+}
+}
+Event /* 3 */
+{
+TEXT(0,"Hamster: Hello Joe!","Thanks for saving our","land eons ago...");
+}
+Event /* 4 */
+{
+TEXT(0,"Hamster: I cant give you","information on anything.","I'm afraid the Blimpos");
+TEXT(0,"could be spying on us...","Right now...","");
+}
+Event /* 5 */
+{
+TEXT(0,"Hamster: This is an interior","patio! Cool huh?","");
+If(Flags[12]>41)                  
+{
+TEXT(0,"Hamster: BOLLO!","Bollo: Raymudus!","Raymudus: It's been so long!");
+TEXT(0,"Bollo: Yeah.. but i have to","go...","Raymudus: I understand.");
+IF(Flags[57]=0);
+TEXT(0,"But here.. take this!","","");
+GIVEXP(2,20);
+BANNER("Recived 20 EXP",200);
+Flags[57]=22;
+}
+}
+}
+Event /* 6 */
+{
+TEXT(0,"Hamster: Well, Joe...","How's it going?","Joe: Well...");
+TEXT(0,"I still do not know where","to go!","Hamster: Worry not!");
+TEXT(0,"The King has some things","to settle.. and he wants","YOU to help him.");
+}
+Event /* 7 */
+{
+TEXT(0,"Hamster: Rat towne is a","disgusting name!","We arent DIRTY!");
+If(Flags[12]>41)                  
+{
+TEXT(0,"Bollo: Right-o","","");
+}
+}
+Event /* 8 */
+{
+TEXT(0,"Hamster: Welcome to my house","Do you want anything?","Joe: Water.");
+TEXT(0,"Hamster: Go to the kings room!","","");
+}
+Event /* 9 */
+{
+TEXT(0,"Hamster: I wish I could go","live in GetosBurg.","Joe: I woudn't say that.");
+TEXT(0,"Hamster: Why not?","Joe: It's cold.","Hamster: That's what I like.");
+}
+Event /* 10 */ 
+{
+TEXT(0,"Hamster: Right now, I dont","know what to say.","");
+}
+Event /* 11 */
+{
+TEXT(0,"BarTender: All Hamsters and","Furballs come to this","joint at night!");
+}
+Event /* 12 */
+{
+TEXT(0,"Hamster: JOE!","Joe the HERO!","Wheeeee!");
+SoundEffect(7);
+}
+Event /* 13 */
+{
+TEXT(0,"Furball: You can go to","Furleguard Town using","this Hi-Tech dimensional");
+TEXT(0,"Transporter.","","");
+}
+Event /* 14 */
+{
+TEXT(0,"Hamster: This place is sooo","cool at night!! If you","want to have a good time");
+TEXT(0,"come here tonight!","","");
+}
+Event /* 15 */
+{
+TEXT(0,"Hamster: I cleaned this","place... You're messing","it up...");
+}
+Event /* 16 */
+{
+TEXT(0,"Furball: We are talking about","the possibilities of a","war...");
+}
+Event /* 17 */
+{
+TEXT(0,"Hamster: I think we should","stay out of this...","dont you?");
+}
+Event /* 18 */
+{
+TEXT(0,"King: Oh man...","I think I'm going to hurl!","");
+SoundEffect(7);
+TEXT(0,"What will happen to the","Economy? If Furleguard fails","then we are dommed!");
+If(Flags[12]>41)                  
+{
+TEXT(0,"Bollo: Still talking","about this?","");
+}
+}
+Event /* 19 */
+{
+TEXT(0,"Soldier: I am here to","take a rest.","");
+}
+Event /* 20 */
+{
+MapSwitch("Furt.map",2,10,0);
+}
+

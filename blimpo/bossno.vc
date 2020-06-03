@@ -1,0 +1,17 @@
+Event /* 0 */
+{
+EnforceAnimation();
+             FadeIn(4);  
+             
+PartyMove("U7"); 
+TEXT(0,"Joe: What is that?","","");
+PlayMusic("gee.s3m"); 
+TEXT(0,"Face: I'm you're worst dream!","Get ready to fight!","...");
+StopMusic();          
+Wait(50);
+TEXT(0,"Face: I dont like it here...","","");
+AlterBtile(14,16,745,1);
+AlterBtile(15,16,745,1);        
+AlterBtile(16,16,745,1);        
+MapSwitch("boss3.map",14,11,0);
+}

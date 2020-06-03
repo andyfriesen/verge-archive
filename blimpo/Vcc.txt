@@ -1,0 +1,294 @@
+vcc.txt
+=======
+
+Comments
+========
+
+A comment is simply a mental-note to help explain what your code is doing.
+They are unnessary and ignored by the compiler, but they come in handy for
+personal use.
+
+There are two types of comments. The first is the // type. After the //
+symbol is seen, everything up till the end of that line is ignored.
+
+// To do comments with the // operator
+// that span multiple lines,
+// you need to use a // on each line.
+
+The other type is the /* and */ comments. After a /* is seen, everything
+is skipped until a */ is seen.
+
+/* You can easily do multi-line
+   comments with this method.
+*/
+
+Common problems
+===============
+
+Here's my endeaver to briefly explain some common VC pitfalls.
+
+First of all, when compiling from inside MapEd, don't assume that there
+weren't any compilation errors. If, when you run the map, weird things happen,
+chances are the VC didn't compile right. To check this, compile the map's VC
+file from the command line. Example: Let's say you have ICECAVE.MAP and
+ICECAVE.VC. You should be in the directory with both the .VC the file AND the
+MAP file. Simply type "vcc icecave". If it says "x scripts succesfully
+compiled", then you're in good shape. If there was an error, well, hehe.. fun
+tracking it down. VCC has lousy error reporting. The only help I can give you
+if to try running "vcc icecave v" which will print out each token as it
+encounters them, so you'll know where it encounters the error.
+
+One common error tho, is when using the current text() event with less than
+3 lines. If you just want to print out a one line message, and try this:
+
+                    text(0,"The chest is already open.");
+
+It won't work. You need to include the blank lines for the time being, like
+so:
+
+                 text(0,"The chest is already open.","","");
+
+There are some strange occurances of extra keys popping into the keyboard
+buffer when entering exiting SLED from MapEd. So when editing VC from inside
+MapEd remember to check that this doesn't happen, and fix it if it does. The
+problem is that what happens a lot is that you get a
+
+Mevent
+{
+stuff
+}
+
+VCC doesn't recognize Mevent as anything valid and generates an error. One
+surefire way to avoid this problem is simply to leave the first line of your
+VC blank and start it on the second line. Then you get
+
+M
+event
+{
+stuff
+}
+
+And VCC ignores the M and processes the event as normal.
+
+Another common error is forgetting that the FIRST script in a VC file is event
+number 0, not event number 1. Event 0 is the autoexec, and you need to have
+this there even if you don't have anything in the autoexec. (In general, you
+should at least have EnforceAnimation() in your autoexec however) Event 1,
+which would be the second script in your VC file, is the first zone-callable
+event.
+
+Also, this should be obvious but for the newbies, just modifying a VC file
+doesn't do anything. The VC file needs to be recompiled, either by directly
+calling VCC or just hitting the Save button in MapEd.
+
+Everything Else
+================
+
+Everything else has changed quite a bit since the last version. :)
+
+Operands
+========
+
+Everything used to be very fixed. IFs took exactly one parameter, all the
+functions had a set number of parameters and it always expected an immediate
+number for those parameters. This has changed drastically. Instead, things
+operate on a ambiguous "Operand."
+
+There are four different types of operands:
+
+ - Immediates. This is what everything else used to be. Just an immediate
+   number. Example:   AddCharacter(5);
+ - Flags. You can figure this out.
+   AlterBTile(120,25,flags[50],2);
+ - Variables. These are things such as Item(),Char(),Facing(),and Var().
+   flags[25]=item(24);
+ - Tvars. I guess this stands for Temporary Variables, but this is what they're
+   labeled as internally in my source code. These are just numeric variables.
+   They can be used for anything, but they are not preserved in between
+   savegames like the flags are. There are 26 of them, named (guess)
+   A through Z. Example:
+   k=5;
+   if (flags[k]) stuff();
+
+All these different Operand types are interchangable.
+
+What's not here? Strings. The strings expected by text() and Prompt() functions
+are still fixed, and will remain so for a very long time I imagine. Changing
+that would require major internal restructing.
+
+Assignments
+============
+
+You can only assign values to flags and Tvars. The assignment routine is the
+same as it used to be, actually, however, it has been greatly expanded as a
+result of adding operand combination. See the section on operand combination
+a bit farther down in this doc.
+
+flags[25] = 5;             // Assignment to an immediate.
+Mind you that you can do all sorts of combinations such as:
+flags[var(2)] = k;
+x=var(flags[150]);
+
+Additions:
+
+x += 5;                // increases the value of X by 5.
+k ++;                  // increases the value of K by one.
+
+Subtractions:
+
+z -= flags[50];
+flags[79] --;
+
+IF statements
+==============
+
+IF statements are a lot more flexible, they can have more than one test
+condition, etc.
+
+Example:       if (flags[25] and var(3)=5 and y < 100) stuff();
+
+Valid relational operators:
+ ==          Equal To (= works as well)
+ !=          Not Equal To
+ >           Greater Than
+ >=          Greater than or Equal to
+ <           Less Than
+ <=          Less Than or Equal To
+
+So, for example:
+
+ if (flags[25] <= 10) Stuff();
+ if (x == y AND !flags[50] AND char(3) != 0) Stuff();
+
+These IFs, with the Operand system, are so flexible that you can have totally
+pointless IFs as well:
+
+if (0)                   Will never execute.
+if (!0)                  Will always execute.
+if (3 <= 5)              Will always execute.
+
+etc.
+
+Remember the difference between compound and simple statements:
+
+if (flags[25]) SoundEffect(3);
+AddCharacter(3);
+Text(3,"Hi!","","");
+
+The above example will play the sound effect only if flags[25] is set. However,
+the statements that follow it (Addcharacter and text) will execute no matter
+what. To get those to execute along with the IF, you need to use a compound
+statement:
+
+if (flags[25])
+{
+  SoundEffect(3);
+  AddCharacter(3);
+  Text(3,"Hi!","","");
+}
+
+A note about pascal and C IF conventions. The following IF is proper C syntax:
+   if (flags[25]==3 && flags[81])
+
+However, in most examples, I'd use a syntax like this:
+   if (flags[25]=3 AND flags[81])
+
+VCC recognizes either syntax. The == and = symbols are treated identically,
+as well as the AND and && symbols. I believe the second method is more
+"readable", especially for non-programmers.
+
+FOR loops
+==========
+
+Completely new in this version of VCC are FOR loops. Anyone with slight
+programming knowledge knows what these are, but they are a tad different from
+standard C structure. Here's an example:
+
+for (x, 16, 1, -1)
+{
+  EarthQuake(x,0,10);
+}
+
+This will make an earthquake that starts with horizontal intensity of 16 and
+fades down to an intensity of 1.
+
+The format is:
+
+for (counting variable, initial value, ending value, step value)
+
+The counting variable can only be a Tvar or a flag. You can NOT assign an
+IF statement to use any of the function variables such as char(), item(), or
+even var(). The main reason is that all of these are read-only. (Sure, you
+maybe should be able to write to var() but eh.. you can always just use Tvars
+if you don't need a call/chain event) Think about if you blatantly modified
+Numchars. The engine would be seriously confused.
+
+Magic/Item Effects
+===================
+
+There is a special file called EFFECTS.VC (and it's compiled format,
+EFFECTS.VCS). VCC automatically recognizes this filename and treats it
+specially (ie, doesn't look for a MAP since it just outputs EFFECTS.VCS, looks
+for "effect" keyword instead of "event"). This is the master list of all
+"effects". An effect encompasses the actual effect of Spells, Special abilities,
+Item effects, etc. There will be a seperate control for Spell Animations, this
+only has to deal with the actual effect on game data and characters.
+
+There is a seperate list of Effect VC commands and MAP VC commands. However,
+VCC doesn't really know the difference itself, so there's nothing stopping
+you from calling an Effect command from a MAP or a MAP command from an effect.
+(The effect command list is in a large comment at the beginning of EFFECTS.VC)
+
+A word of warning about this. Sometimes, this will work and may be useful, but
+NO GUARANTEES ABOUT HOW THINGS WILL REACT. In general, calling an effect VC
+from a MAP won't cause any problems. So, if restoring the party's HP is part
+of a script you want in a map, go for it, it should work... However, you really
+need to be careful about calling MAP commands from effects. Some commands
+should work fine.. SoundEffect should work, Text would probably even work..
+Other things like Warp might work but have unpredicatable results overall.
+(There will probably be a seperate effect-based command for things like White
+Dragon Wings, Escapepipes, telepipes, Warp stones, etc - Just hold on, okay? :)
+
+Operand Combination
+====================
+
+One of the new features per Hahn's request is Operand Combination. I'll show
+you what I mean:
+
+flags[100]=x+25;
+z=y*20+x;
+etc...
+
+It can be used in any situation where a normal operand would be taken, so
+something like this would be valid as well...
+
+if (flags[x*4+100] == z/25) ...
+
+You should know a few things about this feature before you go off to try to use
+it tho. Unlike a real compiler, it will NOT process parenthesis to clarify the
+order the processes should be executed in. It also knows nothing about things
+like the mathematical order of operations. So don't expect anything fancy,
+and you need to give it commands in the exact order that they should actually
+be processed in. Take the above example. The idea is that you want it to do
+100 + (x*4). Lets use an example value of x to be 4. That would be 100+(4*4),
+or 100+(16), which is 116. But as I said, VergeC will not process the
+parenthesis. So, just take them out? That would be 100+x*4. Let's process this
+as Verge would:
+
+100       = 100.
+    +x    = 104.
+       *4 = 416.
+
+You'll notice that 416 is significantly different from 116. :) The moral of
+the story is, VERGE is not a calculator. You need to specify any such commands
+in the exact order they should be processed in, or you will not get the value
+you wanted. The solution, as shown in the example, would be to use x*4+100.
+Then when VERGE processes it, you get:
+
+x         = 4.
+  *4      = 16.
+     +100 = 116.
+
+This is real dandy for loops and stuff. Enjoy. :)
+
+- vecna@inlink.com

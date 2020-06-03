@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("ice.map",60,82,0);
+}
+Event /* 2 */
+{
+TEXT(0,"SIGN READS: Find the six","Magic Snow Flakes to","open the way...");
+}
+

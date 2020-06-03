@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+   FadeIn(4);      
+   RemoveCharacter(5);  
+   RemoveCharacter(2);  
+Wait(100);   
+CameraTracking=0;
+// copied from Hahn's demo... I'm cheap.
+Timer=0;
+a=XWin;
+b=YWin;
+While(YWin>b-400)
+{
+YWin=b-Timer;
+Redraw();
+}
+Wait(200);
+MapSwitch("end10.map",1,1,0);
+}
+

@@ -1,0 +1,35 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",87,28,0);
+}
+Event /* 2 */
+{
+IF(Flags[42]=0)
+{
+TEXT(0,"Furball: hi!","Joe: Err... Hi?","Furball: Yeah...");
+Prompt(0,"Furball: I want to build my","own town.. but I need 500 GP..","Could you give em' to me?",42,"NO!","Ok");
+IF(Flags[42]=0)
+{
+TEXT(0,"Furball: Ok...","","");
+}
+
+IF(GP<500)
+ {
+ TEXT(0,"Furball: You have no money!","I heard of a guy that would","offer 500 bucks for something...");
+ Flags[42]=0;
+ }
+ TEXT(0,"Furball: This town will be","great!","");
+}
+IF(GP>=500) 
+{
+ IF(Flags[42]=1)
+ {
+ TakeGP(500);
+ TEXT(0,"Furball: Thank you!","I love you man!","");
+ }
+}
+}

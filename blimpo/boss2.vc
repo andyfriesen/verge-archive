@@ -1,0 +1,252 @@
+Event /* 0 */
+{
+EnforceAnimation();
+             FadeIn(4);  
+             
+PartyMove("U7"); 
+PlayMusic("gee.s3m");           
+TEXT(0,"Joe: Oh NO! It's.. YOU!","Bottle Capper: Hello Furry Fiend!","This time you wont shake me!");
+TEXT(0,"Samu: WHO is that??","Joe: That's Bottle Capper!","He's a giant soda bottle!");
+TEXT(0,"Bottle Capper: Yes and you will","all go to the next world","right now!");
+TEXT(0,"Bollo: Yeah!","Joe: We beated this level!","Samu: Horray!");
+SoundEffect(8);
+TEXT(0,"Bottle Capper: NO!","I mean..","the AFTER LIFE!");
+TEXT(0,"Samu: Oh no!","Let's get him and...","Joe: Shake him!");
+TEXT(0,"Bottle Capper: Oh no!","I better run away!","");
+AlterBtile(14,16,745,1);
+AlterBtile(15,16,745,1);        
+AlterBtile(16,16,745,1);        
+MoveCode(5)=1; 
+}
+Event /* 1 */
+{
+Flags[116]=0;
+IF(Flags[116]=0)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("R4");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=1;
+ }
+}
+Event /* 2 */
+{
+Flags[116]=1;
+IF(Flags[116]=1)
+ {
+ ChangeCHR(1,"furslide.CHR"); 
+ ChangeCHR(2,"hamslide.CHR"); 
+ ChangeCHR(5,"samslide.CHR"); 
+ PartyMove("L4");
+ ChangeCHR(1,"furball.CHR"); 
+ ChangeCHR(2,"hams.CHR"); 
+ ChangeCHR(5,"samurai.CHR"); 
+ Flags[116]=0;
+ }
+}
+
+Event /* 3 */
+{
+IF(Flags[122]=0)
+ {
+ EarthQuake(10,10,5);
+ SoundEffect(3);
+ AlterBtile(2,10,764,2);
+ Flags[122]=1;
+  IF(Flags[122]=1 AND Flags[123]=1)
+   {
+   IF(Flags[124]=1 AND Flags[125]=1)
+    {
+    IF(Flags[125]=1)
+     {
+     AlterBtile(16,4,744,0);
+     }
+    }
+   }
+  }
+}
+Event /* 4 */
+{
+IF(Flags[123]=0)
+ {
+ EarthQuake(10,10,5);
+ SoundEffect(3);
+ AlterBtile(2,2,764,2);
+ Flags[123]=1;
+  IF(Flags[122]=1 AND Flags[123]=1)
+   {
+   IF(Flags[124]=1 AND Flags[125]=1)
+    {
+    IF(Flags[125]=1)
+     {
+     AlterBtile(16,4,744,0);
+     }
+    }
+   }
+  }
+}
+Event /* 5 */
+{
+IF(Flags[124]=0)
+ {
+ EarthQuake(10,10,5);
+ SoundEffect(3);
+ AlterBtile(9,2,764,2);
+ Flags[124]=1;
+  IF(Flags[122]=1 AND Flags[123]=1)
+   {
+   IF(Flags[124]=1 AND Flags[125]=1)
+    {
+    IF(Flags[125]=1)
+     {
+     AlterBtile(16,4,744,0);
+     }
+    }
+   }
+  }
+}
+Event /* 6 */
+{
+IF(Flags[125]=0)
+ {
+ EarthQuake(10,10,5);
+ SoundEffect(3);
+ AlterBtile(16,2,764,2);
+ Flags[125]=1;
+  IF(Flags[122]=1 AND Flags[123]=1)
+   {
+   IF(Flags[124]=1 AND Flags[125]=1)
+    {
+    IF(Flags[125]=1)
+     {
+     AlterBtile(16,4,744,0);
+     }
+    }
+   }
+  }
+}
+Event /* 7 */
+{
+IF(Flags[126]=0)
+ {
+ EarthQuake(10,10,5);
+ SoundEffect(3);
+ AlterBtile(27,10,764,2);
+ Flags[126]=1;
+  IF(Flags[122]=1 AND Flags[123]=1)
+   {
+   IF(Flags[124]=1 AND Flags[125]=1)
+    {
+    IF(Flags[125]=1)
+     {
+     AlterBtile(16,4,744,0);
+     }
+    }
+   }
+  }
+}
+Event /* 8 */
+{
+SoundEffect(14);
+EarthQuake(10,10,5);
+TEXT(0,"Bottle Capper: Ah!","Stop it!","");
+Flags[127]+=1;
+ IF(Flags[127]>=10)
+ {
+ TEXT(0,"Bottle Capper: NOOO!","I'm gonna explode!","");
+ MoveCode(5)=0;       
+ EarthQuake(10,10,50);
+ SpecialFrame(5)=20;
+ EarthQuake(10,10,20);
+ PaletteMorph(44,44,22,70,60);   
+ EarthQuake(5,5,50);        
+ SpecialFrame(5)=21;
+ SoundEffect(14);     
+ PaletteMorph(63,0,0,0,60);  
+ MapSwitch("win2.map",2,7,0);   
+ }
+}
+
+Event /* 9 enemy */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=8;
+CurHP(2)-=8;
+CurHP(3)-=8;
+CurHP(5)-=8;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+
+
+

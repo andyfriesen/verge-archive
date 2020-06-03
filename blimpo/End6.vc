@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Tarkuss: Oh man...","Am I bored..","");
+Wait(80);
+TEXT(0,"Tarkuss: Hey!","I got an idea!","");
+TEXT(0,"I'll work on my old verge","game until I FINISH IT!","");
+TEXT(0,"","    YEAH!","");
+Wait(100);
+MapSwitch("end7.map",1,1,0);
+}

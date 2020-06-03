@@ -1,0 +1,43 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Poo.map",161,75,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Hi!","It's been know for ages","that this pond has a secret");
+TEXT(0,"Too bad the pond doesn't","talk...","Well of course, I havent");
+TEXT(0,"Tried... Who talks to a pond?","","");
+}
+Event /* 3 */
+{
+IF(Flags[35]=1)
+{
+TEXT(0,"Walden: Going back...","here we go...","");
+MapSwitch("cave10.map",9,4,0);
+}
+IF(Flags[35]=0)
+{
+TEXT(0,"Joe: Hello Pond...","....","....");
+TEXT(0,"Samu: It doesn't talk you","dork!","Joe: Well...");
+TEXT(0,"Pond: HI!","Samu: It TALKED!","Joe: Oh my gosh!");
+TEXT(0,"Pond: Hello living beings...","It is I, Walden, the talking","pond...");
+TEXT(0,"Bollo: Cool!","Walden: What do you seek my","friends?");
+Wait(40);
+TEXT(0,"Joe: We want to defeat the","Blimpo Lord...","Walden: uh...");
+TEXT(0,"I cant help you with that...","Joe: Aww..","You see.. we seek...");
+TEXT(0,"Walden: Oh yeah!","RedOrb came the other day and","told me about you two!");
+TEXT(0,"Walden: I must take you to the","Space Port of Dungo!","Joe: YES!");
+TEXT(0,"Samu: Uh.. yeah?","Joe: I'll explain later Samu...","Walden: Well...");
+TEXT(0,"Off we go...","","");
+Flags[35]=1;
+MapSwitch("cave10.map",9,4,0);
+TEXT(0,"Bollo: No!","Joe: What?","Bollo: ANOTHER cave!");
+SoundEffect(7);
+Wait(60);
+TEXT(0,"Samu: That's not funny...","","");
+}
+}

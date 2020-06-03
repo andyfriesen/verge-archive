@@ -1,0 +1,21 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+IF(Flags[140]=1)
+ {
+ AlterBtile(9,6,0,0);
+ AlterBtile(10,6,0,0); 
+ AlterBtile(9,7,0,0); 
+ AlterBtile(10,7,0,0); 
+ Wait(10);
+ MapSwitch("surcas6.map",9,22,0);
+ }
+}
+Event /* 2 */
+{
+MapSwitch("surmaze.map",30,1,0);
+}
+

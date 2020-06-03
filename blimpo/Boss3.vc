@@ -1,0 +1,228 @@
+Event /* 0 */
+{
+EnforceAnimation();
+Face(5)=19;     
+}
+Event /* Enemy */
+{
+TEXT(0,"Joe: I'm losing balance!","","");
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+CurHP(1)-=8;
+CurHP(2)-=8;
+CurHP(3)-=8;
+CurHP(5)-=8;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+MapSwitch("morro7.map",37,2,0);
+}
+
+
+
+
+Event /* 2 */
+{
+IF(FLags[135]=0)
+{
+EntityMove(6,"D5");     
+Flags[135]=1;
+ 
+ IF(Entity.LocX(5)=Entity.LocX(6))                  
+ {
+  PaletteMorph(63,0,0,70,60);   
+  Face(5)+=1;  
+  SoundEffect(14);     
+  Earthquake(10,10,10); 
+  PaletteMorph(63,0,0,0,60);  
+  Flags[136]+=1;
+   IF(Flags[136]>=5)
+   {
+   TEXT(0,"Face: Ouch! You win!","Poopoo.","");
+   MapSwitch("win3.map",2,7,0);  
+   }
+  }
+
+Return;
+}
+IF(Flags[135]=1)
+{
+EntityMove(6,"U5");
+Flags[135]=0;
+
+ IF(Entity.LocX(5)=Entity.LocX(6))                  
+ {
+  PaletteMorph(63,0,0,70,60);   
+  Face(5)+=1;     
+  SoundEffect(14);     
+  Earthquake(10,10,10); 
+  PaletteMorph(63,0,0,0,60);  
+  Flags[136]+=1;
+   IF(Flags[136]>=5)
+   {
+   TEXT(0,"Face: Ouch! You win!","Poopoo.","");
+   MapSwitch("win3.map",2,7,0);
+   }
+  }
+
+Return;
+}
+}
+Event /* 3 */
+{
+IF(FLags[137]=0)
+{
+EntityMove(7,"D5");     
+Flags[137]=1;
+ 
+ IF(Entity.LocX(5)=Entity.LocX(7))                  
+ {
+  PaletteMorph(63,0,0,70,60);   
+  Face(5)+=1;  
+  SoundEffect(14);     
+  Earthquake(10,10,10); 
+  PaletteMorph(63,0,0,0,60);  
+  Flags[136]+=1;
+   IF(Flags[136]>=5)
+   {
+   TEXT(0,"Face: Ouch! You win!","Poopoo.","");
+   MapSwitch("win3.map",2,7,0);  
+   }
+  }
+
+Return;
+}
+IF(Flags[137]=1)
+{
+EntityMove(7,"U5");
+Flags[137]=0;
+
+ IF(Entity.LocX(5)=Entity.LocX(7))                  
+ {
+  PaletteMorph(63,0,0,70,60);   
+  Face(5)+=1;     
+  SoundEffect(14);     
+  Earthquake(10,10,10); 
+  PaletteMorph(63,0,0,0,60);  
+  Flags[136]+=1;
+   IF(Flags[136]>=5)
+   {
+   TEXT(0,"Face: Ouch! You win!","Poopoo.","");
+   MapSwitch("win3.map",2,7,0);  
+   }
+  }
+
+Return;
+}
+}
+Event /* 4 */
+{
+IF(FLags[138]=0)
+{
+EntityMove(8,"D5");     
+Flags[138]=1;
+ 
+ IF(Entity.LocX(5)=Entity.LocX(8))                  
+ {
+  PaletteMorph(63,0,0,70,60);   
+  Face(5)+=1;  
+  SoundEffect(14);     
+  Earthquake(10,10,10); 
+  PaletteMorph(63,0,0,0,60);  
+  Flags[136]+=1;
+   IF(Flags[136]>=5)
+   {
+   TEXT(0,"Face: Ouch! You win!","Poopoo.","");
+   MapSwitch("win3.map",2,7,0);  
+   }
+  }
+
+Return;
+}
+IF(Flags[138]=1)
+{
+EntityMove(8,"U5");
+Flags[138]=0;
+
+ IF(Entity.LocX(5)=Entity.LocX(8))                  
+ {
+  PaletteMorph(63,0,0,70,60);   
+  Face(5)+=1;     
+  SoundEffect(14);     
+  Earthquake(10,10,10); 
+  PaletteMorph(63,0,0,0,60);  
+  Flags[136]+=1;
+   IF(Flags[136]>=5)
+   {
+   TEXT(0,"Face: Ouch! You win!","Poopoo.","");
+   MapSwitch("win3.map",2,7,0);  
+   }
+  }
+
+Return;
+}
+}
+

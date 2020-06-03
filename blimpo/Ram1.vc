@@ -1,0 +1,98 @@
+Event /* 0 */
+{
+EnforceAnimation();
+If(Flags[18]=3)
+{
+ChangeZone(18,27,3); 
+ChangeZone(19,27,3); 
+ChangeZone(20,27,3); 
+}
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",93,179,0);
+}
+Event /* 2 */
+{
+If(Flags[18]=3)
+{
+TEXT(0,"Paranoid: Good luck","on the pyramid...","Joe: Come back!");
+TEXT(0,"Paranoid: No can do...","not now anyway...","");
+ChangeZone(18,27,3); 
+ChangeZone(19,27,3); 
+ChangeZone(20,27,3);
+}
+IF(Flags[18]=2)
+{
+RemoveCharacter(3);
+AddCharacter(3);
+TEXT(0,"Paranoid: Well...","This looks like a nice","place to stay...");
+TEXT(0,"Joe: What do you mean?","Paranoid: I'm leaving...","Joe: But...");
+TEXT(0,"How do we get to the Blimpo","Lord's castle???","Paranoid: Go to the pyramid");
+TEXT(0,"to the southeast...","Joe: Ok, Thanks...","Bollo: YOU CANT LEAVE US!");
+TEXT(0,"Paranoid: Watch me..","","");
+AutoOn();
+EntityMove(97,"U9 L3 U4"); 
+Wait(300);
+Entity.LocX[97]=100;
+RemoveCharacter(3);                
+Flags[18]=3;
+AutoOff();
+TEXT(0,"","  You lost Paranoid...","");
+TEXT(0,"Bollo: Thank God he left!","","");
+ChangeZone(18,27,3); 
+ChangeZone(19,27,3); 
+ChangeZone(20,27,3);
+SoundEffect(7);
+}
+}
+Event /* 3 */
+{
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Welcome to","Ram City!","");
+}
+Event /* 5 */
+{
+TEXT(0,"Merchant: Hi!","We love your buddy,","Paranoid...");
+Shop(1,2,3,4,25,43,42);
+TEXT(0,"Merchant: Come back!","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: Hello! Stay here","and regain HP and MP!","Joe: What's that?");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Furball: Go away...","Joe: Why?","Furball: You have no cash.");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(10);
+TEXT(0,"Furball: Come back!","","");
+}
+}
+}
+Event /* 7 */
+{
+TEXT(0,"Furballette: Are you","Paranoid's friends?","Joe: Yeah?");
+TEXT(0,"Furballette: Paranoid is","so COOL!","");
+}
+Event /* 8 */
+{
+TEXT(0,"Furball: Paranoid told","me everything!","Joe: About what?");
+TEXT(0,"Furball: About the pyra-","mid!","First, try to drain the");
+TEXT(0,"Pond.. then hit the switches,","then follow the trail and","finally.. trespass the");
+TEXT(0,"walls.","","");
+}
+
+
+
+

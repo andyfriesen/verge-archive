@@ -1,0 +1,67 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",53,28,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: Welcome to my Beau-","tiful Town!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: Nothing beats the","Pool!","Bollo: Do you remember that");
+TEXT(0,"pool Paranoid had?","Joe: Yeah..","Bollo: I saw a dead rat on it");
+SoundEffect(7);
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Dont believe people","that say this town has a","fart epydemic!");
+}
+Event /* 5 */
+{
+TEXT(0,"Furball: We sell items!","Take a look!","");
+Shop(1,2,3,4,25,39);
+TEXT(0,"Furball: BUY BUY!","","");
+}
+Event /* 6 */
+{
+TEXT(0,"Furball: The food in this","town gives me gas!","But it's GREAT! YEAH!");
+}
+Event /* 7 */
+{
+TEXT(0,"InnKeeper: This Hotel is CHEAP!","Really!","Try it!");
+Prompt(0,"Want to stay here?","Just 50 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<50)
+{
+TEXT(0,"InnKeeper: Where's the money?","","");
+}
+IF (GP>49)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(50);
+TEXT(0,"InnKeeper: Bye.","","");
+}
+}
+}
+Event /* 8 */
+{
+SoundEffect(13);  
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: Oh!","Those Tacos where DELICIOUS!","");
+}
+eVENT /* 10 */
+{
+TEXT(0,"Bollo: Let's get in...","Joe: Uh.. No.. I think those","guys dont feel well...");
+TEXT(0,"Furballs: Nah! We're ok!","Take a dive!","Bollo: Er.. Later...");
+}
+

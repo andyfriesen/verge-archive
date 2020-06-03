@@ -1,0 +1,79 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[96]=1)
+ {
+ AlterFtile(4,9,541,2);      
+ }
+}
+Event /* 1 */
+{
+MapSwitch("moto.map",87,28,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Mayor: It's YOU!","THANK YOU ALL!","Check out my town now!");
+TEXT(0,"Mayor: Here! Take your money","back! All 500 GP of them!","Bollo: Cool!");
+GiveGP(500);
+Banner("Recieved 500 GP",100000);
+TEXT(0,"Mayor: Take a look at the","town you helped us make!","");
+}
+Event /* 3 */
+{
+TEXT(0,"Merchant: Hi guys!","Here! look at the stuff I","got for sale!");
+Shop(1,2,3,4,25,50,48,22,28,34,33,49);
+TEXT(0,"Merchant: Much better Right?","","");
+}
+Event /* 4 */
+{
+TEXT(0,"Slime: The guy who made that","well left to find new","jobs and adventures!");
+}
+Event /* 5 */
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+Event /* 6 */
+{
+TEXT(0,"Hamster: I finally found my","Soul Mate!","");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+TEXT(0,"Hamster: She left!","Why?"," * snif *");
+}
+Event /* 8 */
+{
+TEXT(0,"Hamster: The light doesn't","bother me anymore!","");
+}
+Event /* 9 */
+{
+TEXT(0,"Furball: You made this town?","I LOVE YOU!","Take my stuff if you want to!");
+}
+Event /* 10 */
+{
+IF(Flags[96]=1)
+ {
+ TEXT(0,"Empty","","");
+ }
+IF(FLags[96]=0)
+ {
+ SoundEffect(3);
+ AlterFtile(4,9,541,2);
+ GiveItem(48);
+ Flags[96]=1;
+ }
+}
+Event /* 11 */
+{
+TEXT(0,"Kid: Hi Mr. Town","","");
+}
+Event /* 12 */
+{
+TEXT(0,"Furballette: Hi!","I'm the mayor's wife!","This is our son!");
+TEXT(0,"Furballette: Say hi Joey!","","");
+}
+
+

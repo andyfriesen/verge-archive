@@ -1,0 +1,77 @@
+Event /* 0 */
+{
+EnforceAnimation();
+ IF(Flags[109]=1)
+ {
+ AlterFtile(22,5,0,0);  
+ }
+}
+
+Event /* 1 */
+{
+MapSwitch("bigpyr.map",11,47,0);
+}
+
+Event /* 2 */
+{
+IF(FLags[109]=0)
+ Prompt(0,"Wall: Use the password!","","",3,"Yes","No");
+ IF(Flags[3]=0 AND CurHP(7)>9999)
+  {
+  TEXT(0,"Joe: What password?","Slimy: I know it!","But I cant say it because");
+  TEXT(0,"I'm wounded.. ","Ugh!..","The pain!");
+  Return;
+  }
+ IF(Flags[3]=0 AND CurHP(7)<10000)
+  {
+  IF(Flags[109]=0)
+  {
+  TEXT(0,"Slimy: I know the password!","It's JustinBailey------------!","");
+  Earthquake(10,10,30); 
+  SoundEffect(3);
+  AlterFtile(22,5,0,0);
+  Flags[109]=1;
+  }
+  }
+  }
+}
+Event /* 3 */
+{
+TEXT(0,"Wall: Hi! I'm a talkative","stone!","Talk to me for clues!");
+TEXT(0,"Here's one! Be careful!","The powder in the next room","is SALT!");
+TEXT(0,"Slimy: Oh no!","Unless I have proper protection","I will.. *gasp*!!!");
+}
+
+Event /* 4 */
+{
+ IF(!item(48)) 
+  {
+  PaletteMorph(63,10,0,70,60);   
+  SoundEffect(14);     
+  Earthquake(4,4,4); 
+  PaletteMorph(63,0,0,0,60);  
+  CurHP(7)-=3;
+  }
+ IF(!item(49)) 
+  {
+  PaletteMorph(63,10,0,70,60);   
+  SoundEffect(14);     
+  Earthquake(4,4,4); 
+  PaletteMorph(63,0,0,0,60);  
+  CurHP(7)-=3;
+  }
+ IF(!item(50)) 
+  {
+  PaletteMorph(63,10,0,70,60);   
+  SoundEffect(14);     
+  Earthquake(4,4,4); 
+  PaletteMorph(63,0,0,0,60);  
+  CurHP(7)-=3;
+  }
+}
+
+Event /* 5 pyrdown */
+{
+MapSwitch("Pyrdown.map",4,4,0);
+}
+

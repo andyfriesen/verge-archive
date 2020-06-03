@@ -1,0 +1,18 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+IF(Flags[133]=0)
+ {
+ SoundEffect(3);
+ Wait(10);
+ Flags[133]=1;
+ }
+}
+Event /* 2 */
+{
+MapSwitch("morro4.map",5,5,0);
+}
+

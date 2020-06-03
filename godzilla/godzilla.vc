@@ -1,0 +1,506 @@
+event //0
+{
+
+}
+
+event //1
+{
+/*
+If(flags[7014]=1) { //animation #1!
+If(flags[7015]=0) {
+layervc=0;
+vcloadPCX("explode1.pcx",0); //small explode
+vcloadPCX("explode2.pcx",256); //big explode
+vcloadpcx("explode3.pcx",960+256); //fade away explode
+//next offset would be 960+960+256. :)
+hooktimer(1);
+flags[7015]=1; }
+flags[7016]+=1; //add one to the counter
+//small explode
+If(flags[7016]>0 AND flags[7016]<=25) {
+vcclear();
+vctblitimage(100,100,16,16,0); //display small image
+}
+//big explode
+If(flags[7016]>25 AND flags[7016]<=50) {
+vcclear();
+vctblitimage(100,100,30,32,256); //display small image
+flags[7019]=1; //tells that its ready to erase tiles!
+Goto die1;
+}
+//fade away explode
+If(flags[7016]>50 AND flags[7016]<=75) {
+vcclear();
+vctblitimage(100,100,32,30,960+256); //display small image
+}
+}
+*/
+}
+
+event //2
+{
+flags[1005]=locX; //Keep track of original location so character can be back to the original spot
+flags[1006]=locY; //Keep track of original location so character can be back to the original spot
+flags[1000]=LocX; //Keep location for good luck
+flags[1001]=LocY; //Keep location for good luck
+//sets location of the tile to be punched!
+If(facing(0)=1) { flags[1001]+=1; }
+if(facing(1)=1) { flags[1001]-=1; }
+if(facing(2)=1) { flags[1000]+=1; }
+if(facing(3)=1) { flags[1000]-=1; }
+Cameratracking=0; //stops camera from moving!
+changechr(1,"null.chr");
+Warp(flags[1000],flags[1001],1); //places character at position where punch will be
+flags[1002]=curzone; //sets the zone that the game is seeking for
+While(curzone=flags[1002])
+{ flags[1003]=locx; Warp(flags[1003]-1,locy,1); }
+Warp(flags[1003],locy,1);
+While(curzone=flags[1002])
+{ flags[1004]=locy; Warp(flags[1003],flags[1004]-1,1); }
+//now flag1003 and 4 will contain the points of the top left corner of the square
+//compare with slots for data loaded up for a building.
+warp(flags[1005],flags[1006],1); //warp character back to starting position
+changechr(1,"zilla.chr");
+cameratracking=1;
+//find loaded slot for building to record data
+
+A=1;
+For(A,1,50,1) {
+If(flags[((A-1)*27)+2000]=flags[1003] AND flags[((A-1)*27)+2001]=flags[1004]) {
+flags[1007]=A; //remembers which slot for extra luck...
+goto record;
+} }
+//not there so find an empty one!
+A=1;
+For(A,1,220,1) {
+If(flags[((A-1)*27)+2000]=0 AND flags[((A-1)*27)+2001]=0) {
+flags[1007]=A+1; //remembers which slot for extra luck...
+//assign coordinates for slot
+B=flags[((A)*27)+2000];
+flags[B]=flags[1003];
+flags[B+1]=flags[1004];
+} }
+record:
+//after it us all over then go to home event for building and record data!
+flags[1008]=1; //so it goes to the right place in the home event
+callevent(flags[1009]); //call home event for building!
+}
+event //3
+{
+
+}
+event //4 //3x2-------------------------------------------------------------------------------
+{
+if(flags[1008]=0) { layervc=1;
+flags[1009]=4; //set number for home event!  Really important!
+callevent(2); //call other event...
+}
+
+if(flags[1008]=1) {
+vctextnum(50,50,flags[1003]);
+vctextnum(50,60,flags[1004]);
+
+if(facing(0)=1) { flags[1022]=0; } if(facing(1)=1) { flags[1022]=1; } 
+if(facing(2)=1) { flags[1022]=2; } if(facing(3)=1) { flags[1022]=3; }
+changechr(1,"zillatt.chr"); Autoon();
+specialframe(95)=(flags[1022]*5); wait(10);
+specialframe(95)=(flags[1022]*5+1); wait(10);
+specialframe(95)=(flags[1022]*5+2); wait(10);
+specialframe(95)=(flags[1022]*5+3); wait(10);
+specialframe(95)=(flags[1022]*5+4); autooff();
+
+//punch out spot for building!
+flags[1012]=1; //one hit to punch out part of building
+flags[1013]=6; //max squares in building base
+flags[1014]=1; //Animation to use!
+//flags[1017]=flags[1003]+16; //x coord for middle tile location!
+//flags[1018]=flags[1004]+16; //y coord for middle tile location!
+B=flags[((flags[1007]-1)*27)+2000]; //to automatically assign flags to the building
+flags[1010]=flags[1000]-flags[1003]; //subtract to find difference in coordinates
+flags[1011]=flags[1001]-flags[1004]; //subtract to find difference in coordinates
+
+//0,0
+If(flags[1010]=0 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+3]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+3]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+3]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+//1,0
+If(flags[1010]=1 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+4]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+4]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+4]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//2,0
+If(flags[1010]=2 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+5]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+5]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+5]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//0,1
+If(flags[1010]=0 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+6]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+6]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+6]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//1,1
+If(flags[1010]=1 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+7]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+7]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+7]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//2,1
+If(flags[1010]=2 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+8]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+8]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+8]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+//Altered appropriate part of building
+flags[1008]=0;
+
+If(flags[B+2]>=((flags[1013]*2)/3)) { //if punches are half of the total then down the building!!!
+flags[7014]=1;
+//Do background first!
+//change to rubble and take off obstructions
+AlterBTile(flags[1003],flags[1004],2,0); 
+AlterBTile(flags[1003]+1,flags[1004],2,0);
+AlterBTile(flags[1003]+2,flags[1004],2,0);
+AlterBTile(flags[1003],flags[1004]+1,2,0); 
+AlterBTile(flags[1003]+1,flags[1004]+1,2,0);
+AlterBTile(flags[1003]+2,flags[1004]+1,2,0);
+
+AlterFTile(flags[1003],flags[1004]-2,0,2); 
+AlterFTile(flags[1003]+1,flags[1004]-2,0,2);
+AlterFTile(flags[1003]+2,flags[1004]-2,0,2);
+AlterFTile(flags[1003],flags[1004]-1,0,2); 
+AlterFTile(flags[1003]+1,flags[1004]-1,0,2);
+AlterFTile(flags[1003]+2,flags[1004]-1,0,2);
+//Now remove zones!
+ChangeZone(flags[1003],flags[1004],0); 
+ChangeZone(flags[1003]+1,flags[1004],0);
+ChangeZone(flags[1003]+2,flags[1004],0);
+ChangeZone(flags[1003],flags[1004]+1,0); 
+ChangeZone(flags[1003]+1,flags[1004]+1,0);
+ChangeZone(flags[1003]+2,flags[1004]+1,0);
+
+//Building is destroyed! 
+//hooktimer(0); vcclear();
+D=1;
+For(D,1,25,1) { flags[1000+(D-1)]=0; }
+//flags[B]=0;
+//flags[B+1]=0;
+//flags[B+2]=0;
+flags[1008]=0;
+
+}
+}
+}
+event //5 //5x2---------------------------------------------------------------------
+{
+if(flags[1008]=0) { layervc=1;
+flags[1009]=5; //set number for home event!  Really important!
+callevent(2); //call other event...
+}
+
+if(flags[1008]=1) {
+
+if(facing(0)=1) { flags[1022]=0; } if(facing(1)=1) { flags[1022]=1; } 
+if(facing(2)=1) { flags[1022]=2; } if(facing(3)=1) { flags[1022]=3; }
+changechr(1,"zillatt.chr"); Autoon();
+specialframe(95)=(flags[1022]*5); wait(10);
+specialframe(95)=(flags[1022]*5+1); wait(10);
+specialframe(95)=(flags[1022]*5+2); wait(10);
+specialframe(95)=(flags[1022]*5+3); wait(10);
+specialframe(95)=(flags[1022]*5+4); autooff();
+
+//punch out spot for building!
+flags[1012]=1; //one hit to punch out part of building
+flags[1013]=8; //max squares in building base
+flags[1014]=1; //Animation to use!
+flags[1017]=flags[1003]+16; //x coord for middle tile location!
+flags[1018]=flags[1004]+16; //y coord for middle tile location!
+B=flags[((flags[1007]-1)*27)+2000]; //to automatically assign flags to the building
+flags[1010]=flags[1000]-flags[1003]; //subtract to find difference in coordinates
+flags[1011]=flags[1001]-flags[1004]; //subtract to find difference in coordinates
+
+//0,0
+If(flags[1010]=0 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+3]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+3]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+3]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+//1,0
+If(flags[1010]=1 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+4]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+4]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+4]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//2,0
+If(flags[1010]=2 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+5]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+5]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+5]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//3,0
+If(flags[1010]=3 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+6]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+6]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+6]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//0,1
+If(flags[1010]=0 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+6]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+6]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+6]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//1,1
+If(flags[1010]=1 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+7]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+7]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+7]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//2,1
+If(flags[1010]=2 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+8]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+8]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+8]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+
+
+//Altered appropriate part of building
+flags[1008]=0;
+If(flags[B+2]>=((flags[1013]*2)/3)) { //if punches are half of the total then down the building!!!
+flags[7014]=1;
+Callevent(1); //call animation event
+//Do background first!
+//change to rubble and take off obstructions
+AlterBTile(flags[1003],flags[1004],2,0); 
+AlterBTile(flags[1003]+1,flags[1004],2,0);
+AlterBTile(flags[1003]+2,flags[1004],2,0);
+AlterBTile(flags[1003],flags[1004]+1,2,0); 
+AlterBTile(flags[1003]+1,flags[1004]+1,2,0);
+AlterBTile(flags[1003]+2,flags[1004]+1,2,0);
+
+AlterFTile(flags[1003],flags[1004]-2,0,2); 
+AlterFTile(flags[1003]+1,flags[1004]-2,0,2);
+AlterFTile(flags[1003]+2,flags[1004]-2,0,2);
+AlterFTile(flags[1003],flags[1004]-1,0,2); 
+AlterFTile(flags[1003]+1,flags[1004]-1,0,2);
+AlterFTile(flags[1003]+2,flags[1004]-1,0,2);
+//Now remove zones!
+ChangeZone(flags[1003],flags[1004],0); 
+ChangeZone(flags[1003]+1,flags[1004],0);
+ChangeZone(flags[1003]+2,flags[1004],0);
+ChangeZone(flags[1003],flags[1004]+1,0); 
+ChangeZone(flags[1003]+1,flags[1004]+1,0);
+ChangeZone(flags[1003]+2,flags[1004]+1,0);
+
+//Building is destroyed! 
+hooktimer(0); vcclear();
+For(D,1,25,1) { flags[1000+(D-1)]=0; }
+}
+flags[1008]=0;
+}
+}
+
+event //6 //3x3--------------------------------------------------------------------------------
+{
+if(flags[1008]=0) { layervc=1;
+flags[1009]=9; //set number for home event!  Really important!
+callevent(2); //call other event...
+}
+
+if(flags[1008]=1) {
+vctextnum(50,50,flags[1003]);
+vctextnum(50,60,flags[1004]);
+if(facing(0)=1) { flags[1022]=0; } if(facing(1)=1) { flags[1022]=1; } 
+if(facing(2)=1) { flags[1022]=2; } if(facing(3)=1) { flags[1022]=3; }
+changechr(1,"zillatt.chr"); Autoon();
+specialframe(95)=(flags[1022]*5); wait(10);
+specialframe(95)=(flags[1022]*5+1); wait(10);
+specialframe(95)=(flags[1022]*5+2); wait(10);
+specialframe(95)=(flags[1022]*5+3); wait(10);
+specialframe(95)=(flags[1022]*5+4); autooff();
+
+//punch out spot for building!
+flags[1012]=1; //one hit to punch out part of building
+flags[1013]=9; //max squares in building base
+flags[1014]=1; //Animation to use!
+flags[1017]=flags[1003]+16; //x coord for middle tile location!
+flags[1018]=flags[1004]+16; //y coord for middle tile location!
+B=flags[((flags[1007]-1)*27)+2000]; //to automatically assign flags to the building
+flags[1010]=flags[1000]-flags[1003]; //subtract to find difference in coordinates
+flags[1011]=flags[1001]-flags[1004]; //subtract to find difference in coordinates
+
+//0,0
+If(flags[1010]=0 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+3]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+3]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+3]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+//1,0
+If(flags[1010]=1 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+4]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+4]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+4]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//2,0
+If(flags[1010]=2 AND flags[1011]=0) { //top left section at 0,0 coordinates for building
+If(flags[B+5]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+5]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+5]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//0,1
+If(flags[1010]=0 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+6]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+6]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+6]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//2,1
+If(flags[1010]=2 AND flags[1011]=1) { //top left section at 0,0 coordinates for building
+If(flags[B+7]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+7]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+7]=flags[1012]) { //if the punch count has been reached then change tile!
+//AlterBTile(flags[1000],flags[1001],2,2); 
+} }
+
+//0,2
+If(flags[1010]=0 AND flags[1011]=2) { //top left section at 0,0 coordinates for building
+If(flags[B+8]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+8]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+8]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); } }
+
+//1,2
+If(flags[1010]=1 AND flags[1011]=2) { //top left section at 0,0 coordinates for building
+If(flags[B+9]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+9]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+9]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); } }
+
+//2,2
+If(flags[1010]=2 AND flags[1011]=2) { //top left section at 0,0 coordinates for building
+If(flags[B+10]<flags[1012]) { //if punches are less than hits to punch out building
+flags[B+2]+=1; //add one to the punch count
+flags[B+10]+=1; //add one to the punch count for that particular square
+}
+If(flags[B+10]=flags[1012]) { //if the punch count has been reached then change tile!
+AlterBTile(flags[1000],flags[1001],2,2); } }
+
+//Altered appropriate part of building
+flags[1008]=0;
+If(flags[B+2]>=((flags[1013]*2)/3)) { //if punches are half of the total then down the building!!!
+flags[7014]=1;
+//Callevent(1); //call animation event
+//If(flags[1019]=1) { //ready to erase tiles!  Defined for appropriate building!
+Die1:
+//Do background first!
+//change to rubble and take off obstructions
+AlterBTile(flags[1003],flags[1004],2,0); 
+AlterBTile(flags[1003]+1,flags[1004],2,0);
+AlterBTile(flags[1003]+2,flags[1004],2,0);
+AlterBTile(flags[1003],flags[1004]+1,2,0); 
+AlterBTile(flags[1003]+1,flags[1004]+1,2,0);
+AlterBTile(flags[1003]+2,flags[1004]+1,2,0);
+AlterBTile(flags[1003],flags[1004]+2,2,0); 
+AlterBTile(flags[1003]+1,flags[1004]+2,2,0);
+AlterBTile(flags[1003]+2,flags[1004]+2,2,0);
+//Now remove zones!
+AlterFTile(flags[1003],flags[1004]-2,0,2); 
+AlterFTile(flags[1003]+1,flags[1004]-2,0,2);
+AlterFTile(flags[1003]+2,flags[1004]-2,0,2);
+AlterFTile(flags[1003],flags[1004]-1,0,2); 
+AlterFTile(flags[1003]+1,flags[1004]-1,0,2);
+AlterFTile(flags[1003]+2,flags[1004]-1,0,2);
+
+ChangeZone(flags[1003],flags[1004],0); 
+ChangeZone(flags[1003]+1,flags[1004],0);
+ChangeZone(flags[1003]+2,flags[1004],0);
+ChangeZone(flags[1003],flags[1004]+1,0); 
+ChangeZone(flags[1003]+1,flags[1004]+1,0);
+ChangeZone(flags[1003]+2,flags[1004]+1,0);
+ChangeZone(flags[1003],flags[1004]+2,0); 
+ChangeZone(flags[1003]+1,flags[1004]+2,0);
+ChangeZone(flags[1003]+2,flags[1004]+2,0);
+//Building is destroyed! 
+hooktimer(0); vcclear();
+For(D,1,25,1) { flags[1000+(D-1)]=0; }
+
+flags[B]=0;
+flags[B+1]=0;
+flags[B+2]=0;
+flags[1008]=0;
+}
+}
+}
+}

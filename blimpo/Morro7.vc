@@ -1,0 +1,163 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("morro6.map",20,12,0);
+}
+
+Event /* 2 */
+{
+SoundEffect(14);
+Wait(5);
+AlterFtile(51,25,799,0);
+AlterFtile(51,26,800,0);    
+AlterFtile(51,27,800,0);    
+AlterFtile(51,28,800,0);    
+}
+Event /* 3 */
+{
+AlterFtile(51,25,798,1);
+AlterFtile(51,26,780,1);    
+AlterFtile(51,27,780,1);    
+AlterFtile(51,28,780,0);    
+}
+
+Event /* 4 */
+{
+SoundEffect(14);
+Wait(5);
+AlterFtile(18,8,799,0);
+AlterFtile(18,9,800,0);    
+AlterFtile(18,10,800,0);    
+AlterFtile(18,11,800,0);    
+}
+Event /* 5 */
+{
+AlterFtile(18,8,798,1);
+AlterFtile(18,9,780,1);    
+AlterFtile(18,10,780,1);    
+AlterFtile(18,11,780,0);    
+}
+
+Event /* 6 */
+{
+SoundEffect(14);
+Wait(5);
+AlterFtile(27,8,799,0);
+AlterFtile(27,9,800,0);    
+AlterFtile(27,10,800,0);    
+AlterFtile(27,11,800,0);    
+}
+Event /* 7 */
+{
+AlterFtile(27,8,798,1);
+AlterFtile(27,9,780,1);    
+AlterFtile(27,10,780,1);    
+AlterFtile(27,11,780,0);    
+}
+
+Event /* 8 */
+{
+SoundEffect(14);
+Wait(5);
+AlterFtile(52,12,799,0);
+AlterFtile(52,13,800,0);    
+AlterFtile(52,14,800,0);    
+AlterFtile(52,15,800,0);    
+}
+Event /* 9 */
+{
+AlterFtile(52,12,798,1);
+AlterFtile(52,13,780,1);    
+AlterFtile(52,14,780,1);    
+AlterFtile(52,15,780,0);    
+}
+}
+
+Event /* 10 cheat! */
+{
+SaveMenu();
+}
+Event /* 11 */
+{
+PaletteMorph(63,0,0,70,60);   
+SoundEffect(14);     
+Earthquake(10,10,10); 
+PaletteMorph(63,0,0,0,60);  
+Flags[60]=1;
+CurHP(1)-=4;
+CurHP(2)-=4;
+CurHP(3)-=4;
+CurHP(5)-=4;
+IF(!char(2) AND CurHP(1)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)=0 AND curHP(2)=0)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)=0 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+    MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)=0)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+IF(!char(2) AND CurHP(1)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(curHP(1)>99999 AND curHP(2)>99999)
+{
+IF(!Char(3) AND !Char(5))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+
+}
+IF(curHP(3)>99999 AND CHAR(3))
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+}
+IF(CurHP(5)>99999)
+{
+     Banner("Death Cometh",1000000);
+     MapSwitch("Gameover.map",0,0,0);            
+Healall();
+SoundEffect(4);
+     }
+}
+}
+Event  /* 12 */
+{
+MapSwitch("morro8.map",13,6,0);
+}
+

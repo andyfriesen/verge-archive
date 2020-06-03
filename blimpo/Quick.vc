@@ -1,0 +1,10 @@
+Event /* 0 */
+{
+EnforceAnimation();
+SoundEffect(3);
+}
+Event /* 1 */
+{
+MapSwitch("cave12.map",15,15,0);
+}
+

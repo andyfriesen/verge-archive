@@ -1,0 +1,25 @@
+Event /* 0 */
+{
+EnforceAnimation();
+IF(Flags[84]=1)
+ {
+ AlterBTile(15,6,481,2);    
+ }
+}
+Event /* 1 */
+{
+MapSwitch("island1.map",12,22,0);
+}
+Event /* 2 */
+{
+ IF(FLAGS[84]=0)
+ {
+ SoundEffect(3);  
+ AlterBTile(15,6,481,2); 
+ GiveItem(46);  
+ Flags[84]=1;
+ }
+}
+
+
+

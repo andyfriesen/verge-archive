@@ -1,0 +1,247 @@
+Event /* 0 */
+{
+EnforceAnimation();
+Redraw();
+}
+Event /* 1 */
+{
+IF(Flags[12]>41)
+{
+TEXT(0,"KING: Hey! You brought","a friend!!!","Cool!");
+}
+if (Flags[2] = 0 )
+{
+Text(0,"KING: Hello Joe!","There has been some gossip","aroud here that says");
+text(0,"A new Blimpo Lord has","surfaced!  Go and defeat him!","He must die.");
+text(0,"JOE: Do not worry, oh wonder","ful one! I will defeat","The Blimpo Lord and restore");
+text(0,"peace to the land...","Again...","");
+text(0,"KING: Then be on thy way!","Here's some gold!","");
+GiveGP(150);
+SoundEffect(8);
+TEXT(0,"Joe: Oh boy MONEY!","","");
+SoundEffect(7);
+Flags[2]=1;
+}
+if (Flags[2] = 1)
+{
+TEXT(0,"King: Go away now!","","");
+}
+}
+Event /* 2 */
+{
+text(0,"SOLDIER: I'll never see","you again...","*sob*...");
+SoundEffect(7);
+}
+Event /* 3 */
+{
+text(0,"SOLDIER: That soldier is","better than me.","");
+}
+Event /* 4 */
+{
+text(0,"SOLDIER: I'm better than","that soldier...","");
+}
+Event /* 5 */
+{
+text(0,"FURBALL: Hello!","JOE: Hello! Hey, have","any clue for me?");
+text(0,"FURBALL: Yes! To enter the","Blimpo Lord's castle","you need the harp.");
+text(0,"JOE: What harp?","FURBALL: Mmmm...","The only one in");
+text(0,"this world.","","");
+SoundEffect(7);
+TEXT(0,"JOE: Thanx.","","");
+IF(Flags[12]>41)
+{
+TEXT(0,"Bollo: I think he's talking","about the one you have.","Joe: Oh yeah!");
+TEXT(0,"Thanks Bollo.","","");
+}
+}
+Event /* 6 */
+{
+text(0,"FURBALL: Hey!","What are you doing in my","house? GET OUT!");
+SoundEffect(7);
+}
+Event /* 7 */
+{
+text(0,"SHOP OWNER:Welcome to my","shop!","JOE: What do you have?");
+Shop(34,32,1,2,4,13);
+TEXT(0,"SHOP OWNER:Thanks.","And ya' better come back","");
+}
+Event /* 8 */
+{
+text(0,"SOLDIER: These are the","barracks.","");
+}
+Event /* 9 */
+{
+text(0,"SOLDIER: We have to sleep","here everynight!! Isn't that","unfair?!!!.");
+}
+Event /* 10 */
+{
+text(0,"SOLDIER: I'm on guard","duty.","");
+}
+Event /* 11 */
+{
+text(0,"SOLDIER: This castle","sucks!!!","");
+text(0,"JOE: Never talk that","way to our great castle!","It has been our home");
+text(0,"for nearly 30 years!!","You should be ashamed ","of yourself.");
+text(0,"SOLDIER: This castle","sucks anyway.","");
+SoundEffect(7);
+}
+Event /* 12 */
+{
+text(0,"FURBALL: This garden is","very peaceful...","I only wish the");
+text(0,"entire world was like","this.","");
+}
+Event /* 13 */
+{
+text(0,"FURBALL: Whant to know","how the Furballs came","to be?");
+text(0,"JOE: Ehhh... Yeah?","","");
+text(0,"FURBALL: One day a cat was","licking his leg...","");
+text(0,"JOE: OH! I suddenly remember!","Thanks...","");
+text(0,"Ugh.","","");
+SoundEffect(7);
+}
+EVENT /* 14 */
+{
+text(0,"SOLDIER: I wish I","could go to bed now.","You know...");
+text(0,"like we are only allowed","to sleep in the night.","");
+}
+Event /* 15 */
+{
+text(0,"MERCHANT: I wish I","had a shop.","");
+}
+Event /* 16 */
+{
+text(0,"MERCHANT: Hello there!","I'm now studying the art","of selling stuff");
+text(0,"to people 101..","","");
+}
+Event /* 17 */
+{
+text(0,"BARTENDER: Hi!","I'm sure you want something","to drink!");
+text(0,"JOE: No thank you.","","");
+text(0,"BARTENDER: We have Bacartee,","Dudweiser, Zimu...","");
+text(0,"JOE: No...","","");
+text(0,"BARTENDER: Zimu tastes","great with EVERYTHING!","Here's a free sample!");
+text(0,"JOE: No, even if it's free.","I dont want to drink.","I need to be sober in this");
+text(0,"quest of glory!","","");
+text(0,"BARTENDER: Just one Zimu!","A Zimu with Peptobismol","coming up!");
+SoundEffect(7);
+text(0,"JOE: Hey mister. I'm trying","to tell you NO ZIMU!","It tastes like...");
+text(0,"BARTENDER: Here! Drink up!","","");
+text(0,"JOE: Ok.","","");
+text(0,"Glub,glub,glub...","glub,glub,glub...","");
+text(0,"JOE: Happy now...","","");
+text(0,"BARTENDER: Zimu!","Goes With Everything...","");
+IF (Flags[12]>41)
+{
+TEXT(0,"BOLLO: hey! I want some ZIMU!","BARTENDER: No!","BOLLO: Aw shucks!");
+}
+}
+Event /* 18 */
+{
+text(0,"FURBALLETTE: The bartender","wants you to drink Zimu!","");
+text(0,"JOE: Zimu! YUCK!","","");
+}
+Event /* 19 */
+{
+text(0,"FURBALL: That girl is fine!","BUT ZIMU SUCKS!!!","See! Even if I'm drunk...");
+text(0,"I can tell Zimu is poop!!!","","");
+SoundEffect(7);
+}
+Event /* 20 */
+{
+text(0,"JOE: Why are you away","from everybody...?","");
+text(0,"FURBALL: Shhhh...","I LOVE Zimu!","I dont want anyone to");
+text(0,"see me!","","");
+IF(flags[12]>41)
+{
+TEXT(0,"BOLLO: I'm with you my brotha...","","");
+}
+SoundEffect(7);
+}
+Event /* 21 */
+{
+text(0,"SOLDIER: YEP! I'm here","to kick the living butt","out of anyone who exits drunk.");
+text(0,"If you are drunk...","Stay in the Bar...","Section 12,29-A of the");
+text(0,"Paper of Rights.","","");
+}
+Event /* 22 */
+{
+text(0,"SOLDIER: Well... I got a","house so I dont need","to stay at the barracks!");
+text(0,"They say the barrack is","attacked by bugs in the","night!");
+}
+Event /* 23 */
+{
+text(0,"MERCHANT: ...","Hi.","");
+text(0,"JOE: Hi!","You're a merchant?","");
+text(0,"MERCHANT: (sigh), Yeah...","","");
+}
+Event /* 24 */
+{
+text(0,"FURBALL: Ehh...","I din't invite you over","or anything...");
+}
+Event /* 25 */
+{
+text(0,"FURBALL: Welcome to","Furleguard!.","And... Just in case...");
+text(0,"Goodbye!","","");
+}
+Event /* 26 */
+{
+text(0,"FURBALL: I'm happy!!!!","","");
+SoundEffect(8);
+}
+Event /* 27 */
+{
+text(0,"FURBALLETTE: Hello!","Welcome to the INN!","");
+Prompt(0,"FURBALLETTE: Want to stay?","On the house!", "",3,"Yes","No");
+if (flags[3]=0)
+{
+  BoxFadeOut(50);
+  Healall();
+  SoundEffect(4);
+  BoxFadeIn(50);
+}
+TEXT(0,"FURBALLETTE: Bye!","","");
+}
+Event /* 28 */
+{
+text(0,"FURBALL: Like my hat?","","");
+}
+Event /* 29 */
+{
+text(0,"FURBALL: The king is our","star!","");
+}
+Event /* 30 */
+{
+MapSwitch("Poo.map",9,3,1);
+}
+Event /* 31 */
+{
+AddCharacter(2);    
+}
+Event /* 32 */
+{
+IF(Flags[2]=0)
+{
+Entitymove(5,"L5 U3");
+Wait(200);
+TEXT(0,"Furball: If I were you..","I'd talk to the king..","He can even give you MONEY!");
+Partymove("U2"); 
+Entitymove(5,"D3 R5");
+Wait(200);
+}
+}
+Event /* 33 */
+{
+TEXT(0,"Joe: Who are you?","Furball: Call me Mike!","Joe: Yeah.. but..");
+TEXT(0,"Mike: I'm here to help you!","I love to help people!","Joe: Wierd...");
+}
+Event /* 34 */
+{
+TEXT(0,"Furball: Oh man!","this are stressful times!","");
+}
+Event /* 35 */
+{
+TEXT(0,"Furball: You gotta love this","town!","It rules!");
+}
+
+
+

@@ -1,0 +1,68 @@
+Event /* 0 */
+{
+EnforceANimation();
+}
+Event /* 1 */
+{
+MapSwitch("poo.map",130,161,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Furball: Ahoy, What the","blazes are you doin'","in a place like this?");
+}
+Event /* 3 */
+{
+TEXT(0,"Furball: Compra!","Productos buenos...","");
+Shop(1,2,3,4,25,42,43,45);
+TEXT(0,"Furball: Adios.","","");
+}
+Event /* 4 */
+{
+TEXT(0,"Furball: Hi matey!","Our bed are filled with","sand!!!");
+Prompt(0,"Want to stay here?","Just 20 gold!!","",6,"No","Please");
+IF (Flags[6]=1)
+{
+IF (GP<20)
+{
+TEXT(0,"Innkeeper: You can die","for this, you know?","");
+}
+IF (GP>19)
+{
+BoxFadeOut(50);
+HealAll();
+SoundEffect(4);
+BoxFadeIn(50);
+TakeGP(20);
+TEXT(0,"InnKeeper: Thank you!","","");
+}
+}
+}
+Event /* 5 */
+{
+IF(Flags[26]=0)
+{
+TEXT(0,"Pirate: AHOY!","Bollo: AHOY!!!","Pirate: .... ");
+TEXT(0,"Pirate: Want to buy a ship?","Bollo: No, why?","Pirate: This is the boat");
+TEXT(0,"rental shop of pirateria.","Joe: Maybe...","");
+IF (GP<100)
+{
+TEXT(0,"Joe: but I have less than","100 gold...","Pirate: GO AWAY THEN!");
+}
+IF (GP>=100)
+{
+Prompt(0,"Buy a boat?","Only 100 gold!","Yes?",26,"Nay!","Yeh!");    
+TEXT(0,"Pirate: Ok... The boat is","really a barrel with a","sail...");
+TEXT(0,"Pirate: it works perfectly,","tho...","");
+}
+}
+IF(Flags[26]=1)
+{
+TEXT(0,"Pirate: You can't return","the boat...","Joe: Wasn't it a rental?");
+TEXT(0,"Pirate: That piece of...","Ooops!","No, you can have it!");
+SoundEffect(7);
+PartyMove("D2");
+TEXT(0,"Bollo: PSSSTT...","Joe: Yeah?","Bollo: I think he forgot to");
+TEXT(0,"take the 100 gold!","Joe: COOL!","Bollo: hehehe...");
+SoundEffect(7);
+}
+}

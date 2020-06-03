@@ -1,0 +1,55 @@
+Event /* 0 */
+{
+EnforceAnimation();
+}
+Event /* 1 */
+{
+MapSwitch("Surreal.map",47,64,0);
+}
+Event /* 2 */
+{
+TEXT(0,"Brocoli: Eat me.","","");
+Wait(90);
+TEXT(0,"Brocoli: But not now...","","");
+}
+Event /* 3 */
+{
+IF(item(16))
+ {
+ TEXT(0,"Fire: You have the Broco-","Licious book!","");
+ }
+IF(!item(16))
+ {
+ TEXT(0,"Fire: Brocoli grows from","the ground...","");
+ TEXT(0,"The blessings of the earth","flow within it.","Life is Brocoli.");
+ TEXT(0,"Brocoli, my friend, is life.","Take this broco-licious book","of magic to the magic desk.");
+ GiveItem(16);
+ TEXT(0,"Brocoli bless you.","","");
+ }
+}
+Event /* 4 */
+{
+TEXT(0,"Brocoli: I can change the","music!","Cheesy Tropical Music!");
+PlayMusic("AURORA.MOD");     
+}
+Event /* 5 */
+{
+TEXT(0,"Brocoli: I can change the","music!","Wierd Music from Hell!");
+PlayMusic("Gee.s3m");     
+}
+Event /* 6 */
+{
+TEXT(0,"Brocoli: I can change the","music!","Wierd Music from Hell!");
+PlayMusic("Flow.s3m");     
+}
+Event /* 7 */
+{
+TEXT(0,"Brocoli: I can change the","music!","Egyptian Music? Nah");
+PlayMusic("SilentCR.s3m");     
+}
+Event /* 8 */
+{
+TEXT(0,"Brocoli: I can change the","music!","Will this work???");
+PlayMusic("C5e5.xm");     
+}
+

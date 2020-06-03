@@ -1,0 +1,13 @@
+Event /* 0 */
+{
+EnforceAnimation();
+FadeIn(4);                                 
+Wait(150);
+TEXT(0,"Samu: Thank you Joe,","for taking me home..","");
+TEXT(0,"Now I can write Haiku's","of our adventure!","");
+Wait(50);
+TEXT(0,"Samu: I cant think of one","now...","Maybe it's a sign...");
+TEXT(0,"Maybe I should train harder..","To help Joe the next time..","Evil comes to our system!");
+Wait(100);
+MapSwitch("end9.map",1,38,0);
+}
