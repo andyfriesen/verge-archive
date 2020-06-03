@@ -1,6 +1,11 @@
 
 let games: array(Game.game) = [|
     {
+        name: "aol_chronicles",
+        title: "The AOL Chronicles",
+        description: "TODO!"
+    },
+    {
         name: "blimpo",
         title: "Blimpo Warrior",
         description: "The first completed V1 game, made by Spram!"
@@ -9,7 +14,17 @@ let games: array(Game.game) = [|
         name: "carnage",
         title: "Carnage Killing Spree",
         description: "A game based on Carnage from the SpiderMan comics. Made by CLIPs!"
-    },
+    },    
+    {
+        name: "diver",
+        title: "Diver Down",
+        description: "Excellent game made by Grenideer!"
+    },    
+    {
+        name: "resdemo",
+        title: "Resonance Demo",
+        description: "Hatchet's first verge 'Game'. "
+    },    
     {
         name: "sots",
         title: "Saga of the Stars",
