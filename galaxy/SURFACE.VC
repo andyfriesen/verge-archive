@@ -1,0 +1,18 @@
+//////////////////////
+// Surface.vc
+// By Jason Lescalleet (Tarkuss)
+//////////////////////
+
+event       // #0 - Autoexec
+{
+    EnforceAnimation();
+    ChangeCHR(1,"HLIAM.CHR");
+}
+
+event       // #1 - Text Message
+{          //123456789012345678901234567890
+    Text(0, "Well, this is all I have so",
+            "far.  I hoped you enjoyed",
+            "it!  see yas.  Tarkuss!");
+}
+

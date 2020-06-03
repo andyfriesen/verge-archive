@@ -1,0 +1,104 @@
+71
+Essence 0 Restores_15_MP            1 1 1 0 0 0 200
+Tonic 1 Restores_15_HP              1 0 1 0 0 0 50   
+Panacea 2 Total_Restoration         1 0 0 0 0 0 2000   
+Bronze_Dirk 3 ATK+5                 0 0 0 1 1 0 80   
+Iron_Dirk 4 ATK+10                  0 0 0 1 2 0 100     
+Steel_Dirk 5 ATK+15                 0 0 0 1 3 0 200      
+Astril_Dirk 6 DEF+20                0 0 0 1 4 0 400       
+Main_Gauche 7 DEF+3,_ATK+15         0 0 0 1 5 0 300        
+Energy_Dirk 8 ATK+30,_MAG+2         0 0 0 1 6 0 2000         
+Pooh 0 Pooh!                        0 0 0 0 0 0 0            
+Bronze_Shortsword 9 ATK+10          0 0 0 1 7 0 100           
+Iron_Shortsword 10 ATK+15           0 0 0 1 8 0 200            
+Steel_Shortsword 11 ATK+20          0 0 0 1 9 0 300             
+Astril_Shortsword 12 ATK+25         0 0 0 1 10  0 500              
+Fire_Shortsword 13 ATK+35           0 0 0 1 11 0 3000               
+Steel_Broadsword 14 ATK+25          0 0 0 1 12 0 500                
+Astril_Broadsword 15 ATK+30         0 0 0 1 13 0 900                 
+Dragon_Broadsword 16 ATK+40         0 0 0 1 14 0 5000                  
+Wooden_Wand 17 ATK+5,_MAG+2         0 0 0 1 15 0 100                   
+Astril_Wand 18 ATK+10,_MAG+10       0 0 0 1 16 0 1000                    
+Wooden_Staff 19 ATK+10,_MAG+5       0 0 0 1 17 0 150                     
+Astril_Staff 20 ATK+15,_MAG+10      0 0 0 1 18 0 2000                 
+Magus_Staff 21 ATK+20,_MAG+15       0 0 0 1 19 0 5000                          
+WildKitty_Claw 22 ATK+10            0 0 0 1 20 0 50                           
+Wolf_Claw 23 ATK+15                 0 0 0 1 21 0 150                         
+Bear_Claw 24 ATK+20                 0 0 0 1 22 0 200                          
+Wolverine_Claw 25 ATK+25            0 0 0 1 23 0 400
+Tiger_Claw 26 ATK+30                0 0 0 1 24 0 1000                          
+Clothing 27 DEF+2                   0 0 0 3 25 0 10                               
+Leather_Armor 28 DEF+8              0 0 0 3 26 0 50                                
+Bronze_Scale 29 DEF+15              0 0 0 3 27 0 150                                 
+Steel_Chain 30 DEF+18               0 0 0 3 28 0 200                                
+Half_Plate 31 DEF+20                0 0 0 3 29 0 250                                  
+Iron_Plate 32 DEF+25                0 0 0 3 30 0 300                                  
+Steel_Plate 33 DEF+30               0 0 0 3 31 0 400                                   
+Astril_Chain 34 DEF+25              0 0 0 3 32 0 1000                                     
+Astril_Plate 35 DEF+40              0 0 0 3 33 0 3000
+Dragon_Mail 36 DEF+50               0 0 0 3 34 0 5000
+Cloth_Robe 37 DEF+5                 0 0 0 3 35 0 20
+Leather_Cloak 38 DEF+10             0 0 0 3 36 0 100
+Magus_Cloak 39 DEF+20,_MAG+10       0 0 0 3 37 0 1000
+WildKitty_Hide 40 DEF+5              0 0 0 3 38 0 50
+Wolf_Hide 41 DEF+10                  0 0 0 3 39 0 100
+Bear_Hide 42 DEF+15                  0 0 0 3 40 0 150
+Rhino_Hide 43 DEF+20                 0 0 0 3 41 0 300
+Tiger_Hide 44 DEF+30                 0 0 0 3 42 0 500
+Antidote 45 Cures_Poison             1 0 0 0 0 0 50
+Lazarus_Elixir 46 Revives_Dead_Ally  1 0 0 0 0 0 5000
+Quake_Amulet 47 Cause_Earthquakes    0 0 0 0 0 0 0
+Kitten 48 Meows_a_lot                0 0 0 0 0 0 0
+Ale_Keg 49 Take_to_king              0 0 0 0 0 0 0
+Check 50 Take_to_barkeep             0 0 0 0 0 0 0
+WildKitty_Cap 51 DEF+2               0 0 0 4 43 0 25
+Wolf_Cap 52 DEF+5                    0 0 0 4 44 0 50
+Bear_Cap 53 DEF+8                    0 0 0 4 45 0 75
+Tiger_Cap 54 DEF+12                  0 0 0 4 46 0 300
+Buckler 55 DEF+2                     0 0 0 2 47 0 25
+Wood_Shield 56 DEF+5                 0 0 0 2 48 0 50
+Metal_Shield 57 DEF+10               0 0 0 2 49 0 100
+Dragon_Shield 58 DEF+20              0 0 0 2 50 0 2000
+Wood_Boomerang 59 ATK+2              0 0 0 2 51 0 25
+Steel_Boomerang 60 ATK+5             0 0 0 2 52 0 50
+Astril_Boomerang 61 ATK+10           0 0 0 2 53 0 100
+Tiger_Boomerang 62 ATK+15            0 0 0 2 54 0 200
+Magus_Ring 63 Magic_Power_up         0 0 0 5 55 0 500
+Foo_Ring 64 Does_Something_good      0 0 0 5 56 0 500
+Eagle_Eye_Pendant 65 Hit_Chance_up   0 0 0 5 57 0 200
+Cloth_Cap 66 DEF+1                   0 0 0 4 58 0 10
+Leather_Cap 67 DEF+2                 0 0 0 4 59 0 25
+Bronze_Helm 68 DEF+8                 0 0 0 4 60 0 75
+Chain_Coif 69 DEF+10                 0 0 0 4 61 0 100
+Iron_Helm  70 DEF+15                 0 0 0 4 62 0 200
+
+Running_Boots 37 Extends_Mobility   0 0 0 6 29 0 750
+Protect_Locket 38 Fortifies_magic_defense 0 0 0 6 30 0 1000
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <price>
+
+<use>: 0 for nonusable.
+       1 for usable once, then it goes away.
+       2 for usable an infinite number of times.
+       3 for usable ONLY camped, only once.
+       4 for usable ONLY camped, infinitely
+       5 for usable in combat only, once, then it goes away.
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to EFFECTS.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: 0 if it is nonequipable by anyone.
+             1 Equipment is right-hand (weapon)
+             2 Equipment is left-hand (shield)
+             3 Equipment is armor
+             4 Equipment is helmet
+             5 Equipment is acc1
+             6 Equipment is acc2
+<equipidx> is a pointer to EQUIP.DAT when necessary.
+<price>: Is the cost to buy the item in a store. It can be sold for half the
+         cost. Note that it might not necessarily appear in any stores for
+         sale, such as Althena's sword, but you can still sell it or something.

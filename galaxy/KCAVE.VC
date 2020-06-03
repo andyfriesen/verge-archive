@@ -1,0 +1,161 @@
+/////////////////////////
+// kcave.vc
+// Caves beneath Koren Keep
+// By Tarkuss (Jason Lescalleet)
+/////////////////////////
+
+/* Flags Used in this map.
+    20 - Chest 1
+    21 - Chest 2
+    22 - Chest 3
+*/
+event       // #0 - autoexec
+{
+    EnforceAnimation();
+    Fade=1;
+    Timer=0;
+    While (Timer < 200)
+    {
+        PaletteMorph(0,0,0,(100-(Timer/2)),63);
+        Redraw();
+    }
+}
+
+event       // #1 - In Door A
+{
+    Warp(95,20,0);
+}
+
+event       // #2 - Out Door A
+{
+    Warp(43,23,0);
+}
+
+event       // #3 - In Door B
+{
+    Warp(69,12,0);
+}
+
+event       // #4 - Out Door B
+{
+    Warp(103,5,0);
+}
+
+event       // #5 - In Door C
+{
+    Warp(191,52,0);
+}
+event       // #6 - Out Door C
+{
+    Warp(119,19,0);
+}
+
+event       // #7 - In Door D
+{
+    Warp (74,88,0);
+}
+
+event       // #8 - Out Door D
+{
+    Warp (125,43,0);
+}
+
+event       // #9 - In Door G
+{
+    Warp (192,65,0);
+}
+
+event       // #10 - Out Door G
+{
+    Warp (55,89,0);
+}
+
+event       // #11 - In Door H
+{
+    Warp (12,42,0);
+}
+
+event       // #12 - Out Door H
+{
+    Warp (174,95,0);
+}
+
+event       // #13 - In Door E
+{
+    Warp (102,78,0);
+}
+
+event       // #14 - Out Door E
+{
+    Warp (13,53,0);
+}
+
+event       // #15 - Out of caves
+{
+    For(I,20,29,1)
+    {
+        SpecialFrame[0]=I;
+        Text(0, "Testing","","");
+    }
+    SpecialFrame[0]=0;
+    ChangeCHR(1,"HLIAM.CHR");
+    For(I,20,29,1)
+    {
+        SpecialFrame[0]=I;
+        Text(0, "Testing","","");
+    }
+    ChangeCHR(1,"LIAM.CHR");
+    For(I,20,29,1)
+    {
+        SpecialFrame[0]=I;
+        Text(0, "Testing","","");
+    }
+    SpecialFrame[0]=0;
+
+    MapSwitch("SURFACE.MAP",0,0,0);
+}
+
+event       // #16 - Master Chest Script
+{
+    If (!Flags[Var(0)])
+    {
+        Flags[Var(0)] = 1;
+        AlterBTile(Var(1),Var(2),57,1);
+        SoundEffect(3);
+        GiveItem(Var(3));
+    }
+}
+
+event       // #17 - Chest 1 - Leather Cap
+{
+    CallEvent(16,20,8,19,69);
+}
+
+event       // #18 - Chest 2 - Tonic (lots of these ! :)
+{
+    CallEvent(16,21,69,6,1);
+}
+
+event       // #18 - Chest 3 - Gives gold.
+{
+    If (!Flags(22))
+    {
+        AlterBTile(126,49,57,1);
+        SoundEffect(3);
+        GiveGP(50);
+        Banner("Found 50 Gold",1);
+        Flags[22] = 1;
+    }
+}
+
+event       // #19 - Save Point
+{
+    Banner("Save Point",1);
+    EnableSave();
+}
+
+event       // #20 - No Save
+{
+    DisableSave();
+}
+

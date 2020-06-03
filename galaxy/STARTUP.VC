@@ -1,0 +1,16 @@
+script
+{
+  playmusic("LIAM.XM");
+  sys_displaypcx("verge320.pcx");
+  vgadump();
+  fadein(100);
+  delay(100);
+  fadeout(100);
+  sys_displaypcx("verge1.pcx");
+  vgadump();
+  fadein(100);
+  delay(100);
+  fadeout(100);
+  NewGame("SELECT.MAP");
+  return;
+}

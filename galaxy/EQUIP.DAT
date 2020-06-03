@@ -1,0 +1,204 @@
+62
+// 1 Bronze Dirk
+ATK +5
+EQABLE 1 2 3 4 5
+- // 2 Iron Dirk
+ATK +10
+EQABLE 1 2 4
+- // 3 Steel Dirk
+ATK +15
+EQABLE 1 4
+- // 4 Astril Dirk
+ATK +20
+EQABLE 1 4
+- // 5 Main Gauche
+ATK +15
+DEF +3
+EQABLE 1
+- // 6 Energy Dirk
+ATK +10
+MAG +2
+EQABLE 4
+- // 7 Bronze Shortsword
+ATK +10
+EQABLE 1
+- // 8 Iron Shortsword
+ATK +15
+EQABLE 1
+- // 9 Steel Shortsword
+ATK +20
+EQABLE 1
+- // 10 Astril_Shortsword
+ATK +25
+EQABLE 1
+- // 11 Fire Shortsword
+ATK +35
+EQABLE 1
+- // 12 Steel Broadsword
+ATK +25
+EQABLE 1
+- // 13 Astril Broadsword
+ATK +30
+EQABLE 1
+- // 14 Dragon Broadsword
+ATK +40
+EQABLE 1
+- // 15 Wooden Wand
+ATK +5
+MAG +2
+EQABLE 4
+- // 16 Astril Wand
+ATK +10
+MAG +10
+EQABLE 4
+- // 17 Wooden Staff
+ATK +10
+MAG +5
+EQABLE 4
+- // 18 Astril Staff
+ATK +15
+MAG +10
+EQABLE 4
+- // 19 Magus Staff
+ATK +20
+MAG +15
+EQABLE 4
+- // 20 WildKitty Claw
+ATK +10
+EQABLE 2
+- // 21 Wolf Claw
+ATK +15
+EQABLE 2
+- // 22 Bear Claw
+ATK +20
+EQABLE 2
+- // 23 Wolverine Claw
+ATK +25
+EQABLE 2
+- // 24 Tiger Claw
+ATK +30
+EQABLE 2
+- // 25 Clothing
+DEF +2
+EQABLE 1 2 3 4 5
+- // 26 Leather Armor
+DEF +8
+EQABLE 1
+- // 27 Bronze Scale
+DEF +15
+EQABLE 1
+- // 28 Steel Chain
+DEF +18
+EQABLE 1
+- // 29 Half Plate
+DEF +20
+EQABLE 1
+- // 30 Iron Plate
+DEF +25
+EQABLE 1
+- // 31 Steel Plate
+DEF +30
+EQABLE 1
+- // 32 Astril Chain
+DEF +25
+EQABLE 1 4
+- // 33 Astril Plate
+DEF +40
+EQABLE 1
+- // 34 Dragon Mail
+DEF +50
+EQABLE 1
+- // 35 Cloth Robe
+DEF +5
+EQABLE 4
+- // 36 Leather Cloak
+DEF +10
+EQABLE 4
+- // 37 Magus Cloak
+DEF +20
+MAG +10
+EQABLE 4
+- // 38 WildKitty Hide
+DEF +5
+EQABLE 2
+- // 39 Wolf Hide
+DEF +10
+EQABLE 2
+- // 40 Bear Hide
+DEF +15
+EQABLE 2
+- // 41 Rhino Hide
+DEF +30
+EQABLE 2
+- // 42 Tiger Hide
+DEF +20
+DOD +5
+MGR +5
+EQABLE 2
+- // 43 Wildkitty cap
+DEF +2
+EQABLE 2
+- // 44 Wolf cap
+DEF +5
+EQABLE 2
+- // 45 Bear Cap
+DEF +8
+EQABLE 2
+- // 46 Tiger Cap
+DEF +12
+EQABLE 2
+- // 47 Buckler
+DEF +2
+DOD +1
+EQABLE 1 2 4
+- // 48 Wood shield
+DEF +5
+DOD +3
+EQABLE 1
+- // 49 Metal shield
+DEF +10
+DOD +5
+EQABLE 1
+- // 50 Dragon Shield
+DEF +20
+DOD +10
+EQABLE 1
+- // 51 Wood Boomerang
+ATK +2
+EQABLE 2
+- // 52 Steel Boomerang
+ATK +5
+EQABLE 2
+- // 53 Astril Boomreang
+ATK +10
+EQABLE 2
+- // 54 Tiger Boomerang
+ATK +15
+EQABLE 2
+- // 55 Magus Ring
+MAG +10
+EQABLE 1 2 3 4 5
+- // 56 Foo Ring
+MGR +10
+DEF +10
+FER +10
+EQABLE 1 2 3 4 5
+- // 57 EagleEye Pendant
+HIT +10
+EQABLE 1 2 3 4 5
+- // 58 Cloth Cap
+DEF +1
+EQABLE 1 2 3 4 5
+- // 59 Leather Cap
+DEF +2
+EQABLE 1 4
+- // 60 Bronze Helm
+DEF +8
+EQABLE 1
+- // 61 Chain Coif
+DEF +10
+EQABLE 1
+- // 62 Iron Helm
+DEF +15
+EQABLE 1
+-

@@ -1,0 +1,92 @@
+//////////////////
+// intro.vc
+// by Jason Lescalleet (Tarkuss)
+//////////////////
+
+// note: this file contains no zone events, since the map is intended
+//  strictly for cutescene use.
+
+event       // #0 - autoexec
+{
+    // Disable fades
+    Fade = 0;
+    // Enable VC layer
+    LayerVC = 1;
+    // Make the palette darker and more bluey
+    // PaletteMorph(0,0,32,15,63);
+    // Scroll up from bottom, displaying text
+    // Initialize scroll
+    cameratracking = 0;
+    xwin = 0;
+    ywin = 1000;
+    Redraw();
+
+    // use timer to scroll at a constant rate
+    timer = 0;
+    While ((Timer/2) < 100)
+    {
+        YWin = 1000 - (Timer/2);
+        PaletteMorph(0,0,0,(100-(Timer/3)),63);
+        redraw();
+    }
+
+    // CallEvent(1,100,1000);
+    //            1234567890123456789012345678901234567890
+    VCText(10,10,"It has been a thousand years since");
+    VCText(10,30,"the fall of the legendary Empire");
+    VCText(10,50,"from Beyond the Stars, and the world");
+    VCText(10,70,"of Ailandria is slowly emerging from");
+    VCText(10,90,"the era of chaos that followed...");
+
+    CallEvent(1,250,900);
+    VCClear();
+    CallEvent(1,50,650);
+    VCText(10,10,"The age of constant wars between");
+    VCText(10,30,"the kingdoms of the North and South");
+    VCText(10,50,"is nearly at an end, and a new age");
+    VCText(10,70,"of peace is on the horizon,");
+    VCText(10,90,"tantalizingly near...");
+    CallEvent(1,250,600);
+    VCClear();
+    CallEvent(1,50,350);
+    VCText(10,10,"But a greater conflict may yet lie");
+    VCText(10,30,"ahead.  The kingdom of Dorulthar in");
+    VCText(10,50,"the North has grown strong.  The");
+    VCText(10,70,"King has begun searching for ancient");
+    VCText(10,90,"artifacts of great power.  He has sent");
+    VCText(10,110,"one of his best soldiers, Liam Asgarth,");
+    VCText(10,130,"to the town of Koren in the South, to");
+    VCText(10,150,"retrieve such an artifact...");
+    CallEvent(1,250,300);
+    VCClear();
+    CallEvent(1,50,50);
+    // turn off the VC layer and reenable camera tracking
+    LayerVC = 0;
+    cameratracking = 1;
+    Wait(50);
+          // 123456789012345678901234567890
+    Text(1, "Remember, we are here for one",
+            "purpose.  Our King must have",
+            "the Scepter of Moradhan.");
+    Text(1, "There will be no looting, and",
+            "we will kill nobody unless we",
+            "must.");
+    Wait(25);
+    Text(0, "Aye, sir liam!","","");
+
+    boxfadeout(10);
+    // go to the town of Koren map.
+    MapSwitch("Koren.map",0,0,1);
+}
+
+event   // #1 - Timer Scroll
+{
+    // Var (0) = lenght of scroll in pixels
+    // Var (1) = starting y coordinate (will scroll up)
+    Timer = 0;
+    While ((Timer / 2) < Var(0))
+    {
+        ywin = var (1) - (Timer / 2);
+        redraw();
+    }
+}

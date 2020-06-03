@@ -1,0 +1,217 @@
+//////////////////////
+// Town of Koren
+//
+// Koren.vc
+// By Jason Lescalleet (Tarkuss)
+//////////////////////
+
+
+event   // #0 - autoexec
+{
+    EnforceAnimation();
+    AddCharacter(3);
+    AddCharacter(5);
+    ForceEquip(1,13);
+    ForceEquip(1,35);
+    ForceEquip(3,12);
+    ForceEquip(3,34);
+    ForceEquip(3,72);
+    ForceEquip(5,12);
+    ForceEquip(5,34);
+    ForceEquip(5,72);
+    GiveXP(1,45);
+    GiveXP(3,20);
+    GiveXP(5,20);
+    PaletteMorph(0,0,10,35,63);
+    Redraw();
+    BoxFadeIn(10);
+
+}
+
+event       // #1 - Leaving town
+{   //       123456789012345678901234567890
+    Text (1,"We're not leaving here until",
+            "we have that scepter!","");
+/*
+    LayerVC = 1;
+    VCLoadPCX("CEL1.PCX",0);
+    VCBlitImage(10,10,80,100,0);
+    Text (1,"Just testing","","");
+    LayerVC = 0; */
+}
+
+event       // #2 - Encounter with the Elder
+{
+    Fade = 1; // You are allowed to fade, now :)
+    // prepare for a large cutescene
+    DisableMenu();
+    LayerVC = 1; // Turn on the VC layer...we're gonna use it.
+    Wait(50);
+    // open the door
+    SoundEffect(3);
+    AlterBTile(LocX,LocY,0,0);
+    AlterBTile(LocX,LocY-1,264,0);
+    // step back
+    RemoveCharacter(3);
+    RemoveCharacter(5);
+    Warp(LocX,LocY+2,1);
+    Wait(25);
+    // make the elder and guards appear
+    AlterBTile(LocX,LocY-1,468,0);
+    AlterFTile(LocX,LocY-2,466,0);
+    AlterBTile(LocX-1,LocY-1,471,0);
+    AlterFTile(LocX-1,LocY-2,469,0);
+    AlterBTile(LocX+1,LocY-1,471,0);
+    AlterFTile(LocX+1,LocY-2,469,0);
+
+    Wait(25);
+    // draw a manga cel (liam reading from scroll)
+    VCPutPCX("CEL1.PCX",200,10);    // Manga cel of liam with scroll
+    // converse
+           //123456789012345678901234567890
+    Text (1,"I, Sir Liam, Knight of",
+            "Dorulthar, am here on behalf",
+            "of King Menelbor of Dorulthar.");
+    Text (1,"I have come to seek your",
+            "assistance.  You are to",
+            "surrender the Scepter of");
+    Text (1,"Moradhan to me, to be taken",
+            "back to my master.  Should you",
+            "choose not to cooperate, I am");
+    Text (1,"authorized to use whatever",
+            "force is necessary to persuade",
+            "you.");
+    Wait (100);
+    // draw another manga cel (Koren Elder)
+    VCPutPCX("CEL2.PCX",10,20);
+    Text (0,"Koren is a peaceful town, and",
+            "loathe to go to war, but we",
+            "will never submit to the");
+    Text (0,"tyranny of your King.","","");
+    Text (0,"Guards!  Get them!","","");
+    // clear VC layer
+    VCClear();
+    // fight -- Not yet!
+
+    // Show victory pic
+    Fade=1;
+    FadeOut(25);
+    Redraw();
+    PaletteMorph(0,0,0,100,64);
+    Redraw();
+    Layer0=0;
+    Layer1=0;
+    VCPutPCX("CEL10.PCX",20,20);
+    Redraw();
+    FadeIn(25);
+    Wait(100);
+           //123456789012345678901234567890
+    Text(0, "Liam and his men defeat the",
+            "guards of Koren.","");
+    FadeOut(25);
+    PaletteMorph(0,0,0,100,64);
+    Redraw();
+    Layer0=1;
+    Layer1=2;
+    VCClear();
+    // step to center of mansion area
+    Warp (47,48,1);
+    Redraw();
+    FadeIn(25);
+    Fade=0;
+    // draw another manga cel (Liam threatening the Elder)
+    VCPutPCX("CEL3.PCX",100,20);
+           //123456789012345678901234567890
+    Text (1,"Like I said.  Give me the",
+            "Scepter.","");
+    VCPutPCX("CEL4.PCX",10,10);
+    Text (0,"If you truly desire that which",
+            "I possess, I will give you a",
+            "taste of that power!");
+    VCClear();
+    Y = YWin;
+    CameraTracking = 0;
+    DrawParty = 0;
+    Timer = 0;
+    While (Timer < 100)
+    {
+        YWin = Y - (3 * Timer);
+        Redraw();
+    }
+    Timer = 0;
+    While (Timer < 50)
+    {
+        PaletteMorph(63,63,63,(Timer*2),63);
+    }
+    Timer = 0;
+    While (Timer < 50)
+    {
+        PaletteMorph(63,63,63,100-(Timer*2),63);
+    }
+    Wait(50);
+    VCPutPCX("CEL5.PCX",10,10);
+    Wait(50);
+    VCPutPCX("CEL6.PCX",(320 - 90),10);
+    Wait(50);
+    VCPutPCX("CEL7.PCX",100,20);
+    Text (1,"The Sun!  What is happening?",
+            "What are you doing?","");
+    Text (0,"You fool.  Did you not know of",
+            "the true power of the Scepter?",
+            "What it really is.");
+    VCClear();
+    Timer=0;
+    While (Timer < 100)
+    {
+        YWin = Y - (3 * (100 - Timer));
+        Redraw();
+    }
+    CameraTracking = 1;
+    DrawParty = 1;
+    Redraw();
+    Text (0,"Now you will face the Power of",
+            "the Elders.","");
+    Timer = 0;
+    While (Timer < 100)
+    {
+        PaletteMorph(63,0,0,Timer,63);
+        Redraw();
+    }
+    Timer = 0;
+    While (Timer < 63)
+    {
+        PaletteMorph((63 - Timer),0,0,100,63);
+        Redraw();
+    }
+    // prepare for regular game again
+    EnableMenu();
+    LayerVC = 0;    // Turn off VC layer
+    MapSwitch("DUNGEON.MAP",0,0,1);
+}
+
+event       // #3 - Fake Inn
+{         // 123456789012345678901234567890
+    Text (0,"The door is barred.","","");
+    Text (1,"Never mind, there will be no",
+            "rest for us until we are back",
+            "in Dorulthar with the Scepter.");
+}
+
+event       // #4 - Fake Shop
+{
+          // 123456789012345678901234567890
+    Text (0,"The door is barred.","","");
+    Text (1,"That which we seek is not",
+            "likely to be sold in stores.",
+            "Leave this place alone.");
+}
+
+event       // #5 - Fake House
+{
+        //   123456789012345678901234567890
+    Text (0,"The door is barred.","","");
+    Text (1,"The people of Koren knew we",
+            "were coming.  They are safer",
+            "there than in the streets.");
+}
+

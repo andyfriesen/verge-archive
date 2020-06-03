@@ -1,0 +1,582 @@
+////////////////////
+// Dungeon.vc
+//
+// The Koren Dungeons
+// By Tarkuss
+////////////////////
+
+/* Flags used:
+    0: Determines if intro sequence has been played
+    1: Chest T1
+    2: Chest A1
+    3: Chest A2
+    4: Chest A3
+    5: Chest A4
+    6: Chest A5
+    7: X Coordinate (before going into door)
+    8: Y Coordinate (before going into door)
+    9: Response to yes/no prompt (heal fountain)
+    10: Chest S1
+    11: Chest S2
+    12: Chest S3
+    13: Chest B1
+    14: Chest L1
+    15: Chest L2
+    16: Chest L3
+    17: Chest L4
+    18: The door in the lower-level hallway
+    19: Contains current palette morph level.
+    25: Keeps track of whether or not the secret passage has been found
+*/
+event       // #0 - Autoexec
+{
+    Fade=0;
+    EnforceAnimation();
+    Redraw();
+
+    If (!Flags[0])
+    {
+        DestroyItem(13,1);
+        DestroyItem(35,1);
+        ForceEquip(1,29);
+        Fade = 0;   // don't want any fades to screw up our palettemorphs
+        Flags[0] = 1;
+        PaletteMorph(0,0,0,100,63);
+        Flags[19]=100;
+        Wait (50);
+        Timer = 0;
+        While(Timer < 50)
+        {
+            PaletteMorph(0,0,0,(100-Timer),63);
+            Redraw();
+        }
+        //       123456789012345678901234567890
+        Text (1,"...Whe....Where am I?","","");
+        Text (1,"I...must have been...","","");
+        Text (1,"I...must have been...","...","");
+        Text (1,"I...must have been...","...","Captured!");
+        Wait (85);
+        Text (1,"Oh damn!  The Scepter!  My",
+                "men!","");
+        LayerVC=1;
+        VCPutPCX("CEL6.PCX",10,10);
+        Text (1,"What was that thing?","","");
+        VCClear();
+        Wait(100);
+        VCPutPCX("CEL8.PCX",10,30);
+        Wait(25);
+        VCPutPCX("CEL9.PCX",10,30);
+        Text (0,"Suppertime, you worthless",
+                "maggot!","");
+        VCClear();
+        LayerVC = 0;
+        Wait(100);
+        Text (0,"Well, what the hell are you",
+                "waiting for!  Eat up.  They",
+                "want you nice and healthy...");
+        Wait(100);
+        Text (0,"Hey!  What are you, deaf!",
+                "You're gonna need to eat",
+                "SOMETHING before interrogation");
+        Wait(100);
+        Text (0,"That's it!  I'm coming in.","","");
+        // open the door
+        SoundEffect(3);
+        PaletteMorph(0,0,0,35,63);
+        Flags[19]=35;
+        AlterBTile(9,97,12,0);
+        AlterBTile(9,96,12,0);
+        AlterFTile(9,98,184,0);
+        AlterFTile(9,97,183,0);
+
+        Text (0,"You're gonna regret this, you",
+                "stupid motherf---","");
+
+        Banner ("BONK!",1);
+        AlterBTile(9,99,188,1);
+        AlterBTile(9,100,187,1);
+        AlterFTile(9,98,0,0);
+        AlterFTile(9,97,0,0);
+    }
+    PaletteMorph(0,0,0,Flags[19],64); // assume current palette level
+}
+
+event       // #1 - Master Item Chest Script
+{           // CallEvent(1,flag,x,y,item);
+    If (!Flags[Var(0)])
+    {
+        Flags[Var(0)] = 1;
+        AlterBTile(Var(1),Var(2),154,1);
+        SoundEffect(3);
+        GiveItem(Var(3));
+    }
+}
+
+event       // #2 - Master Gold Chest Script
+{           // CallEvent(2,flag,x,y,gold);
+    If (!Flags[Var(0)])
+    {
+        Flags[Var(0)] = 1;
+        AlterBTile(Var(1),Var(2),154,1);
+        SoundEffect(3);
+        GiveGP(Var(3));
+    }
+}
+
+event       // #3 - Doorway out of cell 1
+{
+    BoxFadeOut(25);
+    Warp(10,81,1);
+    Palettemorph(0,0,0,15,63);
+    Flags[19]=15;
+    BoxFadeIn(25);
+}
+
+event       // #4 - Doorway into cell 1
+{
+    BoxFadeOut(25);
+    Warp(9,98,1);
+    Palettemorph(0,0,0,35,63);
+    Flags[19]=15;
+    BoxFadeIn(25);
+}
+
+event       // #5 - Doorway into torture Chamber
+{
+    CallEvent(8,61,85,12,119,25);
+    Banner("Torture Chamber",1);
+}
+
+event       // #6 - Doorway out of torture chamber
+{
+    CallEvent(9,61,85,61,87,15);
+}
+
+event       // #7 - Chest T1 - First chest in torture chamber
+{
+    CallEvent(1,1,21,112,1); // Gives Essence
+}
+
+event       // #8 - Master Upwards door script
+{
+    /*
+        Var 0 : X coord of top of door
+        Var 1 : Y coord of top of door
+        Var 2 : X coord of destination
+        Var 3 : Y coord of destination
+        Var 4 : Percentage of palette morph
+    */
+
+    SoundEffect(3);
+    Wait(10);
+    AlterBTile(Var(0),Var(1),270,1);
+    AlterBTile(Var(0),Var(1)+1,269,0);
+    BoxFadeOut(25);
+    Warp(Var(2),Var(3),1);
+    PaletteMorph(0,0,0,Var(4),63);
+    Flags[19]=Var(4);
+    BoxFadeIn(25);
+    AlterBTile(Var(0),Var(1),152,1);
+    AlterBTile(Var(0),Var(1)+1,150,0);
+}
+
+event       // #9 - Master Downwards door script
+{
+    /*
+        Var 0 : X coord of top of door
+        Var 1 : Y coord of top of door
+        Var 2 : X coord of destination
+        Var 3 : Y coord of destination
+        Var 4 : Percentage of palette morph
+    */
+
+    AlterBTile(Var(0),Var(1),270,1);
+    AlterBTile(Var(0),Var(1)+1,269,0);
+    BoxFadeOut(25);
+    Warp(Var(2),Var(3),1);
+    PaletteMorph(0,0,0,Var(4),63);
+    Flags[19]=Var(4);
+    BoxFadeIn(25);
+    Wait(10);
+    SoundEffect(3);
+    AlterBTile(Var(0),Var(1),152,1);
+    AlterBTile(Var(0),Var(1)+1,150,0);
+}
+
+event   // #10 - Door to the Armory
+{
+    CallEvent(8,105,85,46,119,100-90);
+    Banner("Armory",1);
+}
+
+event   // #11 - Door out of Armory
+{
+    CallEvent(9,105,85,105,87,100-85);
+}
+
+event   // #12 - Chest A1
+{
+    CallEvent(1,2,42,116,4);    // Give Bronze Dirk
+}
+
+event   // #13 - Chest A2
+{
+    CallEvent(1,3,43,114,30);   // Give Leather Armor
+}
+
+event   // #14 - Chest A3
+{
+    CallEvent(1,4,46,114,57);   // Give Buckler
+}
+
+event   // #15 - Chest A4
+{
+    CallEvent(1,5,49,114,68);   // Give Cloth Cap
+}
+
+event   // #16 - Chest A5
+{
+    CallEvent(2,6,50,116,500);  // Give 500 Gold
+    Banner("Found 500 Gold",1);
+}
+
+event   // #17 - Door into generic cell
+{
+    // Store x and y coordinates for later use
+    Flags[7] = LocX;
+    Flags[8] = LocY;
+
+    CallEvent(9,4,2,4,4,100-75);
+}
+
+event   // #18 - Door out of generic cell
+{
+    CallEvent(8,4,2,Flags[7],Flags[8]-1,100-85);
+}
+
+event   // #19 - To Lower Level
+{
+    If (!Flags[25])
+    {
+               //123456789012345678901234567890
+        Text(1, "Hmm...that's interesting.",
+                "This part of the wall looks...",
+                "different.");
+        Text(1, "It's like it's not supposed to",
+                "be here.  I wonder what would",
+                "happen if I...");
+        For(i,8,1,-1)
+        {
+            EarthQuake(i,i,10);
+        }
+        AlterBTile(LocX,LocY-1,145,0);
+        AlterBTile(LocX,LocY-2,146,1);
+        For(i,8,1,-1)
+        {
+            EarthQuake(i,i,10);
+        }
+        Text(1, "Aha!  It's a secret passage!","","");
+        Flags[25] = 1;
+    }
+    BoxFadeOut(25);
+    Warp(117,4,1);
+    PaletteMorph(0,0,0,25,63);
+    BoxFadeIn(25);
+}
+
+event   // #20 - To Upper Level
+{
+    BoxFadeOut(25);
+    Warp(98,35,1);
+    PaletteMorph(0,0,0,15,63);
+    BoxFadeIn(25);
+}
+
+event   // #21 - Splash!
+{
+    ChangeCHR(1,"LIAMSP.CHR");
+}
+
+event   // #22 - No Splash!
+{
+    ChangeCHR(1,"LIAM.CHR");
+}
+
+event       // #23 - Foo
+{
+    cameratracking = 0;
+    drawparty = 0;
+    redraw();
+    readcontrols();
+    While(!b1)
+    {
+        readcontrols();
+        If (up)
+        {
+            If (ywin > 0)
+            {
+                 ywin-- ;
+            }
+        }
+        If (down)
+        {
+            If (ywin <= 160 * 16)
+            {
+                 ywin += 1;
+            }
+        }
+        If (left)
+        {
+            If (xwin)
+            {
+                 xwin -= 1;
+            }
+        }
+        If (right)
+        {
+            If (xwin <= 160 * 16)
+            {
+                 xwin += 1;
+            }
+        }
+
+    redraw();
+    }
+
+    drawparty = 1;
+    cameratracking = 1;
+    redraw();
+}
+
+event   // #24 - Save Point
+{
+    Banner("Save Point",1);
+    EnableSave();
+}
+
+event   // #25 - Disable Saving
+{
+    DisableSave();
+}
+
+event   // #26 - Door to cell with save point
+{
+    CallEvent(8,30,77,66,119,25);
+}
+
+event   // #27 - Door from cell with save point
+{
+    CallEvent(8,30,77,30,79,15);
+}
+
+
+event       // #28 - Door to debris room
+{
+    CallEvent(8,133,9,181,73,25);
+}
+
+event       // #29 - Door from debris room
+{
+    CallEvent(8,133,9,133,11,25);
+}
+
+event       // #30 - Door to room with a single treasure chest
+{
+    CallEvent(8,180,27,87,115,25);
+}
+
+event       // #31 - Door from room with a single treasure chest
+{
+    CallEvent(9,180,27,180,29,25);
+}
+
+event       // #32 - Door into generic cell (upwards)
+{
+    // Store x and y coordinates for later use
+    Flags[7] = LocX;
+    Flags[8] = LocY;
+
+    CallEvent(8,LocX,LocY-1,7,138,25);
+}
+
+event       // #33 - Door out of generic cell (going downwards)
+{
+    CallEvent(8,Flags[7],Flags[8]-1,Flags[7],Flags[8]+1,25);
+}
+
+event       // #34 - Healing Fountain
+{         // 123456789012345678901234567890
+    Text(1, "The water here is surprisingly",
+            "clear.  It looks good enough",
+            "To drink.");
+    Prompt(1,"Drink the water?","","",9,"No","Yes");
+    If (Flags[9])
+    {
+        HealAll();
+        SoundEffect(4);
+        Timer = 0;
+        While(Timer < 5)
+        {
+            PaletteMorph(0,0,0,(25-(Timer*5)),63);
+            Redraw();
+        }
+        Timer = 0;
+        While(Timer < 20)
+        {
+            PaletteMorph(63,63,63,(Timer * 5),63);
+            Redraw();
+        }
+        Timer = 0;
+        While(Timer < 20)
+        {
+            PaletteMorph(63,63,63,(100 - (Timer * 5)),63);
+            Redraw();
+        }
+        Timer = 0;
+        While(Timer < 5)
+        {
+            PaletteMorph(0,0,0,(Timer * 5),63);
+            Redraw();
+        }
+        Banner("HP/MP Restored",1);
+    }
+}
+
+event       // #35 - Door to room with Healing Fountain
+{
+    CallEvent(8,161,9,181,95,30);
+}
+
+event       // #36 - Door from room with Healing Fountain
+{
+    CallEvent(9,161,9,161,11,25);
+}
+
+event   // #37 - Door 1 to storeroom
+{
+    CallEvent(9,30,96,30,98,10);
+}
+
+event   // #38 - Door 2 to storeroom
+{
+    CallEvent(9,36,96,36,98,10);
+}
+
+event   // #39 - Door 1 from storeroom
+{
+    CallEvent(8,30,96,89,57,15);
+}
+
+event   // #40 - Door 2 from storeroom
+{
+    CallEvent(8,36,96,94,57,15);
+}
+
+event   // #41 - Door 1 into room with boxes
+{
+    CallEvent(8,37,43,89,135,10);
+}
+
+event   // #42 - Door 2 into room with boxes
+{
+    CallEvent(8,41,43,95,135,10);
+}
+
+event   // #43 - Door 1 out of room with boxes
+{
+    CallEvent(9,37,43,37,45,15);
+}
+
+event   // #44 - Door 2 out of room with boxes
+{
+    CallEvent(9,41,43,41,45,15);
+}
+
+event   // #45 - Chest 1 in Storeroom
+{
+    CallEvent(1,10,30,101,2);  // Give Tonic
+}
+
+event   // #46 - Chest 2 in Storeroom
+{
+    CallEvent(1,11,33,101,2);  // Give Tonic
+}
+
+event   // #47 - Chest 3 in Storeroom
+{
+    CallEvent(2,12,36,101,200);
+    Banner("Found 200 Gold",1);
+}
+
+event   // #48 - Chest 1 in room with boxes
+{
+    CallEvent(1,13,93,131,48);  // Give Lazarus Elixir
+}
+
+event   // #49 - Chest 1 on lower level
+{
+    CallEvent(1,14,161,19,5);
+}
+
+event   // #50 - Chest 2 on lower level
+{
+    CallEvent(1,15,169,31,2);
+}
+
+event   // #51 - Chest 3 on lower level
+{
+    CallEvent(1,16,183,13,67);
+}
+
+event   // #52 - Chest 4 on lower level, in small room
+{
+    CallEvent(2,17,87,113,500);
+    Banner("Found 500 Gold",1);
+}
+
+event   // #53 - The Pit, leading to the cave.
+{
+    ChangeCHR(1,"LIAM.CHR");
+    cameratracking = 0;
+    Y=YWin;
+    Timer=0;
+    While(Timer < 32)
+    {
+        YWin = Y + (Timer / 2);
+        Redraw();
+    }
+    Text(1,"Whoops!","","");
+    Y = YWin;
+    Timer=0;
+    While(Timer < (200))
+    {
+        YWin=Y + Timer;
+        PaletteMorph(0,0,0,(Timer/2),63);
+        Redraw();
+    }
+    cameratracking=1;
+    Fade = 1;
+    MapSwitch("KCAVE.MAP",0,0,1);
+}
+
+event       // #54 - The door in the hallway
+{
+    If(!Flags[18])
+    {
+      Flags[18] = 1;
+      SoundEffect(3);
+      AlterFTile(149,29,0,0);
+      AlterBTile(149,29,13,0);
+      AlterBTile(149,30,13,0);
+    }
+}
+
+event       // #55 - Too many Guards!!!!
+{
+        //  123456789012345678901234567890
+    Text(1,"The stairs are too well",
+           "guarded.  I need to find some",
+            "other way to get out of here.");
+}
+
+

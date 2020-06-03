@@ -1,0 +1,371 @@
+// File: Town.vc
+
+event  // #0 - autoexec
+{
+    EnforceAnimation();
+    // The Fake Amber
+    If (Flags[2])
+    {
+        AlterFTile(60,33,0,1);
+        AlterBTile(60,34,58,0);
+        AlterBTile(58,30,58,0);
+        AlterBTile(58,29,0,0);
+    }
+    // Treasure Chests in Liam's bedroom
+    If (Flags[3]) AlterBTile(49,57,221,1);
+    If (Flags[4]) AlterBTile(49,58,221,1);
+
+    // Treasure Chests in Liam's Kitchen
+    If (Flags[5]) AlterBTile(92,32,236,1);
+    If (Flags[6]) AlterBTile(93,33,236,1);
+    If (Flags[7]) AlterBTile(93,34,236,1);
+
+    // Treasure Chests in the Inn
+    If (Flags[8]) AlterBTile(26,54,183,1);
+    If (Flags[9]) AlterBTile(28,54,183,1);
+
+    If (Flags[92]) AlterBTile(10,9,240,1);
+}
+
+event // #1 - Doorway 1
+{
+  Warp(6,34,0);
+}
+
+event  // #2 - Out doorway 1
+{
+    Warp (83,10,0);
+}
+
+event // #3 - Doorway 2
+{
+    Warp (27,38,0);
+}
+
+event // #4 - Out doorway 2
+{
+    Warp (23,12,0);
+}
+
+event // #5 - Up the inn stairs
+{
+    Warp (21,54,0);
+}
+
+event // #6 - Down the inn stairs
+{
+    Warp (21,33,0);
+}
+
+event // #7 - The crying child
+{
+If (!Flags[21])
+{
+    Text (1,"Why are you crying?","","");
+    Text (0,"*snif* I lost my kitten","","");
+    Text (4,"Aww, That's so sad.",
+         "We should help her.",
+         "");
+//           123456789012345678901234567890
+    Text (1,"I agree.  Perhaps if we do,",
+            "she will testify on our behalf",
+            "In a court of law...");
+    Text (1,"If we are ever captured and"
+           ,"tried by corrupt officials"
+           ,"for crimes we didn't commit.");
+    Text (4,"*SIGH*  Whatever...","","");
+    Text (1,"Kita. Why don't you change",
+            "into a kitten.  Then she'll",
+            "have something to keep her");
+    Text (1,"company while we're looking",
+            "for her kitty cat.","");
+    Text (2,"No way!  I'm coming with you.",
+            "I get bored waiting for",
+            "Tarkuss too!");
+    Text (1,"All right, you can come.","","");
+    Text (4,"Where did you lose your kitten?","","");
+    Text (0,"In the lava caves north of here","","");
+    Flags[91]=1;
+}
+If (Item(7))
+{
+    DestroyItem(7,0); // get rid of the kitten
+    //       123456789012345678901234567890
+    AlterBTile(10,9,240,1);
+    Text (0,"You found my kitten!!  Oh,",
+            "thank you.  Thank you so very",
+            "much!");
+    Text (1,"Just doing our job.  That's",
+            "what heroes are for.",
+            "");
+    Text (0,"No, I should give you",
+            "something for your troubles.",
+            "Here you go...");
+    GiveItem(12);
+    Text (1,"What is it?","","");
+    Text (0,"It's something I found in the",
+            "lava caves.  It can cause",
+            "earthquakes.");
+    Flags[92] = 1;
+}
+}
+
+event // #8 - Brick Doorway 1
+{
+    Warp(55,38,0);
+}
+
+event // #9 - Out Brick Doorway 1
+{
+    Warp(42,12,0);
+}
+
+event // #10 - Up the stairs in the brick house
+{
+    Warp(61,53,0);
+}
+
+event // #11 - Down the stairs in the brick house
+{
+    Warp (61,31,0);
+}
+
+event // #11 - Out of Town 1 - left gate
+{
+    MapSwitch ("WORLD.MAP",22,35,0);
+}
+
+event   // #13 - Out of Town 2 - North Gate
+{
+    MapSwitch ("WORLD.MAP",23,34,0);
+}
+
+event   // #14 - Opening Message
+{
+    //      123456789012345678901234567890
+    If (!Flags[1])
+    {
+    Text(1,"*Yawn*  *Stretch*","","");
+    Text(1,"Tarkuss?","","");
+    Text(1,"TARKUSS!?","","");
+    Text(1,"Where is that lazy bum when",
+           "you need him.",
+           "TARKUSS!!!!");
+    Text(1,"Oh, well.  I guess I'm not",
+           "going to get any work done",
+           "today.");
+    Flags[1] = 1;
+    }
+}
+
+event   // #15 - Getting Amber
+{
+    If (!Flags[2])
+    {
+    //      123456789012345678901234567890
+    Text(1,"Amber!  What are you doing",
+           "here?","");
+    Text(4,"I didn't have much else to do.",
+           "That lazy Tarkuss isn't ready",
+           "to do any more on the game.");
+    Text(1,"Tell me about it.  What a",
+           "bummer.  And I was hoping to",
+           "go do some adventuring.");
+    Text(4,"That's OK.  We don't need",
+           "Tarkuss for that.  We can",
+           "just go on our own.");
+    Text(1,"Good Idea.  Now, what do we",
+           "do?","");
+    Text(4,"I don't know.  Let's just talk",
+           "to people and see if they have",
+           "any adventures for us.");
+    Text(2,"Hey, Wait for me!","","");
+    Text(1,"Kita!  What are you doing",
+           "here?","");
+    Text(4,"Oh, no.  Not again.  Just come",
+           "along with us, and don't let",
+           "Liam go through THAT again.");
+    AddCharacter(4);
+    AddCharacter(2);
+    AlterFTile(60,33,0,1);
+    AlterBTile(60,34,58,0);
+    AlterBTile(58,30,58,0);
+    AlterBTile(58,29,0,0);
+    Text(2,"All right, let's go!","","");
+    Flags[2] = 1;
+    }
+}
+
+event   // #16 - Chest 1
+{
+    If (!Flags[3])
+    {
+         SoundEffect(3);
+         AlterBTile(49,57,221,1);
+         GiveItem(3);
+         Flags[3] = 1;
+    }
+}
+
+event   // #17 - Chest 2
+{
+    If (!Flags[4])
+    {
+         SoundEffect(3);
+         AlterBTile(49,58,221,1);
+         GiveItem(5);
+         Flags[4] = 1;
+    }
+}
+
+event   // #18 - House to kitchen door
+{
+    Warp(82,36,0);
+}
+
+event   // #19 - Kitchen to house door
+{
+    Warp(58,30,0);
+}
+
+event   // #20 - Kitchen door (in)
+{
+    Warp(92,36,0);
+}
+
+event   // #21 - Kitchen Door (out)
+{
+    Warp(52,7,0);
+}
+
+event   // #22 - Chest 3 - Kitchen
+{
+    If (!Flags[5])
+    {
+        AlterBTile(92,32,236,1);
+        SoundEffect(3);
+        GiveItem(1);
+        Flags[5] = 1;
+    }
+}
+
+event   // #23 - Chest 4 - Kitchen
+{
+    If (!Flags[6])
+    {
+        AlterBTile(93,33,236,1);
+        SoundEffect(3);
+        GiveItem(2);
+        Flags[6] = 1;
+    }
+}
+
+event   // #24 - Chest 5 - Kitchen
+{
+    If (!Flags[7])
+    {
+        AlterBTile(93,34,234,1);
+        SoundEffect(3);
+        GiveItem(2);
+        Flags[7] = 1;
+    }
+}
+
+event   // #25 - Chest 6 - Inn
+{
+    If (!Flags[8])
+    {
+        AlterBTile(26,54,183,1);
+        SoundEffect(3);
+        GiveItem(4);
+        Flags[8]=1;
+    }
+}
+
+event   // #26 - Chest 7 - Inn
+{
+    If (!Flags[9])
+    {
+        AlterBTile(28,54,183,1);
+        SoundEffect(3);
+        GiveItem(1);
+        Flags[9]=1;
+    }
+}
+
+event   // #27 - Barkeep
+{
+If (!Flags[90])
+{
+        //   123456789012345678901234567890
+    Text (1,"Do you have any adventures",
+            "for us?","");
+    Text (0,"Sorry.  Nothing much is going",
+            "on around here.  Everyone's",
+            "working on Galaxy Destroyer.");
+    Text (0,"One thing you can do for me:",
+            "I need to deliver a keg of my",
+            "best ale to the King, who");
+    Text (0,"lives in the castle to the",
+            "northeast.  I don't have time",
+            "to make the delivery.  If you");
+    Text (0,"would be so kind as to do it",
+            "for me, I would very grateful","");
+    Text (1,"Well, it's not exactly adventure",
+            "but we'll do it.","");
+    Text (0,"Great.  Here's the ale.","","");
+    GiveItem(14);
+    Flags[90] = 1;
+    Text (0,"There is one other thing, too.",
+            "Outside, there's this whining",
+            "little brat.  Shut her up.");
+    Text (4,"Isn't that a little harsh?","","");
+    Text (0,"Probably, but she's driving",
+            "away the customers, and I've",
+            "got to make money.");
+}
+If (Flags[2112] && !Flags[502])
+{
+    Text (0,"Hey, where is my check for",
+            "the ale!?","");
+}
+If (Flags[502])
+{
+    //       123456789012345678901234567890
+    Text (1,"Here's your check.","","");
+    Text (0,"Thanks.  You guys are life",
+            "savers.  And you even managed",
+            "to quiet that little girl.");
+    Text (4,"Hey, we're nice people.  Now,",
+            "if Tarkuss ever gets around to",
+            "making a real game, we might");
+    Text (4,"actually get a chance to do",
+            "something really important.","");
+    Text (2,"Like, maybe, saving the",
+            "galaxy?","");
+    Text (1,"Exactly.  This has been another",
+            "crappy demo, but the actual",
+            "game should be much better.");
+    Text (2,"See ya!!!","","");
+    DestroyItem(15,0);
+}
+}
+
+event   // #28 - To Shop
+{
+    Warp(81,59,0);
+}
+
+event   // #29 - From Shop
+{
+    Warp(71,10,0);
+}
+
+event   // #30 - Shopkeeper
+{         //123456789012345678901234567890
+    Text(0,"Sorry, can't sell you",
+           "anything.  There's no shop",
+           "system yet.");
+}
+
+
