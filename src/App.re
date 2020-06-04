@@ -28,7 +28,7 @@ let games: array(Game.game) = [|
     {
         name: "galaxy",
         title: "Galaxy Destroyer Demo",
-        description: "TODO!"
+        description: "Game made by Tarkuss!"
     },        
     {
         name: "resdemo",
