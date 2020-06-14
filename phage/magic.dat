@@ -1,0 +1,56 @@
+36
+Drop:_Safe 0 Drops_a_safe          2 0 0 1 1 0 0 300 
+Drop:_Anvil 1 Drops_an_anvil         2 1 0 1 1 0 0 300   
+Drop:_10_Tons 2 Drops_a_weight      2 2 0 1 1 0 0 450
+Drop:_Giant_Baby 3 Drops_a_baby    2 1 0 1 1 0 0 600
+Drop:_Badger_Statue 4 Drops_a_lucky_statue 2 3 0 1 1 0 0 800
+Life_Booster 6 Health_Bonus       2 4 0 1 7 0 30 1000
+Drop:_Shell 5 Drops_a_clam_shell   2 5 0 1 1 0 0 800
+Drop:_Hippo 8 Drops_a_tiny_dense_hippo 2 3 0 1 1 0 0 1200
+Drop:_Warhead 9 Drops_a_bomb_shell 2 12 0 1 1 0 0 1200
+Peer 10 Scans_enemies             2 6 0 1 8 0 10 400
+Thunderbolt 11 Blasts_an_enemy    2 7 0 1 10 0 30 1200
+Lightning_Rider 12 Blasts_all_enemies 2 8 0 1 10 0 60 2400
+Storm_Fury 13 Does_hideous_damage 2 9 0 1 10 0 45 2400
+Evil_Blood 14 Last_ditch_attack   2 10 0 1 10 0 1 4500
+Drop:_Vault 18 Drops_a_vault       2 11 0 1 1 0 0 1500
+Drop:_Venus_Shell 20 Drops_a_clam_shell 2 27 0 1 1 0 0 1800
+Drop:_Bull 19 Drops_Bull           2 13 0 1 1 0 0 2700
+Antidote 7 Cures_all_of_poison	  2 22 0 1 7 0 15 500
+Anger_Move 21 Anger_Move		2 14 0 1 8 0 0 0
+Anger_Move 21 Anger_Move		2 15 0 1 23 0 0 0
+Anger_Move 21 Anger_Move		2 16 0 1 10 0 0 0
+Anger_Move 21 Anger_Move		2 17 0 1 1 0 0 0
+Anger_Move 21 Anger_Move		2 18 0 1 7 0 0 0
+Anger_Move 21 Anger_Move		2 19 0 1 24 0 0 0
+Anger_Move 21 Anger_Move		2 20 0 1 22 0 0 0
+Anger_Move 21 Anger_Move                2 21 0 1 21 0 0 0
+Spit_Pearl 22 A_money_spending_attack   2 23 0 1 23 0 10 400
+Purity_of_Soul 23 Heals_the_party	2 24 0 1 8 0 150 10000
+Ghost_Summon 24 Summon_Spell       2 25 0 1 8 0 75 8000
+Moobvuu_Summon 25 Summon_Spell    2 26 0 1 8 0 150 15000
+Drop:_Big_Foot 26 Drops_a_Foot    2 28 0 1 1 0 0 3000
+Learn 27 Doubles_enemy_XP	2 29 0 1 8 0 1 200
+Dive_Bomb 28 A_diving_attack       2 30 0 1 23 0 25 300
+Pep_Rally 33 Encourages_all       2 31 0 1 7 0 65 3000
+Evilshock 31 Blasts_a_foe         2 32 0 1 23 0 30 600
+Health_Leech 32 Gain_health_from_foes 2 33 0 1 23 0 60 3000
+
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <mp
+cost> <price>
+
+<use>: 2 for usable an infinite number of times.
+       4 for usable ONLY camped, infinitely
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to MAGIC.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: This is vestigal data.                                                                      
+<equipidx> is a pointer to MAGICEQ.DAT when necessary.
+<mp cost>: This is the cost in mp for the spell
+<price>: This is the cost in stores for the spell

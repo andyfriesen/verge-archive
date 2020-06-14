@@ -29,7 +29,12 @@ let games: array(Game.game) = [|
         name: "galaxy",
         title: "Galaxy Destroyer Demo",
         description: "Game made by Tarkuss!"
-    },        
+    },
+    {
+        name: "phage",
+        title: "PHAGE: Rhapsody",
+        description: "Gregory 'GMW' Walpole made this full-blown RPG in 2001.  The story is darker than it looks.",
+    },
     {
         name: "resdemo",
         title: "Resonance Demo",

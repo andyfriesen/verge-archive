@@ -1,0 +1,19 @@
+P.H.A.G.E. Rhapsody V. 5.0 
+
+by Greg "GMW" Walpole
+
+This version *still* steals battle mechanics from Final Fantasy, 
+mini-games from Tales of Destiny, secrets from Lunar SSSC, and 
+recycles jokes by Sharkey. Absolutely 100% Originality-Free!
+
+But seriously, fixed a bunch of bugs, added a huge chunk of game,
+a number of side-quests, new ghost games, and two *very* hard bosses.
+Plus the Battle system got modified a little, so there are lots of
+strange enemy attacks, and I threw in some extra critters in earlier
+parts of the game! 
+
+Not fully compatible with earlier versions! (If you start from a
+save from an earlier version, you will not be able to use your Anger
+Moves, and certain spells will not call the correct values from their
+.dat files.) You probably want to start over just because I added some
+stuff to the early parts of the game.

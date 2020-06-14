@@ -1,0 +1,335 @@
+68
+// Left Claw & Right Claw 1
+ATK +15
+EQABLE 3
+- // Fury Tongue 2
+ATK +8
+FER +3
+EQABLE 1 
+- // Spectacles 3
+ATK +3
+HIT +30
+MAG +50
+MGR +50
+REA +50
+DEF +3
+EQABLE 6
+- // Mage Anklet 4
+MAG +40
+EQABLE 1 2 3 4 5 6 7 8 
+- // Force Tail 5
+ATK +18
+HIT +5
+EQABLE 4
+- // Sickle Claw & Scythe Claw 6
+ATK +35
+MAG +15
+MGR +15
+MBL +3
+FER +30
+EQABLE 3
+- // Dark Fangs 7
+ATK +181
+EQABLE 2
+- // Spear Quiver 8
+ATK +45
+DEF +15
+EQABLE 4
+- // Pulse Tongue 9
+ATK +22
+EQABLE 1
+- // Ghost Sheet 10
+DEF +22
+EQABLE 1 2 3 4 5 6 7 8
+- // Sonic Croak 11
+ATK +240
+MAG +240
+EQABLE 7
+- // Emperor Clothes 12
+ATK +70
+MAG +70
+EQABLE 8
+- // Roc Catcher 13
+ATK +50
+FER +60
+EQABLE 1
+- // Dynamo Tail 14
+ATK +80
+MAG +60
+FER +40
+EQABLE 4
+- // Ring of Water 15
+MAG +5
+MGR +15
+EQABLE 1 2 3 4 5 6 7 8
+- // Ghost Kiss 16
+ATK +10
+DEF +5
+MGR +15
+MAG +5
+DOD +15
+MBL +1
+EQABLE 1 2 3 4 5 6 7 8
+- // Bandana 17
+DEF +2
+EQABLE 3 5 
+- // Dirk 18
+ATK +8
+EQABLE 3 5
+- // Regal Robes 19
+DEF +60
+MGR +25
+EQABLE 8
+- // Green Jerkin 20
+DEF +2
+DOD +7
+EQABLE 5
+- // Wraith Sheet 21
+DEF +48
+EQABLE 1 2 3 4 5 6 7 8
+- // Serpent Tongue 22
+ATK +195
+FER +120
+DEF -15
+MGR -45
+MAG +120
+EQABLE 1
+- // Suede Pants 23
+DEF +25
+MGR +2
+MBL +3
+EQABLE 3
+- // AardOrb 24
+MAG +400
+MGR +200
+FER +200
+EQABLE 1 2 3 4 5 6 7 8
+- // Wing Shroud 25
+DOD +30
+DEF +70
+MBL +2
+EQABLE 2
+- // Sunrise Bandana 26
+DEF +13
+EQABLE 3 5
+- // Blur Anklet 27
+DEF +10
+EQABLE 1 2 3 4 5 6 7 8
+- // Fury Anklet 28
+ATK +10
+FER +10
+EQABLE 1 2 3 4 5 6 7 8
+- // Blue Pants 29
+MBL +2
+EQABLE 3
+- // Electric Boogaloo 30
+MAG +150
+EQABLE 6
+- // Ultimatum Tongue 31
+ATK +299
+EQABLE 1
+- // Blitz Rakers 32
+ATK +115
+MAG +210
+EQABLE 3
+- // Ghost Anklet 33
+DEF +15
+DOD +15
+EQABLE 1 2 3 4 5 6 7 8
+- // Spectre Tongue 34
+ATK +22
+FER +3
+REA +10
+MAG +22
+EQABLE 1
+- // Ring of Fire 35
+ATK +5
+MAG +5
+EQABLE 1 2 3 4 5 6 7 8
+- // Phantom Wing 36
+ATK +54
+DEF +154
+FER +70
+MAG +24
+EQABLE 2
+- // Padded Jerkin 37
+DEF +8
+DOD +7
+EQABLE 5
+- // Flash Tongue 38
+ATK +27
+DOD +5
+MAG +22
+EQABLE 1
+- // Grand Tail 39
+ATK +25
+HIT +18
+DEF +6
+EQABLE 4
+- // Bandit Knife 40
+ATK +16
+FER +3
+HIT +27
+EQABLE 5
+- // X-Anklet 41
+ATK +15
+DEF +15
+MAG +15
+REA +15
+MBL +3
+EQABLE 1 2 3 4 5 6 7 8
+- // Guard Uniform 42
+DEF +12
+REA +12
+EQABLE 5
+- // Guard Helmet 43
+DEF +8
+EQABLE 5
+- // Guard Badge 44
+ATK +5
+DEF +5
+MAG +5
+REA +5
+MGR +5
+EQABLE 5
+- // Fenrir Knife 45
+ATK +25
+FER +17
+HIT +27 
+EQABLE 5
+- // Garm Blade  46
+ATK +15
+DEF +10
+EQABLE 5
+- // Jump Feet 47
+DEF +17
+EQABLE 1
+- // Blue Suede Boots 48
+DEF +35
+MGR +2
+EQABLE 1
+- // Naga-hide Boots 49
+ATK +15
+DEF +49
+MGR +47
+EQABLE 1
+- // Mono-Quiver 50
+ATK +65
+DEF +35
+MGR +35
+FER +150
+EQABLE 4
+- // Dire Fang 51
+ATK +25
+FER +25
+MGR +45
+MBL +3
+EQABLE 2 3 5
+- // Mail-Order Tail 52
+ATK +120
+DEF +45
+MAG +5
+HIT +80
+MGR +5
+REA +5
+FER +70
+MBL +5
+EQABLE 4
+- // Suede Underwear 53
+DEF +25
+MGR +25
+EQABLE 1 2 3 4 5 6 7 8
+- // Slumberer's Tongue  54
+ATK +150
+MAG +150
+MGR +65
+EQABLE 1
+- // Solitude 55
+ATK +120
+FER +80
+MGR +80
+EQABLE 3
+- // Desolation 56
+ATK +150
+FER +150
+MAG +100
+EQABLE 3
+- // Pale Fade 57
+ATK +350
+DEF +100
+MAG +350
+MGR +200
+FER +250
+EQABLE 8
+- // Imperium Mandate 58
+ATK +350
+DEF +300
+EQABLE 8
+- // Power Armor 59
+ATK +100
+DEF +100
+MGR +150
+FER +50
+MBL +5
+EQABLE 3 4 5 6 8
+- // GoldFanger 60
+ATK +220
+MAG +120
+FER +70
+EQABLE 2
+- // Diablo Wings 61
+ATK +60
+DEF +180
+MAG +70
+MGR +120
+EQABLE 2
+- // Azure Trousers 62
+DEF +80
+MGR +80
+FER +70
+MBL +7
+EQABLE 3
+- // Falcon Token 63
+ATK +100
+MAG +100
+FER +70
+MBL +7
+EQABLE 1 2 3 4 5 6 7 8
+- // Hungry Bib 64
+ATK +50
+DEF +100
+MGR +200
+EQABLE 1 7
+- // Skunk Cap 65
+ATK +5
+MAG +5
+DEF +70
+MGR +50
+EQABLE 1 2 3 4 5 7
+- // Grandkerchief 66
+DEF +175
+DOD +200
+HIT +100
+MBL +7
+MGR +175
+ATK +30
+MAG +30
+FER +100
+EQABLE 5
+- // Fimbulwinter 67
+ATK +350
+FER +150
+MAG +300
+MBL +10
+HIT +100
+EQABLE 5
+- // Eternal Snowflake 68
+ATK +200
+DEF +300
+MAG +300
+MGR +300
+FER +50
+EQABLE 5
+-
+
+

@@ -1,0 +1,130 @@
+100
+Magic_Fly 73 Restores_100_MP          1 1 1 0 0 0 300 
+Juicy_Fly 1 Restores_45_HP               1 0 1 0 0 0 30   
+Jump_Feet 2 Powerful_frog_feet           0 0 0 5 47 0 300   
+Dark_Fangs 76 Shadow_warrior's_teeth  0 0 0 1 7 0 2000   
+Fury_Tongue 3 A_flaming_tongue  0 0 0 1 2 0 440     
+Ghost_Token 63 A_ghost's_reward     0 0 0 0 10 0 160      
+Dirk 6 A_short_blade                 0 0 0 1 18 0 80       
+Left_Claw 27 Three_steel_blades      0 0 0 1 1 0 500        
+Right_Claw 27 Three_steel_blades  0 0 0 2 1 0 500         
+Emperor_Clothes 0 Robes_of_pure_air 0 0 0 3 12 0 5000            
+Sonic_Croak 9 Powerful_lungs!        0 0 0 1 11 0 12000           
+Bandana 10 Keeps_sweat_from_eyes... 0 0 0 4 17 0 50            
+Roc_Catcher 55 Hydraulic_tongue        0 0 0 1 13 0 6080             
+Force_Tail 12 Tail_that_can_cut_steel  0 0 0 1 5  0 400              
+Regal_Robes 13 Robes_fit_for_kings 0 0 0 3 12 0 140               
+Sickle_Claw 57 Claw_of_the_reaper  0 0 0 1 6 0 2180                
+Scythe_Claw 58 Other_claw_of_the_reaper 0 0 0 2 6 0 2180                 
+Ring_of_Water 54 A_magic_ring       2 52 0 5 15 0 650                  
+Dynamo_Tail 72 Power-charged_tail  0 0 0 1 14 0 4220                   
+Green_Jerkin 18 Sort-of-protective_shirt 0 0 0 3 20 0 140                    
+Wing_Shroud 61 Bat's_Protection     0 0 0 3 25 0 300                     
+Fimbulwinter 52  Edge_of_unslaked_revenge 0 0 0 1 67 0 100000                 
+Eternal_Snowflake 53 Ice-cold_and_razor-sharp 0 0 0 2 68 0 100000                          
+Sheet_Music 22 Ancient_song       0 0 0 0 0 0 0                           
+Pulse_Tongue 4 A_sonic_tongue    0 0 0 1 9 0 2000                         
+Sunrise_Bandana 90 A_karate_bandana 0 0 0 4 26 0 320                          
+Wraith_Sheet 62 A_ghost's_reward     0 0 0 6 21 0 5160                           
+Suede_Pants 75 Made_from_real_suede! 0 0 0 3 23 0 1860                          
+Zodiac_Tongue 21 Cursed_by_the_9_dark_stars 0 0 1 0 0 0 0                               
+Termite_Jar 44 A_terrorist_threat   0 0 1 0 0 0 0                                
+Lion_Key 21 Key_to_a_door          0 0 1 0 0 0 0                                 
+Mage_Anklet 60 Increases_Magic      0 0 0 6 4 0 800                                
+Serpent_Tongue 74 Allows_sibilant_speech 0 0 0 1 22 0 9090                                  
+Zodiac_Tongue 29 Purified_in_eternity  0 0 0 1 6 0 200000                                  
+Spear_Quiver 56 A_case_of_spears    0 0 0 2 8 0 577                                   
+Ghost_Kiss 31 A_ghost's_reward       0 0 0 6 16 0 4000                                     
+Ghost_Sheet 32 A_ghost's_reward       0 0 0 6 10 0 2000
+Ginseng_Fly 33 Restores_245_HP          1 2 1 0 0 0 100
+Moses_Fly 34 Heals_defeated_ally 1 3 1 0 0 0 250
+Blur_Anklet 35 Improves_evasion_rate  0 0 0 6 27 0 450
+Fury_Anklet 36 Increases_Ferocity     0 0 0 6 28 0 600
+Blue_Pants 37 A_pair_of_pants        0 0 0 3 29 0 750
+Electric_Boogaloo 78 ????????        0 0 0 5 30 0 3000
+Ultimatum_Tongue 39 Tongue_of_Holy_Nukes 0 0 0 1 31 0 50000
+Imperium_Mandate 40 Lumin's_absolute_rule 0 0 0 1 58 0 10000
+Blitz_Rakers 77 Claws_of_the_Storm_God 0 0 0 1 32 0 8000
+Pale_Fade 42 Death_throes_of_a_galaxy 0 0 0 1 57 0 10000
+Magic_Wallet 43 Gives_infinite_coins 2 5 0 0 0 0 5000
+Gourmet_Ripple 45 Expensive_ice_cream 1 6 1 0 0 0 3000
+Vanilla_Cone 46 The_cheap_stuff 1 6 1 0 0 0 5
+Ghost_Anklet 20 A_ghost's_reward   0 0 0 6 33 0 2000
+Spectre_Tongue 5 A_ghost's_reward   2 7 0 1 34 0 6000
+X-Parrot 47 Not_a_potion! 1 8 1 0 0 0 3000
+Blue_Pollen 48 A_blue_powder 1 9 0 0 0 0 35
+Pink_Pollen 49 A_pink_powder 1 10 0 0 0 0 100
+Red_Pollen 50 A_rust-red_powder 1 11 0 0 0 0 300
+Yellow_Pollen 51 A_rare_yellow_powder 1 12 0 0 0 0 2000
+Ring_of_Fire 19 A_magic_ring 2 13 0 5 35 0 500
+Phantom_Wing 9 A_ghost's_reward 0 0 0 3 36 0 3000
+Padded_Jerkin 24 Better_than_nothing. 0 0 0 3 37 0 400
+Flash_Tongue 7 Tongue_of_light 0 0 0 1 38 0 3000
+Grand_Tail 11 A_magnificent_tail 0 0 0 1 39 0 1300
+Bandit_Knife 8 A_thief's_blade 0 0 0 1 40 0 600
+X-Anklet 38 Increases_abilities 0 0 0 6 41 0 800
+Yellowjacket 25 Enrages_character_1_turn 1 20 1 0 0 0 450
+Pearl 40 Valuable_Jewel 0 0 0 0 0 0 1000
+Secret_Flag_1 13 Find_them_all! 0 0 0 0 0 0 2
+Secret_Flag_2 14 Find_them_all! 0 0 0 0 0 0 2
+Secret_Flag_3 15 Find_them_all! 0 0 0 0 0 0 2
+Secret_Flag_4 16 Find_them_all! 0 0 0 0 0 0 2
+Magic_Shell 41 A_special_shell 1 41 0 0 0 0 300
+Spectacles 42 A_pair_of_glasses 0 0 0 4 3 0 500
+Guard_Uniform 26 A_stolen_uniform 0 0 0 3 42 0 250
+Guard_Helmet 28 A_stolen_helmet 0 0 0 4 43 0 200
+Guard_Badge 29 A_stolen_badge 0 0 0 6 44 0 500
+Fenrir_Knife 23 Vicious_edged_weapon 0 0 0 1 45 0 2500
+Garm_Blade 30 A_parrying_blade 0 0 0 2 46 0 3000
+Blue_Suede_Boots 91 Powerful_foot_covers 0 0 0 5 48 0 3000
+Naga-hide_Boots 2 Rare_foot_covers 0 0 0 5 49 0 5000
+Secret_Flag_5 64 Find_them_all! 0 0 0 0 0 0 2
+Secret_Flag_6 65 Find_them_all! 0 0 0 0 0 0 2
+Secret_Flag_7 66 Find_them_all! 0 0 0 0 0 0 2
+Secret_Flag_8 67 Find_them_all! 0 0 0 0 0 0 2
+Monogrammed_Quiver 68 Designer_spear_case 0 0 0 2 50 0 1577  
+AardOrb 69 Relic_of_the_varkAard 0 0 0 1 24 0 20000
+Dire_Fang 80 Carved_from_a_big_tooth 0 0 0 1 51 0 4000
+Mail-Order_Tail 79 Slices,_dices,_and_purees 0 0 0 1 52 0 8000
+Mayfly 81 Shortens_lifespans 1 78 0 0 0 0 2000
+Suede_Underwear 82 Comfortable_codpiece 0 0 0 4 53 0 3000
+Slumberer's_Tongue 83 Tongue_of_Sam's_dreams 2 7 0 1 54 0 9000
+Solitude 84 Long-forgotten_claw 0 0 0 1 55 0 9000
+Desolation 84 Has_an_evil_aura 0 0 0 2 56 0 9000
+Power_Armor 87 Mechanized_suit 0 0 0 3 59 0 12000
+GoldFanger 85 10K_Prosthetic_teeth 2 5 0 1 60 0 12000
+Diablo_Wings 61 User_may_be_evil_itself 0 0 0 3 61 0 6000
+Azure_Trousers 75 Bluer_than_most_pants 0 0 0 3 62 0 4000
+Falcon_Token 86 Proof_of_your_valor 0 0 0 5 63 0 8000
+Hungry_Bib 92 For_big_eaters        2 79 0 3 64 0 1000
+Skunk_Cap 93 Stinky_headgear        0 0 0 4 65 0 1000
+Grandkerchief 94 Family_heirloom 0 0 0 4 66 0 9000
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx>
+<price>
+
+<use>: 0 for nonusable.
+       1 for usable once, then it goes away.
+       2 for usable an infinite number of times.
+       3 for usable ONLY camped, only once.
+       4 for usable ONLY camped, infinitely
+       5 for usable in combat only, once, then it goes away.
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to EFFECTS.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: 0 if it is nonequipable by anyone.
+             1 Equipment is right-hand (weapon)
+             2 Equipment is left-hand (shield)
+             3 Equipment is armor
+             4 Equipment is helmet
+             5 Equipment is acc1
+             6 Equipment is acc2
+<equipidx> is a pointer to EQUIP.DAT when necessary.
+<price>: Is the cost to buy the item in a store. It can be sold for half the
+         cost. Note that it might not necessarily appear in any stores for
+         sale, such as Althena's sword, but you can still sell it or something.
