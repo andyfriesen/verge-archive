@@ -6,7 +6,6 @@ Boxopen.wav
 Buysell.wav
 Buzz.wav
 Csher.cr2
-Cwsdpmi.exe
 Deequip.wav
 Delgame.mnu
 Ebon.chr
@@ -37,7 +36,6 @@ Magic.dat
 Magic.vcs
 Magiceq.dat
 Magicon.dat
-Main.exe
 Main.fnt
 Main.sfx
 Marron.cr2
