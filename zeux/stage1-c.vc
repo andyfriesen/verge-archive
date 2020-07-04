@@ -1,0 +1,26 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=0;
+bloblayer=4;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{ SetPath(103); winflag=1; }
+
+event
+{
+ if (!zs[currentz])
+  {
+   SetTZO(38,10,2,202,99,0);
+   SpawnObject(38*16+8,10*16+8,1,0,15);
+   SetTZO(39,4,2,0,0,0);
+   SpawnObject(39*16+8,4*16+8,1,0,15);
+   PlaySound(snd_tsubaba, 64, 128);
+  }
+ SetTile(vx,vy,7,0);
+}

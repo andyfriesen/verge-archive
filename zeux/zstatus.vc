@@ -1,0 +1,255 @@
+// V2 Side Scroller Zeuxlike Script
+// Status Management
+// By Zaratustra (http://hello.to/the.prophet)
+
+int inventory[5];
+int timeflag;
+string text1, text2;
+int textflag, textblinkflag;
+int backcounter, latecounter, scoreval, scoreflag;
+int dooropen;
+int logfile;
+string textlog;
+int statbuf, stat2buf;
+
+void Z_DisplayStatus()
+{
+  int i, cnt;
+  if(bar1flag<32) bar1flag++;
+
+  TCopySprite (0,bar1flag-32,64,32,statbuf);
+  if (coins<10) { GotoXY(32,bar1flag-17); PrintString(1,str(coins)); } else { GotoXY(24,bar1flag-17); PrintString(1,str(coins)); }
+  if (gems<10) { GotoXY(52,bar1flag-17); PrintString(1,str(gems)); } else { GotoXY(44,bar1flag-17); PrintString(1,str(gems)); }
+
+  if (!currentitem) { TCopySprite (4,bar1flag-28,16,16,86-health*256+vsp); } else { TCopySprite (4,bar1flag-28,16,16,currentitem*256+vsp); }
+
+  if (!itemtime)
+  { if (lives<10) { GotoXY(9,bar1flag-12); PrintString(1,str(lives)); } else { GotoXY(4,bar1flag-12); PrintString(1,str(lives)); } } else
+  { if ((itemtime/50+1)<10) { GotoXY(9,bar1flag-12); PrintString(1,str(itemtime/50+1)); } else { GotoXY(4,bar1flag-12); PrintString(1,str(itemtime/50+1)); } } 
+
+  if (timeflag || latecounter)
+    {
+     cnt=counter;
+     if (backcounter) cnt=backcounter-counter;
+     if (latecounter) cnt=counter-latecounter;
+     GotoXY(344-(bar1flag*2),4); PrintString (1,str(cnt/3000)+":"+right(str(100+(cnt/50%60)),2));
+    }
+
+  if (scoreflag)
+    {
+     GotoXY(152,bar1flag-24); PrintString (1,str(scoreval));
+    }
+
+  if(pauseflag>0)
+   {
+    if(pauseflag=1 && bar2flag<32) bar2flag++;
+    if(pauseflag=2 && bar2flag>0) bar2flag--;
+    if(pauseflag=2 && bar2flag=0) pauseflag=0;
+
+    if (!chaos)
+     {
+      if (inventory[1]) TCopySprite (77,bar2flag-23,16,16,vsp+(inventory[1]*256));
+      if (inventory[2]) TCopySprite (106,bar2flag-23,16,16,vsp+(inventory[2]*256));
+      if (inventory[3]) TCopySprite (135,bar2flag-23,16,16,vsp+(inventory[3]*256));
+      if (inventory[4]) TCopySprite (164,bar2flag-23,16,16,vsp+(inventory[4]*256));
+     }
+
+    if (nocoins=0) { GotoXY(188,bar2flag-24); PrintString(1,"Coins:"+str(ccoins)+"/"+str(mcoins)); }
+    if (nogems=0)  { GotoXY(188,bar2flag-14); PrintString(1,"Gems:"+str(cgems)+"/"+str(mgems)); }
+
+    if (!chaos)
+     {
+      TCopySprite (72,bar2flag-32,116,32,stat2buf);
+      TCopySprite (mx,bar2flag-32+my,16,16,arrowbuf);
+     }
+
+    for (i=0; i<5; i++) { if (GetPath(100+i)) { TCopySprite (10+(sin(i*72) >> 13), 210-bar2flag+(cos(i*72) >> 13), 16, 16, vsp+(2034+i*256) ); } }
+
+    if (GetPath(105)) { TCopySprite (295, 208-bar2flag, 16, 16, vsp+(123*256) ); }
+
+    for (i=0; i<13; i++)
+    {
+     if (zs[i]) { TCopySprite (32+(i*20), 212-bar2flag, 16, 16, vsp+((1741+((timer/5)%12))*256)); }
+           else { TCopySprite (32+(i*20), 212-bar2flag, 16, 16, vsp+(1617*256)); }
+    }
+   }
+
+  if (textflag>0)
+   {
+    RectFill(153-(strlen(text1)*7/2),190,167+(strlen(text1)*7/2),199,0);
+    VCCenterText(191,text1);
+    textflag--;
+   }
+  if (textblinkflag>0)
+   {
+    if (textblinkflag/2%2=1)
+     {
+      RectFill(153-(strlen(text2)*7/2),190,167+(strlen(text2)*7/2),199,0);
+      VCCenterText(191,text2);
+     }
+    textblinkflag--;
+   }
+}
+
+void YourTime(int t)
+{
+ text1="Your Time: " + right(str(100+(t/3000)),2) + ":" + right(str(100+(t/50%60)),2) + ":" + right(str(100+(t%50*2)),2);
+ text2="Your Time: " + right(str(100+(t/3000)),2) + " " + right(str(100+(t/50%60)),2) + " " + right(str(100+(t%50*2)),2);
+ textflag=300;
+ textblinkflag=300;
+ if (chaos) textlog="Using Chaos Runner - log not written.";
+ if (!chaos) textlog="Z"+str(option)+" - Stage "+str(stage)+" - Time Log: "+str(t*(random(20)+1))+" "+str(t)+" "+str(stage*t)+" "+str(random(10000))+" ("+ right(str(100+(t/3000)),2) + ":" + right(str(100+(t/50%60)),2) + ":" + right(str(100+(t%50*2)),2)+")";
+ Log(textlog);
+ logfile=fwopen("YOURTIME.LOG");
+ fwritestring(textlog, logfile);
+ fclose(logfile);
+}
+
+void Z_Pause()
+{
+ int k, o;
+ pauseflag=1;
+ while(key[28])
+  {
+   Render(); Z_ProcessRender();
+   TCopySprite(80,80,160,40,pausebuf);
+   ReadMouse(); if (my>20) SetMousePos(mx,20);
+   UpDateControls();
+   if (left=1) SetMousePos(mx-4,my);
+   if (right=1) SetMousePos(mx+4,my);
+   if (b2=1 && k=0 && chaos=0) { k = Z_UseItem(mx,my); o=1; }
+   if (mb && k=0 && chaos=0) { k = Z_UseItem(mx,my); o=1; }
+   Z_DisplayStatus();
+   Showpage();
+  }
+ while(!key[28] && !o)
+  {
+   Render(); Z_ProcessRender();
+   TCopySprite(80,80,160,40,pausebuf);
+   ReadMouse(); if (my>20) SetMousePos(mx,20);
+   UpDateControls();
+   if (left=1) SetMousePos(mx-4,my);
+   if (right=1) SetMousePos(mx+4,my);
+   if (b2=1 && k=0 && chaos=0) { k = Z_UseItem(mx,my); o=1; }
+   if (mb && k=0 && chaos=0) { k = Z_UseItem(mx,my); o=1; }
+   Z_DisplayStatus();
+   Showpage();
+  }
+ while(key[28])
+  {
+   Render(); Z_ProcessRender();
+   TCopySprite(80,80,160,40,pausebuf);
+   ReadMouse(); if (my>20) SetMousePos(mx,20);
+   UpDateControls();
+   if (left=1) SetMousePos(mx-4,my);
+   if (right=1) SetMousePos(mx+4,my);
+   if (b2=1 && k=0 && chaos=0) k = Z_UseItem(mx,my);
+   if (mb && k=0 && chaos=0) k = Z_UseItem(mx,my);
+   Z_DisplayStatus();
+   Showpage();
+  }
+ time2=0; time1=timer; time3=timer; pauseflag=2;
+ Z_ProcessItem(k);
+}
+
+int Z_UseItem(int x, int y)
+{
+ int k, l;
+ if (x>=72 && x<=98) k=1;
+ if (x>=101 && x<=127) k=2;
+ if (x>=130 && x<=156) k=3;
+ if (x>=159 && x<=185) k=4;
+ l=inventory[k]; inventory[k]=0;
+ Log(str(l));
+ return l;
+}
+
+void Z_ProcessItem(int x)
+{
+ Log(str(x));
+ Switch(x)
+  {
+   case KEY_RED:       Z_OpenDoor((playerx+(player_width/2))/16,(playery+(player_height/2))/16,0);
+   case KEY_BLUE:      Z_OpenDoor((playerx+(player_width/2))/16,(playery+(player_height/2))/16,1);
+   case KEY_YELLOW:    Z_OpenDoor((playerx+(player_width/2))/16,(playery+(player_height/2))/16,2);
+   case BLUE_HEART:    health+=2; if(health>5) health=5; text1="Heals!";
+   case RING:          Z_Ring();
+   case BOOK_BLAST:    Z_Blast(); text1="Blast Magic!"; textflag=100; 
+   case BOOK_INVINCO:  Z_GeneralItem(ICON_INVINCO,15,0, 0, 63 );	     text1="Invincibility!"; textflag=100; 
+   case BOOK_WIND:     Z_GeneralItem(ICON_WIND,   30,63,63,0  );	     text1="Wind!"; textflag=100; 
+   case BOOK_SLOWTIME: Z_GeneralItem(ICON_STIME,  15,0, 63,0  ); slowflag=1; text1="Slow Time!"; textflag=100; 
+   case BOOK_STOPTIME: Z_GeneralItem(ICON_FTIME,  15,63,32,32 ); stopflag=1; text1="Freeze Time!"; textflag=100; 
+   case BOOK_KILL:     Z_KillEnemies(); text1="Kill Enemies!"; textflag=100; 
+   case SWORD:         currentitem=SWORD; text1="Press ALT to smite!"; textflag=100; 
+   case SCEPTER:       currentitem=SCEPTER; text1="Press ALT to shoot!"; textflag=100; 
+  }
+}
+
+void Z_GiveItem(int x)
+{
+ int i, a;
+ i=1; a=0;
+ while (i<5)
+  { if (inventory[i]=0) { inventory[i]=x; i=5; a=1; } i++; }
+ if (!a) { text1="Inventory is full!"; textflag=100; }
+}
+
+int Z_EmptySlot()
+{
+ int l, k;
+ l=0;
+ for (k=1; k<=4; k++) { if (inventory[k]=0) l=k; }
+ return l;
+}
+
+int Z_HasItem(int x)
+{
+ int l, k;
+ l=0;
+ for (k=1; k<=4; k++) { if (inventory[k]=x) l=k; }
+ return l;
+}
+
+void Z_OpenDoor(int x, int y, int z)
+{
+ dooropen=0;
+ if (GetTile(x+1,y,7)=43+z) { Z_DestTile(x+1,y);
+
+   if (GetTile(x+1,y-2,7)=43+z) Z_DestTile(x+1,y-2);
+   if (GetTile(x+1,y-1,7)=43+z) Z_DestTile(x+1,y-1);
+   if (GetTile(x+1,y+1,7)=43+z) Z_DestTile(x+1,y+1);
+   if (GetTile(x+1,y+2,7)=43+z) Z_DestTile(x+1,y+2);
+   dooropen=1;
+  }
+ if (GetTile(x-1,y,7)=43+z) { Z_DestTile(x-1,y);
+
+   if (GetTile(x-1,y-2,7)=43+z) Z_DestTile(x-1,y-2);
+   if (GetTile(x-1,y-1,7)=43+z) Z_DestTile(x-1,y-1);
+   if (GetTile(x-1,y+1,7)=43+z) Z_DestTile(x-1,y+1);
+   if (GetTile(x-1,y+2,7)=43+z) Z_DestTile(x-1,y+2);
+   dooropen=1;
+  }
+ if (GetTile(x,y+1,7)=43+z) { Z_DestTile(x,y+1);
+
+   if (GetTile(x-2,y+1,7)=43+z) Z_DestTile(x-2,y+1);
+   if (GetTile(x-1,y+1,7)=43+z) Z_DestTile(x-1,y+1);
+   if (GetTile(x+1,y+1,7)=43+z) Z_DestTile(x+1,y+1);
+   if (GetTile(x+2,y+1,7)=43+z) Z_DestTile(x+2,y+1);
+   dooropen=1;
+  }
+ if (GetTile(x,y-1,7)=43+z) { Z_DestTile(x,y-1);
+
+   if (GetTile(x-2,y-1,7)=43+z) Z_DestTile(x-2,y-1);
+   if (GetTile(x-1,y-1,7)=43+z) Z_DestTile(x-1,y-1);
+   if (GetTile(x+1,y-1,7)=43+z) Z_DestTile(x+1,y-1);
+   if (GetTile(x+2,y-1,7)=43+z) Z_DestTile(x+2,y-1);
+   dooropen=1;
+  }
+}
+
+void Z_DestTile(int x, int y)
+{
+ SetTZO(x,y,2,0,0,0); 
+}
+
+

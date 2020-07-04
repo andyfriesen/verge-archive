@@ -1,0 +1,12 @@
+event
+{
+SystemStartup();
+darkflag=1;
+Z_StartStageStuff();
+darkflag=1;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+

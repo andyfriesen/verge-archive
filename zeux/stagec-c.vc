@@ -1,0 +1,76 @@
+event
+{
+SystemStartup();
+UpdateControls();
+if (key[48]=1 && GetSScore(stage)>0) { timeflag=1; entity.x[0]=171*16; entity.y[0]=5*16; }
+if (rematch=stage) { entity.x[0]=171*16; entity.y[0]=5*16; }
+Z_StartStageStuff();
+
+nogems=1;
+notrack=1;
+xwintck=1;
+ywinmove=0;
+YWin=0;
+
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (up) {
+ FadeOut(30,0);
+ switch(vx)
+ {
+  case 20: playerx100=1*1600; playery100=19*1600; yWin100=13*1600; xWin100=0;
+  case 36: playerx100=1*1600; playery100=33*1600; yWin100=27*1600; xWin100=0;
+  case 52: playerx100=1*1600; playery100=47*1600; yWin100=41*1600; xWin100=0;
+  case 68: playerx100=1*1600; playery100=61*1600; yWin100=55*1600; xWin100=0;
+
+  case 106: playerx100=106*1600; playery100=19*1600; yWin100=13*1600; xWin100=playerx100-16000;
+  case 122: playerx100=106*1600; playery100=33*1600; yWin100=27*1600; xWin100=playerx100-16000;
+  case 138: playerx100=106*1600; playery100=47*1600; yWin100=41*1600; xWin100=playerx100-16000;
+  case 154: playerx100=106*1600; playery100=61*1600; yWin100=55*1600; xWin100=playerx100-16000;
+
+ }
+ xWin=xWin100/100;
+ yWin=yWin100/100;
+ RenderShowPage();
+ FadeIn(30,0);
+ time1=timer;
+ }
+}
+
+event
+{
+ if (up) {
+ FadeOut(30,0);
+ playerx100=85*1600; playery100=5*1600; yWin100=0*1600; xWin100=playerx100-10000;
+
+ xWin100=playerx100-16000;
+ xWin=xwin100/100;
+ yWin=yWin100/100;
+ RenderShowPage();
+ FadeIn(30,0);
+ time1=timer;
+ }
+}
+
+event
+{
+ if (up) {
+ FadeOut(30,0);
+ playerx100=174*1600; playery100=9*1600; yWin100=0*1600; xWin100=playerx100-10000;
+
+ xWin100=playerx100-16000;
+ xWin=xwin100/100;
+ yWin=yWin100/100;
+ xwinhlimit=198*16;
+ xwinllimit=167*16;
+ RenderShowPage();
+ FadeIn(30,0);
+ time1=timer;
+ }
+}
+

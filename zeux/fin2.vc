@@ -1,0 +1,186 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+// mapbuf=LoadImage("MAP.PCX");
+
+ if (alterpal) PaletteAlter();
+ v0=timer;
+ vi=1;
+ while (timer-v0<6800)
+  {
+   vj=timer-v0;
+   if(vj<100) { palettemorph(0,0,0,100-vj,63); }
+   if(vj>6700) { palettemorph(0,0,0,vj-6700,63); }
+
+   vi+=vj/100;
+   vh=360000/vi;
+
+   vx=vh*3/5;
+   vy=vh*1/5;
+
+   RectFill(0,0,319,199,144);
+   ScaleSprite(160-(vh*8/5)+vx,100-vh+vy,1280,800,vh*16/5,vh*2,mapbuf);
+
+   VCCenterText(200-(vj/8),"Zeux's World");
+   VCCenterText(210-(vj/8),"Staff");
+
+   VCCenterText(230-(vj/8),"Created by");
+   VCCenterText(240-(vj/8),"Zaratustra");
+
+   VCCenterText(260-(vj/8),"Programming / Art");
+   VCCenterText(270-(vj/8),"Zaratustra");
+
+   VCCenterText(290-(vj/8),"Beta Testers");
+   VCCenterText(300-(vj/8),"Hatchet");
+   VCCenterText(310-(vj/8),"aen");
+   VCCenterText(320-(vj/8),"V2 Team");
+
+   VCCenterText(340-(vj/8),"Contributions");
+   VCCenterText(350-(vj/8),"McGrue");
+   VCCenterText(360-(vj/8),"zeromus");
+
+   VCCenterText(380-(vj/8),"VERGE 2 Engine");
+   VCCenterText(390-(vj/8),"vecna");
+   VCCenterText(400-(vj/8),"aen");
+   VCCenterText(410-(vj/8),"zeromus");
+   VCCenterText(420-(vj/8),"ric");
+
+   VCCenterText(440-(vj/8),"Original Megazeux Engine");
+   VCCenterText(450-(vj/8),"Gregory Janson");
+
+   VCCenterText(470-(vj/8),"Super Secret Levels");
+   VCCenterText(480-(vj/8),"Gayo");
+   VCCenterText(490-(vj/8),"McGrue");
+
+   VCCenterText(510-(vj/8),"Random Japanese Names");
+   VCCenterText(520-(vj/8),"That Appear in All Credits");
+   VCCenterText(530-(vj/8),"Muku");
+   VCCenterText(540-(vj/8),"Bun Bun");
+   VCCenterText(550-(vj/8),"Ikki");
+   VCCenterText(560-(vj/8),"Bamboo");
+   VCCenterText(570-(vj/8),"Turkey-613");
+   VCCenterText(580-(vj/8),"Dai");
+   VCCenterText(590-(vj/8),"Hyper Mickey");
+
+   VCCenterText(610-(vj/8),"Special Thanks To");
+   VCCenterText(620-(vj/8),"]vchelp");
+   VCCenterText(630-(vj/8),"mWorld");
+   VCCenterText(640-(vj/8),"Nintendo^");
+   VCCenterText(650-(vj/8),"Sega^");
+   VCCenterText(660-(vj/8),"Sony^");
+   VCCenterText(670-(vj/8),"Capcom^");
+   VCCenterText(680-(vj/8),"Sunsoft^");
+
+   VCCenterText(700-(vj/8),"Music by");
+   VCCenterText(710-(vj/8),"Gregory Janson");
+   VCCenterText(720-(vj/8),"And various Net-artists");
+
+   VCCenterText(760-(vj/8),"-hi mom-");
+
+   VCCenterText(780-(vj/8),"No actual hamsters were harmed on the");
+   VCCenterText(790-(vj/8),"making of this game.");
+
+   VCCenterText(810-(vj/8),"Garfield -C- Universal Press Syndicate");
+
+   if (vj/8<745)
+    {
+     VCCenterText(840-(vj/8),"Presented by");
+     VCCenterText(850-(vj/8),"Zaratustra Productions");
+    }
+   else
+    {
+     VCCenterText(95,"Presented by");
+     VCCenterText(105,"Zaratustra Productions");
+    }
+   UpdateControls();
+   ShowPage();
+  }
+// free(imgbuf);
+ noblank=1;
+
+ for (vi=0; vi<=numents; vi++)
+ {
+  if(entity.y[vi]>40*16) entity.eval[vi]=1;
+ }
+ mega=0; chaos=0;
+ Z_ResetEntities();
+ Z_ProcessCreatures();
+ Z_ProcessCreatures();
+
+ HookRetrace(1);
+ SetRString("124ER");
+ RectFill(0,0,319,199,0);
+ Render();
+ ShowPage();
+ imgbuf=malloc(320*21);
+ GrabRegion(0,175,319,194,imgbuf);
+
+ FadeIn(100,0);
+ FlipFlopMove(1*18*16, 0*10*16,"","");
+ FlipFlopMove(1*18*16, 1*10*16,"","");
+ FlipFlopMove(2*18*16, 1*10*16,"","");
+ FlipFlopMove(2*18*16, 0*10*16,"","");
+ FlipFlopMove(3*18*16, 0*10*16,"","");
+ FlipFlopMove(3*18*16, 1*10*16,"","");
+ FlipFlopMove(4*18*16, 1*10*16,"","");
+ FlipFlopMove(4*18*16, 2*10*16,"","");
+ FlipFlopMove(3*18*16, 2*10*16,"","");
+ FlipFlopMove(3*18*16, 3*10*16,"","");
+ FlipFlopMove(2*18*16, 3*10*16,"","");
+ FlipFlopMove(2*18*16, 2*10*16,"","");
+
+ FlipFlopEntity("Snake from Heck",     "BOSS02.CHR");
+ FlipFlopEntity("Fishfingers",         "BOSS03.CHR");
+ FlipFlopEntity("Tiger Demon",         "BOSS05.CHR");
+ FlipFlopEntity("Bull's Eye",          "BOSS06.CHR");
+ FlipFlopEntity("Goblin Captain",      "BOSS07.CHR");
+ FlipFlopEntity("Chaos Runner",        "BOSS09.CHR");
+ FlipFlopEntity("Bunga Bear",          "BOSS10.CHR");
+ FlipFlopEntity("Scary Scary Phantom", "BOSS11.CHR");
+ FlipFlopEntity("Ancient Wyrm",        "BOSS12.CHR");
+
+ FlipFlopMove(1*18*16, 2*10*16,"","");
+
+ v0=timer; while (timer<v0+100) { Render(); UpdateControls(); ShowPage(); }
+ PaletteMorph(63,63,63,100,63);
+ xWin=0*18*16; yWin=3*10*16;
+ v0=timer; while (timer<v0+10) { Render(); UpdateControls(); ShowPage(); }
+ PaletteMorph(0,0,0,0,63);
+ v0=timer; while (timer<v0+1000) { Render(); UpdateControls(); ShowPage(); }
+ FadeOut(100,1);
+
+ free(imgbuf);
+ Map("Fin3.map");
+}
+
+event
+{ // Yes, I could've done a file with this and blah blah blah, but I'm lazy.
+ GotoXY(7*16-xWin,5*16-yWin);    PrintString(1,"Sluggy");
+ GotoXY(12*16+8-xWin,6*16+4-yWin); PrintString(1,"Kamikaze");
+ GotoXY(24*16+8-xWin,5*16-yWin); PrintString(1,"Shell");
+ GotoXY(25*16-xWin,5*16+8-yWin); PrintString(1,"Bug");
+ GotoXY(30*16-xWin,6*16+8-yWin); PrintString(1,"Hardcore");
+ GotoXY(41*16-xWin,7*16+4-yWin); PrintString(1,"Dragon Bee");
+ GotoXY(31*16-xWin,15*16+8-yWin); PrintString(1,"Fish");
+ GotoXY(26*16-xWin,18*16-yWin); PrintString(1,"More");
+ GotoXY(26*16-xWin,18*16+8-yWin); PrintString(1,"Fish");
+ GotoXY(42*16+8-xWin,14*16-yWin); PrintString(1,"Pearl");
+ GotoXY(43*16-xWin,14*16+8-yWin); PrintString(1,"Clam");
+ GotoXY(48*16-xWin,16*16-8-yWin);   PrintString(1,"Krabber");
+ GotoXY(44*16-xWin,38*16-yWin);   PrintString(1,"Mark Twos");
+ GotoXY(64*16-xWin,4*16-yWin);    PrintString(1,"Spinsnake");
+ GotoXY(64*16-xWin,15*16-yWin);   PrintString(1,"Goblins");
+ GotoXY(81*16-xWin,15*16-yWin);     PrintString(1,"Batty");
+ GotoXY(81*16-xWin,15*16+8-yWin);   PrintString(1,"Bat");
+ GotoXY(81*16-8-xWin,17*16-yWin);   PrintString(1,"Nutty");
+ GotoXY(81*16-8-xWin,17*16+8-yWin); PrintString(1,"Bat");
+ GotoXY(83*16-xWin,24*16-yWin);    PrintString(1,"Yeowch");
+ GotoXY(63*16-xWin,34*16+8-yWin);  PrintString(1,"Scares");
+ GotoXY(61*16-xWin,26*16-yWin);    PrintString(1,"Bear");
+ GotoXY(61*16-xWin,26*16+8-yWin);  PrintString(1,"Jr.");
+ GotoXY(66*16+8-xWin,25*16-yWin);    PrintString(1,"Ma");
+ GotoXY(66*16+8-xWin,25*16+8-yWin);  PrintString(1,"Bear");
+ GotoXY(22*16+8-xWin,28*16+4-yWin);  PrintString(1,"Zeux Clones");
+}
+

@@ -1,0 +1,200 @@
+event
+{
+PaletteMorph(0,0,0,0,0);
+if (christmas) { snow_set_flakes(100); snow_setup(); }
+SystemStartup();
+returnmap="TEST.MAP";
+SetPlayer(0);
+borderbuf=altborder[0];
+if (startupflag=0) ZeuxStartup();
+LoadSaidGame(option);
+UpdateMap(128,160);
+cameratracking=1;
+HookRetrace(2);
+StartX=Entity.TX[player];
+StartY=Entity.TY[player];
+if (LocX!=0) { Entity.TX[player]=LocX; Entity.X[player]=LocX*16; }
+if (LocY!=0) { Entity.TY[player]=LocY; Entity.Y[player]=LocY*16; }
+if (alterpal) { PaletteAlter (); }
+Unpress(1);
+HookKey(28,GoToMap);
+FadeIn(50,1);
+}
+
+event
+{
+vx=Entity.TX[player];
+vy=Entity.TY[player];
+wa=1;
+vf=entity.facing[player];
+dummy="";
+ while (GetTile(vx,vy,7)=1)
+  {
+   switch (vf)
+   {
+    case 0:
+     if (GetTile(vx,vy+1,6)=0) { dummy=dummy+"D1"; vy++; }
+      else if (GetTile(vx,vy+1,6)=1 && GetTile(vx+1,vy,6)=0) { dummy=dummy+"R1"; vx++; vf=3; }
+      else if (GetTile(vx,vy+1,6)=1 && GetTile(vx+1,vy,6)=1 && GetTile(vx-1,vy,6)=0) { dummy=dummy+"L1"; vx--; vf=2; }
+    case 1:
+     if (GetTile(vx,vy-1,6)=0) { dummy=dummy+"U1"; vy--; }
+      else if (GetTile(vx,vy-1,6)=1 && GetTile(vx+1,vy,6)=0) { dummy=dummy+"R1"; vx++; vf=3; }
+      else if (GetTile(vx,vy-1,6)=1 && GetTile(vx+1,vy,6)=1 && GetTile(vx-1,vy,6)=0) { dummy=dummy+"L1"; vx--; vf=2; }
+    case 3:
+     if (GetTile(vx+1,vy,6)=0) { dummy=dummy+"R1"; vx++; }
+      else if (GetTile(vx+1,vy,6)=1 && GetTile(vx,vy+1,6)=0) { dummy=dummy+"D1"; vy++; vf=0; }
+      else if (GetTile(vx+1,vy,6)=1 && GetTile(vx,vy+1,6)=1 && GetTile(vx,vy-1,6)=0) { dummy=dummy+"U1"; vy--; vf=1; }
+    case 2:
+     if (GetTile(vx-1,vy,6)=0) { dummy=dummy+"L1"; vx--; }
+      else if (GetTile(vx-1,vy,6)=1 && GetTile(vx,vy+1,6)=0) { dummy=dummy+"D1"; vy++; vf=0; }
+      else if (GetTile(vx-1,vy,6)=1 && GetTile(vx,vy+1,6)=1 && GetTile(vx,vy-1,6)=0) { dummy=dummy+"U1"; vy--; vf=1; }
+    }
+//   log (dummy +" - "+str(vx) +","+ str(vy));
+  }
+ PartyMove(dummy);
+}
+
+
+event
+{
+// VCClear();
+if (christmas) snow_tick();
+TCopySprite(0,0,320,200,borderbuf);
+mapno=GetTile(Entity.TX[player], Entity.TY[player], 7);
+Switch (mapno)
+ {
+  case 2:VCCenterText(188,"Grasslands 1");
+  case 3:VCCenterText(188,"Grasslands 2");
+  case 4:VCCenterText(188,"Grasslands 3");
+  case 5:VCCenterText(188,"Grasslands Secret");
+  case 6:VCCenterText(188,"Mountainview 1");
+  case 7:VCCenterText(188,"Mountainview 2");
+  case 8:VCCenterText(188,"Mountainview 3");
+  case 9:VCCenterText(188,"Mountainview 4");
+  case 10:VCCenterText(188,"Mountainview Castle");
+  case 11:VCCenterText(188,"Aquaria 1");
+  case 12:VCCenterText(188,"Aquaria 2");
+  case 13:VCCenterText(188,"Aquaria Castle");
+  case 14:VCCenterText(188,"Aquaria Secret");
+  case 15:VCCenterText(188,"Grasslands Castle");
+  case 16:VCCenterText(188,"Pit Stop");
+  case 17:VCCenterText(188,"Beachwalk 1");
+  case 18:VCCenterText(188,"Beachwalk 2");
+  case 19:VCCenterText(188,"Beachwalk 3");
+  case 20:VCCenterText(188,"Beachwalk Secret");
+  case 21:VCCenterText(188,"Rainforest Secret");
+  case 22:VCCenterText(188,"Rainforest Area");
+  case 23:VCCenterText(188,"Rainforest Castle");
+  case 24:VCCenterText(188,"Desertheat Secret");
+  case 25:VCCenterText(188,"Desertheat Area");
+  case 26:VCCenterText(188,"Desertheat Castle");
+  case 27:VCCenterText(188,"Pit Stop");
+  case 28:VCCenterText(188,"Treehouses 1");
+  case 29:VCCenterText(188,"Treehouses 2");
+  case 30:VCCenterText(188,"Treehouses 3");
+  case 31:VCCenterText(188,"Treehouses X Spot");
+  case 32:VCCenterText(188,"Earthgrotto 1");
+  case 33:VCCenterText(188,"Earthgrotto 2");
+  case 34:VCCenterText(188,"Earthgrotto 3");
+  case 35:VCCenterText(188,"Earthgrotto Castle");
+  case 36:VCCenterText(188,"Earthgrotto Secret 1");
+  case 37:VCCenterText(188,"Earthgrotto Secret 2");
+  case 38:VCCenterText(188,"Pit Stop");
+  case 39:VCCenterText(188,"Metropolis 1");
+  case 40:VCCenterText(188,"Metropolis 2");
+  case 41:VCCenterText(188,"Metropolis 3");
+  case 42:VCCenterText(188,"Metropolis 4");
+  case 43:VCCenterText(188,"Metropolis Race Track");
+  case 44:VCCenterText(188,"Pit Stop");
+  case 45:VCCenterText(188,"I.C.Cap 1");
+  case 46:VCCenterText(188,"I.C.Cap 2");
+  case 47:VCCenterText(188,"I.C.Cap 3");
+  case 48:VCCenterText(188,"I.C.Cap Castle");
+  case 49:VCCenterText(188,"I.C.Cap Secret");
+  case 50:VCCenterText(188,"Pit Stop");
+  case 51:VCCenterText(188,"Graveyard 1");
+  case 52:VCCenterText(188,"Graveyard 2-A");
+  case 53:VCCenterText(188,"Graveyard 2-B");
+  case 54:VCCenterText(188,"Graveyard 2-C");
+  case 55:VCCenterText(188,"Graveyard Castle");
+  case 56:VCCenterText(188,"Deathcliff 1");
+  case 57:VCCenterText(188,"Deathcliff 2");
+  case 58:VCCenterText(188,"Deathcliff 3");
+  case 59:VCCenterText(188,"Deathcliff Castle");
+  case 60:VCCenterText(188,"Deathcliff Secret");
+  case 61:VCCenterText(188,"The Void");
+  case 62:VCCenterText(188,"Stronghold");
+  case 63:VCCenterText(188,"Sunspot 1");
+  case 64:VCCenterText(188,"Sunspot 2");
+  case 65:VCCenterText(188,"Sunspot 3");
+  case 66:VCCenterText(188,"Sunspot 4");
+  case 67:VCCenterText(188,"Cloud City");
+  case 97:VCCenterText(188,"Whack-a-Hamster");
+  case 98:VCCenterText(188,"Shoot-a-Hamster");
+  case 101:VCCenterText(188,"Dystopia");
+  case 102:VCCenterText(188,"Dystopia");
+  case 103:VCCenterText(188,"Dystopia");
+  case 104:VCCenterText(188,"Dystopia");
+  case 105:VCCenterText(188,"Dystopia");
+  case 106:VCCenterText(188,"Dystopia");
+  case 107:VCCenterText(188,"Dystopia");
+  case 108:VCCenterText(188,"Dystopia");
+  case 109:VCCenterText(188,"Dystopia");
+  case 110:VCCenterText(188,"Dystopia");
+  case 111:VCCenterText(188,"Dystopia");
+  case 112:VCCenterText(188,"Dystopia");
+  case 114:VCCenterText(188,"Pinnacle");
+  case 120:VCCenterText(188,"Earthgrotto");
+  case 121:VCCenterText(188,"Earthgrotto");
+  case 122:VCCenterText(188,"Earthgrotto");
+  case 123:VCCenterText(188,"Treehouses");
+  case 124:VCCenterText(188,"Treehouses");
+  case 125:VCCenterText(188,"Metropolis");
+ }
+If (mapno<100 && mapno>1) { if (GetSScore(mapno)=100) { TCopySprite(304, 184, 16, 16, vsp+((67+(timer/5%8))*256) ); }
+else { If (GetSScore(mapno)>0) { TCopySprite(304, 184, 16, 16, vsp+((75+(timer/5%6))*256) ); } } }
+
+if (GetTile(Entity.TX[player], Entity.TY[player],0)=31 || GetTile(Entity.TX[player], Entity.TY[player],0)=142)
+ {
+  entity.specframe[player]=20+entity.facing[player];
+ }
+else entity.specframe[player]=0;
+/*
+else
+ {
+  if (wa=0) entity.specframe[player]=entity.facing[player]*5;
+  if (wa=1 || left=1 || right=1 || up=1 || down=1)
+   {
+    switch(timer/5%8)
+     {
+      case 0: entity.specframe[player]=entity.facing[player]*5;
+      case 1: entity.specframe[player]=entity.facing[player]*5+1;
+      case 2: entity.specframe[player]=entity.facing[player]*5+2;
+      case 3: entity.specframe[player]=entity.facing[player]*5+1;
+      case 4: entity.specframe[player]=entity.facing[player]*5;
+      case 5: entity.specframe[player]=entity.facing[player]*5+3;
+      case 6: entity.specframe[player]=entity.facing[player]*5+4;
+      case 7: entity.specframe[player]=entity.facing[player]*5+3;
+     }
+   }
+ }
+ */
+
+UpdateControls();
+if (key[2]) { borderbuf=altborder[0]; }
+if (key[3]) { borderbuf=altborder[1]; }
+if (key[4]) { borderbuf=altborder[2]; }
+if (key[5]) { borderbuf=altborder[3]; }
+if (key[6]) { borderbuf=altborder[4]; }
+if (key[11]) { Entity.TX[player]=StartX; Entity.TY[player]=StartY;
+               Entity.X[player]=StartX*16; Entity.Y[player]=StartY*16; }
+}
+
+event // old map script...
+{
+}
+
+event
+{
+// If(CurZone=5) Mapswitch ("STAGE2-1.MAP",0,0,0);
+}

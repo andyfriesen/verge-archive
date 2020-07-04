@@ -1,0 +1,48 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=2;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (zs[2]) { SetTZO(26,8,2,0,0,0); } else { SetTile(26,8,7,99); }
+
+ MoveCamera (27*16, 7*16, 16);
+
+ vj=timer;
+ while (timer<vj+40) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+
+ for (vi=25; vi<=30; vi++)
+  {
+   for (vh=4; vh<=10; vh++)
+    {
+     SetTile(vi, vh-1, 4, GetTile(vi, vh, 4));
+    }
+  }
+
+ vj=timer;
+ while (timer<vj+20) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+
+ for (vi=25; vi<=30; vi++)
+  {
+   for (vh=4; vh<=10; vh++)
+    {
+     SetTile(vi, vh-1, 4, GetTile(vi, vh, 4));
+    }
+  }
+
+ vj=timer;
+ while (timer<vj+60) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+ vj=timer;
+
+ MoveCamera (Entity.X[player], Entity.Y[player], 16);
+
+ log ("Executed SpecialBlock3.Secret().");
+ frameflag=timer;
+}
+

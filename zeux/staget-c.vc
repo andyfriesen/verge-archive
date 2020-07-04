@@ -1,0 +1,29 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+dummy="";
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+event
+{
+ for (vi=1; vi<=8; vi++)
+  {
+   SetTZO(vi*2+1,3,2,1759+vi, 91, 1);
+  }
+}
+
+// The number is... (drum roll)
+// 2 - 5 - 8 - 3 - 4 - 1 - 7 - 6
+
+event
+{
+   vi=(vx-1)/2;
+   SetTZO(vx,vy,2,1770, 0, 1);
+   dummy=dummy+str(vi); Log(dummy);
+   if (!strcmp(dummy,"25834176")) { SetTZO(10,9,2,99,7,0); PlaySound(snd_tsubaba, 64, 128); SpawnObject(10*16+8,9*16+8,1,0,15);}
+}
+

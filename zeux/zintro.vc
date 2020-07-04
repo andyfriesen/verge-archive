@@ -1,0 +1,917 @@
+
+// Handles Introduction and Game Over Scenes
+
+int christmas, introed, music;
+string foo;
+string textf[11];
+
+void IntroEffect()
+{
+  int time, x,y;
+  int i1, i2, i3;
+  if (introed) return;
+  cameratracking=0; music=0;
+  xWin=0; yWin=270;
+  SetClipRect(8,8,311,191);
+  i1=titlebuf;
+  imgbuf=malloc(320*11);
+  if (alterpal) { PaletteAlter(); }
+  FadeIn(60,1);
+  Wait(140);
+  time=timer;
+  while (timer<time+250) {
+  Render(); RectFill(139,182,181,191,0); VCCenterText(183,"Yay!");
+            RectFill(0,10,319,20,0); VCCenterText(11,"Hit S to skip intro");
+   UpDateControls(); if (key[31]) { introed=1; time=0-1000; }  ShowPage();}
+  if (introed) return;
+  while (timer<time+600) {
+  Render(); RectFill(42,182,280,191,0);
+  VCCenterText(183,"I finally beat the Evil Wizard^!");
+            RectFill(0,10,319,20,0); VCCenterText(11,"Hit S to skip intro");
+   UpDateControls(); if (key[31]) { introed=1; time=0-1000; }  ShowPage();}
+  if (introed) return;
+  while (timer<time+950) {
+  Render(); RectFill(51,182,267,191,0);
+  VCCenterText(183,"Nothing bad can happen now...");
+   RectFill(0,10,319,20,0); VCCenterText(11,"Hit S to skip intro");
+   UpDateControls(); if (key[31]) { introed=1; time=0-1000; } ShowPage(); }
+  if (introed) return;
+  while (timer<time+1050) { Render(); ShowPage(); }
+  for (y=17; y<26; y++)
+   { SetTile(8,y,1,166); SetTile(9,y,1,167); SetTile(10,y,1,168); }
+  SetTile(8,26,1,169); SetTile(9,26,1,170); SetTile(10,26,1,171);
+  while (timer<time+1060) { Render(); ShowPage(); }
+  for (x=0; x<20; x++)
+   {
+    for (y=17; y<32; y++)
+     { SetTile(x,y,1,0); SetTile(x,y,1,0); SetTile(x,y,1,0); }
+   }
+  SetTile(8,25,0,172); SetTile(9,25,0,173); SetTile(10,25,0,174);
+  SetTile(8,26,0,175); SetTile(9,26,0,176); SetTile(10,26,0,177);
+
+  PlayMusic("BATDANCE.MOD"); music=1;
+  while (timer<time+1300) { Render(); ShowPage(); }
+
+  time=timer;
+  while (timer<time+50)
+  { Render(); yWin=270-(timer-time*5); VCCenterText(timer-time*5-150,"Zaratustra Productions Presents"); ShowPage(); }
+  while (timer<time+350) { Render(); VCCenterText(100,"Zaratustra Productions Presents"); ShowPage(); }
+  GrabRegion(0,100,319,109,imgbuf);
+  FlipFlop("A VERGE2 Game");
+  FlipFlop("by Guilherme S. Tows");
+  FlipFlop("VERGE engine programmed by vecna");
+  FlipFlop("V2 engine by vecna, aen, zeromus, ric");
+
+  SetClipRect(0,0,319,199);
+
+  WhiteOut(20);
+  introed=1;
+
+//  Render();
+  CopySprite(10,10,180,180,i1);
+//  CopySprite(0,5,320,105,i1);
+  ShowPage();
+  WhiteIn(20);
+  free(imgbuf);
+ // free(i2);
+
+}
+
+void FlipFlop(string txt)
+{
+  int time;
+  time=timer;
+  while (timer<time+32)
+  { Render(); ScaleSprite((timer-time*5),100,320,9,320-(timer-time*10),9,imgbuf); ShowPage(); }
+  VCCenterText(100,txt);
+  GrabRegion(0,100,319,109,imgbuf);
+  time=timer;
+  while (timer<time+32)
+  { Render(); ScaleSprite(160-(timer-time*5),100,320,9,(timer-time*10),9,imgbuf); ShowPage(); }
+  while (timer<time+200) { Render(); VCCenterText(100,txt); ShowPage(); }
+}
+
+void TitleEffect()
+{
+  int i, j, k, l, fin, wavy;
+//  titlebuf=LoadImage("titlew.pcx");
+  option=1;
+  yWin=0; SetClipRect(0,0,319,199); if (!music) { PlayMusic("BATDANCE.MOD"); music=1; }
+ if (christmas) { snow_set_flakes(100); snow_setup(); }
+ if (alterpal) { PaletteAlter(); }
+
+  while (!fin)
+   {
+    Render();
+    CopySprite(10,10,180,180,titlebuf);
+    // CopySprite(0,5,320,105,titlebuf);
+
+    if (!christmas)
+    {
+    for (i=1;i<5;i++)
+     {
+      j=i*4864; j=j-4864; j=j+optionbuf+640;
+      if (i=option)
+       {
+        for (k=0; k<17; k++)
+         {
+          l = sin((k*60+wavy)%360);
+          l=l>>15;
+          CopySprite (193+l,17*i+100+k,128,1,k*128+j);
+         }
+       }
+       else
+       {
+        CopySprite (192,17*i+100,128,17,j+2432);
+       }
+     }
+    }
+
+    if (christmas) snow_tick();
+    ShowPage();
+    if (introed=0) { FadeIn(50,0); if (!christmas) PlayMusic("BATDANCE.MOD"); else PlayMusic("XMASTOON.S3M");
+                     introed=1; }
+
+    while (timer) { timer--;
+    wavy+=15; if (wavy>=360) wavy-=360;
+	}
+
+    UpdateControls();
+    if (up=1) { if (option=1) option=5; option--; UnPress(5); }
+    if (down=1) { option++; if (option=5) option=1; UnPress(6); }
+    if (b1=1) fin=1;
+   }
+ while(b1) { UpdateControls(); }
+
+ if (christmas=1) { option=5; Map("TESTX.MAP"); }
+ if (option=1) SavedMenuEffect();
+ if (option=2) NewMenuEffect();
+ if (option=3) OptionsMenuEffect();
+ if (option=4) {
+  RectFill(0,0,319,199,0);
+  VCCenterText(90,"http://zara.verge-rpg.com");
+  VCCenterText(100,"Press Enter");
+  ShowPage();
+  Exit("http://zara.verge-rpg.com/ Go there.");
+  }
+}
+
+void OptionsMenuEffect()
+{
+  int i, j, k, l, fin, wavy;
+ Unpress(1);
+  while (!fin)
+   {
+    Render();
+    CopySprite(10,10,180,180,titlebuf);
+    for (i=1;i<5;i++)
+     {
+      j=i*4864; j=j-4864; j=j+optionbuf+640;
+      if(i!=3)
+       {
+        CopySprite (192,17*i+100,128,17,j+2432);
+       }
+     }
+    for (k=0; k<17; k++)
+     {
+      j=((refresh*38+5)*128)+option2buf;
+      l = sin((k*60+wavy)%360);
+      l=l>>15;
+      CopySprite (193+l,17*3+101+k,128,1,k*128+j);
+     }
+    if (christmas) snow_tick();
+    ShowPage();
+    wavy+=15; if (wavy>360) wavy=0;
+
+    UpdateControls();
+    if (up=1) { refresh=1-refresh; UnPress(5); }
+    if (down=1) { refresh=1-refresh; UnPress(6); }
+    if (b1=1) fin=1;
+   }
+ fin=0;
+ Unpress(1);
+  while (!fin)
+   {
+    Render();
+    CopySprite(10,10,180,180,titlebuf);
+    for (i=1;i<5;i++)
+     {
+      j=i*4864; j=j-4864; j=j+optionbuf+640;
+      if(i!=3)
+       {
+        CopySprite (192,17*i+100,128,17,j+2432);
+       }
+     }
+    for (k=0; k<17; k++)
+     {
+      j=((gamepad*38+81)*128)+option2buf;
+      l = sin((k*60+wavy)%360);
+      l=l>>15;
+      CopySprite (193+l,17*3+101+k,128,1,k*128+j);
+     }
+    if (christmas) snow_tick();
+    ShowPage();
+    wavy+=15; if (wavy>360) wavy=0;
+
+    UpdateControls();
+    if (up=1) { gamepad=1-gamepad; UnPress(5); }
+    if (down=1) { gamepad=1-gamepad; UnPress(6); }
+    if (b1=1) fin=1;
+   }
+ Unpress(1);
+ SaveCFG();
+ TitleEffect();
+}
+
+void DrawNumber(int x, int y, int ptr, int n)
+{
+	int i, c;
+	string s;
+
+	s=str(n);
+	for (i=strlen(s)-1; i>=0; i--)
+	{
+		c=asc(mid(s,i,1));
+		if (c>='0' && c<='9')
+		{
+			c-='0';
+			CopySprite(x, y, 12, 19, ptr+(c*12*19));
+		}
+		x-=12;
+	}
+}
+
+void SavedMenuEffect()
+{
+        int menu1buf, menu2buf, fin, wavy, a, b, i, j, k, l;
+
+	menu1buf	=malloc(128*75);
+	menu2buf	=malloc(128*75);
+
+	option=1;
+
+        CopySprite(192,100, 128,75, savedbuf); //-128);
+
+	for (i=1; i<5; i++) // a - Paths completed: b - Overall Score
+	{
+                Log("  > LoadSaidGame A "+str(i));
+                LoadSaidGame(i);
+		a=CountPaths(); b=GetScore();
+
+		DrawNumber(192+50, 100+(i*19-18), num1buf, a);
+		//if (a>10) CopySprite(192+38,100+(i*19-18),12,19,num1buf+(a/10*228));
+		//CopySprite(192+50,100+(i*19-18),12,19,num1buf+(a%10*228));
+
+		DrawNumber(192+98, 100+(i*19-18), num1buf, b);
+		//if (b>100) CopySprite(192+74,100+(i*19-18),12,19,num1buf+(b/100*228));
+		//if (b>10) CopySprite(192+86,100+(i*19-18),12,19,num1buf+((b%100)/10*228));
+		//CopySprite(192+98,100+(i*19-18),12,19,num1buf+(b%10*228));
+	}
+
+	//GrabRegion(191,100,319,175,menu1buf-64);
+	GrabRegion(192,100, 192+128-1,100+75-1, menu1buf);
+
+        CopySprite(192,100, 128,75, savedbuf+(128*75)+128); //-128);
+
+	for (i=1; i<5; i++) // a - Paths completed: b - Overall Score
+	{
+                Log("  > LoadSaidGame B "+str(i));
+		LoadSaidGame(i);
+		a=CountPaths(); b=GetScore();
+
+		DrawNumber(192+50, 100+(i*19-18), num2buf, a);
+		//if(a>10) CopySprite(192+38,100+(i*19-17),12,19,num2buf+(a/10*228));
+		//CopySprite(192+50,100+(i*19-17),12,19,num2buf+(a%10*228));
+
+		DrawNumber(192+98, 100+(i*19-18), num2buf, b);
+		//if(b>100) CopySprite(192+74,100+(i*19-17),12,19,num2buf+(b/100*228));
+		//if(b>10) CopySprite(192+86,100+(i*19-17),12,19,num2buf+((b%100)/10*228));
+		//CopySprite(192+98,100+(i*19-17),12,19,num2buf+(b%10*228));
+	}
+
+	GrabRegion(192,100, 192+128-1,100+75-1, menu2buf);
+
+	while (!fin)
+	{
+		Render();
+		CopySprite(10,10,180,180,titlebuf);
+		for (i=0; i<4; i++)
+		{
+			if (i+1=option)
+			{
+				for (k=0; k<18; k++)
+				{
+					l=sin((k*60+wavy)%360);
+					l=l>>15;
+					CopySprite(192+l, 119+(i*19)+k, 128,1,
+						menu1buf+( ((i*19)+k) * 128 )
+						);
+				}
+			}
+			else
+			{
+				CopySprite(192, 119+(i*19), 128,18,
+                                        menu2buf+( (i*19) * 128 )
+					);
+			}
+		}
+		if (christmas) snow_tick();
+		ShowPage();
+
+		while (timer)
+		{
+			timer--;
+
+			wavy+=15;
+			if (wavy>=360) wavy-=360;
+		}
+
+		UpdateControls();
+		if (up=1) { if (option=1) option=5; option--; UnPress(5); }
+		if (down=1) { option++; if (option=5) option=1; UnPress(6); }
+		if (b1=1) fin=1;
+	}
+	FadeOut(100,0);
+	LoadSaidGame(option);
+	if (startupflag=0) ZeuxStartup();
+        if (CountPaths()!=0) dummy="TEST.MAP";
+    if (CountPaths()=0 && christmas=0) { dummy="STAGE1-i.MAP"; PlayMusic("NULL.S3M"); IntroStageEffect(); }
+
+    free(titlebuf);
+    free(menu1buf);
+    free(menu2buf);
+    LocX=0; LocY=0; TowX=0; TowY=0;
+	Map(dummy);
+}
+
+void NewMenuEffect()
+{
+        int menu1buf, menu2buf, fin, wavy, a, b, i, j, k, l;
+
+	menu1buf	=malloc(128*75);
+	menu2buf	=malloc(128*75);
+
+	option=1;
+
+        CopySprite(192,100, 128,75, savedbuf); //-128);
+
+	for (i=1; i<5; i++) // a - Paths completed: b - Overall Score
+	{
+                Log("  > LoadSaidGame A "+str(i));
+                LoadSaidGame(i);
+		a=CountPaths(); b=GetScore();
+
+		DrawNumber(192+50, 100+(i*19-18), num1buf, a);
+		DrawNumber(192+98, 100+(i*19-18), num1buf, b);
+       }
+
+	//GrabRegion(191,100,319,175,menu1buf-64);
+	GrabRegion(192,100, 192+128-1,100+75-1, menu1buf);
+
+        CopySprite(192,100, 128,75, savedbuf+(128*75)+128); //-128);
+
+	for (i=1; i<5; i++) // a - Paths completed: b - Overall Score
+	{
+                Log("  > LoadSaidGame B "+str(i));
+		LoadSaidGame(i);
+		a=CountPaths(); b=GetScore();
+
+		DrawNumber(192+50, 100+(i*19-18), num2buf, a);
+		DrawNumber(192+98, 100+(i*19-18), num2buf, b);
+	}
+
+	GrabRegion(192,100, 192+128-1,100+75-1, menu2buf);
+
+	while (!fin)
+	{
+		Render();
+		CopySprite(10,10,180,180,titlebuf);
+		for (i=0; i<4; i++)
+		{
+			if (i+1=option)
+			{
+                                for (k=0; k<18; k++)
+				{
+					l=sin((k*60+wavy)%360);
+					l=l>>15;
+					CopySprite(192+l, 119+(i*19)+k, 128,1,
+						menu1buf+( ((i*19)+k) * 128 )
+						);
+				}
+			}
+			else
+			{
+				CopySprite(192, 119+(i*19), 128,18,
+                                        menu2buf+( (i*19) * 128 )
+					);
+			}
+		}
+		if (christmas) snow_tick();
+		ShowPage();
+
+		while (timer)
+		{
+			timer--;
+
+			wavy+=15;
+			if (wavy>=360) wavy-=360;
+		}
+
+		UpdateControls();
+		if (up=1) { if (option=1) option=5; option--; UnPress(5); }
+		if (down=1) { option++; if (option=5) option=1; UnPress(6); }
+		if (b1=1) fin=1;
+	}
+	FadeOut(100,0);
+        LoadGame("ZEUX.SAV");
+        LoadGameData();
+        free(savebuf);
+        SaveSaidGame(option);
+	if (startupflag=0) ZeuxStartup();
+        if (!christmas) { dummy="STAGE1-i.MAP"; PlayMusic("NULL.S3M"); IntroStageEffect(); }
+	if (christmas) dummy="TESTX.MAP";
+
+    free(titlebuf); 
+    free(menu1buf); free(menu2buf);
+
+    LocX=0; LocY=0; TowX=0; TowY=0;
+	Map(dummy);
+}
+
+void IntroStageEffect()
+{
+ int time, i, j, x, y;
+//mapbuf=LoadImage("MAP2.PCX");
+ time=timer;
+ RectFill(0,0,319,199,144);
+ while (timer-time<600)
+  {
+   j=timer-time;
+   if(j<100) { palettemorph(0,0,0,100-j,63); }
+   if(j>500) { palettemorph(63,63,63,j-500,63); }
+   i=j/20+i;
+   x=i*3/5;
+   y=i*1/5;
+   ScaleSprite(160-(i*8/5)+x,100-i+y,1280,800,i*16/5,i*2,mapbuf);
+   ShowPage();
+  }
+ palettemorph(63,63,63,100,63);
+ intro=1;
+// free(imgbuf);
+}
+
+void GameIntro(int in)
+{
+ int y, time;
+ entity.specframe[0]=31;
+ entity.Y[0]+=2;
+ cameratracking=0;
+ y=0;
+ time=timer;
+
+ if (alterpal) PaletteAlter();
+
+ while (timer-time<120)
+  {
+   YWin = y+timer-time;
+   Render();
+   ShowPage();
+   if (timer-time<100) palettemorph(63,63,63,100-(timer-time),63);
+  }
+
+ if (alterpal) PaletteAlter();
+
+ cameratracking=2;
+ time=timer;
+ while(timer-time<60) { Render(); ShowPage(); }
+ time=timer;
+ while(timer-time<38) { Render(); Vline(19,0,(timer-time)*4,28);
+                                  Vline(20,0,(timer-time)*4,31);
+                                  Vline(21,0,(timer-time)*4,28); ShowPage(); }
+ time=timer;
+ while(timer-time<70) { entity.specframe[0]=40+(timer-time/10); Render();
+                                  Vline(19,(timer-time-32)*4,153,28);
+                                  Vline(20,(timer-time-32)*4,153,31);
+                                  Vline(21,(timer-time-32)*4,153,28); ShowPage(); }
+ intro=0;
+}
+
+void ZeuxStartup()
+{
+lives=5;
+health=4;
+coins=0;
+rematch=0;
+prevstage=0;
+LoadMapData();
+LoadRainbow();
+Z_DefaultPhysics();
+startupflag=1;
+}
+
+void LoadRainbow()
+{
+ int i, file;
+ file=fopen("RAINBOW.DAT");
+ for (i=0; i<48; i++)
+ {
+  fgettoken(dummy, file); rainbow[i]=val(dummy);
+ }
+// fclose(file);
+}
+
+void GameOverEffect()
+{
+   int done, a, j, k, t;
+
+   startupflag=0;
+
+   SetMousePos(160,184);
+
+   idleflag=timer+300;
+   Playsound(Snd_fall,64,128);
+
+   Render();
+   Showpage();
+   FadeIn(50,0);
+
+   while(!done)
+   {
+    UpdateControls();
+    ReadMouse();
+    if (left=1) SetMousePos(mx-4,my);
+    if (right=1) SetMousePos(mx+4,my);
+    a=0;
+    if (my>176 && my<192)
+       {
+        if (mx>16 && mx<112)  a=1;
+        if (mx>176 && mx<304) a=2;
+       }
+     j=0;
+     if (timer>idleflag+5)  j=1;
+     if (timer>idleflag+10) j=2;
+     if (timer>idleflag+15) j=3;
+     if (timer>idleflag+20) j=2;
+     if (timer>idleflag+25) { j=1; idleflag=timer+300; }
+
+     if (a=1) k=4;
+     if (a=2) k=0;
+
+     entity.specframe[0]=j+k;
+
+    if (b1=1 || mb=1) { if (a>0) done=1; }
+     Render();
+     TCopySprite (mx,my,16,16,arrowbuf);
+     Showpage();
+   }
+
+
+
+ foo="TEST.MAP"; 
+ if (a=1) { Playsound(Snd_rise,64,128); FadeOut(150,0); ZeuxStartup(); }
+ if (a=2) { foo="TITLE.MAP";
+            Playsound(Snd_die,64,128);
+            t=timer;
+            while (timer<t+50) { entity.specframe[0]=32+(timer/5%2);
+                                 Render(); Showpage();
+                               }
+            while (timer<t+100) { entity.specframe[0]=33+(timer/5%2);
+                                 Render(); Showpage();
+                               }
+            while (timer<t+150) { entity.specframe[0]=34+(timer/5%2);
+                                 Render(); Showpage();
+                               }
+            while (timer<t+200) { entity.specframe[0]=35+(timer/5%2);
+                                 Render(); Showpage();
+                               }
+            while (timer<t+225) { entity.specframe[0]=37; Render(); Showpage(); }
+            while (timer<t+250) { entity.specframe[0]=38; Render(); Showpage(); }
+            while (timer<t+350) { entity.specframe[0]=39; palettemorph(63,63,63,timer-(t+250),63); Render(); Showpage(); }
+            while (timer<t+450) { entity.visible[0]=0;    palettemorph(63,63,63,(t+450)-timer,63); Render(); RectFill(0,0,319,199,0); Showpage(); }
+            palettemorph(0,0,0,0,63);
+          }
+
+ Map(foo);
+}
+
+void FlipFlopMove(int x, int y, string txt1, string txt2)
+{
+  int time, x1, y1, xt, yt,t;
+  x1=xwin;
+  y1=ywin;
+  xt=(x-xWin);
+  yt=(y-yWin);
+
+  time=timer;
+  while (timer<time+100)
+  { t=timer-time; xWin=x1+(t*xt/200); yWin=y1+(t*yt/200);
+    Render();
+    TScaleSprite(t*160/100,175,320,19,320-(t*320/100),19,imgbuf);
+    UpdateControls();
+    ShowPage(); }
+  RectFill(0,175,320,195,0);
+  VCCenterText(175,txt1);
+  VCCenterText(185,txt2);
+  GrabRegion(0,175,319,194,imgbuf);
+  while (timer<time+200)
+  { t=timer-time; xWin=x1+(t*xt/200); yWin=y1+(t*yt/200);
+    t=200-t;
+    Render();
+    TScaleSprite(t*160/100,175,320,19,320-(t*320/100),19,imgbuf);
+    UpdateControls();
+    ShowPage(); }
+
+  xWin=x;
+  yWin=y;
+
+  while (timer<time+450)
+   { Render();
+     VCCenterText(175,txt1);
+     VCCenterText(185,txt2);
+     UpdateControls();
+     ShowPage(); }
+}
+
+void FinalScore()
+{
+ int i, fullscore, barscore, percentscore, decimalscore, time, done, h;
+ vi=175; 
+ fullscore=0;
+  for (i=1; i<100; i++)
+   {
+    fullscore+=sc[i];
+   }
+ barscore=fullscore/50;
+ percentscore=fullscore/74;
+ decimalscore=(fullscore*100/74)-(percentscore*100);
+
+ textf[1]="Bonus Hint Time!";
+ FadeIn(100,1);
+ time=timer; while (timer<time+100) { Render(); ShowPage(); }
+  textf[2]="Your score was...";
+ while (vi>175-barscore)
+ {
+  time=timer; while (timer<time+5) { Render(); vi--; ShowPage(); }
+ }
+  textf[3]=str(percentscore)+"."+right(str(100+decimalscore),2)+"%";
+
+ time=timer; while (timer<time+200) { Render(); ShowPage(); }
+
+ if (percentscore>=100)
+  {
+   SetTile(1,1,1,691);
+   textf[4]="100%! Great Googly Moogly!";
+   PlaySound(snd_bells,64,128);
+   textf[5]="You can read ALL hints!";
+   OpenCards(18);
+  }
+ else {
+ if (percentscore>=80)
+  {
+   textf[4]="Over 80%! Momma!";
+   textf[5]="You can choose one hint of each color!";
+   PlaySound(snd_toasty,64,128);
+   OpenCards(18);
+  }
+ else {
+ if (percentscore>=50)
+  {
+   textf[4]="Over 50%! Woo!";
+   textf[5]="You can choose a BLUE and a RED hint!";
+   PlaySound(snd_tsubaba,64,128);
+   OpenCards(17);
+  }
+ else {
+   textf[4]="Well Done! -dope-";
+   textf[5]="You can choose a BLUE hint!";
+   PlaySound(snd_argh,64,128);
+   OpenCards(10);
+ } } }
+ while(!done)
+ {
+  UpdateControls();
+   if (left) SetMousePos(mx-4,my);
+   if (right) SetMousePos(mx+4,my);
+   if (up) SetMousePos(mx,my-4);
+   if (down) SetMousePos(mx,my+4);
+   if (mb || b1)
+   {
+    if (GetTile(mx/16,my/16,7)>0)
+     {
+      h=GetTile(mx/16,my/16,7);
+      ReturnHint(h);
+      if (percentscore<100)
+       {
+        if (h<=10) CloseCards(1,10);
+        else { if (h<18) CloseCards(11,17); 
+        else CloseCards(18,18); }
+        playsound(snd_coin,64,128);
+       }
+     }
+   }
+   if (b4 || b3) done=1;
+   Render(); ShowPage();
+ }
+
+}
+
+void ReturnHint(int h)
+{
+ int i;
+ for (i=0; i<11; i++) { textf[i]=""; }
+ textf[0]="Hint #"+right(str(100+h),2);
+ switch (h)
+ {
+  case 1:
+        textf[1]="Christmas Mode";
+        textf[2]="Run Verge.";
+        textf[3]="Hold X when copyright appears.";
+
+  case 2:
+        textf[1]="Palette Mode";
+        textf[2]="Run Verge. Hold R, G, B, C, M, Y or K";
+        textf[3]="when the copyright appears.";
+
+  case 3:
+        textf[1]="Lower Palette";
+        textf[2]="Run Verge.";
+        textf[3]="When the copyright appears...";
+        textf[5]="CGA Monitor - Hold 4.";
+        textf[6]="EGA Monitor - Hold 1 and 6.";
+
+  case 4:
+        textf[1]="Monitor Compatible";
+        textf[2]="Run Verge.";
+        textf[3]="When the copyright appears...";
+        textf[5]="Green Monitor";
+        textf[6]="Hold the keyboard PLUS and MINUS.";
+        textf[7]="Amber Monitor";
+        textf[8]="Hold LEFT SHIFT and RIGHT SHIFT.";
+
+  case 5:
+        textf[1]="Game Boy Mode";
+        textf[2]="Run Verge. Hold G and B";
+        textf[3]="when the copyright appears.";
+
+  case 6:
+        textf[1]="Change Border";
+        textf[2]="Press 1, 2, 3, 4 or 5 in the";
+        textf[3]="world map.";
+
+  case 7:
+        textf[1]="Moonwalk";
+        textf[2]="Hold LEFT, and a moment later,";
+        textf[3]="hold RIGHT.";
+
+  case 8:
+        textf[1]="New I.C.Cap Music";
+        textf[2]="Enter a stage you've already";
+        textf[3]="achieved 100% at.";
+
+  case 9:
+        textf[1]="New Earthgrotto Music";
+        textf[2]="Enter a stage you've already";
+        textf[3]="achieved 100% at.";
+
+  case 10:
+        textf[1]="Silly";
+        textf[2]="Press S during game.";
+        textf[3]="You must be immobile.";
+
+  case 11:
+        textf[1]="Chaos Runner Mode";
+        textf[2]="Press Z when playing.";
+        textf[3]="You need to enable it first...";
+
+  case 12:
+        textf[1]="Megazeux Mode";
+        textf[2]="Press M when playing.";
+        textf[3]="You need to enable it first...";
+
+  case 13:
+        textf[1]="Music Test";
+        textf[2]="It's somewhere in the world map...";
+
+  case 14:
+        textf[1]="Secret Games";
+        textf[2]="Look around Deathcliff's and";
+        textf[3]="Dystopia's stages.";
+
+  case 15:
+        textf[1]="Boss Battles";
+        textf[2]="Hold B when entering a castle";
+        textf[3]="you've finished.";
+
+  case 16:
+        textf[1]="Higher Bounce";
+        textf[2]="Hold DOWN when jumping on an enemy!";
+
+  case 17:
+        textf[1]="Emergency Healing";
+        textf[2]="When you're almost dead,";
+        textf[3]="press H to change 5 gems for";
+        textf[4]="a level of health!";
+
+  case 18:
+        textf[1]="Source Files Address";
+        textf[2]="zara.verge-rpg.com/zeuxdev.zip";
+        textf[3]="Password: "+str(476*229*653);
+
+
+ }
+
+
+}
+
+// Opens all cards below and equal to I
+void OpenCards(int i)
+{
+ int x,y;
+  for (y=0; y<map_height; y++)
+   {
+    for (x=0; x<map_width; x++)
+     {
+      if (GetTile(x,y,7)<=i && GetTile(x,y,7)!=0) { SetTile(x,y,1,0); }
+      else { SetTile(x,y,7,0); }
+     }
+   }
+}
+
+// Closes all cards below and equal to I and above J
+void CloseCards(int j, int i)
+{
+ int x,y;
+  for (y=0; y<map_height; y++)
+   {
+    for (x=0; x<map_width; x++)
+     {
+      if (GetTile(x,y,7)>=j && GetTile(x,y,7)<=i) { SetTile(x,y,0,0); SetTile(x,y,7,0); }
+     }
+   }
+}
+
+
+
+void FlipFlopEntity(string txt1, string entname)
+{
+  int time, x, t, e;
+  e=EntitySpawn(55,25,entname);
+
+  VCCenterText(180,txt1);
+  GrabRegion(0,175,319,194,imgbuf);
+
+
+  time=timer;
+  while (timer<time+160)
+  { t=timer-time; entity.x[e]=(55*16)-t;
+    t=160-t;
+    Render();
+    RectFill(0,0,48,200,0);
+    RectFill(320-48,0,319,200,0);
+    TScaleSprite(t,175,320,19,320-(t*2),19,imgbuf);
+    UpdateControls(); 
+    ShowPage(); }
+
+  time=timer;
+  while (timer<time+80)
+  { entity.x[e]=45*16;
+    Render();
+    RectFill(0,0,48,200,0);
+    RectFill(320-48,0,319,200,0);
+    TScaleSprite(0,175,320,19,320,19,imgbuf);
+    UpdateControls(); 
+    ShowPage(); }
+
+  time=timer;
+  while (timer<time+160)
+  { t=timer-time; entity.x[e]=(45*16)-t;
+    Render();
+    RectFill(0,0,48,200,0);
+    RectFill(320-48,0,319,200,0);
+    TScaleSprite(t,175,320,19,320-(t*2),19,imgbuf);
+    UpdateControls(); 
+    ShowPage(); }
+
+  RectFill(0,175,319,194,0);
+  GrabRegion(0,175,319,194,imgbuf);
+  entity.visible[e]=0;
+
+}
+
+void LoadCFG()
+{
+ int file;
+ file=fopen("ZEUX.CFG");
+ fgetline(dummy,file); refresh=val(dummy);
+ fgetline(dummy,file); gamepad=val(dummy);
+ fclose(file);
+}
+
+void SaveCFG()
+{
+ int file;
+ file=fwopen("ZEUX.CFG");
+ fwritestring(str(refresh),file);
+ fwritestring(str(gamepad),file);
+ fclose(file);
+}

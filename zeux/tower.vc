@@ -1,0 +1,123 @@
+event
+{
+PaletteMorph(0,0,0,0,0);
+SystemStartup();
+returnmap="TOWER.MAP";
+SetPlayer(0);
+borderbuf=altborder[0];
+if (startupflag=0) ZeuxStartup();
+LoadSaidGame(option);
+UpdateMap(map_width,map_height);
+cameratracking=1;
+HookRetrace(2);
+StartX=Entity.TX[player];
+StartY=Entity.TY[player];
+if (TowX!=0) { Entity.TX[player]=TowX; Entity.X[player]=TowX*16; }
+if (TowY!=0) { Entity.TY[player]=TowY; Entity.Y[player]=TowY*16; }
+if (alterpal) { PaletteAlter (); }
+Unpress(1);
+HookKey(28,GoToMapTower);
+FadeIn(50,1);
+}
+
+event
+{
+vx=Entity.TX[player];
+vy=Entity.TY[player];
+wa=1;
+vf=entity.facing[player];
+dummy="";
+ while (GetTile(vx,vy,7)=1)
+  {
+   switch (vf)
+   {
+    case 0:
+     if (GetTile(vx,vy+1,6)=0) { dummy=dummy+"D1"; vy++; }
+      else if (GetTile(vx,vy+1,6)=1 && GetTile(vx+1,vy,6)=0) { dummy=dummy+"R1"; vx++; vf=3; }
+      else if (GetTile(vx,vy+1,6)=1 && GetTile(vx+1,vy,6)=1 && GetTile(vx-1,vy,6)=0) { dummy=dummy+"L1"; vx--; vf=2; }
+    case 1:
+     if (GetTile(vx,vy-1,6)=0) { dummy=dummy+"U1"; vy--; }
+      else if (GetTile(vx,vy-1,6)=1 && GetTile(vx+1,vy,6)=0) { dummy=dummy+"R1"; vx++; vf=3; }
+      else if (GetTile(vx,vy-1,6)=1 && GetTile(vx+1,vy,6)=1 && GetTile(vx-1,vy,6)=0) { dummy=dummy+"L1"; vx--; vf=2; }
+    case 3:
+     if (GetTile(vx+1,vy,6)=0) { dummy=dummy+"R1"; vx++; }
+      else if (GetTile(vx+1,vy,6)=1 && GetTile(vx,vy+1,6)=0) { dummy=dummy+"D1"; vy++; vf=0; }
+      else if (GetTile(vx+1,vy,6)=1 && GetTile(vx,vy+1,6)=1 && GetTile(vx,vy-1,6)=0) { dummy=dummy+"U1"; vy--; vf=1; }
+    case 2:
+     if (GetTile(vx-1,vy,6)=0) { dummy=dummy+"L1"; vx--; }
+      else if (GetTile(vx-1,vy,6)=1 && GetTile(vx,vy+1,6)=0) { dummy=dummy+"D1"; vy++; vf=0; }
+      else if (GetTile(vx-1,vy,6)=1 && GetTile(vx,vy+1,6)=1 && GetTile(vx,vy-1,6)=0) { dummy=dummy+"U1"; vy--; vf=1; }
+    }
+   log (dummy +" - "+str(vx) +","+ str(vy));
+  }
+ PartyMove(dummy);
+}
+
+
+event
+{
+// VCClear();
+TCopySprite(0,0,320,200,borderbuf);
+mapno=GetTile(Entity.TX[player], Entity.TY[player], 7);
+
+Switch (GetTile(Entity.TX[player], Entity.TY[player], 7))
+ {
+  case 2:VCCenterText(188,"Mountainview");
+  case 3:VCCenterText(188,"Beachwalk");
+  case 4:VCCenterText(188,"Grasslands");
+  case 5:VCCenterText(188,"Desertheat");
+  case 6:VCCenterText(188,"Treehouses");
+  case 7:VCCenterText(188,"Earthgrotto");
+  case 8:VCCenterText(188,"I. C. Cap");
+  case 9:VCCenterText(188,"Rainforest");
+  case 10:VCCenterText(188,"Graveyard");
+  case 11:VCCenterText(188,"Metropolis");
+  case 12:VCCenterText(188,"Metropolis");
+  case 13:VCCenterText(188,"Deathcliff");
+  case 14:VCCenterText(188,"Pinnacle");
+  case 71:VCCenterText(188,"Invisible in Seattle");
+  case 72:VCCenterText(188,"Topsy Turvy");
+  case 73:VCCenterText(188,"Ziggurat Schmiggurat");
+  case 74:VCCenterText(188,"Mirror Morons");
+  case 75:VCCenterText(188,"Dark Dorks");
+  case 76:VCCenterText(188,"High-G Gag");
+  case 77:VCCenterText(188,"Hurried Havoc");
+  case 78:VCCenterText(188,"Catch Up Chasms");
+  case 79:VCCenterText(188,"Reduced Rumble");
+  case 80:VCCenterText(188,"Disco Ditzy");
+  case 81:VCCenterText(188,"Unseen Underground");
+  case 82:VCCenterText(188,"Obviously Obvious");
+  case 83:VCCenterText(188,"Yog-Sothoth");
+  case 97:VCCenterText(188,"Whack-a-Hamster");
+  case 98:VCCenterText(188,"Shoot-a-Hamster");
+ }
+If (mapno<100 && mapno>15) { if (GetSScore(mapno)=100) { TCopySprite(304, 184, 16, 16, vsp+((67+(timer/5%8))*256) ); }
+else { If (GetSScore(mapno)>0) { TCopySprite(304, 184, 16, 16, vsp+((75+(timer/5%6))*256) ); } } }
+
+if (GetTile(Entity.TX[player], Entity.TY[player],0)=31 || GetTile(Entity.TX[player], Entity.TY[player],0)=142)
+ {
+  entity.specframe[player]=20+entity.facing[player];
+ }
+else
+ {
+  entity.specframe[player]=0;
+ }
+UpdateControls();
+
+if (key[2]) { borderbuf=altborder[0]; }
+if (key[3]) { borderbuf=altborder[1]; }
+if (key[4]) { borderbuf=altborder[2]; }
+if (key[5]) { borderbuf=altborder[3]; }
+if (key[6]) { borderbuf=altborder[4]; }
+if (key[11]) { Entity.TX[player]=StartX; Entity.TY[player]=StartY;
+               Entity.X[player]=StartX*16; Entity.Y[player]=StartY*16; }
+}
+
+event // old map script...
+{
+}
+
+event
+{
+// If(CurZone=5) Mapswitch ("STAGE2-1.MAP",0,0,0);
+}

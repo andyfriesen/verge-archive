@@ -1,0 +1,53 @@
+event
+{
+if (GetSScore(stage)=100) PlayMusic("MRKMAGIC.XM");
+SystemStartup();
+Z_StartStageStuff();
+currentz=7;
+if (zs[currentz]) ClearItem(98);
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ MoveCamera (89*16, 25*16, 8);
+
+ vj=timer;
+ while (timer<vj+40) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+
+ for (vi=24; vi<=26; vi++)
+ {
+  SetTile(89, vi, 2, 0);
+  SetTile(88, vi, 6, 0);
+ }
+
+
+ vj=timer;
+ while (timer<vj+40) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+ vj=timer;
+
+ MoveCamera (Entity.X[player], Entity.Y[player], 8);
+
+ log ("Executed SpecialBlock3.Secret().");
+ frameflag=timer;
+}
+
+event
+{
+ ywinllimit=20*16;
+ ywinhlimit=33*16;
+}
+
+event
+{
+ ywinllimit=0;
+ ywinhlimit=0;
+}
+
+event
+{
+  SetTZO(vx,vy,2,0,0,0); PlaySound(snd_metroid, 64, 128); zs[currentz]=1;
+}
+

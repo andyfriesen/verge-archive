@@ -1,0 +1,12 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=6;
+if (zs[currentz]) ClearItem(99);
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+

@@ -1,0 +1,237 @@
+
+#define WHACK 1
+#define SHOOT 2
+
+int hamster[20], hamsterpose[20], hamsterup[20], hamsterdown[20];
+int hamsters, hamstergame;
+
+// Paw, Paw, Jump, Wobble, Duck, Jump, Up, Down
+void HamsterDancePose()
+{
+ int x, i;
+ x = (counter / 6) % 4;
+ for (i=0; i<hamsters; i++)
+  {
+   if (hamsterup[i]=0)
+    {
+     if (x=0) hamsterpose[i]=random(6)*4;
+     entity.specframe[hamster[i]]=hamsterpose[i]+x;
+    }
+   if (hamsterup[i]>0)
+    {
+     hamsterup[i]--;
+     entity.specframe[hamster[i]]=24+(hamsterup[i]/3);
+    }
+   if (hamsterdown[i]>0)
+    {
+     hamsterdown[i]++;
+     if (hamsterdown[i]=12)
+      {
+       if (hamstergame=WHACK) entity.visible[hamster[i]]=0;
+       if (hamstergame=SHOOT && i<10)  entity.x[hamster[i]]-=480;
+       if (hamstergame=SHOOT && i>=10) entity.x[hamster[i]]+=480;
+       hamsterdown[i]=0;
+      }
+     entity.specframe[hamster[i]]=28+(hamsterdown[i]/3);
+    }
+  }
+}
+
+void HamsterWhackLoop()
+{
+ int done, ent, i, b;
+ SetPlayer(0);
+ cameratracking=0;
+ xWin=0;
+ playerx=0-8;
+ hamsters=6;
+ hamstergame=WHACK;
+ hamster[0]=EntitySpawn( 5,3,"HAMSTER.CHR");
+ hamster[1]=EntitySpawn( 9,3,"HAMSTER.CHR");
+ hamster[2]=EntitySpawn(13,3,"HAMSTER.CHR");
+ hamster[3]=EntitySpawn( 5,6,"HAMSTER.CHR");
+ hamster[4]=EntitySpawn( 9,6,"HAMSTER.CHR");
+ hamster[5]=EntitySpawn(13,6,"HAMSTER.CHR");
+ for (i=0; i<hamsters; i++)
+ {
+  entity.visible[hamster[i]]=0;
+ }
+ backcounter=3049;
+ counter=0;
+ scoreval=0;
+ scoreflag=1;
+ timeflag=1;
+
+ time1=timer;
+
+ text1="Use your mouse to hit the hamsters!"; textflag=200;
+
+ while(!done)
+  {
+
+   RenderShowPage();
+   while (timer<=time1+speedrate)
+   {
+    ShowPage();
+   }
+   
+   time2=timer-time1;
+   time1=timer;
+
+   while (time2>0)
+    {
+     time2-=interval;
+     HamsterDancePose();
+     ProcessObjects();
+     ReadMouse();
+     if (mb=1 && b=0 && counter<backcounter) { b=1; KonkHamster(mx, my); }
+     if (mb=0) { b=0; }
+     if (random(30)=0) { HamsterPopUp(random(6)); }
+     SpawnObject(mx,my,1,37+mb,2);
+     counter++;
+
+     if (counter=backcounter)
+      {
+       text1="You got "+str(scoreval)+" hamsters!"; textflag=300;
+      }
+     if (counter>backcounter+200)
+     {
+      PaletteMorph(0,0,0,counter-backcounter-200,63);
+     }
+     if (counter=backcounter+300) done=1;
+    }
+  }
+
+ SaveSaidGame(option);
+ backcounter=0;
+ scoreval=0;
+ scoreflag=0;
+ timeflag=0;
+}
+
+void HamsterPopUp(int i)
+{
+ if (!entity.visible[hamster[i]])
+  {
+   entity.visible[hamster[i]]=1;
+   entity.specframe[hamster[i]]=27;
+   hamsterup[i]=12;
+  }
+}
+
+void HamsterPopDown(int i)
+{
+ if (entity.visible[hamster[i]])
+  {
+   hamsterdown[i]=1;
+   scoreval++;
+   HamsterScore();
+   playsound(snd_bounce,64,128);
+  }
+}
+
+void KonkHamster(int x, int y)
+{
+ int i, x1, y1;
+ for (i=0; i<hamsters; i++)
+ {
+  x1=entity.x[hamster[i]];
+  y1=entity.y[hamster[i]];
+  if (x>x1 && y>y1 && x<x1+32 && y<y1+48)
+   {
+    HamsterPopDown(i);
+   }
+ }
+}
+
+
+
+void HamsterShootLoop()
+{
+ int done, ent, i, b;
+ SetPlayer(0);
+ playerx=0-8;
+ cameratracking=0;
+ xWin=0;
+ hamsters=20;
+ hamstergame=SHOOT;
+
+ for (i=0; i<10; i++)
+ {
+  hamster[i]=EntitySpawn(0,2,"HAMSTER.CHR");
+  entity.x[hamster[i]]=0-32-(i*48);
+  hamster[i+10]=EntitySpawn(0,7,"HAMSTER.CHR");
+  entity.x[hamster[i+10]]=320+(i*48);
+ }
+
+ backcounter=3049;
+ counter=0;
+ scoreval=0;
+ scoreflag=1;
+ timeflag=1;
+
+ time1=timer;
+
+ text1="Use your mouse to shoot the hamsters!"; textflag=200;
+
+ while(!done)
+  {
+
+   RenderShowPage();
+   while (timer<=time1+speedrate)
+   {
+    ShowPage();
+   }
+   
+   time2=timer-time1;
+   time1=timer;
+
+   while (time2>0)
+    {
+     time2-=interval;
+     HamsterDancePose();
+     ProcessObjects();
+     ReadMouse();
+     if (mb=1 && b=0 && counter<backcounter)
+     { b=1; SpawnObject(mx,my,VANISHING,21,15);
+       playsound(snd_shoot,64,128); KonkHamster(mx, my);
+     }
+     if (mb=0) { b=0; }
+
+     for (i=0; i<10; i++)
+      {
+       entity.x[hamster[i]]++;
+       if (entity.x[hamster[i]]>320) entity.x[hamster[i]]-=480;
+       entity.x[hamster[i+10]]--;
+       if (entity.x[hamster[i+10]]<0) entity.x[hamster[i+10]]+=480;
+      }
+
+     SpawnObject(mx,my,1,39,2);
+     counter++;
+
+     if (counter=backcounter)
+      {
+       text1="You got "+str(scoreval)+" hamsters!"; textflag=300;
+      }
+     if (counter>backcounter+200)
+     {
+      PaletteMorph(0,0,0,counter-backcounter-200,63);
+     }
+     if (counter=backcounter+300) done=1;
+    }
+  }
+
+ backcounter=0;
+ scoreval=0;
+ scoreflag=0;
+ timeflag=0;
+ SaveSaidGame(option);
+}
+
+void HamsterScore()
+{
+ if (scoreval%2=0)  { coins++; }
+ if (scoreval%15=0) { gems++;  playsound(snd_gem,64,128);  }
+ if (scoreval%50=0) { lives++; playsound(snd_life,64,128); }
+}
+

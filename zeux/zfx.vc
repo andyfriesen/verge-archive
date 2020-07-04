@@ -1,0 +1,262 @@
+// Zeux's World Special Effects
+// By Zaratustra (http://hello.to/the.prophet)
+
+// Game specific events.
+
+int option;
+int titlebuf, optionbuf, option2buf;
+int nogems, nocoins;
+
+int zeux, LocX, LocY, TowX, TowY;
+int startupflag;
+
+int rpal, gpal, bpal, alterpal;
+int cga, ega;
+int greenm, amberm, gboym, bwm;
+
+// -------------------------------------------------------------------------
+
+
+// -------------------------------------------------------------------------
+
+void VCCenterText(int y, string text)
+{
+int x;
+x=strlen(text)*7/2;
+x=160-x;            
+GotoXY(x, y);
+PrintString(1, text);
+}
+
+void VCCenterText2(int x2, int y, string text)
+{
+int x;
+x=strlen(text)*7/2;
+x=x2-x;            
+GotoXY(x, y);
+PrintString(1, text);
+}
+
+void LeftText(int x, int y, string text)
+{
+ GotoXY (x,y);
+ PrintString(1, text);
+}
+
+void RightText(int x, int y, string text)
+{
+ GotoXY (x-(strlen(text)*7),y);
+ PrintString(1, text);
+}
+
+// -------------------------------------------------------------------------
+
+void RectOut()
+{
+ int i, j, time1;
+ time1=timer;
+ for (i=0; i<200; i++)
+  { if (timer-time1<1 || i=199) { RectFill(0,0,319,i,0);
+    if (i>80) { j=i-80; if (j>40) j=40;
+    CopySprite(80,80,160,j,readybuf); }  Showpage();
+   } if (i%5=0) time1=timer; }
+}
+
+void RectIn()
+{
+ int i, j, time1;
+ time1=timer;
+ cameratracking=1;                                 
+ SetPlayer(0);
+ SetClipRect(0,0,319,199);
+ if (alterpal) PaletteAlter();
+ PaletteMorph(0,0,0,0,63);
+ for (i=0; i<200; i++)
+  { if (timer-time1<1) { Render();
+    Z_ProcessRender();
+    RectFill(0,i,319,199,0);
+    if (i<120) { j=i; if (j<80) j=80;
+    CopySprite(80,j,160,120-j,j-80*160+readybuf); }
+   Showpage(); } if (i%5=0) time1=timer; }
+}
+
+// -------------------------------------------------------------------------
+
+void MoveCamera(int xw, int yw, int spd)
+{
+ int i, timeflag, x, y;
+ x=xw-160; if (x<0) x=0; if (x>mapx*16-320) x=mapx*16-320;
+ y=yw-100; if (y<0) y=0; if (y>mapy*16-200) y=mapy*16-200;
+ cameratracking=0;
+ timeflag=timer;
+
+ while(xWin < x - spd || xWin > x + spd || yWin < y - spd || yWin > y + spd)
+  {
+   if (xWin < x - spd) xWin+=spd;
+   if (xWin > x + spd) xWin-=spd;
+   if (yWin < y - spd) yWin+=spd;
+   if (yWin > y + spd) yWin-=spd;
+   while(timer<timeflag+interval) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+   timeflag=timeflag+interval;
+  }
+ Log ("Chimpanzee");
+ xWin=x; yWin=y;
+ xwin100=x*100; ywin100=y*100;
+ time1=timer;
+}
+
+// -------------------------------------------------------------------------
+
+void StageClear()
+{
+ int i, j, k;
+ timer=0;
+ for (i=0; i<200; i++)
+  { if (timer<1 || i=199) { RectFill(0,0,319,i,0);
+
+    if (i>20) { j=i-20; if (j>30) j=30; // Well, duh.
+    CopySprite(40,20,240,j,clearbuf); } Showpage();
+   } if (i%5=0) timer=0; }
+ RectFill(0,0,319,199,0);
+ CopySprite(40,20,240,30,clearbuf);
+ timer=0; i=0;
+ while (timer<50) { i++; }
+
+ k=0;
+
+ if (nocoins=0 && mcoins>0)
+ {
+ GotoXY(90, 80);  PrintString(1, "Coins     /    =    %");
+ LeftText(167, 80, str(mcoins) );
+
+ RightText(160, 80, str(ccoins) );
+ RightText(230, 80, str(ccoins*100/mcoins) );
+ k=1;
+ }
+
+ ShowPage();
+ timer=0; i=0;
+ while (timer<50) { i++; }
+ if (nogems=0 && mgems>0)
+ {
+ GotoXY(90, 100); PrintString(1, "Gems      /    =    %");
+ LeftText(167, 100, str(mgems) );
+
+ RightText(160, 100, str(cgems) );
+ RightText(230, 100, str(cgems*100/mgems) );
+ k=1;
+ }
+ ShowPage();
+ timer=0; i=0;
+ while (timer<50) { i++; }
+ GotoXY(90, 120); PrintString(1, "         Overall    %");
+ score=(cgems*100/mgems)+(ccoins*100/mcoins)/2;
+
+ if (nogems=1  ||  mgems=0) score=(ccoins*100/mcoins); 
+ if (nocoins=1 || mcoins=0) score=(cgems*100/mgems);   
+ if (k=0) score=100;
+ if (score=0) score=1;
+
+ RightText(230, 120, str(score) );
+ ShowPage();
+ timer=0; i=0;
+ while (timer<250) { i++; }
+ SetScore(stage,score);
+}
+
+// -------------------------------------------------------------------------
+
+void ClearRainbow(int x, int y)
+{
+ int yi;
+ yi=y;
+ while (GetTile(x,yi,2)>1600)
+  {
+   SetTile(x,yi,2,0);
+   SetTile(x+1,yi,2,0);
+   If (GetTile(x,yi,7)=245) SetTile(x,yi,7,0);
+   If (GetTile(x+1,yi,7)=245) SetTile(x+1,yi,7,0);
+   yi++;
+  }
+}
+
+void PaletteAlter()
+{
+ int r,g,b,average,i,c;
+ if (cga) { CGAMonitor(); c=1;}
+ if (ega) { EGAMonitor(); c=1;}
+ if (greenm) { ContourMonitor(0,0,0,0,63,0); c=1;}
+ if (amberm) { ContourMonitor(0,0,0,53,28,0); c=1;}
+ if (bwm) { ContourMonitor(63,63,63,0,0,0); c=1;}
+ if (gboym)  { GameBoyMonitor(); c=1;}
+ if (!c)
+  for (i=0; i<256; i++)
+  {
+    r=pal[i*3+0]; g=pal[i*3+1]; b=pal[i*3+2];
+    average=(r+g+b)/3;
+    pal[i*3+0]=average*rpal;
+    pal[i*3+1]=average*gpal;
+    pal[i*3+2]=average*bpal;
+  } 
+}
+
+void CGAMonitor()
+{
+ int r,g,b,average,i;
+  for (i=0; i<256; i++)
+  {
+    r=pal[i*3+0]; g=pal[i*3+1]; b=pal[i*3+2];
+    average=(r+g+b)/3;
+ //   log(str(average));
+    if (average<16)                { pal[i*3+0]=0; pal[i*3+1]=0; pal[i*3+2]=0; }
+    if (average>=16 && average<32) { pal[i*3+0]=60; pal[i*3+1]=0; pal[i*3+2]=60; }
+    if (average>=32 && average<48) { pal[i*3+0]=0; pal[i*3+1]=60; pal[i*3+2]=60; }
+    if (average>=48)               { pal[i*3+0]=60; pal[i*3+1]=60; pal[i*3+2]=60; }
+  }
+}
+
+void EGAMonitor()
+{
+ int i;
+  for (i=0; i<256; i++)
+  {
+    pal[i*3+0]=pal[i*3+0]+16/32*32;
+    pal[i*3+1]=pal[i*3+1]+16/32*32;
+    pal[i*3+2]=pal[i*3+2]+16/32*32;
+  }
+}
+
+void ContourMonitor(int r0, int g0, int b0, int r, int g, int b)
+{
+ int i;
+  for (i=0; i<256; i++)
+  {
+    pal[i*3+0]=r0;
+    pal[i*3+1]=g0;
+    pal[i*3+2]=b0;
+  }
+ pal[3]=r;
+ pal[4]=g;
+ pal[5]=b;
+ pal[6]=r;
+ pal[7]=g;
+ pal[8]=b;
+ pal[9]=r;
+ pal[10]=g;
+ pal[11]=b;
+}
+
+void GameBoyMonitor()
+{
+ int r,g,b,average,i;
+  for (i=0; i<256; i++)
+  {
+    r=pal[i*3+0]; g=pal[i*3+1]; b=pal[i*3+2];
+    average=(r+g+b)/3;
+  //  log(str(average));
+    if (average<16)                { pal[i*3+0]=13; pal[i*3+1]=13; pal[i*3+2]=0; }
+    if (average>=16 && average<32) { pal[i*3+0]=26; pal[i*3+1]=26;  pal[i*3+2]=0; }
+    if (average>=32 && average<48) { pal[i*3+0]=40; pal[i*3+1]=40;  pal[i*3+2]=0; }
+    if (average>=48)               { pal[i*3+0]=53; pal[i*3+1]=53; pal[i*3+2]=0; }
+  }
+}

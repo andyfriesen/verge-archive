@@ -1,0 +1,78 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=8;
+if (zs[currentz]) ClearItem(99);
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (up=1)
+ {
+  switch (vx)
+   {
+    case 21: playerx100=33*1600; playery100=61*1600; MoveCamera(playerx100/100,playery100/100,48);
+    case 32: playerx100=20*1600; playery100=64*1600; MoveCamera(playerx100/100,playery100/100,48);
+
+    case 44: playerx100=5*1600; playery100=61*1600; MoveCamera(playerx100/100,playery100/100,48);
+    case 6:  playerx100=43*1600; playery100=61*1600; MoveCamera(playerx100/100,playery100/100,48);
+
+    case 135: playerx100=141*1600; playery100=62*1600; MoveCamera(playerx100/100,playery100/100,48);
+    case 140: playerx100=134*1600; playery100=62*1600; MoveCamera(playerx100/100,playery100/100,48);
+   }
+ }
+}
+
+event
+{
+ MoveCamera(131*16,60*16+8,32);
+
+ vj=timer;
+ while (timer<vj+40) { RenderShowPage(); }
+
+ for (vy=58; vy<63; vy++)
+  {
+   for (vx=125; vx<=137; vx++)
+   {
+    SetTile(vx,vy,4,0);
+    SetTile(vx,vy+1,4,23);
+    SetTile(vx,58,7,0);
+   }
+   vj=timer;
+   while (timer<vj+10) { RenderShowPage(); }
+  }
+
+ for (vy=48; vy<62; vy++)
+  {
+   for (vx=29; vx<=47; vx++)
+   {
+    SetTile(vx,vy,4,0);
+    SetTile(vx,48,7,0);
+   }
+  }
+
+ vj=timer;
+ while (timer<vj+40) { RenderShowPage(); }
+
+ SetTZO(44,60,3,1079,95,0);
+ SetTZO(44,61,3,1078,95,0);
+ SetTZO(6,60,3,1079,95,0);
+ SetTZO(6,61,3,1078,95,0);
+ SetTZO(135,61,3,1079,95,0);
+ SetTZO(135,62,3,1078,95,0);
+ SetTZO(140,61,3,1079,95,0);
+ SetTZO(140,62,3,1078,95,0);
+
+ SetTZO(32,60,3,1072,0,0);
+ SetTZO(32,61,3,1071,0,0);
+
+ vj=timer;
+ while (timer<vj+40) { RenderShowPage(); }
+ vj=timer;
+ MoveCamera(playerx,playery,32);
+ time1=timer;
+}

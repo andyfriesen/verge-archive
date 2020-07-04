@@ -1,0 +1,463 @@
+
+Zeux's World Specifications
+By Zaratustra (shrooms00@yahoo.com)
+
+THE BASICS
+
+Every item that'll have to be affected by the engine is on layer 3. (2 in VC code)
+Exception being the Blob, that affects layer defined by BLOBLAYER variable.
+All maps have to have an entity 0 defined to ZEUX.CHR (or any other player char)
+Copy TEMPLATE.VC to the map VC.
+If you want to alter physics, do so after Z_STARTSTAGESTUFF() and before
+Z_PROCESSSIDEMOV().
+Check the maps and Map VCs for more ideas.
+Maps can be launched via console from the World Map Screen to test them!
+RAINBOW.DAT is for the Invinco colors table.
+MAPDATA.DAT associates zones in TEST.MAP and TOWER.MAP to maps.
+If you make a good map, send it to me!
+
+
+World Map
+Edit the Render String. Turn Layer 4 on. See how it was done?
+Layer 3 defines things that are covered/hidden when map opens.
+Obstruction is wiped too.
+Zone 1 is for the pathways on the world map.
+Don't forget to take a good look on TEST.VC or TOWER.VC
+
+Maps
+                1 2 3 4 C S S2
+Grasslands      x x x   x x    
+Mountainview    x x x x x      
+Aquaria         x x     x x    
+Beachwalk       x x x     x    
+Rainforest      x x     x      
+Desertheat      x x     x      
+Treehouses      x x x   x      
+Earthgrotto     x x x   x x x  
+Metropolis      x x x x x      
+I. C. Cap       x x x   x x    
+Graveyard       x x x x x      
+Deathcliff      x x x   x x    
+The Void        x              
+Stronghold      x              
+
+Sunspot is a secret stage.
+Sunspot         x x x x x      
+
+    Sunspot 1: The Thirteen Rainbow Doors
+    Sunspot 2: To Infinity... And Beyond!
+    Sunspot 3: Ultimate Pit Stop
+    Sunspot 4: The Gates of Forever
+    Cloud City: The Final Fight
+
+Dystopia is a series of unique stages (unusual gravity, upside down screen, etc.)
+Dystopia        x x x x x x x x x x x x x
+
+1)  Invisible Player                    X
+2)  Upside Down Screen                  X
+3)  Reduced Gravity                     X
+4)  Left-Right Screen                   X
+5)  Darkness                            X
+6)  Increased Gravity                   X
+7)  Time Limit                          X
+8)  Slow Camera                         X
+9)  Tiny Player                         X
+10) Wacky Colors                        X
+11) Invisible Walls                     X
+12) It's A Small World After All        X
+13) All Together Now                    X
+
+Music:
+
+Title Music:	BATDANCE.MOD
+	'Bat-Dance'
+	Dark Knight / Synergy
+	
+Grasslands: 	TIKKI.XM
+	'Tikki'
+	Weevil
+
+Mountainview:	R_LAND.MOD
+Aquaria:	OBSOLE96.MOD
+	'Obsolete 96'
+	Dwayne Wayne / Ecletic Underground
+
+Beachwalk:	K-STYL-B.MOD
+	'Beach Tunes'
+	K-Styles
+
+Rainforest:	R_LAND.MOD
+	'Rainbow Land'
+	Uncle Markus + Uncle Nasse
+
+Desertheat:	CHILL.MOD
+	'Chill Da Beach Funk'
+	Smash / Insanity
+	
+Treehouses:	FLSHDANC.S3M
+	'What a Feeling'
+	Flashdance
+	
+Earthgrotto:	CV_MAGIC.MOD
+	'Caverns Magic'
+	Gregory Janson
+
+	'Caverns Magic Remix'
+	Gregory Janson
+	Remix by Mark McIntyre
+
+	'Caverns Magic Orchestra'
+	Gregory Janson
+	Remix by MenTaLguY
+	
+
+Metropolis:	ANCIENT.MOD
+	'Ancient Times'
+	Virgill
+
+I.C.Cap:	CHILL.MOD
+Graveyard:	OBSOLE96.MOD???
+Deathcliff:
+Dystopia:	RIDERETA.MOD
+	'Ride of the Retards'
+	Gustav Wagner
+
+Castle Music:	ENIGMA.MOD
+	'Enigma'
+	Tip & Firefox / Phenomena
+	
+Boss Music: 	MIX_BOSS.S3M
+	'Caverns Boss Remix'
+	Gregory Janson
+	Remix by Craig Boston
+
+
+	'Something Slightly Silly'
+	Mystical/Purple
+
+Credits:	FLSHDANC.S3M / BATDANCE.MOD
+
+Jumping:
+
+Vertically: 3 1/2 tiles
+Vertically (after bouncing on an enemy): 4 1/2 tiles + enemy height
+Vertically (after mega bouncing on an enemy): 7 tiles + enemy height
+Horizontally: 7-8 tiles
+
+Mini Zeux, Vertically: 1 tile
+Mini Zeux, Horizontally: 2 tiles
+
+Chaos Runner, Vertically: 3 1/2 tiles
+Chaos Runner, Horizontally: 11 tiles
+
+Mega Zeux, Vertically: 6 tiles
+Mega Zeux, Horizontally: 14+ tiles
+
+Zeux runs at roughly 100 pixels per second.
+
+Pit Stops
+
+    Grasslands Pit Stop
+        Ring        5 *
+        B.Heart     10 *
+        Wind Book   15 *
+        Slow Book   20 *
+    Desertheat Pit Stop
+        B.Heart     10 *
+        Sword       10 *
+        Life        20 *
+        InvincoBook 30 *
+    Earthgrotto Pit Stop
+        Ring        5 *
+        B.Heart     10 *
+        Blast Book  20 *
+        Scepter     20 *
+    I.C.Cap Pit Stop
+        B.Heart     10 *
+        Wind Book   10 *
+        Scepter     15 *
+        Stop Book   30 *
+    Metropolis Pit Stop
+        B.Heart     5 *
+        Wind Book   10 *
+        InvincoBook 20 *
+        KillEn Book 50 *
+    Ultimate Pit Stop - Sunspot
+        Wind Book   10 *
+        Blast Book  20 *
+        InvincoBook 20 *
+        Slow Book   20 *
+        Stop Book   30 *
+        KillEn Book 50 *
+        ?????       50 *
+
+    Life 10 * - Metropolis 1
+
+    Mystery 99 *
+    In the Ultimate Pit Stop in Sunspot, there is the Ultimate Sale Block.
+    Hit it to buy a white Megazeux book.
+
+Flag Blocks
+
+        Appear here and there.
+
+        Red Box - Heart
+        Blue Box - Pouch
+        Yellow Box - Wind Potion
+        Green Box - Random Potion
+        Gray Box - Lavawalk
+
+Books For Free
+
+        Wind Book   Aquaria Castle
+        Blast Book  I. C. Cap Secret
+        InvincoBook Earthgrotto 2
+        Slow Book   Graveyard 3
+        Stop Book   Metropolis 4
+        KillEn Book Deathcliff Secret
+
+
+The Zs
+
+    Three Zs for the bugs of the Springlands,
+    Three Zs under the sun of the Summerlands,
+    Three Zs amidst the mazes of the Autumnlands,
+    Three Zs at the coldest depths of the Winterlands,
+    One Z for the high lord of Dystopia
+    on the land of Sunspot where the bonuses lie
+
+    One Z to rule them all, One Z to find them
+    One Z to bring them all
+    And in the darkness bind them
+    on the land of Sunspot where the bonuses lie
+
+The Z symbols open your way to Sunspot... There are 13 of them at:
+
+    Grasslands Castle
+    Mountainview 3
+    Aquaria Secret
+    Beachwalk 3
+    Rainforest Secret
+    Desertheat Area
+    Treehouses 1
+    Earthgrotto Secret 2
+    Metropolis 4
+    I.C. Cap 3
+    Graveyard 2
+    Stronghold
+    Dystopia 13
+
+
+Secret Tips
+
+Hee hee hee.
+
+Entity Placing
+
+Just place one of the special enemy tiles where 
+you want the monster. Entities will be automatically 
+placed. If you place an entity on the enemy tile, 
+it'll behave according to the entity indicated.
+
+
+Enemy/Entity Info:
+
+	Wander -   Moves left/right, turns when hits wall. 
+		   If Vspeed>0, falls down holes, else avoids them.
+	Fly -      Moves left/right or up/down, turns when hits wall.
+	Special -  Custom movement for entity.
+
+		Movement	Hspeed	Vspeed
+1 - Sluggy	Wander	L/R	1	0
+2 - Smiley	Wander	L/R	3	2
+3 - Buzzer	Fly 	L/R 	2	0
+4 - Shell Bug 	Wander	L/R	1	0
+5 - Shell	-	-	-	-
+6 - M. Shell	Wander	L/R	3	2
+7 - Fish!	Fly	L/R	1-3 	0
+8 - Big Fish!	Fly	L/R	1-3	0
+9 - Pounder	Special	U/D	-	-
+10 - Firey	Special U/D	-	-
+11 - UD Fish!	Fly	U/D	0	1-3
+12 - Krabby	Wander	L/R	2	0
+13 - BoinKrabby	Wander	L/R	4	0
+14 - Batty      Fly     L/R     1       0
+15 - UD Batty   Fly     U/D     0       1
+16 - Air Snake  Fly     L/R     2       0
+17 - P. Clam    -       -       0       0
+18 - LeapFish!	Special	U/D	0	?
+19 - RocktFish!	Special	???	4	4
+20 - Goblin S.	Wander	L/R	2.5	0
+21 - Goblin B.	Special	U/D	0	?
+22 - Goblin T.	Wander	L/R	2.5	0
+23 - Ghost	Fly	L/R	2	0
+24 - BlueGhost	Fly	L/R	2	0
+25 - RedGhost	Fly	L/R	2	0
+26 - Bear	Wander	L/R	1	0
+27 - NuttyBat	Fly     L/R     1       0
+28 - NuttyBat	Fly     U/D     1       0
+29 - BigBear	Wander	L/R	1	0
+30 - Sluggy2	Wander	L/R	1	0
+31 - Smiley2	Wander	L/R	3	2
+32 - Buzzer2	Fly	L/R	1	0
+33 - Shellbug2	Wander	L/R	1	0
+34 - ReversFire	Special U/D	-	-
+35 - ZeuxClone	Wander	L/R	2	0
+
+60 - The Blob (check Stage1-C.MAP for details)
+62-74 - Bosses
+
+80 - Seeker
+
+90 - Rocketpad Platform (StageE-2.MAP)
+91 - Mine Cart (Stage8-3.MAP)
+92 - Going Up Platform (Stage8-S.MAP) (Stage8-C.MAP)
+93 - Going Down Platfrom
+94 - Anti Rope End. \
+95 - Rope Beginning. > (Stage5-2.MAP)
+96 - Rope End.      /
+97 - Pushable Block (Stage8-2.MAP)
+98 - Bridge (Activated by Zone 60)
+99 - Moving Platform (Follows rope zones) (Stage2-2.MAP)
+100 - Moving Metal Platform (Same as 99)
+101 - Life Item (Activated by Zone 4) (Spins around, chases player)
+
+
+Zone Info:
+
+1  - Brick
+2  - '?' Block with Coin
+3  - '?' Block with Gem
+4  - '?' Block with Life
+5  - Coin 
+6  - Gem
+7  - Secret Exit
+8  - Exit
+9  - Waterline
+10 - '?' Block with Red Heart
+11 - '?' Block with Blue Heart*
+12 - '?' Block with Pouch
+13 - '?' Block with Ring*
+14 - '?' Block with Blast Potion*
+15 - '?' Block with Invinco Potion*
+16 - '?' Block with Wind Potion*
+17 - '?' Block with Slow Time Potion*
+18 - '?' Block with Kill Enemies Potion*
+19 - '?' Block with Random Potion*
+20 - Red Heart
+21 - Blue Heart
+22 - Pouch
+23 - Ring*
+24 - Blast Potion*
+25 - Invinco Potion*
+26 - Wind Potion*
+27 - Slow Time Potion*
+28 - Kill Enemies Potion*
+29 - Random Potion*
+30 - Avalanche Block
+31 - Blind Block
+32 - Wind Block
+33 - Lavawalk Block
+34 - Blast Spellbook
+35 - Invinco Spellbook
+36 - Wind Spellbook
+37 - Slow Time Spellbook
+38 - Kill Enemies Spellbook
+39 - Stop Time Spellbook
+40 - Red Key
+41 - Blue Key
+42 - Yellow Key
+43 - Red Door
+44 - Blue Door
+45 - Yellow Door
+46 - Sword
+47 - Scepter
+
+50 - Rope N
+51 - Rope NE
+52 - Rope E
+53 - Rope SE
+54 - Rope S
+55 - Rope SW
+56 - Rope W
+57 - Rope NW
+58 - Rope Block
+
+60 - Falling Bridge
+
+70 - Yellow Trampoline
+71 - Red Trampoline
+72 - Green Trampoline
+73 - Yellow Trampoline Block
+74 - Red Trampoline Block
+75 - Green Trampoline Block
+76 - Phantom Trampoline
+
+90 - Event Block 1
+91 - Event Block 2
+92 - Event Block 3
+93 - Event Block 4
+94 - Event Block 5
+95 - Event Zone 1
+96 - Event Zone 2
+97 - Event Zone 3
+98 - Event Zone 4
+
+99 - Spinning Z
+
+100 - Gem Block - Ring           5 Gems
+101 - Gem Block - Blue Heart    10 Gems
+102 - Gem Block - Wind Book     15 Gems
+103 - Gem Block - SlowTime Book 20 Gems
+104 - Gem Block - Sword         10 Gems
+105 - Gem Block - Life          20 Gems
+106 - Gem Block - Invinco Book  10 Gems
+107 - Gem Block - Wind Book     10 Gems
+108 - Gem Block - Blast Book    20 Gems
+109 - Gem Block - Scepter       20 Gems
+110 - Gem Block - Scepter       15 Gems
+111 - Gem Block - StopTime Book 30 Gems
+112 - Gem Block - Blue Heart     5 Gems
+113 - Gem Block - Invinco Book  20 Gems
+114 - Gem Block - KillEnem Book 50 Gems
+115 - Gem Block - Life          10 Gems
+116 - Gem Block - StopTime Book 20 Gems
+117 - Gem Block - Invinco Book  15 Gems
+118 - Gem Block - KillEnem Book 30 Gems
+119 - Gem Block - ????????      50 Gems
+
+150-159 - Melting Ice
+
+199 - Mini ? Block - Coin
+
+200 - Blob Tile / Saw
+201 - Blob Tile
+202 - Blob Tile / Death Saw
+
+210 - Teleport Right
+211 - Teleport Left
+
+230 - Red Flag Block (Heart)
+231 - Blue Flag Block (Pouch)
+232 - Yellow Flag Block (Wind Potion)
+233 - Green Flag Block (Random Potion)
+234 - Gray Flag Block (Lavawalk)
+
+235 - Invisible Wall
+
+240 - Ramp Up-Right
+241 - Ramp Up-Left
+242 - Pit (Falls off screen)
+243 - Strong Wind - Right
+244 - Strong Wind - Left
+245 - Backlash
+246 - Moving Floor Right
+247 - Moving Floor Left
+248 - CW Spinner
+249 - CCW Spinner
+250 - Ice
+251 - Bones
+253 - Quicksand
+254 - Lava
+255 - Platform
+

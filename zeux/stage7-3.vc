@@ -1,0 +1,16 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+notrack=1;
+xwinmove=75;
+ywintck=1;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+notrack=0;
+xwinmove=0;
+ywintck=0;
+Map("TEST.MAP");
+}
+
+

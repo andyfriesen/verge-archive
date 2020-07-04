@@ -1,0 +1,11 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+camtckspeed=100;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+

@@ -1,0 +1,11 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=1;
+if (zs[currentz]) ClearItem(99);
+Z_ProcessSideMov();
+Map("TEST.MAP");
+}
+
+

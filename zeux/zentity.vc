@@ -1,0 +1,1259 @@
+// Zeux's World
+// Entity Managing Code
+// By Zaratustra (http://hello.to/the.prophet)
+
+
+
+
+#define DUP    1
+#define DUR    2
+#define DRIGHT 3
+#define DDR    4
+#define DDOWN  5
+#define DDL    6
+#define DLEFT  7
+#define DUL    8
+
+
+#define WALK            1
+#define FLY             2
+#define EDGEPAUSE       4
+#define HESITATE        8
+
+#define PLAYER_HIT      1
+#define SHELL_HIT       2
+#define MAGIC_HIT       4
+#define SPELL_HIT       4
+
+#define entity_tile 1800
+#define entities    160
+#define MAXENTITIES     255
+
+int entity.dir[MAXENTITIES], entity.pause[MAXENTITIES], entity.var[MAXENTITIES], entity.eval[MAXENTITIES];
+int entity.hurt[MAXENTITIES];
+
+int bloblayer;
+
+int nomove;
+
+void Z_ProcessCreatures()
+{
+ int i, j, k, x, y;
+
+ nomove=0;
+ if (stopflag) nomove=1;
+ if (slowflag>0 && counter%2=0) nomove=1;
+               
+ for (j=0; j<=numents; j++)
+  {
+    if (j!=player)
+    {
+     switch (enemytype[j])
+      {
+       case 0:
+        if (entity.x[j]>XWin-16 && entity.x[j]<XWin+336 && entity.y[j]>YWin-16 && entity.y[j]<YWin+216) Z_CheckEnemy(j);
+        if (entity.eval[j]=1) Z_CheckEnemy(j);
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 1: // Sluggy. Just wanders left and right.
+
+         // Moves entity left & right, hspeed 1, vspeed 0 (won't fall), size 16x16
+        EntityMovement(j, WALK, 1, 0, 16, 16);
+
+         // Entity frames are 0 up, 0 down, 0 left and 1 right.
+         // Frame speed is 10, one frame.
+        EntityFrame(j,0,0,0,1,10,1);
+
+         // Checks if player hit it.
+        CheckHopOn(j,16,16);
+
+         // Checks if it hit the player.
+        CheckCollision(j,16,16);
+
+         // If entity was hit...
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 2: // Smiley. Kamikazes across the landscape.
+
+        EntityMovement(j, WALK, 3, 2, 16, 16); 
+        EntityFrame(j,0,0,0,4,5,4);
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 3: // Buzzer. Flies.
+
+        EntityMovement(j, FLY, 2, 0, 24, 24); 
+        EntityFrame(j,0,0,0,2,5,2);
+        CheckHopOn(j,24,24);
+        CheckCollision(j,24,24);
+        if (entity.hurt[j]) { Kapow(j,24,24); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 4: // Shell Bug. Turns into a shell when hit.
+
+        EntityMovement(j, WALK, 1, 0, 16, 16);
+        EntityFrame(j,0,0,0,3,2,3);
+
+        if (HopOn(j,16,16))
+         {
+          enemytype[j]=5;
+          Bounce();
+         }
+        else { CheckCollision(j,16,16); }
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 5: // Non-moving Shell
+
+       entity.specframe[j]=6;
+
+         // Checks for hop-on
+        if (HopOn(j,16,16))
+         {
+          enemytype[j]=6;
+          if (playerx+(player_width/2)>entity.x[j]+8) { entity.dir[j]=DLEFT; } else { entity.dir[j]=DRIGHT; }
+          Bounce();
+         }
+        else
+         {
+
+         // Checks for collision
+        if (Collision(j,16,16,1))
+         {
+          enemytype[j]=6;
+          if (playerx+(player_width/2)>entity.x[j]+8) { entity.dir[j]=DLEFT; entity.x[j]+=hspeed/100-1; } else { entity.dir[j]=DRIGHT; entity.x[j]+=hspeed/100+1; }
+         }
+        }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 6: // Moving Shell. Probably the more complicated object of 'em all.
+
+        EntityMovement(j, WALK, 3, 2, 16, 16);
+        EntityFrame(j,0,0,6,6,5,4);
+
+       // Hint hint: if you put lots of shells on a stage, it'll probably slow down a LOT...
+
+        for (k=0; k<=numents; k++)
+         {
+          if (k!=player && enemytype[k]>0 && enemytype[k]<90 && k!=j
+                        && entity.x[k]<entity.x[j]+16 && entity.x[k]+16>entity.x[j]
+                        && entity.y[k]<entity.y[j]+16 && entity.y[k]+16>entity.y[j]) // *breath*
+          {
+           entity.hurt[k]=SHELL_HIT;
+          }
+         }
+
+        // Sigh... Wonder if the Super Mario team had so much trouble?
+
+        if (entity.dir[j]=DRIGHT) Z_Bump(entity.x[j]+20/16,entity.y[j]+8/16,1,1);  // Right
+        if (entity.dir[j]=DLEFT)  Z_Bump(entity.x[j]-4/16, entity.y[j]+8/16,1,1);  // Left
+
+        // Whew.
+
+         // Checks for hop-on
+        if (HopOn(j,16,16))
+         {
+          enemytype[j]=5;
+          Bounce();
+         } else { CheckCollision(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 7: // Fish!
+
+        EntityMovement(j, FLY, 1+random(3), 0, 16, 16);
+        EntityFrame(j,0,0,0,2,5,2);
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 8: // Big Fish!
+
+        EntityMovement(j, FLY, (counter/5%3)+1, 0, 32, 32);
+        EntityFrame(j,0,0,0,4,5,4);
+        CheckHopOn(j,32,32);
+        CheckCollision(j,32,32);
+        if (entity.hurt[j]) { Kapow(j,32,32); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 9: // Pounder
+
+      if (entity.pause[j]>0) { entity.pause[j]--; }
+      else
+      {
+       if (nomove=0)  {
+       switch (entity.specframe[j])
+        {
+         case 0:
+          if (entity.x[player]>entity.x[j]-24 && entity.x[player]<entity.x[j]+56) entity.specframe[j]=1;
+         case 1:
+          entity.y[j]+=4;
+          if (Z_GetTileP(entity.x[j],entity.y[j]+32,6)=1) { entity.specframe[j]=2; entity.pause[j]=random(20)+40; }
+         case 2:
+          entity.specframe[j]=3;
+         case 3:
+          entity.y[j]-=2;
+          if (Z_GetTileP(entity.x[j],entity.y[j]-2,6)=1)  { entity.specframe[j]=0; entity.pause[j]=random(20)+20; }
+        } }
+      }
+
+        CheckCollision(j,32,32);
+
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 10: // Firey
+
+        if (nomove=0) {
+        entity.var[j]++;
+        if (entity.var[j]>0  && entity.var[j]<30) { entity.dir[j]=DUP;   entity.y[j]-=(6-(entity.var[j]/5)); }
+        if (entity.var[j]>30 && entity.var[j]<64) { entity.dir[j]=DDOWN; entity.y[j]+=((entity.var[j]/5)-6); }
+        if (entity.var[j]=90) entity.var[j]=0;
+
+        if (entity.var[j]>0 && entity.var[j]<64 && numents<20 && random(10)=1) { if (InScreen(j,16) ) SpawnObject(entity.x[j]+4+random(8), entity.y[j]+4+random(8), GOINGDOWN, 23, 15); }
+        }
+
+        EntityFrame(j,0,2,0,0,5,2);
+
+        if (entity.var[j]>=64) entity.specframe[j]=7;
+
+        CheckCollision(j,16,16);
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 11: // Up-Down Fish!
+
+        EntityMovement(j, FLY, 0, 1+random(3), 16, 16);
+        EntityFrame(j,4,6,0,0,5,2);
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 12: // Krabby
+
+        EntityMovement(j, WALK, 2, 0, 32, 16);
+        EntityFrame(j,0,0,0,0,2,4);
+
+        CheckHopOn(j,32,16);
+        if (entity.hurt[j]) { ShowHealth(j); enemytype[j]=13; entity.hurt[j]=0; Bounce(); }
+        else                { CheckCollision(j,32,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 13: // Boinked Krabby
+
+        EntityMovement(j, WALK, 4, 0, 32, 16);
+        EntityFrame(j,0,0,4,4,1,4);
+        CheckHopOn(j,32,16);
+        CheckCollision(j,32,16);
+        if (entity.hurt[j]) { ShowHealth(j); Kapow(j,32,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 14: // Batty. Flies, occasionally changes way around.
+
+        EntityMovement(j, FLY, 1, 0, 8, 16);
+        EntityFrame(j,0,0,2,0,2,2);
+
+        if (counter%100=0 || counter%100=75) entity.dir[j]=DLEFT+DRIGHT-entity.dir[j];
+
+        CheckHopOn(j,8,16);
+        CheckCollision(j,8,16);
+        if (entity.hurt[j]) { Kapow(j,8,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 15: // Up-Down Batty
+
+        EntityMovement(j, FLY, 0, 1, 8, 16); 
+        EntityFrame(j,4,6,0,0,2,2);
+
+        if (counter%100=75 || counter%100=0) entity.dir[j]=DUP+DDOWN-entity.dir[j];
+
+        CheckHopOn(j,8,16);
+        CheckCollision(j,8,16);
+        if (entity.hurt[j]) { Kapow(j,8,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 16: // Air Snake. Flies.
+
+        EntityMovement(j, FLY, 2, 0, 32, 16); 
+        EntityFrame(j,0,0,0,4,5,4);
+        CheckHopOn(j,32,8);
+        CheckCollision(j,32,8);
+        if (entity.hurt[j]) { Kapow(j,32,8); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 17: // Pearl Clam.
+
+        if (entity.x[player]<entity.x[j]) entity.dir[j]=DLEFT;
+        if (entity.x[player]>entity.x[j]) entity.dir[j]=DRIGHT;
+
+        if (counter%200=10)
+         {
+          if (entity.dir[j]=DLEFT)  SpawnObject(entity.x[j]+4, entity.y[j]+12,  GOINGLEFT + HURTPLAYER + SIZE4,  19, 320);
+          if (entity.dir[j]=DRIGHT) SpawnObject(entity.x[j]+12, entity.y[j]+12, GOINGRIGHT + HURTPLAYER + SIZE4, 19, 320);
+         }
+
+        if (counter%200>20) { EntityFrame(j,0,0,0,7,20,6); } else { EntityFrame(j,0,0,13,14,20,1); }
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 18: // Leaping Fish!
+
+        entity.var[j]++;
+        if (entity.var[j]>0  && entity.var[j]<40) { entity.dir[j]=DUP;   entity.y[j]-=(8-(entity.var[j]/5)); }
+        if (entity.var[j]>40 && entity.var[j]<84) { entity.dir[j]=DDOWN; entity.y[j]+=((entity.var[j]/5)-8); }
+        if (entity.var[j]=120) entity.var[j]=0;
+
+        if (entity.var[j]>=84) entity.specframe[j]=9;
+
+        EntityFrame(j,4,6,0,0,5,2);
+
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 19: // Rocket Fish! (lurks in water where it waits to HACK YOU TO SHREDS!!! HAHAHAHAHAHA!!!!)
+
+        if (entity.dir[j]=0) // 'Lurk' mode.
+         {
+          if (entity.x[j]-entity.x[player] > entity.y[j]-entity.y[player]-4
+           && entity.x[j]-entity.x[player] < entity.y[j]-entity.y[player]+4) entity.dir[j]=DLEFT;
+
+          if (entity.x[j]-entity.x[player] > entity.y[player]-entity.y[j]-4
+           && entity.x[j]-entity.x[player] < entity.y[player]-entity.y[j]+4) entity.dir[j]=DRIGHT;
+         }
+        else                 // CHAAAAARGE!
+         {
+          if (nomove=0)  {
+          if (entity.dir[j]=DLEFT)  { entity.x[j]-=4; entity.y[j]-=4; }
+          if (entity.dir[j]=DRIGHT) { entity.x[j]+=4; entity.y[j]-=4; }
+         } }
+
+        EntityFrame(j,0,0,0,2,5,2);
+
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 20: // Goblin Swordsman
+
+        EntityMovement(j, WALK + EDGEPAUSE, 2+(counter%2), 0, 16, 16);
+
+        if (entity.dir[j]=DLEFT && entity.x[player]>entity.x[j] && entity.x[player]<entity.x[j]+120)  { entity.dir[j]=DRIGHT; entity.pause[j]=50; }
+        if (entity.dir[j]=DRIGHT && entity.x[player]<entity.x[j] && entity.x[player]>entity.x[j]-120) { entity.dir[j]=DLEFT; entity.pause[j]=50;  }
+
+        EntityFrame(j,0,0,0,4,10,4);
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 21: // Bungee Goblin
+
+
+        if (entity.pause[j]=0)
+        { if (nomove=0) {
+          entity.var[j]++;
+          if (entity.var[j]>0  && entity.var[j]<40) { entity.dir[j]=DDOWN; entity.y[j]+=(8-(entity.var[j]/5)); }
+          if (entity.var[j]>40 && entity.var[j]<84) { entity.dir[j]=DUP;   entity.y[j]-=((entity.var[j]/5)-8); }
+          if (entity.var[j]=120) entity.var[j]=0;
+        } }
+        else
+        {
+         entity.pause[j]--;
+        }
+
+        EntityFrame(j,8,8,0,0,5,1);
+
+        if (entity.var[j]>=84) entity.specframe[j]=9;
+
+        if (entity.var[j]<84) SpawnObject (j, entity.ty[j]*16+8, VERTICALROPE, 250, 2);
+
+
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 22: // Goblin Thief
+
+        EntityMovement(j, WALK + EDGEPAUSE, 2+(counter%2), 0, 16, 16);
+
+        if (entity.dir[j]=DLEFT && entity.x[player]>entity.x[j] && entity.x[player]<entity.x[j]+120)  { entity.dir[j]=DRIGHT; entity.pause[j]=50; }
+        if (entity.dir[j]=DRIGHT && entity.x[player]<entity.x[j] && entity.x[player]>entity.x[j]-120) { entity.dir[j]=DLEFT; entity.pause[j]=50;  }
+
+        EntityFrame(j,0,0,0,4,10,4);
+        CheckHopOn(j,16,16);
+
+        if (Collision(j,16,16,1))
+         {
+          gems -=random(3+(gems/10)); if (gems < 0) gems=0;
+          coins-=random(10); if (coins < 0) coins=0;
+          hurtflag=counter+50;
+         }
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 23: // Ghost
+
+        EntityMovement(j, FLY, 2, 0, 24, 16); 
+        EntityFrame(j,0,0,0,2,5,2);
+        if (counter/10%8=1 || counter/10%8=5 ) EntityFrame(j,0,0,4,6,5,2);
+        if (counter/10%8>1 && counter/10%8<5 ) EntityFrame(j,0,0,8,10,5,2);
+        CheckHopOn(j,24,16);
+        CheckCollision(j,24,16);
+        if (entity.hurt[j]) { Kapow(j,24,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 24: // Invincible Ghost (blue)
+
+        EntityMovement(j, FLY, 2, 0, 24, 16);
+        EntityFrame(j,0,0,0,2,5,2);
+        CheckHopOn(j,24,16);
+        if (entity.hurt[j]=PLAYER_HIT) { Bounce(); entity.hurt[j]=0; }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 25: // Invincible Hurting Ghost (red)
+
+        EntityMovement(j, FLY, 2, 0, 24, 16);
+        EntityFrame(j,0,0,0,2,5,2);
+        CheckCollision(j,24,16);
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 26: // Bear
+
+        EntityMovement(j, WALK, 1, 0, 16, 16);
+
+        if (entity.y[player]>entity.y[j]-8 && entity.y[player]<entity.y[j]+8 && entity.pause[j]=0 && random(20)=0)
+        { if (entity.dir[j]=DLEFT && entity.x[player]<entity.x[j]) entity.pause[j]=50;
+          if (entity.dir[j]=DRIGHT && entity.x[player]>entity.x[j]) entity.pause[j]=50;
+        }
+
+        if (entity.pause[j]=30)
+        {
+          if (entity.dir[j]=DLEFT)  SpawnObject(entity.x[j], entity.y[j]+8,  GOINGLEFT + HURTPLAYER + SIZE4,  28, 320);
+          if (entity.dir[j]=DRIGHT) SpawnObject(entity.x[j]+16, entity.y[j]+8, GOINGRIGHT + HURTPLAYER + SIZE4, 28, 320);
+        }
+
+        if (entity.pause[j]) { EntityFrame(j,0,0,8,9,10,1); } else { EntityFrame(j,0,0,0,4,5,4); }
+
+        CheckHopOn(j,16,16);
+        CheckCollision(j,16,16);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 27: // Very Batty. Flies, occasionally changes way around.
+
+        EntityMovement(j, FLY, 1, 0, 8, 16);
+        EntityFrame(j,0,0,2,0,2,2);
+
+        if (random(200)=1) entity.dir[j]=DLEFT+DRIGHT-entity.dir[j];
+
+        CheckHopOn(j,8,16);
+        CheckCollision(j,8,16);
+        if (entity.hurt[j]) { Kapow(j,8,16); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 28: // Up-Down Very Batty
+
+        EntityMovement(j, FLY, 0, 1, 8, 16); 
+        EntityFrame(j,4,6,0,0,2,2);
+
+        if (random(200)=1) entity.dir[j]=DUP+DDOWN-entity.dir[j];
+
+        CheckHopOn(j,8,16);
+        CheckCollision(j,8,16);
+        if (entity.hurt[j]) { Kapow(j,8,16); }
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 29: // Big Bear
+
+        EntityMovement(j, WALK, 1, 0, 16, 32);
+
+        if (entity.y[player]>entity.y[j]-8 && entity.y[player]<entity.y[j]+24 && entity.pause[j]=0 && random(20)=0)
+        { if (entity.dir[j]=DLEFT && entity.x[player]<entity.x[j]) entity.pause[j]=50;
+          if (entity.dir[j]=DRIGHT && entity.x[player]>entity.x[j]) entity.pause[j]=50;
+        }
+
+        if (entity.pause[j]=30)
+        {
+          if (entity.dir[j]=DLEFT)  SpawnObject(entity.x[j], entity.y[j]+8,  GOINGLEFT + HURTPLAYER + SIZE4,  28, 320);
+          if (entity.dir[j]=DRIGHT) SpawnObject(entity.x[j]+16, entity.y[j]+8, GOINGRIGHT + HURTPLAYER + SIZE4, 28, 320);
+        }
+
+        if (entity.pause[j]) { EntityFrame(j,0,0,8,9,10,1); } else { EntityFrame(j,0,0,0,4,5,4); }
+
+        CheckHopOn(j,16,32);
+        CheckCollision(j,16,32);
+        if (entity.hurt[j]) { Kapow(j,16,32); }
+
+
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 30: // Sluggy, Mk II
+
+        EntityMovement(j, WALK, 1, 0, 32, 32);
+        EntityFrame(j,0,0,0,4,8,4);
+        CheckHopOn(j,32,32);
+        CheckCollision(j,32,32);
+        if (entity.hurt[j]=PLAYER_HIT)
+         { Bounce(); entity.hurt[j]=0;
+           entity.var[j]++; ShowHealth(j); if (entity.var[j]=4) Kapow(j, 32, 32);
+           }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 31: // Smiley, Mk II
+
+        EntityMovement(j, WALK, 3, 2, 32, 32); 
+        EntityFrame(j,0,0,0,1,5,1);
+        CheckHopOn(j,32,32);
+        CheckCollision(j,32,32);
+        if (entity.hurt[j]=PLAYER_HIT)
+         { Bounce(); entity.hurt[j]=0;
+           entity.var[j]++; ShowHealth(j); if (entity.var[j]=4) Kapow(j, 32, 32);
+           }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 32: // Buzzer, Mk II
+
+        EntityMovement(j, FLY, 1, 0, 32, 32); 
+        EntityFrame(j,0,0,0,4,8,4);
+        CheckHopOn(j,32,32);
+        CheckCollision(j,32,32);
+        if (entity.hurt[j]=PLAYER_HIT)
+         { Bounce(); entity.hurt[j]=0;
+           entity.var[j]++; ShowHealth(j); if (entity.var[j]=4) Kapow(j, 32, 32);
+           }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 33: // Shell Bug, MK II
+
+        EntityMovement(j, WALK, 1, 0, 32, 32);
+        EntityFrame(j,0,0,0,2,8,2);
+        if (jumpflag>0 && random(25)=0 && entity.pause[j]=0 && playery<entity.y[j])
+         {
+          if (InScreen(j,32))
+           {
+            entity.pause[j]=25;
+            playsound(snd_shoot,64,128);
+            SpawnObject(entity.x[j]+16, entity.y[j]-3,  GOINGUP + HURTPLAYER + SIZE4 + OBSTRUCTABLE + SPEEDX2,  36, 200);
+           }
+         }
+
+        CheckHopOn(j,32,32);
+        CheckCollision(j,32,32);
+        if (entity.hurt[j])
+         { Bounce(); entity.hurt[j]=0;
+           entity.var[j]++; ShowHealth(j); if (entity.var[j]=4) Kapow(j, 32, 32);
+           }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 34: // Upside Down Firey
+        if (nomove=0)  {
+        entity.var[j]++;
+        if (entity.var[j]>0  && entity.var[j]<30) { entity.dir[j]=DDOWN;   entity.y[j]+=(6-(entity.var[j]/5)); }
+        if (entity.var[j]>30 && entity.var[j]<64) { entity.dir[j]=DUP;     entity.y[j]-=((entity.var[j]/5)-6); }
+        if (entity.var[j]=90) entity.var[j]=0;
+
+        if (entity.var[j]>0  && entity.var[j]<64  && numents<20 && random(10)=1) { if (InScreen(j,16))  SpawnObject(entity.x[j]+4+random(8), entity.y[j]+4+random(8), GOINGUP, 23, 15); }
+        }
+
+        EntityFrame(j,0,2,0,0,5,2);
+
+        if (entity.var[j]>=64) entity.specframe[j]=7;
+
+        CheckCollision(j,16,16);
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 35: // Zeux Clone
+
+
+        if (entity.x[player]<entity.x[j]-64) entity.dir[j]=DLEFT;
+        if (entity.x[player]>entity.x[j]+64) entity.dir[j]=DRIGHT;
+
+        if (entity.x[player]<entity.x[j] && entity.y[player]<entity.y[j] && entity.y[player]>entity.y[j]-48)
+         {
+          if (vspeed>0) entity.dir[j]=DRIGHT;
+         }
+        if (entity.x[player]>entity.x[j] && entity.y[player]<entity.y[j] && entity.y[player]>entity.y[j]-48)
+         {
+          if (vspeed>0) entity.dir[j]=DLEFT;
+         }
+
+        EntityMovement(j, WALK, 2, 0, 16, 14); 
+        EntityFrame(j,0,0,12,8,5,4);
+        CheckHopOn(j,16,14);
+        CheckCollision(j,16,14);
+        if (entity.hurt[j]) { Kapow(j,16,16); }
+
+
+ // ################################################################################
+
+       case 60: // The Blob
+        if (nomove=0) { entity.var[j]++; if (entity.var[j]=60) entity.var[j]=0; }
+        entity.specframe[j]=entity.var[j]/10%2;
+        if (entity.var[j]%15=0) { BlobCheck(); entity.var[j]++; }
+
+ // ################################################################################
+
+       case 62: // Boss #02: Snake From Hell
+
+         if (bossintroed) { if (bossend) { Boss02End(j); } else { Boss02(j); } } else { Boss02Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 63: // Boss #03: Fishfingers
+
+         if (bossintroed) { if (bossend) { Boss03End(j); } else { Boss03(j); } } else { Boss03Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 65: // Boss #05: Tiger Demon
+
+         if (bossintroed) { if (bossend) { Boss05End(j); } else { Boss05(j); } } else { Boss05Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 66: // Boss #06: Bull's Eye
+
+         if (bossintroed) { if (bossend) { Boss06End(j); } else { Boss06(j); } } else { Boss06Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 67: // Boss #07: Goblin Leader
+
+         if (bossintroed) { Boss07(j); } else { Boss07Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 68: // Boss #08: Giant Biting Spider
+
+         if (bossintroed) { if (bossend) { Boss08End(j); } else { Boss08(j); } } else { Boss08Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 69: // Boss #09: Chaos Runner
+
+         if (bossintroed) { if (bossend) { Boss09End(j); } else { Boss09(j); } } else { Boss09Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 70: // Boss #10: Bunga Bear
+
+         if (bossintroed) { if (bossend) { Boss10End(j); } else { Boss10(j); } } else { Boss10Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 71: // Boss #11: Scary Scary Phantom
+
+         if (bossintroed) { if (bossend) { Boss11End(j); } else { Boss11(j); } } else { Boss11Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 72: // Boss #12: Ancient Wyrm
+
+         if (bossintroed) { if (bossend) { Boss12End(j); } else { Boss12(j); } } else { Boss12Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 73: // Boss #13: Evil Wizard (tm)
+
+         if (bossintroed) { if (bossend) { Boss13End(j); } else { Boss13(j); } } else { Boss13Intro(j); }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 74: // Boss #??: The Creator
+
+         if (bossintroed) { if (bossend) { BossFinalEnd(j); } else { BossFinal(j); } } else { BossFinalIntro(j); }
+
+
+ // ################################################################################
+
+
+       case 80: // Seeker
+
+        if (nomove=0)
+        {
+        entity.x[j]+=(playerx-(entity.x[j]+12))/50;
+        entity.y[j]+=(playery-(entity.y[j]+12))/50;
+
+        if (playerx-(entity.x[j]+12) < 0 ) entity.x[j]-=1; else entity.x[j]+=1; 
+        if (playery-(entity.y[j]+12) < 0 ) entity.y[j]-=1; else entity.y[j]+=1;
+        }
+
+        CheckHopOn(j,24,24);
+        CheckCollision(j,24,24);
+
+        if (entity.hurt[j])
+        { 
+          if (entity.hurt[j]=PLAYER_HIT) Bounce();
+          entity.hurt[j]=0;
+         }
+
+        entity.specframe[j]=counter / 4 % 8;
+
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+
+       case 90: // Rocketpad Platform.
+
+        if (nomove=0 && GetTile(entity.x[j]+8/16,entity.y[j]-1/16,6)!=1
+                     && GetTile(entity.x[j]-8/16,entity.y[j]-1/16,6)!=1
+                     && GetTile(entity.x[j]+24/16,entity.y[j]-1/16,6)!=1)  entity.y[j]-=1;
+        if (entity.y[j] < 0-8) entity.y[j]=mapy*16+8;
+
+        // Checks for hop-on
+        if (playerx+player_width>entity.x[j]-16 && playerx<entity.x[j]+32 && playery+player_height<entity.y[j]+4 && playery+player_height>entity.y[j]-2 && jumpflag=0)
+         {
+          playery100=entity.y[j]-player_height*100;
+          groundflag=1;
+          if (playerx+player_width<entity.x[j]+4 && GetTile(entity.x[j]-18/16,entity.y[j]+1/16,6)!=1) entity.x[j]-=2;
+          if (playerx>entity.x[j]+12             && GetTile(entity.x[j]+34/16,entity.y[j]+1/16,6)!=1) entity.x[j]+=2;
+          if (GetTile(playerx+4/16, playery/16, 6)) entity.y[j]++;
+
+          // fallflag=0; vspeed=0; playerframe=moveflag*2;
+         }
+        entity.specframe[j]=counter/2%2;
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 91: // Mine Cart.
+
+        if(GetTile(entity.x[j]/16,entity.y[j]/16,7)>=50) { entity.dir[j]=GetTile(entity.x[j]/16,entity.y[j]/16,7)-49; }
+
+        if(entity.var[j]=1 && nomove=0)
+        {
+        switch(entity.dir[j])
+        {
+         case 1: entity.x[j]=(entity.x[j]/16*16)+8; entity.y[j]-=2;
+         case 2: entity.x[j]+=2;                    entity.y[j]-=2; 
+         case 3: entity.x[j]+=2; entity.y[j]=(entity.y[j]/16*16)+8;
+         case 4: entity.x[j]+=2;                    entity.y[j]+=2;
+         case 5: entity.x[j]=(entity.x[j]/16*16)+8; entity.y[j]+=2;
+         case 6: entity.x[j]-=2;                    entity.y[j]+=2;
+         case 7: entity.x[j]-=2; entity.y[j]=(entity.y[j]/16*16)+8;
+         case 8: entity.x[j]-=2;                    entity.y[j]-=2;
+        }
+        }
+        // Checks for hop-on
+        if (    playerx+player_width>entity.x[j]-8
+             && playerx<entity.x[j]+8 && playery+player_height>entity.y[j]-16
+             && playery+player_height<entity.y[j]+4
+             && GetTile(entity.x[j]/16,entity.y[j]/16,6)=0
+             && jumpflag=0)
+         {
+          playerx100=entity.x[j]-4*100; playery100=(entity.y[j]-player_height-10)*100;
+          playerx=entity.x[j]-4; playery=entity.y[j]-player_height-10;
+          groundflag=1;
+          entity.var[j]=1;
+          switch(entity.dir[j])
+           {
+            case 1: hspeed=0;     vspeed=0-200;
+            case 2: hspeed=200;   vspeed=0-200;
+            case 3: hspeed=200;   vspeed=0;
+            case 4: hspeed=200;   vspeed=200;
+            case 5: hspeed=0;     vspeed=200;
+            case 6: hspeed=0-200; vspeed=200;
+            case 7: hspeed=0-200; vspeed=0;
+            case 8: hspeed=0-200; vspeed=0-200;
+           }
+         }
+        if(GetTile(entity.x[j]/16,entity.y[j]/16,6)=1) Kapow(j, 0, 0-12);
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+
+       case 92: // Upwards moving platform.
+
+        y=entity.y[j];
+
+        if (nomove=0) entity.y[j]=entity.y[j]-1;
+        if (entity.y[j] < 0-8) Entity.y[j]=mapy*16+8;
+
+        // Relative position
+        y=entity.y[j]-y;
+
+        // Checks for hop-on
+        if (playerx+player_width>entity.x[j]-16 && playerx<entity.x[j]+32 && playery+player_height<entity.y[j]+4 && playery+player_height>entity.y[j]-2 && jumpflag=0)
+         {
+          playery100=entity.y[j]-player_height*100;
+          groundflag=1;
+          // fallflag=0; vspeed=0; playerframe=moveflag*2;
+         }
+
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 93: // Downwards moving platform.
+
+        y=entity.y[j];
+
+        if (nomove=0) entity.y[j]=entity.y[j]+1;
+        if (entity.y[j] > mapy*16+8) Entity.y[j]=0-8;
+
+        // Relative position
+        y=entity.y[j]-y;
+
+        // Checks for hop-on
+        if (playerx+player_width>entity.x[j]-16 && playerx<entity.x[j]+32 && playery+player_height<entity.y[j]+4 && playery+player_height>entity.y[j]-2 && jumpflag=0)
+         {
+          playery100=entity.y[j]-player_height*100;
+          groundflag=1;
+          // fallflag=0; vspeed=0; playerframe=moveflag*2;
+         }
+
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 94: // Noooooo! The Anti-Knot! It swings the opposite way around!
+
+        x=270-((sin(counter%360)*45)>>16); // <- single change!
+        entity.x[j]=entity.x[entity.dir[j]]+((cos(x)*entity.var[j])>>16);
+        entity.y[j]=entity.y[entity.dir[j]]-((sin(x)*entity.var[j])>>16);
+        if(entity.x[entity.dir[j]]>xWin-160 && entity.x[entity.dir[j]]<xWin+480) SpawnObject (j, entity.dir[j], ENTITYROPE, 84, 2);
+        If (Collision(j,4,4,0)) { if (hangloose!=j && hangflag!=j) { hangflag=j; UnPress(4); UnPress(5); } } else { if (hangloose=j) hangloose=0; }
+                                                                     
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 96: // Rope Knot
+
+        x=270+((sin(counter%360)*45)>>16);
+        entity.x[j]=entity.x[entity.dir[j]]+((cos(x)*entity.var[j])>>16);
+        entity.y[j]=entity.y[entity.dir[j]]-((sin(x)*entity.var[j])>>16);
+        if(entity.x[entity.dir[j]]>xWin-160 && entity.x[entity.dir[j]]<xWin+480) SpawnObject (j, entity.dir[j], ENTITYROPE, 84, 2);
+        If (Collision(j,4,4,0)) { if (hangloose!=j && hangflag!=j) { hangflag=j; UnPress(4); UnPress(5); } } else { if (hangloose=j) hangloose=0; }
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 97: // Pushable Block
+
+        if (!GetTile((entity.x[j]+2)/16,(entity.y[j]+32)/16,6) && !GetTile((entity.x[j]+30)/16,(entity.y[j]+32)/16,6))
+        {
+         entity.y[j]+=2;
+        }
+
+        if (playerx+player_width>entity.x[j] && playerx<entity.x[j]+32 &&
+            playery+player_height<entity.y[j]+4 && playery+player_height>entity.y[j]-2)
+         {
+          groundflag=1;
+         }
+        if (playery+player_height>=entity.y[j]+4 && playery<entity.y[j]+32)
+         {
+         if (playerx+player_width>=entity.x[j] && playerx+player_width<entity.x[j]+16 && !GetTile((entity.x[j]+32)/16,(entity.y[j]+24)/16,6))
+          { playerx100-=hspeed/2; entity.x[j]=playerx+player_width; }
+         if (playerx<=entity.x[j]+32 && playerx>entity.x[j]+16 && !GetTile((entity.x[j])/16,(entity.y[j]+24)/16,6))
+          { playerx100-=hspeed/2; entity.x[j]=playerx-32; }
+         }
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 98: // Falling Bridge
+
+        if (nomove=0) entity.y[j]+=entity.dir[j]/100+1;
+        entity.dir[j]+=2;
+
+        // Checks for hop-on
+        if (playerx+player_width>entity.x[j] && playerx<entity.x[j]+16 &&
+            playery+player_height<entity.y[j]+4 && playery+player_height>entity.y[j]-2 && jumpflag=0)
+         {
+          playery100=entity.y[j]-player_height*100;
+          groundflag=1; // fallflag=0; // if (vspeed > entity.dir[j]) vspeed=entity.dir[j];
+          // playerframe=moveflag*2;
+         }
+        if (entity.y[j]>map_height*16) enemytype[j]=-1;
+
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 99: // Moving Plataform
+
+        x=entity.x[j]; y=entity.y[j];
+        if(Z_GetTileP(entity.x[j]+8,entity.y[j]+8,7)>=50) entity.dir[j]=Z_GetTileP(entity.x[j]+8,entity.y[j]+8,7)-49;
+        if (nomove=0) { switch(entity.dir[j])
+        {
+         case 1: entity.x[j]=(entity.x[j]+8)/16*16; entity.y[j]-=1;
+         case 2: entity.x[j]+=1;                    entity.y[j]-=1; 
+         case 3: entity.x[j]+=1; entity.y[j]=(entity.y[j]+8)/16*16;
+         case 4: entity.x[j]+=1;                    entity.y[j]+=1;
+         case 5: entity.x[j]=(entity.x[j]+8)/16*16; entity.y[j]+=1;
+         case 6: entity.x[j]-=1;                    entity.y[j]+=1;
+         case 7: entity.x[j]-=1; entity.y[j]=(entity.y[j]+8)/16*16;
+         case 8: entity.x[j]-=1;                    entity.y[j]-=1;
+        } }
+        // Relative position
+        x=entity.x[j]-x; y=entity.y[j]-y;
+
+        // Checks for hop-on
+        if (playerx+player_width>entity.x[j]-16 && playerx<entity.x[j]+32 && playery+player_height<entity.y[j]+4 && playery+player_height>entity.y[j]-2 && jumpflag=0)
+         {
+          playerx100+=x*100; playery100=entity.y[j]-player_height*100;
+          groundflag=1;
+          // fallflag=0; vspeed=0; playerframe=moveflag*2;
+         }
+ // ------------------------------------------------------------------------------------------------------------------------------
+       case 101: // Life Item
+        entity.x[j]=entity.x[j]+(sin(counter * 4 % 360)>>15)+1;
+        entity.y[j]=entity.y[j]+(cos(counter * 4 % 360)>>15)+1;
+        entity.x[j]=(playerx+(entity.x[j]*50))/51;
+        entity.y[j]=(playery+(entity.y[j]*50))/51;
+        entity.specframe[j]=counter % 4;
+
+        if (playerx+player_width>entity.x[j] && playerx<entity.x[j]+16 && playery+player_height>entity.y[j] && playery<entity.y[j]+16 && hurtflag<counter)
+         {
+          entity.y[j]=65535; enemytype[j]=0; entity.visible[j]=0;
+          lives++; PlaySound(snd_life, 64, 128);
+         }
+      }
+    }
+  }
+}
+
+// --------------------------------------------------------------------------
+
+// Moves entity
+
+void EntityMovement (int ent, int ai, int hspd, int vspd, int xs, int ys)
+{
+ if (!entity.dir[ent]) // Sets starting direction
+  {
+   if (vspd) { if (entity.y[ent]<yWin+100) { entity.dir[ent]=DDOWN; } else { entity.dir[ent]=DUP; } }
+   if (hspd) { if (entity.x[ent]<xWin+160) { entity.dir[ent]=DRIGHT; } else { entity.dir[ent]=DLEFT; } }
+  }
+
+ if (hspd) // If entity moves left & right
+  {
+   if (Z_GetTileP(entity.x[ent]-hspd,entity.y[ent]+ys-1,6)=1 && entity.dir[ent]=DLEFT)     { entity.dir[ent]=DRIGHT; if (ai & EDGEPAUSE) entity.pause[ent]=50; }
+   if (Z_GetTileP(entity.x[ent]-hspd,entity.y[ent]+1,6)=1    && entity.dir[ent]=DLEFT)     { entity.dir[ent]=DRIGHT; if (ai & EDGEPAUSE) entity.pause[ent]=50; }
+   if (Z_GetTileP(entity.x[ent]+xs+hspd,entity.y[ent]+ys-1,6)=1 && entity.dir[ent]=DRIGHT) { entity.dir[ent]=DLEFT;  if (ai & EDGEPAUSE) entity.pause[ent]=50; }
+   if (Z_GetTileP(entity.x[ent]+xs+hspd,entity.y[ent]+1,6)=1    && entity.dir[ent]=DRIGHT) { entity.dir[ent]=DLEFT;  if (ai & EDGEPAUSE) entity.pause[ent]=50; }
+
+   if (Z_GetTileP(entity.x[ent]-hspd,entity.y[ent]+ys-1,6)=1 && Z_GetTileP(entity.x[ent]+xs+hspd,entity.y[ent]+ys-1,6)=1) { entity.pause[ent]=50; }
+
+  }
+ if (vspd && !hspd) // If entity moves up & down
+  {
+   if (Z_GetTileP(entity.x[ent],entity.y[ent]-vspd,6))    entity.dir[ent]=DDOWN;
+   if (Z_GetTileP(entity.x[ent]+hspd,entity.y[ent]+ys+vspd,6)) entity.dir[ent]=DUP;
+  }
+
+ if (ai & WALK) 
+  {
+   if (hspd && !vspd) // Entity won't fall: watches out for pits
+    {
+     if (Z_GetTileP(entity.x[ent]-hspd   ,entity.y[ent]+ys,6)=0 && Z_GetTileP(entity.x[ent]-hspd   ,entity.y[ent]+ys,7)!=255 && entity.dir[ent]=DLEFT)  { entity.dir[ent]=DRIGHT; if (ai & EDGEPAUSE) entity.pause[ent]=50; }
+     if (Z_GetTileP(entity.x[ent]+xs+hspd,entity.y[ent]+ys,6)=0 && Z_GetTileP(entity.x[ent]+xs+hspd,entity.y[ent]+ys,7)!=255 && entity.dir[ent]=DRIGHT) { entity.dir[ent]=DLEFT;  if (ai & EDGEPAUSE) entity.pause[ent]=50; }
+    }
+   // Kamikaze!
+   if (Z_GetTileP(entity.x[ent]+(xs/2),entity.y[ent]+ys,6)=0 && Z_GetTileP(entity.x[ent]+(xs/2),entity.y[ent]+ys,7)!=255)  entity.y[ent]+=vspd;
+  }
+
+ if (entity.pause[ent]>0) entity.pause[ent]--;
+
+ if (entity.pause[ent]=0 && nomove=0)
+  {
+   switch (entity.dir[ent])
+   {
+   case DDOWN:  entity.y[ent]+=vspd;
+   case DUP:    entity.y[ent]-=vspd;
+   case DRIGHT: entity.x[ent]+=hspd;
+   case DLEFT:  entity.x[ent]-=hspd;
+  }
+ }
+}
+
+
+// Updates entity ENT's frame to FU, FD, FL or FR plus, according FT interval, FN frames.
+void EntityFrame (int ent, int fu, int fd, int fl, int fr, int ft, int fn)
+{
+ if(entity.pause[ent]=0)
+ {
+ switch (entity.dir[ent])
+  {
+   case DDOWN:  entity.specframe[ent]=counter/ft%fn+fd;
+   case DUP:    entity.specframe[ent]=counter/ft%fn+fu;
+   case DRIGHT: entity.specframe[ent]=counter/ft%fn+fr;
+   case DLEFT:  entity.specframe[ent]=counter/ft%fn+fl;
+  }
+ }
+ else
+ {
+ switch (entity.dir[ent])
+  {
+   case DDOWN:  entity.specframe[ent]=fd;
+   case DUP:    entity.specframe[ent]=fu;
+   case DRIGHT: entity.specframe[ent]=fr;
+   case DLEFT:  entity.specframe[ent]=fl;
+  }
+ }
+}
+
+// Checks if player hopped on the enemy
+void CheckHopOn (int ent, int xs, int ys)
+{
+ if ( playerx+player_width>entity.x[ent] &&
+      playerx<entity.x[ent]+xs &&
+      playery+player_height>=entity.y[ent] &&
+      playery+player_height<=entity.y[ent]+(vspeed/100)+4 && fallflag=1 )
+  {
+   entity.hurt[ent]=PLAYER_HIT;
+  }
+}
+
+void Kapow(int ent, int xs, int ys)
+{
+   SpawnObject(entity.x[ent]+(xs/2),entity.y[ent]+(ys/2),1,13,15);
+   entity.x[ent]=0-128; enemytype[ent]=0;
+   if (entity.hurt[ent]=PLAYER_HIT) Bounce();
+   entity.hurt[ent]=0;
+   PlaySound(snd_bounce,64,128);
+}
+
+// Same thing, but returns it as a function
+int HopOn (int ent, int xs, int ys)
+{
+ if ( playerx+player_width>entity.x[ent] &&
+      playerx<entity.x[ent]+xs &&
+      playery+player_height>=entity.y[ent] &&
+      playery+player_height<=entity.y[ent]+(vspeed/100)+4 && fallflag=1 )
+    return 1; else return 0;
+}
+
+// Checks if player just hit the entity
+void CheckCollision (int ent, int xs, int ys)
+{
+ if ( playerx+player_width>entity.x[ent] &&
+      playerx<entity.x[ent]+xs &&
+      playery+player_height>entity.y[ent]+(vspeed/100)+5 &&
+      playery<entity.y[ent]+ys && hurtflag<counter )
+  {
+   if (!invincoflag && !mega) { Hurt(); } else
+    {
+     entity.hurt[ent]=MAGIC_HIT;
+    }
+  }
+}
+
+// Ditto. EDGE is set for enemies that have a hopon and unset for those who don't.
+int Collision (int ent, int xs, int ys, int edge)
+{
+ if ( playerx+player_width>entity.x[ent] &&
+      playerx<entity.x[ent]+xs &&
+      playery+player_height>entity.y[ent]+(vspeed/100)+(edge*5) &&
+      playery<entity.y[ent]+ys && hurtflag < counter )
+  return 1; else return 0;
+}
+
+void Bounce()
+{
+   jumpflag=jump_height;
+   vspeed=0-bounce_speed; if (down) vspeed-=bounce_speed/2;
+   rocketflag=1;
+}
+
+void Hurt()
+{
+  if (!invincoflag && !mega)
+  {
+   PlaySound(snd_ow[random(5)], 64, 128);
+   hurtflag=counter+50;
+   if (currentitem=0 || itemtime > 0) { health--; } else { currentitem=0; }
+  }
+}
+
+// Temporary fixture...
+void Z_CheckEnemy(int i)
+{
+ int e,i,j;
+ if (!enemytype[i])
+  {
+   if (GetTile(entity.tx[i],entity.ty[i],2)<entity_tile)
+    {
+     enemytype[i]=GetTile(entity.tx[i],entity.ty[i],2)-102;
+     if (enemytype[i]<99) SetTile(entity.tx[i],entity.ty[i],2,0);
+     if (enemytype[i]>98) enemytype[i]=99;
+    }
+   else
+    {
+     enemytype[i]=GetTile(entity.tx[i],entity.ty[i],2)-entity_tile;
+     SetTile(entity.tx[i],entity.ty[i],2,0);
+    }
+  }
+   entity.dir[i]=0;
+   if (enemytype[i]==10) entity.specframe[i]=6;
+   if (enemytype[i]==96 || enemytype[i]==94)
+    {
+     j=0; e=0;
+     while(e=0)
+     {
+      j++;
+      if (j>=numents) e=i;
+      else if (entity.x[i]/16=entity.x[j]/16 && enemytype[j]=95 && entity.dir[j]=0) e=j;
+ //     log (str(entity.x[i])+","+str(entity.x[j])+" = "+str(enemytype[j]));
+     }
+     entity.dir[i]=e;
+     entity.dir[e]=i;
+     entity.var[i]=entity.y[i]-entity.y[e];
+    }
+// log ("checked enemy"+str(i));
+}             
+
+void Z_ResetEntities()
+{
+ int i;
+ for(i=1;i<100;i++)
+  {
+   enemytype[i]=0;
+   entity.dir[i]=0;
+   entity.pause[i]=0;
+   entity.var[i]=0;
+   entity.eval[i]=0;
+   entity.hurt[i]=0;
+   entity.movecode[i]=0;
+  }
+}
+
+// Sweeps map for enemies that have no entities assigned
+void Z_EntitySweep(int z)
+{
+ int x,y,i,e;
+ for (y=0; y<mapy; y++)
+  {
+   for (x=0; x<mapx; x++)
+    {
+     If (GetTile(x,y,z) > entity_tile && GetTile(x,y,z) < entity_tile + entities)
+      {
+      // Log("Sweeping Tile "+str(x)+", "+str(y)+" = "+str(GetTile(x,y,z)-entity_tile));
+       e=0;
+       for(i=1; i<=numents; i++)
+       {
+        if (entity.tx[i]=x && entity.ty[i]=y) e=i;
+       }
+
+       if(e=0) {
+
+       Switch(GetTile(x,y,z)-entity_tile)
+        {
+         case 1:   e = EntitySpawn(x,y,"SLUG.CHR");
+         case 2:   e = EntitySpawn(x,y,"SMILIE.CHR");
+         case 3:   e = EntitySpawn(x,y,"BUZZER.CHR");
+         case 4:   e = EntitySpawn(x,y,"SHELLBUG.CHR");
+         case 5:   e = EntitySpawn(x,y,"SHELLBUG.CHR");
+         case 6:   e = EntitySpawn(x,y,"SHELLBUG.CHR");
+         case 7:   e = EntitySpawn(x,y,"FISH.CHR");
+         case 8:   e = EntitySpawn(x,y,"BIGFISH.CHR");
+         case 9:   e = EntitySpawn(x,y,"POUNDER.CHR");
+         case 10:  e = EntitySpawn(x,y,"FIREY.CHR");
+         case 11:  e = EntitySpawn(x,y,"FISH.CHR");
+         case 12:  e = EntitySpawn(x,y,"KRABBY.CHR");
+         case 13:  e = EntitySpawn(x,y,"KRABBY.CHR");
+         case 14:  e = EntitySpawn(x,y,"BATTY.CHR");
+         case 15:  e = EntitySpawn(x,y,"BATTY.CHR");
+         case 16:  e = EntitySpawn(x,y,"SNAKE.CHR");
+         case 17:  e = EntitySpawn(x,y,"CLAMMER.CHR");
+         case 18:  e = EntitySpawn(x,y,"FISH.CHR");
+         case 19:  e = EntitySpawn(x,y,"FISH.CHR");
+         case 20:  e = EntitySpawn(x,y,"GOBLINS.CHR");
+         case 21:  e = EntitySpawn(x,y,"GOBLINR.CHR"); entity.eval[e]=1; entity.pause[e]=random(120);
+         case 22:  e = EntitySpawn(x,y,"GOBLINT.CHR");
+         case 23:  e = EntitySpawn(x,y,"GHOST.CHR");
+         case 24:  e = EntitySpawn(x,y,"GHOSTB.CHR");
+         case 25:  e = EntitySpawn(x,y,"GHOSTR.CHR");
+         case 26:  e = EntitySpawn(x,y,"BEAR.CHR");
+         case 27:  e = EntitySpawn(x,y,"BATTY2.CHR");
+         case 28:  e = EntitySpawn(x,y,"BATTY2.CHR");
+         case 29:  e = EntitySpawn(x,y,"BEAR2.CHR");
+
+         case 30:  e = EntitySpawn(x,y,"SLUGMK2.CHR");
+         case 31:  e = EntitySpawn(x,y,"BALLMK2.CHR");
+         case 32:  e = EntitySpawn(x,y,"BUZZMK2.CHR");
+         case 33:  e = EntitySpawn(x,y,"SHELLMK2.CHR");
+         case 34:  e = EntitySpawn(x,y,"FIREY.CHR");
+         case 35:  e = EntitySpawn(x,y,"ZEUX.CHR"); entity.y[e]+=2;
+
+         case 60:  e = EntitySpawn(x,y,"BLOB.CHR");
+
+
+         case 62:  e = EntitySpawn(x,y,"BOSS02.CHR");
+         case 63:  e = EntitySpawn(x,y,"BOSS03.CHR");
+         case 65:  e = EntitySpawn(x,y,"BOSS05.CHR");
+         case 66:  e = EntitySpawn(x,y,"BOSS06.CHR");
+         case 67:  e = EntitySpawn(x,y,"BOSS07.CHR");
+         case 68:  e = EntitySpawn(x,y,"BOSS08.CHR");
+         case 69:  e = EntitySpawn(x,y,"BOSS09.CHR");
+         case 70:  e = EntitySpawn(x,y,"BOSS10.CHR");
+         case 71:  e = EntitySpawn(x,y,"BOSS11.CHR");
+         case 72:  e = EntitySpawn(x,y,"BOSS12.CHR");
+         case 73:  e = EntitySpawn(x,y,"BOSS13.CHR");
+         case 74:  e = EntitySpawn(x,y,"CREATOR.CHR");
+
+         case 80:  e = EntitySpawn(x,y,"SEEKER.CHR");
+
+         case 90:  e = EntitySpawn(x,y,"ROCKTBAR.CHR");
+         case 91:  e = EntitySpawn(x,y,"CART.CHR"); entity.y[e]+=8;
+
+         case 92:  e = EntitySpawn(x,y,"METALBAR.CHR"); entity.eval[e]=1;
+         case 93:  e = EntitySpawn(x,y,"METALBAR.CHR"); entity.eval[e]=1;
+
+         case 94:  e = EntitySpawn(x,y,"KNOT.CHR"); entity.eval[e]=1;
+         case 95:  e = EntitySpawn(x,y,"BIGKNOT.CHR"); enemytype[e]=95; SetTile(x,y,z,0);
+         case 96:  e = EntitySpawn(x,y,"KNOT.CHR"); entity.eval[e]=1;
+         case 97:  e = EntitySpawn(x,y,"BLOCK.CHR"); // entity.eval[e]=1;
+
+         case 99:  e = EntitySpawn(x,y,"WOODBAR.CHR"); entity.eval[e]=1;
+         case 100: e = EntitySpawn(x,y,"METALBAR.CHR"); entity.eval[e]=1; SetTile(x,y,z,entity_tile+99);
+         case 101: e = EntitySpawn(x,y,"LIFE.CHR");
+        }
+
+       }
+      }
+    }
+  }
+
+ for (e=0; e<numents; e++)
+  {
+   if (entity.x[e]>entity.y[player]-200 && entity.x[e]<entity.y[player]+200 && entity.y[e]>entity.y[player]-150 && entity.y[e]<entity.y[player]+150) Z_CheckEnemy(e);
+  }
+}
+
+int InScreen (int ent, int rng)
+{
+ int x;
+ x=0;
+ if (entity.x[ent]>xWin-rng && entity.x[ent]<xWin+320+rng) x=1;
+ if (entity.y[ent]>yWin-rng && entity.y[ent]<yWin+200+rng) x=1;
+ return x;
+}
+
+void BlobCheck()
+{
+ int x,y,i;
+ i=0;
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      if (GetTile(x,y,7)=200)
+       {
+        i = GetTile(x,y,bloblayer)-1720;
+        if (GetTile(x,y-1,6)=0) { SetTile(x,y-1,7,201); i=i | 1; }
+        if (GetTile(x+1,y,6)=0) { SetTile(x+1,y,7,201); i=i | 2; }
+        if (GetTile(x,y+1,6)=0) { SetTile(x,y+1,7,201); i=i | 4; }
+        if (GetTile(x-1,y,6)=0) { SetTile(x-1,y,7,201); i=i | 8; }
+        SetTile(x,y,bloblayer,1720+i); SetTile(x,y,7,0); SetTile(x,y,6,1); i=0;
+       }
+     }
+   }
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      i=GetTile(x,y,7);
+      if (i=201)
+       {
+        i=0;
+        SetTile(x,y,7,200);
+        if (GetTile(x,y-1,bloblayer)) { i+=1; }
+        if (GetTile(x+1,y,bloblayer)) { i+=2; }
+        if (GetTile(x,y+1,bloblayer)) { i+=4; }
+        if (GetTile(x-1,y,bloblayer)) { i+=8; }
+        SetTile(x,y,bloblayer,1720+i);
+       }
+     }
+   }
+}
+

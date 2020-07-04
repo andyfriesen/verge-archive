@@ -1,0 +1,39 @@
+event
+{
+SystemStartup();
+
+if(zs[0]) { SetTile(44,22,2,202);   ClearRainbow(50,8); }
+if(zs[1]) { SetTile(71,14,2,202);   ClearRainbow(73,6); }
+if(zs[2]) { SetTile(81,18,2,202);   ClearRainbow(87,21); }
+if(zs[3]) { SetTile(114,19,2,202);  ClearRainbow(120,11); }
+if(zs[4]) { SetTile(141,21,2,202);  ClearRainbow(136,9);  }
+if(zs[5]) { SetTile(161,11,2,202);  ClearRainbow(166,4);  }
+if(zs[6]) { SetTile(188,17,2,202);  ClearRainbow(190,8);  }
+if(zs[7]) { SetTile(197,16,2,202);  ClearRainbow(207,20); }
+if(zs[8]) { SetTile(223,16,2,202);  ClearRainbow(225,5);  }
+if(zs[9]) { SetTile(242,6,2,202);   ClearRainbow(245,0);  }
+if(zs[10]) { SetTile(264,9,2,202);  ClearRainbow(269,2);  }
+if(zs[11]) { SetTile(298,20,2,202); ClearRainbow(306,11); }
+if(zs[12])
+ { SetTile(326,20,2,202);
+ vx=338;
+ vy=14;
+  while(vy<20)
+  {
+   vx--; vy++;
+   SetTile(vx-1,vy,2,1603);
+   SetTile(vx  ,vy,2,1604); SetTile(vx,vy,7,240);
+   SetTile(vx+1,vy,2,1605);
+   SetTile(vx-2,vy+1,2,1613);
+   SetTile(vx-1,vy+1,2,1614);
+   SetTile(vx  ,vy+1,2,1615);
+  }
+ }
+
+Z_StartStageStuff();
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+

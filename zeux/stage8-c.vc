@@ -1,0 +1,23 @@
+event
+{
+if (GetSScore(stage)=100) PlayMusic("MRKMAGIC.XM");
+SystemStartup();
+UpdateControls();
+if (key[48]=1 && GetSScore(stage)>0) { timeflag=1; entity.x[0]=78*16; entity.y[0]=35*16; }
+if (rematch=stage) { entity.x[0]=78*16; entity.y[0]=35*16; }
+Z_StartStageStuff();
+if (entity.y[0]!=35*16)  ywinhlimit=34*16;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ ywinhlimit=34*16;
+}
+
+event
+{
+ ywinhlimit=0;
+}

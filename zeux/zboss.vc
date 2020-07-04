@@ -1,0 +1,1960 @@
+// Zeux's World Boss Code
+
+int bosstime, bosshealth, bossstage;
+int bossx, bossy, bossintroed, bossspecial, bosshurt, bossend;
+int bossflag1, bossflag2, bossflag3, bossflag4;
+int bossflag5, bossflag6, bossflag7, bossflag8;
+int bossflagA, bossflagB, bossflagC, bossflagD;
+int noblank;
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+
+ // Snake From Hell!
+ // Snake lunges from one side of the screen to the other, ocasionally on
+ // a sine wave. (240 pixels. Really. I counted.)
+
+void Boss02Intro(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=20;
+   entity.dir[e]=DLEFT;
+   camtcker=EntitySpawn(120,30,"ZEUX.CHR");
+   entity.x[camtcker]+=8;
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)  { textflag=100; text1="Meet..."; }
+ if (bosstime=100)
+  {
+   SetTZO(111,7,2,341,0,1);
+   SetTZO(111,8,2,341,0,1);
+   SetTZO(129,7,2,341,0,1);
+   SetTZO(129,8,2,341,0,1);
+   SpawnObject(111*16+8,8*16,1,0,15);
+   SpawnObject(129*16+8,8*16,1,0,15);
+  }
+ if (bosstime=150) { textflag=100; text1="...Oh, you know the rest."; }
+
+ if (bosstime>=150 && bosstime<170) entity.specframe[e]=21+(bosstime/5%2); 
+ if (bosstime>=170 && bosstime<200) entity.specframe[e]=22+(bosstime/5%2); 
+
+ if (bosstime=200) { entity.specframe[e]=0; SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,32,0,0,0); }
+
+ if (bosstime=220)
+ { bosstime=0;
+ bossintroed=1; rematch=stage;
+ PlayMusic("MIXBOSS.S3M");
+ }
+}
+
+void Boss02(int e)
+{
+ int i;
+ bosstime++;
+ if (bosstime>=0 && bosstime < 150)
+  { switch(bosstime/10%4)
+    {
+     case 0: i=0;
+     case 1: i=1;
+     case 2: i=2;
+     case 3: i=1;
+    }
+   if (entity.dir[e]=DRIGHT) i+=3;
+  }
+ if (bosstime>=150 && bosstime < 200)
+  {
+   i=(bosstime-150)/10+6;
+   if (entity.dir[e]=DRIGHT) i+=6;
+
+   if (random(100)<bosstime-150) SpawnObject(entity.x[e]+random(32),entity.y[e]+random(32),VANISHING + GOINGUP,20,15);
+  }  
+
+ if (bosstime=200) {
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,32,0,0,0);
+   bossspecial=random(3);
+   bosshurt=0;
+   PlaySound(snd_rayden, 64, 128);
+   }
+
+ if (bosstime>=200 && bosstime < 280)
+  {
+   i=11;
+   if (entity.dir[e]=DRIGHT) i+=6;
+   if (1=1) SpawnObject(entity.x[e]+random(32),entity.y[e]+8+random(16),VANISHING,20,20); // 15
+
+   if (entity.dir[e]=DLEFT)  entity.x[e]-=3;
+   if (entity.dir[e]=DRIGHT) entity.x[e]+=3;
+
+   if (bossspecial=2) entity.y[e]=bossy+(sin(((bosstime-200) * 9) % 360)>>11);
+
+   CheckCollision(e, 32,32);
+  }
+ if (bosstime=280)
+  {
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,32,0,0,0);
+   if (entity.dir[e]=DLEFT) { entity.dir[e]=DRIGHT; } else { entity.dir[e]=DLEFT; }
+   bosstime=0;
+   entity.y[e]=bossy;
+  }                     
+
+ if (bosstime<200 && HopOn(e, 32, 32)=1 && bosshurt=0)
+  {
+   entity.hurt[e]=PLAYER_HIT;
+     Bounce();
+     PlaySound(snd_bounce, 64, 128);
+  }
+
+ if (entity.hurt[e])
+  {
+   if (bosstime<200 && bosshurt=0)
+    {
+     if (bosstime>100) bosstime=100;
+     bosshealth--; bosshurt=1;
+     ShowBossHealth(2);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+
+ if (bosshurt && bosstime<150) { if (entity.dir[e]=DLEFT) { i=18; } else { i=19; } }
+ entity.specframe[e]=i;
+}
+
+void Boss02End(int e)
+{
+ bosstime++;
+   
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=200; text1="OK, OK, I'll consider it a draw."; }
+
+ if (bosstime=250)
+  { PlaySound(snd_toasty,64,128);
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,32,0,0,0);
+   entity.visible[e]=0;
+   camtcker=player;
+   SetTZO(111,7,2,0,0,0);
+   SetTZO(111,8,2,0,0,0);
+   SetTZO(129,7,2,0,0,0);
+   SetTZO(129,8,2,0,0,0);
+   SpawnObject(111*16+8,8*16,1,0,15);
+   SpawnObject(129*16+8,8*16,1,0,15);
+   if (timeflag) Yourtime(counter);
+  }
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+ // Fishfingers
+ // Fish swims across the screen quickly, ocasionally spitting bubbles
+ // to hinder Zeux.
+
+void Boss03Intro(int e)
+{
+ int i;
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=14;
+   entity.dir[e]=DLEFT;
+   camtcker=EntitySpawn(129,30,"ZEUX.CHR");
+   entity.x[camtcker]+=8;
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)
+  { textflag=100; text1="Mmm. Fish food.";
+    SetTile(118,20,6,1);
+    SetTile(118,21,6,1);
+    SetTile(118,22,6,1);
+    for (i=14; i<=22; i++)
+     {
+      SetTile(140,i,6,1);
+     }
+  }
+ if (bosstime=150) { textflag=100; text1="Snack time!"; }
+
+ if (bosstime>=150 && bosstime<170) entity.specframe[e]=14+(bosstime/5%2); 
+ if (bosstime>=170 && bosstime<200) entity.specframe[e]=16+(bosstime/5%2); 
+
+ if (bosstime=200) { entity.specframe[e]=0; SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,143,0,0,0); }
+
+ if (bosstime=220)
+ { bosstime=0;
+ bossintroed=1; rematch=stage;
+ PlayMusic("MIXBOSS.S3M");
+ }
+}
+
+void Boss03(int e)
+{
+ int i;
+ bosstime++;
+
+ if (entity.dir[e]=DLEFT)
+  {                  entity.x[e]-=2;
+   if (bosshealth<=4) entity.x[e]--;
+   if (bosshealth<=2) entity.x[e]--;
+   i=(bosstime/5)%4;
+  }
+ if (entity.dir[e]=DRIGHT) 
+  {                  entity.x[e]+=2;
+   if (bosshealth<=4) entity.x[e]++;
+   if (bosshealth<=2) entity.x[e]++;
+   i=((bosstime/5)%4)+4;
+  }
+ if (entity.x[e]<=xWin-100 && entity.dir[e]=DLEFT)
+  { entity.dir[e]=DRIGHT;
+    entity.y[e]=yWin+24+random(112);
+    bosshurt=0;
+    bossspecial=random(4);
+  }
+ if (entity.x[e]>=xWin+420 && entity.dir[e]=DRIGHT)
+  { entity.dir[e]=DLEFT;
+    entity.y[e]=yWin+24+random(112);
+    bosshurt=0;
+    bossspecial=random(4);
+  }
+ if (bossspecial=1 && bosstime%50=0 && entity.x[e]>xWin && entity.x[e]<xWin+320)
+  { bossflag1=20;
+    if (entity.dir[e]=DRIGHT)
+     {
+      SpawnObject(entity.x[e]+32,entity.y[e]+16,HURTPLAYER+GOINGRIGHT+GOINGUP+SIZE4,24,160);
+      SpawnObject(entity.x[e]+32,entity.y[e]+16,HURTPLAYER+GOINGRIGHT+GOINGDOWN+SIZE4,24,160);
+      if (bosshealth<=4)
+      {
+       SpawnObject(entity.x[e]+32,entity.y[e]+16,HURTPLAYER+GOINGUP+SIZE4,24,160);
+       SpawnObject(entity.x[e]+32,entity.y[e]+16,HURTPLAYER+GOINGDOWN+SIZE4,24,160);
+      }
+     }
+    if (entity.dir[e]=DLEFT)
+     {
+      SpawnObject(entity.x[e],entity.y[e]+16,HURTPLAYER+GOINGLEFT+GOINGUP+SIZE4,24,160);
+      SpawnObject(entity.x[e],entity.y[e]+16,HURTPLAYER+GOINGLEFT+GOINGDOWN+SIZE4,24,160);
+      if (bosshealth<=4)
+      {
+       SpawnObject(entity.x[e],entity.y[e]+16,HURTPLAYER+GOINGUP+SIZE4,24,160);
+       SpawnObject(entity.x[e],entity.y[e]+16,HURTPLAYER+GOINGDOWN+SIZE4,24,160);
+      }
+     }
+  }
+ if (bossflag1>0) bossflag1--;
+
+  CheckCollision(e, 32,32);
+
+ if (HopOn(e, 32, 32)=1 && bosshurt=0)
+  {
+   entity.hurt[e]=PLAYER_HIT;
+     Bounce();
+     PlaySound(snd_bounce, 64, 128);
+  }
+
+ if (entity.hurt[e])
+  {
+   if (bosshurt=0)
+    {
+     bosshealth--; bosshurt=1;
+     ShowBossHealth(3);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+
+ if (entity.x[e]>entity.x[player]-64 && entity.x[e]<entity.x[player]+64
+  && entity.y[e]>entity.y[player]-64 && entity.y[e]<entity.y[player]+64)
+               { if (entity.dir[e]=DLEFT) { i=8;  } else { i=9;  } }
+ if (bosshurt) { if (entity.dir[e]=DLEFT) { i=10; } else { i=11; } }
+ if (bossflag1) { if (entity.dir[e]=DLEFT) { i=12; } else { i=13; } }
+ entity.specframe[e]=i;
+}
+
+void Boss03End(int e)
+{
+ bosstime++;
+   
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=200; text1="You won't be so lucky next time!"; }
+
+ if (bosstime=250)
+  { PlaySound(snd_toasty,64,128);
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,143,0,0,0);
+   entity.visible[e]=0;
+   camtcker=player;
+    SetTile(118,20,6,0);
+    SetTile(118,21,6,0);
+    SetTile(118,22,6,0);
+    for (i=14; i<=22; i++)
+     {
+      SetTile(140,i,6,0);
+     }
+   if (timeflag) Yourtime(counter);
+  }
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Tiger Demon
+   // Tiger Demon spits balls of fire and lasers.
+
+void Boss05Intro(int e)
+{
+ if (bosstime>0) bosstime++;
+ if (bosstime=2)
+ {
+ entity.x[e]-=8;
+ bossflag1=entity.x[e];
+ bossflag2=0; bossflag3=0;
+ bosshealth=8; bosshurt=0; bossend=0;
+ xwinllimit=8*16;
+ xwinhlimit=35*16;
+ ywinllimit=9*16+8;
+ ywinhlimit=22*16;
+ if (noblank=0) PlayMusic("NULL.S3M");
+ }
+ if (bosstime=50)  { textflag=100; text1="You shall never pass me..."; }
+ if (bosstime=150) { textflag=100; text1="...Oh, let's cut to the food."; }
+
+ if (bosstime<150) entity.specframe[e]=16; 
+ if (bosstime>=150 && bosstime<170) entity.specframe[e]=16+(bosstime/5%2); 
+ if (bosstime>=170 && bosstime<220) entity.specframe[e]=bosstime/10;
+
+ if (bosstime=220)
+  {
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,68,0,0,0);
+  }
+ if (bosstime>=230 && bosstime<250) entity.specframe[e]=bosstime/10-1;
+
+ if (bosstime=260)
+  {
+   bosstime=0;
+   bossintroed=1; rematch=stage;
+   PlayMusic("MIXBOSS.S3M");
+  }
+}
+
+void Boss05(int e)
+{
+ int i;
+ bosstime++;
+ if (bossflag2=0)
+  {
+   if (entity.x[player]<entity.x[e])    entity.dir[e]=DLEFT;
+   if (entity.x[player]>entity.x[e]+32) entity.dir[e]=DRIGHT;
+  }
+ if (entity.dir[e]=DLEFT) { i=bosstime/5%6; } else i=bosstime/5%6+6;
+
+ if (bosstime%100=0 && bosstime%300!=0 && bosshurt=0)
+ {
+  bossflag2=50;
+  bossflag3=random(3); if (bossflag3=2) playsound(snd_charge,64,128);
+ }
+ if (bossflag2)
+  { bossflag2--;
+   if (entity.dir[e]=DLEFT) { i=14; } else i=15;
+   if (bossflag3=2 && bossflag2>15)
+    {
+      if (entity.dir[e]=DLEFT) SpawnObject2(entity.x[e]-4 ,entity.y[e]+24,FILLEDCIRCLE,random(5)+10,2,31,0,0,0);
+                          else SpawnObject2(entity.x[e]+36,entity.y[e]+24,FILLEDCIRCLE,random(5)+10,2,31,0,0,0);
+    }
+  }
+ if (bossflag2=15)
+  {
+   PlaySound(snd_shoot,64,128);
+   switch (bossflag3)
+    {
+     case 0:
+      if (entity.dir[e]=DLEFT) SpawnObject(entity.x[e]   ,entity.y[e]+24,HURTPLAYER+GOINGLEFT+SIZE4,32,320);
+                          else SpawnObject(entity.x[e]+32,entity.y[e]+24,HURTPLAYER+GOINGRIGHT+SIZE4,32,320);
+     case 1:
+      if (entity.dir[e]=DLEFT) SpawnObject(entity.x[e]   ,entity.y[e]+24,HURTPLAYER+GOINGLEFT+SPEEDX2+SIZE4,32,320);
+                          else SpawnObject(entity.x[e]+32,entity.y[e]+24,HURTPLAYER+GOINGRIGHT+SPEEDX2+SIZE4,32,320);
+     case 2:
+      if (entity.dir[e]=DLEFT) SpawnObject2(entity.x[e]-4 ,entity.y[e]+24,HURTPLAYER+LASERBEAM,31,15,144,0,0,0);
+                          else SpawnObject2(entity.x[e]+36,entity.y[e]+24,HURTPLAYER+LASERBEAM,31,15,544,0,0,0);
+      playsound(snd_laser,64,128);
+    }
+  }
+
+ if (bosstime%300=0)
+ {
+  while (bossflag1=entity.x[e])
+   {
+    switch (random(5))
+     {
+      case 0: bossflag1=10*16;
+      case 1: bossflag1=15*16;
+      case 2: bossflag1=20*16+8;
+      case 3: bossflag1=26*16;
+      case 4: bossflag1=31*16;
+     }
+   }
+  bosshurt=0;
+ }
+
+ if (bossflag1<entity.x[e]) { entity.x[e]-=4; i=12; }
+ if (bossflag1>entity.x[e]) { entity.x[e]+=4; i=13; }
+
+ entity.x[e]+=16; CheckCollision(e,16,32); entity.x[e]-=16; 
+
+ if (HopOn(e, 32, 32)=1 && bosshurt=0)
+  {
+   entity.hurt[e]=PLAYER_HIT;
+   Bounce(); PlaySound(snd_bounce, 64, 128);
+  }
+
+ if (entity.hurt[e])
+  {
+   if (bossflag1=entity.x[e])
+    {
+     bosshealth--; bosshurt=1; bosstime=bosstime/300*300-50;
+     ShowBossHealth(5); bossflag2=0;
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+ if (bosshurt) { if (entity.dir[e]=DLEFT) { i=25; } else i=26; }
+ entity.specframe[e]=i;
+}
+
+void Boss05End(int e)
+{
+ int i;
+ bosstime++;
+   
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=200; text1="Stella!!!"; }
+
+ if (bosstime=250)
+  { PlaySound(snd_toasty,64,128);
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,24,32,68,0,0,0);
+   entity.visible[e]=0;
+   for (i=13; i<=16; i++)
+    {
+     SetTZO(8,i,2,0,0,0);
+     SetTZO(34,i,2,0,0,0);
+    }
+   xwinllimit=0;
+   xwinhlimit=0;
+   ywinllimit=0;
+   ywinhlimit=0;
+   SetTZO(6,14,2,341,0,1);
+   SetTZO(7,11,2,341,0,1);
+   SetTZO(36,14,2,341,0,1);
+   SetTZO(35,11,2,341,0,1);
+   if (timeflag) Yourtime(counter);
+  }
+}
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Bull's Eye
+   // Bull's Eye shoots beams downwards. Ocasionally, it falls and threatens
+   // to explode.
+
+void Boss06Intro(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=3;
+   entity.dir[e]=DLEFT;
+   camtcker=EntitySpawn(80,80,"ZEUX.CHR");
+   entity.x[camtcker]+=8;
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)  { textflag=150; text1="Sunspot grants us power, insect!"; }
+ if (bosstime=200) { textflag=200; text1="I will squash you like the bug you are!"; }
+
+ if (bosstime>=150 && bosstime<170) entity.specframe[e]=4; 
+ if (bosstime>=170 && bosstime<200) entity.specframe[e]=5; 
+ if (bosstime>=200 && bosstime<250) entity.specframe[e]=6+((bosstime/5)%2); 
+
+ if (bosstime=250) { entity.specframe[e]=0; SpawnObject2(entity.x[e]+12,entity.y[e]+12,FILLEDCIRCLE+SHOCKWAVE,16,24,31,0,0,0); }
+
+ if (bosstime=270)
+ { bosstime=0;
+ bossintroed=1; rematch=stage;
+ bossflag1=0; bossflag2=0; bossflag3=0; bossflag4=0;
+ PlayMusic("MIXBOSS.S3M");
+ }
+}
+
+void Boss06(int e)
+{
+ int i;
+ bosstime++;
+
+ switch (bossflag1)
+ {
+  case 0: 
+   if (entity.x[e]+8<entity.x[player]) { entity.x[e]+=1; if (bosshealth<5) entity.x[e]+=bosstime%2; i=1; }
+   if (entity.x[e]+8>entity.x[player]) { entity.x[e]-=1; if (bosshealth<5) entity.x[e]-=bosstime%2; i=2; }
+   entity.y[e]=bossy+(sin(bosstime*4%360)>>12);
+   if (counter%(bosshealth*8+40)=0)
+    { SpawnObject2(entity.x[e]+16,entity.y[e]+24,HURTPLAYER+OBSTRUCTABLE+GOINGDOWN+SPEEDX2+SIZE4+EXPLOSIVE,35,100,80,0,0,0); PlaySound(snd_shoot,64,128);
+      bossflagA++;
+    }
+   if (counter%100=0 && bossflagA>10-bosshealth) bossflag1=1;
+  case 1:
+   entity.y[e]+=4; i=0;
+   if (entity.x[e]+8<entity.x[player] && bosshealth<5 ) entity.x[e]+=2;
+   if (entity.x[e]+8>entity.x[player] && bosshealth<5 ) entity.x[e]-=2;
+   if (Gettile(entity.x[e]+12/16,entity.y[e]+24/16,6)=1) bossflag1=2;
+   bossflag2=0; bossflag3=0;
+  case 2:
+   bossflag2++;
+   i=0;
+   if ((bossflag2*bossflag2/1000)%2=1) i=8;
+   if (bossflag2>=200) bossflag1=3;
+  case 3:
+   bossflag3++;
+   i=0;
+   if (bosstime/2%2=1) i=8;
+   if (bossflag3>=((2+bosshealth)*5)) { bossflag1=4; bossflag3=0;}
+  case 4:
+   bossflag3++; if (bosshealth<5) bossflag3++; 
+   if (bossflag3<=2) { SpawnObject2(entity.x[e]+12,entity.y[e]+12,FILLEDCIRCLE+SHOCKWAVE+HURTPLAYER+SPEEDX2,16,32,31,0,0,0); bossflag3=3;
+                       PlaySound(snd_boom,64,128);
+                     }
+   if (bossflag3>=8) { bossflag1=5; bossflag3=0; entity.y[e]=bossy-128;}
+  case 5:
+   entity.y[e]++;
+   if (entity.y[e]>=bossy+(sin(bosstime*4%360)>>12)) { bossflag1=0;}
+   bosshurt=0;
+   bossflaga=0;
+ }
+
+ CheckCollision(e,24,24);
+
+ if (HopOn(e, 24, 24)=1 && bosshurt=0)
+  {
+   entity.hurt[e]=PLAYER_HIT; Bounce(); PlaySound(snd_bounce, 64, 128);
+  }
+
+ if (entity.hurt[e])
+  {
+   if (bosshurt=0)
+    {
+     bosshealth--; bosshurt=1;
+     ShowBossHealth(6);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+ entity.specframe[e]=i;
+}
+
+void Boss06End(int e)
+{
+ int i, j;
+
+ bosstime++;
+
+ if (bosstime=1)
+  {
+   PlayMusic ("NULL.S3M");
+  }
+
+ if (bosstime=100)
+  {
+   PlaySound(snd_finish,64,128);
+   textflag=200; text1="Oh shoot, must've pressed the wrong button..."; 
+  }
+
+ switch (bossflag1)
+ {
+  case 1:
+   bossflag1++;
+  case 2:
+   bossflag2++;
+   i=0;
+   if ((bossflag2*bossflag2/1000)%2=1) i=8;
+   if (bossflag2=200) bossflag1=3;
+  case 3:
+   bossflag3++;
+   i=0;
+   if (bosstime/2%2=1) i=8;
+   if (bossflag3=100) { bossflag1=4; bossflag3=0;}
+  case 4:
+   bossflag3++;
+   if (bossflag3=1)
+   {
+    PlaySound(snd_toasty,64,128);
+    SpawnObject2(entity.x[e]+12,entity.y[e]+12,FILLEDCIRCLE+SHOCKWAVE+HURTPLAYER+SPEEDX2,16,32,31,0,0,0);
+    for (j=69; j<=77; j++)
+     {
+      SetTile(90,j,6,0);
+     }
+    camtcker=player;
+    if (timeflag) Yourtime(counter);
+   }
+   if (bossflag3=16) { bossflag1=5; bossflag3=0; entity.y[e]=bossy-128;}
+  }
+ entity.specframe[e]=i;
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+  // Goblin Captain
+
+  // Goblin Captain repeatedly retreats, leaving Zeux to handle his minions.
+
+void Boss07Intro(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=12;
+   entity.dir[e]=DRIGHT;
+   camtcker=EntitySpawn(bossx/16, bossy/16,"ZEUX.CHR");
+   entity.visible[camtcker]=0;
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)  { textflag=150; text1="Prepare yourself, little smiley..."; }
+ if (bosstime=200) { textflag=150; text1="...because this is our turf!"; }
+
+ if (bosstime>=150 && bosstime<220) entity.specframe[e]=bosstime/10-2;
+ if (bosstime>=220 && bosstime<230) entity.specframe[e]=4; 
+
+ if (bosstime=230)
+ {
+ bosstime=0;
+ bossflag1=1;
+ bossintroed=1; rematch=stage;
+ camtcker=player;
+ PlayMusic("MIXBOSS.S3M");
+ }
+}
+
+void Boss07(int e)
+{
+ int i;
+ bosstime++;
+ if (entity.dir[e]=DLEFT) { i=(bosstime/5)%4; }
+ if (entity.dir[e]=DRIGHT) { i=(bosstime/5)%4+4; }
+
+
+ if (HopOn(e, 14, 48)=1)
+ { entity.hurt[e]=PLAYER_HIT; Bounce();
+     PlaySound(snd_bounce, 64, 128);
+ }
+
+ CheckCollision(e, 14, 48);
+
+ if (entity.hurt[e])
+  {
+   if (bosshurt=0)
+    {
+     bosshealth--; bosshurt=1; bosstime=0;
+     ShowBossHealth(7);
+    }
+   entity.hurt[e]=0;
+  }
+
+ if (bosshurt=1 && bosstime>25) bossflag1=1;
+
+ if (bossflag1=1 && bosstime>25) { entity.y[e]-=8; }
+
+ if (bossflag1=1 && bosstime=55)
+   { bossflag1=0; bosshurt=0;
+     switch(bosshealth)
+      {
+       case 8: entity.x[e]=38*16;  entity.y[e]=32*16; entity.dir[e]=DLEFT;
+       case 7: entity.x[e]=78*16;  entity.y[e]=32*16;
+       case 6: entity.x[e]=118*16; entity.y[e]=32*16;
+       case 5: entity.x[e]=158*16; entity.y[e]=32*16;
+       case 4: entity.x[e]=125*16; entity.y[e]=8*16; entity.dir[e]=DRIGHT;
+       case 3: entity.x[e]=85*16;  entity.y[e]=8*16;
+       case 2: entity.x[e]=45*16;  entity.y[e]=8*16;
+       case 1: entity.x[e]=12*16;  entity.y[e]=8*16;
+       case 0: SetTZO(5,9,2,351,8,0); SpawnObject(5*16+8,9*16+8,1,0,15);
+               text1="Aaaaah! OK, OK, you can pass!"; textflag=200;
+      }
+   }
+
+ if (bosshurt)  { if (entity.dir[e]=DLEFT) { i=8;  } else { i=9;  } }
+ if (bossflag1) { if (entity.dir[e]=DLEFT) { i=10; } else { i=11; } }
+ entity.specframe[e]=i;
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+// Giant Biting Spider
+
+        // The Spider has two heads. The upper one shoots a ball of fire,
+        // the lower one shoots a ball of goop.
+
+
+void Boss08Intro(int e)
+{
+ int i;
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=9;
+   camtcker=EntitySpawn(bossx/16, bossy/16,"ZEUX.CHR");
+   entity.visible[camtcker]=0;
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)  { textflag=150; text1="Yes, you're on the right way."; }
+ if (bosstime=100)
+ {
+    for (i=28; i<=39; i++)
+     {
+      SetTile(79,i,6,1);
+      SetTile(103,i,6,1);
+     }
+ }
+ if (bosstime=200) { textflag=150; text1="No, I won't let you go on."; }
+
+ if (bosstime>=250 && bosstime<275) entity.specframe[e]=10+((counter/3)%2);
+ if (bosstime>=275 && bosstime<300) entity.specframe[e]=12+((counter/3)%2);
+
+ if (bosstime=300)
+ {
+ SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,1,0,0,0);
+ i=EntitySpawn(0,0,"BOSS08A.CHR");
+ entity.dir[i]=DLEFT;
+ bossflag2=i;
+ i=EntitySpawn(0,0,"BOSS08A.CHR");
+ entity.dir[i]=DRIGHT;
+ bossflag3=i;
+ bossintroed=1; rematch=stage;
+ camtcker=player;
+ xwinllimit=80*16;
+ xwinhlimit=103*16;
+ ywinllimit=440;
+ ywinhlimit=640;
+ entity.dir[e]=DUL;
+ PlayMusic("MIXBOSS.S3M");
+ bosstime=0;
+ }
+}                    
+
+void Boss08(int e)
+{
+  int i, j, k;
+  bosstime++;
+  if (entity.y[e]>=632) { if (entity.dir[e]=DDL || entity.dir[e]=DDR) k=3; }
+  if (entity.y[e]<=408) { if (entity.dir[e]=DUL || entity.dir[e]=DUR) k=1; }
+
+  if (k>0)
+   {
+    switch(k+random(2))
+     {
+      case 1: entity.dir[e]=DDL;
+      case 2: entity.dir[e]=DDR;
+      case 3: entity.dir[e]=DUL;
+      case 4: entity.dir[e]=DUR;
+     }
+    // Down and Right: /72/, 76, 80, 84, 88,  92,  /96/.  - 25.5 39.5
+    // Down and Left:  /86/, 90, 94, 98, 102, 106, /110/. - 25.5
+    if (entity.dir[e]=DUL || entity.dir[e]=DDR )
+     { entity.x[e]=(76+(random(5)*4))*16-8;
+       entity.y[e]=408;
+       if (entity.dir[e]=DUL) { entity.x[e]+=224; entity.y[e]+=224; }
+     }
+    if (entity.dir[e]=DUR || entity.dir[e]=DDL )
+     { entity.x[e]=(90+(random(5)*4))*16-8;
+       entity.y[e]=408;
+       if (entity.dir[e]=DUR) { entity.x[e]-=224; entity.y[e]+=224; }
+     }
+    bosshurt=0;
+    k=0;
+    bossflag4=1-bossflag4;
+   }
+
+ switch(entity.dir[e])
+ {
+  case DUR: entity.x[e]++; entity.y[e]--;
+  case DUL: entity.x[e]--; entity.y[e]--;
+  case DDR: entity.x[e]++; entity.y[e]++;
+  case DDL: entity.x[e]--; entity.y[e]++;
+ }
+
+ CheckCollision(e,32,32);
+
+ if (HopOn(e, 32, 32)=1 && bosshurt=0)
+  {
+   entity.hurt[e]=PLAYER_HIT;
+     Bounce();
+     PlaySound(snd_bounce, 64, 128);
+  }
+
+ if (entity.hurt[e])
+  {
+   if (bosshurt=0)
+    {
+     bosshealth--; bosshurt=1;
+     ShowBossHealth(8);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+
+
+  if (entity.dir[e]=DUL || entity.dir[e]=DDR ) { bossflag1=0+bossflag4; i=(counter/5%4); }
+  if (entity.dir[e]=DUR || entity.dir[e]=DDL ) { bossflag1=2+bossflag4; i=(counter/5%4)+4; }
+  bossx=entity.x[e];
+  bossy=entity.y[e];
+
+  // Giant Biting Spider Heads
+        switch (bossflag1)
+         {
+          case 0: entity.x[bossflag2]=bossx+8-13;  entity.y[bossflag2]=bossy+8 +22;
+                  entity.x[bossflag3]=bossx+23-2;  entity.y[bossflag3]=bossy+23+22; 
+          case 1: entity.x[bossflag2]=bossx+8-2;   entity.y[bossflag2]=bossy+8 +22;
+                  entity.x[bossflag3]=bossx+23-13; entity.y[bossflag3]=bossy+23+22; 
+          case 2: entity.x[bossflag2]=bossx+23-13; entity.y[bossflag2]=bossy+8 +22;
+                  entity.x[bossflag3]=bossx+8-2;   entity.y[bossflag3]=bossy+23+22; 
+          case 3: entity.x[bossflag2]=bossx+23-2;  entity.y[bossflag2]=bossy+8 +22;
+                  entity.x[bossflag3]=bossx+8-13;  entity.y[bossflag3]=bossy+23+22; 
+      }
+ if (counter%10=0 && random(5)=0 && bosshurt=0)
+   {
+    if (bossflag4)
+     {
+      if (random(2)=0) { playsound(snd_shoot,64,128); SpawnObject(entity.x[bossflag2]+16, entity.y[bossflag2]-24,SIZE4+GOINGRIGHT+HURTPLAYER+SPEEDX2,32,160); }
+      if (random(2)=1) { playsound(snd_shoot,64,128); SpawnObject(entity.x[bossflag3],    entity.y[bossflag3]-24,SIZE4+GOINGLEFT+HURTPLAYER+GOOP    ,33,320); }
+     }
+    else
+     {
+      if (random(2)=0) { playsound(snd_shoot,64,128); SpawnObject(entity.x[bossflag2],    entity.y[bossflag2]-24,SIZE4+GOINGLEFT+HURTPLAYER+SPEEDX2,32,160); }
+      if (random(2)=1) { playsound(snd_shoot,64,128); SpawnObject(entity.x[bossflag3]+16, entity.y[bossflag3]-24,SIZE4+GOINGRIGHT+HURTPLAYER+GOOP  ,33,320); }
+     }
+   }
+
+ if (bossflag4) { j=2; } else { j=0; }
+ if (bosshurt) { j++; }
+ entity.specframe[bossflag2]=j;
+ if (bossflag4) { j=0; } else { j=2; }
+ if (bosshurt) { j++; }
+ entity.specframe[bossflag3]=j;
+
+ entity.specframe[e]=i;
+}
+
+void Boss08End(int e)
+{
+ bosstime++;
+   
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=200; text1="HAH! You'll never get through the --"; }
+
+ if (bosstime=250)
+  { PlaySound(snd_toasty,64,128);
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,16,24,1,0,0,0);
+   entity.visible[e]=0;
+   entity.visible[bossflag2]=0;
+   entity.visible[bossflag3]=0;
+   camtcker=player;
+   ywinllimit=0;
+   ywinhlimit=0;
+   xwinllimit=0;
+   xwinhlimit=0;
+    for (i=30; i<=37; i++)
+     {
+      SetTile(79,i,6,0);
+      SetTile(103,i,6,0);
+     }
+   if (timeflag) Yourtime(counter);
+  }
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Chaos Runner
+   // The Runner, well, runs. (Well, duh.)
+
+void Boss09Intro(int e)
+{
+ int i;
+ bosstime++;
+ if (bosstime=1)
+  {
+//   entity.y[e]+=1;
+   bossx=entity.x[e]*100; bossy=entity.y[e]*100; bossend=0;
+   entity.dir[e]=DRIGHT;
+   entity.specframe[e]=37;
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+ if(bosstime=100) { text1="Hey, smiley! Care for a race?"; textflag=150; }
+ if(bosstime=250) { text1="First one around the track wins!"; textflag=150; }
+ 
+
+ if(bosstime>=400 && bosstime<430) entity.visible[e]=bosstime/5%2;
+ if(bosstime>=430 && bosstime<450) entity.visible[e]=0;
+ if(bosstime>=450 && bosstime<530)
+  { entity.visible[e]=1;
+    entity.specframe[e]=40+((bosstime-450)/10);
+  }
+ if(bosstime>=530 && bosstime<700) { entity.specframe[e]=8+(bosstime/5%4); }
+
+ if(bosstime=600) { text1="Ready...           "; textflag=50; }
+ if(bosstime=650) { text1="Ready... Set...    "; textflag=50; }
+
+ if(bosstime=695)
+                  {
+                   for (i=8; i<=16; i++)
+                    {
+                     SetTZO(39,i,2,0,0,0);
+                    }
+                   PaletteMorph(63,63,63,100,63);
+                  }
+
+ if(bosstime=700)
+                  {
+                    text1="Ready... Set... Go!"; textflag=150;
+                   bossintroed=1;
+                   bosstime=0;
+                   PlayMusic("MIXBOSS.S3M");
+                   PaletteMorph(0,0,0,0,63);
+                   bossflag1=0; bossflag2=0; bossflag3=0; bossflag4=0;
+                  }
+
+ 
+}
+
+void Boss09(int e)
+{
+ int i;
+ bosstime++;
+ if (bossflag1) bossx+=200; else {
+ if (entity.x[e]>entity.x[player]+160) bossx+=130;
+ else { if (entity.x[e]>entity.x[player]) bossx+=155;
+ else { if (entity.x[e]>entity.x[player]-160) bossx+=180;
+ else bossx+=200; } } }
+
+ if (bossx<20800) bossx+=745600;
+ if (bossx>806400) bossx-=745600;
+ if (bossx<playerx100-727600) bossx+=745600;
+ if (bossx>playerx100+727600) bossx-=745600;
+
+ if (bossy>25800) bossy=25800;
+
+ entity.x[e]=bossx/100;
+ entity.y[e]=bossy/100;
+ if (GetTile(entity.x[e]/16, entity.y[e]+16/16,7)=90) { bossflag1=6400; }
+ if (GetTile(entity.x[e]/16, entity.y[e]+16/16,7)=91) { bossflag1=7800; }
+ if (GetTile(entity.x[e]/16, entity.y[e]+16/16,7)=92) { bossflag1=1600; }
+ i=8;
+ if (bossflag1=0 && GetTile(entity.x[e]+4/16, entity.y[e]+14/16,6)=0)
+  { bossy+=200; i=24; }
+ if (bossflag1) { bossflag1-=200; bossy-=200; i=16;}
+ i+=(counter/5%4);
+ entity.specframe[e]=i;
+}
+
+void Boss09End(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+  {
+   if (noblank=0) PlayMusic("NULL.S3M");
+   SetTZO(47,11,2,2038,98,0); SpawnObject(47*16+8,11*16+8,1,0,15); 
+  }
+ if (bosstime=600) { text1="It was beginner's luck!"; textflag=150; }
+ if (bosstime=750) { text1="Very well, there you have it."; textflag=150; }
+ if (bosstime=900) { text1="I'll just run into a pit or something..."; textflag=150; }
+ bossx+=200;
+ i=8;
+ if (bossflag1=0 && GetTile(entity.x[e]+4/16, entity.y[e]+14/16,6)=0)
+  { bossy+=200; i=24; }
+ i+=(counter/5%4);
+
+ entity.x[e]=bossx/100;
+ entity.y[e]=bossy/100;
+
+ entity.specframe[e]=i;
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Bunga Bear
+
+void Boss10Intro(int e)
+{
+
+ bosstime++;
+ if (bosstime=1)
+  {
+   ClearEntities(e);
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=32;
+   entity.dir[e]=DLEFT;
+
+ ywinhlimit=16*8;
+ xwinllimit=163*16+8;
+ xwinhlimit=183*16+8;
+
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)  { textflag=150; text1="BONG! BONG!"; }
+ if (bosstime=200) { textflag=150; text1="BUNG BONG BONG!"; }
+ if (bosstime=350) { textflag=150; text1="Bunga Bear SMASH!"; }
+
+ if (bosstime>=500 && bosstime<550) entity.specframe[e]=bosstime/10-17; 
+
+ if (bosstime=550) { entity.specframe[e]=0; SpawnObject2(entity.x[e]+12,entity.y[e]+12,FILLEDCIRCLE+SHOCKWAVE,28,28,143,0,0,0); }
+
+ if (bosstime=600)
+ { bosstime=0;
+ bossintroed=1; rematch=stage;
+ bossflag1=0; bossflag2=0; bossflag3=0; bossflag4=0; bossstage=0;
+ PlayMusic("MIXBOSS.S3M");
+ }
+
+}
+
+void Boss10(int e)
+{
+ int i;
+ bosstime++;
+ // Create block, kick/throw block.
+
+ switch (bossstage)
+  {
+   case 0:
+    if (bosstime%100=0) bossstage++;
+    if (playerx+(player_width/2)>entity.x[e]+16) entity.dir[e]=DRIGHT; else entity.dir[e]=DLEFT;
+   case 1:
+    if (entity.dir[e]=DRIGHT) SpawnObject(entity.x[e]+48,entity.y[e]+16,OBSTRUCTABLE,41,20);
+                         else SpawnObject(entity.x[e]-16,entity.y[e]+16,OBSTRUCTABLE,41,20);
+    bossflag1=20; bossstage++;
+   case 2:
+    bossflag1--; if (bossflag1=0) { bossstage++; bossflag2=random(2); }
+    i=2;
+   case 3:
+    if (bossflag2)
+     {
+      if (entity.dir[e]=DRIGHT) SpawnObject(entity.x[e]+48,entity.y[e]+16,GOINGUP+SPEEDX2,41,110);
+                           else SpawnObject(entity.x[e]-16,entity.y[e]+16,GOINGUP+SPEEDX2,41,110);
+      bossflag1=110;
+     }
+    else
+     {
+      if (entity.dir[e]=DRIGHT) SpawnObject(entity.x[e]+48,entity.y[e]+16,GOINGRIGHT+SPEEDX2+HURTPLAYER,41,200);
+                           else SpawnObject(entity.x[e]-16,entity.y[e]+16,GOINGLEFT +SPEEDX2+HURTPLAYER,41,200);
+      bossflag1=200;
+     }
+    bossstage++;
+   case 4:
+    bossflag1--; if (bossflag1=0) { bossstage++; bossflag3=0; }
+    if (bossflag2 || bossflag3) i=4; else i=3;
+   case 5:
+    if (bossflag2)
+     {
+      SpawnObject(entity.x[player],yWin-16,GOINGDOWN+SPEEDX2+HURTPLAYER+HURTENEMIES+EXPLOSIVE,41,140);
+      bossflag1=140; bossflag2=0; bossflag3=1;
+      bossstage--;
+     }
+    else {
+           bossflag4=(entity.x[player]-16)/4*4;
+           if (bossflag4<xwinllimit+8)    bossflag4=xwinllimit+8;
+           if (bossflag4>xwinhlimit-40) bossflag4=xwinhlimit-40;
+           bossstage++; if (bossflag5) bossstage=0; else playsound(snd_boing,64,128);
+          }
+   case 6:
+    if (entity.x[e]!=bossflag4)
+     {
+      if (entity.x[e]<bossflag4) entity.x[e]+=4;
+      if (entity.x[e]>bossflag4) entity.x[e]-=4;
+      entity.y[e]-=4; i=1;
+     }
+    else bossstage++;
+   case 7:
+    if (GetTile(entity.x[e]+16/16,entity.y[e]+32/16,6)=0) { entity.y[e]+=4; i=1; }
+    else { playsound(snd_boom,64,128); bossstage=0; }
+  }
+
+ if (playerx+player_width>entity.x[e]+8 && playerx<entity.x[e]+24 && playery+player_height<entity.y[e]+4 && playery+player_height>entity.y[e]-2 && jumpflag=0)
+  {
+   playery100=entity.y[e]-player_height*100;
+   if (bossstage=3) bossflag2=1;
+   bossflag5=1;
+   groundflag=1;
+   i+=8;
+  }
+ else { CheckCollision(e,32,32); bossflag5=0; }
+
+ if (entity.hurt[e]=OBJECT_HIT)
+  {
+   if (bossflag3=1)
+    {
+     bosshealth--; bosshurt=50;
+     ShowBossHealth(10);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+
+ if (bosshurt) { bosshurt--; i=5; }
+ if (entity.dir[e]=DRIGHT) i+=16;
+ entity.specframe[e]=i;
+}
+
+void Boss10End(int e)
+{
+ bosstime++;
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=200; text1="AAAAA! Bunga Bear SMASHED!"; }
+
+ if (bosstime=250)
+  {
+   if (timeflag) YourTime(counter);
+   PlaySound(snd_toasty,64,128);
+   SpawnObject2(entity.x[e]+12,entity.y[e]+12,FILLEDCIRCLE+SHOCKWAVE,28,28,143,0,0,0);
+   entity.visible[e]=0;
+   ywinhlimit=0;
+   xwinhlimit=0;
+  }
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Scary Scary Phantom
+
+void Boss11Intro(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=20;
+   entity.dir[e]=DLEFT;
+
+   ywinhlimit=14*16+8;
+   xwinllimit=85*16;
+   xwinhlimit=118*16;
+
+   ClearEntities(e);
+   if (noblank=0) PlayMusic("NULL.S3M");
+  }
+
+ if (bosstime=50)  { textflag=150; text1="Oh, I have guests?"; }
+ if (bosstime=200) { textflag=150; text1="I haven't had guests for AGES."; }
+ if (bosstime=350) { textflag=150; text1="Come... stay for dinner."; }
+ if (bosstime>=500 && bosstime<570) entity.specframe[e]=bosstime/10-30; 
+ if (bosstime>=570 && bosstime<630) entity.specframe[e]=76-(bosstime/10); 
+
+ if (bosstime=630) entity.specframe[e]=4; 
+ if (bosstime=650)
+ { bosstime=0;
+  bossintroed=1; rematch=stage; bossstage=0;
+  bossflag1=0; bossflag2=0; bossflag3=0; bossflag4=0;
+  PlayMusic("MIXBOSS.S3M");
+ }
+}
+
+void Boss11(int e)
+{
+ int i;
+ bosstime++;
+ if (playerx+(player_width/2)>entity.x[e]+16) entity.dir[e]=DRIGHT; else entity.dir[e]=DLEFT;
+ // flag2 is the 'vanish' fuse. flag3 is the 'laser' fuse.
+ if (bosstime%40=0 && random(5)=0 && bossflag3=0 && bossflag2=0 && bosshurt=0) bossflag2=65;
+ if (bosstime%40=0 && random(3)=0 && bossflag3=0 && bossflag2=0 && entity.y[e]>=8*16 && bosshurt=0)
+  { bossflag3=90; playsound(snd_charge,64,128); }
+ if (entity.dir[e]=DRIGHT) i=bosstime/5%4; else i=bosstime/5%4+4;
+ if (bossflag2)
+  {
+   i=29;
+   bossflag2--;
+   if (bossflag2 > 35) { if (entity.dir[e]=DRIGHT) i=20-(bossflag2/5); else i=26-(bossflag2/5); }
+   if (bossflag2 = 33) { entity.x[e]=87*16+random(27*16); entity.y[e]=8*16+random(24); }
+   if (bossflag2 < 30) { if (entity.dir[e]=DRIGHT) i=(bossflag2/5)+8; else i=(bossflag2/5)+14; }
+  }
+ else
+  {
+   if (HopOn(e, 32, 32)=1) { entity.hurt[e]=PLAYER_HIT; Bounce();
+                             PlaySound(snd_bounce, 64, 128); }
+   CheckCollision(e, 32, 32);
+  }
+
+ if (bossflag3)
+  {
+   bossflag3--;
+   if (bossflag3 > 30) { SpawnObject2(entity.x[e]-10,entity.y[e]+16,FILLEDCIRCLE,random(5)+10,2,31,0,0,0);
+                         SpawnObject2(entity.x[e]+42,entity.y[e]+16,FILLEDCIRCLE,random(5)+10,2,31,0,0,0);
+                        }
+   if (bossflag3 = 30) { SpawnObject2(entity.x[e]-10,entity.y[e]+16,LASERBEAM+HURTPLAYER,31,15,87*16,0,0,0);
+                         SpawnObject2(entity.x[e]+42,entity.y[e]+16,LASERBEAM+HURTPLAYER,31,15,116*16,0,0,0);
+                         playsound(snd_laser,64,128);
+                        }
+  }
+ if (bossflag2=0 && bossflag3=0 && bosshurt=0)
+  {
+   if (entity.y[player]+8>entity.y[e]+16 && entity.y[e]<11*16) entity.y[e]++;
+   if (entity.y[player]+8<entity.y[e]+16) entity.y[e]--;
+  }
+
+
+
+ if (entity.hurt[e])
+  {
+   if (bosshurt=0 && bossflag2=0)
+    {
+     bosshealth--; bosshurt=60;
+     ShowBossHealth(11);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+  if (bosshurt)
+  {
+   bosshurt--; if (bosshurt=0) bossflag2=65;
+   if (entity.dir[e]=DRIGHT) i=27; else i=28;
+  }
+
+ entity.specframe[e]=i;
+}
+
+void Boss11End(int e)
+{
+ bosstime++;
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+   
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=200; text1="Nooo! The gate is... opening!"; }
+
+ if (bosstime=250)
+  { PlaySound(snd_toasty,64,128);
+   SpawnObject2(entity.x[e]+16,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,24,32,31,0,0,0);
+   SetTZO(entity.x[e]+8/16,entity.y[e]+8/16,2,351,8,0);
+   entity.visible[e]=0;
+   camtcker=player;
+   if (timeflag) Yourtime(counter);
+   textflag=200; text1="(Path near Graveyard 1 opened!)";
+  }
+
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Ancient Wyrm
+
+void Boss12Intro(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+  {
+   entity.y[e]+=4;
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.specframe[e]=20;
+   entity.dir[e]=DLEFT;
+   camtcker=EntitySpawn(182,30,"ZEUX.CHR");
+   entity.x[camtcker]+=8;
+   if (noblank=0) PlayMusic("NULL.S3M");
+   ClearEntities(e);
+  }
+
+ if (bosstime=50)  { textflag=150; text1="You have gone far, small smiley."; }
+ if (bosstime=200) { textflag=150; text1="Our leader is just beyond this castle,"; }
+ if (bosstime=350) { textflag=150; text1="reigning on his tower of darkness."; }
+ if (bosstime=500) { textflag=150; text1="But you will never get past me!"; }
+ if (bosstime=650) { textflag=150; text1="Fall before the power of the Dragon!"; }
+
+ if (bosstime>=150 && bosstime<1050) entity.specframe[e]=21+(bosstime/5%9); 
+
+ if (bosstime>=950 && bosstime<1050)
+  {
+   PaletteMorph(63,63,63,bosstime-950,63);
+  }
+ if (bosstime>=1050)  entity.specframe[e]=0+(bosstime/5%4);
+ if (bosstime>=1050 && bosstime<1150)
+  {
+   PaletteMorph(63,63,63,1150-bosstime,63);
+  }
+
+
+ if (bosstime=1200)
+ { bosstime=90;
+ bossintroed=1; rematch=stage;
+ camtcker=player;
+ PlayMusic("MIXBOSS.S3M");
+ }
+}
+
+void Boss12(int e)
+{
+ int i, j;
+ bosstime++;
+ i=0+(bosstime/5%4);
+ if (!bosshurt) entity.y[e]=bossy-32+(sin(bosstime%360)>>11);
+ if (entity.x[e]>entity.x[player]) entity.dir[e]=DLEFT;
+                              else entity.dir[e]=DRIGHT;
+
+ if (random(4)=0 && bosstime%60=0) bossflag2=1;
+ if (bosshurt=1 && bosstime%60=0)  bossflag2=1;
+
+ if (bossflag2)
+  {
+   SpawnObject(entity.x[e]+8,entity.y[e]+14,1,0,15);
+   entity.x[e]=(random(24)+171)*16;
+   entity.y[e]=bossy-32+(sin(bosstime%360)>>11);
+   SpawnObject(entity.x[e]+8,entity.y[e]+14,1,0,15);
+   bosshurt=0; bossflag2=0;
+  }
+
+
+
+ if (random(10)=0 && bosstime%20=10 && bosshurt=0) bossflag1=20;
+
+ if (bossflag1=10)
+  {
+   if (entity.dir[e]=DRIGHT)
+    {
+     SpawnObject(entity.x[e]+16,entity.y[e]+0 ,HURTPLAYER+GOINGRIGHT+SPEEDX2+SIZE4,32,200);
+     SpawnObject(entity.x[e]+20,entity.y[e]+8 ,HURTPLAYER+GOINGRIGHT+SPEEDX2+SIZE4,32,200);
+     SpawnObject(entity.x[e]+16,entity.y[e]+16,HURTPLAYER+GOINGRIGHT+SPEEDX2+SIZE4,32,200);
+    }
+   else
+    {
+     SpawnObject(entity.x[e]  ,entity.y[e]+0,HURTPLAYER+GOINGLEFT+SPEEDX2+SIZE4,32,200);
+     SpawnObject(entity.x[e]-4,entity.y[e]+8,HURTPLAYER+GOINGLEFT+SPEEDX2+SIZE4,32,200);
+     SpawnObject(entity.x[e] ,entity.y[e]+16,HURTPLAYER+GOINGLEFT+SPEEDX2+SIZE4,32,200);
+    }
+  }
+
+ if (HopOn(e, 16, 28)=1) { entity.hurt[e]=PLAYER_HIT; Bounce();
+     PlaySound(snd_bounce, 64, 128);
+ }
+
+ CheckCollision(e, 16, 28);
+
+ if (entity.hurt[e])
+  {
+   if (bosshurt=0)
+    {
+     bosshealth--; bosshurt=1;
+     ShowBossHealth(12);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+
+     if (bosshealth<=4 && bosshealth>0)
+      {
+       // Crossfire!
+       PlaySound(snd_toasty,64,128);
+       for (j=1; j<=4; j++)
+        {
+         SpawnObject(167*16,j*40+20,HURTPLAYER+GOINGRIGHT+SPEEDX2+SIZE4,32,240);
+         SpawnObject(198*16,j*40,   HURTPLAYER+GOINGLEFT +SPEEDX2+SIZE4,32,240);
+        }
+      }
+    }
+   entity.hurt[e]=0;
+  }
+
+ if (bossflag1>0) { bossflag1--; i=4; }
+ if (bosshurt) i=5;
+ if (entity.dir[e]=DRIGHT) i=i+10;
+ entity.specframe[e]=i;
+}
+
+void Boss12End(int e)
+{
+ bosstime++;
+   
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); }
+ if (bosstime=50)  { PlaySound(snd_finish,64,128);
+                     textflag=400; text1="NOOoooooOoOoOoOoOOOOOO!!!!!!!"; }
+
+
+ if (bosstime>=100 && bosstime<200)
+  {
+   PaletteMorph(63,63,63,bosstime-100,63);
+  }
+ if (bosstime>=200) entity.visible[e]=0;
+ if (bosstime>=200 && bosstime<300)
+  {
+   PaletteMorph(63,63,63,300-bosstime,63);
+  }
+ if (bosstime=250) { PlaySound(snd_toasty,64,128);
+                     if (timeflag) Yourtime(counter); }
+
+ if (bosstime=500)
+  {
+    winflag=1;
+  }
+
+}
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // Evil Wizard (tm)
+
+void Boss13Intro(int e)
+{
+ bosstime++;
+ if (bosstime=1)
+ {
+  bosshealth=8;
+  entity.visible[e]=0;
+  bossflag1=EntitySpawn(entity.tx[e]-2, entity.ty[e],"BOSS13.CHR"); 
+  bossflag2=EntitySpawn(entity.tx[e]-1, entity.ty[e]-1,"BOSS13.CHR"); 
+  bossflag3=EntitySpawn(entity.tx[e]+2, entity.ty[e],"BOSS13.CHR"); 
+  bossflag4=EntitySpawn(entity.tx[e]+1, entity.ty[e]-1,"BOSS13.CHR");
+
+  bossflag5=EntitySpawn(99, 0,"SEEKER.CHR");
+  log (str(bossflag1));
+  log (str(bossflag2));
+  log (str(bossflag3));
+  log (str(bossflag4));
+  log (str(bossflag5));
+
+  entity.specframe[bossflag1]=12;
+  entity.specframe[bossflag2]=14;
+  entity.specframe[bossflag3]=13;
+  entity.specframe[bossflag4]=15;
+
+  PlayMusic("NULL.S3M");
+
+  notrack=0;
+  xwintck=1;
+  ywintck=1;
+  ywinhlimit=200;
+ }
+
+ if (bosstime=50 && v0=1)
+  { textflag=150; text1="You again? DIE!"; bosstime=651;
+  }
+
+ if (bosstime=50 && GetSScore(stage)>0)
+  { textflag=150; text1="You again? DIE!"; bosstime=651;
+  }
+
+ if (bosstime=50)  { textflag=150; text1="So... you got here."; }
+ if (bosstime=200) { textflag=150; text1="No, this world is not my creation."; }
+ if (bosstime=350) { textflag=150; text1="We've all been brought here by the same power."; }
+ if (bosstime=500) { textflag=150; text1="I will tell you nothing more."; }
+ if (bosstime=650) { textflag=150; text1="It's time for you to die!"; }
+
+ if (bosstime=800) { PaletteMorph(63,63,63,100,63); entity.specframe[bossflag1]=0; }
+ if (bosstime=810) { PaletteMorph(0,0,0,0,63); }
+ if (bosstime=860) { PaletteMorph(63,63,63,100,63); entity.specframe[bossflag3]=1; }
+ if (bosstime=870) { PaletteMorph(0,0,0,0,63); }
+ if (bosstime=920) { PaletteMorph(63,63,63,100,63); entity.specframe[bossflag2]=0; }
+ if (bosstime=930) { PaletteMorph(0,0,0,0,63); }
+ if (bosstime=950) { PaletteMorph(63,63,63,100,63); entity.specframe[bossflag4]=1; }
+ if (bosstime=960) { PaletteMorph(0,0,0,0,63); }
+
+ if (bosstime=1000)
+  { bossintroed=1; bosstime=0;
+    PlayMusic("DEMONSON.XM");
+  }
+}
+
+void Boss13(int e)
+{
+ int i, j, s, c1, c2, c3, c4, b;
+ bosstime++;
+
+ if (bosstime%100=0 && bossflag6=0 && bossflag7=0)
+  { b=random(2); if (bosshurt) b=1;
+   if (b) bossflag6=100;  else { bossflag7=400; playsound(snd_charge,64,128); }
+   bosshurt=0;
+  }
+
+ if (bossflag7)
+  {
+   bossflag7--;
+   if (bossflag7 > 350) { SpawnObject2(entity.x[e]+8,entity.y[e]+16,FILLEDCIRCLE,random(8)+12,2,231,0,0,0);
+                        }
+   if (bossflag7 = 350) { enemytype[bossflag5]=80;
+                          entity.x[bossflag5]=entity.x[e]-8; entity.y[bossflag5]=entity.y[e];
+                          entity.visible[bossflag5]=1;
+                          SpawnObject2(entity.x[e]+8,entity.y[e]+16,FILLEDCIRCLE+SHOCKWAVE,18,18,231,0,0,0);
+                          playsound(snd_search,64,128);
+                        }
+   if (bossflag7 < 50 && bossflag7%2=1)  { entity.visible[bossflag5]=1-entity.visible[bossflag5]; }
+   if (bossflag7 < 25)  { entity.visible[bossflag5]=0; enemytype[bossflag5]=0; }
+  }
+
+ if (bossflag6>51) { bossflag6--; i=(9-(bossflag6/10))*2; }
+
+ if (bossflag6=51)
+  {
+   entity.x[e]=random(36*4)*4+32;
+   entity.y[e]=random(8*4)*4+16;
+   if (random(2)) { s=bossflag1; bossflag1=bossflag2; bossflag2=s; }
+   if (random(2)) { s=bossflag3; bossflag3=bossflag4; bossflag4=s; }
+   if (random(2)) { s=bossflag1; bossflag1=bossflag4; bossflag4=s; }
+   bossflag6--;
+  }
+
+   bossx=entity.x[e]; bossy=entity.y[e];
+   c1=bosstime*8%360;
+   c2=bosstime*8+90%360;
+   c3=bosstime*8+180%360;
+   c4=bosstime*8+270%360;
+
+   j=0;
+
+   if (entity.x[bossflag1] < bossx-33) { entity.x[bossflag1]+=4+(sin(c1) >> 13); j=1; }
+   if (entity.x[bossflag1] > bossx-31) { entity.x[bossflag1]-=4+(sin(c1) >> 13); j=1; }
+   if (entity.y[bossflag1] < bossy-1)  { entity.y[bossflag1]+=2+(cos(c1) >> 14); j=1; }
+   if (entity.y[bossflag1] > bossy+1)  { entity.y[bossflag1]-=2+(cos(c1) >> 14); j=1; }
+
+   if (entity.x[bossflag2] < bossx-17) { entity.x[bossflag2]+=4+(sin(c2) >> 13); j=1; }
+   if (entity.x[bossflag2] > bossx-15) { entity.x[bossflag2]-=4+(sin(c2) >> 13); j=1; }
+   if (entity.y[bossflag2] < bossy-17) { entity.y[bossflag2]+=2+(cos(c2) >> 14); j=1; }
+   if (entity.y[bossflag2] > bossy-15) { entity.y[bossflag2]-=2+(cos(c2) >> 14); j=1; }
+
+   if (entity.x[bossflag3] < bossx+31) { entity.x[bossflag3]+=4+(sin(c3) >> 13); j=1; }
+   if (entity.x[bossflag3] > bossx+33) { entity.x[bossflag3]-=4+(sin(c3) >> 13); j=1; }
+   if (entity.y[bossflag3] < bossy-1)  { entity.y[bossflag3]+=2+(cos(c3) >> 14); j=1; }
+   if (entity.y[bossflag3] > bossy+1)  { entity.y[bossflag3]-=2+(cos(c3) >> 14); j=1; }
+
+   if (entity.x[bossflag4] < bossx+15) { entity.x[bossflag4]+=4+(sin(c4) >> 13); j=1; }
+   if (entity.x[bossflag4] > bossx+17) { entity.x[bossflag4]-=4+(sin(c4) >> 13); j=1; }
+   if (entity.y[bossflag4] < bossy-17) { entity.y[bossflag4]+=2+(cos(c4) >> 14); j=1; }
+   if (entity.y[bossflag4] > bossy-15) { entity.y[bossflag4]-=2+(cos(c4) >> 14); j=1; }
+
+  if (j>0) i=bosstime/5%4+16;
+  if (j=0 && bossflag6=50) bossflag6--;
+
+ if (bossflag6<50 && bossflag6>0) { bossflag6--; i=bossflag6/10*2; }
+
+ CheckCollision(bossflag1,16,16); CheckCollision(bossflag2,16,16);
+ CheckCollision(bossflag3,16,16); CheckCollision(bossflag4,16,16);
+
+ if (HopOn(bossflag1, 32, 32)=1 || HopOn(bossflag2, 32, 32)=1 ||
+     HopOn(bossflag3, 32, 32)=1 || HopOn(bossflag4, 32, 32)=1)
+    { if (i=0) { entity.hurt[e]=PLAYER_HIT; Bounce();
+                 PlaySound(snd_bounce, 64, 128); } }
+
+ if (entity.hurt[e]>0)
+  {
+   if (bosshurt=0 && i=0)
+    {
+     bosshealth--; bosshurt=1;
+     ShowBossHealth(13);
+     if (bosshealth=0) { bossend=1; bosstime=0; }
+    }
+   entity.hurt[e]=0;
+  }
+
+ if (bosshurt) i=10;
+
+ entity.specframe[bossflag1]=i;
+ entity.specframe[bossflag2]=i;
+ entity.specframe[bossflag3]=i;
+ entity.specframe[bossflag4]=i;
+ if (i<16)
+  {
+   entity.specframe[bossflag3]+=1;
+   entity.specframe[bossflag4]+=1;
+  }
+}
+
+void Boss13End(int e)
+{
+ int x,y;
+ bosstime++;
+   
+ if (bosstime=1) { if (noblank=0) PlayMusic("NULL.S3M"); enemytype[bossflag5]=0; entity.visible[bossflag5]=0;}
+
+ if (bosstime=50)  { textflag=150; text1="-cough- -cough-"; PlaySound(snd_finish,64,128);
+ entity.specframe[bossflag1]=0;
+ entity.specframe[bossflag2]=0;
+ entity.specframe[bossflag3]=1;
+ entity.specframe[bossflag4]=1;
+ if (zs[currentz]=0) { SetTZO(20,9,2,202,99,0);
+ SpawnObject(20*16+8,9*16+8,1,0,15); }
+ }
+ if (bosstime=200) { textflag=150; text1="You have succeeded... this time."; }
+ if (bosstime=350) { textflag=150; text1="But even I answer to a greater power."; }
+ if (bosstime=500) { textflag=150; text1="As long as our Creator lives, we shall return!"; }
+ if (bosstime=650) { textflag=150; text1="So farewell, dumb smiley..."; }
+ if (bosstime=800) { textflag=150; text1="...for now! HAHAHAHAHAHAHAHAHA!"; }
+
+ if (bosstime=900) { if (timeflag) Yourtime(counter); }
+ if (bosstime>=1000 && bosstime<1100)
+  {
+   PaletteMorph(63,63,63,bosstime-1000,63);
+   jumpflag=150000;   vspeed=0-bounce_speed;     rocketflag=1;
+  }                    
+ if (bosstime=1100)
+  {
+   for (x=0; x<=mapx; x++)
+   {
+    for (y=0; y<=mapy; y++)
+    {
+     SetTile(x,y,4,1796);
+    }
+   }
+  }
+ if (bosstime>=1100)
+  {
+   entity.visible[bossflag1]=0;
+   entity.visible[bossflag2]=0;
+   entity.visible[bossflag3]=0;
+   entity.visible[bossflag4]=0;
+  }
+ if (bosstime=1050) { PlaySound(snd_toasty,64,128); }
+
+ if (bosstime=1100)
+  {
+    winflag=1; noend=1;
+    SetScore(stage,100);
+  }
+
+}
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+   // The Creator
+
+void BossFinalIntro(int e)
+{
+ int i;
+ bosstime++;
+ if (bosstime=1)
+  {
+   bossx=entity.x[e]; bossy=entity.y[e]; bosshealth=8; bossend=0;
+   entity.dir[e]=DLEFT;
+   xwinllimit=80*16;
+   for (i=0; i<25; i++)
+   {
+    SetTile(79,i,6,1);
+   }
+   if (noblank=0) PlayMusic("NULL.S3M");
+   ClearEntities(e);
+   bossflag1=entityspawn(0,0,"SCEPTER.CHR");
+   entity.x[bossflag1]=bossx+25;
+   entity.y[bossflag1]=bossy+20;
+  }
+
+ if (bosstime=50 && v0=1)
+  { textflag=150; text1="Back for more? Heeheeheeheehee..."; bosstime=1401;
+  }
+ if (bosstime=50 && GetSScore(stage)>0)
+  { textflag=150; text1="Back for more? Heeheeheeheehee..."; bosstime=1401;
+  }
+
+ if (bosstime=50)  { textflag=150; text1="I'm surprised you made this far, Zeux."; }
+ if (bosstime=200) { textflag=150; text1="I suppose you already know why you are here..."; }
+ if (bosstime=350) { textflag=150; text1="...No? Silly smiley."; }
+ if (bosstime=500) { textflag=150; text1="You see, I'm an... entertainer."; }
+ if (bosstime=650) { textflag=150; text1="I create the maze, and drag some mice into it."; }
+ if (bosstime=800) { textflag=150; text1="As you see, I have PLENTY of mice."; }
+ if (bosstime=950) { textflag=150; text1="And your antics are sent to my... clients."; }
+ if (bosstime=1100) { textflag=150; text1="Unfortunately, one of the mice has escaped..."; }
+ if (bosstime=1250) { textflag=150; text1="...and it's my duty to sacrifice it."; }
+ if (bosstime=1400) { textflag=150; text1="Nothing personal."; }
+
+ if (bosstime=1500)
+ { bosstime=0; bossstage=0;
+ bossintroed=1; rematch=stage;
+ PlayMusic("DEMONSON.XM");
+ }
+
+}
+
+void BossFinal(int e)
+{
+ int i;
+ bosstime++; 
+ // bossflag1: Scepter entity
+ // bossflag2: Scepter spinning speed
+ // bossflag3: Scepter pose (frame*100)
+ // bossflag4: Scepter throwing way
+ // bossflag5: Chant
+ // bossflag6: Dizzy?
+ // bossflag7: Flash!
+ // bossflag8: Timer
+ i=0;
+ switch (bossstage)
+  {
+   case 0:
+    entity.x[bossflag1]=bossx+25;
+    entity.y[bossflag1]=bossy+20;
+    if (bosstime%100=0 && bosshurt=0) {
+                          if (bossflagA) { bossflagA--; textflag=100;
+                           if (bossflagA) text1="You're doing well, Zeux.";
+                                     else text1="But not well enough...";
+                          }
+                          else
+                          {
+                          bossflag8=50; if (bosshealth<=4) bossflag8=55;
+                          bossstage++; playsound(snd_charge,64,128);
+                          }
+
+                        }
+
+   case 1:
+    bossflag8--; bossflag2++;
+    i=1;
+    entity.x[bossflag1]=bossx+29;
+    entity.y[bossflag1]=bossy+22;
+    if (bossflag8=0) bossstage++;
+   case 2:
+    entity.x[bossflag1]-=(bossflag2/8);
+    if (bosstime%2) bossflag2--;
+    switch (bossflag4)
+     {
+      case 0: entity.y[bossflag1]=bossy+16;
+      case 1: entity.y[bossflag1]=bossy+32;
+      case 2: entity.y[bossflag1]=bossy;
+      case 3: entity.y[bossflag1]=bossy+32;
+      case 4: if (entity.x[bossflag1]>bossx-112) entity.y[bossflag1]=bossy+32;
+         else if (entity.y[bossflag1]>bossy)    entity.y[bossflag1]-=4;
+      case 5: if (entity.x[bossflag1]>bossx-112) entity.y[bossflag1]=bossy;
+         else if (entity.y[bossflag1]<bossy+32) entity.y[bossflag1]+=4;
+     }
+    if (bossflag2>45) i=2;
+    if (bossflag2=0) { bossflag8=25; bossstage++; entity.hurt[bossflag1]=0; }
+   case 3:
+    if (bossflag8>0) bossflag8--;
+    if (bossflag5>0)
+     { bossflag5--;
+       if (bossflag5=0) { Z_GeneralItem(0, 0, 63, 0, 0); Hurt(); }
+     }
+    if (bossflag8=1 && entity.x[bossflag1]<xWin )
+     {
+      bossflag5=160;
+     }
+    if (bossflag8=0 && bossflag5=0) { bossstage++; playsound(snd_charge,64,128); }
+   case 4:
+    if (bosstime%2) bossflag2++;
+    entity.x[bossflag1]+=(bossflag2/8);
+    switch (bossflag4)
+     {
+      case 0: entity.y[bossflag1]=bossy+16;
+      case 1: entity.y[bossflag1]=bossy+32;
+      case 2: if (entity.y[bossflag1]<bossy+32) entity.y[bossflag1]+=4;
+      case 3: if (entity.y[bossflag1]>bossy)    entity.y[bossflag1]-=4;
+      case 4: if (entity.x[bossflag1]<bossx-112) entity.y[bossflag1]=bossy;
+         else if (entity.y[bossflag1]<bossy+32) entity.y[bossflag1]+=4;
+      case 5: if (entity.x[bossflag1]<bossx-112) entity.y[bossflag1]=bossy+32;
+         else if (entity.y[bossflag1]>bossy)    entity.y[bossflag1]-=4;
+     }
+    if (bossflag2>45) i=2;
+    if (entity.x[bossflag1]>bossx+25) { bossflag2=0; bossflag3=0; bossstage=0;
+                                        bossflag4++; if (bossflag4=6) bossflag4=0;
+                                        if (bossflag6)
+                                         {
+                                          bossflag6=0; bossflag7=5; bosshurt=50;
+                                          bosshealth--; playsound(snd_laser,64,128);
+                                          ShowBossHealth(999);
+                                          entity.hurt[bossflag1]=0;
+                                          if (bosshealth=0) { bossend=1; bosstime=0; }
+                                         }
+                                       }
+
+  }
+  bossflag3+=bossflag2;
+  entity.specframe[bossflag1]=bossflag3/100%8;
+
+  if (bossflag7)
+   {
+    bossflag7--;
+    if (bossflag7) PaletteMorph(63,63,63,100,63);
+              else PaletteMorph(0,0,0,0,63);
+   }
+
+   entity.x[bossflag1]-=16;
+   entity.y[bossflag1]-=16;
+
+  Checkcollision(bossflag1,32,32);
+
+  if (bossflag2<8 && entity.x[bossflag1]<bossx)
+  {
+    if (HopOn(bossflag1,32,32))
+     {
+      entity.hurt[bossflag1]=PLAYER_HIT;
+      Bounce();
+     }
+    if (entity.hurt[bossflag1] && bosshurt=0)
+     {
+      bosshealth--; if (mega=1) bosshealth-=3;
+      bosshurt=50; bossflag7=5;
+      ShowBossHealth(999); playsound(snd_laser,64,128);
+      entity.hurt[bossflag1]=0;
+      if (bosshealth=4) { bossflagA=2; }
+      if (bosshealth=0) { bossend=1; bosstime=0; }
+     }
+  }
+
+   entity.x[bossflag1]+=16;
+   entity.y[bossflag1]+=16;
+
+  if (bossflag5>1)   i=11+(bosstime/10%2);
+  if (bossflag5>40)  i=9+(bosstime/10%2);
+  if (bossflag5>80)  i=7+(bosstime/10%2);
+  if (bossflag5>120) i=5+(bosstime/10%2);
+
+  if (bossflag6)     i=13+(bosstime/10%2);
+
+
+  if (bossflag5)
+   {
+    if (HopOn(e,32,48)) { bossflag6=1; bossflag5=0; Bounce(); }
+    entity.visible[e]=1;
+    Checkcollision(e,32,48);
+   }
+  else
+   {
+    If (Collision(e,32,48,0)) { entity.visible[e]=0; }
+                         else { entity.visible[e]=1; }
+   }
+  if (bosshurt) { bosshurt--; i=3+(bosstime/5%2); }
+
+
+  if (entity.dir[e]=DRIGHT) i+=16;
+  entity.specframe[e]=i;
+}
+
+void BossFinalEnd(int e)
+{
+  bosstime++;
+  entity.specframe[e]=15;
+
+  if (bosstime<100)
+  {
+  entity.y[bossflag1]=bossy+(sin(100%360)*48>>16)-16;
+  entity.specframe[bossflag1]=0;
+  entity.x[bossflag1]=bossx+16;
+  }
+
+  if (bosstime<1300 && bosstime>100) {
+  entity.specframe[bossflag1]=1;
+   entity.y[bossflag1]=bossy+ ( sin (bosstime%360) * 48 >> 16)-16;
+  }
+
+  if (bosstime>=1300)
+   {
+    entity.specframe[bossflag1]=bosstime/5%8;
+   }
+
+  if (bossflag7)
+   {
+    bossflag7--;
+    if (bossflag7) PaletteMorph(63,63,63,100,63);
+              else PaletteMorph(0,0,0,0,63);
+   }
+ if (bosstime=1 && noblank=0) { PlayMusic("NULL.S3M"); }
+ if (bosstime=200) { textflag=150; text1="..."; }
+ if (bosstime=350) { textflag=150; text1="I have underestimated you."; }
+ if (bosstime=500) { textflag=150; text1="You might become a real problem..."; }
+ if (bosstime=650) { textflag=150; text1="...if you stay here."; }
+ if (bosstime=800) { textflag=150; text1="So be it."; }
+ if (bosstime=950) { textflag=150; text1="Here's your ticket home, smiley."; }
+ if (bosstime=1100) { textflag=150; text1="The other ones will be freed as well."; }
+ if (bosstime=1500)
+  {
+   SpawnObject2(entity.x[bossflag1],entity.y[bossflag1],FILLEDCIRCLE+SHOCKWAVE,16,400,1,0,0,0);
+  }
+ if (bosstime=1850)
+  {
+    winflag=1; noend=1;
+    SetScore(stage,100);
+  }
+}
+
+
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------------------------
+
+void ShowBossHealth(int b)
+{
+ switch(b)
+  {
+   Case 1: text1="Blob Core: ";
+   Case 2: text1="Snake From Heck: ";
+   Case 3: text1="Fishfingers: ";
+   Case 4: text1="Beached Shark: ";
+   Case 5: text1="Tiger Demon: ";
+   Case 6: text1="Bull's Eye: ";
+   Case 7: text1="Goblin Captain: ";
+   Case 8: text1="Giant Biting Spider: ";
+   Case 9: text1="Chaos Runner: ";
+   Case 10: text1="Bunga Bear: ";
+   Case 11: text1="Scary Scary Phantom: ";
+   Case 12: text1="Ancient Wyrm: ";
+   Case 13: text1="Evil Wizard^: ";
+   Case 999: text1="??????: ";
+  }
+ text2=text1;
+ switch(bosshealth)
+  {
+   case 0: text1=text1+"       "; text2=text2+"(      ";
+   case 1: text1=text1+"(      "; text2=text2+"( (    ";
+   case 2: text1=text1+"( (    "; text2=text2+"( ( (  ";
+   case 3: text1=text1+"( ( (  "; text2=text2+"( ( ( (";
+   case 4: text1=text1+"( ( ( ("; text2=text2+"* ( ( (";
+   case 5: text1=text1+"* ( ( ("; text2=text2+"* * ( (";
+   case 6: text1=text1+"* * ( ("; text2=text2+"* * * (";
+   case 7: text1=text1+"* * * ("; text2=text2+"* * * *";
+  }
+ textflag=100; textblinkflag=25;
+}
+
+void ShowHealth(int e)
+{
+ switch(enemytype[e])
+  {
+         case 12: text1="Krabber: *  "; text2="Krabber: * *";
+         case 13: text1="Krabber:    "; text2="Krabber: *  ";
+         case 30: text1="The Thing That Came From The Deep: ";
+         case 31: text1="Unspeakable Horror From Beyond: ";
+         case 32: text1="Abominable Netherworld Monstruosity: ";
+         case 33: text1="Great War Machine Of The Warlords: ";
+  }
+ if(entity.var[e]>0) text2=text1;
+ switch(entity.var[e])
+  {
+   case 1: text1=text1+"* * *  "; text2=text2+"* * * *";
+   case 2: text1=text1+"* *    "; text2=text2+"* * *  ";
+   case 3: text1=text1+"*      "; text2=text2+"* *    ";
+   case 4: text1=text1+"       "; text2=text2+"*      ";
+  }
+ textflag=100; textblinkflag=25;
+
+}
+
+void ClearEntities(int e)
+{
+ int i;
+  for (i=1; i<=numents; i++)
+  {
+   if (i!=player && i!=e) { entity.visible[i]=0; enemytype[i]=0; }
+  }
+}
+

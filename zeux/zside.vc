@@ -1,0 +1,583 @@
+// V2 Side Scroller Script
+// By Zaratustra (http://hello.to/the.prophet)
+
+// -------------------------------------------------------------------------
+
+// This file calls ZSTUFF.VC and ZENTITY.VC directly.
+
+// ZSTUFF.VC calls ZFX.VC for game-specific events.
+
+// -------------------------------------------------------------------------
+
+// Player entity definitions.
+#define player_height 14
+#define player_width 7
+
+// Idle player frames. Can be used to blink and such.
+#define frames_idle 4
+#define frame_idler 0
+#define frame_idlel 4
+// Walking player frames.
+#define frames_walk 4
+#define frame_walkr 8
+#define frame_walkl 12
+// Jumping player frames.
+#define frames_jump 4
+#define frame_jumpr 16
+#define frame_jumpl 20
+// Falling player frames.
+#define frame_fallr 24
+#define frame_falll 28
+// Climbing player frames.
+#define frame_climbu 48
+#define frame_climbd 48
+#define frame_climbl 48
+#define frame_climbr 48
+// Rope hanging player frames.
+#define frame_hangl 60
+#define frame_hangr 56
+// Empty frame
+#define frame_empty 31
+
+#define frames_silly 6
+#define frame_sillyr 68
+#define frame_sillyl 74
+
+
+// -------------------------------------------------------------------------
+
+// For physics, see Z_DEFAULTPHYSICS().
+
+// --------------------------------------------------------------------------
+
+// Ticks between each engine process.
+#define interval 2
+
+// --------------------------------------------------------------------------
+
+#define FIDLE 0
+#define FWALK 1
+#define FJUMP 2
+#define FFALL 3
+#define FCLIMB 4
+#define FHANG 5
+
+// --------------------------------------------------------------------------
+
+int intro, notrack, noend;
+int timeframe, time1, time2, time3;
+
+int playerx, playery;            // Pixelwise coordinates of player
+int playerx100, playery100;      // Pixel*100 coordinates of player
+int playertx, playerty;          // Tilewise coordinates of player
+
+int hspeed, vspeed;
+
+int speedrate;
+
+int jumpflag, fallflag, rocketflag; // Jumping flags
+int groundflag, plummetflag, airjumpflag; // Platform / Plummet / Air Jump flags
+int moveflag;             // Did the player just move?
+int waterflag;            // Is the player underwater?
+int iceflag;              // Checks if player is stepping on icy terrain.
+int hangflag, hangloose;  // Is the player hanging from an entity?
+int climbflag;            // Is the player climbing on stairs/vines?
+
+int playerheading;
+int playerframe;
+
+int mapx, mapy; // Map size
+
+int imgbuf, img2buf, pausebuf, arrowbuf;
+
+int enemytype[100];
+
+int va,vb,vc,vd,ve,vf,vg,vh,vi,vj,vt,vx,vy,v0,v1,v2,v3,v4; // Jack-of-all-trades variables. Used on map events and some parts of the code.
+
+int idleflag, hurtflag; // Blink eyes flag, blink self flag.
+
+int coins, gems, lives, health;
+
+int winflag; // Did we finish the damn stage?
+
+int bar1flag, bar2flag;   // Two parts of the status bar.
+int frameflag, pauseflag;
+int xwinflag, ywinflag;   // 0-moves, 1-notleft, 2-notright, 3-notmoving
+int xwinhlimit, ywinhlimit, xwinllimit, ywinllimit;
+int xwinmove, ywinmove;
+int xwintck, ywintck;
+int xwin100, ywin100;
+int xwinstart, ywinstart;
+int ywinsin, ywinsin2;
+int camtcker, camtcking;
+int camtckspeed;
+int pingpong;
+
+int screenyrev, screenxrev, darkflag; // Various features.
+int screenbuf, darkbuf;
+int invplayer;
+
+int ccoins, cgems;  
+int mcoins, mgems, score;
+
+int counter; // Game tick counter.
+int camcounter;
+
+int refresh; // 0 - Smooth, 1 - Regular
+int gamepad; // 0 - Keyboard, 1 - Gamepad
+
+int windflag, slowflag, stopflag, blindflag, invincoflag;
+int colorfulflag, rvalue, rflag, gvalue, gflag, bvalue, bflag;
+
+string returnmap;
+
+int jump_height, horz_speed, jump_speed, fall_speed, bounce_speed;
+int accel_h, deccel_h, gravity;
+int water_modifier, airjump_modifier;
+int air_accel_h, air_deccel_h, ice_accel_h, ice_deccel_h;
+int qsand_speed;
+
+int chaos, mega;
+int silly;
+
+// --------------------------------------------------------------------------
+
+void Z_DefaultPhysics()
+{
+// Physics definitions. These are in pixelx100 notation.
+
+        jump_height  = 5200;
+        horz_speed   = 200;
+        jump_speed   = 200;
+        fall_speed   = 250;
+        bounce_speed = 300;
+
+// Acceleration, deceleration and gravity.
+// For instant turns, make accel_h and deccel_h = horz_speed, and gravity = fall_speed.
+
+        accel_h  = 30;
+        deccel_h = 30;
+        gravity  = 20;
+
+// How fast can player move in water? (0 - 100 %)
+
+        water_modifier = 50;
+
+        airjump_modifier = 50;
+
+// Air and ice horizontal accelerations and decelerations.
+// Defines how fast the player turns in air and ice.
+
+        air_accel_h  = 15;
+        air_deccel_h = 3;
+        ice_accel_h  = 3;
+        ice_deccel_h = 0;
+
+// Maximum speed in quicksand.
+
+        qsand_speed = 100;
+
+// The speed the camera will chase the player. Pixelx1 Notation.
+
+        camtckspeed = 300;
+
+// The speed rate of the game.
+
+        speedrate = interval;
+
+}
+
+
+// The Main Thing
+// Calls Z_INITIALIZESTUFF and Z_PROCESSSTUFF on <ZSTUFF.VC>
+void Z_ProcessSideMov()
+{
+ int i;
+
+// vctrace=1;
+  if (intro=0) { RectIn(); } else { GameIntro(Intro); } 
+
+ SetPlayer(0);
+
+ playerx=Entity.x[player];
+ playery=Entity.y[player];
+
+ playerx100=playerx*100;
+ playery100=playery*100;
+
+
+ va=player_width/2;
+ vb=player_height/2;
+
+ if (xWin=0) xWin=entity.x[player]-160+(player_width/2);
+ if (yWin=0) yWin=entity.y[player]-100+(player_height/2);
+
+ if (notrack=0)
+  { 
+    
+    cameratracking=0; camtcking=1; camtcker=0; }
+
+ if (notrack=1)
+  { if (xWin=0) xWin=entity.x[player]-160+(player_width/2);
+    if (yWin=0) yWin=entity.y[player]-100+(player_height/2);
+    cameratracking=0; camtcking=0; }
+
+    if (xWin<0) xWin=0;
+    if (yWin<0) yWin=0;
+
+    xwin100=xwin*100; ywin100=ywin*100;
+    xwinstart=xwin; ywinstart=ywin;
+
+ frameflag=timer; idleflag=timer+300;
+ hurtflag=0; winflag=0;
+ bar1flag=0; bar2flag=0;
+ if (rocketflag=0) { jumpflag=0; vspeed=0; }
+ fallflag=0;
+ windflag=0; slowflag=0; stopflag=0;
+ counter=0; camcounter=0;
+ hspeed=0; 
+
+ time1=timer;
+ time3=timer;
+
+ while(winflag=0)
+  {
+
+   RenderShowPage();
+   if (!refresh)
+    {
+     while (timer<=time1+speedrate)
+      {
+       ShowPage();
+      }
+    }
+   
+   time2=timer-time1;
+   time1=timer;
+
+   while (time2>0)
+    {
+     time2 -= interval;
+     Z_MovePlayer();
+     if (b2) { Z_Button(); unpress(2); }
+     if (key[1]) { if (GetSScore(stage)=0) { winflag=99; } else { winflag=3; } }
+     if (key[28]) { Z_Pause(); }
+//     if (key[88]) { savescreen(); }
+     if (key[44] && player=0) { ChaosOn(); }
+     if (key[50] && player=0 && gems>0) { MegaOn(); }
+     if (key[31] && silly=0 && hspeed=0 && vspeed=0) { silly=random(frames_silly)+1; }
+     if (!key[31]) silly=0;
+     if (key[35] && gems>5 && health<=1) { gems-=5; health++; }
+     Z_ProcessZones();
+     Z_ProcessCreatures();
+     Z_ProcessUpDown();
+     Z_ProcessStuff();
+     ProcessObjects();
+     Z_ProcessCamera();
+     counter++;
+    }
+
+  }
+  
+    Z_ResetEntities();
+    Z_ProcessCamera();
+    RenderShowPage();
+
+ Z_EndStageStuff();
+}
+
+void Z_MovePlayer()
+{
+   int h, l, r, u;
+
+   h = horz_speed; if (waterflag) h=h*water_modifier/100;
+
+   UpdateControls();
+   playerframe=FIDLE;
+   moveflag=0;
+
+   l=left; r=right;
+   if(screenxrev) { r=left; l=right; }
+   u=0; if(up*(1-gamepad) || b4) u=1;
+
+   // Move left and right (changes momentum)
+
+   if (l && !hangflag) {
+     playerheading=1;
+     if (!iceflag && !jumpflag && !fallflag) hspeed -= accel_h;     // Normal turn
+     if (iceflag)                            hspeed -= ice_accel_h; // Ice turn
+     if (jumpflag || fallflag)               hspeed -= air_accel_h; // Midair turn            
+     playerframe=FWALK; moveflag=1;
+    }
+   if (r && !hangflag) {
+     playerheading=0;
+     if (!iceflag && !jumpflag && !fallflag) hspeed += accel_h;
+     if (iceflag)                            hspeed += ice_accel_h;
+     if (jumpflag || fallflag)               hspeed += air_accel_h;
+     playerframe=FWALK; moveflag=1;
+    }
+   if (!l && !r && !hangflag) {
+     if (!iceflag && !jumpflag && !fallflag) hspeed = hspeed * (100 - deccel_h) / 100;     // Normal brakes
+     if (iceflag)                            hspeed = hspeed * (100 - ice_deccel_h) / 100; // Ice brakes
+     if (jumpflag || fallflag)               hspeed = hspeed * (100 - air_deccel_h) / 100; // Midair brakes
+    }
+
+   // Maximum speed (Can't go faster than this)
+   if (hspeed >     h) hspeed =     h;
+   if (hspeed < 0 - h) hspeed = 0 - h;
+
+   // Horizontal movement (Moves player according to momentum)
+   if (hspeed < 0 &&
+       Z_GetTileP((playerx100+hspeed/100)-1,playery+2,6)=0 &&
+       Z_GetTileP((playerx100+hspeed/100)-1,playery+player_height-2,6)=0 && playerx>0 )
+         playerx100 += hspeed;
+   if (hspeed > 0 &&
+       Z_GetTileP((playerx100+hspeed/100)+player_width+1,playery+2,6)=0 &&
+       Z_GetTileP((playerx100+hspeed/100)+player_width+1,playery+player_height-2,6)=0 && playerx+player_width<mapx*16)
+         playerx100 += hspeed;
+
+   // Checks for 'Jump' button
+   if (u) {
+             if (hangflag) { hangloose=hangflag; hangflag=0; }
+             if (jumpflag=0 && waterflag=0 && fallflag=0)   { jumpflag=jump_height;     vspeed = 0-jump_speed; }
+             if (jumpflag=0 && fallflag=1 && airjumpflag=1) { jumpflag=jump_height*airjump_modifier/100;     vspeed = 0-(jump_speed*airjump_modifier/100); }
+             if (jumpflag=0 && waterflag=1) { jumpflag=jump_height*water_modifier/100; vspeed = 0-(jump_speed*water_modifier/100); }
+           }
+   if (!u)  { if (jumpflag>0 && rocketflag=0) jumpflag=0;
+              if (jumpflag>0 && hangflag>0) jumpflag=0; }
+   if (jumpflag=0 && u=1) { UnPress(4); UnPress(5); }
+
+   playerx = playerx100 / 100;
+  if (playery>yWin+208) winflag=98;
+}
+
+void Z_ProcessUpDown()
+{
+  int f, g;
+
+  f = fall_speed; if (waterflag) f=f*water_modifier/100;
+  g = gravity;    if (waterflag) g=g*water_modifier/100;
+
+  // Checks if it hit the ceiling
+  if (Z_GetTileP(playerx,playery+(vspeed/100),6)=1)
+   { jumpflag=0; if (vspeed < 0) vspeed=0; }
+  if (Z_GetTileP(playerx+player_width,playery-(vspeed/100),6)=1)
+   { jumpflag=0; if (vspeed < 0) vspeed=0; }
+
+  // Jumping
+  if (jumpflag > 0 && vspeed <= 0-jump_speed) { jumpflag += vspeed; }
+  if (jumpflag > 0 && vspeed >  0-jump_speed) { jumpflag += jump_speed; }
+  if (jumpflag < 0) jumpflag=0;
+
+  if (jumpflag > 0 && vspeed >= 0) jumpflag=0;
+
+  // Checks if player should fall
+  fallflag=plummetflag;
+
+  if (!Z_GetTileP(playerx,(playery100+vspeed/100)+player_height,6) && !jumpflag && !groundflag) // &&
+  { if (Z_GetTileP(playerx+player_width,(playery100+vspeed/100)+player_height,6)=0)
+  { vspeed += g; fallflag=1; } }
+  if (playery<0 && fallflag=0 && jumpflag=0 && Z_GetTileP(playerx+player_width,yWin,6)=0)
+  { vspeed += g; fallflag=1; }
+
+  if (fallflag) rocketflag=0;
+
+  if (vspeed > f) vspeed = f;
+
+  // If player hits the floor
+  if (vspeed > 0 && fallflag = 0) vspeed = 0;
+
+  if (jumpflag) playerframe=FJUMP; 
+  if (fallflag) playerframe=FFALL;
+
+   if (hangflag) {
+     vspeed=0; hspeed=0; fallflag=0; jumpflag=0; playerframe=FHANG; 
+     playerx100=entity.x[hangflag]*100-(player_width/2);
+     playery100=entity.y[hangflag]*100;
+    }
+  
+  playery100 += vspeed;
+  playery = playery100 / 100;
+
+  if (playery>yWin+208) winflag=98;
+}
+
+int Z_GetTileP(int x, int y, int z) // Pixelwise GetTile
+{
+ return GetTile(x/16,y/16,z);
+}
+
+
+// How the camera will behave.
+// int xwinlimit, ywinlimit;
+// int xwinmove, ywinmove;
+// int xwintck, ywintck;
+
+void Z_ProcessCamera()
+{
+ int x,y, xll, yll, xhl, yhl, ct;
+
+ ct=camtckspeed*3/200;
+
+ pingpong=1-pingpong;
+
+ if (camtcking=1 || xwintck=1)
+  {
+   if (xWin+160>entity.x[camtcker] && xwinflag & 1 = 0 ) xWin100-=camtckspeed;
+   if (xWin+160<entity.x[camtcker] && xwinflag & 2 = 0 ) xWin100+=camtckspeed;
+
+   x=((xWin100/100)+160)-entity.x[camtcker];
+
+   if (x>0 && x<ct     && xwinflag & 1 = 0 ) xWin100=(entity.x[camtcker]-160)*100;
+   if (x<0 && x>(0-ct) && xwinflag & 2 = 0 ) xWin100=(entity.x[camtcker]-160)*100;
+  }
+
+ if (camtcking=1 || ywintck=1)
+  {
+   if (yWin+100>entity.y[camtcker] && ywinflag & 1 = 0 ) yWin100-=camtckspeed;
+   if (yWin+100<entity.y[camtcker] && ywinflag & 2 = 0 ) yWin100+=camtckspeed;
+
+   y=((yWin100/100)+100)-entity.y[camtcker];
+
+   if (y>0 && y<ct     && ywinflag & 1 = 0 ) yWin100=(entity.y[camtcker]-100)*100;
+   if (y<0 && y>(0-ct) && ywinflag & 2 = 0 ) yWin100=(entity.y[camtcker]-100)*100;
+  }
+
+ // No, I can't do large AND/OR groups. So?
+
+
+ if ( ywinsin > 0 && camcounter % 360 = 0 ) YWin100=ywinstart*100;
+
+ if (slowflag=0 && stopflag=0)
+  { 
+   camcounter++;
+   if (ywinsin) { ywinmove = ( sin ( ( camcounter * ywinsin2 / 100 ) % 360 ) * ywinsin ) >> 16; }
+  }
+
+ if (slowflag=1 && pingpong=1)
+  { 
+   camcounter++;
+   if (ywinsin) { ywinmove = ( sin ( ( camcounter * ywinsin2 / 100 ) % 360 ) * ywinsin ) >> 16; }
+  }
+
+
+ if (slowflag=0 && stopflag=0)
+  { if(xwinmove!=0) xWin100 += xwinmove;
+    if(ywinmove!=0) yWin100 += ywinmove; }
+
+ if (slowflag=1)
+  { if(xwinmove!=0) xWin100 += pingpong * xwinmove;
+    if(ywinmove!=0) yWin100 += pingpong * ywinmove; }
+
+ xhl=xwinhlimit * 100;
+ xll=xwinllimit * 100;
+ yhl=ywinhlimit * 100;
+ yll=ywinllimit * 100;
+
+ if (xll!=0 && xWin100<=xll-(camtckspeed))
+ { xWin100+=camtckspeed*2; if (xWin100>xll) xWin100=xll; }
+ if (yll!=0 && yWin100<=yll-(camtckspeed))
+ { yWin100+=camtckspeed*2; if (yWin100>yll) yWin100=yll; }
+
+ if (xhl!=0 && xWin100>=(xhl-32000)+(camtckspeed))
+ { xWin100-=camtckspeed*2; if ( xWin100 < xhl-32000 ) xWin100=xhl-32000; }
+ if (yhl!=0 && yWin100>=(yhl-20000)+(camtckspeed))
+ { yWin100-=camtckspeed*2; if ( yWin100 < yhl-20000 ) yWin100=yhl-20000; }
+
+
+ if (xWin100<0) xWin100=0;
+ if (yWin100<01) yWin100=0;
+ if (xWin100>(mapx*1600)-32000) xWin100=(mapx*1600)-32000;
+ if (yWin100>(mapy*1600)-20000) yWin100=(mapy*1600)-20000;
+
+
+ xWin=xWin100/100;
+ yWin=yWin100/100;
+
+
+ if(colorfulflag)
+ {
+  if (!rflag) { rvalue+=random(3); if (rvalue>=61) rflag=1; }
+  if (!gflag) { gvalue+=random(3); if (gvalue>=61) gflag=1; }
+  if (!bflag) { bvalue+=random(3); if (bvalue>=61) bflag=1; }
+  if (rflag) { rvalue-=random(3); if (rvalue<=0) rflag=0; }
+  if (gflag) { gvalue-=random(3); if (gvalue<=0) gflag=0; }
+  if (bflag) { bvalue-=random(3); if (bvalue<=0) bflag=0; }
+  PaletteMorph(rvalue,gvalue,bvalue,48,100);
+ }
+
+}
+
+// Displays.... well, updates the player info.
+void Z_DisplayCreatures()
+{
+  int i, j;
+
+  switch (playerframe)
+   {
+    case FIDLE:
+     j=0;
+     if (timer>idleflag+5)  j=1;
+     if (timer>idleflag+10) j=2;
+     if (timer>idleflag+15) j=3;
+     if (timer>idleflag+20) j=2;
+     if (timer>idleflag+25) { j=1; idleflag=timer+300; }
+     if (playerheading) { i = frame_idlel+j; }
+                   else { i = frame_idler+j; }
+     if (silly) { idleflag=timer+200;
+      if (playerheading) { i = frame_sillyl+silly; }
+                    else { i = frame_sillyr+silly; }
+     }
+    case FWALK:
+     if (playerheading) { i = frame_walkl+(timer/10%frames_walk); }
+                   else { i = frame_walkr+(timer/10%frames_walk); }
+    case FJUMP:
+     if (playerheading) { i = frame_jumpl; }
+                   else { i = frame_jumpr; }
+    case FFALL:
+     if (playerheading) { i = frame_falll; }
+                   else { i = frame_fallr; }
+    case FHANG:
+     if (playerheading) { i = frame_hangl; }
+                   else { i = frame_hangr; }
+   }
+
+  Entity.x[player]=playerx;
+  Entity.y[player]=playery;
+  Entity.specframe[player]=i;
+  if (hurtflag>counter && timer/2%2=1) Entity.specframe[player]=frame_empty;
+  if (invplayer) Entity.specframe[player]=frame_empty;
+
+  Z_DisplayStatus();
+}
+
+
+// Processes bumping and stomping
+// Calls Z_BUMP on <ZSTUFF.VC>
+void Z_ProcessZones()
+{
+va=player_width/2;
+vb=player_height/2;
+groundflag=0;
+plummetflag=0;
+airjumpflag=0;
+iceflag=0;
+ Z_Bump(playerx/16,playery+player_height+2/16,0,0); // Down
+ Z_Bump(playerx+player_width/16,playery+player_height+2/16,0,0); // Down
+ Z_Bump(playerx/16,playery-1+(vspeed/100)/16,1,0);                  // Up
+ Z_Bump(playerx+player_width/16,playery-1+(vspeed/100)/16,1,0);     // Up
+ Z_Bump(playerx+player_width+(hspeed/100)+2/16,playery+vb/16,2,0);  // Right
+ Z_Bump(playerx+(hspeed/100)-2/16,playery+vb/16,3,0);               // Left
+ Z_Bump(playerx+va/16,playery+vb/16,4,0);              // Beneath
+}
+
+void RenderShowPage()
+{
+   Render();
+   RenderObjects();
+   Z_ProcessRender();
+   Z_DisplayCreatures();
+   ShowPage();        
+}
+
+

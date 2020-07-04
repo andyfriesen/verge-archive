@@ -1,0 +1,17 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=4;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ SetTile(36,12,7,0); SetTile(37,12,7,0); SetTile(38,12,7,0); SetTile(39,12,7,0);
+ SetTZO(40,9,2,202,99,0);
+ SpawnObject(40*16+8,9*16+8,1,0,15);
+ PlaySound(snd_tsubaba, 64, 128);
+}

@@ -1,0 +1,77 @@
+event
+{
+ Render();
+ imgbuf=malloc(320*20);
+ VCCenterText(175,"Zeux's World");
+ VCCenterText(185,"Staff");
+ GrabRegion(0,175,319,194,imgbuf);
+ ShowPage();
+ FadeIn(100,0);
+ vj=timer; while (timer<vj+40)
+  { Render();
+    VCCenterText(175,"Zeux's World");
+    VCCenterText(185,"Staff");
+    ShowPage(); }
+ FlipFlopMove(1*18*16, 0*10*16,"Created by", "Zaratustra"); // 2
+ FlipFlopMove(1*18*16, 1*10*16,"Contribution","McGrue zeromus"); // 3
+ FlipFlopMove(2*18*16, 1*10*16,"Beta Testers","McGrue zeromus"); // 4
+ FlipFlopMove(2*18*16, 0*10*16,"Beta Testers","Hatchet aen ( V2 Team");
+ FlipFlopMove(3*18*16, 0*10*16,"VERGE 2 Engine","vecna aen zeromus ric");
+ FlipFlopMove(3*18*16, 1*10*16,"Megazeux Engine","Gregory Janson");
+ FlipFlopMove(4*18*16, 1*10*16,"Special Thanks to","Espernet's ]vchelp"); // 8
+ FlipFlopMove(4*18*16, 2*10*16,"Special Thanks to","mWorld");
+ FlipFlopMove(3*18*16, 2*10*16,"Special Thanks to","Nintendo^ Sega^ Sony^");
+ FlipFlopMove(3*18*16, 3*10*16,"Soundtrack available","in MP3, MOD and MID");
+ FlipFlopMove(2*18*16, 3*10*16,"Presented by","Zaratustra Productions"); // 12
+
+ v0=timer; while (timer<v0+100) { Render();
+    VCCenterText(175,"Presented by");
+    VCCenterText(185,"Zaratustra Productions");
+ UpdateControls(); 
+ ShowPage(); }
+ entity.specframe[0]=64;
+ FlipFlopMove(2*18*16, 2*10*16,"",""); // 2
+ FlipFlopMove(1*18*16, 2*10*16,"",""); // 3
+
+ v0=timer; while (timer<v0+50) { Render(); UpdateControls(); ShowPage(); }
+ entity.specframe[0]=65;
+ v0=timer; while (timer<v0+50) { Render(); UpdateControls(); ShowPage(); }
+ entity.specframe[0]=66;
+ v0=timer; while (timer<v0+50) { Render(); UpdateControls(); ShowPage(); }
+ entity.specframe[0]=65;
+ v0=timer; while (timer<v0+50) { Render(); UpdateControls(); ShowPage(); }
+ Playsound(snd_argh,64,128);
+ v0=timer; while (timer<v0+100) {
+ entity.specframe[0]=67+(timer/5%2);
+ Render(); UpdateControls(); ShowPage(); }
+
+ PaletteMorph(63,63,63,100,63);
+ xWin=0*18*16; yWin=3*10*16;
+ v0=timer; while (timer<v0+10) { Render(); UpdateControls(); ShowPage(); }
+ PaletteMorph(0,0,0,0,63);
+ v0=timer; while (timer<v0+1000) { Render(); UpdateControls(); ShowPage(); }
+ FadeOut(100,1);
+ free(imgbuf);
+ Map("Fin3.map");
+}
+
+/*
+
+   Zeux's World
+   Staff
+
+   Created by
+   Zaratustra
+
+   "Contribution","McGrue zeromus"
+   "Beta Testers","McGrue zeromus"
+   "Beta Testers","Hatchet aen & V2 Team"
+   "VERGE 2 Engine","vecna aen zeromus ric"
+   "Megazeux Engine & Music","Gregory Janson"
+   "Special Thanks to","Espernet's #vchelp"
+   "Special Thanks to","mWorld"
+   "Special Thanks to","Nintendo(tm) Sega(tm) Sony(tm)"
+   "Soundtrack available","in MP3, MOD and MID"
+   "Presented by","Zaratustra Productions"
+*/
+

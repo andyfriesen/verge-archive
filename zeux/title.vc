@@ -1,0 +1,37 @@
+event
+{
+ SystemStartUp();
+ vt=timer;
+ PlaySound(snd_gem,64,128);
+ while(timer<vt+100)
+ {
+  RectFill(0,0,319,199,0);
+  VCCenterText(95,"Zeux's World C 2001 Guilherme S. Tows");
+  UpdateControls();
+  ShowPage();
+ }
+ while(timer<vt+150)
+ {
+  RectFill(0,0,319,199,0);
+  UpdateControls();
+  ShowPage();
+ }
+ UpdateControls();
+ if (key[45]) christmas=1;
+ if (key[19]) { alterpal=1; rpal=1; }
+ if (key[34]) { alterpal=1; gpal=1; }
+ if (key[48]) { alterpal=1; bpal=1; }
+ if (key[21]) { alterpal=1; rpal=1; gpal=1; }
+ if (key[46]) { alterpal=1; gpal=1; bpal=1; }
+ if (key[50]) { alterpal=1; rpal=1; bpal=1; }
+ if (key[37]) { alterpal=1; rpal=1; gpal=1; bpal=1; }
+ if (key[5])           { alterpal=1; cga=1; }
+ if (key[2] && key[7]) { alterpal=1; ega=1; }
+ if (key[12] && key[13]) { alterpal=1; greenm=1; }
+ if (key[42] && key[54]) { alterpal=1; amberm=1; }
+ if (key[34] && key[48]) { alterpal=1; gboym=1; }
+ if (key[3]) { alterpal=1; bwm=1; }
+ introed=0;
+ if (!alterpal && !christmas) IntroEffect();
+ TitleEffect();
+}

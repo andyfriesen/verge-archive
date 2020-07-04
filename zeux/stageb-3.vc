@@ -1,0 +1,45 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+currentz=10;
+if (zs[currentz]) ClearItem(99);
+if (Z_HasItem(KEY_SKELETON2)) ClearItem(95);
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (Z_EmptySlot()) {
+ Z_GiveItem(KEY_SKELETON2);
+ SetTZO(vx,vy,2,0,0,0);
+ PlaySound(snd_spec, 64, 128); }
+}
+
+event
+{
+ MoveCamera(104*16,14*16,8);
+
+ vj=timer;
+ while (timer<vj+40) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+
+ SetTile(103,14,3,GetTile(103,15,3));
+ SetTile(104,14,3,GetTile(104,15,3));
+
+ vj=timer;
+ while (timer<vj+20) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+
+ SetTile(103,14,3,GetTile(103,16,3));
+ SetTile(104,14,3,GetTile(104,16,3));
+ SetTZO(103,13,3,GetTile(103,15,3),255,0);
+ SetTZO(104,13,3,GetTile(104,15,3),255,0);
+
+ vj=timer;
+ while (timer<vj+20) { Render(); Z_DisplayCreatures(); RenderObjects(); ShowPage(); }
+
+ MoveCamera (Entity.X[player], Entity.Y[player], 8);
+ frameflag=timer;
+}
+          

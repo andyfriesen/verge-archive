@@ -1,0 +1,23 @@
+event
+{
+if (GetSScore(stage)=100) { PlayMusic("CHMS98.S3M"); snowflag=1; }
+SystemStartup();
+Z_StartStageStuff();
+notrack=1;
+xwintck=1;
+ywinmove=0;
+ywinsin2=100;
+ywinsin=64;
+YWin=120;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+HookRetrace(0);
+notrack=0;
+xwintck=0;
+ywinmove=0;
+ywinsin=0;
+ywinsin2=0;
+snowflag=0;
+Map("TEST.MAP");
+}
+

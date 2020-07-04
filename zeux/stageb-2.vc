@@ -1,0 +1,17 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+if (Z_HasItem(KEY_SKELETON1)) ClearItem(95);
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (Z_EmptySlot()) {
+ Z_GiveItem(KEY_SKELETON1);
+ SetTZO(vx,vy,2,0,0,0);
+ PlaySound(snd_spec, 64, 128); }
+}

@@ -1,0 +1,24 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+
+    jump_height  = 1600;
+    horz_speed   = 100;
+    jump_speed   = 100;
+    fall_speed   = 125;
+    bounce_speed = 150;
+
+    accel_h  = 15;
+    deccel_h = 15;
+    gravity  = 10;
+
+    air_accel_h  = 7;
+    air_deccel_h = 5;
+
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+

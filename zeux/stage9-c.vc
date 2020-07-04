@@ -1,0 +1,42 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+v0=0;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+playerx100-=745600;
+playerx-=7456;
+entity.x[player]-=7456;
+if (bossx) bossx-=745600;
+xWin100-=745600;
+xWin-=7456;
+if (latecounter) v0=1;
+}
+
+event
+{
+playerx100+=745600;
+playerx+=7456;
+entity.x[player]+=7456;
+if (bossx) bossx+=745600;
+xWin100+=745600;
+xWin+=7456;
+v0=0;
+latecounter=0;
+}
+
+event
+{
+ if (latecounter && v0=1)
+ { YourTime(counter-latecounter); v0=0; if (playerx100>bossx) { bossend=1; bosstime=0; } }
+ latecounter=counter;
+}
+
+event
+{ SetPath(104); winflag=1; }

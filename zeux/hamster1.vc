@@ -1,0 +1,8 @@
+event
+{
+ SystemStartup();
+ Z_StartStageStuff();
+ RectIn();
+ HamsterWhackLoop();
+ Map("TEST.MAP");
+}

@@ -1,0 +1,24 @@
+event
+{
+SystemStartup();
+UpdateControls();
+if (key[48]=1 && GetSScore(stage)>0) { timeflag=1; entity.x[0]=8*16; entity.y[0]=26*16; }
+if (rematch=stage) { entity.x[0]=8*16; entity.y[0]=26*16; }
+Z_StartStageStuff();
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (bosstime=0 && bossend=0)
+  {
+   for (vi=13; vi<=16; vi++)
+    {
+     SetTZO(8,vi,2,341,0,1);
+     SetTZO(34,vi,2,341,0,1);
+    }
+   bosstime++;
+  }
+}

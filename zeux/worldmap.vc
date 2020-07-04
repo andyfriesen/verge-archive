@@ -1,0 +1,341 @@
+// Zeux's World V2
+// World Map / Save/Load VergeC
+// By Zaratustra (http://hello.to/the.prophet)
+
+// The number 1 tile
+#define first_tile 580
+// The layer with the map data
+#define map_layer 3 
+// The layer we can clean
+#define junk_layer 2
+
+#define CRYPT 1337
+
+// Save File Specs
+// [address 0] 32 bytes - Path data
+// [address 32] 1 byte - Gems
+// [address 34] 2 bytes - Inv 1
+// [address 36] 2 bytes - Inv 2
+// [address 38] 2 bytes - Inv 3
+// [address 40] 2 bytes - Inv 4
+// [address 42] 2 bytes - LocX
+// [address 44] 2 bytes - LocY
+// [address 46] 2 bytes - TowX
+// [address 48] 2 bytes - TowY
+// [address 50] 13 bytes - Z's
+// [address 64] 128 bytes - Score data
+
+int savebuf;
+string savename; // Saved game buffer
+int path[255]; // World Map Path flag
+int z[15]; // Z flag.
+int stage, startx, starty;
+int checksum, checksum2;
+
+int wa, wb, wc, wd; // More volatile flags.
+
+string zonemap[255];
+int    zonep1[255], zonep2[255];
+int  mapno;
+int sc[128], pt[32];
+
+string dummy;
+
+string currentmap;
+
+// Gets Bit in the format 76543210
+// int GetBit(..)
+   
+// Gets the path X from the saved file buffer
+int GetPath(int x)
+{
+ return (pt[x/8] >> (x%8)) % 2;
+}
+
+// Sets the path X to 1
+void SetPath(int x)
+{
+  int pot;
+  pot=x%8;
+  pot=1<<pot;
+  pt[x/8]=pt[x/8] | pot;
+}
+
+// Sets Stage X score to X
+void SetScore(int s, int x)
+{
+  if (x>sc[s]) sc[s]=x;
+}
+
+int GetScore()
+{
+  int i, j;
+  for (i=1; i<100; i++)
+   {
+    j=j+sc[i];
+   }
+  j=j/74;
+  return j;
+}
+
+int GetSScore (int s)
+{
+ return sc[s];
+}
+
+
+void LoadGame(string file)
+{
+  savename=file;
+  savebuf=LoadRaw(file);
+}
+
+void LoadSaidGame(int x)
+{
+ LoadGame("ZEUX"+str(x-1)+".SAV");
+ LoadGameData();
+ free(savebuf);
+}
+
+void SaveGame(string file)
+{
+  int savefile;
+  savefile=fwopen(file); // We open a file with a temporary var! Boy, are we
+                         // feeling smug.
+  fwrite(savebuf,200,savefile);
+  fwclose(savefile);
+}
+
+void SaveSaidGame(int x)
+{
+ savebuf=malloc(200);
+ SaveGameData();
+ SaveGame("ZEUX"+str(x-1)+".SAV");
+ free(savebuf);
+}
+
+
+// The heart of the thing. Updates the map info according to savebuf.
+void UpdateMap(int x1, int y1)
+{ 
+ int x,y,flag;
+ for(x=1; x<x1; x++)
+  {
+   for(y=1; y<y1; y++)
+    {
+     if (GetTile(x,y,map_layer)!=0) 
+      {
+       flag=GetTile(x,y,map_layer)-first_tile;
+       if (GetPath(flag)=1) { SetTile(x,y,6,0); SetTile(x,y,junk_layer,0); }
+      }
+    }
+  }
+
+}
+
+// Returns the number of paths in the saved game
+int CountPaths()
+{
+ int i, x;
+ for (i=0; i<256; i++)
+ { if (GetPath(i)=1) x++; }
+ return x;
+}
+
+
+void GoToMap()
+{
+ LocX=Entity.X[player]/16;
+ LocY=Entity.Y[player]/16;
+ SaveSaidGame(option);
+ Entity.X[player]=Entity.TX[player]*16;
+ Entity.Y[player]=Entity.TY[player]*16;
+ free(titlebuf);
+ if(GetTile(LocX,LocY,7)>1)
+  {
+  stage=GetTile(LocX,LocY,7);
+   if(stage<100)
+    {
+     RectOut();
+     SetClipRect(0,0,0,0);
+    }
+   else
+    { FadeOut (50,1); }
+  UpdateControls();
+  Unpress(1);
+
+  log (str(stage)+","+str(player));
+
+  if (stage>=2 && stage<100) MapSwitch(zonemap[stage]);
+  If(stage=101) { TowX=9;  TowY=45; MapSwitch("TOWER.MAP"); }
+  If(stage=102) { TowX=28; TowY=42; MapSwitch("TOWER.MAP"); }
+  If(stage=103) { TowX=15; TowY=39; MapSwitch("TOWER.MAP"); }
+  If(stage=104) { TowX=28; TowY=36; MapSwitch("TOWER.MAP"); }
+  If(stage=105) { TowX=9;  TowY=33; MapSwitch("TOWER.MAP"); }
+  If(stage=106) { TowX=23; TowY=30; MapSwitch("TOWER.MAP"); }
+  If(stage=107) { TowX=13; TowY=27; MapSwitch("TOWER.MAP"); }
+  If(stage=108) { TowX=30; TowY=24; MapSwitch("TOWER.MAP"); }
+  If(stage=109) { TowX=22; TowY=21; MapSwitch("TOWER.MAP"); }
+  If(stage=110) { TowX=18; TowY=18; MapSwitch("TOWER.MAP"); }
+  If(stage=111) { TowX=25; TowY=15; MapSwitch("TOWER.MAP"); }
+  If(stage=112) { TowX=10; TowY=12; MapSwitch("TOWER.MAP"); }
+  If(stage=114) { TowX=23; TowY=6;  MapSwitch("TOWER.MAP"); }
+
+  if(stage=120) { Entity.TX[player]=34; Entity.TY[player]=129; Entity.X[player]=34*16; Entity.Y[player]=129*16; Render(); Showpage(); FadeIn(50,1); }
+  if(stage=121) { Entity.TX[player]=16; Entity.TY[player]=138; Entity.X[player]=16*16; Entity.Y[player]=138*16; Render(); Showpage(); FadeIn(50,1); }
+  if(stage=122) { Entity.TX[player]=40; Entity.TY[player]=143; Entity.X[player]=40*16; Entity.Y[player]=143*16; Render(); Showpage(); FadeIn(50,1); }
+  if(stage=123) { Entity.TX[player]=43; Entity.TY[player]=75;  Entity.X[player]=43*16; Entity.Y[player]=75*16; Render(); Showpage(); FadeIn(50,1); }
+  if(stage=124) { Entity.TX[player]=25; Entity.TY[player]=75;  Entity.X[player]=25*16; Entity.Y[player]=75*16; Render(); Showpage(); FadeIn(50,1); }
+  if(stage=125) { Entity.TX[player]=38; Entity.TY[player]=67;  Entity.X[player]=38*16; Entity.Y[player]=67*16; Render(); Showpage(); FadeIn(50,1); }
+  }
+
+}
+
+void GoToMapTower()
+{
+  TowX=Entity.X[player]/16;
+  TowY=Entity.Y[player]/16;
+ SaveSaidGame(option);
+ free(titlebuf);
+ if(GetTile(TowX,TowY,7)>1)
+  {
+  stage=GetTile(TowX,TowY,7);
+   if(stage>14)
+    {
+     RectOut();
+     SetClipRect(0,0,0,0);
+    }
+   else
+    { FadeOut (50,1); }
+  UpdateControls();
+  Unpress(1);
+
+  if (stage>=70 && stage<100) MapSwitch(zonemap[stage]);
+
+  If(stage=2) { LocX=24; LocY=24; MapSwitch("TEST.MAP"); }
+  If(stage=3) { LocX=84; LocY=25; MapSwitch("TEST.MAP"); }
+  If(stage=4) { LocX=26; LocY=25; MapSwitch("TEST.MAP"); }
+  If(stage=5) { LocX=85; LocY=26; MapSwitch("TEST.MAP"); }
+  If(stage=6) { LocX=13; LocY=58; MapSwitch("TEST.MAP"); }
+  If(stage=7) { LocX=43; LocY=128; MapSwitch("TEST.MAP"); }
+  If(stage=8) { LocX=98; LocY=58;  MapSwitch("TEST.MAP"); }
+  If(stage=9) { LocX=84; LocY=27;  MapSwitch("TEST.MAP"); }
+  If(stage=10) { LocX=112; LocY=72; MapSwitch("TEST.MAP"); }
+  If(stage=11) { LocX=56; LocY=61; MapSwitch("TEST.MAP"); }
+  If(stage=12) { LocX=71; LocY=77; MapSwitch("TEST.MAP"); }
+  If(stage=13) { LocX=75; LocY=126; MapSwitch("TEST.MAP"); }
+  If(stage=14) { LocX=55; LocY=41; MapSwitch("TEST.MAP"); }
+  /*
+  If(stage=81) MapSwitch("STAGET-1.MAP");
+  If(stage=82) MapSwitch("STAGET-2.MAP");
+  If(stage=83) MapSwitch("STAGET-3.MAP");
+  If(stage=84) MapSwitch("STAGET-4.MAP");
+  If(stage=85) MapSwitch("STAGET-5.MAP");
+  If(stage=86) MapSwitch("STAGET-6.MAP");
+  If(stage=87) MapSwitch("STAGET-7.MAP");
+  If(stage=88) MapSwitch("STAGET-8.MAP");
+  If(stage=89) MapSwitch("STAGET-9.MAP");
+  If(stage=90) MapSwitch("STAGET-A.MAP");
+  If(stage=91) MapSwitch("STAGET-B.MAP");
+  If(stage=92) MapSwitch("STAGET-C.MAP");
+  */
+  }
+}
+
+void MapSwitch(string f)
+{
+ currentmap=f; Map (f);
+}
+
+void LoadMapData()
+{
+ int i, done, file;
+ file=fopen("MAPDATA.DAT");
+ fgetline(dummy, file);
+ while (!done)
+  {
+   fgettoken(dummy, file); if (!strcmp(dummy,"EOF")) done=1;
+   i = val(dummy);
+   fgettoken(dummy, file); zonemap[i]=dummy;
+   fgettoken(dummy, file); zonep1[i]=val(dummy);
+   fgettoken(dummy, file); zonep2[i]=val(dummy);
+  }
+ fclose(file);
+}
+
+void LoadGameData()
+{
+ int i;
+ gems=byte[32+savebuf];
+ inventory[1]=word[34+savebuf];
+ inventory[2]=word[36+savebuf];
+ inventory[3]=word[38+savebuf];
+ inventory[4]=word[40+savebuf];
+if(LocX=0) LocX=word[42+savebuf];
+if(LocY=0) LocY=word[44+savebuf];
+if(TowX=0) TowX=word[46+savebuf];
+if(TowY=0) TowY=word[48+savebuf];
+
+// [address 0] 32 bytes - Path data
+// [address 64] 128 bytes - Score data
+ for (i=0; i<32; i++)
+ {
+  pt[i]=byte[savebuf+i];
+ }
+ for (i=0; i<13; i++)
+ {
+  zs[i]=GetPath(i+200);
+ }
+ for (i=0; i<127; i++)
+ { sc[i]=byte[64+savebuf+i]; }
+ checksum=0;
+ for (i=0; i<192; i++)
+ {
+  checksum+=byte[savebuf+i];
+ }
+ checksum2=quad[192+savebuf]-CRYPT;
+// Log("Checksum: "+str(checksum)+" / "+str(checksum2));
+ if (checksum != checksum2) { Exit("Savefile is corrupted! Copy ZEUX.SAV to broken savefile to fix."); }
+
+}
+
+void SaveGameData() // And here's why V2 rules.
+{
+ int i;
+ for (i=0; i<192; i++)
+ {
+  byte[savebuf+i]=0;
+ }
+ byte[32+savebuf]=gems;
+ word[34+savebuf]=inventory[1];
+ word[36+savebuf]=inventory[2];
+ word[38+savebuf]=inventory[3];
+ word[40+savebuf]=inventory[4];
+ word[42+savebuf]=LocX;
+ word[44+savebuf]=LocY;
+ word[46+savebuf]=TowX;
+ word[48+savebuf]=TowY;
+
+// [address 0] 32 bytes - Path data
+// [address 64] 128 bytes - Score data
+ for (i=0; i<13; i++)
+ {
+  if(zs[i]) { SetPath(200+i);}
+ }
+ for (i=0; i<32; i++)
+ {
+  byte[savebuf+i]=pt[i];
+ }
+ for (i=0; i<127; i++)
+ {
+  byte[64+savebuf+i]=sc[i];
+ }
+ checksum=0;
+ for (i=0; i<192; i++)
+ {
+  checksum+=byte[savebuf+i];
+ }
+// Log("Checksum: "+str(checksum));
+ quad[192+savebuf]=checksum+CRYPT;
+}
+

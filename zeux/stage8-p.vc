@@ -1,0 +1,11 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+noend=1;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+

@@ -1,0 +1,25 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+vf=0;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ vf++;
+}
+
+event
+{
+ if (vf<2) { playerx100-=204800; playerx-=2048; xwin100-=204800; xwin-=2048; }
+}
+
+event
+{
+ if (vf<4) { playerx100-=467200; playerx-=4672; xwin100-=467200; xwin-=4672; }
+}
+

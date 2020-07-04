@@ -1,0 +1,163 @@
+//=============================================
+// Title:    Screen Capture
+// Type:     Graphics
+// Filename: Scrncap.vc
+// Author:   Kisai (Kisai_Z@yahoo.com)
+// Needed Includes: none
+// Map Needs:       none
+// VSP Needs:       none
+/* Description: Original Screen capture function by Weeble
+   This version with Run-Lenght compression (so 640x480 images don't
+   take up 370K!) created by Kisai, using Weeble's original code
+   and Pcx RLE instructions(found on the net).
+
+   Basically put, The first 4 lines, and the last 12 are straight from
+   Weebles code, I created a proper header to conform with the PCX    
+   format, then spent 18 hours figuring out the RLE compression,
+   It's a good thing that the demo I was using this in contained a 
+   certain glitch, otherwise I wouldn't have picked up on the error.
+
+   Anyways, Either call savescreen() by hookkey or right in the code
+   (hardcoding it), and it will create much smaller pcx files than
+   Weeble's original version.
+
+*Note: Correction, HookKey constatly calls the function, don't use it.
+
+   A Highly compressable image (containing lots of straight lines)
+   would take up 370K before, and only 25K now.
+
+*/
+//=============================================
+
+//---------------------------------------------
+// Function:     SaveScreen
+// Description:  File Handling for Screen capturing
+// Syntax:       SaveScreen();
+// Parameters:   none
+// Returns:      void
+// Extras:       none
+//---------------------------------------------
+
+int scrflag;
+
+void savescreen()
+{
+int ScreenSave;
+ScreenSave=fwopen("shot"+str(scrflag)+".pcx");
+scrflag++;
+Save_PCX(ScreenSave);
+fwclose(ScreenSave);
+}
+
+//---------------------------------------------
+// Function:     Save_PCX
+// Description:  Actually Does the Screen Capturing
+// Syntax:       Save_PCX(filehandle);
+// Parameters:   
+//               File = file handle to use (Must be open for writing)
+// Returns:      void
+// Extras:       none
+//---------------------------------------------
+
+void Save_PCX(int File)
+{
+int Buffer;
+int X,Y,I;
+int runCount,this,last;
+Buffer=malloc(128); // Allocate 128 bytes for the PCX header.
+byte[buffer+0]=10; //Manufacterer
+byte[buffer+1]=5; //Version, MUST BE VERSION 5!!
+byte[buffer+2]=1; //Encoding, 1=.pcx run lengh encoding
+byte[buffer+3]=8; //Bit's per plane, Should be 8 for 256 colors
+word[buffer+4]=0; //X min 
+word[buffer+6]=0; //Y min
+word[buffer+8]=screenx-1; // This sets the width of the image.
+word[buffer+10]=screeny-1; // This sets the height of the image. 
+word[buffer+12]=72; // H Dots per inch 
+word[buffer+14]=72; // V Dots per inch
+for(I=16; I<64; I++)
+     {
+     byte[buffer+I]=0;       //16 color palette, not needed.
+     }
+byte[buffer+64]=0; //Reserved, should be 0
+byte[buffer+65]=1; //Number of Bitplanes
+word[buffer+66]=screenx; // Number of bytes per line. 
+word[buffer+68]=1;
+word[buffer+70]=screenx;
+word[buffer+72]=screeny;
+fwrite(buffer,128,File);
+for(I=73;I<129;I++)
+    {
+    byte[buffer+I]=0; //Filler, all should be 0
+    }
+for (Y=0;Y<screeny;Y++)
+    {
+    for (X=0;X<screenx;X++)
+         {
+         this =((screen[(Y*screenx)+X]));
+         if(X==0 && this==last)
+              {
+              byte[Buffer]=192+runCount;
+              byte[Buffer+1]=last;
+              fwrite(Buffer,2,File);
+              runCount=0;
+//              last=this;
+              }
+
+         if (this == last)
+              {
+
+              runCount++;
+              if (runCount==63)
+                   {
+                   byte[Buffer]=192+runCount;
+                   byte[Buffer+1]=last;
+                   fwrite(Buffer,2,File);
+                   runCount=0;
+                   }
+              }
+              else
+              {
+              if(runCount)
+                   {
+                   if (runCount=1)
+                        {
+                        if (last<192)
+                             {
+                             byte[Buffer]=last;
+                             fwrite(Buffer,1,File); 
+                             }
+                        else
+                             {
+                             byte[Buffer]=193;
+                             byte[Buffer+1]=last;
+                             fwrite(Buffer,2,File);
+                             }
+                        }
+                   else
+                        {
+                        byte[Buffer]=192+runCount;
+                        byte[Buffer+1]=last;
+                        fwrite(Buffer,2,File);
+                        }
+              runCount=0;
+              }
+         last=this;
+         runCount=1;
+         }
+}
+
+    }
+
+byte[buffer]=12;
+fwrite(Buffer,1,File);
+for (I=0;I<=255;I++) 
+ {
+ byte[buffer]=(pal[I*3]*255)/63;
+ byte[buffer+1]=(pal[I*3+1]*255)/63;
+ byte[buffer+2]=(pal[I*3+2]*255)/63;
+ fwrite(Buffer,3,File); 
+}
+free(Buffer); 
+} 
+}

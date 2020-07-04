@@ -1,0 +1,11 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+gravity=4;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+

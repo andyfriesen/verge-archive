@@ -1,0 +1,27 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+
+darkflag=1;
+
+TiletoZone(2,1133,248);
+TiletoZone(2,1153,249);
+
+if (Z_HasItem(KEY_SKELETON3)) ClearItem(95);
+
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ if (Z_EmptySlot()) {
+ Z_GiveItem(KEY_SKELETON3);
+ SetTZO(vx,vy,2,0,0,0);
+ PlaySound(snd_spec, 64, 128); }
+}
+
+
+

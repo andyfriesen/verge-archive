@@ -1,0 +1,183 @@
+
+#define OBJECTS 20
+#define OBJXSIZE 32
+#define OBJYSIZE 32
+
+#define VANISHING 1
+#define HURTPLAYER 2
+#define HURTENEMIES 4
+#define GOINGUP 8
+#define GOINGDOWN 16
+#define GOINGLEFT 32
+#define GOINGRIGHT 64
+#define 2XSPEED 128
+#define SPEEDX2 128
+#define OBSTRUCTABLE 256
+
+#define SIZE4 512
+#define SIZE8 1024
+#define GOOP 2048
+#define EXPLOSIVE 4096
+#define ENTITYROPE 8192
+
+// Vertical Rope links a rope from entity [X] (x,y) to entity[X].x, [Y].
+#define VERTICALROPE 16384
+#define FILLEDCIRCLE 32768
+#define SHOCKWAVE 65536
+
+// Laser Beam beams a laser from (X,Y) to (1,Y).
+#define LASERBEAM 131072
+
+#define OBJECT_HIT      8
+
+
+int objpicbuf;
+int objx[OBJECTS], objy[OBJECTS], objp[OBJECTS], obj[OBJECTS], objt[OBJECTS];
+int obj1[OBJECTS], obj2[OBJECTS], obj3[OBJECTS], obj4[OBJECTS];
+
+void InitializeObjects()
+{
+ objinit=1;
+}
+
+// Spawns object O at (X,Y) with picture P and lifetime T.
+
+void SpawnObject (int x, int y, int o, int p, int t)
+{
+ int i;
+ i=1;
+ while(obj[i]!=0) { i++; if (i>OBJECTS-1) { i=1; obj[1]=0; } }
+ obj[i]=o;
+ objx[i]=x;
+ objy[i]=y;
+ objp[i]=p;
+ objt[i]=t;
+// Message("Object "+str(i)+" spawned at "+str(x)+","+str(y),100);
+}
+
+// Spawns object O at (X,Y) with picture P, lifetime T and Vars A1, A2, A3 and A4..
+
+void SpawnObject2 (int x, int y, int o, int p, int t, int a1, int a2, int a3, int a4)
+{
+ int i;
+ i=1;
+ while(obj[i]!=0) { i++; if (i>OBJECTS-1) { i=1; obj[1]=0; } }
+ obj[i]=o;
+ objx[i]=x;
+ objy[i]=y;
+ objp[i]=p;
+ objt[i]=t;
+ obj1[i]=a1;
+ obj2[i]=a2;
+ obj3[i]=a3;
+ obj4[i]=a4;
+}
+
+void ProcessObjects()
+{
+ int i, s, k;
+ for (i=1; i<=OBJECTS; i++)
+  {
+   if (obj[i])
+    {
+     objt[i]--; if (objt[i]=0) obj[i]=0;
+     s=16;
+     if (obj[i] & SIZE4) {s=4;}
+     if (obj[i] & SIZE8) {s=8;}
+     if (obj[i] & FILLEDCIRCLE) {s=objp[i];}
+     if (obj[i] & VANISHING)  { if (objt[i]%5=0) objp[i]++;}
+     if (obj[i] & GOINGUP)    { objy[i]--; if (obj[i] & SPEEDX2) objy[i]--; }
+     if (obj[i] & GOINGDOWN)  { objy[i]++; if (obj[i] & SPEEDX2) objy[i]++; }
+     if (obj[i] & GOINGLEFT)  { objx[i]--; if (obj[i] & SPEEDX2) objx[i]--; }
+     if (obj[i] & GOINGRIGHT) { objx[i]++; if (obj[i] & SPEEDX2) objx[i]++; }
+     if (obj[i] & SHOCKWAVE)  { objp[i]++; if (obj[i] & SPEEDX2) objp[i]++; }
+     if (obj[i] & OBSTRUCTABLE)
+      {
+       if (GetTile(objx[i]/16,objy[i]/16,6))
+       {
+        if (obj[i] & EXPLOSIVE) { obj[i]=FILLEDCIRCLE+SHOCKWAVE+HURTPLAYER; objt[i]=22; objp[i]=s*2; PlaySound(snd_boom,64,128); }
+                           else { obj[i]=VANISHING; objt[i]=15; objp[i]=10; }
+       }
+      }
+     if (obj[i] & HURTENEMIES)
+      {
+        for (k=1; k<=numents; k++)
+         {
+          if (k!=player && entity.x[k]<objx[i]+s && entity.x[k]+16>objx[i]-s
+                        && entity.y[k]<objy[i]+s && entity.y[k]+16>objy[i]-s) // *breath*
+          {
+           entity.hurt[k]=OBJECT_HIT;
+           if (obj[i] & OBSTRUCTABLE) { obj[i]=VANISHING; objt[i]=15; objp[i]=10; }
+           if (obj[i] & EXPLOSIVE)    { obj[i]=0; }
+          }
+        }
+      }
+       if (obj[i] & HURTPLAYER)
+        {
+           if (entity.x[player]<objx[i]+s && entity.x[player]+8>objx[i]-s
+            && entity.y[player]<objy[i]+s && entity.y[player]+16>objy[i]-s) // *breath*
+           {
+            if (hurtflag<counter)
+              { if (obj[i] & GOOP) { gunkflag=250; } else { Hurt(); } obj[i]=0; }
+           }
+         if (obj[i] & LASERBEAM > 0 && hurtflag<counter)
+          {
+           if (obj1[i]<objx[i])
+            {
+             if (entity.x[player]<objx[i] && entity.x[player]+8>obj1[i]
+              && entity.y[player]<objy[i]+5 && entity.y[player]+16>objy[i]-5)
+             Hurt();
+            }
+           else
+            {
+             if (entity.x[player]<obj1[i] && entity.x[player]+8>objx[i]
+              && entity.y[player]<objy[i]+5 && entity.y[player]+16>objy[i]-5)
+             Hurt();
+            }
+          }
+        }
+      // There was an else here...
+    }
+  }    // whew
+}
+
+void RenderObjects()
+{
+ int i, r;
+ r=random(5);
+ for (i=1; i<=OBJECTS; i++)
+  {
+   if (obj[i]>0 && obj[i]<ENTITYROPE) TCopySprite(objx[i]-xWin-16,objy[i]-yWin-16,OBJXSIZE,OBJYSIZE,objpicbuf+(objp[i]*OBJXSIZE*OBJYSIZE));
+   if (obj[i]=ENTITYROPE)
+    {
+     Line(entity.x[objx[i]]-xWin+1, entity.y[objx[i]]-yWin, entity.x[objy[i]]-xWin+1, entity.y[objy[i]]-yWin, 1);
+     Line(entity.x[objx[i]]-xWin-1, entity.y[objx[i]]-yWin, entity.x[objy[i]]-xWin-1, entity.y[objy[i]]-yWin, 1);
+     Line(entity.x[objx[i]]-xWin, entity.y[objx[i]]-yWin, entity.x[objy[i]]-xWin, entity.y[objy[i]]-yWin, objp[i]);
+    }
+   if (obj[i]=VERTICALROPE)
+    {
+     Line(entity.x[objx[i]]+8-xWin+1, entity.y[objx[i]]+8-yWin, entity.x[objx[i]]+8-xWin+1, objy[i]-yWin, 1);
+     Line(entity.x[objx[i]]+8-xWin-1, entity.y[objx[i]]+8-yWin, entity.x[objx[i]]+8-xWin-1, objy[i]-yWin, 1);
+     Line(entity.x[objx[i]]+8-xWin, entity.y[objx[i]]+8-yWin, entity.x[objx[i]]+8-xWin, objy[i]-yWin, objp[i]);
+    }
+   if (obj[i] & SHOCKWAVE && objt[i]<=8)
+    {
+     SetLucent(1);
+    }
+   if (obj[i] & FILLEDCIRCLE)
+    {
+     Circlefill(objx[i]-xWin,objy[i]-yWin,objp[i],obj1[i]);
+     SetLucent(0);
+     Circle(objx[i]-xWin,objy[i]-yWin,objp[i],1);
+    }
+   if (obj[i] & LASERBEAM)
+    {
+     Rect(objx[i]-xWin,objy[i]-5-yWin,obj1[i]-xWin,objy[i]+5-yWin,1);
+     Circlefill(objx[i]-xWin,objy[i]-yWin,10+r,objp[i]);
+     Circlefill(obj1[i]-xWin,objy[i]-yWin,10+r,objp[i]);
+     Circle(objx[i]-xWin,objy[i]-yWin,10+r,1);
+     Circle(obj1[i]-xWin,objy[i]-yWin,10+r,1);
+     RectFill(objx[i]-xWin,objy[i]-4-yWin,obj1[i]-xWin,objy[i]+4-yWin,objp[i]);
+    }
+  }
+}

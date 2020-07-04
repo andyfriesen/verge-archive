@@ -1,0 +1,31 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+ywin=120;
+ywin100=120*100;
+ywinhlimit=320;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ playery100+=64000;
+ ywin+=640;
+ ywin100+=64000;
+ ywinhlimit=0;
+ ywinllimit=35*16;
+ PlayMusic("NBZ.XM");
+}
+
+event
+{
+ playery100-=64000;
+ ywin100-=64000;
+ ywinhlimit=320;
+ ywinllimit=0;
+ PlayMusic("TIKKI.XM");
+}
+

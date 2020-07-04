@@ -1,0 +1,35 @@
+event
+{
+SystemStartup();
+vi=175;
+HookRetrace(1);
+FinalScore();
+
+
+option=1;
+FadeOut(100,1);
+HookRetrace(0);
+
+RectFill(0,0,319,199,0);
+PaletteMorph(0,0,0,0,63);
+VCCenterText(90,"http://zara.verge-rpg.com");
+VCCenterText(100,"Press Enter");
+ShowPage();
+
+Exit("http://zara.verge-rpg.com");
+
+}
+
+event
+{
+ for (vj=0; vj<10; vj++)
+ {
+  VCCenterText2(175,vj*10+10,textf[vj]);
+ }
+     Vline(20,vi,175,70);
+     RectFill(21,vi,26,175,68);
+     VlIne(27,vi,175,66);
+  ReadMouse();
+ TCopySprite (mx,my,16,16,arrowbuf);
+
+}

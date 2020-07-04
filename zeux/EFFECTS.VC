@@ -1,0 +1,400 @@
+// effects.vc (abridged version)
+// author: aen
+// various nifty VC effects
+
+int fx_i, fx_j, fx_temp, fx_v;
+
+ /////////////
+// snow fx //
+/////////////
+
+int snow_xarr[400];
+int snow_yarr[400];
+int snow_flakes;
+int snow_move;
+int snow_v;
+
+void snow_set_flakes(int x)
+{
+  if (x<20) x=20;
+  if (x>400) x=400;
+
+  snow_flakes=x;
+}
+
+void snow_setup()
+{
+  // setup snow
+  for (fx_i=0; fx_i<snow_flakes; fx_i++)
+  {
+    snow_xarr[fx_i]=Random(screenx);
+    snow_yarr[fx_i]=0-Random(screeny);
+  }
+}
+
+void snow_tick()
+{
+  int a,v;
+
+  if (snow_flakes<20) snow_flakes=20;
+  if (snow_flakes>400) snow_flakes=400;
+
+  if (screenx<640) snow_move=1;
+  if (screenx>=640) snow_move=4;
+
+  // render snow
+  for (a=0; a<snow_flakes; a++)
+  {
+    v=(snow_xarr[a]-xwin)%screenx;
+    if (v<0) v+=screenx;
+    snow_v=(snow_yarr[a]-ywin)%screeny;
+    if (snow_v<0) snow_v+=screeny;
+
+    setpixel(v, snow_v, 31);
+  }
+
+  // move snow
+  for (a=0; a<snow_flakes; a++)
+  {
+    // jitter left and right
+    if (!Random(2)) snow_xarr[a]--;
+    else snow_xarr[a]++;
+
+    // wrap snow across display
+    if (snow_xarr[a]<0)
+      snow_xarr[a]=screenx-1;
+    if (snow_xarr[a]>=screenx)
+      snow_xarr[a]=0;
+
+    // push snow downward
+    snow_yarr[a]+=snow_move;
+
+    // recycle snowflake?
+    if (snow_yarr[a]>=screeny)
+      snow_yarr[a]-=screeny;
+  }
+}
+
+void snow()
+{
+  unPress(0);
+
+  if (snow_flakes<20) snow_flakes=20;
+  if (snow_flakes>400) snow_flakes=400;
+
+  snow_move=screeny/200;
+
+  // setup snow
+  for (fx_i=0; fx_i<snow_flakes; fx_i++)
+  {
+    snow_xarr[fx_i]=Random(screenx);
+    snow_yarr[fx_i]=0-Random(screeny);
+  }
+
+  done = 0;
+  while (!done)
+  {
+    // rendering ...
+
+    // render map
+    render();
+
+    // render snow
+    for (fx_i=0; fx_i<snow_flakes; fx_i++)
+      setpixel(snow_xarr[fx_i], snow_yarr[fx_i], 31);
+
+    // update video
+    showPage();
+
+    // logic/transforms...
+
+    while (timer)
+    {
+      processEntities();
+      timer--;
+    }
+
+    // move snow
+    for (fx_i=0; fx_i<snow_flakes; fx_i++)
+    {
+      // jitter left and right
+      if (!Random(2)) snow_xarr[fx_i]--;
+      else snow_xarr[fx_i]++;
+
+      // wrap snow across display
+      if (snow_xarr[fx_i]<0)
+        snow_xarr[fx_i]=screenx-1;
+      if (snow_xarr[fx_i]>=screenx)
+        snow_xarr[fx_i]=0;
+
+      // push snow downward
+      snow_yarr[fx_i]+=snow_move;
+
+      // recycle snowflake?
+      if (snow_yarr[fx_i]>screeny+5)
+        snow_yarr[fx_i]=0;
+    }
+
+    // input ...
+
+    updateControls();
+
+    // keypress?
+    done = b1+b2+b3+b4;
+  }
+  timer=0;
+  unPress(0);
+}
+
+/////////////
+// rain fx //
+/////////////
+
+int rain_xarr[400];
+int rain_yarr[400];
+int rain_speed[400];
+int rain_drops;
+int rain_move;
+int rain_length;
+int rain_volatile;
+
+void rain_setup()
+{
+  rain_drops=200;
+  rain_length=5;
+
+  // setup rain
+  for (fx_i=0; fx_i<rain_drops; fx_i++)
+  {
+    rain_xarr[fx_i]=Random(screenx<<1)<<6;
+    rain_yarr[fx_i]=0-(Random(screeny)<<6);
+    rain_speed[fx_i]=Random(64*3);
+    if (rain_speed[fx_i]<64) rain_speed[fx_i]=64;
+    rain_speed[fx_i]=rain_speed[fx_i]<<1;
+  }
+}
+
+void rain_tick()
+{
+  if (rain_drops<20) rain_drops=20;
+  if (rain_drops>400) rain_drops=400;
+
+  rain_move=screeny/200;
+  rain_move=rain_move<<1;
+
+  for (fx_i=0; fx_i<rain_drops; fx_i++)
+  {
+    fx_v=((rain_xarr[fx_i]>>6)-xwin)%screenx;
+    if (fx_v<0) fx_v+=screenx;
+    rain_volatile=((rain_yarr[fx_i]>>6)-ywin)%screeny;
+    if (rain_volatile<0) rain_volatile+=screeny;
+
+    for (fx_j=0; fx_j<rain_length; fx_j++)
+      setpixel(fx_v-fx_j, rain_volatile+fx_j, 21+(fx_j<<1));
+  }
+
+  for (fx_i=0; fx_i<rain_drops; fx_i++)
+  {
+    rain_yarr[fx_i]=rain_yarr[fx_i]+rain_speed[fx_i];
+    rain_xarr[fx_i]=rain_xarr[fx_i]-rain_speed[fx_i];
+
+    if (rain_xarr[fx_i]<0)
+      rain_xarr[fx_i]=rain_xarr[fx_i]+(screenx<<6);
+    fx_v=rain_yarr[fx_i]>>6;
+    if (fx_v >= screeny)
+      rain_yarr[fx_i]=rain_yarr[fx_i]-(screeny<<6);
+  }
+}
+
+void rain()
+{
+  unPress(0);
+
+  rain_drops=200;
+  rain_length=5;
+
+  if (rain_drops<20) rain_drops=20;
+  if (rain_drops>400) rain_drops=400;
+
+  rain_move=screeny/200;
+  rain_move=rain_move<<1;
+
+  // setup rain
+  for (fx_i=0; fx_i<rain_drops; fx_i++)
+  {
+    rain_xarr[fx_i]=Random(screenx<<1)<<6;
+    rain_yarr[fx_i]=0-(Random(screeny)<<6);
+    rain_speed[fx_i]=Random(64*3);
+    if (rain_speed[fx_i]<64) rain_speed[fx_i]=64;
+    rain_speed[fx_i]=rain_speed[fx_i]<<1;
+  }
+
+  done=0;
+  while (!done)
+  {
+    // rendering ...
+
+    // render map
+    render();
+
+    for (fx_i=0; fx_i<rain_drops; fx_i++)
+      for (fx_j=0; fx_j<rain_length; fx_j++)
+        setpixel((rain_xarr[fx_i]>>6)-fx_j, (rain_yarr[fx_i]>>6)+fx_j, 21+(fx_j<<1));
+
+    // update video
+    showPage();
+
+    // logic/transforms ...
+
+    while (timer)
+    {
+      processEntities();
+      timer--;
+    }
+
+    for (fx_i=0; fx_i<rain_drops; fx_i++)
+    {
+      rain_yarr[fx_i]+=rain_speed[fx_i];
+      rain_xarr[fx_i]-=rain_speed[fx_i];
+
+      // recycle?
+      if (rain_xarr[fx_i]<0 || (rain_yarr[fx_i]>>6)>=screeny)
+      {
+        rain_xarr[fx_i]=Random(screenx<<1)<<6;
+        rain_yarr[fx_i]=0-(rain_length<<6);
+      }
+    }
+
+    // input ...
+
+    updateControls();
+
+    // keypress?
+    done = b1+b2+b3+b4;
+  }
+  timer=0;
+  unPress(0);
+}
+
+//////////////////
+// sincostan fx //
+//////////////////
+
+int spin_trailx[30];
+int spin_traily[30];
+int spin_remnant;
+int spin_anchor_x;
+int spin_anchor_y;
+int spin_cos, spin_sin;
+int spin_deg;
+int spin_temp;
+int spin_move;
+int spin_color_a;
+int spin_color_b;
+int spin_counter;
+
+void spin_setup()
+{
+  spin_anchor_x=screenx>>1;
+  spin_anchor_y=screeny>>1;
+  spin_deg=0;
+  spin_remnant=0;
+  spin_move=2;
+  spin_counter=0;
+}
+
+void spin_tick()
+{
+  spin_deg+=2;
+  spin_deg=spin_deg%360;
+
+  spin_remnant++;
+  if (spin_remnant>29)
+    spin_remnant=29;
+}
+
+void spin_render()
+{
+  int a;
+
+  for (a=0,spin_temp=spin_deg; a<spin_remnant; a++,spin_temp+=2)
+  {
+    if (spin_temp<0) spin_temp=359;
+    if (spin_temp>359) spin_temp=spin_move;
+
+    // ** green
+    spin_color_a = 88+23-(a>>1);
+    spin_color_b = 88+23-(a>>1)-5;
+    // ** red
+    //spin_color_a = 32+15-(a>>1);
+    //spin_color_b = 48+8-(a>>2);
+
+    spin_sin = (sin(spin_temp)>>13);
+    spin_cos = (cos(spin_temp)>>13);
+
+//    spin_anchor_x=(entity.x[player]-xwin)+8;
+//    spin_anchor_y=(entity.y[player]-ywin)+8;
+
+    // ** red
+    circlefill(
+      spin_anchor_x+spin_sin,
+      spin_anchor_y+spin_cos,
+      a>>4,
+      spin_color_a);
+    circlefill(
+      spin_anchor_x-spin_sin,
+      spin_anchor_y-spin_cos,
+      a>>4,
+      spin_color_a);
+
+    spin_sin = (sin(spin_temp)>>12);
+    spin_cos = (cos(spin_temp)>>12);
+
+    circlefill(
+      spin_anchor_x+spin_cos,
+      spin_anchor_y+spin_cos,
+      a>>4,
+      spin_color_b);
+    circlefill(
+      spin_anchor_x-spin_cos,
+      spin_anchor_y-spin_cos,
+      a>>4,
+      spin_color_b);
+    circlefill(
+      spin_anchor_x-spin_cos,
+      spin_anchor_y+spin_cos,
+      a>>4,
+      spin_color_b);
+    circlefill(
+      spin_anchor_x+spin_cos,
+      spin_anchor_y-spin_cos,
+      a>>4,
+      spin_color_b);
+  }
+}
+
+int wrap_image;
+int wrap_x,wrap_y;
+int mousepic;
+
+void wrap_setup()
+{
+  wrap_x=0; wrap_y=0;
+  wrap_image=LoadImage("wrap.pcx");
+  readmouse();
+  setmousepos((screenx>>1) -1, (screeny>>1) -1);
+  mousepic=LoadImage("mousepic.pcx");
+}
+
+void fog()
+{
+  wrap_x-=$10000/$2;
+  wrap_y-=$10000/$2;
+
+  setlucent(1);
+  twrapblit(
+    ((wrap_x>>$10)+xwin) & $ff,
+    ((wrap_y>>$10)+ywin) & $ff,
+    $100, $100, wrap_image);
+  setlucent(0);
+}

@@ -1,0 +1,11 @@
+event
+{
+if (GetSScore(stage)=100) PlayMusic("MRKMAGIC.XM");
+SystemStartup();
+Z_StartStageStuff();
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+

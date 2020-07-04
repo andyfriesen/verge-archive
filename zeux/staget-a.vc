@@ -1,0 +1,13 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+colorfulflag=1;
+rvalue=random(50)+5; rflag=random(2);
+gvalue=random(50)+5; gflag=random(2);
+bvalue=random(50)+5; bflag=random(2);
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+

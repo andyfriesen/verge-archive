@@ -1,0 +1,27 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+SetTZO(14,133,2,0,0,0);
+SetTZO(14,134,2,0,0,0);
+SetTZO(14,135,2,0,0,0);
+
+vf=Z_HasItem(KEY_SKELETON1);
+vg=Z_HasItem(KEY_SKELETON2);
+vh=Z_HasItem(KEY_SKELETON3);
+
+ if (vf && vg && vh)
+ {
+  inventory[vf]=0; inventory[vg]=0; inventory[vh]=0;
+  SetTZO(15,133,2,0,0,0);
+  SetTZO(15,134,2,0,0,0);
+  SetTZO(15,135,2,0,0,0);
+ }
+}

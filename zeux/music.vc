@@ -1,0 +1,71 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+noend=1;
+v0=1;
+text1="Warning: changing music can crash game!"; textflag=300;
+Z_ProcessSideMov();
+Map("TEST.MAP");
+}
+
+event
+{
+ switch(vx)
+ {
+  case 14: if (v0) { PlayMusic("TIKKI.XM"); text1="Tikki"; textflag=100; v0=1; }
+  case 16: if (v0) { PlayMusic("R_LAND.MOD"); text1="Rainbow Land"; textflag=100; v0=1; }
+  case 18: if (v0) { PlayMusic("OBSOLE96.MOD"); text1="Obsolete 96"; textflag=100; v0=1; }
+  case 20: if (v0) { PlayMusic("K-STYL-B.MOD"); text1="Beach Tunes"; textflag=100; v0=1; }
+  case 22: if (v0) { PlayMusic("R_LAND.MOD"); text1="Rainbow Land"; textflag=100; v0=1; }
+  case 24: if (v0) { PlayMusic("CHILL.MOD"); text1="Chill da Beach Funk"; textflag=100; v0=1; }
+  case 26: if (v0) { PlayMusic("FLSHDANC.S3M"); text1="Flash Dance"; textflag=100; v0=1; }
+  case 28: if (v0) { PlayMusic("CV_MAGIC.MOD"); text1="Caverns Magic"; textflag=100; v0=1; }
+  case 30: if (v0) { PlayMusic("MRKMAGIC.XM"); text1="Caverns Magic Remix"; textflag=100; v0=1; }
+  case 32: if (v0) { PlayMusic("ANCIENT.MOD"); text1="Ancient Times"; textflag=100; v0=1; }
+  case 35: if (v0) { PlayMusic("CHILL.MOD"); text1="Chill da Beach Funk"; textflag=100; v0=1; }
+  case 39: if (v0) { PlayMusic("OBSOLE96.MOD"); text1="Obsolete 96"; textflag=100; v0=1; }
+  case 41: if (v0) { PlayMusic("NBZ.XM"); v0=1; }
+  case 43: if (v0) { PlayMusic("RIDERETA.MOD"); text1="Ride of the Retards"; textflag=100; v0=1; }
+  case 46: if (v0) { PlayMusic("MENMAGIC.S3M"); text1="Caverns Magic Orchestra"; textflag=100; v0=1; }
+  case 48: if (v0) { PlayMusic("NULL.S3M"); text1="No Music"; textflag=100; v0=1; }
+
+  case 57: PlaySound(snd_coin, 64, 128);	  PlaySound(snd_coin, 64, 128);
+  case 60: PlaySound(snd_gem, 64, 128);		  PlaySound(snd_gem, 64, 128);
+  case 64: PlaySound(snd_pop, 64, 128);		  PlaySound(snd_pop, 64, 128);
+  case 67: PlaySound(snd_spec, 64, 128);	  PlaySound(snd_spec, 64, 128);
+  case 70: PlaySound(snd_bells, 64, 128);	  PlaySound(snd_bells, 64, 128);
+  case 73: PlaySound(snd_prize, 64, 128);	  PlaySound(snd_prize, 64, 128);
+  case 76: PlaySound(snd_tsubaba, 64, 128);	  PlaySound(snd_tsubaba, 64, 128);
+  case 80: v1=random(4); PlaySound(snd_ow[v1], 64, 128); PlaySound(snd_ow[v1], 64, 128);
+  case 83: PlaySound(snd_argh, 64, 128);	  PlaySound(snd_argh, 64, 128);
+  case 87: PlaySound(snd_boing, 64, 128);	  PlaySound(snd_boing, 64, 128);
+  case 92: PlaySound(snd_life, 64, 128);	  PlaySound(snd_life, 64, 128);
+  case 96: PlaySound(snd_stage, 64, 128);	  PlaySound(snd_stage, 64, 128);
+  case 98: PlaySound(snd_rayden, 64, 128);	  PlaySound(snd_rayden, 64, 128);
+  case 100: PlaySound(snd_toasty, 64, 128);	   PlaySound(snd_toasty, 64, 128);
+  case 102: PlaySound(snd_die, 64, 128);	   PlaySound(snd_die, 64, 128);
+  case 104: PlaySound(snd_rise, 64, 128);	   PlaySound(snd_rise, 64, 128);
+
+
+  case 82: PlaySound(snd_charge, 64, 128);        PlaySound(snd_charge, 64, 128);
+  case 84: PlaySound(snd_laser, 64, 128);         PlaySound(snd_laser, 64, 128);
+  case 86: PlaySound(snd_finish, 64, 128);	  PlaySound(snd_finish, 64, 128);
+  case 88: PlaySound(snd_fall, 64, 128);	  PlaySound(snd_fall, 64, 128);
+  case 91: PlaySound(snd_bounce, 64, 128);	  PlaySound(snd_bounce, 64, 128);
+  case 93: PlaySound(snd_shoot, 64, 128);	  PlaySound(snd_shoot, 64, 128);
+  case 97: PlaySound(snd_search, 64, 128);	  PlaySound(snd_search, 64, 128);
+  case 99: PlaySound(snd_poke, 64, 128);	  PlaySound(snd_poke, 64, 128);
+  case 101: PlaySound(snd_tport, 64, 128);	   PlaySound(snd_tport, 64, 128);
+  case 103: PlaySound(snd_boom, 64, 128);	   PlaySound(snd_boom, 64, 128);
+
+/* snd_coin snd_gem snd_ow[0] snd_ow[1] snd_ow[2] snd_ow[3] snd_ow[4]
+   snd_argh snd_life snd_spec snd_prize snd_pop snd_bells snd_boing snd_tsubaba
+   snd_rayden snd_toasty snd_finish snd_die snd_metroid snd_rise snd_fall snd_bounce
+   snd_shoot snd_search snd_poke snd_tport snd_boom
+  */
+
+
+ }
+ if (vx<54) { SetTZO(vx,vy,2,1771,90,1); } else { SetTZO(vx,vy,2,1772,90,1); }
+}

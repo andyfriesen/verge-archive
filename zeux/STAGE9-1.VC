@@ -1,0 +1,27 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+ve=0;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ SetRString("2413E");
+ SetTile(68,35,0,0);
+ SetTile(68,36,0,0);
+ ve=1;
+}
+
+event
+{
+ if (ve=1 && up=1) { playerx100=142*1600; playery100=35*1600; MoveCamera(142*16,35*16,48);}
+}
+
+event
+{
+ if (ve=1 && up=1) { playerx100=67*1600; playery100=36*1600; MoveCamera(67*16,36*16,48);}
+}

@@ -1,0 +1,13 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+jump_height=2600;
+gravity=50;
+fall_speed=400;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+

@@ -1,0 +1,27 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TEST.MAP");
+}
+
+event
+{
+ MoveCamera (175*16, 10*16, 8);
+ vj=timer;
+ while (timer<vj+40) { RenderShowPage(); }
+
+ for (vi=9; vi<=11; vi++)
+  {
+   SetTZO(175,vi,2,0,0,0);
+   SetTZO(175,vi,5,0,0,0);
+  }               
+ vj=timer;
+ while (timer<vj+40) { RenderShowPage(); }
+
+ MoveCamera (Entity.X[player], Entity.Y[player], 8);
+ frameflag=timer;
+ time1=timer;
+}

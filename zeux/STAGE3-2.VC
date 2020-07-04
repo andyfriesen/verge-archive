@@ -1,0 +1,21 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+timeflag=1;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+timeflag=0;
+Map("TEST.MAP");
+}
+
+event
+{
+ if(counter>=50*31) { SetTZO(163,1,2,457,0,0); }
+               else { SetTZO(163,1,2,458,0,0); SetTZO(168,9,2,99,7,0);
+                      SpawnObject(168*16+8,9*16+8,1,0,15); }
+ YourTime(counter);
+}
+
+
+

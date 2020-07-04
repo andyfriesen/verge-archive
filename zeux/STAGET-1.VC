@@ -1,0 +1,11 @@
+event
+{
+SystemStartup();
+invplayer=1;
+Z_StartStageStuff();
+Z_ProcessSideMov();
+SaveSaidGame(option);
+Map("TOWER.MAP");
+}
+
+

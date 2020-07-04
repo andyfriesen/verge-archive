@@ -1,0 +1,9 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+Z_ProcessSideMov();
+Map("TEST.MAP");
+}
+
+

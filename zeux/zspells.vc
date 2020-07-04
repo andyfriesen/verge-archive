@@ -1,0 +1,299 @@
+// Zeux's World Spells
+// By Zaratustra (http://hello.to/the.prophet)
+
+// Closely twined to ZSTATUS.VC.
+
+// * Avalanche - All bricks in the stage get loose.
+// *P Blast - Hits all enemies on screen.
+// *P Blind - Makes the screen dark for 15 seconds.
+// *P Freeze Time - Freezes all enemies for 15 seconds.
+//  P Healing - Heals some health levels.
+//    Invinco - Renders Zeux invincible for 15 seconds.
+//  P Kill Enemies - 'Nuff said.
+//  P Poison - Docks a couple of health levels.
+// *P Slow Time - Slows down all enemies for 15 seconds.
+// *P Wind - Player is pushed around and around and around...
+
+#define ICON_STIME   516
+#define ICON_FTIME   517
+#define ICON_BLIND   518
+#define ICON_INVINCO 519
+#define ICON_WIND    617
+
+int currentitem, itemtime;
+int gunkflag;
+
+void Z_Avalanche()
+{
+ int x, y, d, i;
+ d=1;
+
+ if(!alterpal) { for (i=0; i<100; i++)
+   { PaletteMorph(63,63,0,i,63);} }
+
+  while (d>0)
+   {
+    d=0;
+     for (y=mapy; y>0; y--)
+      {
+       for (x=mapx; x>0; x--)
+        {
+         if (GetTile(x,y,7)=1 && GetTile(x,y+1,6)=0 && GetTile(x,y+1,7)=0)
+          {
+           SetTZO(x,y+1,2,GetTile(x,y,2),1,1);
+           SetTZO(x,y,2,0,0,0);
+           d=d+1;
+   } } } }
+   Render();
+   ShowPage();
+if (!alterpal) { for (i=100; i>0; i--) { PaletteMorph(63,63,0,i,63);} }
+
+ time1=timer;
+}
+
+void Z_LavaWalk()
+{
+ int x, y, i, l;
+
+ if(!alterpal) { for (i=0; i<100; i++)
+   { PaletteMorph(63,32,0,i,63);} }
+
+     for (y=mapy; y>0; y--)
+      {
+       for (x=mapx; x>0; x--)
+        {
+         for (l=0; l<6; l++)
+          {
+           if (GetTile(x,y,l)=361) SetTZO(x,y,l,1435,0,1);
+      } } }
+   Render();
+   ShowPage();
+   if (!alterpal) { for (i=100; i>0; i--) { PaletteMorph(63,32,0,i,63);} }
+
+ time1=timer;
+}
+
+
+// Produces a flash of light, may give an item if IT is larger than 0
+
+void Z_GeneralItem(int it, int t, int r, int g, int b)
+{
+ int time, i;
+ time=timer;
+ if (!alterpal) { while (timer-time<50)
+   { PaletteMorph(r,g,b,(timer-time)*2,63);} }
+
+ if (it) { currentitem=it; itemtime=t*50-1; 
+ if (it!=ICON_WIND && it!=ICON_BLIND) {
+ for (i=0; i<5; i++) { if (GetPath(100+i)) { itemtime+=100; } } } }
+
+ if (it=ICON_BLIND || it=ICON_WIND) { for (i=0; i<5; i++) { if (GetPath(100+i)) { itemtime-=100; } } }
+
+ if (it=0 && t>0) currentitem=0;
+
+ Z_ProcessSpells();
+
+ Render();
+ RenderObjects();
+ Z_ProcessRender();
+ ShowPage();
+
+ time=timer;
+ if (!alterpal) { while (timer-time<50) { PaletteMorph(r,g,b,100+((time-timer)*2),63);} }
+ time1=timer;
+}
+
+void Z_Blast()
+{
+ int i;
+  for (i=0; i<100; i++)
+   { PaletteMorph(63,0,0,i,63);}
+  for (i=0; i<=numents; i++)
+   {
+    if (i!=player && entity.x[i]>xWin-32 && entity.x[i]<xWin+352
+                  && entity.y[i]>yWin-32 && entity.y[i]<yWin+232)
+                  entity.hurt[i]=4;
+   }
+  Render();
+  RenderObjects();
+  Z_ProcessRender();
+  ShowPage();
+
+  for (i=100; i>0; i--)
+   { PaletteMorph(63,0,0,i,63);}
+  time1=timer;
+}
+
+void Z_KillEnemies()
+{
+ int i;
+  for (i=0; i<100; i++)
+   { PaletteMorph(63,63,63,i,63); Showpage(); }
+  for (i=0; i<=numents; i++)
+   {
+    if (i!=player) entity.hurt[i]=4;
+   }
+  Z_ProcessCreatures();
+  for (i=0; i<=numents; i++)
+   {
+    if (i!=player) entity.hurt[i]=4;
+   }
+  Render();
+  RenderObjects();
+  Z_ProcessRender();
+  ShowPage();
+
+  for (i=100; i>0; i--)
+   { PaletteMorph(63,63,63,i,63); Showpage(); }
+  time1=timer;
+}
+
+void Z_Ring()
+{
+ int x;
+ x=random(100);
+ if(x<15)          { health+=random(3)+1; if(health>5) health=5; text1="Healing!"; textflag=100; }
+ if(x>=15 && x<30) { health-=random(3)+1; if(health<1) health=1; text1="Poison!"; textflag=100; }
+ if(x>=30 && x<35) { Z_Blast(); text1="Blast Magic!"; textflag=100; }
+ if(x>=35 && x<40) { Z_GeneralItem(ICON_INVINCO,15,0, 0, 63 ); text1="Invincibility!"; textflag=100; }
+ if(x>=40 && x<50) { Z_GeneralItem(ICON_WIND,   30,63,63,0  ); text1="Wind!"; textflag=100; }
+ if(x>=50 && x<60) { Z_GeneralItem(ICON_STIME,  15,0, 63,0  ); text1="Slow Time!"; textflag=100; }
+ if(x>=60 && x<65) { Z_GeneralItem(ICON_FTIME,  15,63,32,32 ); text1="Freeze Time!"; textflag=100; }
+ if(x>=65 && x<75) { Z_GeneralItem(ICON_BLIND,  30,32,32,32 ); text1="Blindness!"; textflag=100; }
+ if(x>=75 && x<77) { Z_KillEnemies(); text1="Kill Enemies!"; textflag=100; }
+ if(x>=77 && x<100) { text1="No Effect..."; textflag=100; }
+}
+
+void Z_ProcessSpells()
+{
+ int x, y;
+ blindflag=0;
+ stopflag=0;
+ invincoflag=0;
+ slowflag=0;
+ stopflag=0;
+ if (itemtime > 0)
+  {
+   itemtime--;
+   if (itemtime=0)
+    {
+     switch (currentitem)
+      {
+        case ICON_BLIND:   Z_GeneralItem(0,1,32,32,32); blindflag=0;
+        case ICON_FTIME:   Z_GeneralItem(0,1,63,32,32); stopflag=0;
+        case ICON_INVINCO: Z_GeneralItem(0,1,0, 0, 63); invincoflag=0;
+        case ICON_STIME:   Z_GeneralItem(0,1,0, 63,0 ); 
+        case ICON_WIND:    Z_GeneralItem(0,1,63,63,0 ); 
+      }
+    }
+   switch (currentitem)
+    {
+     case ICON_WIND: x=sin(counter%360)*200 >> 16;
+                     y=cos(counter%360)*200 >> 16;
+
+   if (x < 0 && Z_GetTileP((playerx100+x/100)-1,playery+2,6)=0 &&
+       Z_GetTileP((playerx100+x/100)-1,playery+player_height-2,6)=0 && playerx>0 )
+         playerx100 += x;
+   if (x > 0 && Z_GetTileP((playerx100+x/100)+player_width+1,playery+2,6)=0 &&
+       Z_GetTileP((playerx100+x/100)+player_width+1,playery+player_height-2,6)=0 && playerx+player_width<mapx*16)
+         playerx100 += x;
+   if (y < 0 && Z_GetTileP(playerx,(playery100+y/100)-1,6)=0 &&
+       Z_GetTileP(playerx+player_width,(playery100+y/100)-1,6)=0)
+         playery100 += y;
+   if (y > 0 && Z_GetTileP(playerx,(playery100+y/100)+player_height+1,6)=0 &&
+       Z_GetTileP(playerx+player_width,(playery100+y/100)+player_height+1,6)=0)
+         playery100 += y;
+
+     case ICON_BLIND: blindflag=1;
+     case ICON_STIME: slowflag=1;
+     case ICON_FTIME: stopflag=1;
+     case ICON_INVINCO: invincoflag=1;
+    }
+  }
+ if (gunkflag>0)
+  {
+   if (mega=1) MegaOff();
+   if(!chaos)
+    {
+     jump_height  = 2000; horz_speed   = 100; jump_speed   = 200;
+     fall_speed   = 250; bounce_speed = 200;
+     SpawnObject(playerx-(hspeed/50)+3,playery-(vspeed/50)+6,1,34,2);
+     gunkflag--; if (gunkflag=0) Z_DefaultPhysics();
+    }
+  }
+
+ if (mega=1 && counter%100=0) { gems--; if (gems<=0) MegaOff(); }
+}
+
+void ChaosOn()
+{
+  int i;
+  If(GetPath(104))
+    {
+       SpawnObject(playerx+4,playery+8,1,0,15);
+       if (camtcker=player) i=1;
+       entity.on[player]=0; entity.visible[player]=0;
+       SetPlayer(entityspawn(entity.tx[player],entity.ty[player],"boss09.chr"));
+       entity.x[player]=playerx100/100; entity.y[player]=playery100/100;
+       horz_speed=300; accel_h=25; deccel_h=20;
+       if (i) camtcker=player;
+       chaos=1;
+    }
+}
+
+void MegaOn()
+{
+ int i;
+  if (GetPath(105)=1 && gunkflag=0)
+   {
+    SpawnObject(playerx+4,playery+8,1,0,15);
+    playsound(snd_tsubaba,64,128);
+    entity.on[player]=0; entity.visible[player]=0;
+    if (camtcker=player) i=1;
+    SetPlayer(entityspawn(entity.tx[player],entity.ty[player],"megazeux.chr"));
+    entity.x[player]=playerx100/100; entity.y[player]=playery100/100;
+    jump_height  = jump_height  * 16/ 13;
+    horz_speed   = horz_speed   * 5 / 4;
+    jump_speed   = jump_speed   * 2;
+    fall_speed   = fall_speed   * 4 / 5;
+    bounce_speed = bounce_speed * 5 / 3;
+    accel_h      = accel_h      * 4 / 3;
+    deccel_h     = deccel_h     * 4 / 3;
+    water_modifier = water_modifier * 3 / 2;
+    air_accel_h  = air_accel_h  * 4 / 3;
+    air_deccel_h = air_deccel_h * 4 / 3;
+    ice_accel_h  = ice_accel_h  + 5;
+    ice_deccel_h = ice_deccel_h + 5;
+    qsand_speed  = qsand_speed  * 3 / 2;
+    camtckspeed  = camtckspeed  * 3 / 2;
+    if (i=1) camtcker=player;
+    chaos=1; mega=1;
+   }
+}
+
+void MegaOff()
+{
+   PlaySound(snd_ow[random(5)], 64, 128);
+    SpawnObject(playerx+4,playery+8,1,0,15);
+    entity.on[player]=0; entity.visible[player]=0;
+    if (camtcker=player) camtcker=0;
+    SetPlayer(0);
+    entity.on[player]=1; entity.visible[player]=1;
+    entity.x[player]=playerx100/100; entity.y[player]=playery100/100;
+    jump_height  = jump_height  * 13/ 16;
+    horz_speed   = horz_speed   * 4 / 5;
+    jump_speed   = jump_speed   / 2;
+    fall_speed   = fall_speed   * 5 / 4;
+    bounce_speed = bounce_speed * 3 / 5;
+    accel_h      = accel_h      * 3 / 4;
+    deccel_h     = deccel_h     * 3 / 4;
+    water_modifier = water_modifier * 2 / 3;
+    air_accel_h  = air_accel_h  * 3 / 4;
+    air_deccel_h = air_deccel_h * 3 / 4;
+    ice_accel_h  = ice_accel_h  - 5;
+    ice_deccel_h = ice_deccel_h - 5;
+    qsand_speed  = qsand_speed  * 2 / 3;
+    camtckspeed  = camtckspeed  * 2 / 3;
+    chaos=0; mega=0;
+}
+

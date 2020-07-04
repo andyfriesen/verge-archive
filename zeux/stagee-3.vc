@@ -1,0 +1,22 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+Z_ProcessSideMov();
+Map("TEST.MAP");
+}
+
+event
+{
+ if (vf=0)
+ { coins++; PlaySound (snd_coin, 64,128); SpawnObject(vx*16+8,vy*16+8,1,0,15); vf=1; }
+ fallflag=1; jumpflag=0;
+ SetTZO(vx,vy,2,129,0,1);
+}
+
+event
+{
+ SetTZO(87,5,2,129,90,1);
+ vf=0;
+}
+

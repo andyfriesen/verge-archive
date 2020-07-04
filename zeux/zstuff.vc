@@ -1,0 +1,705 @@
+// V2 Side Scroller Script
+// By Zaratustra (http://hello.to/the.prophet)
+
+// -------------------------------------------------------------------------
+
+// Processes game stuff. These functions will usually be changed by the user.
+
+// -------------------------------------------------------------------------
+
+#define BLUE_HEART    296
+#define RING          281
+#define BOOK_BLAST    115
+#define BOOK_INVINCO  116
+#define BOOK_WIND     117
+#define BOOK_SLOWTIME 118
+#define BOOK_KILL     119
+#define BOOK_STOPTIME 121
+#define BOOK_MYSTERY  123
+#define SWORD         148
+#define SCEPTER       149
+#define KEY_RED       369
+#define KEY_BLUE      374
+#define KEY_YELLOW    395
+#define KEY_SKELETON1 1400
+#define KEY_SKELETON2 1401
+#define KEY_SKELETON3 1407
+
+#define coin_tile 132
+#define gem_tile 143
+#define pouch_tile 234
+
+#define heart_tile 1
+
+int zs[13], currentz, buttonflag;
+int rainbow[48];
+int prevstage, rematch;
+int objinit;
+int snowflag;
+
+ // Initializes stuff for the level. 
+
+void Z_InitializeStuff()
+{
+
+ HookKey(28,Null);
+
+ Z_InitializeMapData();
+ ccoins=0;
+ cgems=0;
+
+ darkflag=0; invincoflag=0; blindflag=0;
+
+ waterflag=0;
+
+ notrack=0;
+ xwintck=0;  ywintck=0;
+ xwinmove=0; ywinmove=0;
+ ywinsin=0;
+ textflag=0; textblinkflag=0;
+ colorfulflag=0;
+ chaos=0; mega=0;
+ camtcker=0;
+ currentitem=0; itemtime=0;
+ bossintroed=0; bossend=0; rematch=0;
+ bosstime=0; latecounter=0; bosshurt=0;
+ ywinhlimit=0; ywinllimit=0;
+ xwinhlimit=0; xwinllimit=0;
+ bossflag1=0; bossflag2=0; bossflag3=0; bossflag4=0;
+ bossflag5=0; bossflag6=0; bossflag7=0; bossflag8=0;
+ bossflagA=0; bossflagB=0; bossflagC=0; bossflagD=0;
+ rocketflag=0; plummetflag=0;
+ nocoins=0; nogems=0;
+ hangflag=0; hangloose=0;
+
+ log ("Stage "+str(stage)+": "+str(mcoins)+" coins, "+str(mgems)+" gems");
+ Z_EntitySweep(2);
+}
+   
+ // Processes game mechanics at each tick.
+
+void Z_ProcessStuff()
+{
+  if (health=0) winflag=99;
+  if (lives>99) lives=99;
+  if (lives<0) lives=0;
+  if (gems>99) gems=99;
+  if (gems<0) gems=0;
+  if (coins>99) { lives++; coins-=100; PlaySound(snd_life, 64, 128); }
+  if (coins<0) coins=0;
+  Z_ProcessSpells();
+}
+
+void Z_StartStageStuff()
+{
+ int t;
+
+  Z_DefaultPhysics();
+  MapSize();
+
+  if (!objinit) InitializeObjects();
+
+  screenbuf=malloc(320*200);
+  log ("Boingy Boingy Boingy");
+
+  if (christmas || snowflag) { snow_set_flakes(100); snow_setup(); }
+
+  if (stage!=prevstage)
+  {
+  for (t=0; t<4; t++)
+  {
+  if (inventory[t]=KEY_RED || inventory[t]=KEY_BLUE || inventory[t]=KEY_YELLOW) inventory[t]=0;
+  }
+  }
+  prevstage=stage;
+
+  Z_InitializeStuff();
+
+}
+
+ // What happens at the end of the stage.
+
+void Z_EndStageStuff()
+{
+ int t;
+ PlayMusic("NULL.S3M");
+ if (winflag<3 && noend=0) PlaySound(snd_poke,64,128);
+ if (winflag=1 && noend=0) { StageClear(); SetPath(zonep1[stage]); }
+ if (winflag=2 && noend=0) { StageClear(); SetPath(zonep2[stage]); }
+ if (winflag=98) { PlaySound(snd_argh, 64, 128); gems-=cgems; if (gems<0) gems=0; }
+ if (winflag=99) { PlaySound(snd_die, 64, 128);  gems-=cgems; if (gems<0) gems=0; }
+ FadeOut(100,0);
+ if (winflag>=98) { t = timer; while (timer<t+50) { ShowPage(); } }
+ SaveSaidGame(option);
+ screenyrev=0;
+ screenxrev=0;
+ invplayer=0;
+ noend=0;
+ timeflag=0;
+ snowflag=0;
+
+ // I'm free!
+
+ free(screenbuf);
+
+ // Wipe keys from inventory
+
+ for (t=0; t<4; t++)
+ {
+ if (inventory[t]=KEY_RED || inventory[t]=KEY_BLUE || inventory[t]=KEY_YELLOW) inventory[t]=0;
+ }
+ if (winflag>=98) { health=4;
+ if (lives<0) lives=0;
+ if (lives=0) Map("GAMEOVER.MAP");
+ lives--; Map(returnmap); }
+}
+
+
+// This manipulates all kinds of blocks in the game. Called by Z_ProcessZones()
+// Read ZZONE.TXT for info.
+
+// If D is set to 1 and S is set to 1, the zone is assumed to be set by a shell (not player)
+
+void Z_Bump(int x, int y, int d, int s)
+{
+ int i, j, k, l;
+
+ i=GetTile(x,y,7);
+
+ if (vspeed<0) j=1;
+ if (s=1) j=1;
+
+ vx=x; vy=y;
+
+ switch (i)
+  {
+   // Brick Block
+   case 1: if(d=1 && j=1) { SetTZO(x,y,2,0,0,0); PlaySound(snd_pop, 64, 128); if (s=0) { vspeed=0; jumpflag=0; fallflag=0; }
+                                   SpawnObject(x*16+8,y*16+8,1,3,15); }
+
+   // '?' and Secret '?' Blocks
+   case 2: if(d=1 && j=1) { ccoins++; coins++;            PopBlock(x,y); PlaySound(snd_coin, 64, 128); }
+   case 3: if(d=1 && j=1) { SetTZO(x,y-1,2,gem_tile,6,0); PopBlock(x,y); PlaySound(snd_pop, 64, 128); }
+   case 4: if(d=1 && j=1) { PlaySound(snd_pop, 64, 128);  PopBlock(x,y);
+                                   enemytype[EntitySpawn(x,y-1,"life.chr")]=101; }
+
+   // Gimmes (coin, gem)
+   case 5: if(d=4) { ccoins++; coins++; SetTZO(x,y,2,0,0,0); PlaySound(snd_coin, 64, 128); }
+   case 6: if(d=4) { cgems++; gems++;   SetTZO(x,y,2,0,0,0); PlaySound(snd_gem,  64, 128); }
+
+   // SecretStage Flag
+   case 7: if(d=4) { SetTile(x,y,2,93); winflag=2; }
+
+   // Endstage Flag
+   case 8: if(d=4) { SetTile(x,y,2,93); winflag=1; }
+
+   // Waterline
+   case 9: if(d=1 && s=0) { if (waterflag=0) SpawnObject(entity.x[player]+8,entity.y[player]+8,1,16,15); waterflag=1; }
+           if(d=0) { if (waterflag=1) SpawnObject(entity.x[player]+8,entity.y[player]+8,1,16,15); waterflag=0; if(j=1) { jumpflag=jump_height; vspeed=0-jump_speed; } }
+
+   // Item blocks
+   case 10: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,236,20,0); PlaySound(snd_pop, 64, 128); }
+   case 11: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,296,21,0); PlaySound(snd_pop, 64, 128); }
+   case 12: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,pouch_tile,22,0); PlaySound(snd_pop, 64, 128);  }
+   case 13: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,281,23,0); PlaySound(snd_pop, 64, 128); }
+   case 14: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,284,24,0); PlaySound(snd_pop, 64, 128); }
+   case 15: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,286,25,0); PlaySound(snd_pop, 64, 128); }
+   case 16: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,288,26,0); PlaySound(snd_pop, 64, 128); }
+   case 17: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,290,27,0); PlaySound(snd_pop, 64, 128); }
+   case 18: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,292,28,0); PlaySound(snd_pop, 64, 128); }
+   case 19: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,294,29,0); PlaySound(snd_pop, 64, 128); }
+
+   // Items (Heart, Blue Heart, Pouch, Items)
+   case 20: if(d=4) { if (health<5) health++; SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); }
+   case 21: if(d=4) { Z_GiveItem(BLUE_HEART); SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); }
+   case 22: if(d=4) { coins += random(20); gems += random(4); SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); }
+   case 23: if(d=4) { if (Z_EmptySlot()) { Z_GiveItem(RING); SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); } }
+   case 24: if(d=4) { Z_Blast(); SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); text1="Blast Magic!"; textflag=100; }
+   case 25: if(d=4) { SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128);             Z_GeneralItem(ICON_INVINCO,15,0, 0, 63 ); text1="Invincibility!"; textflag=100; }
+   case 26: if(d=4) { SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128);             Z_GeneralItem(ICON_WIND,   30,63,63,0  ); text1="Wind!"; textflag=100;          }
+   case 27: if(d=4) { SetTZO(x,y,2,0,0,0); slowflag=1; PlaySound(snd_prize, 64, 128); Z_GeneralItem(ICON_STIME,  15,0, 63,0  ); text1="Slow Time!"; textflag=100;     }
+   case 28: if(d=4) { Z_KillEnemies(); SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); text1="Kill Enemies!"; textflag=100;  }
+   case 29: if(d=4) { Z_Ring(); SetTZO(x,y,2,0,0,0); PlaySound(snd_prize, 64, 128); }
+
+   // Avalanche Block
+   case 30: if(d=1 && j=1) { PopBlock(x,y);
+                                    Z_Avalanche(); jumpflag=0; fallflag=1; text1="Avalanche!"; textflag=100;  }
+
+   // Blind Block
+   case 31:
+   if(d=1 && j=1) { PopBlock(x,y); PlaySound(snd_pop, 64, 128); 
+                    PlaySound(snd_spec, 64, 128); Z_GeneralItem(ICON_BLIND,   30,32,32,32  ); text1="Blindness!"; textflag=100; }
+
+   // Wind Block
+   case 32:
+   if(d=1 && j=1) { PopBlock(x,y); PlaySound(snd_pop, 64, 128); 
+                    PlaySound(snd_spec, 64, 128); Z_GeneralItem(ICON_WIND,   30,63,63,0  ); text1="Wind!"; textflag=100; }
+
+   // Lavawalk Block (case 33)
+   case 33: if(d=1 && j=1) { PopBlock(x,y);
+                             Z_Lavawalk(); jumpflag=0; fallflag=1; text1="Lava Walk!"; textflag=100;  }
+
+   // More Items
+   case 34: if(d=4) { if (Z_EmptySlot()) { SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); Z_GiveItem(BOOK_BLAST);    text1="Blast Spellbook!"; textflag=100;   } }
+   case 35: if(d=4) { if (Z_EmptySlot()) { SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); Z_GiveItem(BOOK_INVINCO);  text1="Invinco Spellbook!"; textflag=100; } }
+   case 36: if(d=4) { if (Z_EmptySlot()) { SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); Z_GiveItem(BOOK_WIND);     text1="Wind Spellbook!"; textflag=100;          } }
+   case 37: if(d=4) { if (Z_EmptySlot()) { SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); Z_GiveItem(BOOK_SLOWTIME); text1="Slow Time Spellbook!"; textflag=100;     } }
+   case 38: if(d=4) { if (Z_EmptySlot()) { SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); Z_GiveItem(BOOK_KILL);     text1="Kill Enemies Spellbook!"; textflag=100;  } }
+   case 39: if(d=4) { if (Z_EmptySlot()) { SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); Z_GiveItem(BOOK_STOPTIME); text1="Freeze Time Spellbook!"; textflag=100;   } }
+
+   case 40: if(d=4) { if (Z_EmptySlot()) { Z_GiveItem(KEY_RED); SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); } }
+   case 41: if(d=4) { if (Z_EmptySlot()) { Z_GiveItem(KEY_BLUE); SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); } }
+   case 42: if(d=4) { if (Z_EmptySlot()) { Z_GiveItem(KEY_YELLOW); SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); } }
+
+   case 43: if(d<4 && s=0)
+             {
+               l=Z_HasItem(KEY_RED);
+               if (l>0)
+                {
+                 inventory[l]=0;
+                 Z_OpenDoor(entity.x[player]/16,entity.y[player]/16,0);
+                 if (!dooropen) Z_GiveItem(KEY_RED);
+                }
+             }
+
+   case 44: if(d<4 && s=0)
+             {
+               l=Z_HasItem(KEY_BLUE);
+               if (l>0)
+                {
+                 inventory[l]=0;
+                 Z_OpenDoor(entity.x[player]/16,entity.y[player]/16,1);
+                 if (!dooropen) Z_GiveItem(KEY_BLUE);
+                }
+             }
+
+   case 45: if(d<4 && s=0)
+             {
+               l=Z_HasItem(KEY_YELLOW);
+               if (l>0)
+                {
+                 inventory[l]=0;
+                 Z_OpenDoor(entity.x[player]/16,entity.y[player]/16,2);
+                 if (!dooropen) Z_GiveItem(KEY_YELLOW);
+                }
+             }
+
+   case 46: if(d=4) { if (Z_EmptySlot()) { Z_GiveItem(SWORD); SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); } }
+   case 47: if(d=4) { if (Z_EmptySlot()) { Z_GiveItem(SCEPTER);     SetTZO(x,y,2,0,0,0); PlaySound(snd_spec, 64, 128); } }
+   case 48: if(d=4)
+                  {
+                   PlaySound(snd_bells, 64, 128);
+                   Z_GeneralItem(0,0,63,0,0); 
+                   Z_GeneralItem(0,0,0,63,0); 
+                   Z_GeneralItem(0,0,0,0,63); 
+                   Z_GeneralItem(0,0,63,63,0); 
+                   Z_GeneralItem(0,0,0,63,63); 
+                   Z_GeneralItem(0,0,63,0,63); 
+                   Z_GeneralItem(0,0,63,63,63); 
+                   SetPath(105);
+                   SetTZO(x,y,2,0,0,0);
+                   text1="Megazeux Power Enabled!"; textflag=200;
+                  }
+            
+
+
+   // Spawns a floating platform
+   case 58: if(d=1 && j=1) { PopBlock(x,y); enemytype[EntitySpawn(x,y-1,"woodbar.chr")]=99;  }
+
+   // Bridge (loose)
+   case 60: if(d=0) { SetTZO(x,y,2,0,0,0); SetTile(x,y,6,0); enemytype[EntitySpawn(x,y,"bridge.chr")]=98; }
+
+   // Trampoline
+   case 70: if(d=0 && fallflag=1) { jumpflag=jump_height;   vspeed=0-bounce_speed;     rocketflag=1; PlaySound(snd_boing, 64, 128); }
+   case 71: if(d=0 && fallflag=1) { jumpflag=jump_height*2; vspeed=0-(bounce_speed*2); rocketflag=1; PlaySound(snd_boing, 64, 128); }
+   case 72: if(d=0 && fallflag=1) { jumpflag=jump_height*4; vspeed=0-(bounce_speed*4); rocketflag=1; PlaySound(snd_boing, 64, 128); }
+   // Trampoline Block
+
+   case 73: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,337,70,1); PlaySound(snd_pop, 64, 128); }
+   case 74: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,338,71,1); PlaySound(snd_pop, 64, 128); }
+   case 75: if(d=1 && j=1) { PopBlock(x,y); SetTZO(x,y-1,2,339,72,1); PlaySound(snd_pop, 64, 128); }
+
+   // Phantom Trampoline
+   case 76: if(d=0 && fallflag=1) { jumpflag=150000;   vspeed=0-bounce_speed;     rocketflag=1; PlaySound(snd_boing, 64, 128); }
+
+   // Event Blocks
+   case 90: if(d=1 && j=1) {  PopBlock(x,y); PlaySound(snd_pop, 64, 128); CallEvent(1); }
+   case 91: if(d=1 && j=1) {  PopBlock(x,y); PlaySound(snd_pop, 64, 128); CallEvent(2); }
+   case 92: if(d=1 && j=1) {  PopBlock(x,y); PlaySound(snd_pop, 64, 128); CallEvent(3); }
+   case 93: if(d=1 && j=1) {  PopBlock(x,y); PlaySound(snd_pop, 64, 128); CallEvent(4); }
+   case 94: if(d=1 && j=1) {  PopBlock(x,y); PlaySound(snd_pop, 64, 128); CallEvent(5); }
+
+   case 95: if(d=4) {  CallEvent(1); }
+   case 96: if(d=4) {  CallEvent(2); }
+   case 97: if(d=4) {  CallEvent(3); }
+   case 98: if(d=4) {  CallEvent(4); }
+
+   // Spinning Z
+
+   case 99: if(d=4) { SetTZO(x,y,2,0,0,0); PlaySound(snd_bells, 64, 128); zs[currentz]=1; }
+
+   // Pitstop Blocks
+   case 100: if(d=1 && j=1) GemBlock(RING,23,5,x,y);
+   case 101: if(d=1 && j=1) GemBlock(BLUE_HEART,21,10,x,y);
+   case 102: if(d=1 && j=1) GemBlock(BOOK_WIND,36,15,x,y);
+   case 103: if(d=1 && j=1) GemBlock(BOOK_SLOWTIME,37,20,x,y);
+   case 104: if(d=1 && j=1) GemBlock(SWORD,46,10,x,y);
+   case 105: if(d=1 && j=1 && gems>=20) { gems-=20;
+                                    PopBlock(x,y); // PlaySound(snd_pop, 64, 128);
+                                    enemytype[EntitySpawn(x,y-1,"life.chr")]=101;
+                                    jumpflag=0; vspeed=0; fallflag=1; }
+   case 106: if(d=1 && j=1) GemBlock(BOOK_INVINCO,35,30,x,y);
+   case 107: if(d=1 && j=1) GemBlock(BOOK_WIND,36,10,x,y);
+   case 108: if(d=1 && j=1) GemBlock(BOOK_BLAST,34,20,x,y);
+   case 109: if(d=1 && j=1) GemBlock(SCEPTER,47,20,x,y);
+   case 110: if(d=1 && j=1) GemBlock(SCEPTER,47,15,x,y);
+   case 111: if(d=1 && j=1) GemBlock(BOOK_STOPTIME,39,30,x,y);
+   case 112: if(d=1 && j=1) GemBlock(BLUE_HEART,21,5,x,y);
+   case 113: if(d=1 && j=1) GemBlock(BOOK_INVINCO,35,20,x,y);
+   case 114: if(d=1 && j=1) GemBlock(BOOK_KILL,38,50,x,y);
+   case 115: if(d=1 && j=1 && gems>=5) { gems-=5;
+                                    SetTZO(x,y,2,153,0,1); // PlaySound(snd_pop, 64, 128);
+                                    enemytype[EntitySpawn(x,y-1,"life.chr")]=101;
+                                    jumpflag=0; vspeed=0; fallflag=1; }
+   case 116: if(d=1 && j=1) GemBlock(BOOK_STOPTIME,39,20,x,y);
+   case 117: if(d=1 && j=1) GemBlock(BOOK_INVINCO,35,15,x,y);
+   case 118: if(d=1 && j=1) GemBlock(BOOK_KILL,38,30,x,y);
+   case 119: if(d=1 && j=1) GemBlock(BOOK_MYSTERY,48,99,x,y);
+
+
+
+   // Melting Ice
+
+   case 150: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2181,151,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 151: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2181,152,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 152: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2182,153,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 153: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2183,154,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 154: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2184,155,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 155: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2185,156,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 156: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2186,157,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 157: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2187,158,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 158: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,2188,159,1); SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+   case 159: if (d=0 && counter%5=0) { SetTZO(vx,vy,2,0,0,0);      SpawnObject(vx*16+random(16),vy*16+random(16),GOINGDOWN,40,10); }
+
+
+   // Mini ? Block
+
+   case 199: if(d=0 && vspeed<0) { ccoins++; coins++;  SetTZO(x,y,2,1540,0,0); PlaySound(snd_coin, 64, 128); jumpflag=0; vspeed=0;}
+
+   // Blob Tiles
+
+   case 200: if(d=4 && hurtflag<counter) Hurt();
+
+   case 202: if(d=4) health=0;
+
+   // Teleport Right/Left
+
+   case 210: if (d=4) Teleport(0);
+   case 211: if (d=4) Teleport(1);
+
+   /* Flag Blocks
+   case 230:
+   case 231:
+   case 232:
+   case 233:
+   case 234: */
+
+   // Invisible Wall
+
+   case 235: if(d!=4) { SetTZO(x,y,2,416,0,1); SpawnObject(x*16+8,y*16+8,1,0,15); }
+
+   // Ramps
+
+   case 240: if(d=0 || d=4) { if ( fallflag=1 && ((playerx+(player_width/2))-(x*16))+((playery+player_height)-(y*16))>=15) { groundflag=1; }
+                              if ( !fallflag && !jumpflag && !groundflag ) { playery100 -= hspeed; groundflag=1; }
+                              if ( jumpflag=0 && ((playerx+(player_width/2))-(x*16))+((playery+player_height)-(y*16))>15) { playery100-=100; groundflag=1; } }
+
+   case 241: if(d=0 || d=4) { if ( fallflag=1 && ((playerx+(player_width/2))-(x*16))=((playery+player_height)-(y*16))) { groundflag=1; } 
+                              if ( !fallflag && !jumpflag && !groundflag ) { playery100 += hspeed; groundflag=1; } 
+                              if ( jumpflag=0 && ((playerx+(player_width/2))-(x*16))<((playery+player_height)-(y*16))) { playery100-=100; groundflag=1; } }
+
+
+   // Pit
+
+   case 242: if(d=4) { fall_speed=camtckspeed*10; } 
+
+   // Strong Current - Rightwards
+   case 243: if(d=4) { if (Z_GetTileP(playerx+player_width+1,playery+2,6)=0 && Z_GetTileP(playerx+player_width+1,playery+player_height-2,6)=0 && playerx+player_width<mapx*16) playerx100+=75*(2-waterflag); }
+
+   // Strong Current - Leftwards
+   case 244: if(d=4) { if (Z_GetTileP(playerx-1,playery+2,6)=0 && Z_GetTileP(playerx-1,playery+player_height-2,6)=0 && playerx>0 ) playerx100-=75*(2-waterflag); }
+
+   // Backlash
+
+   case 245: if(d=4) { hspeed=0-200; vspeed=0-200; }
+
+   // Right
+
+   case 246: if(d=0)
+   { if (Z_GetTileP(playerx+player_width+1,playery+2,6)=0 && Z_GetTileP(playerx+player_width+1,playery+player_height-2,6)=0 && playerx+player_width<mapx*16) playerx100+=50; }
+
+   // Left
+
+   case 247: if(d=0)
+   { if (Z_GetTileP(playerx-1,playery+2,6)=0 && Z_GetTileP(playerx-1,playery+player_height-2,6)=0 && playerx>0 ) playerx100-=50; }
+
+   // Clockwise Spinner
+
+   case 248: if(d=0) { hspeed+=50; }
+             if(d=1 && s=0) { hspeed-=50; }
+             if(d=2) { vspeed-=100; if (vspeed < 0-fall_speed) vspeed=0-fall_speed; jumpflag=0; fallflag=1; }
+             if(d=3) { vspeed+=100; jumpflag=0; fallflag=1; }
+
+   // Counterclockwise Spinner
+
+   case 249: if(d=0) { hspeed-=50; }
+             if(d=1 && s=0) { hspeed+=50; }
+             if(d=2) { vspeed+=100; jumpflag=0; fallflag=1; }
+             if(d=3) { vspeed-=100; if (vspeed < 0-fall_speed) vspeed=0-fall_speed; jumpflag=0; fallflag=1; }
+
+   // Ice
+
+   case 250: if(d=0) iceflag=1;
+
+   // Bones
+
+   case 251: if(d=0 && vspeed>100) { SpawnObject(entity.x[player]+8,entity.y[player]+4,VANISHING,25,15); }
+
+
+   case 252: if(d=4) gunkflag=250;
+   // Quicksand
+
+   case 253: if(d=4) { if (hspeed > qsand_speed)     hspeed=qsand_speed;
+                       if (hspeed < 0 - qsand_speed) hspeed=0 - qsand_speed;
+                       if (vspeed > qsand_speed)     vspeed=qsand_speed;
+                       if (vspeed < 0 - qsand_speed) vspeed=0 - qsand_speed;
+                       airjumpflag=1;
+                     }
+             if(d=0) { if (vspeed = 0 - qsand_speed && jumpflag>0) vspeed=0 - jump_speed; airjumpflag=0;
+                     }
+   // Lava
+
+   case 254: if(d=4) health=0;
+
+   // Platform
+   case 255: if(d=0) { if (playery+player_height>=y*16 && playery+player_height<=y*16+(vspeed/100)+2) { groundflag=1; playery100=(y*16-player_height)*100; } }
+
+   }
+
+}
+
+void Z_Button()
+{
+ int x, y;
+ x=entity.x[player];
+ y=entity.y[player];
+ if (currentitem=SWORD && buttonflag < counter )
+  { if (playerheading) { SpawnObject(x-16,y+8,HURTENEMIES,7,8); }
+                  else { SpawnObject(x+player_width+16,y+8,HURTENEMIES,6,8); }
+    buttonflag=counter+30;
+  } 
+ if (currentitem=SCEPTER && buttonflag < counter )
+  { if (playerheading) { SpawnObject(x-8,y+8,HURTENEMIES+GOINGLEFT+SPEEDX2+OBSTRUCTABLE+SIZE8,9,160); }
+                  else { SpawnObject(x+player_width+8,y+8,HURTENEMIES+GOINGRIGHT+SPEEDX2+OBSTRUCTABLE+SIZE8,8,160); }
+    buttonflag=counter+30;
+  } 
+}
+
+void Z_ProcessRender()
+{
+ int x;
+  if(darkflag)
+  {
+   TCopySprite(0,0,320,200,darkbuf);
+  }
+  if(blindflag)
+  {
+   SetLucent(1); RectFill(0,0,320,200,1); RectFill(0,0,320,200,1); SetLucent(0);
+  }
+  if(invincoflag)
+  {
+   if (counter/32%2) { x=8+(counter/4%8); } else { x=16-(counter/4%8); } 
+   SetLucent(1); CircleFill(entity.x[player]-xWin+4, entity.y[player]-yWin+8, x, rainbow[counter/2%48] ); SetLucent(0);
+  }
+  if(jumpflag > jump_height * 2 || vspeed < 0-( jump_speed * 2 ) )
+  {
+    if (waterflag=0) SpawnObject(entity.x[player]+random(8), entity.y[player]+random(14), VANISHING+GOINGDOWN, 29, 15);
+  }
+  if (mega=1 && counter%3=0)
+  {
+    SpawnObject(entity.x[player]+random(8), entity.y[player]+random(14), VANISHING, 29, 15);
+  }
+  if (christmas || snowflag) { snow_tick(); }
+  if(screenyrev)
+  { GrabRegion(0,0,319,199,screenbuf);
+  for (vf=0; vf<=199; vf++)
+   {
+    CopySprite(0,vf,320,1,screenbuf+((199-vf)*320));
+   }
+  }
+}
+
+// Sells item S (zone Z) for price P on (X,Y)
+void GemBlock(int s, int z, int p, int x, int y)
+{
+ if (gems>=p) { gems -= p; SetTZO(x,y-1,2,s,z,0); PopBlock(x,y); }
+}
+
+// Pops a block
+void PopBlock(int x, int y)
+{
+ int a, b;
+ a=91; b=GetTile(x,y,2);
+ If(b>=127 && b<=131) a=91;
+ If(b=152) a=153;
+ If(b>=196 && b<=200) a=201;
+ If(b=1755) a=1756;
+ If(b>=1760 && b<=1772) a=1770;
+ If(b>=2028 && b<=2032) a=2033;
+ If(b>=2300 && b<=2303) a=1770;
+ SetTZO(x,y,2,a,0,1);
+ SpawnObject(x*16+8,y*16+8,1,0,15);
+ PlaySound(snd_pop, 64, 128);
+}
+
+// Does all necessary adjustments to a Zeux MAP
+void Z_InitializeMapData() 
+{
+ int x,y,i, j;
+ mcoins=0; mgems=0;
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      i=GetTile(x,y,7);
+      j=GetTile(x,y,2);
+      Switch(i)
+      {
+       case 2: mcoins++;
+       case 3: mgems++; Log ("Gem: "+str(x)+","+str(y));
+       case 5: mcoins++;
+       case 6: mgems++; Log ("Gem Block: "+str(x)+","+str(y));
+       case 199: mcoins++;
+       case 230: if (getpath(100)) SetTZO(x,y,2,2028,10,1);
+       case 231: if (getpath(101)) SetTZO(x,y,2,2029,12,1);
+       case 232: if (getpath(102)) SetTZO(x,y,2,2030,16,1);
+       case 233: if (getpath(103)) SetTZO(x,y,2,2031,19,1);
+       case 234: if (getpath(104)) SetTZO(x,y,2,2032,33,1);
+      }
+     if (j>=2045 && j<= 2049)
+      {
+       If(GetPath(j-1945)) SetTile(x,y,2,j-5); else SetTile(x,y,2,0);
+      }
+     if (j=2050)
+      {
+       if (getpath(100) || getpath(101)) SetTile(x,y,2,2040); else SetTile(x,y,2,0);
+      }
+    }
+  }
+}
+
+// 0 - Right: 1 - Left
+// case 210: if (d=4) Teleport(0);
+// case 211: if (d=4) Teleport(1);
+
+void Teleport(int d)
+{
+ int x,y,t,v;
+ x=vx; y=vy; t=0; v=0;
+ while (GetTile(x,y,7)!=211-d)
+  {
+   playerx100+=1600-(d*3200);
+   xwin100+=1600-(d*3200);
+   xwin=xwin100/100;
+   x+=1-(d*2);
+   t++; if (t%5=0) RenderShowPage();
+   if (timer>v+80){ v=timer; playsound(snd_tport,64,128); }
+  }
+ playerx100+=1600-(d*3200);
+ xwin100+=1600-(d*3200);
+ x+=1-(d*2);
+ time1=timer;
+}
+
+// --------------------------------------------------------------------------
+
+// USEFUL FUNCTIONS
+
+// --------------------------------------------------------------------------
+
+// Sets tile T on (X, Y) on layer L, plus obstruction as O and zone as Z
+void SetTZO(int x, int y, int l, int t, int z, int o)
+{
+ SetTile(x,y,l,t);
+ SetTile(x,y,6,o);
+ SetTile(x,y,7,z);
+}
+
+// Returns the number of zones Z1, Z2, Z3, Z4 in the stage
+int ZoneCount(int z1, int z2, int z3, int z4) 
+{
+ int x,y,i;
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      if (GetTile(x,y,7)=z1 || GetTile(x,y,7)=z2 || GetTile(x,y,7)=z3 || GetTile(x,y,7)=z4) i++;
+     }
+   }
+ return i;
+}
+
+// Removes a Z or Skeleton Key from the stage
+void ClearItem(int i)
+{
+ int x,y;
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      if (GetTile(x,y,7)=i) { SetTZO(x,y,2,0,0,0); }
+     }
+   }
+}
+
+// All occurences of tile T in layer L are set to zone Z.
+void TiletoZone(int l, int t, int z)
+{
+ int x,y;
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      if (GetTile(x,y,l)=t) { SetTile(x,y,7,z); }
+     }
+   }
+}
+
+// All occurences of tile T in layer L are set to obstruction value Z.
+void TiletoObs(int l, int t, int o)
+{
+ int x,y;
+  for (y=0; y<mapy; y++)
+   {
+    for (x=0; x<mapx; x++)
+     {
+      if (GetTile(x,y,l)=t) { SetTile(x,y,6,o); }
+     }
+   }
+}
+
+
+// BARE-BONES Gets map size from file
+int MapSize()
+{
+ mapx=map_width;
+ mapy=map_height;
+}
+
+void Null()
+{
+}
+
+// --------------------------------------------------------------------------
+
+

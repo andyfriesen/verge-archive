@@ -1,0 +1,40 @@
+event
+{
+SystemStartup();
+Z_StartStageStuff();
+timeflag=1;
+mcoins+=2;
+mgems+=2;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+timeflag=0;
+Map("TOWER.MAP");
+}
+
+// Prizes:
+// 45: Ring
+// 46: Life
+// 47: Pouch
+// 48: Heart
+// 50: Gem
+// 55: Gem
+// 60: Coin
+// 80: Coin
+
+event
+{
+ YourTime(counter);
+ SetTZO(7,7,2,457,0,0); SpawnObject(7*16+8,7*16+8,1,0,15);
+ if (counter<45*50) { SpawnObject(7*16+8,1*16+8,1,0,15); SetTZO(7,1,2,1755,13,1); }
+ if (counter<46*50) { SpawnObject(9*16+8,1*16+8,1,0,15); SetTZO(9,1,2,1755,4,1);  }
+ if (counter<47*50) { SpawnObject(5*16+8,1*16+8,1,0,15); SetTZO(5,1,2,1755,12,1); }
+ if (counter<48*50) { SpawnObject(7*16+8,4*16+8,1,0,15); SetTZO(7,4,2,1755,10,1); }
+ if (counter<50*50) { SpawnObject(5*16+8,4*16+8,1,0,15); SetTZO(7,7,2,458,0,0); SetTZO(5,4,2,1755,3,1); 
+                      SpawnObject(7*16+8,14*16+8,1,0,15); SetTZO(7,14,2,92,8,0); }
+ if (counter<55*50) { SpawnObject(9*16+8,4*16+8,1,0,15); SetTZO(9,4,2,1755,3,1); }
+ if (counter<60*50) { SpawnObject(5*16+8,7*16+8,1,0,15); SetTZO(5,7,2,1755,2,1); }
+ if (counter<80*50) { SpawnObject(9*16+8,7*16+8,1,0,15); SetTZO(9,7,2,1755,2,1); }
+}
+
+
+

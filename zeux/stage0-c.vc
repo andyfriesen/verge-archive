@@ -1,0 +1,20 @@
+event
+{
+SystemStartup();
+UpdateControls();
+v0=0;
+if (key[48]=1 && GetSScore(stage)>0) { timeflag=1; entity.x[0]=20*16; entity.y[0]=17*16; v0=1; }
+if (rematch=stage)                               { entity.x[0]=20*16; entity.y[0]=17*16; v0=1; }
+currentz=11;
+Z_StartStageStuff();
+
+if (entity.y[0]=17*16) { jumpflag=12800;   vspeed=0-bounce_speed;     rocketflag=1; }
+notrack=1;
+xwintck=0;
+ywintck=1;
+Z_ProcessSideMov();
+SaveSaidGame(option);
+if (winflag=1) Map("FINITO.MAP"); else Map("TEST.MAP");
+}
+
+

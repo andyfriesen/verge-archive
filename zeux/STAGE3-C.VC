@@ -1,0 +1,13 @@
+event
+{
+SystemStartup();
+UpdateControls();
+if (key[48]=1 && GetSScore(stage)>0) { timeflag=1; entity.x[0]=119*16; entity.y[0]=22*16; }
+if (rematch=stage) { entity.x[0]=119*16; entity.y[0]=22*16; waterflag=1; }
+Z_StartStageStuff();
+if (entity.y[0]=22*16) waterflag=1; 
+Z_ProcessSideMov();
+Map("TEST.MAP");
+}
+
+
