@@ -25,30 +25,31 @@
     cursor: pointer;
 }
 
+.game {
+    flex-grow: 1;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+}
+
 .game-frame {
     flex-grow: 1;
     border: 0;
 }
 
-.header-style {
-    font-size: 32px;    
-    align:top;
-    text-align:center;
-    position:absolute;
-    top:0;    
-    width:100%;
-    height:40px;
+header {
+    font-size: 32px;
+    align-self: center;
+    position: absolute;
+    top: 0;
+    height: 40px;
 }
 
-.footer-style {
-    font-size: 16px;    
-    align:top;
-    align-self:center; 
-    text-align:center;
-    position:absolute;
-    bottom:0;
-    width:100%;
-    height:120px;
-    
+footer {
+    font-size: 16px;
+    align-self: center;
+    align-self: center;
+    bottom: 0;
+    margin-bottom: 120px;
 }
 

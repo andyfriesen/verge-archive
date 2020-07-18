@@ -15,18 +15,16 @@ let make = (~game) => {
     | V2 => "game2.html?game=" ++ game.name
     };
 
-    <>
-        <div className="header-style" >
-        <br />
-        {ReasonReact.string(game.title)}
-        </div>
+    <div className="game">
+        <header>
+            {ReasonReact.string(game.title)}
+        </header>
         <iframe
             className="game-frame"
             src={url}
         />
-        <div className="footer-style" >
-
-        {ReasonReact.string(game.description)}
-        </div>
-    </>
+        <footer>
+            {ReasonReact.string(game.description)}
+        </footer>
+    </div>
 };
