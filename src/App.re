@@ -102,6 +102,11 @@ let make = () => {
         </li>;
     let allGames = Array.map(mkGame, games);
 
+    let closeGame = (event) => {
+        setCurGame(_ => None);
+        ignore(event);
+    };
+
     let gameComponent = switch (curGame) {
     | None => (<About />)
     | Some(game) => (<Game game={game} />)
@@ -116,6 +121,13 @@ let make = () => {
                 allGames
             )}
             </ul>
+            <br />
+            {
+                switch (curGame) {
+                | None => (<span />)
+                | Some(_) => (<a className="close-button" onClick={closeGame}>{ReasonReact.string("Close")}</a>)
+                }
+            }
         </div>
         gameComponent
     </div>

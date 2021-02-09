@@ -32,6 +32,11 @@
     flex-direction: column;
 }
 
+.close-button:hover {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .game-frame {
     flex-grow: 1;
     border: 0;

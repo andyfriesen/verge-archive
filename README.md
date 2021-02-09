@@ -9,7 +9,7 @@ As the original engine was a DOS application, it is getting harder to play these
 ```shell
 npm i --dev
 npm start # Start the compile watcher
-npm run server # Run the server locally.  Hit localhost:8000/indexDev.html
+npm run server # Run the server locally.  Hit localhost:8000/indexDevel.html
 
 npm run build && npm run release # Build an optimized release.  Hit localhost:8000/index.html to test locally
 ```
