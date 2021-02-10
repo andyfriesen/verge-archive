@@ -1,0 +1,206 @@
+int gamemode;
+int endgame;
+int bombtime, time;
+int row, blip;
+
+void ProcessGame()
+{
+ oxygen--;
+ Switch(GetTile(entity.x[player]+8/16,entity.y[player]+8/16,7))
+  {
+   case 1:  oxygen+=50*60*10; score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 2:  ammo+=25;         score+=500;  ClearTile(); playsound(snd_jump3,64,128);
+   case 3:  if(!coolhelmet) oxygen-=29; 
+   case 4:  if(coolkey)
+            {
+             SetTile(53,18,0,0);
+             SetTile(53,19,0,0);
+             SetTile(53,20,0,0);
+             SetTile(53,18,1,0);
+             SetTile(53,19,1,0);
+             SetTile(53,20,1,0);
+             coolkey=0; score+=1000;
+             playsound(snd_jump3,64,128);
+            }
+   case 5:  if(coolbomb)
+            {
+             SetTile(28,42,0,116);
+             bombtime=50*10;
+             coolbomb=0;
+            }
+   case 6:  if (isotope[0])
+            {
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,0,24);
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,7,0);
+             endgame++;
+             isotope[0]=0; score+=2000; playsound(snd_jump3,64,128);
+            }
+   case 7:  if (isotope[1])
+            {
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,0,25);
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,7,0);
+             endgame++;
+             isotope[1]=0; score+=2000; playsound(snd_jump3,64,128);
+            }
+   case 8:  if (isotope[2])
+            {
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,0,26);
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,7,0);
+             endgame++;
+             isotope[2]=0; score+=2000; playsound(snd_jump3,64,128);
+            }
+   case 9:  if (isotope[3])
+            {
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,0,27);
+             SetTile(entity.x[player]+8/16,entity.y[player]+8/16,7,0);
+             endgame++;
+             isotope[3]=0; score+=2000; playsound(snd_jump3,64,128);
+            }
+   case 10: isotope[0]=1; score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 11: isotope[1]=1; score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 12: isotope[2]=1; score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 13: isotope[3]=1; score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 14: coolshoes=1;  score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 15: coolkey=1;    score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 16: coolhelmet=1; score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 17: coolbomb=1;   score+=1000; ClearTile(); playsound(snd_jump3,64,128);
+   case 18: coolgun=1;    score+=1500; ClearTile(); playsound(snd_jump3,64,128);
+  }
+ if (bombtime)
+  {
+   bombtime--;
+   if (!bombtime)
+    {
+     time=timer;
+     while(timer<time+10) { PaletteMorph(63,63,63,100,63); ShowPage(); }
+     PaletteMorph(0,0,0,0,63);
+     ClearBedrock();
+    }
+  }
+ if (endgame=4) gamemode=2;
+ if (oxygen<=0) gamemode=1;
+}
+
+void ClearTile()
+{
+ SetTile(entity.x[player]+8/16,entity.y[player]+8/16,0,0);
+ SetTile(entity.x[player]+8/16,entity.y[player]+8/16,7,0);
+}
+
+void ClearBedrock()
+{
+ int x,y;
+ for (x=28; x<=33; x++)
+  {
+   for (y=38; y<=44; y++)
+    {
+     SetTile(x,y,0,0);
+     SetTile(x,y,1,0);
+    }
+  }
+
+}
+
+void MainMenu()
+{
+ int done;
+ time=timer;
+ while (!done)
+ {
+ switch (gamemode)
+ {
+  case 0: xwin=0;
+  case 1: xwin=60*16;
+          coolshoes=0;
+          coolgun=0;
+          coolhelmet=0;
+  case 2: xwin=34*16;
+          score+=ammo*50;
+          score+=oxygen/3;
+  case 3: xwin=20*16;
+ }
+  UpdateControls();
+ while (!b1 && !b3 && !b4)
+ {
+  UpdateControls();
+  blip=(timer-time/4);
+  row=200-blip;
+  if (row<0-160) row=0-160;
+  Render();
+  switch (gamemode)
+  {
+   case 0: TitleRetrace();
+   case 1: GameOverRetrace();
+   case 2: EndRetrace();
+   case 3: MissionRetrace();
+  }
+  ShowPage();
+ }
+ if (b3) Exit("http://zara.verge-rpg.com");
+ Unpress(1); Unpress(4);
+ if (gamemode=3) done=1;
+ if (gamemode=0) gamemode=3;
+ if (gamemode=1) gamemode=0;
+ if (gamemode=2) gamemode=0;
+ }
+// HookRetrace(0);
+}
+
+void TitleRetrace()
+{
+ GotoXY(9*16,24); PrintString(font,"A ZZZ Games production");
+ GotoXY(8*16,7*16); PrintString(font,"Press Enter to start");
+ GotoXY(8*16,8*16); PrintString(font,"Press Esc to quit");
+
+ GotoXY(3*16,184); PrintString(font,"C 2000-2001 By Zaratustra-Zathras");
+}
+
+void MissionRetrace()
+{
+CenterString(8, "Collect the isotopes in the");
+CenterString(20, "underground and return them to");
+CenterString(32, "the lab - We're all counting on you");
+if (canup) CenterString(48, "Space or Up - Jump");
+      else CenterString(48, "Space - Jump");
+CenterString(60, "Alt - Shoot");
+CenterString(70, "Esc - Pause");
+CenterString(85, "Good Luck");
+}
+
+void GameOverRetrace()
+{
+CenterString(8, "You have ran out of oxygen");
+CenterString(20, "Your mission has failed");
+CenterString(48, "Game Over");
+}
+
+void EndRetrace()
+{
+CenterStringX(96, row+10, "Congratulations");
+
+CenterStringX(96, row+30, "With your help the");
+CenterStringX(96, row+40, "plague has been subdued");
+
+CenterStringX(96, row+60, "You will be remembered");
+CenterStringX(96, row+70, "as a hero through the");
+CenterStringX(96, row+80, "generations");
+
+CenterStringX(96, row+100, "4Four");
+CenterStringX(96, row+110, "is a");
+CenterStringX(96, row+120, "ZZZ Game");
+
+CenterStringX(96, row+140, "Zaratustra - Creation");
+CenterStringX(96, row+150, "Zathras - Music and SFX");
+
+CenterStringX(96, row+220, "Score: "+right(str(1000000+score),6));
+CenterStringX(96, row+230, "Air: "+right(str(100+(oxygen/50/60)),2)+":"+right(str(100+(oxygen/50%60)),2));
+
+CenterStringX(96, row+250, "The End");
+
+if (blip>500 && blip%2 && !color)
+ {
+   CenterStringX(96,row+270,"Press 3 at Start");
+   CenterStringX(96,row+280,"For Super Colors");
+ }
+}
+

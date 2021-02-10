@@ -1,0 +1,24 @@
+
+int snd_die, snd_hitbad, snd_hitwall;
+int snd_jump1, snd_jump2, snd_jump3;
+int snd_shot[2], snd_weird;
+
+int sounds_cached;
+
+
+
+void CacheSounds()
+{
+    if (sounds_cached) return;
+    sounds_cached=1;
+
+    snd_die=CacheSound("DIE.WAV");
+    snd_hitbad=CacheSound("HITBAD.WAV");
+    snd_hitwall=CacheSound("HITWALL.WAV");
+    snd_jump1=CacheSound("JUMP1.WAV");
+    snd_jump2=CacheSound("JUMP2.WAV");
+    snd_jump3=CacheSound("JUMP3.WAV");
+    snd_shot[0]=CacheSound("SHOT.WAV");
+    snd_shot[1]=CacheSound("SHOT2.WAV");
+    snd_weird=CacheSound("WEIRD.WAV");
+}

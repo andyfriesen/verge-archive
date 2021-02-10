@@ -1,0 +1,7 @@
+event
+{
+ PaletteMorph(0,0,0,0,63);
+  cameratracking=0;
+  MainMenu();
+ Map("TEST3.MAP");
+}

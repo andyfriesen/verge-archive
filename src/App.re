@@ -83,6 +83,12 @@ let games: array(Game.game) = [|
         title: "Zeux's World",
         description: "A full-featured 2D platformer.  Brought to you by Zaratustra!  Important warning: V2 support is still really unstable.  This may not work very well just yet.",
         engine: Game.V2,
+    },
+    {
+        name: "4four",
+        title: "4four",
+        description: "Another great platformer from Zarathustra!",
+        engine: Game.V2
     }
 |];
 

@@ -1,0 +1,20 @@
+event
+{
+
+ endgame=0;
+ gamemode=0;
+ score=0;
+ oxygen=60*60*50;
+ ammo=50;
+
+ isotope[0]=0;
+ isotope[1]=0;
+ isotope[2]=0;
+ isotope[3]=0;
+ coolkey=0;
+ coolbomb=0;
+
+
+MainPlatformLoop();
+ Map("TITLE3.MAP");
+}

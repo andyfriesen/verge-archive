@@ -1,0 +1,377 @@
+// Standard platform script, yadda yadda yadda.
+// By Zaratustra, the only one that seems to do this right.
+
+#define OBSLAYER 1
+
+// How many pixels the player can climb without jumping.
+#define SLOPE 2
+
+// All the following are in pixel/100 notation, except friction, which is in %.
+// How high the player jumps before gravity sets down.
+#define JUMPHEIGHT 4000
+// Max horizontal speed.
+#define HORZSPEED 200
+// Normal jump speed.
+#define JUMPSPEED 300
+// Normal falling speed.
+#define FALLSPEED 200
+// 'Gripped' falling speed.
+#define GRIPFALLSPEED 50
+
+
+// Number of midair jumps. Just make this a variable, instead of a #define,
+// to change it.
+#define AIRJUMPS 1
+#define AIRJUMPHEIGHT 2000
+
+// 'Gripped' jumping off speed.
+#define GRIPJUMPHEIGHT 2000
+// <ack> The speed you'll bounce off the wall when jumping off.
+#define GRIPHORZJUMPSPEED 300
+
+// Acceleration, friction, gravity.
+#define ACCELX  30
+#define DECCELX 30
+#define GRAVITY 20
+
+// Same as above, but in midair. Affects maneuverability in midair.
+#define AIRACCELX  20
+#define AIRDECCELX 10
+
+// Ducking move speed.
+#define DUCKSPEED   100
+#define DUCKACCELX  0
+#define DUCKDECCELX 5
+#define DUCKUNDERDECCELX 5
+
+// Rolling.
+#define ROLLDISTANCE 6400
+#define ROLLSPEED    400
+#define ROLLGRAVITY  10
+
+#define PHEIGHT 14
+#define PWIDTH  10
+
+
+// Player states.
+#define FIDLE 0
+#define FWALK 1
+#define FJUMP 2
+#define FFALL 3
+#define FDUCK 4
+#define FSHOT 5
+#define FGRIP 6    
+#define FROLL 7
+#define FSHOTWALK 8
+#define FSHOTJUMP 9
+#define FSHOTFALL 10
+#define FSHOTGRIP 11
+#define FSHOTDUCK 12
+
+
+// Timerate of most animations.
+#define FRAME_UNIVT 5
+
+#define FRAME_IDLER 0
+#define FRAME_IDLEL 1
+#define FRAME_IDLEF 1
+#define FRAME_WALKR 2
+#define FRAME_WALKL 6
+#define FRAME_WALKF 4
+#define FRAME_JUMPR 10
+#define FRAME_JUMPL 11
+#define FRAME_JUMPF 1
+#define FRAME_FALLR 12
+#define FRAME_FALLL 13
+#define FRAME_FALLF 1
+#define FRAME_DUCKR 0
+#define FRAME_DUCKL 1
+#define FRAME_DUCKF 1
+#define FRAME_GRIPR 32
+#define FRAME_GRIPL 33
+#define FRAME_GRIPF 1
+#define FRAME_ROLLR 54
+#define FRAME_ROLLL 58
+#define FRAME_ROLLF 4
+#define FRAME_ROLLT 2
+
+#define FRAME_SHOTT 7
+
+#define FRAME_SHOTR 14
+#define FRAME_SHOTL 15
+#define FRAME_SHOTF 1
+#define FRAME_SHOTWALKR 16
+#define FRAME_SHOTWALKL 17
+#define FRAME_SHOTWALKF 1
+#define FRAME_SHOTJUMPR 18
+#define FRAME_SHOTJUMPL 19
+#define FRAME_SHOTJUMPF 1
+#define FRAME_SHOTFALLR 20
+#define FRAME_SHOTFALLL 21
+#define FRAME_SHOTFALLF 1
+#define FRAME_SHOTGRIPR 0
+#define FRAME_SHOTGRIPL 1
+#define FRAME_SHOTGRIPF 1
+#define FRAME_SHOTDUCKR 0
+#define FRAME_SHOTDUCKL 1
+#define FRAME_SHOTDUCKF 1
+
+
+
+int hspeed, vspeed, jumpflag, fallflag, moveflag, duckflag, shotflag, gripflag, obsflag, rollflag;
+int airjumpflag;
+int playerheading, playerframe;
+int playerx100, playery100;
+int timer2, counter;
+
+void MainPlatformLoop()
+{
+ int done;
+
+ Z_ResetEntities();
+ Z_EntitySweep(1);
+ StartupObjects();
+
+ timer2=timer;
+
+ playerx100=Entity.x[player]*100;
+ playery100=Entity.y[player]*100;
+
+ SetPlayer(0);
+ cameratracking=0;
+
+ while (!done)
+ {
+  while (timer2<timer)
+   { timer2+=2;
+     MovePlayer();
+     if (b3) PauseMenu();
+     PlayerGun();
+     PlayerAnimate();
+     Z_ProcessCreatures();
+     ProcessObjects();
+     ProcessGame();
+     counter++;
+   }
+  xWin=entity.x[player]/320*320;
+  yWin=entity.y[player]/192*192;
+  Render();
+  RenderObjects();
+  ShowMeter();
+  ShowPage();
+  if (gamemode) done=1;
+ }
+}
+
+void MovePlayer()
+{
+ int r, l, h;
+
+ UpDateControls();
+ r=right; l=left;
+ if (r && l) { r=0; l=0; }
+
+ playerframe=FIDLE;
+ moveflag=0;
+
+
+
+ if (r)
+    {
+     playerheading=1;
+     if (!duckflag)
+     {
+      if (!jumpflag && !fallflag) hspeed += ACCELX;
+                             else hspeed += AIRACCELX;
+     }
+      else hspeed += DUCKACCELX;
+     playerframe=FWALK; moveflag=1;
+    }
+ if (l)
+    {
+     playerheading=0;
+     if (!duckflag)
+     {
+      if (!jumpflag && !fallflag) hspeed -= ACCELX;     // Normal turn
+                             else hspeed -= AIRACCELX; // Midair turn
+     }
+      else hspeed -= DUCKACCELX;
+     playerframe=FWALK; moveflag=1;
+    }
+
+ if (hspeed > HORZSPEED || hspeed < 0 - HORZSPEED ) { l=0; r=0; }
+
+ if (!l && !r) {
+     if (!duckflag)
+     {
+      if (!jumpflag && !fallflag) hspeed = hspeed * (100 - DECCELX) / 100;    // Normal friction
+                             else hspeed = hspeed * (100 - AIRDECCELX) / 100; // Midair friction
+     }
+     else
+      {
+       if (GetTilePixel((playerx100+hspeed/100)-1,(playery100/100),OBSLAYER)=0 
+        && GetTilePixel((playerx100+hspeed/100)+PWIDTH+1,(playery100/100),OBSLAYER)=0)
+             hspeed = hspeed * (100 - DUCKDECCELX) / 100;
+        else hspeed = hspeed * (100 - DUCKUNDERDECCELX) / 100;
+      }
+      
+    }
+
+
+ obsflag=0;
+
+   if (hspeed < 0)
+     {
+      if
+      (GetTilePixel((playerx100+hspeed/100)-1,(playery100/100),OBSLAYER)*(1-duckflag)=0 &&
+       GetTilePixel((playerx100+hspeed/100)-1,(playery100/100)+(PHEIGHT/2),OBSLAYER)=0 &&
+       GetTilePixel((playerx100+hspeed/100)-1,(playery100-(SLOPE*(0-HSPEED))/100)-SLOPE+PHEIGHT,OBSLAYER)=0 && playerx100>0 )
+         playerx100 += hspeed;
+      else { hspeed=0; obsflag=1; }
+     }
+   if (hspeed > 0)
+     {
+      if
+      (GetTilePixel((playerx100+hspeed/100)+PWIDTH+1,(playery100/100),OBSLAYER)*(1-duckflag)=0 &&
+       GetTilePixel((playerx100+hspeed/100)+PWIDTH+1,(playery100/100)+(PHEIGHT/2),OBSLAYER)=0 &&
+       GetTilePixel((playerx100+hspeed/100)+PWIDTH+1,(playery100-(SLOPE*HSPEED)/100)-SLOPE+PHEIGHT,OBSLAYER)=0 && (playerx100/100)+PWIDTH<map_width*16)
+         playerx100 += hspeed;
+      else { hspeed=0; obsflag=1; }
+     }
+
+ MovePlayerY();
+
+
+ entity.x[player]=playerx100/100;
+ entity.y[player]=playery100/100;
+}
+
+void MovePlayerY()
+{
+ int d, g;
+ // Jump start
+ if (b1 || b4 || (up*canup)) { if (!jumpflag && !fallflag && !duckflag && !rollflag) { jumpflag=JUMPHEIGHT;
+   PlaySound(snd_jump1,64,128);
+ }
+                 if (fallflag && vspeed>0 && vspeed<FALLSPEED && airjumpflag>0 && coolshoes=1) { jumpflag=AIRJUMPHEIGHT; airjumpflag--; fallflag=0;
+                 PlaySound(snd_jump2,64,128);
+
+                 SpawnObject ((playerx100/100)+(PWIDTH/2), (playery100/100)+PHEIGHT-4, VANISHING, 1, 5); 
+                 }
+                }
+
+ // Jump sustain
+ if (jumpflag)
+ {
+   if (b1 || b4 || (up*canup)) { vspeed = 0 - JUMPSPEED; jumpflag-= JUMPSPEED; playerframe=FJUMP; } else jumpflag=0;
+ }
+
+ // Hit ground? Fall?
+ if (jumpflag<=0)
+  {           
+   if (jumpflag<0) { Unpress(1); Unpress(5); Unpress(4); }
+   jumpflag=0; 
+    if (GetTilePixel((playerx100/100),(playery100/100)+PHEIGHT+1,OBSLAYER)=0
+     && GetTilePixel((playerx100/100)+PWIDTH,(playery100/100)+PHEIGHT+1,OBSLAYER)=0
+    ) fallflag=1;
+    else {
+    if (fallflag=1) 
+    vspeed=0; fallflag=0; airjumpflag=AIRJUMPS; }
+  }
+ if (fallflag) { if (rollflag<=0) vspeed+=GRAVITY; else vspeed+=ROLLGRAVITY; }
+
+ if (vspeed < 0 && rollflag<=0) playerframe=FJUMP;
+
+ if (vspeed > FALLSPEED) vspeed = FALLSPEED;
+
+ playery100+=vspeed;
+
+ // HitCeiling ?
+ if (GetTilePixel((playerx100/100),(playery100+vspeed/100)-1,OBSLAYER)
+  || GetTilePixel((playerx100/100)+PWIDTH,(playery100+vspeed/100)-1,OBSLAYER))
+     { if (vspeed < 0) { vspeed=0; jumpflag=0; fallflag=1; } }
+
+
+ // If player 'inside' floor, move up
+ while (GetTilePixel((playerx100/100),(playery100/100)+PHEIGHT,OBSLAYER)
+  || GetTilePixel((playerx100/100)+PWIDTH,(playery100/100)+PHEIGHT,OBSLAYER))
+   {  playery100 -= 100; }
+
+  if (GetTilePixel((playerx100/100),(playery100/100)+PHEIGHT+SLOPE,OBSLAYER)=0
+   && GetTilePixel((playerx100/100)+PWIDTH,(playery100/100)+PHEIGHT+SLOPE,OBSLAYER)=0
+   && vspeed>0 && rollflag<=0) playerframe=FFALL;
+
+}
+
+void PlayerGun()
+{
+ if (b2 && !rollflag && shotflag=0 && ammo>0)
+  {
+   shotflag=FRAME_SHOTT*FRAME_SHOTF;
+   unpress(2);
+   ammo--;
+  }
+ if (shotflag)
+  { shotflag--;  
+    switch (playerframe)
+    {
+     case FIDLE: playerframe=FSHOT;
+     case FWALK: playerframe=FSHOTWALK;
+     case FJUMP: playerframe=FSHOTJUMP;
+    }
+  }
+
+ if (shotflag=FRAME_SHOTT/2)
+  {
+   PlaySound(snd_shot[coolgun],64,128);
+   if (color)
+   {
+   if (playerheading = 1)            SpawnMovingObject ( (playerx100/100)+PWIDTH, (playery100/100)+(PHEIGHT/2), HURTENEMIES + OBSTRUCTABLE, 56-(coolgun*32), 20+(40*coolgun), DIR_RIGHT, 4, 0);
+                                else SpawnMovingObject ( (playerx100/100),        (playery100/100)+(PHEIGHT/2), HURTENEMIES + OBSTRUCTABLE, 56-(coolgun*32), 20+(40*coolgun), DIR_LEFT, 4, 0);
+   }
+   else
+   {
+   if (playerheading = 1)            SpawnMovingObject ( (playerx100/100)+PWIDTH, (playery100/100)+(PHEIGHT/2), HURTENEMIES + OBSTRUCTABLE, 1+coolgun, 20+(40*coolgun), DIR_RIGHT, 4, 0);
+                                else SpawnMovingObject ( (playerx100/100),        (playery100/100)+(PHEIGHT/2), HURTENEMIES + OBSTRUCTABLE, 1+coolgun, 20+(40*coolgun), DIR_LEFT, 4, 0);
+   }
+  }                                                    
+}
+
+void PlayerAnimate()
+{
+ int f;
+ switch (playerframe)
+  {
+   case FIDLE:
+               if (playerheading) f=FRAME_IDLER+(counter/FRAME_UNIVT%FRAME_IDLEF);
+                             else f=FRAME_IDLEL+(counter/FRAME_UNIVT%FRAME_IDLEF);
+   case FWALK:
+               if (playerheading) f=FRAME_WALKR+(counter/10%FRAME_WALKF);
+                             else f=FRAME_WALKL+(counter/10%FRAME_WALKF);
+   case FJUMP:
+               if (playerheading) f=FRAME_JUMPR+(counter/FRAME_UNIVT%FRAME_JUMPF);
+                             else f=FRAME_JUMPL+(counter/FRAME_UNIVT%FRAME_JUMPF);
+   case FFALL:
+               if (playerheading) f=FRAME_FALLR+(counter/FRAME_UNIVT%FRAME_FALLF);
+                             else f=FRAME_FALLL+(counter/FRAME_UNIVT%FRAME_FALLF);
+   case FSHOT:
+               if (playerheading) f=FRAME_SHOTR;
+                             else f=FRAME_SHOTL;
+   case FSHOTWALK:
+               if (playerheading) f=FRAME_SHOTWALKR+FRAME_SHOTWALKF-(shotflag/FRAME_SHOTT)-1;
+                             else f=FRAME_SHOTWALKL+FRAME_SHOTWALKF-(shotflag/FRAME_SHOTT)-1;
+   case FSHOTJUMP:
+               if (playerheading) f=FRAME_SHOTJUMPR+FRAME_SHOTJUMPF-(shotflag/FRAME_SHOTT)-1;
+                             else f=FRAME_SHOTJUMPL+FRAME_SHOTJUMPF-(shotflag/FRAME_SHOTT)-1;
+   case FSHOTFALL:
+               if (playerheading) f=FRAME_SHOTFALLR+FRAME_SHOTFALLF-(shotflag/FRAME_SHOTT)-1;
+                             else f=FRAME_SHOTFALLL+FRAME_SHOTFALLF-(shotflag/FRAME_SHOTT)-1;
+  }
+ entity.specframe[player]=f;
+}
+
+int GetTilePixel (int x, int y, int l)
+{
+ return byte[vsp+(256*GetTile(x/16,y/16,l))+(x%16)+(y%16*16)];
+}
+

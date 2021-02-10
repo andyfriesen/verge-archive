@@ -1,0 +1,105 @@
+// Check out OBJECT.VH as well.
+
+int pixbuf;
+
+int obj.type[OBJECTS],      obj.picture[OBJECTS], obj.time[OBJECTS];
+int obj.direction[OBJECTS], obj.speed[OBJECTS],   obj.size[OBJECTS];
+int obj.x100[OBJECTS], obj.y100[OBJECTS];
+int obj.x[OBJECTS], obj.y[OBJECTS];
+
+
+// SpawnObject (X, Y, TYPE, PICTURE, TIME)
+// SpawnMovingObject (X, Y, TYPE, PICTURE, TIME, DIRECTION, SPEED, SIZE)
+// Direction in degrees. Speed in pixels/100 per tick.
+
+void SpawnObject (int x, int y, int o, int p, int t)
+{
+ int i;
+ i=1;
+ while(obj.type[i]!=0) { i++; if (i>OBJECTS-1) { i=1; obj.type[1]=0; } }
+ obj.x100[i]=x*100;
+ obj.y100[i]=y*100;
+ obj.type[i]=o;
+ obj.time[i]=t;
+ obj.picture[i]=p;
+ obj.direction[i]=0;
+ obj.speed[i]=0;
+ obj.size[i]=0;
+}
+
+void SpawnMovingObject (int x, int y, int o, int p, int t, int d, int s, int z)
+{
+ int i;
+ i=1;
+ while(obj.type[i]!=0) { i++; if (i>OBJECTS-1) { i=1; obj.type[1]=0; } }
+ obj.x100[i]=x*100;
+ obj.y100[i]=y*100;
+ obj.type[i]=o;
+ obj.time[i]=t;
+ obj.picture[i]=p;
+ obj.direction[i]=d;
+ obj.speed[i]=s;
+ obj.size[i]=z;
+}
+
+void StartupObjects()
+{
+}
+
+void ProcessObjects()
+{
+ int i, t, k, j;
+ for (i=1; i<=OBJECTS; i++)
+  {
+   if(obj.type[i])
+    {
+     obj.time[i]--; if (obj.time[i]=0) obj.type[i]=0;
+
+     if (obj.speed[i])
+      {
+       obj.x100[i]+=sin(obj.direction[i])*100*obj.speed[i]>>16;
+       obj.y100[i]+=cos(obj.direction[i])*100*obj.speed[i]>>16;
+      }
+
+     obj.x[i]=obj.x100[i]/100;
+     obj.y[i]=obj.y100[i]/100;
+
+     t=obj.type[i];
+     if (t & OBSTRUCTABLE) { if (GetTilePixel(obj.x[i],obj.y[i],OBSLAYER)) {
+                                             obj.type[i]=0;
+                                             PlaySound(snd_hitwall,64,128);
+                                             } }
+     if (t & VANISHING)    { if (obj.time[i]%5=0) obj.picture[i]++; }
+     if (t & HURTENEMIES)
+      {
+       for (j=0; j<=numents; j++)
+        {
+         if (j!=player && entity.respawn[j]=0)
+          {
+           if ( obj.x[i]>entity.x[j] &&
+                obj.x[i]<entity.x[j]+16 &&
+                obj.y[i]+PHEIGHT>entity.y[j] &&
+                obj.y[i]<entity.y[j]+16 )
+             {
+              entity.hurt[j]=1;
+              if (t & OBSTRUCTABLE) { 
+                                             obj.type[i]=0;
+                                             PlaySound(snd_hitbad,64,128);
+                                             } 
+             }
+          }
+        }
+      }
+    }
+  }
+}
+
+void RenderObjects()
+{
+ int i;
+ for (i=1; i<=OBJECTS; i++)
+  {
+   if (obj.type[i]) RectFill(obj.x[i]-1-xWin,obj.y[i]-1-yWin,obj.x[i]+1-xWin,obj.y[i]+1-yWin,obj.picture[i]);
+  }
+}
+

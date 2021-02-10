@@ -1,0 +1,97 @@
+-----------------------------------------------------------
+Name:           4Four
+Author:         Zaratustra & Zathras
+Home Page:      http://hello.to/the.prophet
+                http://www.verge-rpg.com/~zathras
+Description:    4-color platform game based on old computer games.
+                4CoV Entry.
+-----------------------------------------------------------
+
+Features
+-----------------------------
+Style:          Platform
+Graphics:       Created
+Music:          Created
+Battle System:  No
+Source Code:    Yes
+
+Technical Data
+-----------------------------
+Engine:         VERGE 2
+Build Time:     48 hours
+Programs Used:  MapEd
+Ave. Play Time: 30 mins
+
+Commands
+-----------------------------
+LEFT and RIGHT          - Walk
+UP / SPACE / ENTER      - Jump, Double Jump (when using Jet Boots)
+ALT                     - Shoot
+ESC                     - Pause
+
+Documentation
+-----------------------------
+Story
+
+The plague was released... a vile flesh-eating virus was released on
+the atmosphere.
+Half of the population of the continent has been decimated, and the 
+rest will sure follow, unless an antidote can be found.
+You grab the single containment suit left and a gun, and leave the lab 
+to collect the necessary elements for the antidote...
+
+Gameplay
+
+When launching the program, you'll receive two options for color schemes.
+Red-green-white is the competition original, but red-green-gold is more
+faithful to old computers. Also, pressing any key will change whether the
+UP key can be used or not for jumps, for Gamepad users.
+
+You start the game on the fields outside the lab. The lab's to the 
+right, and the isotopes have been detected in the underground.
+
+Make your way through the enemies and collect the isotopes before the air
+in your suit runs out! You have 60 minutes of air. Every enemy that collides
+with you will rip your suit slightly, docking 1 minute of air. Diving in the
+toxic underground rivers will drain your air very quickly!
+Some air packs may have been forgotten in the cave area, though. Each will
+give you 10 minutes of air.
+
+Your ray gun starts with 50 shots. Extra ammo boxes may be found in the caves.
+Each box contains 25 charges.
+
+The Four Isotopes
+
+You need to bring four isotopes to the laboratory for the antidote to 
+be crafted.
+They are:
+
+DEUTERIUM (HYDROGEN-2) (D, H-2)
+ANTIMONY-130 (Sb-130)
+IRIDIUM-187 (Ir-187)
+THALLIUM-218 (Tl-218)
+
+Items
+
+Four items will help you along your way.
+
+JET BOOTS - Give you an extra boost if you press the jump button just as you
+start falling.
+HIGH PRESSURE HELMET - Helps you to withstand dives into toxic rivers.
+BASEMENT KEY - The key to the basement of the laboratory.
+BOMB - High powered explosive, can be used to open a path in bedrock.
+
+Version Notes
+-----------------------------
+V1.0      Version for 4CoV.
+DEUTERIUM
+
+V1.1      Zathras fixed the music.
+ANTIMONY  A couple of new tiles.
+          Fixed the water areas.
+
+V1.2      WV2 version.
+IRIDIUM   Added 'white-red-green-gold' option.
+          Changed scoring.
+          Small alteration in annoying part of map.
+          Added pause button.

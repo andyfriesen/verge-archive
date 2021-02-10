@@ -1,0 +1,66 @@
+int font;
+int caca, color;
+int canup;
+
+void Autoexec()
+{
+ int t;
+ CacheSounds();
+
+ caca=LoadImage("SYSTEM.PCX");
+
+
+  PaletteMorph(0,0,0,0,63);
+  canup=1;
+ while(!t)
+ {
+  RectFill(0,0,319,199,0);
+  CenterString(85, "1 - Black Red Green White");
+  CenterString(95,"2 - Black Red Green Gold ");
+  if (!canup)
+     CenterString(110,"Up Key Does Not Jump");
+  else
+     CenterString(110,"Up Key Jumps");
+
+  ShowPage();
+  UpdateControls();
+
+  if (up || down || left || right || b1 || b2 || b3 || b4)
+   { canup=1-canup; Unpress(0); Unpress(5); Unpress(6); Unpress(7); Unpress(8); }
+
+  color=0;
+  If (key[2]) t=1;
+  If (key[3]) t=2;
+  If (key[4]) { t=3; color=1; }
+ }
+
+ font=LoadFont("four"+str(t)+".fnt");
+ map("title"+str(t)+".map");
+}
+
+void CenterString(int y, string text)
+{
+int x;
+x=strlen(text)*7/2;
+x=160-x;            
+GotoXY(x, y);
+PrintString(font, text);
+}
+
+void CenterStringX(int x1, int y, string text)
+{
+int x;
+x=strlen(text)*7/2;
+x=x1-x;            
+GotoXY(x, y);
+PrintString(font, text);
+}
+
+#include "object.vh"
+#include "platform.vc"
+#include "object.vc"
+#include "enemy.vc"
+#include "meter.vc"
+#include "sound.vc"
+#include "game.vc"
+

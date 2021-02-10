@@ -1,0 +1,45 @@
+
+#define FIREBALL 4
+
+int meterbuf;
+int oxygen, ammo;
+int score;
+
+int coolgun, coolshoes, coolhelmet, coolkey, coolbomb;
+int isotope[4];
+
+void ShowMeter()
+{
+ RectFill(0,192,319,199,0);
+ GotoXY(1,192); PrintString(font,right(str(1000000+score),6)+"    "+right(str(100+(oxygen/50/60)),2)+":"+right(str(100+(oxygen/50%60)),2)+"    "+right(str(1000+ammo),3) );
+ TCopySprite (48,193,16,8,vsp+(58*256));
+ TCopySprite (111,193,16,9,vsp+(59*256));
+
+
+ if (isotope[0]) TCopySprite (16*1+160,192,16,8,vsp+(48*256));
+ if (isotope[1]) TCopySprite (16*2+160,192,16,8,vsp+(49*256));
+ if (isotope[2]) TCopySprite (16*3+160,192,16,8,vsp+(50*256));
+ if (isotope[3]) TCopySprite (16*4+160,192,16,8,vsp+(51*256));
+ if (coolshoes) TCopySprite (16*5+160,192,16,8,vsp+(52*256));
+ if (coolkey) TCopySprite (16*6+160,192,16,8,vsp+(53*256));
+ if (coolhelmet) TCopySprite (16*7+160,192,16,8,vsp+(54*256));
+ if (coolbomb) TCopySprite (16*8+160,192,16,8,vsp+(55*256));
+ if (bombtime) { GotoXY(16*8+160,192); PrintString(font,right(str(101+(bombtime/50)),2)); }
+ if (coolgun) TCopySprite (16*9+160,192,16,8,vsp+(56*256));
+}
+
+void PauseMenu()
+{
+ Unpress(3);
+ While (!b3)
+ {
+  UpdateControls();
+  Render();
+  RectFill(0,192,319,199,0);
+  CenterString(192,"Pause");
+  ShowPage();
+ }
+ Unpress(3);
+ timer2=timer;
+}
+
