@@ -198,6 +198,14 @@
                 }
             };
 
+            document.addEventListener('keyup', (e) => {
+               e.preventDefault();
+            });
+
+            document.addEventListener('keydown', (e) => {
+               e.preventDefault();
+            });
+
             const u = new URLSearchParams(window.location.search);
             let game = u.get('game') || 'zeux';
             window.Module = {arguments: [game + '/']};
