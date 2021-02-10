@@ -92,9 +92,30 @@ let games: array(Game.game) = [|
     }
 |];
 
+let game_with_name = (name) => {
+    switch (name) {
+    | None => None
+    | Some(name) =>
+        Array.fold_left(
+            (a, game: Game.game) => {
+                switch (a) {
+                | Some(_) => a
+                | None =>
+                    if (game.name == name)
+                        Some(game)
+                    else
+                        None
+                }
+            },
+            None,
+            games
+        );
+    }
+};
+
 [@react.component]
-let make = () => {
-    let (curGame, setCurGame) = React.useState(() => None);
+let make = (~initialGame: option(string)) => {
+    let (curGame, setCurGame) = React.useState(() => game_with_name(initialGame));
 
     let onClick = (game, event) => {
         setCurGame(_ => Some(game));

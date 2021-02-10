@@ -1,9 +1,7 @@
-4COLOR3.VSP
-4FOUR.IT
 4color1.vsp
 4color2.vsp
-MAN.CHR
-SYSTEM.XVC
+4COLOR3.VSP
+4FOUR.IT
 bat.chr
 bat3.chr
 bot.chr
@@ -25,6 +23,7 @@ hitwall.wav
 jump1.wav
 jump2.wav
 jump3.wav
+MAN.CHR
 man3.chr
 meter.vc
 moth.chr
@@ -41,6 +40,7 @@ spider3.chr
 system.fnt
 system.pcx
 system.vc
+SYSTEM.XVC
 test1.map
 test1.vc
 test2.map
@@ -53,5 +53,6 @@ title2.map
 title2.vc
 title3.map
 title3.vc
+TRANS.TBL
 user.cfg
 weird.wav
