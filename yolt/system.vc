@@ -1,0 +1,272 @@
+/* System.vc for
+   You Only Live Thrice
+   Coded by GameMaster Ben */
+
+int flags[50], inven[10], forvar, partymem, dead, deaths;
+int bongchr, ivachr, xtarget, ytarget, faded, curmap;
+int diesfx, gunsfx;
+
+#include "gameopen.vc"
+#include "text.vc"
+#include "pixlmove.vc"
+#include "battle.vc"
+
+void AutoExec() {
+    setresolution(320,200); 
+    MapSwitch("casino.map", 10, 10, 1);
+    
+}
+
+void AttacheBlast()
+ {int i;
+  PlaySFX("stobmiss.wav");
+  for(i=0; i<101; i++)
+   {PaletteMorph(63,63,63,i,63);
+    Wait(2,1);}
+  for(i=63; i>0; i--)
+   {PaletteMorph(63,63,63,100,i);
+    Wait(2,1);}
+  EndGame("The entire lair (and the disk) were destroyed in the nuclear explosion.");}
+
+void Death()
+ {PaletteMorph(0,0,0,100,63);
+  PlaySound(diesfx,64,128);
+  Wait(300,0);
+  dead=1;
+  deaths--;
+  faded=0;
+  if(!deaths) EndGame("After all, you only get artificially revived thrice!");
+  cameratracking=1;
+  MapSwitch("ohmcshq.map",11,29,1);}
+
+void EarthQuake(int xintensity, int yintensity, int duration)
+ {int xloc, yloc, i;
+  cameratracking=0;
+  xloc=xwin; yloc=ywin;
+  while(duration>0)
+   {Render();
+    xwin=xloc+Random(xintensity*2)-xintensity;
+    ywin=yloc+Random(yintensity*2)-yintensity;
+    ShowPage();
+    Wait(1,0);
+    duration--;}
+  cameratracking=1;}
+
+void EndGame(string message)
+ {FreeAllSounds();
+  Exit("And so VERGE 2 was never released.  The End."); 
+ }
+
+void FadeIn(int span)
+ {int n, k;
+  timer=0;
+  k=span;
+  while(k>0)
+   {while(timer)
+     {k--;
+      timer--;
+      n++;}
+    if(n>span) n=span;
+    PaletteMorph(0,0,0,0,n*63/span);}
+  timer=0;}
+
+void FadeOut(int span)
+ {int n, k;
+  timer=0;
+  n=0;
+  k=span;
+  while(k>0)
+   {while(timer)
+     {k--;
+      timer--;
+      n++;}
+    if(n>span) n=span;
+    PaletteMorph(0,0,0,0,63-(n*63/span));}
+  timer=0;}
+
+void GunShot()
+ {PlaySound(gunsfx,64,128);}
+
+void InitMap()
+ {cameratracking=1;
+  bongchr=EntitySpawn(xtarget,ytarget,"bong.chr");
+  SetPlayer(bongchr);
+  ProcessEntities();
+  Render();
+  ShowPage();
+  if(faded)
+   {FadeIn(30);
+    faded=0;}
+  PaletteMorph(0,0,0,0,63);}
+
+void InitSystem()
+ {diesfx=CacheSound("die.wav");
+  gunsfx=CacheSound("gun.wav");
+  mainfnt=LoadFont("bong.fnt");
+  compfnt=LoadFont("computer.fnt");
+  swafnt=LoadFont("swahili.fnt");
+  deaths=4;
+  movedelay=2000;
+  PaletteMorph(0,0,0,0,63);}
+         
+int LoadGame()
+ {int bongfnt, ptr, ptrimg, file;
+  bongfnt=LoadFont("bong.fnt");
+  ptrimg=LoadImage("pointer.pcx");
+  PaletteMorph(0,0,0,0,63);
+  While(b1)
+   {UpdateControls();}
+  ptr=1;
+  RectFill(64,50,256,70,247);
+  Rect(64,50,256,70,25);
+  Rect(65,51,255,69,255);
+  Rect(66,52,254,68,17);
+  GotoXY(67,53); PrintString(bongfnt,"Load from Which File?");
+  ShowPage();
+  Wait(100,0);
+  While(!b1 && !b2)
+   {UpdateControls();
+    RectFill(114,70,206,170,247);
+    Rect(114,68,206,170,25);
+    Rect(115,69,205,169,255);
+    Rect(65,51,255,69,255);
+    Rect(116,70,204,168,17);
+    Rect(66,52,254,68,17);
+    GotoXY(135,73); PrintString(bongfnt,"New Game");
+    GotoXY(135,91); PrintString(bongfnt,"File 1");
+    GotoXY(135,109); PrintString(bongfnt,"File 2");
+    GotoXY(135,127); PrintString(bongfnt,"File 3");
+    GotoXY(135,145); PrintString(bongfnt,"File 4");
+    CopySprite(120,60+(18*ptr),8,8,ptrimg);
+    if(up)
+     {ptr--;
+      Unpress(5);}
+    if(down)
+     {ptr++;
+      Unpress(6);}
+    if(ptr=0) ptr=5;
+    if(ptr=6) ptr=1;
+    ShowPage();}
+  if(b1)
+   {Switch(ptr)
+     {Case 2: file=fopen("bongsave.000");
+              ReadVars(file);
+              if(!flags[6]) ptr=1;
+              fclose(file);
+      Case 3: file=fopen("bongsave.007");
+              ReadVars(file);
+              if(!flags[6]) ptr=1;
+              fclose(file);
+      Case 4: file=fopen("bongsave.006");
+              ReadVars(file);
+              if(!flags[6]) ptr=1;
+              fclose(file);
+      Case 5: file=fopen("bongsave.a82");
+              ReadVars(file);
+              if(!flags[6]) ptr=1;
+              fclose(file);}
+   }
+  PaletteMorph(0,0,0,100,63);
+  free(ptrimg);
+  if(ptr=1) return 0;
+  Render();
+  ShowPage();
+  While(b1)
+   {UpdateControls();}
+  return ptr;}
+
+void MapSwitch(string mapname, int xloc, int yloc, int fade)
+ {xtarget=xloc;
+  ytarget=yloc;
+  if(!fade)
+   {FadeOut(30);
+    faded=1;}
+  Map(mapname);}
+
+void PlaySFX(string sound)
+ {int ptr;
+  ptr=CacheSound(sound);
+  PlaySound(ptr,64,128);}
+
+void SaveGame()
+ {int ptr, ptrimg, file;
+  While(b1)
+   {UpdateControls();}
+  ptrimg=LoadImage("pointer.pcx");
+  ptr=1;
+  RectFill(64,50,256,70,247);
+  Rect(64,50,256,70,25);
+  Rect(65,51,255,69,255);
+  Rect(66,52,254,68,17);
+  GotoXY(75,53); PrintString(mainfnt,"Save to Which File?");
+  ShowPage();
+  Wait(100,0);
+  While(!b1 && !b2)
+   {UpdateControls();
+    RectFill(114,70,206,150,247);
+    Rect(114,68,206,150,25);
+    Rect(115,69,205,149,255);
+    Rect(116,70,204,148,17);
+    Rect(65,51,255,69,255);
+    Rect(66,52,254,68,17);
+    GotoXY(135,73); PrintString(mainfnt,"File 1");
+    GotoXY(135,91); PrintString(mainfnt,"File 2");
+    GotoXY(135,109); PrintString(mainfnt,"File 3");
+    GotoXY(135,127); PrintString(mainfnt,"File 4");
+    CopySprite(120,60+(18*ptr),8,8,ptrimg);
+    if(up)
+     {ptr--;
+      Unpress(5);}
+    if(down)
+     {ptr++;
+      Unpress(6);}
+    if(ptr=0) ptr=4;
+    if(ptr=5) ptr=1;
+    ShowPage();}
+  if(b1)
+   {Switch(ptr)
+     {Case 1: file=fwopen("bongsave.000");
+              WriteVars(file);
+              fwclose(file);
+      Case 2: file=fwopen("bongsave.007");
+              WriteVars(file);
+              fwclose(file);
+      Case 3: file=fwopen("bongsave.006");
+              WriteVars(file);
+              fwclose(file);
+      Case 4: file=fwopen("bongsave.a82");
+              WriteVars(file);
+              fwclose(file);}
+    Message("Game Saved",100);}
+  Render();
+  ShowPage();
+  While(b1)
+   {UpdateControls();}
+  free(ptrimg);
+  PixelMove();}
+
+void Wait(int delay, int upd)
+ {int i, j;
+  timer=0;
+  While(timer<delay)
+   {if(upd)
+     {ProcessEntities();
+      Render();
+      ShowPage();}
+   }
+ }
+
+void Warp(int xloc, int yloc, int fade)
+ {if(!fade) FadeOut(30);
+  entity.tx[bongchr]=xloc;
+  entity.x[bongchr]=xloc*16;
+  entity.ty[bongchr]=yloc;
+  entity.y[bongchr]=yloc*16;
+  Render();
+  ProcessEntities();
+  ShowPage();
+  if(!fade) FadeIn(30);}
+
+void WinGame()
+ {FreeAllSounds();
+  Exit("And so vecna got the V2 disk back, and Bong killed everybody in London. V2 was released very late as a result of vecna's gambling addiction.  The End.");}

@@ -1,0 +1,491 @@
+event // 0 Automatic Execution
+ {partymem=2;
+  InitMap();
+  movedelay=1250;
+  if(flags[19])
+   {entity.x[0]=0; entity.y[0]=0;
+    entity.x[1]=0; entity.y[1]=0;}
+  if(flags[20])
+   {SetTile(74,45,3,121);
+    SetTile(75,45,3,41);
+    SetTile(75,45,6,0);
+    SetTile(76,45,3,122);
+    SetTile(74,44,3,123);
+    SetTile(75,44,3,124);
+    SetTile(76,44,3,125);}
+  if(flags[21])
+   {entity.x[2]=0; entity.y[2]=0;
+    entity.x[3]=0; entity.y[3]=0;
+    entity.x[4]=0; entity.y[4]=0;
+    entity.x[5]=0; entity.y[5]=0;}
+  if(flags[22])
+   {entity.x[6]=0; entity.y[6]=0;
+    entity.x[7]=0; entity.y[7]=0;}
+  if(flags[23])
+   {entity.x[8]=0; entity.y[8]=0;
+    entity.x[9]=0; entity.y[9]=0;
+    entity.x[10]=0; entity.y[10]=0;}
+  if(flags[24])
+   {entity.x[11]=0; entity.y[11]=0;
+    entity.x[12]=0; entity.y[12]=0;}
+  if(flags[25])
+   {SetTile(56,7,1,123);
+    SetTile(57,7,1,124);
+    SetTile(58,7,1,125);
+    SetTile(56,8,1,121);
+    SetTile(57,8,1,0);
+    SetTile(57,8,6,0);
+    SetTile(58,8,1,122);}
+  if(flags[26])
+   {SetTile(39,54,3,123);
+    SetTile(40,54,3,124);
+    SetTile(41,54,3,125);
+    SetTile(39,55,3,121);
+    SetTile(40,55,3,0);
+    SetTile(40,55,6,0);
+    SetTile(41,55,3,122);}
+  if(flags[27])
+   {SetTile(79,25,1,123);  SetTile(80,25,1,124);
+    SetTile(81,25,1,125);  SetTile(79,26,1,121);
+    SetTile(80,26,1,0);    SetTile(80,26,6,0);
+    SetTile(81,26,1,122);  SetTile(107,33,3,123);
+    SetTile(108,33,3,124); SetTile(109,33,3,125);
+    SetTile(107,34,3,121); SetTile(108,34,3,0);
+    SetTile(108,34,6,0);   SetTile(109,34,3,122);}
+  if(flags[28])
+   {SetTile(116,6,1,153); SetTile(116,7,1,152);}
+  if(!flags[17] && !flags[19])
+   {ProcessEntities();
+    Render();
+    ShowPage();
+    PartyMove("U5");
+    while(entity.moving[bongchr])
+     {Wait(1,1);}
+    SText("Guard:","Halt!  You aren't authorized to",
+                   "enter the Secret Hidden Mountain-",
+                   "Top Lair!");
+    Swahili("Iva:","I told you this was a bad idea.","","");
+    SText("Bong:","Horrors!  Hurry, Iva.  We must",
+                  "neutralize them before they sound",
+                  "an alarm of some sort!");
+    Swahili("Iva:","I'm not stupid, you know.","","");
+    battres=Battle("Entry Guard",2);
+    entity.x[0]=0; entity.y[0]=0;
+    if(battres!=3)
+     {entity.x[1]=0; entity.y[1]=0;}
+    ProcessEntities();
+    if(battres=3)
+     {entity.specframe[1]=5;
+      ProcessEntities();
+      Render();
+      ShowPage();
+      SText("Guard:","Hey, let me go!  I didn't do",
+                     "anything!","");
+      Swahili("Iva:","Make him open the door.  We'll",
+                     "never get in otherwise.","");
+      SText("Bong:","Good thinking, Iva.  Okay, you.",
+                    "Open this door and we'll let",
+                    "you go.");
+      Wait(75,1);
+      SText("Guard:","Promise?","","");
+      Swahili("Iva:","I'll kill him after he opens it.","","");
+      SText("Bong:","Of course we promise!","","");
+      SText("Guard:","Okay.","","");
+      SetRString("1234ER");
+      entity.specframe[1]=0;
+      EntityMove(1,"L2Z6");
+      While(entity.moving[1])
+       {Wait(1,1);}
+      Wait(50,1);
+      Computer("Access confirmed.",
+               "Opening Entry Hatch.","");
+      SetTile(74,45,3,121);
+      SetTile(75,45,3,41);
+      SetTile(75,45,6,0);
+      SetTile(76,45,3,122);
+      Wait(4,1);
+      SetTile(74,44,3,123);
+      SetTile(75,44,3,124);
+      SetTile(76,44,3,125);
+      Wait(25,1);
+      entity.specframe[1]=5;
+      Wait(15,1);
+      SText("Guard:","There.  It's open.  Now let me",
+                     "go.","");
+      Swahili("Iva:","Good.  Now I can kill you.","","");
+      GunShot();
+      Wait(25,1);
+      entity.x[1]=0; entity.y[1]=0;
+      Wait(50,1);
+      SText("Bong:","Are you always so bloodthirsty?","","");
+      Swahili("Iva:","Watch it, or you're next.","","");
+      SText("Bong:","Whatever.  And you destroyed our",
+                    "floss.  I hope we won't need it.","");
+      inven[4]=0;
+      flags[20]++;}
+    PartyMove("F0");
+    flags[19]++;}
+  PixelMove();}
+
+event // 1 In Front of Object
+ {SetRString("1234ER");}
+
+event // 2 Behind Object
+ {SetRString("1E234R");}
+
+event // 3 Normal RString
+ {SetRString("12E34R");}
+
+event // 4 Exit via Front Door
+ {HookRetrace(0);
+  MapSwitch("andes.map",30,6,0);}
+
+event // 5 Exit via Hole in Wall
+ {HookRetrace(0);
+  if(flags[29])
+   {SetRString("5R");
+    Text("And so Bong and Iva escaped the",
+         "Lair, the helicopter picked them",
+         "up, and they went back to HQ.");
+    MapSwitch("ohmcshq.map",9,7,0);}
+  MapSwitch("andes.map",53,6,0);}
+
+event // 6 Entry Hatch
+ {if(!flags[20])
+   {HookRetrace(0);
+    Text("It's electronically locked.  Bong",
+         "and Iva can't get it open.","");}
+  if(flags[20])  SetRString("1E234R");}
+
+event // 7 Blast Door
+ {if(nwall)
+   {HookRetrace(0);
+    Text("It's electronically locked.  Bong",
+         "and Iva can't get it open.","");}
+  if(!nwall) SetRString("1E234R");}
+
+event // 8 Hall Battle 1
+ {if(!flags[21])
+   {HookRetrace(0);
+    SText("Guard:","Halt!  How did you get in here?","","");
+    SText("Bong:","Let's go, Iva","","");
+    Battle("Ninja Guard",4);
+    SetTile(entity.x[2]/16,entity.y[2]/16,6,0);
+    SetTile(entity.x[3]/16,entity.y[3]/16,6,0);
+    SetTile(entity.x[4]/16,entity.y[4]/16,6,0);
+    SetTile(entity.x[5]/16,entity.y[5]/16,6,0);
+    entity.x[2]=0; entity.y[2]=0;
+    entity.x[3]=0; entity.y[3]=0;
+    entity.x[4]=0; entity.y[4]=0;
+    entity.x[5]=0; entity.y[5]=0;
+    flags[21]++;}
+ }
+
+event // 9 Hall Battle 2
+ {if(!flags[22])
+   {HookRetrace(0);
+    SText("Guard:","Oh no!  We're under attack!","","");
+    Swahili("Iva:","More cannon fodder.  Where do",
+                   "they get all these people?","");
+    Battle("Ninja Guard",2);
+    SetTile(entity.x[6]/16,entity.y[6]/16,6,0);
+    SetTile(entity.x[7]/16,entity.y[7]/16,6,0);
+    entity.x[6]=0; entity.y[6]=0;
+    entity.x[7]=0; entity.y[7]=0;
+    flags[22]++;}
+ }
+
+event // 10 Door Battle
+ {if(!flags[23])
+   {HookRetrace(0);
+    SText("Guard:","Stop them!  They must not get to",
+                   "Garfeld's office!","");
+    Battle("Elite Guard",3);
+    SetTile(entity.x[8]/16,entity.y[8]/16,6,0);
+    SetTile(entity.x[9]/16,entity.y[9]/16,6,0);
+    SetTile(entity.x[10]/16,entity.y[10]/16,6,0);
+    entity.x[8]=0; entity.y[8]=0;
+    entity.x[9]=0; entity.y[9]=0;
+    entity.x[10]=0; entity.y[10]=0;
+    flags[23]++;}
+ }
+
+event // 11 Hall Battle 3
+ {if(!flags[24])
+   {HookRetrace(0);
+    SText("Guard:","We have to stop them!  This is",
+                   "the hall to the control room!","");
+    Swahili("Iva:","They're even stupider than you,",
+                   "Bong!","");
+    Battle("Stupid Guard",2);
+    SetTile(entity.x[11]/16,entity.y[11]/16,6,0);
+    SetTile(entity.x[12]/16,entity.y[12]/16,6,0);
+    entity.x[11]=0; entity.y[11]=0;
+    entity.x[12]=0; entity.y[12]=0;
+    flags[24]++;}
+ }
+
+event // 12 Enter Control Room
+ {HookRetrace(0);
+  Warp(16,72,0);}
+
+event // 13 Exit Control Room
+ {HookRetrace(0);
+  Warp(15,44,0);}
+
+event // 14 Control Room Computers
+ {HookRetrace(0);
+  if(flags[25]) Computer("Blast door on Garfeld's Office",
+                         "has been successfully opened.","");
+  if(!flags[25])
+   {Computer("Remote Access Terminal for:",
+             "     Garfeld's Office",
+             "Press a key to open door.");
+    SText("Bong:","This is it, Iva!  We can get",
+                  "into Garfeld's Office now!","");
+    Swahili("Iva:","I've got a bad feeling about",
+                   "this.","");
+    PlaySFX("button.wav");
+    SetTile(56,7,1,123);
+    SetTile(57,7,1,124);
+    SetTile(58,7,1,125);
+    SetTile(56,8,1,121);
+    SetTile(57,8,1,0);
+    SetTile(57,8,6,0);
+    SetTile(58,8,1,122);
+    Wait(25,1);
+    Computer("Blast door on Garfeld's Office",
+             "has been successfully opened.","");
+    forvar=EntitySpawn(16,72,"villains.chr");
+    SText("Man:","Not so fast","","");
+    Wait(25,1);
+    SText("Bong:","Oh NO!  It's Kwasidunga, the Man",
+                  "with the Golden Tongue!","");
+    SText("Kwasi:","That's right.  Now, Bong, you",
+                   "will duel with me!  Draw your",
+                   "weapon!");
+    Duel("Kwasidunga");
+    Render();
+    SText("Kwasi:","AAARRRGGGHH!!  You win this time",
+                   "Bong!","");
+    entity.x[forvar]=0; entity.y[forvar]=0;
+    Wait(10,1);
+    SText("Bong:","*Phew*  That was close.","","");
+    flags[25]++;}
+ }
+
+event // 15 Hallway Computer
+ {HookRetrace(0);
+  if(flags[26]) Computer("Southern blast door has been",
+                         "successfully opened.","");
+  if(!flags[26])
+   {Computer("Remote Access Terminal for:",
+             "     Southern Blast Door",
+             "Press a key to open door.");
+    SText("Bong:","Well, I don't see the harm in",
+                  "doing so.","");
+    PlaySFX("button.wav");
+    SetTile(39,54,3,123);
+    SetTile(40,54,3,124);
+    SetTile(41,54,3,125);
+    SetTile(39,55,3,121);
+    SetTile(40,55,3,0);
+    SetTile(40,55,6,0);
+    SetTile(41,55,3,122);
+    Wait(25,1);
+    Computer("Southern blast door has been",
+             "successfully opened.","");
+    flags[26]++;}
+ }
+
+event // 16 Computer near Office
+ {HookRetrace(0);
+  Computer("Terminal Off-Line",
+           "Access this terminal's functions",
+           "in the main control room.");
+ }
+
+event // 17 Computer near Save-amabob
+ {HookRetrace(0);
+  if(flags[27]) Computer("Blast door to Main Complex has",
+                         "been successfully opened.","");
+  if(!flags[27])
+   {Computer("Remote Access Terminal for:",
+             "     Blast Door to Main Complex",
+             "Press a key to open door.");
+    SText("Bong:","Well, I guess we need to get to",
+                  "the Main Complex, right Iva?","");
+    Swahili("Iva:","Just push the button, stupid.","","");
+    PlaySFX("button.wav");
+    SetTile(79,25,1,123);
+    SetTile(80,25,1,124);
+    SetTile(81,25,1,125);
+    SetTile(79,26,1,121);
+    SetTile(80,26,1,0);
+    SetTile(80,26,6,0);
+    SetTile(81,26,1,122);
+    SetTile(107,33,3,123);
+    SetTile(108,33,3,124);
+    SetTile(109,33,3,125);
+    SetTile(107,34,3,121);
+    SetTile(108,34,3,0);
+    SetTile(108,34,6,0);
+    SetTile(109,34,3,122);
+    Wait(25,1);
+    Computer("Blast door to Main Complex has",
+             "been successfully opened.","");
+    flags[27]++;}
+ }
+
+event // 18 Save-amabob
+ {if(!flags[28])
+   {HookRetrace(0);
+    SText("Bong:","Look, Iva!  Garfeld has a Save-",
+                  "amabob too!  We'll never win as",
+                  "long as he has this!");
+    Swahili("Iva:","Smash it.  It's the only way.","","");
+    SText("Bong:","We should smash it, but we could",
+                  "use it.  Then whenever things go",
+                  "bad, we come right back here!");
+    Swahili("Iva:","You're an idiot.  That's what he",
+                   "wants us to do.","");
+    PlaySFX("smash.wav");
+    SetTile(116,6,1,153);
+    SetTile(116,7,1,152);
+    Wait(75,1);
+    SText("Bong:","Or we could smash it.","","");
+    flags[28]++;}
+ }
+
+event // 19 Door to Main Complex
+ {HookRetrace(0);
+  if(!flags[27]) Text("It's electronically locked.  Bong",
+                      "and Iva can't get it open.","");
+  if(flags[27]) Warp(80,27,0);}
+
+event // 20 Door to Side Wing
+ {HookRetrace(0);
+  Warp(108,32,0);}
+
+event // 21 Door to Office
+ {HookRetrace(0);
+  Warp(17,17,0);
+  PartyMove("U4");
+  while(entity.moving[bongchr])
+   {Wait(1,1);}
+  SText("Bong:","So we meet again, Garfeld.","","");
+  SText("Garfeld:","Yes, Mr. Bong.  We meet again.","","");
+  SText("Bong:","Give me the disk, Garfeld.","","");
+  Swahili("Iva:","Stupid.  He's not going to give",
+                 "it to us!","");
+  SText("Garfeld:","No Mr. Bong.  I am going to make",
+                   "you fight all of my henchmen",
+                   "while I make my slow escape.");
+  SText("Bong:","FIEND!","","");
+  SText("Garfeld:","Starting to your left, you will",
+                   "be fighting, Coppertoe...","");
+  SText("Copper:","No, Mr. Bong, I expect you to die.","","");
+  SText("Garfeld:","Ears...","","");
+  SText("Ears:","*Smile*","","");
+  SText("Garfeld:","Short Korean guy with no real",
+                   "name...","");
+  SText("Korean:","*cracks neck*","","");
+  SText("Garfeld:","And Professor Maybe.","","");
+  SText("Maybe:","Greetings, Mr. Bong.","","");
+  SText("Bong:","Horrors.","","");
+  SText("Garfeld:","Goodbye, Mr. Bong.  We won't be",
+                   "seeing each other again.  But",
+                   "don't worry:");
+  SText("Garfeld:","I'll make sure to drop the disk",
+                   "somewhere blatently obvious for",
+                   "you.");
+  SText("Bong:","Oh, thank you.","","");
+  EntityMove(17,"U4");
+  while(entity.moving[17])
+   {Wait(1,1);}
+  SText("Bong:","Iva, you take the Korean and the",
+                "Professor.  I've got Coppertoe and",
+                "Ears.");
+  Swahili("Iva:","That sounds like a disease.","","");
+  SText("Copper:","Die, Bong!  DIE!!","","");
+  SText("Bong:","No.","","");
+  SText("Copper:","Oh...  Well....   FINE!! Be",
+                  "that way!! SEE if I care!","");
+  Duel("Coppertoe");
+  entity.x[13]=0; entity.y[13]=0;
+  entity.x[14]=0; entity.y[14]=0;
+  Wait(15,1);
+  SText("Ears:","*Smile*","","");
+  SText("Bong:","Don't you ever stop smiling?","","");
+  SText("Ears:","*Smile*","","");
+  Duel("Ears");
+  entity.x[15]=0; entity.y[15]=0;
+  entity.x[16]=0; entity.y[16]=0;
+  Wait(15,1);
+  SText("Bong:","Hurry, Iva!  After Garfeld!!","","");
+  Swahili("Iva:","I'm not as stupid as you, you know.",
+                 "I can figure that out by myself.","");
+  SetRString("5R");
+  Text("Bong and Iva race after Garfeld.",
+       "But are they too late?!?!?","");
+  Warp(43,78,0);
+  PartyMove("F0");
+  SetRString("12E345R");
+  Wait(5,1);}
+
+event // 22 South Blast Door
+ {HookRetrace(0);
+  if(!flags[26]) Text("It's electronically locked.  Bong",
+                      "and Iva can't get it open.","");
+  if(flags[26]) MapSwitch("andes.map",7,6,0);}
+
+event // 23 Dud Event
+ {}
+
+event // 24 Garfeld Escapes
+ {entity.x[17]=0; entity.y[17]=0;}
+
+event // 25 Fight Fred!
+ {if(!flags[29])
+   {HookRetrace(0);
+    SText("Woman:","Going somewhere?","","");
+    SText("Bong:","Oh no, not another henchman!",
+                  "And who might you be?","");
+    SText("Woman:","Fred.","","");
+    SText("Bong:","Fred?","","");
+    SText("Fred:","Yeah.  Fred.","","");
+    Swahili("Iva:","Who names all these people?","","");
+    SText("Fred:","Let's go, Bong.  One on one.","","");
+    SText("Bong:","No!","","");
+    Duel("Fred");
+    entity.x[18]=0; entity.y[18]=0;
+    Wait(15,1);
+    SText("Bong:","We've got to get out of here!","","");
+    flags[29]++;}
+ }
+
+event // 26 Blast Door back to Office
+ {HookRetrace(0);
+  SText("Bong:","The door shut behind us.  We need",
+                "to leave, anyway.","");}
+
+event // 27 Exit Door
+ {HookRetrace(0);
+  Warp(123,7,0);}
+
+event // 28 The Disk
+ {if(!inven[7])
+   {SText("Bong:","HERE IT IS!! We got the disk!",
+                  "I actually completed a mission!!","");
+    Swahili("Iva:","Marvelous.  Can we leave now?","","");
+    SetTile(63,72,1,0);
+    inven[7]++;}
+ }
+
+event // 29 Ending Computer
+ {HookRetrace(0);
+  Computer("The Auto-Destruct sequence has",
+           "been armed.  Building will explode",
+           "after everyone has left.");
+  SText("Bong:","Oh.  I guess we'd better leave now.","","");}
+

@@ -1,0 +1,112 @@
+event // 0 Automatic Execution
+ {vctrace=1;
+  GameOpen();
+  Render();
+  ShowPage();
+  cameratracking=0;
+  ProcessEntities();
+  Render();
+  ShowPage();
+  ProcessEntities();
+  FadeIn(30);
+  Wait(30,1);
+  SText("Dealer:","Mr. vecna, you have 15.  Mr.",
+                  "Garfeld, you have 10.","");
+  SText("vecna:","Hit me, lady.","","");
+  SText("Dealer:","Don't call me that.","","");
+  SText("Garfeld:","Just deal the cards, already!","","");
+  SText("Dealer:","Mr. vecna gets a 7.  You have gone",
+                  "out.  Serves you right, you loser.","");
+  SText("Garfeld:","Will you hit me, please?","","");
+  SText("Dealer:","Of course, sir.  Mr. Garfeld gets",
+                  "an ace.  You have 21.","");
+  SText("vecna:","This game is rigged!  He's won",
+                 "every single time we've played!",
+                 "I'm almost broke!!");
+  SText("Dealer:","House has 19.  Mr. Garfeld wins",
+                  "again.","");
+  SText("Garfeld:","Are you up for another game, Mr.",
+                   "vecna?","");
+  SText("vecna:","Of course! I have to win sometime.",
+                 "But maybe you'd care to raise the",
+                 "stakes a little...");
+  SText("Garfeld:","What did you have in mind?","","");
+  SText("vecna:","Your world destruction software up",
+                 "against mine.  Deal?","");
+  SText("Garfeld:","Hmmm...  Intriguing.  I'll do it.",
+                   "Now, let's see the software.","");
+  Wait(25,1);
+  SetTile(9,6,2,12);
+  Wait(25,1);
+  SText("Dealer:","Mr. Garfeld has 15.  Mr. vecna has",
+                  "22.  You have gone out, loser.","");
+  SText("vecna:","WHAT?!  I have two aces!  That's a",
+                 "two!  Who taught you blackjack?","");
+  SText("Dealer:","You have 22, sir.","","");
+  SText("vecna:","But...","","");
+  SText("Dealer:","Don't argue with me.  I was",
+                  "trained in the obscure art of",
+                  "Bestowal of Instant Death.");
+  SText("Dealer:","You have 22.  Got it?","","");
+  SText("vecna:","Uhhh....","","");
+  SText("Dealer:","Don't tempt me.","","");
+  SText("vecna:","I lose.","","");
+  SText("Dealer:","I knew we could come to an",
+                  "agreement.","");              
+  SText("Garfeld:","Well, it looks like you're broke,",
+                   "Mr. vecna.  I won't be seeing you",
+                   "again.");
+  SetTile(9,6,2,8);
+  Render();
+  EntityMove(2,"R15");
+  Wait(200,1);
+  EntityMove(4,"D1L8");
+  Wait(200,1);
+  SText("Man:","Excuse me, but what did that man",
+               "win from you?","");
+  SText("vecna:","Who are you, and why do you care?","","");
+  SText("Man:","My name is Bong.  Jimmy Bong.  I'm",
+               "a British secret agent and the man",
+               "is Garfeld, the evil mastermind.");
+  SText("vecna:","Secret agent?  Really...","","");
+  SText("Bong:","Now what did he win from you?","","");
+  SText("vecna:","He stole a disk of software which",
+                 "could change the course of human",
+                 "history as we know it.");
+  SText("Bong:","And you gave it to GARFELD!?","","");
+  SText("vecna:","Hey, he won it.  Now, can you get",
+                 "it back for me?","");
+  SText("Bong:","It is my duty to return that disk",
+                "to its rightful owner.  You can",
+                "rest easy now that I'm on it.");
+  SText("vecna:","Great.  Now, I've got a bit of",
+                 "cash left.  You want to play a",
+                 "round?");
+  SText("Bong:","Sure!  I love blackjack.  I'm very",
+                "good at it.","");
+  SText("vecna:","Great.  Another person who can't",
+                 "lose.  Just my luck.","");
+  SText("Dealer:","Mr. vecna has 20.  Mr. Bong has",
+                  "10.","");
+  SText("vecna:","Finally!!  Good luck!  I'll stay.","","");
+  SText("Bong:","Hit me.","","");
+  SText("Dealer:","Mr. Bong has 21.  His 21 beats Mr.",
+                  "vecna's 20.","");
+  SText("vecna:","Hey, wait a minute!  Some cards",
+                 "just fell out of his sleeve!","");
+  SText("Dealer:","Mr. BONG!  You were cheating?","","");
+  SText("Bong:","Yes.  OOPS!  I mean no!  That's",
+                "right.  I didn't cheat!","");
+  SText("vecna:","Nice try, Bong.  Don't try to fool",
+                 "me.  Nice knowing you!","");
+  SText("Bong:","Hey, that's a big gun you've got!","","");
+  SText("vecna:","Allow me to give you a closer",
+                 "look...","");
+  GunShot();
+  Wait(25,0);
+  PaletteMorph(0,0,0,100,63);
+  PlaySound(diesfx,64,128);
+  Wait(300,1);
+  faded=1;
+  MapSwitch("ohmcshq.map",9,6,1);}
+

@@ -1,0 +1,89 @@
+/* Introductory sequence to
+   You Only Live Thrice
+   Coded by GameMaster Ben  */
+
+void GameOpen()
+ {int tdapcx, bongpcx, titlepcx, bongsfx, black, bongsfx, titlesfx, loaded, i;
+  loaded=LoadGame();
+  if(loaded) MapSwitch("ohmcshq.map",17,28,1);
+  InitSystem();
+  tdapcx=LoadImage("TDA.pcx");
+  bongpcx=LoadImage("bong.pcx");
+  titlepcx=LoadImage("title.pcx");
+  black=LoadImage("black.pcx");
+  bongsfx=CacheSound("bong.wav");
+  titlesfx=CacheSound("title.wav");
+  PlayMusic("bond.s3m");
+  CopySprite(0,0,320,200,tdapcx);
+  ShowPage();
+  FadeIn(100); Wait(350,0); FadeOut(100);
+  CopySprite(0,0,320,200,bongpcx);
+  CopySprite(0,50,320,150,black);
+  ShowPage();
+  FadeIn(100); Wait(50,0);
+  for(i=50; i<90; i++)
+   {CopySprite(0,0,320,200,bongpcx);
+    CopySprite(0,i,320,200-i,black);
+    Wait(1,0);
+    ShowPage();}
+  PlaySound(bongsfx,64,128);
+  Wait(75,0);
+  for(i=90; i<140; i++)
+   {CopySprite(0,0,320,200,bongpcx);
+    CopySprite(0,i,320,200-i,black);
+    Wait(1,0);
+    ShowPage();}
+  Wait(100,0);
+  PlaySound(gunsfx,64,255);
+  Wait(25,0);
+  PlaySound(diesfx,64,128);
+  Wait(150,0);
+  PlaySound(gunsfx,64,128);
+  CopySprite(0,0,320,200,bongpcx);
+  CopySprite(150,140,320,200,black);
+  ShowPage();
+  Wait(25,0);
+  PlaySound(gunsfx,64,128);
+  CopySprite(0,0,320,200,bongpcx);
+  ShowPage();
+  Wait(100,0);
+  FadeOut(100);
+  CopySprite(0,0,320,200,black);
+  ShowPage();
+  PaletteMorph(0,0,0,0,63);
+  for(i=200; i>0; i--)
+   {CopySprite(0,i,320,200,titlepcx);
+    Wait(2,0);
+    ShowPage();
+    if(i=150) PlaySound(titlesfx,64,128);}
+  Wait(350,0); FadeOut(100);
+  CopySprite(0,0,320,200,black);
+  ShowPage();
+  PaletteMorph(0,0,0,0,63);
+  GotoXY(95,5); PrintString(mainfnt,"Also Starring");
+  GotoXY(75,75); PrintString(mainfnt,"Mary Scratcher as");
+  GotoXY(105,145); PrintString(mainfnt,"Iva Gunonmi");
+  ShowPage();
+  Wait(350,0);
+  CopySprite(0,0,320,200,black);
+  ShowPage();
+  GotoXY(95,5); PrintString(mainfnt,"Also Starring");
+  GotoXY(70,75); PrintString(mainfnt,"Percy Han-Gover as");
+  GotoXY(125,145); PrintString(mainfnt,"Garfeld");
+  ShowPage();
+  Wait(350,0);
+  CopySprite(0,0,320,200,black);
+  ShowPage();
+  GotoXY(95,5); PrintString(mainfnt,"Also Starring");
+  GotoXY(100,75); PrintString(mainfnt,"vecna.chr as");
+  GotoXY(135,145); PrintString(mainfnt,"vecna");
+  ShowPage();
+  Wait(350,0); FadeOut(100);
+  free(tdapcx);
+  free(bongpcx);
+  free(titlepcx);
+  free(black);
+  FreeAllSounds();
+  gunsfx=CacheSound("gun.wav");
+  diesfx=CacheSound("die.wav");
+  PaletteMorph(0,0,0,0,63);}

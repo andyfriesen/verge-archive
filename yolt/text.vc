@@ -1,0 +1,204 @@
+/* Text Effects for
+   You Only Live Thrice
+   Coded by GameMaster Ben */
+
+int mainfnt, compfnt, swafnt;
+
+void Computer(string line1, string line2, string line3)
+ {Unpress(1);
+  while(!b1)
+   {Render();
+    RectFill(0,130,320,200,150);
+    Rect(1,131,318,198,255);
+    Rect(0,130,319,199,25);
+    Rect(2,132,317,197,17);
+    GotoXY(9,135); PrintString(compfnt,line1);
+    GotoXY(9,155); PrintString(compfnt,line2);
+    GotoXY(9,175); PrintString(compfnt,line3);
+    ShowPage();
+    UpdateControls();}
+  Unpress(1);}
+
+void DrawTextBox()
+ {RectFill(0,130,320,200,247);
+  RectFill(0,110,100,130,247);
+  Rect(0,108,100,132,25);
+  Rect(1,131,318,198,255);
+  Rect(0,130,319,199,25);
+  Rect(2,132,317,197,17);
+  Rect(1,109,99,131,255);
+  Rect(2,110,98,130,17);}
+
+int Prompt(string spc, string line1, string line2, string line3, string ch1, string ch2)
+ {int line, run, ptr, ptrimg;
+  ptrimg=LoadImage("pointer.pcx");
+  While(b1)
+   {UpdateControls();}
+  Render();
+  DrawTextBox();
+  GotoXY(5,114); PrintString(mainfnt,spc);
+  ShowPage();
+  for(run=1; run<=strlen(line1); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(mainfnt,mid(line1,0,run));
+    Wait(1,0);
+    ShowPage();}
+  for(run=1; run<=strlen(line2); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(mainfnt,line1);
+    GotoXY(9,155);
+    PrintString(mainfnt,mid(line2,0,run));
+    Wait(1,0);
+    ShowPage();}
+  for(run=1; run<=strlen(line3); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(mainfnt,line1);
+    GotoXY(9,155); PrintString(mainfnt,line2);
+    GotoXY(9,175);
+    PrintString(mainfnt,mid(line3,0,run));
+    Wait(1,0);
+    ShowPage();}
+  While(!b1)
+   {Rect(189,91,319,128,25);
+    RectFill(190,92,318,127,1);
+    Rect(190,92,318,127,255);
+    Rect(191,93,317,126,17);
+    GotoXY(205,95); PrintString(mainfnt,ch1);
+    GotoXY(205,110); PrintString(mainfnt,ch2);
+    CopySprite(193,100+(ptr*15),8,8,ptrimg);
+    ShowPage();
+    UpdateControls();
+    if(Up || Down)
+     {ptr++;
+      if(ptr=2) ptr=0;
+      Unpress(5);
+      Unpress(6);}
+   }
+  While(b1)
+   {UpdateControls();}
+  Render();
+  ShowPage();
+  return ptr;}
+
+void SText(string spc, string line1, string line2, string line3)
+ {int run;
+  Unpress(1);
+  Render();
+  DrawTextBox();
+  GotoXY(5,114); PrintString(mainfnt,spc);
+  ShowPage();
+  for(run=1; run<=strlen(line1); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135);
+    PrintString(mainfnt,mid(line1,0,run));
+    ShowPage();
+    Wait(1,0);
+    UpdateControls();
+    if(b1) return;}
+  for(run=1; run<=strlen(line2); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(mainfnt,line1);
+    GotoXY(9,155);
+    PrintString(mainfnt,mid(line2,0,run));
+    ShowPage();
+    Wait(1,0);
+    UpdateControls();
+    if(b1) return;}
+  for(run=1; run<=strlen(line3); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(mainfnt,line1);
+    GotoXY(9,155); PrintString(mainfnt,line2);
+    GotoXY(9,175);
+    PrintString(mainfnt,mid(line3,0,run));
+    ShowPage();
+    Wait(1,0);
+    UpdateControls();
+    if(b1) return;}
+  while(!b1)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(mainfnt,line1);
+    GotoXY(9,155); PrintString(mainfnt,line2);
+    GotoXY(9,175); PrintString(mainfnt,line3);
+    ShowPage();
+    UpdateControls();}
+  Unpress(1);}
+
+void Swahili(string spc, string line1, string line2, string line3)
+ {int run;
+  Unpress(1);
+  Render();
+  DrawTextBox();
+  GotoXY(5,114); PrintString(mainfnt,spc);
+  ShowPage();
+  for(run=1; run<=strlen(line1); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135);
+    PrintString(swafnt,mid(line1,0,run));
+    ShowPage();
+    Wait(1,0);
+    UpdateControls();
+    if(b1) return;}
+  for(run=1; run<=strlen(line2); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(swafnt,line1);
+    GotoXY(9,155);
+    PrintString(swafnt,mid(line2,0,run));
+    ShowPage();
+    Wait(1,0);
+    UpdateControls();
+    if(b1) return;}
+  for(run=1; run<=strlen(line3); run++)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(swafnt,line1);
+    GotoXY(9,155); PrintString(swafnt,line2);
+    GotoXY(9,175);
+    PrintString(swafnt,mid(line3,0,run));
+    ShowPage();
+    Wait(1,0);
+    UpdateControls();
+    if(b1) return;}
+  while(!b1)
+   {Render();
+    DrawTextBox();
+    GotoXY(5,114); PrintString(mainfnt,spc);
+    GotoXY(9,135); PrintString(swafnt,line1);
+    GotoXY(9,155); PrintString(swafnt,line2);
+    GotoXY(9,175); PrintString(swafnt,line3);
+    ShowPage();
+    UpdateControls();}
+  Unpress(1);}
+
+void Text(string line1, string line2, string line3)
+ {Unpress(1);
+  while(!b1)
+   {Render();
+    RectFill(0,130,320,200,247);
+    Rect(0,130,319,199,25);
+    Rect(1,131,318,198,255);
+    Rect(2,132,317,197,17);
+    GotoXY(9,135); PrintString(mainfnt,line1);
+    GotoXY(9,155); PrintString(mainfnt,line2);
+    GotoXY(9,175); PrintString(mainfnt,line3);
+    ShowPage();
+    UpdateControls();}
+  Unpress(1);}

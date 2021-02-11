@@ -1,0 +1,263 @@
+event // 0 Automatic Execution
+ {partymem=2;
+  InitMap();
+  if(flags[10])
+   {SetTile(55,16,1,0); SetTile(55,16,7,1);
+    SetTile(50,15,1,0); SetTile(50,15,7,1);
+    SetTile(54,16,1,0); SetTile(54,16,7,1);
+    SetTile(51,15,1,0); SetTile(51,15,7,1);
+    SetTile(53,16,1,0); SetTile(53,16,7,1);
+    SetTile(51,16,1,0); SetTile(51,16,7,1);
+    SetTile(52,16,1,0); SetTile(52,16,7,1);}
+  if(flags[14])
+   {SetTile(63,14,2,116); SetTile(63,15,2,114);
+    SetTile(63,16,2,114); SetTile(63,17,2,114);
+    SetTile(63,18,2,114); SetTile(63,19,2,114);
+    SetTile(63,20,2,114); SetTile(63,21,2,115);}
+  if(flags[16])
+   {SetTile(30,4,2,94);
+    SetTile(30,5,2,41);
+    SetTile(30,5,6,0);}
+  if(flags[17])
+   {SetTile(53,0,2,117);
+    SetTile(53,1,2,114);
+    SetTile(53,2,2,114);
+    SetTile(53,3,2,114);
+    SetTile(53,4,2,114);
+    SetTile(53,5,2,114);}
+  curmap=2;
+  PixelMove();}
+
+event // 1 Fall off the Mountain
+ {HookRetrace(0);
+  PlaySFX("fall.wav");
+  SetRString("1E62345R");
+  cameratracking=0;
+  entity.specframe[bongchr]=23;
+  ProcessEntities();
+  for(forvar=0; forvar<200; forvar++)
+   {entity.y[bongchr]++;
+    Render();
+    ShowPage();}
+  Death();}
+
+event // 2 Path Collapses
+ {if(!flags[10])
+   {HookRetrace(0);
+    entity.specframe[bongchr]=23;
+    EarthQuake(16,16,200);
+    SetTile(55,16,1,0);
+    SetTile(55,16,7,1);
+    Wait(1,1);
+    SetTile(50,15,1,0);
+    SetTile(50,15,7,1);
+    Wait(1,1);
+    SetTile(54,16,1,0);
+    SetTile(54,16,7,1);
+    Wait(1,1);
+    SetTile(51,15,1,0);
+    SetTile(51,15,7,1);
+    Wait(1,1);
+    SetTile(53,16,1,0);
+    SetTile(53,16,7,1);
+    Wait(1,1);
+    SetTile(51,16,1,0);
+    SetTile(51,16,7,1);
+    Wait(1,1);
+    SetTile(52,16,1,0);
+    SetTile(52,16,7,1);
+    Wait(1,1);
+    entity.specframe[bongchr]=5;
+    Wait(50,1);
+    SText("Bong:","Well, that was impressive.  But we",
+                  "can't go further this way anymore.","");
+    Swahili("Iva:","We could find a place to grapple",
+                   "across.  No wonder you never finish",
+                   "a mission.  Duh, stupid!");
+    SText("Bong:","Of course!  You're right!  We need",
+                  "to find a place to grapple across!",
+                  "Brilliant, Iva!");
+    Swahili("Iva:","You are an idiot, aren't you?","","");
+    entity.specframe[bongchr]=0;
+    flags[10]++;}
+ }
+
+event // 3 Iva Notices the Hole in the Wall
+ {if(!flags[11])
+   {HookRetrace(0);
+    Swahili("Iva:","Look, stupid.  There's a hole in",
+                   "the wall up there.  If we had our",
+                   "grapple, we could climb up.");
+    SText("Bong:","You're right, Iva.  There is a",
+                  "hole up there.  We need to use the",
+                  "grappling floss to climb up.");
+    Swahili("Iva:","Didn't I just say that?","","");
+    flags[11]++;}
+ }
+
+event // 4 Welcome Mat
+ {if(!flags[12])
+   {HookRetrace(0);
+    Swahili("Iva:","Let's look for a key here.  It's",
+                   "the classic place to hide keys.","");
+    SText("Bong:","A key?  Here?  You must be crazy!",
+                  "Garfeld's the world's most fiendish",
+                  "fiend!  He won't leave a key here!");
+    Text("Iva finds a large key under the",
+         "welcome mat.","");
+    Swahili("Iva:","See?  I told you, you moron.","","");
+    SText("Bong:","Oh.  Well, then.","","");
+    inven[6]++;
+    flags[12]++;}
+ }
+
+event // 5 Iva Notices Grapple Location
+ {if(!flags[13] && flags[10])
+   {HookRetrace(0);
+    Swahili("Iva:","Here, stupid.  This is where we",
+                   "need to grapple.  You didn't lose",
+                   "the floss, did you?");
+    SText("Bong:","Yes, Iva.  We'll grapple here.  I",
+                  "just need to get out the floss.","");
+    flags[13]++;}
+ }
+
+event // 6 Front Door
+ {if(!flags[15])
+   {HookRetrace(0);
+    SText("Bong:","This is it.  The entrance to",
+                  "Garfeld's Secret Hidden Mountain-",
+                  "Top Lair.");
+    Swahili("Iva:","You're going to walk in the front",
+                   "door?!  My god you're stupid!","");
+    Text("As Bong tries to open the gate,",
+         "he finds it to be locked.","");
+    SText("Bong:","Darn it, it's locked!","","");
+    Swahili("Iva:","Duh, stupid.  Did you think he",
+                   "would just let us in?","");
+    flags[15]++;}
+  if(inven[6] && flags[15] && !flags[16])
+   {HookRetrace(0);
+    SText("Bong:","Let's see if this key opens the",
+                  "gate.","");
+    Text("Bong uses the key to unlock the",
+         "front gate to the Lair.","");
+    SetTile(30,5,2,41);
+    SetTile(30,5,6,0);
+    Wait(1,1);
+    SetTile(30,4,2,94);
+    Wait(25,1);
+    SText("Bong:","Yes!  Let's go, Iva!","","");
+    Swahili("Iva:","This is not a good idea.","","");
+    flags[16]++;}
+  if(flags[16])
+   {SetRString("162E345R");}
+ }
+
+event // 7 Enter Base by Door
+ {HookRetrace(0);
+  MapSwitch("lair.map",75,55,0);}
+
+event // 8 Exit Doorway
+ {SetRString("1623E45R");}
+
+event // 9 Grapple the Wall
+ {if(!inven[4] && flags[17])
+   {HookRetrace(0);
+    SText("Bong:","We should probably keep this",
+                  "with us.","");
+    SetTile(53,0,2,0);
+    SetTile(53,1,2,0);
+    SetTile(53,2,2,0);
+    SetTile(53,3,2,0);
+    SetTile(53,4,2,0);
+    SetTile(53,5,2,0);
+    Text("Bong returns the grappling floss",
+         "to its container.","");
+    inven[4]++;
+    flags[17]=0;}
+  if(inven[4] && !flags[17])
+   {HookRetrace(0);
+    Text("Bong throws the grappling floss",
+         "up the wall to the hole.","");
+    for(forvar=4; forvar>0; forvar--)
+     {SetTile(53,forvar,2,113);
+      SetTile(53,forvar+1,2,114);
+      Wait(3,1);}
+    SetTile(53,1,2,114);
+    Wait(1,1);
+    SetTile(53,0,2,117);
+    Wait(25,1);
+    SText("Bong:","There we go.  Now into the Lair.","","");
+    for(forvar=0; forvar<200; forvar++)
+     {entity.y[bongchr]--;
+      Render();
+      ProcessEntities();
+      ShowPage();}
+    flags[17]++;
+    inven[4]=0;
+    MapSwitch("lair.map",124,45,0);}
+ }
+
+event // 10 Grapple the Pit
+ {if(inven[4] && flags[10])
+   {HookRetrace(0);
+    Text("Bong ties the grappling floss to",
+         "the rock behind him and heaves the",
+         "floss across the chasm.");
+    if(entity.y[bongchr]>18*16)
+     {SetTile(63,21,2,115);
+      SetTile(63,20,2,114);
+      Wait(75,1);
+      for(forvar=19; forvar>14; forvar--)
+       {SetTile(63,forvar,2,113);
+        SetTile(63,forvar+1,2,114);
+        Wait(3,1);}
+      SetTile(63,14,2,116);
+      SetTile(63,15,2,114);}
+     else
+      {SetTile(63,14,2,116);
+       SetTile(63,15,2,114);
+       SetTile(63,16,2,114);
+       SetTile(63,17,2,114);
+       Wait(75,1);
+       for(forvar=18; forvar<21; forvar++)
+        {SetTile(63,forvar,2,112);
+         SetTile(63,forvar-1,2,114);
+         Wait(3,1);}
+       SetTile(63,20,2,114);
+       SetTile(63,21,2,115);}
+    Wait(25,1);
+    SText("Bong:","YES!  It worked!  Let's go, Iva.","","");
+    inven[4]=0;
+    flags[14]++;}
+  if(!flags[14])
+   {HookRetrace(0);
+    PlaySFX("fall.wav");
+    SetRString("1E62345R");
+    cameratracking=0;
+    entity.specframe[bongchr]=23;
+    ProcessEntities();
+    for(forvar=0; forvar<200; forvar++)
+     {entity.y[bongchr]++;
+      Render();
+      ShowPage();}
+    Death();}
+ }
+
+event // 11 Get the Grappling Floss
+ {if(!inven[4] && flags[14])
+   {HookRetrace(0);
+    SText("Bong:","We should probably keep this",
+                  "with us.","");
+    SetTile(63,14,2,87);
+    SetTile(63,21,2,87);
+    for(forvar=15; forvar<21; forvar++)
+     {SetTile(63,forvar,2,0);}
+    Render();
+    ShowPage();
+    Text("Bong returns the grappling floss",
+         "to its container.","");
+    inven[4]++;
+    flags[14]=0;}
+ }

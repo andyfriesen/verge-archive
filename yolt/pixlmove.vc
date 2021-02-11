@@ -1,0 +1,181 @@
+/* Pixel Accurate Movement Script
+   Version 1.1 completed May 3, 1999
+   Originally coded by GameMaster Ben  */
+
+#include "pamconst.vc"
+
+int endmove, curzone, nozone;
+int swall, nwall, wwall, ewall, movedelay;
+int szone, nzone, wzone, ezone, frametimer;
+#define SWITCHFRAME 15
+
+void PixelMove()
+ {int i;
+  While(!endmove)
+   {UpdateControls();
+    UpdateZone();
+
+//- Check Obstructions & Entities-\\
+    swall=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+16)/16,6);
+    nwall=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+10)/16,6);
+    wwall=GetTile((entity.x[bongchr])/16,(entity.y[bongchr]+12)/16,6);
+    ewall=GetTile((entity.x[bongchr]+16)/16,(entity.y[bongchr]+12)/16,6);
+    szone=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+16)/16,7);
+    nzone=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+10)/16,7);
+    wzone=GetTile((entity.x[bongchr])/16,(entity.y[bongchr]+12)/16,7);
+    ezone=GetTile((entity.x[bongchr]+16)/16,(entity.y[bongchr]+12)/16,7);
+    for(i=0; i<numentsonscreen; i++)
+     {if(entsonscreen[i]!=bongchr)
+        SetTile(entity.x[entsonscreen[i]]/16,entity.y[entsonscreen[i]]/16,6,0);}
+    ProcessEntities();
+    for(i=0; i<numentsonscreen; i++)
+     {if(entsonscreen[i]!=bongchr)
+        SetTile(entity.x[entsonscreen[i]]/16,entity.y[entsonscreen[i]]/16,6,1);}
+      
+//- Set Facing -\\
+    if(down) entity.facing[bongchr]=0;
+    if(up) entity.facing[bongchr]=1;
+    if(right) entity.facing[bongchr]=2;
+    if(left) entity.facing[bongchr]=3;
+
+//- No Movement -\\
+    if(!up && !down && !left && !right)
+     {frametimer=0;
+      SetIdleFrame();}
+
+//- Adjacent Activation Compatability -\\
+    if(b1) CallZone(entity.facing[bongchr]);
+
+//- Movement Coding -\\
+    if(down && !swall)
+     {ProcessDownMovement();
+      entity.y[bongchr]++;
+      frametimer++;}
+    if(up && !nwall)
+     {ProcessUpMovement();
+      frametimer++;
+      entity.y[bongchr]--;}
+    if(right && !ewall)
+     {if(!up && !down)
+       {ProcessRightMovement();
+        frametimer++;}
+      entity.x[bongchr]++;}
+    if(left && !wwall)
+     {if(!up && !down && !right)
+       {ProcessLeftMovement();
+        frametimer++;}
+      entity.x[bongchr]--;}
+
+//- Various Movement Checks -\\
+    if(up && down && !left && !right)
+     {frametimer=0;
+      SetIdleFrame();}
+    if(!up && !down && left && right) 
+     {frametimer=0;
+      SetIdleFrame();}       
+    if(down && swall && !left && !right) entity.specframe[bongchr]=DFRAME_1;
+    if(down && swall && left && right) entity.specframe[bongchr]=DFRAME_1;
+    if(down && swall && left && !wwall)
+       {ProcessLeftMovement();
+        frametimer++;}
+    if(down && swall && right && !ewall)
+       {ProcessRightMovement();
+        frametimer++;}
+    if(up && nwall && !left && !right) entity.specframe[bongchr]=UFRAME_1;
+    if(up && nwall && left && right) entity.specframe[bongchr]=UFRAME_1;
+    if(up && nwall && left && !wwall)
+       {ProcessLeftMovement();
+        frametimer++;}
+    if(up && nwall && right && !ewall)
+       {ProcessRightMovement();
+        frametimer++;}
+    if(right && ewall && !up && !down) entity.specframe[bongchr]=RFRAME_1;
+    if(right && ewall && up && down) entity.specframe[bongchr]=RFRAME_1;
+    if(left && wwall && !up && !down) entity.specframe[bongchr]=LFRAME_1;
+    if(left && wwall && up && down) entity.specframe[bongchr]=LFRAME_1;
+
+//- Delay Between Refreshes -\\
+    for(i=0; i<movedelay; i++)
+     {}
+    Render();
+    ShowPage();}
+ }
+
+void CallZone(int facing)
+ {int zonecall;
+  Switch(facing)
+   {Case 0: zonecall=szone;
+    Case 1: zonecall=nzone;
+    Case 2: zonecall=ezone;
+    Case 3: zonecall=wzone;}
+  if(zonecall) CallEvent(zonecall);}
+
+void ProcessDownMovement()
+ {Switch(frametimer)
+   {Case SWITCHFRAME*0: entity.specframe[bongchr]=DFRAME_1;
+    Case SWITCHFRAME*1: entity.specframe[bongchr]=DFRAME_2;
+    Case SWITCHFRAME*2: entity.specframe[bongchr]=DFRAME_3;
+    Case SWITCHFRAME*3: entity.specframe[bongchr]=DFRAME_2;
+    Case SWITCHFRAME*4: entity.specframe[bongchr]=DFRAME_1;
+    Case SWITCHFRAME*5: entity.specframe[bongchr]=DFRAME_4;
+    Case SWITCHFRAME*6: entity.specframe[bongchr]=DFRAME_5;
+    Case SWITCHFRAME*7: entity.specframe[bongchr]=DFRAME_4;
+    Case SWITCHFRAME*8: entity.specframe[bongchr]=DFRAME_1;
+              frametimer=0;}
+ }
+
+void ProcessLeftMovement()
+ {Switch(frametimer)
+   {Case SWITCHFRAME*0: entity.specframe[bongchr]=LFRAME_1;
+    Case SWITCHFRAME*1: entity.specframe[bongchr]=LFRAME_2;
+    Case SWITCHFRAME*2: entity.specframe[bongchr]=LFRAME_3;
+    Case SWITCHFRAME*3: entity.specframe[bongchr]=LFRAME_2;
+    Case SWITCHFRAME*4: entity.specframe[bongchr]=LFRAME_1;
+    Case SWITCHFRAME*5: entity.specframe[bongchr]=LFRAME_4;
+    Case SWITCHFRAME*6: entity.specframe[bongchr]=LFRAME_5;
+    Case SWITCHFRAME*7: entity.specframe[bongchr]=LFRAME_4;
+    Case SWITCHFRAME*8: entity.specframe[bongchr]=LFRAME_1;
+                        frametimer=0;}
+ }
+
+void ProcessRightMovement()
+ {Switch(frametimer)
+   {Case SWITCHFRAME*0: entity.specframe[bongchr]=RFRAME_1;
+    Case SWITCHFRAME*1: entity.specframe[bongchr]=RFRAME_2;
+    Case SWITCHFRAME*2: entity.specframe[bongchr]=RFRAME_3;
+    Case SWITCHFRAME*3: entity.specframe[bongchr]=RFRAME_2;
+    Case SWITCHFRAME*4: entity.specframe[bongchr]=RFRAME_1;
+    Case SWITCHFRAME*5: entity.specframe[bongchr]=RFRAME_4;
+    Case SWITCHFRAME*6: entity.specframe[bongchr]=RFRAME_5;
+    Case SWITCHFRAME*7: entity.specframe[bongchr]=RFRAME_4;
+    Case SWITCHFRAME*8: entity.specframe[bongchr]=RFRAME_1;
+                        frametimer=0;}
+ }
+
+void ProcessUpMovement()
+ {Switch(frametimer)
+   {Case SWITCHFRAME*0: entity.specframe[bongchr]=UFRAME_1;
+    Case SWITCHFRAME*1: entity.specframe[bongchr]=UFRAME_2;
+    Case SWITCHFRAME*2: entity.specframe[bongchr]=UFRAME_3;
+    Case SWITCHFRAME*3: entity.specframe[bongchr]=UFRAME_2;
+    Case SWITCHFRAME*4: entity.specframe[bongchr]=UFRAME_1;
+    Case SWITCHFRAME*5: entity.specframe[bongchr]=UFRAME_4;
+    Case SWITCHFRAME*6: entity.specframe[bongchr]=UFRAME_5;
+    Case SWITCHFRAME*7: entity.specframe[bongchr]=UFRAME_4;
+    Case SWITCHFRAME*8: entity.specframe[bongchr]=UFRAME_1;
+                        frametimer=0;}
+ }
+
+void SetIdleFrame()
+ {Switch(entity.facing[bongchr])
+   {Case 0: entity.specframe[bongchr]=DFRAME_1;
+    Case 1: entity.specframe[bongchr]=UFRAME_1;
+    Case 2: entity.specframe[bongchr]=RFRAME_1;
+    Case 3: entity.specframe[bongchr]=LFRAME_1;}
+ }
+
+
+void UpdateZone()
+ {curzone=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+12)/16,7);
+  if(curzone) CallEvent(curzone);}
+

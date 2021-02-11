@@ -1,0 +1,356 @@
+/* Coding for the Battle System in
+   Jimmy Bong in: You Only Live Thrice
+   Coded by and only by GameMaster Ben */
+
+int battres, bongdam, ivadam, numfoes;
+int battptr, victpic;
+string foename;
+
+int Battle(string name, int number)
+ {int bongact, ivaact, lastact, i;
+  battptr=LoadImage("pointer.pcx");
+  victpic=LoadImage("victory.pcx");
+  PlayMusic("horrors.xm");
+  numfoes=number;
+  foename=name;
+  While(numfoes)
+   {DrawBattleBox();
+    DrawBattleText();
+    DrawFoeNames();
+    Wait(50,0);
+    ivaact=GetIvaAction();
+    bongact=GetBongAction(battptr);
+    Wait(50,0);
+    lastact=HeroActions(bongact,ivaact);
+    if(numfoes) ProcessFoeActions();}
+  Wait(100,0);
+  TCopySprite(0,0,320,200,victpic);
+  ShowPage();
+  Wait(250,0);
+  Free(battptr);
+  Free(victpic);
+  PlayMusic("snthscrm.s3m");
+  return lastact;}
+
+void DrawBattleBox()
+ {Render();
+  RectFill(0,0,320,200,247);
+  Rect(0,0,319,199,25);
+  Rect(1,1,318,198,255);
+  Rect(2,2,317,197,17);
+  Rect(2,2,89,29,17);
+  Rect(91,2,189,29,17);
+  Rect(191,2,317,29,17);
+  Rect(2,31,89,197,17);
+  Rect(91,31,189,197,17);
+  Rect(191,31,317,197,17);
+  HLine(1,30,318,255);
+  VLine(90,1,198,255);
+  VLine(190,1,198,255);
+  ShowPage();}
+
+void DrawBattleText()
+ {RectFill(10,150,88,196,247);
+  RectFill(100,150,188,196,247);
+  GotoXY(10,10);  PrintString(mainfnt,"Bong");
+  GotoXY(100,10); PrintString(mainfnt,"Iva");
+  GotoXY(200,10); PrintString(mainfnt,"Enemies");
+  GotoXY(10,180); PrintString(mainfnt,"Dam:");
+  GotoXY(50,180); PrintString(mainfnt,str(bongdam));
+  GotoXY(100,180); PrintString(mainfnt,"Dam:");
+  GotoXY(140,180); PrintString(mainfnt,str(ivadam));
+  ShowPage();}
+
+void DrawDuelText()
+ {RectFill(10,150,88,196,247);
+  RectFill(100,150,188,196,247);
+  GotoXY(10,10);  PrintString(mainfnt,"Bong");
+  GotoXY(200,10); PrintString(mainfnt,"Enemy");
+  GotoXY(10,180); PrintString(mainfnt,"Dam:");
+  GotoXY(50,180); PrintString(mainfnt,str(bongdam));
+  ShowPage();}
+
+void DrawFoeNames()
+ {int len, i;
+  len=strlen(foename);
+  RectFill(192,32,316,196,247);
+  for(i=0; i<numfoes; i++)
+   {GotoXY(200,35+(i*40)); PrintString(mainfnt,foename);}
+  ShowPage();}
+
+void Duel(string name)
+ {int bongact, i;
+  battptr=LoadImage("pointer.pcx");
+  victpic=LoadImage("victory.pcx");
+  PlayMusic("horrors.xm");
+  numfoes=1;
+  foename=name;
+  While(numfoes)
+   {DrawBattleBox();
+    DrawDuelText();
+    DrawFoeNames();
+    Wait(50,0);
+    bongact=GetBongAction(battptr);
+    Wait(50,0);
+    if(numfoes) ProcessDuelFoe();
+    DuelActions(bongact);}
+  Wait(100,0);
+  TCopySprite(0,0,320,200,victpic);
+  ShowPage();
+  Wait(250,0);
+  Free(battptr);
+  Free(victpic);
+  PlayMusic("snthscrm.s3m");}
+
+void DuelActions(int bong)
+ {int target, damage, len, i;
+  len=strlen(foename);
+  RectFill(3,32,88,176,247);
+  ShowPage();
+  Switch(bong)
+   {Case 1: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"shoots");
+            GotoXY(15,63); PrintString(mainfnt,"at his");
+            GotoXY(15,77); PrintString(mainfnt,"opponent");
+            GunShot();
+    Case 2: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"lunges");
+            GotoXY(15,63); PrintString(mainfnt,"for his");
+            GotoXY(15,77); PrintString(mainfnt,"enemy!");
+    Case 4: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"detonates");
+            GotoXY(15,63); PrintString(mainfnt,"the");
+            GotoXY(15,77); PrintString(mainfnt,"attache!");
+            AttacheBlast();}
+  ShowPage();
+  Wait(125,0);
+  target=0;
+  for(i=0; i<10; i++)
+   {HLine(200,47+(target*40),200+(len*i),33);
+    Wait(1,0);
+    ShowPage();}
+  Wait(100,0);
+  damage=random(3);
+  GotoXY(270,47+(target*40));
+  if(!damage) PrintString(mainfnt,"Miss");
+  if(damage=1) PrintString(mainfnt,"Dodge");
+  if(damage>1)
+   {Switch(bong)
+     {Case 1: PrintString(mainfnt,"Dies");
+      Case 2: PrintString(mainfnt,"Falls");}
+   }
+  ShowPage();
+  Wait(100,0);
+  if(damage>1) numfoes--;
+  RectFill(192,32,316,196,247);
+  if(numfoes) DrawFoeNames();
+  RectFill(3,32,88,150,247);
+  RectFill(75,10,84,26,247);
+  ShowPage();}
+
+int GetBongAction(int ptrimg)
+ {int options, action, gun, garrote, floss, attache, ptr, i;
+  Unpress(1);
+  for(i=2; i<6; i++)
+   {if(inven[i])
+     {GotoXY(15,35+(options*17));
+      options++;
+      Switch(i)
+       {Case 2: PrintString(mainfnt,"Gun");     gun=options;
+        Case 3: PrintString(mainfnt,"Garrote"); garrote=options;
+        Case 4: PrintString(mainfnt,"Floss");   floss=options;
+        Case 5: PrintString(mainfnt,"Attache"); attache=options;}
+      ShowPage();}
+   }
+  ptr=1;
+  while(!b1)
+   {UpdateControls();
+    RectFill(5,35,14,103,247);
+    CopySprite(5,24+(ptr*17),8,8,ptrimg);
+    if(up)
+     {ptr--;
+      Unpress(5);}
+    if(down)
+     {ptr++;
+      Unpress(6);}
+    if(!ptr) ptr=options;
+    if(ptr>options) ptr=1;
+    ShowPage();}
+  if(ptr=gun) action=1;
+  if(ptr=garrote) action=2;
+  if(ptr=floss) action=3;
+  if(ptr=attache) action=4;
+  RectFill(5,35,78,103,247);
+  Switch(action)
+   {Case 1: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"aims");
+            GotoXY(15,63); PrintString(mainfnt,"his");
+            GotoXY(15,77); PrintString(mainfnt,"pistol");
+            GotoXY(75,10); PrintString(mainfnt,"#");
+    Case 2: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"grabs");
+            GotoXY(15,63); PrintString(mainfnt,"his");
+            GotoXY(15,77); PrintString(mainfnt,"garrote");
+            GotoXY(75,10); PrintString(mainfnt,"%");
+    Case 3: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"readies");
+            GotoXY(15,63); PrintString(mainfnt,"his");
+            GotoXY(15,77); PrintString(mainfnt,"floss");
+            GotoXY(75,10); PrintString(mainfnt,"$");
+    Case 4: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"arms");
+            GotoXY(15,63); PrintString(mainfnt,"the");
+            GotoXY(15,77); PrintString(mainfnt,"attache");
+            GotoXY(75,10); PrintString(mainfnt,"&");}
+  ShowPage();
+  return action;}
+
+int GetIvaAction()
+ {int i;
+  i=Random(0);
+  Switch(i)
+   {Case 0: GotoXY(105,35); PrintString(mainfnt,"Iva");
+            GotoXY(105,49); PrintString(mainfnt,"aims");
+            GotoXY(105,63); PrintString(mainfnt,"her");
+            GotoXY(105,77); PrintString(mainfnt,"shotgun");
+            GotoXY(175,10); PrintString(mainfnt,"#");}
+  ShowPage();
+  return i;}
+
+int HeroActions(int bong, int iva)
+ {int target, damage, kills, len, i;
+  len=strlen(foename);
+  RectFill(92,32,188,150,247);
+  ShowPage();
+  Switch(iva)
+   {Case 0: GotoXY(105,35); PrintString(mainfnt,"Iva");
+            GotoXY(105,49); PrintString(mainfnt,"shoots");
+            GotoXY(105,63); PrintString(mainfnt,"at the");
+            GotoXY(105,77); PrintString(mainfnt,"enemy!");}
+  GunShot();
+  ShowPage();
+  Wait(100,0);
+  target=Random(numfoes-1);
+  for(i=0; i<10; i++)
+   {HLine(200,47+(target*40),200+(len*i),33);
+    Wait(1,0);
+    ShowPage();}
+  Wait(100,0);
+  GotoXY(270,47+(target*40)); PrintString(mainfnt,"Dies");
+  ShowPage();
+  Wait(100,0);
+  numfoes--;
+  RectFill(192,32,316,196,247);
+  if(numfoes) DrawFoeNames();
+  RectFill(92,32,188,150,247);
+  RectFill(175,10,184,26,247);
+  ShowPage();
+  if(!numfoes) return 0;
+  RectFill(3,32,88,176,247);
+  ShowPage();
+  Switch(bong)
+   {Case 1: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"shoots");
+            GotoXY(15,63); PrintString(mainfnt,"at the");
+            GotoXY(15,77); PrintString(mainfnt,"enemy.");
+            GunShot();
+    Case 2: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"lunges");
+            GotoXY(15,63); PrintString(mainfnt,"for an");
+            GotoXY(15,77); PrintString(mainfnt,"enemy!");
+    Case 3: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"throws");
+            GotoXY(15,63); PrintString(mainfnt,"his");
+            GotoXY(15,77); PrintString(mainfnt,"floss!");
+    Case 4: GotoXY(15,35); PrintString(mainfnt,"Bong");
+            GotoXY(15,49); PrintString(mainfnt,"detonates");
+            GotoXY(15,63); PrintString(mainfnt,"the");
+            GotoXY(15,77); PrintString(mainfnt,"attache!");
+            AttacheBlast();}
+  ShowPage();
+  Wait(100,0);
+  target=Random(numfoes-1);
+  for(i=0; i<10; i++)
+   {HLine(200,47+(target*40),200+(len*i),33);
+    Wait(1,0);
+    ShowPage();}
+  Wait(100,0);
+  damage=random(2);
+  GotoXY(270,47+(target*40));
+  if(damage)
+   {Switch(bong)
+     {Case 1: PrintString(mainfnt,"Dies");
+      Case 2: PrintString(mainfnt,"Falls");
+      Case 3: PrintString(mainfnt,"$-ed");}
+   }
+   else
+    {PrintString(mainfnt,"Miss");}
+  ShowPage();
+  Wait(125,0);
+  if(damage) numfoes--;
+  RectFill(192,32,316,196,247);
+  if(numfoes) DrawFoeNames();
+  RectFill(3,32,88,150,247);
+  RectFill(75,10,84,26,247);
+  ShowPage();
+  return bong;}
+
+void LoseBattle()
+ {Free(battptr);
+  Free(victpic);
+  Death();}
+
+void ProcessDuelFoe()
+ {int action, damage, i;
+  for(i=0; i<numfoes; i++)
+   {action=Random(2);
+    GotoXY(195,46+(i*40)); 
+    Switch(action)
+     {Case 0: PrintString(mainfnt,"Uses @ on Bong");
+      Case 1: PrintString(mainfnt,"Uses # on Bong");
+              GunShot();}
+    ShowPage();
+    Wait(100,0);
+    damage=random((action+1)*3);
+    if(!damage)
+     {GotoXY(10,165); PrintString(mainfnt,"Miss");}
+     else
+      {GotoXY(10,150); PrintString(mainfnt,"Hit for");
+       GotoXY(10,165); PrintString(mainfnt,str(damage)+" dam!");
+       bongdam+=damage;}
+    ShowPage();
+    Wait(100,0);
+    DrawDuelText();
+    DrawFoeNames();
+    if(bongdam>=10) LoseBattle();}
+ }
+
+void ProcessFoeActions()
+ {int action, damage, target, i;
+  string targetname;
+  for(i=0; i<numfoes; i++)
+   {target=Random(2);
+    action=Random(2);
+    Switch(target)
+     {Case 0: targetname="Bong";
+      Case 1: targetname="Iva";}
+    GotoXY(195,46+(i*40)); 
+    Switch(action)
+     {Case 0: PrintString(mainfnt,"Uses @ on "+targetname);
+      Case 1: PrintString(mainfnt,"Uses # on "+targetname);
+              GunShot();}
+    ShowPage();
+    Wait(100,0);
+    if(target=0) damage=random((action+1)*3);
+    if(target=1) damage=0;
+    if(!damage)
+     {GotoXY(10+(target*90),165); PrintString(mainfnt,"Miss");}
+     else
+      {GotoXY(10,150); PrintString(mainfnt,"Hit for");
+       GotoXY(10,165); PrintString(mainfnt,str(damage)+" dam!");
+       bongdam+=damage;}
+    ShowPage();
+    Wait(100,0);
+    DrawBattleText();
+    if(bongdam>=10) LoseBattle();}
+ }

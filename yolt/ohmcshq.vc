@@ -1,0 +1,394 @@
+event // 0 Automatic Execution
+ {partymem=1;
+  InitMap();
+  curmap=1;
+  if(flags[1]) SetTile(7,29,3,0);
+  if(flags[2]) SetTile(8,29,3,0);
+  if(flags[3]) SetTile(9,29,3,0);
+  if(flags[4]) SetTile(10,29,3,0);
+  if(flags[5]) SetTile(11,29,3,0);
+  if(flags[9]) SetTile(40,48,6,1);
+  if(flags[10]) entity.movecode[2]=3;
+  if(flags[29] && !flags[28])
+   {entity.specframe[bongchr]=5;
+    SText("N:","Well, Bong, Garfeld's Lair has",
+               "been destroyed, but Garfeld got",
+               "away with his Save-amabob.");
+    SText("Bong:","What!?  Garfeld has a Save-",
+                  "amabob?  He can't lose as long",
+                  "as he has that thing!");
+    if(inven[7]) SText("N:","Correct, Bong.  So even though you",
+                            "recovered the disk, Garfeld can",
+                            "use his Save-amabob to start over.");
+     else SText("N:","Correct, Bong.  So it really does",
+                     "not matter that you didn't even",
+                     "get the disk out of there.");
+    SText("Bong:","As soon as he uses his Save-",
+                  "amabob, we'll all be caught","");
+    EndGame("Garfeld used his Save-amabob, creating a never ending time-loop.");}
+  if(flags[29] && flags[28] && !inven[7])
+   {SText("N:","Bong, you're fired.","","");
+    SText("Bong:","WHAT!?!  WHY?","","");
+    SText("N:","You failed at yet another mission.",
+               "Garfeld has been foiled, but you",
+               "didn't recover the disk.");
+    SText("Bong:","But it's not my fault!  Garfeld's",
+                  "henchmen prevented me from finding",
+                  "it!");
+    SText("N:","It doesn't matter.  I gave you one",
+               "more chance and you blew it.  You",
+               "have 2 hours to pack up and leave.");
+    FadeOut(100);
+    EndGame("Bong gathered his things, but accidentally shot himself as he put away his gun.");}
+  if(flags[29] && flags[28] && inven[7])
+   {SText("N:","Well, Double-Oh Nothing, I am",
+               "impressed.  You actually did",
+               "something right for once.");
+    SText("N:","Garfeld's Lair has been destroyed,",
+               "and you recovered the disk, all",
+               "without dying too much.");
+    SText("N:","The disk is already in the mail",
+               "on its way back to Mr. vecna.","");
+    SText("Bong:","Marvelous.  Thank you, N.  Oh,",
+                  "and may I have unrestricted use",
+                  "of the Life Machine, please?");
+    SText("N:","*Sigh*  Yes, Bong, you may.","","");
+    SText("Bong:","Hooray!  I'll go tell U and give",
+                  "him his equipment back.  You know,",
+                  "I never got to use this attache.");
+    SText("N:","Bong, NO!!!","","");
+    for(forvar=0; forvar<101; forvar++)
+     {PaletteMorph(63,63,63,forvar,63);
+      PlaySFX("stobmiss.wav");
+      Wait(1,1);}
+    WinGame();}
+  if(flags[6] && !dead)
+   {InitSystem();
+    Render();
+    ShowPage();
+    FadeIn(30);
+    Message("Game Loaded",100);
+    PixelMove();}
+  if(flags[6] && dead)
+   {Render();
+    ShowPage();
+    FadeIn(30);
+    Switch(deaths)
+     {Case 3: SText("U:","Really, Double-Oh Nothing, you",
+                         "must be more careful.  You only",
+                         "have two lives left!");
+      Case 2: SText("U:","Double-Oh Nothing, you only have",
+                         "one life left!  Do you realize",
+                         "that?");
+      Case 1: SText("U:","Well, Bong, this is it.  I'm not",
+                         "allowed to revive you anymore.",
+                         "I hope you're happy.");}
+    SText("Bong:","I'm trying, U, really I am!","","");
+    SText("U:","Well, just be more careful.","","");
+    dead=0;
+    bongdam=0;
+    if(!inven[4] && !flags[20])
+     {inven[4]++;
+      flags[14]=0;
+      flags[17]=0;}
+    PixelMove();}
+  if(!flags[6])
+   {InitSystem();
+    entity.specframe[bongchr]=5;
+    Render();
+    ProcessEntities();
+    ShowPage();
+    SText("N:","Well, Bong, you really screwed up",
+               "this time.  Not only did you allow",
+               "Garfeld to get the disk, you died.");
+    SText("N:","Again, Bong!  You've failed at all",
+               "the missions we've given you!  All",
+               "348 of them!  How much longer...");
+    SText("Bong:","349, N.  You forgot this time.","","");
+    SText("N:","AARRGGGH!!  Bong, you get one more",
+               "chance.","");
+    SText("Bong:","Again?","","");
+    SText("N:","Shut up, Bong. You are assigned to",
+               "recover the disk from Garfeld. You",
+               "will be working with Ms. Gunonmi.");
+    Swahili("Iva:","You are the stupidest moron that",
+                 "I've ever had the misfortune of",
+                 "laying eyes on.");
+    SText("N:","She was trained in Siberia, so she",
+               "is fluent in Bushman Swahili.","");
+    SText("Bong:","Really?  Marvelous!  I took four",
+                  "years of Bushman Swahili in High",
+                  "School!");
+    Swahili("Bong:","Various expletives in Swahili,",
+                    "relating to female inferiority.","");
+    entity.specframe[0]=23;
+    Wait(25,1);
+    SText("Bong:","Wait.  Was that 'Hello?'  Or was",
+                  "it...","");
+    entity.specframe[0]=20;
+    Wait(1,1);
+    Swahili("Iva:","You're dead meat, bucko.","","");
+    Gunshot();
+    Wait(25,0);
+    PaletteMorph(0,0,0,100,63);
+    PlaySound(diesfx,64,128);
+    Wait(350,0);
+    cameratracking=0;
+    dead=0;
+    entity.tx[bongchr]=23;
+    entity.x[bongchr]=23*16;
+    entity.ty[bongchr]=29;
+    entity.y[bongchr]=29*16;
+    ywin=entity.y[bongchr]-(screeny/2);
+    entity.specframe[bongchr]=0;
+    Wait(1,1);
+    FadeIn(30);
+    PartyMove("L12");
+    SText("U:","Really, Double-Oh Nothing, you",
+               "must stop dying. Our rejuvenative",
+               "technology can't take much more!");
+    SText("Bong:","It really isn't my fault, U.  I",
+                  "just conjugated something wrong",
+                  "and cheated at blackjack.");
+    SText("Bong:","There was really nothing I could",
+                  "have done about either death.","");
+    SText("U:","*Sigh*  Well, do be more careful.",
+               "N's given you only three more uses",
+               "of the Life-Machine.");
+    SText("Bong:","Don't worry, U.  I won't need to",
+                  "use them.  Just you wait and see.","");
+    SText("Bong:","Now, what toys do I get this",
+                  "time?","");
+    entity.facing[bongchr]=0;
+    entity.specframe[bongchr]=0;
+    cameratracking=1;
+    PartyMove("F0");
+    Wait(1,1);
+    flags[6]++;
+    PixelMove();}
+ }
+
+event // 1 In Front of Object
+ {SetRString("1234ER");}
+
+event // 2 Normal RString
+ {SetRString("12E34R");}
+
+event // 3 Exploding pencils
+ {if(!flags[1])
+   {SText("U:","These pencils are equipped with a",
+               "highly powerful explosive.  When",
+               "you write with them, they blow up.");
+    SText("Bong:","How useful!  I just have to",
+                  "give Garfeld a pencil to use",
+                  "and he'll die!");
+    SText("U:","Well, that's what should happen,",
+               "but only one of them is explosive.","");
+    SText("Bong:","Why?","","");
+    SText("U:","We lost the other one.","","");
+    SText("Bong:","How will I know which is which?","","");
+    SText("U:","You won't.","","");
+    SText("Bong:","Oh.","","");
+    flags[1]++;
+    inven[0]++;
+    inven[1]++;
+    SetTile(7,29,3,0);}
+ }
+
+event // 4 Gun
+ {if(!flags[2])
+   {HookRetrace(0);
+    SText("Bong:","Oh goody!  It's my gun!","","");
+    SText("U:","Yes, Double-Oh Nothing, your gun.",
+               "Try not to get shot with it this",
+               "time.");
+    SText("Bong:","That wasn't my fault!  You had",
+                  "left the safety turned off!","");
+    flags[2]++;
+    inven[2]++;
+    SetTile(8,29,3,0);}
+ }
+
+event // 5 Garrote Chain
+ {if(!flags[3])
+   {HookRetrace(0);
+    SText("U:","Do be careful you don't lose your",
+               "garrote chain this time, Bong.",
+               "Especially to the enemy.");
+    SText("Bong:","I remember that time.  This thing",
+                  "can really hurt!","");
+    SText("U:","*Sigh*","","");
+    flags[3]++;
+    inven[3]++;
+    SetTile(9,29,3,0);}
+ }
+
+event // 6 Dental Floss
+ {if(!flags[4])
+   {HookRetrace(0);
+    SText("Bong:","Let me guess!  This is dental",
+                  "floss, right?","");
+    SText("U:","No, Double-Oh Nothing, it's a",
+               "grappling hook disguised as dental",
+               "floss.  Why would you need floss?");
+    SText("Bong:","I don't know.  Maybe for an",
+                  "irate hygeine maniac.","");
+    flags[4]++;
+    inven[4]++;
+    SetTile(10,29,3,0);}
+ }
+
+event // 7 Thermo-nuclear Attache Case
+ {if(!flags[5])
+   {HookRetrace(0);
+    SText("Bong:","Oh GOODY!  The thermo-nuclear",
+                  "attache case!  I love this",
+                  "thing!");
+    SText("U:","Do be careful with it.  The sultan",
+               "of Bahrain wasn't happy with having",
+               "a radioactive hole in his country.");
+    SText("Bong:","*Sigh*  I'll try to remember.","","");
+    flags[5]++;
+    inven[5]++;
+    SetTile(11,29,3,0);}
+ }
+
+event // 8 U Speaks
+ {Switch(entity.facing[bongchr])
+   {Case 0: entity.facing[2]=1;
+    Case 1: entity.facing[2]=0;
+    Case 2: entity.facing[2]=3;
+    Case 3: entity.facing[2]=2;}
+  Render();
+  ProcessEntities();
+  ShowPage();
+  SText("U:","As soon as you have all of your",
+             "equipment, you can wait for the",
+             "helicopter to the Andes outside.");
+  entity.facing[2]=3;}    
+
+event // 9 Steamroller
+ {cameratracking=0;
+  entity.specframe[bongchr]=25;
+  entity.specframe[2]=5;
+  ProcessEntities();
+  ShowPage();
+  for(forvar=0; forvar<100; forvar++)
+   {ywin++;
+    ShowPage();}
+  SText("U:","Double-Oh Nothing, watch out for",
+             "the steamrollers!","");
+  SText("Bong:","The what?","","");
+  PaletteMorph(0,0,0,100,63);
+  PlaySFX("steam.wav");
+  Wait(25,1);
+  Death();}
+
+event // 10 Enter Hallway
+ {Warp(14,49,0);}       
+
+event // 11 Surface-to-Bong Missles
+ {SText("Bong:","Say, what does this button do?","","");
+  PlaySFX("button.wav");
+  Wait(25,0);
+  Computer("Action confirmed:",
+           "Surface-to-Bong missles have been",
+           "successfully launched.");
+  SText("Bong:","Oops.  I think I'll be leaving",
+                "now.","");
+  Computer("Too late.","","");
+  PaletteMorph(0,0,0,100,63);
+  PlaySFX("stobmiss.wav");
+  Wait(200,0);
+  Death();}
+
+event // 12 Enter Laboratory
+ {Warp(17,34,0);}  
+
+event // 13 Enter Mooladollar's Office
+ {Warp(50,38,0);}
+
+event // 14 Enter Stairwell
+ {SText("Bong:","Even Garfeld isn't talented enough",
+                "to infiltrate the upper levels of",
+                "On Her Majesty's Catering Service.");
+  SText("Bong:","I'll just go outside to wait for",
+                "the helicopter.","");
+  entity.specframe[bongchr]=0;
+  Render();
+  ProcessEntities();
+  ShowPage();
+  PartyMove("D5");
+  SetTile(40,48,6,1);
+  flags[9]++;}
+
+event // 15 Enter Courtyard
+ {Warp(79,5,0);}
+
+event // 16 Return to Hallway
+ {Warp(29,49,0);}
+
+event // 17 Enter OHMCS Building
+ {Warp(28,55,0);}
+
+event // 18 Mooladollar Speaks
+ {SText("Moola:","I'm sorry Mr. Bong.  N won't",
+                 "see you now.","");
+  if(!flags[7])
+   {SText("Bong:","Oh, come on, Mooladollar.  Can't",
+                  "you please let me go in?","");
+    SText("Moola:","I'm sorry, Jimmy.  N is very",
+                   "upset with you.  She won't see",
+                   "you until you bring back the disk.");
+    SText("Bong:","*Sigh*  I guess I'll go get the",
+                  "disk then.","");
+    flags[7]++;}
+ }
+
+event // 19 Behind Object
+ {SetRString("1E234R");}
+
+event // 20 Inexplicable Save-amabob
+ {if(!flags[8])
+   {SText("Bong:","Ooooh!  What's this thing?","","");
+    SText("U:","It's my crowning achievment:",
+               "the Inexplicable Save-amabob.  It",
+               "actually stores life data.");
+    SText("Bong:","It looks like an orange disco",
+                  "ball to me.","");
+    SText("U:","Double-Oh Nothing, that device can",
+               "reduce your entire life to data",
+               "and reload it to that point.");
+    SText("Bong:","I still think it looks like an",
+                  "orange disco ball.","");
+    SText("U:","Shut up, Bong.","","");
+    flags[8]++;}
+  SaveGame();}
+
+event // 21 Helicopter Arrival
+ {entity.specframe[bongchr]=15;
+  Wait(1,1);
+  if(flags[18])
+   {Swahili("Iva:","You are a moron.  I can't believe",
+                   "I have to work with you.  This",
+                   "must be a punishment.");
+    SText("Bong:","Look, there was nothing I could",
+                  "have done.  It wasn't my fault",
+                  "at all!");
+    Swahili("Iva:","Yeah, whatever.","","");}
+  if(!flags[18])
+   {Swahili("Iva:","It's about time you got here.","","");
+    SText("Bong:","Is it all right if I just speak",
+                  "English to you?  I wouldn't want",
+                  "to make another mistake.");
+    Swahili("Iva:","Yeah sure, whatever.  But I'm",
+                   "speaking Swahili.","");
+    SText("Bong:","Great.  Here comes the chopper.","","");
+    entity.specframe[bongchr]=0;
+    flags[18]++;}
+  SetRString("5R");
+  Wait(25,1);
+  Text("The helicopter arrived and carried",
+       "them to Garfeld's Secret Hidden",
+       "Mountain-Top Lair in the Andes.");
+  MapSwitch("andes.map",44,29,0);}

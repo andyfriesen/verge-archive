@@ -1,0 +1,629 @@
+V2 startup. Logfile initialized.
+Sys: Initializing keyboard handler.... OK
+Sys: Initializing timer. Set 100hz.... OK
+Sys: Initializing music system.... OK
+... OK
+Initialize console.... OK
+Initializing VC interpreter
+system vclib init: 45 funcs, 36 ints (376 bytes), 1 strings
+Loading MAP casino.map. [1] ... OK
+ --> Entering user func gameopen, codeofs 0
+   --> Entering user func loadgame, codeofs 15363
+     --> Entering user func wait, codeofs 17579
+     --> Returned from wait
+VC freeing allocated heap at 0x002C0DB8.
+   --> Returned from loadgame
+   --> Entering user func initsystem, codeofs 15194
+   --> Returned from initsystem
+   --> Entering user func fadein, codeofs 14762
+   --> Returned from fadein
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func fadeout, codeofs 14896
+   --> Returned from fadeout
+   --> Entering user func fadein, codeofs 14762
+   --> Returned from fadein
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func fadeout, codeofs 14896
+   --> Returned from fadeout
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func fadeout, codeofs 14896
+   --> Returned from fadeout
+   --> Entering user func wait, codeofs 17579
+   --> Returned from wait
+   --> Entering user func wait, codeofs 17579
+Sys: Exiting with message: 
