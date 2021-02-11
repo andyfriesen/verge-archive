@@ -89,7 +89,7 @@ let games: array(Game.game) = [|
         title: "4four",
         description: "Another great platformer from Zarathustra!",
         engine: Game.V2
-    }
+    },
     {
         name: "yolt",
         title: "You Only Live Thrice",
