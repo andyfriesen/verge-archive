@@ -73,7 +73,6 @@
 
         #controls {
             text-align: left;
-            z-index: -1;
             grid-area: controls;
             padding: 0.5em;
         }
@@ -124,6 +123,7 @@
                 Your browser does not support AudioWorklet.  We cannot play any music.  Sorry!<br />
                 The latest versions of Chrome and Firefox should work!
             </div>
+            <button id="fullscreenButton">FULLSCREEN</button>
         </div>
         <footer>Last Updated 15 June 2020</footer>
     </div>
@@ -203,6 +203,20 @@
             if (u.get("statCheat") > 0) {
                 window.Module.arguments.push('statCheat');
             }
+
+
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.getElementById('vergeCanvas').requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            const fullscreenButton = document.getElementById('fullscreenButton');
+            fullscreenButton.addEventListener('click', toggleFullScreen);
         </script>
         <script async type="text/javascript" src="verge.out.js"></script>
 </body>

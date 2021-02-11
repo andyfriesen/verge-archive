@@ -74,7 +74,6 @@
 
         #controls {
             text-align: left;
-            z-index: -1;
             grid-area: controls;
             padding: 0.5em;
         }
@@ -125,8 +124,11 @@
                 Your browser does not support AudioWorklet.  We cannot play any music.  Sorry!<br />
                 The latest versions of Chrome and Firefox should work!
             </div>
+            <button id="fullscreenButton">FULLSCREEN</button>
         </div>
-        <footer>Last Updated 5 July 2020</footer>
+        <footer>
+            <p>Last Updated 5 July 2020</p>
+        </footer>
     </div>
 
     <script>
@@ -166,8 +168,6 @@
             ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
             ctx.fillText('Loading! :D', 160, 100);
-
-
         })();
         </script>
 
@@ -209,6 +209,19 @@
             const u = new URLSearchParams(window.location.search);
             let game = u.get('game') || 'zeux';
             window.Module = {arguments: [game + '/']};
+
+            function toggleFullScreen() {
+                if (!document.fullscreenElement) {
+                    document.getElementById('vergeCanvas').requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                }
+            }
+
+            const fullscreenButton = document.getElementById('fullscreenButton');
+            fullscreenButton.addEventListener('click', toggleFullScreen);
         </script>
         <script async type="text/javascript" src="verge2.out.js"></script>
 </body>
