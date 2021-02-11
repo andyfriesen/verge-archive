@@ -15,10 +15,8 @@ casino.map
 casino.vc
 computer.fnt
 console.gif
-cwsdpmi.exe
 dealer.chr
 die.wav
-dos4gw.exe
 fall.wav
 gameopen.vc
 garfeld.chr
