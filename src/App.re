@@ -90,6 +90,12 @@ let games: array(Game.game) = [|
         description: "Another great platformer from Zarathustra!",
         engine: Game.V2
     }
+    {
+        name: "yolt",
+        title: "You Only Live Thrice",
+        description: "A classic Jimmy Bong compo game by Eldritch / GameMaster Ben",
+        engine: Game.V2
+    }
 |];
 
 let game_with_name = (name) => {
