@@ -44,7 +44,7 @@ void Autoexec()
  textbox=LoadImage("text.pcx");
  Loadfont("big.fnt");
  HP=32;
- delaytime=3;
+ delaytime=0;
  PlayMusic("afox13b.xm");
  map("title.map");
 }
@@ -152,7 +152,7 @@ void Delay(int d) //this delay doesn't modify the timer ;)
 {
  int oldtime;
  oldtime=timer;
- while(timer-d<oldtime) { }
+ while(timer-d<oldtime) { UpdateControls(); Showpage(); }
 }
 
 void RDelay(int d) 
