@@ -1,0 +1,518 @@
+#include "keys.vc"
+#include "strinput.vc"
+
+#define MapSize 262144
+
+int MapWidth;
+int MapHeight;
+
+int TMap[MapSize];
+int tiles;
+int numtiles;
+int bg;
+int pointer;
+
+string loaded;
+int highlights;
+int selected[2];
+int pressed;
+
+void Autoexec()
+{
+ int done;
+ int i;
+ int scrollx,scrolly;
+ int x,y;
+ 
+ highlights=1;
+ mapheight=20;
+ mapwidth=30;
+ bg=loadimage("bg.pcx");
+ pointer=loadimage("pointer.pcx");
+ LoadTileSet("tiles.pcx",26,7);
+
+ SetPal(255,0,0,0);
+ SetPal(254,32,32,32);
+ SetPal(253,48,48,48);
+ SetPal(252,63,63,63);
+ SetPal(251,0,0,63);
+ SetPal(250,0,63,0);
+ SetPal(249,63,0,0);
+
+ palettemorph(0,0,0,0,63);
+
+ while(!done)
+ {
+  UpdateControls();
+  CheckKeys();
+  ReadMouse();
+  DrawScreen();
+  Tcopysprite(mx,my,4,4,pointer);
+  if(mb  && !pressed) Click();
+  if(!mb && pressed) pressed=0;
+
+  if(KeyArray[KEY_A])
+  {
+   if(Selected[0]<numtiles) Selected[0]++;
+   UnPressKey(KEY_A);
+  }
+  if(KeyArray[KEY_Z])
+  {
+   if(Selected[0]>0) Selected[0]--;
+   UnPressKey(KEY_Z);
+  }
+
+  if(KeyArray[KEY_P])
+  {
+   if(grabbed) grabbed=0;
+   else if(grabbed_w) grabbed=1;
+   UnPressKey(KEY_P);
+  }
+  if(KeyArray[KEY_F2])
+  {
+   UnPressKey(KEY_F2);
+   SaveMapMenu();
+  }
+  if(KeyArray[KEY_F3])
+  {
+   UnPressKey(KEY_F3);
+   if(strcmp(loaded,"")) SaveMap(loaded);
+   else SaveMapMenu();
+  }
+  if(KeyArray[KEY_F4])
+  {
+   LoadMapMenu();
+   UnPressKey(KEY_F4);
+  }
+  Showpage();
+ }
+}
+
+void DrawScreen()
+{
+ int i;
+ int offset;
+ int x, y;
+ int b;
+
+ //draw the main screen
+//rectfill(0,0,320,240,1);
+
+ copysprite(0,0,320,240,bg);
+
+ //draw the palette
+ for(y=0; y<16; y++)
+ {
+  for(x=0; x<16; x++)
+  {
+   rectfill(250+(4*x), 6+(5*y),250+(4*x)+3,6+(5*y)+3, y*16+x);
+  }
+ }
+
+ //draw the map
+ for(y=0; y<20; y++)
+ {
+  for(x=0; x<30; x++)
+  {
+   tcopysprite(x*8+7,y*8+7,8,8,tiles+(64*GetMapTile(x,y)));
+  }
+ }
+
+ //draw the tileset
+ for(y=0; y<7; y++)
+ {
+  for(x=0; x<26; x++)
+  {
+   tcopysprite(x*9+8,y*9+171,8,8,tiles+((y*26+x)*64));
+  }
+ }
+
+ //draw the selected tiles
+ copysprite(250,149,8,8,tiles+(selected[0]*64));
+ gotoxy(260,149); PrintString(0, str(selected[0]));
+
+ copysprite(250,159,8,8,tiles+(selected[1]*64));
+ gotoxy(260,159); PrintString(0, str(selected[1]));
+
+ //draw the grabbed tiles
+ if(grabbed)
+ {
+  setcliprect(251,170,251+64,170+64);
+  for(y=0; y<grabbed_h; y++)
+  {
+   for(x=0; x<grabbed_w; x++)
+   {
+    tcopysprite(251+(x*8), 170+(y*8),8,8,tiles+(GetGrabbedTile(x,y)*64));
+   }
+  }
+  restorerendersettings();
+ }
+
+ if(highlights)
+ {
+  if(!grabbing && mx>=7 && mx<=247 && my>=7 && my<=167) //main map screen
+  {
+   if(!grabbed) 
+   {
+    Rect(GetMapTileX(mx)*8+7,GetMapTileY(my)*8+7,(GetMapTileX(mx)+1)*8+6, (GetMapTileY(my)+1)*8+6,252);
+   }
+   else 
+   {
+    x=GetMapTileX(mx)+grabbed_w; 
+    if(x>30) x=30;
+    y=GetMapTileX(my)+grabbed_h; 
+    if(y>20) y=20;
+    
+    Rect(GetMapTileX(mx)*8+7,GetMapTileY(my)*8+7,x*8+6, y*8+6,251);
+   }
+  }    
+ }
+ if(grabbing && mx>=7 && mx<247 && my>=7 && my<167)
+ {
+  if(GetMapTileX(mx)*8+7>grabbed_x*8+7) x=(GetMapTileX(mx)+1)*8+7;
+  else x=(grabbed_x+1)*8+7;
+  if(GetMapTileY(my)*8+7>grabbed_y*8+7) y=(GetMapTileX(my)+1)*8+7;
+  else y=(grabbed_y+1)*8+7;
+
+  Rect(grabbed_x*8+7, grabbed_y*8+7,x,y,249);
+ }
+
+ if(mx>=7 && mx<=241 && my>=170 && my<=232) //tileset
+ {
+  for(y=0; y<7; y++)
+  {
+   for(x=0; x<26; x++)
+   {
+    if(mx>x*9+8 && mx<=(x+1)*9+8 && my>y*9+170 && my<=(y+1)*9+170)
+    {
+      Rect(x*9+7,y*9+170,x*9+16,y*9+179,252);
+    }
+   }
+  }
+ }
+}
+
+void Click()
+{
+ int a,b,x,y,w,h;
+ if(!pressed)
+ {
+  if(mx>=7 && mx<=247 && my>=7 && my<=167) //main map screen
+  {
+   if(!KeyArray[key_RSHIFT])
+   {
+      x=GetMapTileX(mx);
+      y=GetMapTileY(my);
+      
+      if(grabbing) //was just grabbing a tile area - copy it!
+      {
+       grabbing=0;
+       
+       grabbed_h=y-grabbed_y+1;
+       grabbed_w=x-grabbed_x+1;
+       //make sure the grabbed area is valid.
+       if(grabbed_w<=0 || grabbed_y<=0) { pressed=1; grabbed=0; grabbed_w=0; grabbed_h=0; return; }
+       else grabbed=1;
+       
+       //bounds checking
+       w=grabbed_w; 
+       if(a+w>MapWidth) 
+       {
+        while(a+w>MapWidth) {w--;}
+       }
+       h=grabbed_h; 
+       if(b+h>MapHeight) 
+       {
+        while(b+h>MapHeight) {h--;}
+       }
+       
+       
+       for(b=0; b<h; b++)
+       {
+        for(a=0; a<w; a++)
+        {
+         SetGrabbedTile(a,b,GetMapTile(grabbed_x+a,grabbed_y+b));
+        }        
+       }
+       pressed=1;
+       
+       mx=grabbed_x*8+7;
+       my=grabbed_y*8+7;
+       
+       return;
+      }
+      
+      if(!KeyArray[key_CTRL]) //ctrl isn't pressed, place a tile
+      {
+        if(mb==1) 
+        { 
+         if(!grabbed)
+         {        
+          SetMapTile(x,y,selected[0]); 
+         }
+         else //we got copied tiles!
+         {
+          for(b=0; b<grabbed_h; b++)
+          {
+           for(a=0; a<grabbed_w; a++)
+           {
+            SetMapTile(a+x,b+y,GetGrabbedTile(a,b));
+           }
+          } 
+         }
+         
+        }
+        else if(mb==2) { SetMapTile(x,y,selected[1]); }
+
+      }
+      else  //ctrl is pressed, grab a tile
+      {
+       if(mb==1) { selected[0]=GetMapTile(x,y); }
+       else if(mb==2) { selected[1]=GetMapTile(x,y); }
+      }
+   }
+   else //shift is pressed - grabbing tiles
+   {
+    if(!grabbing)
+    {
+     grabbing=1;
+     grabbed_x=GetMapTileX(mx);
+     grabbed_y=GetMapTileY(my);
+     pressed=1;
+    }
+   }
+  }
+
+  if(mx>=7 && mx<=241 && my>=170  && my<=232 ) //tileset
+  {
+
+   for(y=0; y<7; y++)
+   {
+    for(x=0; x<26; x++)
+    {
+     if(mx>x*9+8 && mx<(x+1)*9+8 && my>y*9+170 && my<(y+1)*9+170)
+     {
+      if(mb==1) { selected[0]=y*26+x; }
+      else if(mb==2) { selected[1]=y*26+x; }
+     }
+    }
+   }
+
+  }
+ }
+
+}
+
+int GetMapTileX(int x)
+{
+ x-=7;
+ return x/8;
+}
+
+int GetMapTileY(int y)
+{
+ y-=7;
+ return y/8;
+}
+
+int GrabbedTiles[600], grabbed_w,grabbed_h, grabbed_x, grabbed_y, grabbed, grabbing;
+
+int GetMapTile(int x,int y)
+{
+ return TMap[MapWidth*y+x];
+}
+
+void SetMapTile(int x,int y,int value)
+{
+ TMap[MapWidth*y+x]=value;
+}
+
+int GetGrabbedTile(int x,int y)
+{
+ return GrabbedTiles[grabbed_w*y+x];
+}
+
+void SetGrabbedTile(int x,int y,int value)
+{
+ GrabbedTiles[grabbed_w*y+x]=value;
+}
+
+void setPal(int index, int r,int g,int b)
+{
+ pal[index*3+0]=r;
+ pal[index*3+1]=g;
+ pal[index*3+2]=b;
+}
+
+void LoadTileSet(string fname, int tilesx, int tilesy)
+{
+ int img, source, dest;
+ int i, x, y;
+
+
+ numtiles=tilesx*tilesy;
+
+ free(tiles);
+ tiles=malloc(numtiles*64);
+ dest=tiles;
+ img=Loadimage(fname); //load the tileset image
+ for(i=0; i<numtiles-1; i++)
+ {
+  x=i%tilesx; y=i/tilesx; //get the x/y coordinates of the tile in the image.
+  source=img+(image_width*(y*9+1))+(x*9+1); //don't ask ;)
+  for(y=0; y<8; y++)
+  {
+   memcpy(dest, source, 8); //copy each line of the tile, one by one.
+   source+=image_width; //move to the next line of the tile in the image
+   dest+=8; //move to the next line of the tile in the vsp.
+  }
+ }
+ free(img);
+}
+
+void SaveMap(string fname)
+{
+ int f;
+ int i;
+
+ f=fwopen(fname);
+ fwritestring("const u16 testMap[ "+Str(MapWidth)+" * "+str(MapHeight)+" ]="+chr(123),f);
+ for(i=0; i<MapWidth*MapHeight; i++)
+ {
+  fwritestring(str(getmaptile(i%MapWidth,i/MapWidth))+" ,",f);
+ }
+ 
+ fwritestring(chr(125), f);
+ fwritestring("",f);
+ fwclose(f);
+ Message(fname +" saved",200);
+ loaded=fname;
+}
+
+string s;
+void LoadMap(string fname)
+{
+ int f;
+ int i;
+
+ f=fopen(fname);
+ if(!f) { Message("Unable to open "+fname,200); return; }
+ fgettoken(s,f); fgettoken(s,f); fgettoken(s,f); //grab the first u16 junk..
+ fgettoken(s,f); //grab the mapwidth
+ MapWidth=val(s);
+ fgettoken(s,f); //grab the *
+ fgettoken(s,f); //grab the mapheight
+ MapHeight=val(s);
+ fgettoken(s,f);
+ for(i=0; i<MapWidth*MapHeight; i++)
+ {
+  fgettoken(s,f); //grab the map tile value
+  SetMapTile(i%MapWidth, i/MapWidth, val(s)); //set the tile! :D
+  fgettoken(s,f); //grab the ","
+ }
+ Message(fname +" loaded",200);
+ loaded=fname;
+ fclose(f); 
+}
+
+void LoadMapMenu()
+{
+ int tempbg;
+ int dialog;
+ int done;
+ int p;
+ string Mystring;
+ 
+ dialog=loadimage("dialog.pcx");
+ tempbg=malloc(320*240);
+ setrenderdest(320, 240,tempbg);
+ DrawScreen();
+ restorerendersettings(); 
+ while(!done)
+ {
+  updatecontrols();
+  copysprite(0,0,320,240,tempbg);
+  copysprite(70,88,180,32,dialog);
+  gotoxy(74, 92); printstring(0, "Map file to load:");
+  gotoxy(76, 106); 
+  if(timer%100>50) printstring(0, mystring+"|");
+  else printstring(0, mystring);
+  showpage();
+  
+  p=GetKeyBoardInput();
+  if(p=1) //letter
+  {
+   mystring=mystring+kbval;
+  }
+  if(p=2) //backspace
+  {
+   Mystring=left(Mystring, strlen(Mystring)-1); 
+  }
+  if(p=3) //enter
+  {
+   done=1;
+   unpress(1);
+  }
+  if(p=4)
+  {
+   done=2;
+   Unpress(3);
+  }
+ }
+ free(dialog);
+ free(tempbg);
+ if(done=1) LoadMap(mystring);
+
+}
+
+void SaveMapMenu()
+{
+ int tempbg;
+ int dialog;
+ int done;
+ int p;
+ string Mystring;
+ dialog=loadimage("dialog.pcx");
+ tempbg=malloc(320*240);
+ setrenderdest(320, 240,tempbg);
+ DrawScreen();
+ restorerendersettings(); 
+ while(!done)
+ {
+  updatecontrols();
+  copysprite(0,0,320,240,tempbg);
+  copysprite(70,88,180,32,dialog);
+  gotoxy(74, 92); printstring(0, "Map file to save:");
+  gotoxy(76, 106); 
+  if(timer%100>50) printstring(0, mystring+"|");
+  else printstring(0, mystring);
+  showpage();
+  
+  p=GetKeyBoardInput();
+  if(p=1) //letter
+  {
+   mystring=mystring+kbval;
+  }
+  if(p=2) //backspace
+  {
+   Mystring=left(Mystring, strlen(Mystring)-1); 
+  }
+  if(p=3) //enter
+  {
+   done=1;
+   unpress(1);
+  }
+  if(p=4)
+  {
+   done=2;
+   Unpress(3);
+  }
+  
+
+ }
+ free(dialog);
+ free(tempbg);
+ if(done=1) SaveMap(mystring);
+
+}
+

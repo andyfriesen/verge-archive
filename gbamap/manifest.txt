@@ -1,0 +1,15 @@
+bg.pcx
+console.gif
+dialog.pcx
+keys.vc
+pointer.pcx
+readme.txt
+renamy.py
+strinput.vc
+system.fnt
+system.vc
+system.xvc
+testwhee
+tiles.pcx
+trans.tbl
+user.cfg

@@ -1,0 +1,129 @@
+string KBVal; // Holds the output from GUIInput and GetKeyboardInput
+
+void Pause(int d)
+{
+ timer=0; while(timer<d) { }
+}
+
+//Run this function in a loop to enter the string. KBVal is the letter that was pressed. When GetKeyboardInput returns 1, add KBVal to the string you're working with. If it returns 2, the user pressed backspace: use Mystring=left(Mystring, strlen(Mystring)-1); to delete the last character. If it returns 3, Enter was pressed, and if it returns 4, esc was pressed.
+
+int GetKeyboardInput()
+{
+  //string Char;
+  int PauseAmt;
+  PauseAmt = 1;
+  if(!key[key_LSHIFT] && !key[key_RSHIFT])
+  {
+    if(key[key_1]) { KBVal = "1"; key[key_1]=0; Pause(PauseAmt); return 1; }
+    if(key[key_2]) { KBVal = "2"; key[key_2]=0; Pause(PauseAmt); return 1; }
+    if(key[key_3]) { KBVal = "3"; key[key_3]=0; Pause(PauseAmt); return 1; }
+    if(key[key_4]) { KBVal = "4"; key[key_4]=0; Pause(PauseAmt); return 1; }
+    if(key[key_5]) { KBVal = "5"; key[key_5]=0; Pause(PauseAmt); return 1; }
+    if(key[key_6]) { KBVal = "6"; key[key_6]=0; Pause(PauseAmt); return 1; }
+    if(key[key_7]) { KBVal = "7"; key[key_7]=0; Pause(PauseAmt); return 1; }
+    if(key[key_8]) { KBVal = "8"; key[key_8]=0; Pause(PauseAmt); return 1; }
+    if(key[key_9]) { KBVal = "9"; key[key_9]=0; Pause(PauseAmt); return 1; }
+    if(key[key_0]) { KBVal = "0"; key[key_0]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PLUS]) { KBVal = "="; key[key_plus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_MINUS]) { KBVal = "-"; key[key_minus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_STAR]) { KBVal = "*"; key[key_star]=0; Pause(PauseAmt); return 1; }
+    if(key[key_SPACE]) { KBVal = " "; key[key_space]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PADMINUS]) { KBVal = "-"; key[key_padminus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PADPLUS]) { KBVal = "+"; key[key_padplus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_COMMA]) { KBVal = ","; key[key_comma]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PERIOD]) { KBVal = "."; key[key_period]=0; Pause(PauseAmt); return 1; }
+    if(key[key_BACKSLASH]) { KBVal = "\"; key[key_backslash]=0; Pause(PauseAmt); return 1; }
+    if(key[key_SEMICOLON]) { KBVal = ";"; key[key_semicolon]=0; Pause(PauseAmt); return 1; }
+    if(key[key_A]) { KBVal = "a"; key[key_a]=0; Pause(PauseAmt); return 1; }
+    if(key[key_B]) { KBVal = "b"; key[key_b]=0; Pause(PauseAmt); return 1; }
+    if(key[key_C]) { KBVal = "c"; key[key_c]=0; Pause(PauseAmt); return 1; }
+    if(key[key_D]) { KBVal = "d"; key[key_d]=0; Pause(PauseAmt); return 1; }
+    if(key[key_E]) { KBVal = "e"; key[key_e]=0; Pause(PauseAmt); return 1; }
+    if(key[key_F]) { KBVal = "f"; key[key_f]=0; Pause(PauseAmt); return 1; }
+    if(key[key_G]) { KBVal = "g"; key[key_g]=0; Pause(PauseAmt); return 1; }
+    if(key[key_H]) { KBVal = "h"; key[key_h]=0; Pause(PauseAmt); return 1; }
+    if(key[key_I]) { KBVal = "i"; key[key_i]=0; Pause(PauseAmt); return 1; }
+    if(key[key_J]) { KBVal = "j"; key[key_j]=0; Pause(PauseAmt); return 1; }
+    if(key[key_K]) { KBVal = "k"; key[key_k]=0; Pause(PauseAmt); return 1; }
+    if(key[key_L]) { KBVal = "l"; key[key_l]=0; Pause(PauseAmt); return 1; }
+    if(key[key_M]) { KBVal = "m"; key[key_m]=0; Pause(PauseAmt); return 1; }
+    if(key[key_N]) { KBVal = "n"; key[key_n]=0; Pause(PauseAmt); return 1; }
+    if(key[key_O]) { KBVal = "o"; key[key_o]=0; Pause(PauseAmt); return 1; }
+    if(key[key_P]) { KBVal = "p"; key[key_p]=0; Pause(PauseAmt); return 1; }
+    if(key[key_Q]) { KBVal = "q"; key[key_q]=0; Pause(PauseAmt); return 1; }
+    if(key[key_R]) { KBVal = "r"; key[key_r]=0; Pause(PauseAmt); return 1; }
+    if(key[key_S]) { KBVal = "s"; key[key_s]=0; Pause(PauseAmt); return 1; }
+    if(key[key_T]) { KBVal = "t"; key[key_t]=0; Pause(PauseAmt); return 1; }
+    if(key[key_U]) { KBVal = "u"; key[key_u]=0; Pause(PauseAmt); return 1; }
+    if(key[key_V]) { KBVal = "v"; key[key_v]=0; Pause(PauseAmt); return 1; }
+    if(key[key_W]) { KBVal = "w"; key[key_w]=0; Pause(PauseAmt); return 1; }
+    if(key[key_X]) { KBVal = "x"; key[key_x]=0; Pause(PauseAmt); return 1; }
+    if(key[key_Y]) { KBVal = "y"; key[key_y]=0; Pause(PauseAmt); return 1; }
+    if(key[key_Z]) { KBVal = "z"; key[key_z]=0; Pause(PauseAmt); return 1; }
+    if(key[key_BACKSPACE]) { key[key_BACKSPACE]=0; Pause(PauseAmt); return 2; }
+    if(key[key_ENTER]) return 3;
+    if(key[key_HOME]) { KBVal = "7"; key[key_home]=0; Pause(PauseAmt); return 1; }
+    if(key[key_UP]) { KBVal = "8"; key[key_up]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PGUP]) { KBVal = "9"; key[key_pgup]=0; Pause(PauseAmt); return 1; }
+    if(key[key_LEFT]) { KBVal = "4"; key[key_left]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PAD5]) { KBVal = "5"; key[key_PAD5]=0; Pause(PauseAmt); return 1; }
+    if(key[key_RIGHT]) { KBVal = "6"; key[key_right]=0; Pause(PauseAmt); return 1; }
+    if(key[key_END]) { KBVal = "1"; key[key_end]=0; Pause(PauseAmt); return 1; }
+    if(key[key_DOWN]) { KBVal = "2"; key[key_down]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PGDN]) { KBVal = "3"; key[key_pgdn]=0; Pause(PauseAmt); return 1; }
+    if(key[key_ESC]) return 4;
+
+  }
+  else
+  {    if(key[key_1]) { KBVal = "!"; key[key_1]=0; Pause(PauseAmt); return 1; }
+    if(key[key_2]) { KBVal = "@"; key[key_2]=0; Pause(PauseAmt); return 1; }
+    if(key[key_3]) { KBVal = "#"; key[key_3]=0; Pause(PauseAmt); return 1; }
+    if(key[key_4]) { KBVal = "$"; key[key_4]=0; Pause(PauseAmt); return 1; }
+    if(key[key_5]) { KBVal = "%"; key[key_5]=0; Pause(PauseAmt); return 1; }
+    if(key[key_6]) { KBVal = "^"; key[key_6]=0; Pause(PauseAmt); return 1; }
+    if(key[key_7]) { KBVal = "&"; key[key_7]=0; Pause(PauseAmt); return 1; }
+    if(key[key_8]) { KBVal = "*"; key[key_8]=0; Pause(PauseAmt); return 1; }
+    if(key[key_9]) { KBVal = "("; key[key_9]=0; Pause(PauseAmt); return 1; }
+    if(key[key_0]) { KBVal = ")"; key[key_0]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PLUS]) { KBVal = "+"; key[key_plus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_MINUS]) { KBVal = "_"; key[key_minus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_STAR]) { KBVal = "*"; key[key_star]=0; Pause(PauseAmt); return 1; }
+    if(key[key_SPACE]) { KBVal = " "; key[key_space]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PADMINUS]) { KBVal = "-"; key[key_padminus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PADPLUS]) { KBVal = "+"; key[key_padplus]=0; Pause(PauseAmt); return 1; }
+    if(key[key_COMMA]) { KBVal = "<"; key[key_comma]=0; Pause(PauseAmt); return 1; }
+    if(key[key_PERIOD]) { KBVal = ">"; key[key_period]=0; Pause(PauseAmt); return 1; }
+    if(key[key_BACKSLASH]) { KBVal = "|"; key[key_backslash]=0; Pause(PauseAmt); return 1; }
+    if(key[key_SEMICOLON]) { KBVal = ":"; key[key_semicolon]=0; Pause(PauseAmt); return 1; }
+    if(key[key_A]) { KBVal = "A"; key[key_a]=0; Pause(PauseAmt); return 1; }
+    if(key[key_B]) { KBVal = "B"; key[key_b]=0; Pause(PauseAmt); return 1; }
+    if(key[key_C]) { KBVal = "C"; key[key_c]=0; Pause(PauseAmt); return 1; }
+    if(key[key_D]) { KBVal = "D"; key[key_d]=0; Pause(PauseAmt); return 1; }
+    if(key[key_E]) { KBVal = "E"; key[key_e]=0; Pause(PauseAmt); return 1; }
+    if(key[key_F]) { KBVal = "F"; key[key_f]=0; Pause(PauseAmt); return 1; }
+    if(key[key_G]) { KBVal = "G"; key[key_g]=0; Pause(PauseAmt); return 1; }
+    if(key[key_H]) { KBVal = "H"; key[key_h]=0; Pause(PauseAmt); return 1; }
+    if(key[key_I]) { KBVal = "I"; key[key_i]=0; Pause(PauseAmt); return 1; }
+    if(key[key_J]) { KBVal = "J"; key[key_j]=0; Pause(PauseAmt); return 1; }
+    if(key[key_K]) { KBVal = "K"; key[key_k]=0; Pause(PauseAmt); return 1; }
+    if(key[key_L]) { KBVal = "L"; key[key_l]=0; Pause(PauseAmt); return 1; }
+    if(key[key_M]) { KBVal = "M"; key[key_m]=0; Pause(PauseAmt); return 1; }
+    if(key[key_N]) { KBVal = "N"; key[key_n]=0; Pause(PauseAmt); return 1; }
+    if(key[key_O]) { KBVal = "O"; key[key_o]=0; Pause(PauseAmt); return 1; }
+    if(key[key_P]) { KBVal = "P"; key[key_p]=0; Pause(PauseAmt); return 1; }
+    if(key[key_Q]) { KBVal = "Q"; key[key_q]=0; Pause(PauseAmt); return 1; }
+    if(key[key_R]) { KBVal = "R"; key[key_r]=0; Pause(PauseAmt); return 1; }
+    if(key[key_S]) { KBVal = "S"; key[key_s]=0; Pause(PauseAmt); return 1; }
+    if(key[key_T]) { KBVal = "T"; key[key_t]=0; Pause(PauseAmt); return 1; }
+    if(key[key_U]) { KBVal = "U"; key[key_u]=0; Pause(PauseAmt); return 1; }
+    if(key[key_V]) { KBVal = "V"; key[key_v]=0; Pause(PauseAmt); return 1; }
+    if(key[key_W]) { KBVal = "W"; key[key_w]=0; Pause(PauseAmt); return 1; }
+    if(key[key_X]) { KBVal = "X"; key[key_x]=0; Pause(PauseAmt); return 1; }
+    if(key[key_Y]) { KBVal = "Y"; key[key_y]=0; Pause(PauseAmt); return 1; }
+    if(key[key_Z]) { KBVal = "Z"; key[key_z]=0; Pause(PauseAmt); return 1; }
+    if(key[key_BACKSPACE]) { key[key_BACKSPACE]=0; Pause(PauseAmt); return 2; }
+    if(key[key_ENTER]) return 3;
+  }
+  return 0;
+}
+

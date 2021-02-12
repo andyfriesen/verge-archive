@@ -131,8 +131,13 @@ let games: array(Game.game) = [|
         title: "RCR Prototype",
         description: "A prototype of a River City Ransom game by Hatchet. Z/X/C for controls.",
         engine: Game.V2
+    },
+    {
+        name: "gbamap",
+        title: "GBA Map editor",
+        description: "A prototype of a map editor, intended to use to make GBA games (obviously didn't happen!) Made by Hatchet. ",
+        engine: Game.V2
     }
-    
     /*  Does not currently work
     {
         name: "fugue",
