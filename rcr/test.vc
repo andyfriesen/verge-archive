@@ -1,0 +1,6 @@
+event
+{
+ palettemorph(0,0,0,0,63);
+ plr=entityspawn(5, 5, "rcr.chr");
+ Main();
+}

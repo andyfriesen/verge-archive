@@ -1,0 +1,338 @@
+#include "keys.vc"
+
+#define MaxEnts 100
+#define NumShots 3
+
+#define IDLE 0
+#define MOVING 1
+#define KICKING 2
+#define PUNCHING 3
+#define JUMPING 4
+#define LANDING 5
+
+
+#define DRIGHT 0
+#define DLEFT 1
+#define DUP 2
+#define DDOWN 3
+
+int HP[MaxEnts], state[MaxEnts], framet[MaxEnts];
+int jumppwr[MaxEnts], landy, jumpx;
+int SubX[MaxEnts], SubY[MaxEnts];
+int run;
+
+int shotx[NumShots], shoty[NumShots], shot[NumShots], shotd[NumShots], shoti[5], fi[5];
+
+int shottimer;
+int flags[1000];
+int plr;
+int t;
+
+void Autoexec()
+{
+ /*
+ fi[DRIGHT]=LoadImage("shotrght.pcx");
+ fi[DLEFT]=LoadImage("shotleft.pcx");
+ fi[DUP]=LoadImage("shotup.pcx");
+ fi[DDOWN]=LoadImage("shotdown.pcx");
+
+ shoti[DRIGHT]=LoadImage("bulletr.pcx");
+ shoti[DLEFT]=LoadImage("bulletl.pcx");
+ shoti[DUP]=LoadImage("bulletu.pcx");
+ shoti[DDOWN]=LoadImage("bulletd.pcx");
+ */
+ setresolution(320,240);  
+ map("street.map");
+}
+
+void Main()
+{
+    
+    
+ int done, i;
+ timer=0;
+ 
+ 
+ SubX[plr]=entity.x[plr]*8;
+ SubY[plr]=entity.y[plr]*8;
+ 
+ while(!done)
+ {
+  //while(!timer) { UpdateControls(); }
+  //UpdateControls();
+  t=timer; timer=0;
+  //for(i=0; i<t; i++) //this code always runs at 100 "fps". :)
+  //{ 
+   UpdateControls();
+   CheckKeys();
+   ControlPlayer();
+   //Shots();
+   AI(); 
+  //}   
+  Render();  
+  //DrawShots();
+  gotoxy(0,0);
+  printstring(0, str(entity.specframe[plr]));
+  gotoxy(0,10);
+  printstring(0, str(entity.facing[plr]));
+  
+  gotoxy(100,10);
+  printstring(0, str(  jumppwr[plr]));
+  
+
+  ShowPage();
+ }
+}
+
+void ControlPlayer()
+{
+
+ int i;
+ 
+ if(KeyArray[key_LSHIFT]) run=3;
+ else run=1;
+ 
+ if(state[plr]=IDLE || state[plr]=MOVING)
+ {
+  if(left) 
+  {
+	entity.facing[plr]=DLEFT;
+	state[plr]=MOVING;
+
+	for(i=0; i<6*run; i++)
+	{
+ 	 if(!GetTile((entity.x[plr]+3)/16, (entity.y[plr]+31)/16, 6) && !GetTile((entity.x[plr]+3)/16, (entity.y[plr]+35)/16, 6)) 
+	  SubX[plr]--;  
+    entity.x[plr]=SubX[plr]/8;
+   } 
+  }
+  if(right) 
+  {
+	entity.facing[plr]=DRIGHT;
+	
+	if(GetTile((entity.x[plr]+4)/16, (entity.y[plr]+36)/16, 5)=1 && !GetTile((entity.x[plr]+18)/16, (entity.y[plr]+36)/16, 5)) //falling off a ledge
+	{
+	 i=entity.y[plr]+36;
+ 	 while(GetTile((entity.x[plr]+4)/16, i/16, 5)!=2 && GetTile((entity.x[plr]+18)/16, i/16, 5)!=2)
+ 	 {
+ 	  i++;
+ 	 }
+ 	 landy=i*8-(30*8); 	
+	 state[plr]=JUMPING; jumppwr[plr]=-2; entity.y[plr]++; SubY[plr]+=8;
+	}
+	else
+	{
+	 state[plr]=MOVING;
+
+	 for(i=0; i<6*run; i++)
+	 {
+	  if(!GetTile((entity.x[plr]+20)/16, (entity.y[plr]+31)/16, 6) && !GetTile((entity.x[plr]+20)/16, (entity.y[plr]+35)/16, 6)) 
+	  SubX[plr]++;  
+	  entity.x[plr]=SubX[plr]/8;
+	 } 
+   }
+  } 
+
+  if(up) 
+  {
+	if(GetTile((entity.x[plr]+4)/16, (entity.y[plr]+37)/16, 5)=1 && GetTile((entity.x[plr]+18)/16, (entity.y[plr]+37)/16, 5)=1) //on a ledge
+	{	}
+	else
+	{
+	 state[plr]=MOVING;
+	 for(i=0; i<6*run; i++)
+	 {
+	  if(!GetTile((entity.x[plr]+4)/16, (entity.y[plr]+30)/16, 6) && !GetTile((entity.x[plr]+18)/16, (entity.y[plr]+30)/16, 6)) 
+		SubY[plr]--;  
+	  entity.y[plr]=SubY[plr]/8;
+	 }   
+   }
+   
+  }
+  
+  if(down) 
+  {
+	if(GetTile((entity.x[plr]+4)/16, (entity.y[plr]+36)/16, 5)=1 && GetTile((entity.x[plr]+18)/16, (entity.y[plr]+36)/16, 5)=1) //on a ledge
+	{
+	 i=entity.y[plr]+36;
+	 while(GetTile((entity.x[plr]+4)/16, i/16, 5)!=2 && GetTile((entity.x[plr]+18)/16, i/16, 5)!=2)
+	 {
+	  i++;
+	 }
+	 landy=i*8-(30*8);
+	
+	 state[plr]=JUMPING; jumppwr[plr]=-2; entity.y[plr]++; SubY[plr]+=8;
+	}
+	else
+	{	
+	 state[plr]=MOVING;
+	 for(i=0; i<6*run; i++)
+	 {
+	  if(!GetTile((entity.x[plr]+4)/16, (entity.y[plr]+36)/16, 6) && !GetTile((entity.x[plr]+18)/16, (entity.y[plr]+36)/16, 6)) 
+		SubY[plr]++;  
+	  entity.y[plr]=SubY[plr]/8;
+	 } 
+   }
+   
+  }
+
+
+  
+  if(!up && !right && !down &&!left) state[plr]=IDLE;
+ } 
+
+ if(KeyArray[key_Z])
+ {
+  if(state[plr]=MOVING || state[plr]=IDLE)
+  {
+   unpresskey(key_Z);
+   framet[plr]=0;
+   state[plr]=KICKING;  
+  }
+ }
+
+ if(KeyArray[key_X])
+ {
+  if(state[plr]=MOVING || state[plr]=IDLE)
+  {
+   unpresskey(key_X);
+   framet[plr]=0;
+   state[plr]=PUNCHING;  
+  }
+ }
+
+ if(KeyArray[key_C])
+ {
+  if(state[plr]=MOVING || state[plr]=IDLE)
+  {
+   unpresskey(key_C);
+   framet[plr]=0;
+   
+   //determine jumpdirection
+   if(state[plr]=MOVING)
+   {
+    if(entity.facing[plr]=DRIGHT) jumpx=6*run;
+    else jumpx=0-6*run;
+   }
+   else jumpx=0;
+   
+   state[plr]=JUMPING;  
+   jumppwr[plr]=18;
+   suby[plr]=entity.y[plr]*8;
+   landy=suby[plr];
+   
+  }
+ }
+
+
+ //show frames
+ switch(state[plr])
+ {
+  case IDLE:
+   framet[plr]=0;
+   entity.specframe[plr]=4*entity.facing[plr];
+  case MOVING:
+   framet[plr]+=run;
+   if(framet[plr]>=40) framet[plr]-=40;
+   if(framet[plr]<10) entity.specframe[plr]=4*entity.facing[plr];
+   if(framet[plr]>=10 && framet[plr]<20) entity.specframe[plr]=4*entity.facing[plr]+1;
+   if(framet[plr]>=20 && framet[plr]<30) entity.specframe[plr]=4*entity.facing[plr]+2;
+   if(framet[plr]>=30) entity.specframe[plr]=4*entity.facing[plr]+3;  
+  case KICKING:
+   framet[plr]++;
+   if(framet[plr]>=30) { framet[plr]=0; state[plr]=IDLE; entity.specframe[plr]=4*entity.facing[plr]; }
+   if(framet[plr]<10) entity.specframe[plr]=4*entity.facing[plr]+16;
+   if(framet[plr]>=10 && framet[plr]<20) entity.specframe[plr]=4*entity.facing[plr]+17;
+   if(framet[plr]>=20 && framet[plr]<30) entity.specframe[plr]=4*entity.facing[plr]+18;
+  case PUNCHING:
+   framet[plr]++;
+   if(framet[plr]>=30) { framet[plr]=0; state[plr]=IDLE; entity.specframe[plr]=4*entity.facing[plr]; }
+   if(framet[plr]<10) entity.specframe[plr]=4*entity.facing[plr]+8;
+   if(framet[plr]>=10 && framet[plr]<20) entity.specframe[plr]=4*entity.facing[plr]+9;
+   if(framet[plr]>=20 && framet[plr]<30) entity.specframe[plr]=4*entity.facing[plr]+10;
+  case JUMPING:
+   framet[plr]++;
+   if(framet[plr]>=2 && jumppwr[plr]>0-18) { jumppwr[plr]--; framet[plr]=0; }
+
+   entity.specframe[plr]=4*entity.facing[plr]+24;
+   
+
+   for(i=0; i<abs(jumppwr[plr]); i++) //jumping! :D
+   {
+    SubY[plr]-=sgn(jumppwr[plr])*2;
+    entity.y[plr]=SubY[plr]/8;
+
+    if(suby[plr]>=landy) //land on the ground
+    {
+     if(!GetTile((entity.x[plr]+4)/16, (entity.y[plr]+37)/16, 5) && !GetTile((entity.x[plr]+18)/16, (entity.y[plr]+37)/16, 5))
+     {
+      landy+=8;
+     }
+     else
+     {
+      state[plr]=LANDING;
+      entity.specframe[plr]=4*entity.facing[plr]+25;
+      framet[plr]=0;    
+     }
+    }
+    
+    if(jumppwr[plr]<0) 
+    {
+     //on a ledge
+     if(GetTile((entity.x[plr]+4)/16, (entity.y[plr]+37)/16, 5)=1 && GetTile((entity.x[plr]+18)/16, (entity.y[plr]+37)/16, 5)=1
+     && !GetTile((entity.x[plr]+4)/16, (entity.y[plr]+34)/16, 6) && !GetTile((entity.x[plr]+18)/16, (entity.y[plr]+34)/16, 6)) 
+     { 
+      state[plr]=LANDING;
+      entity.specframe[plr]=4*entity.facing[plr]+25;
+      framet[plr]=0;    
+      suby[plr]=entity.y[plr]*8;
+     } 
+    } 
+   } 
+   
+   for(i=0; i<abs(jumpx); i++)
+   {
+    SubX[plr]+=sgn(jumpx);
+    entity.x[plr]=SubX[plr]/8;
+   }   
+
+
+   
+
+  case LANDING:
+   framet[plr]++;
+   jumpx=0;
+   entity.specframe[plr]=4*entity.facing[plr]+25;   
+   suby[plr]=entity.y[plr]*8;
+   if(framet[plr]>=10) { state[plr]=IDLE; framet[plr]=0; }
+   
+  
+ }
+}
+
+
+void AI()
+{
+
+}
+
+
+
+
+
+int abs(int n)
+{
+ if(n>0) return n;
+ if(n<0) return 0-n;
+ return 0;
+}
+
+int sgn(int n)
+{
+ if(n>0) return 1;
+ if(n<0) return 0-1;
+ return 0;
+}
+
+
+

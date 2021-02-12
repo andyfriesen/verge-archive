@@ -1,0 +1,7 @@
+event
+{
+ palettemorph(0,0,0,0,63);
+ plr=entityspawn(4, 6, "rcr.chr");
+ setplayer(plr);
+ Main();
+}

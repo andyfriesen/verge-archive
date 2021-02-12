@@ -125,8 +125,13 @@ let games: array(Game.game) = [|
         title: "2001",
         description: "A compo game by Hatchet.",
         engine: Game.V2
+    },
+    {
+        name: "rcr",
+        title: "RCR Prototype",
+        description: "A prototype of a River City Ransom game by Hatchet. Z/X/C for controls.",
+        engine: Game.V2
     }
-    
     
     /*  Does not currently work
     {
