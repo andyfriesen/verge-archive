@@ -1,0 +1,45 @@
+-----------------------------------------------------------
+Name:           Genetic Spaceship Miracle SHIPPU
+Author:         Zaratustra
+                Music by infey
+E-Mail:         shrooms00@yahoo.com
+Home Page:      http://zara.verge-rpg.com
+Description:    The spaceship game with most buttons ever.
+-----------------------------------------------------------
+
+Features
+-----------------------------
+Style:          Arcade
+Graphics:       Created
+Music:          Created (Sounds ripped from web sources)
+Battle System:  No
+Source Code:    No
+
+Technical Data
+-----------------------------
+Engine:         WinV2
+Build Time:     6 days
+Programs Used:  The usual
+Ave. Play Time: 15 minutes
+
+Commands
+-----------------------------
+DIRECTIONAL KEYS	Move ship
+Z/B1			Primary gun
+X/B2			Secondary gun
+C/B3			Vacuum (Costs 1/16 ability bar)
+A			Change ship
+S			Merge ship (Costs 1/8 ability bar)
+D			Discard ship
+1-6			Choose ship slot
+ESC			Leave current game
+Q			Quit game
+
+Documentation
+-----------------------------
+None yet. HA!
+
+Version Notes
+-----------------------------
+None yet. HA!
+

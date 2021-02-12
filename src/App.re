@@ -87,7 +87,7 @@ let games: array(Game.game) = [|
     {
         name: "4four",
         title: "4four",
-        description: "Another great platformer from Zarathustra!",
+        description: "Another great platformer from Zaratustra!",
         engine: Game.V2
     },
     {
@@ -99,13 +99,13 @@ let games: array(Game.game) = [|
         {
         name: "teddy",
         title: "Teddy Grahams",
-        description: "A V1 game with a battle system, it seems!",
+        description: "A Final Fantasy inspired V1 game with a battle system, it seems!",
         engine: Game.V1
     },
     {
         name: "mannux",
         title: "Mannux",
-        description: "Original V2 verion of Hatchet's classic Metroidvania.",
+        description: "Original V2 version of Hatchet's classic Metroidvania.",
         engine: Game.V2
     },    
     {
@@ -114,6 +114,12 @@ let games: array(Game.game) = [|
         description: "A zelda style compo game by Hatchet.",
         engine: Game.V2
     },
+    {
+        name: "shippu",
+        title: "SHIPPU",
+        description: "An original space shooter by Zaratustra with genetic spaceships! Doesn't fully work yet sadly..",
+        engine: Game.V2
+    }
 |];
 
 let game_with_name = (name) => {

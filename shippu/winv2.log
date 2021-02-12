@@ -1,0 +1,727 @@
+Initializing VC interpreter
+system vclib init: 40 funcs, 79 ints (15276 bytes), 5 strings
+vc allocated 4608 bytes, ptr 203349880
+vc allocated 4608 bytes, ptr 203354496
+vc allocated 4608 bytes, ptr 203359112
+vc allocated 4608 bytes, ptr 203363728
+vc allocated 4608 bytes, ptr 203368344
+vc allocated 4608 bytes, ptr 203372960
+vc allocated 4608 bytes, ptr 203377576
+vc allocated 4608 bytes, ptr 203382192
+vc allocated 4608 bytes, ptr 203386808
+vc allocated 4608 bytes, ptr 203391424
+vc allocated 4608 bytes, ptr 203396040
+vc allocated 4608 bytes, ptr 203400656
+vc allocated 4608 bytes, ptr 203405272
+vc allocated 4608 bytes, ptr 203409888
+vc allocated 4608 bytes, ptr 203414504
+vc allocated 4608 bytes, ptr 210632776
+vc allocated 4608 bytes, ptr 210637392
+vc allocated 4608 bytes, ptr 210642008
+vc allocated 4608 bytes, ptr 210646624
+vc allocated 4608 bytes, ptr 210651240
+vc allocated 4608 bytes, ptr 210655856
+vc allocated 4608 bytes, ptr 210660472
+vc allocated 4608 bytes, ptr 210665088
+vc allocated 4608 bytes, ptr 210669704
+vc allocated 4608 bytes, ptr 210674320
+vc allocated 4608 bytes, ptr 210678936
+vc allocated 4608 bytes, ptr 210683552
+vc allocated 4608 bytes, ptr 210688168
+vc allocated 4608 bytes, ptr 210692784
+vc allocated 4608 bytes, ptr 210697400
+vc allocated 4608 bytes, ptr 210702016
+vc allocated 4608 bytes, ptr 210706632
+vc allocated 4608 bytes, ptr 210711248
+vc allocated 4608 bytes, ptr 210715864
+vc allocated 4608 bytes, ptr 210720480
+vc allocated 4608 bytes, ptr 210725096
+vc allocated 4608 bytes, ptr 210729712
+vc allocated 4608 bytes, ptr 210734328
+vc allocated 4608 bytes, ptr 210738944
+vc allocated 4608 bytes, ptr 210743560
+vc allocated 4608 bytes, ptr 210748176
+vc allocated 4608 bytes, ptr 210752792
+vc allocated 4608 bytes, ptr 210757408
+vc allocated 4608 bytes, ptr 210762024
+vc allocated 4608 bytes, ptr 210766640
+vc allocated 4608 bytes, ptr 210771256
+vc allocated 4608 bytes, ptr 210775872
+vc allocated 4608 bytes, ptr 210780488
+vc allocated 4608 bytes, ptr 210785104
+vc allocated 4608 bytes, ptr 210789720
+vc allocated 4608 bytes, ptr 210794336
+vc allocated 4608 bytes, ptr 210798952
+vc allocated 4608 bytes, ptr 210803568
+vc allocated 4608 bytes, ptr 210808184
+vc allocated 4608 bytes, ptr 210812800
+vc allocated 4608 bytes, ptr 210817416
+vc allocated 4608 bytes, ptr 210822032
+vc allocated 4608 bytes, ptr 210826648
+vc allocated 4608 bytes, ptr 210831264
+vc allocated 4608 bytes, ptr 210835880
+vc allocated 4608 bytes, ptr 210840496
+vc allocated 4608 bytes, ptr 210845112
+vc allocated 4608 bytes, ptr 210849728
+vc allocated 4608 bytes, ptr 210854344
+vc allocated 4608 bytes, ptr 210858960
+vc allocated 4608 bytes, ptr 210863576
+vc allocated 4608 bytes, ptr 210868192
+vc allocated 4608 bytes, ptr 210872808
+vc allocated 4608 bytes, ptr 210877424
+vc allocated 4608 bytes, ptr 210882040
+vc allocated 4608 bytes, ptr 210886656
+vc allocated 4608 bytes, ptr 210891272
+vc allocated 4608 bytes, ptr 210895888
+vc allocated 4608 bytes, ptr 210900504
+vc allocated 4608 bytes, ptr 210905120
+vc allocated 4608 bytes, ptr 210909736
+vc allocated 4608 bytes, ptr 210914352
+vc allocated 4608 bytes, ptr 210918968
+vc allocated 4608 bytes, ptr 210923584
+vc allocated 4608 bytes, ptr 210928200
+vc allocated 4608 bytes, ptr 210932816
+vc allocated 4608 bytes, ptr 210937432
+vc allocated 4608 bytes, ptr 210942048
+vc allocated 4608 bytes, ptr 210946664
+vc allocated 4608 bytes, ptr 210951280
+vc allocated 4608 bytes, ptr 210955896
+vc allocated 4608 bytes, ptr 210960512
+vc allocated 4608 bytes, ptr 210965128
+vc allocated 4608 bytes, ptr 210969744
+vc allocated 4608 bytes, ptr 210974360
+vc allocated 4608 bytes, ptr 210978976
+vc allocated 4608 bytes, ptr 210983592
+vc allocated 4608 bytes, ptr 210988208
+vc allocated 4608 bytes, ptr 210992824
+vc allocated 4608 bytes, ptr 210997440
+vc allocated 4608 bytes, ptr 211002056
+vc allocated 4608 bytes, ptr 211006672
+vc allocated 4608 bytes, ptr 211011288
+vc allocated 4608 bytes, ptr 211015904
+vc allocated 4608 bytes, ptr 211020520
+vc allocated 4608 bytes, ptr 211025136
+vc allocated 4608 bytes, ptr 211029752
+vc allocated 4608 bytes, ptr 211034368
+vc allocated 4608 bytes, ptr 211038984
+vc allocated 4608 bytes, ptr 211043600
+vc allocated 4608 bytes, ptr 211048216
+vc allocated 4608 bytes, ptr 211052832
+vc allocated 4608 bytes, ptr 211057448
+vc allocated 4608 bytes, ptr 211062064
+vc allocated 4608 bytes, ptr 211066680
+vc allocated 4608 bytes, ptr 211071296
+vc allocated 4608 bytes, ptr 211075912
+vc allocated 4608 bytes, ptr 211080528
+vc allocated 4608 bytes, ptr 211085144
+vc allocated 4608 bytes, ptr 211089760
+vc allocated 4608 bytes, ptr 211094376
+vc allocated 4608 bytes, ptr 211098992
+vc allocated 4608 bytes, ptr 211103608
+vc allocated 4608 bytes, ptr 211108224
+vc allocated 4608 bytes, ptr 211112840
+title.map: mapevents 1,  codesize 99
+Shippo DAM-WUZE- 8 8 5 7 5 8 9 6-43: 4 x 7
+Shippo DAM-WUZE- 8 8 5 7 5 8 9 6-43: 4 x 7
+Logging Shippu 21
+Shippo DAM-NUZENACY- 5 9 5 7 6 10 12 9-87: 14 x 7
+Logging Shippu 22
+Shippo DAM-WUZE- 9 8 4 7 4 7 10 6-43: 4 x 7
+Logging Shippu 23
+Shippo DAM-WUZE- 7 8 5 6 4 9 10 5-43: 4 x 7
+Logging Shippu 24
+Shippo BAT-WUZENA- 10 7 8 8 6 8 8 9-67: 10 x 7
+Logging Shippu 25
+Shippo DAL-WUZE- 9 9 6 6 7 6 10 8-43: 4 x 7
+Logging Shippu 26
+Shippo DAM-WUZE- 11 9 6 9 7 9 11 10-43: 4 x 7
+Logging Shippu 27
+Shippo DAM-WUZE- 7 6 7 7 7 7 9 6-43: 4 x 7
+Logging Shippu 28
+Shippo VAT-WUZE- 8 8 5 7 5 8 9 6-43: 4 x 7
+Logging Shippu 29
+Shippo VAM-WUZE- 8 7 5 7 7 7 9 8-43: 4 x 7
+Logging Shippu 30
+Shippo BAM-WUZEGE- 7 8 8 7 5 9 8 5-81: 10 x 8
+Logging Shippu 31
+Shippo DAP-WUZEKO- 8 8 6 7 4 7 9 6-97: 10 x 8
+Logging Shippu 32
+Shippo DAM-WUZENA- 7 7 6 6 5 8 8 6-71: 10 x 7
+Logging Shippu 33
+Shippo DAR-WUZE- 11 6 5 7 6 7 9 6-39: 4 x 7
+Logging Shippu 34
+Shippo DAM-WUTO- 5 8 6 6 4 8 8 5-42: 4 x 8
+Logging Shippu 35
+Shippo DAR-WUZE- 9 11 6 6 5 6 10 8-39: 4 x 7
+Logging Shippu 36
+Shippo VAM-WUZE- 9 9 7 5 7 10 10 6-43: 4 x 7
+Logging Shippu 37
+Shippo DAM-WUZE- 7 8 3 4 6 9 9 7-43: 4 x 7
+Logging Shippu 38
+Shippo DAT-WUZE- 9 8 5 6 6 7 8 8-39: 4 x 7
+Logging Shippu 39
+Shippo KAM-VOZENA- 7 9 5 7 6 6 10 5-64: 8 x 9
+Logging Shippu 40
+Shippo DAM-WUZESO- 7 7 6 10 7 10 7 7-95: 10 x 8
+Logging Shippu 41
+Shippo DAT-WUZENA- 8 7 5 6 7 9 10 9-67: 10 x 7
+Logging Shippu 42
+Shippo FAM-WUZE- 7 9 5 7 5 8 8 6-43: 4 x 7
+Logging Shippu 43
+Shippo DAM-ZAZE- 8 8 6 7 6 10 7 4-54: 8 x 6
+Logging Shippu 44
+Shippo DAP-WUZE- 8 8 5 8 5 6 10 8-39: 4 x 7
+Logging Shippu 45
+Shippo DAM-WUZENA- 10 7 5 5 5 7 10 7-71: 10 x 7
+Logging Shippu 46
+Shippo DAM-WUFYNACY- 6 10 5 5 5 9 8 7-126: 14 x 14
+Logging Shippu 47
+Shippo DAM-WUZE- 8 7 5 6 7 6 9 7-43: 4 x 7
+Logging Shippu 48
+Shippo DAP-WUZENA- 6 9 5 6 8 6 10 6-67: 10 x 7
+Logging Shippu 49
+Shippo DAM-ZAZENA- 8 9 6 7 4 8 8 6-78: 10 x 9
+Logging Shippu 50
+Shippo DAL-WUDU- 7 10 6 6 6 12 8 4-38: 4 x 7
+Logging Shippu 51
+Shippo DAM-FUZENA- 6 9 7 10 7 10 11 6-96: 10 x 11
+Logging Shippu 52
+Shippo DAM-WUZE- 8 9 5 7 4 7 10 7-43: 4 x 7
+Logging Shippu 53
+Shippo DAM-WUMU- 8 7 5 9 8 7 10 6-43: 4 x 7
+Logging Shippu 54
+Shippo DAM-WUZENA- 6 9 6 7 7 9 9 5-71: 10 x 7
+Logging Shippu 55
+Shippo DAM-BEZENA- 8 7 8 6 7 10 10 6-46: 10 x 7
+Logging Shippu 56
+Shippo DAM-ZAZE- 9 10 5 9 4 8 10 7-54: 8 x 6
+Logging Shippu 57
+Shippo DAM-WUZE- 4 8 3 6 6 9 8 6-43: 4 x 7
+Logging Shippu 58
+Shippo KAM-WUZENA- 7 9 5 8 4 9 8 5-71: 10 x 7
+Logging Shippu 59
+Shippo DAM-WUZE- 6 9 3 7 9 8 10 7-43: 4 x 7
+Logging Shippu 60
+Shippo DAL-WUZE- 8 8 5 7 5 8 9 6-43: 4 x 7
+Logging Shippu 61
+Shippo BAM-WUNYNA- 7 7 6 7 7 10 9 5-50: 10 x 11
+Logging Shippu 62
+Shippo CAP-WUZE- 9 7 7 8 6 5 8 7-39: 4 x 7
+Logging Shippu 63
+Shippo CAN-WUZE- 7 8 3 8 2 8 7 7-39: 4 x 7
+Logging Shippu 64
+Shippo DAM-WUZE- 5 11 5 7 5 10 7 6-43: 4 x 7
+Logging Shippu 65
+Shippo DAR-WUKI- 8 8 5 7 5 8 9 6-40: 4 x 8
+Logging Shippu 66
+Shippo DAM-WUZE- 11 9 8 9 6 8 7 8-43: 4 x 7
+Logging Shippu 67
+Shippo DAM-WUZENA- 9 9 8 8 3 8 10 9-71: 10 x 7
+Logging Shippu 68
+Shippo DAM-WUZETU- 8 8 5 7 5 8 9 6-83: 10 x 8
+Logging Shippu 69
+Shippo SAM-WUFY- 8 9 4 8 4 9 9 5-42: 4 x 8
+Logging Shippu 70
+Shippo CAN-WUPA- 6 7 6 8 11 10 9 7-33: 4 x 7
+Logging Shippu 71
+Shippo DAM-WUZE- 8 7 7 7 7 7 8 7-43: 4 x 7
+Logging Shippu 72
+Shippo DAP-WUZE- 9 9 7 8 5 8 8 5-39: 4 x 7
+Logging Shippu 73
+Shippo DAM-WUZE- 8 9 5 7 6 9 10 5-43: 4 x 7
+Logging Shippu 74
+Shippo DAM-FUVU- 8 8 7 6 6 9 7 4-67: 8 x 8
+Logging Shippu 75
+Shippo DAP-WUZE- 5 10 4 8 5 7 9 6-39: 4 x 7
+Logging Shippu 76
+Shippo DAP-WUZE- 8 8 6 8 5 8 10 8-39: 4 x 7
+Logging Shippu 77
+Shippo DEM-WUZENA- 8 8 7 10 8 7 9 8-61: 10 x 7
+Logging Shippu 78
+Shippo DAM-MONYNACY- 7 8 7 6 6 7 8 7-100: 20 x 5
+Logging Shippu 79
+Shippo CAN-WUZENA- 8 10 6 7 5 7 7 7-67: 10 x 7
+Logging Shippu 80
+Shippo DAM-WUZENACY- 7 8 9 8 6 11 6 6-121: 14 x 8
+Logging Shippu 81
+Shippo DAT-WUZE- 9 10 5 8 5 5 10 8-39: 4 x 7
+Logging Shippu 82
+Shippo DAM-WUZE- 9 7 7 5 6 10 6 9-43: 4 x 7
+Logging Shippu 83
+Shippo DAX-WUZE- 8 7 5 6 5 9 11 7-39: 4 x 7
+Logging Shippu 84
+Shippo DAX-WUNY- 8 9 7 9 3 9 7 8-29: 4 x 8
+Logging Shippu 85
+Shippo DAM-WUZE- 7 9 3 8 5 10 10 6-43: 4 x 7
+Logging Shippu 86
+Shippo DAX-WUZE- 8 9 6 9 6 8 7 5-39: 4 x 7
+Logging Shippu 87
+Shippo DAM-FUZE- 7 8 5 6 6 8 9 6-70: 8 x 8
+Logging Shippu 88
+Shippo DAM-WUZENA- 10 7 7 7 7 6 7 9-71: 10 x 7
+Logging Shippu 89
+Shippo DAP-DOZE- 8 8 5 7 4 8 9 5-52: 8 x 6
+Logging Shippu 90
+Shippo DAX-WUZE- 7 9 4 6 5 10 8 7-39: 4 x 7
+Logging Shippu 91
+Shippo DAM-WUSINACY- 5 9 8 6 7 7 11 7-126: 14 x 14
+Logging Shippu 92
+Shippo FAM-WUGA- 5 8 5 9 5 9 6 5-42: 4 x 8
+Logging Shippu 93
+Shippo DAM-WUZE- 8 9 5 7 4 9 9 7-43: 4 x 7
+Logging Shippu 94
+Shippo DAL-WUZENA- 10 9 5 6 4 7 9 7-71: 10 x 7
+Logging Shippu 95
+Shippo DAM-XYSI- 8 8 6 7 6 7 8 6-42: 4 x 8
+Logging Shippu 96
+Shippo DAM-WUGA- 5 7 6 11 4 9 11 8-42: 4 x 8
+Logging Shippu 97
+Shippo DAT-CIZENABU- 8 9 9 7 3 8 9 5-94: 8 x 15
+Logging Shippu 98
+Shippo DAL-WUZE- 8 9 7 5 6 7 8 7-43: 4 x 7
+Logging Shippu 99
+Shippo KAM-WUZE- 9 7 6 7 6 6 10 6-43: 4 x 7
+Logging Shippu 100
+Shippo DAT-CIZENA- 8 9 5 7 6 9 11 6-66: 8 x 9
+Logging Shippu 101
+Shippo DAX-WUZE- 7 8 5 7 5 7 9 7-39: 4 x 7
+Logging Shippu 102
+Shippo DAM-WUCO- 5 8 4 6 6 8 9 7-38: 4 x 7
+Logging Shippu 103
+Shippo SAM-WUZE- 8 8 5 8 5 6 11 7-43: 4 x 7
+Logging Shippu 104
+Shippo KAM-WUZENA- 7 9 7 4 7 12 6 8-71: 10 x 7
+Logging Shippu 105
+Shippo DEM-WUZENA- 7 7 6 8 6 10 8 6-61: 10 x 7
+Logging Shippu 106
+Shippo DAM-WUZENA- 7 7 6 4 7 9 7 6-71: 10 x 7
+Logging Shippu 107
+Shippo DAM-WUCO- 7 9 5 8 4 9 7 6-38: 4 x 7
+Logging Shippu 108
+Shippo DAM-WUZE- 8 10 6 8 5 9 7 5-43: 4 x 7
+Logging Shippu 109
+Shippo DAM-WUZE- 8 8 4 6 6 8 8 7-43: 4 x 7
+Logging Shippu 110
+Shippo SAM-TIZEDY- 8 6 6 8 6 10 8 4-86: 10 x 9
+Logging Shippu 111
+Shippo DAM-JAGANA- 8 7 4 7 5 8 10 8-70: 16 x 8
+Logging Shippu 112
+Shippo DAL-DOZE- 8 10 3 8 6 7 9 8-50: 8 x 6
+Logging Shippu 113
+Shippo DAM-WUKI- 8 7 6 8 5 9 11 7-40: 4 x 8
+Logging Shippu 114
+Shippo FAM-WUZENA- 7 9 5 7 5 8 8 5-71: 10 x 7
+Logging Shippu 115
+Shippo DAM-WUZE- 10 9 5 6 6 10 7 8-43: 4 x 7
+Logging Shippu 116
+Shippo FAM-WUZENA- 7 8 6 6 6 9 11 4-71: 10 x 7
+Logging Shippu 117
+Shippo DEM-WUZENACY- 6 12 9 7 6 9 6 4-112: 14 x 8
+Logging Shippu 118
+Shippo DAM-RATO- 8 7 8 7 5 8 8 8-50: 10 x 5
+Logging Shippu 119
+vc freed ptr at 211243112
+TEST.MAP: mapevents 1,  codesize 88
+Shippo FON-PYPADYJOWILECI- 6 11 8 6 13 6 9 6-186: 16 x 20
+Shippo DAX-KEBIXEGI- 6 9 9 8 4 9 10 9-103: 16 x 14
+Shippo FAN-GYKI- 9 7 11 9 9 11 10 6-67: 10 x 9
+Shippo CAN-GYKI- 10 9 11 10 7 11 9 3-76: 10 x 9
+Logging Shippu 21
+Shippo FEL-GYKITU- 9 8 11 9 11 10 8 8-104: 16 x 12
+Logging Shippu 22
+Shippo FEN-GYKIGE- 9 7 9 10 7 10 13 5-104: 16 x 12
+Logging Shippu 23
+Shippo KEN-GYKITU- 6 9 12 8 9 10 10 7-104: 16 x 12
+Logging Shippu 24
+Shippo FEN-VOKITU- 9 8 12 8 10 11 12 5-70: 16 x 6
+Logging Shippu 25
+Shippo DET-GYKITU- 9 5 10 6 11 11 7 4-108: 16 x 12
+Logging Shippu 26
+Shippo FAN-GYKITUXI- 7 7 11 9 10 10 9 7-218: 22 x 18
+Logging Shippu 27
+Shippo FAX-TICOTU- 8 7 11 9 7 10 10 6-103: 10 x 12
+Logging Shippu 28
+Shippo FEN-GYKITU- 8 5 11 9 8 10 10 7-104: 16 x 12
+Logging Shippu 29
+Shippo FAX-KELO- 8 7 12 7 6 10 13 8-40: 4 x 8
+Logging Shippu 30
+Shippo FAN-VOKI- 6 7 8 10 10 9 8 6-48: 10 x 5
+Logging Shippu 31
+Shippo FAN-BEKI- 10 7 10 9 8 10 10 6-29: 4 x 8
+Logging Shippu 32
+Shippo FAN-SEKI- 9 7 11 10 10 10 10 5-67: 10 x 9
+Logging Shippu 33
+Shippo FAN-GYKI- 7 6 11 8 9 10 12 4-67: 10 x 9
+Logging Shippu 34
+Shippo CAT-GYKI- 10 9 10 8 10 11 11 7-76: 10 x 9
+Logging Shippu 35
+Shippo FAN-GYKI- 8 7 11 9 9 11 11 6-67: 10 x 9
+Logging Shippu 36
+Shippo DAT-GYKI- 8 8 12 10 9 10 10 5-76: 10 x 9
+Logging Shippu 37
+Shippo FAN-BEKI- 9 10 10 9 7 12 10 7-29: 4 x 8
+Logging Shippu 38
+Shippo FAN-GYKI- 7 7 12 8 9 11 9 5-67: 10 x 9
+Logging Shippu 39
+Shippo FAN-GYFY- 8 7 11 8 8 12 10 6-71: 10 x 9
+Logging Shippu 40
+Shippo FER-GYKITU- 6 7 10 7 10 8 10 9-108: 16 x 12
+Logging Shippu 41
+Shippo FAN-GYKI- 8 8 12 7 8 10 11 6-67: 10 x 9
+Logging Shippu 42
+Shippo FEN-BEGATUXI- 7 9 9 11 8 10 9 11-123: 16 x 14
+Logging Shippu 43
+Shippo FAN-LIKI- 9 6 10 10 9 9 9 6-40: 4 x 8
+Logging Shippu 44
+Shippo FAN-NUFY- 11 9 9 9 12 8 10 7-31: 4 x 8
+Logging Shippu 45
+Shippo FAT-GYKI- 9 9 9 10 8 11 7 7-76: 10 x 9
+Logging Shippu 46
+Shippo FEN-JAKITU- 7 6 10 10 10 9 9 8-70: 16 x 6
+Logging Shippu 47
+Shippo FAN-PYKI- 10 7 11 10 9 12 10 9-48: 10 x 5
+Logging Shippu 48
+Shippo KAN-GYKI- 11 7 9 9 10 10 8 7-67: 10 x 9
+Logging Shippu 49
+Shippo FAN-RAZE- 7 8 10 9 10 9 10 9-50: 8 x 6
+Logging Shippu 50
+Shippo FAX-GYKI- 7 8 11 7 7 11 11 5-76: 10 x 9
+Logging Shippu 51
+Shippo VAN-GYKI- 10 7 11 10 8 11 9 4-67: 10 x 9
+Logging Shippu 52
+Shippo FAN-GYKI- 8 8 11 9 9 11 10 6-67: 10 x 9
+Logging Shippu 53
+Shippo FAN-GYPA- 7 8 11 9 9 11 11 5-57: 8 x 8
+Logging Shippu 54
+Shippo KAN-GYRE- 7 8 10 9 10 10 10 6-47: 8 x 7
+Logging Shippu 55
+Shippo DAL-TIKI- 8 6 12 8 9 10 10 7-67: 10 x 9
+Logging Shippu 56
+Shippo FAR-WUKI- 9 7 11 9 9 11 10 6-40: 4 x 8
+Logging Shippu 57
+Shippo VAN-GYKI- 6 8 11 7 8 8 7 10-67: 10 x 9
+Logging Shippu 58
+Shippo KAL-GYDU- 9 8 9 7 8 9 8 6-47: 8 x 7
+Logging Shippu 59
+Shippo FAN-XYFY- 9 8 11 10 10 11 10 6-42: 4 x 8
+Logging Shippu 60
+Shippo FEN-GYZEXE- 9 7 10 8 7 10 9 8-115: 10 x 12
+Logging Shippu 61
+Shippo FAN-GYKI- 10 8 10 11 7 8 11 8-67: 10 x 9
+Logging Shippu 62
+Shippo FEN-GYVUTU- 9 7 10 7 10 11 9 5-103: 10 x 12
+Logging Shippu 63
+Shippo FEN-MOLOTU- 8 6 11 8 11 10 9 7-67: 16 x 5
+Logging Shippu 64
+Shippo FET-GYKITUXI- 6 10 9 8 11 10 8 7-221: 22 x 18
+Logging Shippu 65
+Shippo KAN-GYKI- 9 5 10 10 8 11 9 6-67: 10 x 9
+Logging Shippu 66
+Shippo VEN-GYKITU- 9 7 11 9 11 11 9 7-104: 16 x 12
+Logging Shippu 67
+Shippo FAN-GYKITU- 10 8 9 9 8 11 11 9-104: 16 x 12
+Logging Shippu 68
+Shippo FAN-GYKI- 6 9 14 8 8 10 11 7-67: 10 x 9
+Logging Shippu 69
+Shippo FAN-KEKI- 8 7 8 9 8 10 11 5-40: 4 x 8
+Logging Shippu 70
+Shippo FAN-GYKI- 11 10 10 8 9 10 10 7-67: 10 x 9
+Logging Shippu 71
+Shippo DAL-GYKI- 9 8 9 9 10 11 10 4-67: 10 x 9
+Logging Shippu 72
+Shippo FAN-GYKI- 10 7 11 11 7 12 9 5-67: 10 x 9
+Logging Shippu 73
+Shippo CAR-GYKI- 7 6 12 10 8 11 10 6-76: 10 x 9
+Logging Shippu 74
+Shippo FAN-GYKI- 9 6 8 10 10 8 9 8-67: 10 x 9
+Logging Shippu 75
+Shippo CAN-PYKI- 6 7 12 6 9 10 11 4-54: 10 x 5
+Logging Shippu 76
+Shippo BEN-SEKIGE- 9 8 7 9 7 10 11 5-108: 16 x 12
+Logging Shippu 77
+Shippo FAN-GYKI- 8 9 7 7 11 6 11 7-67: 10 x 9
+Logging Shippu 78
+Shippo FAL-GYKI- 8 9 9 12 9 10 9 8-67: 10 x 9
+Logging Shippu 79
+Shippo FAT-GYKI- 8 6 11 10 7 11 9 7-76: 10 x 9
+Logging Shippu 80
+Shippo FAL-GYKI- 8 7 11 10 9 10 9 6-67: 10 x 9
+Logging Shippu 81
+Shippo FEX-GYKIFA- 11 8 11 11 9 11 9 7-116: 16 x 12
+Logging Shippu 82
+Shippo FAN-GYVU- 9 5 12 9 8 10 8 7-67: 8 x 8
+Logging Shippu 83
+Shippo FEX-GYKITUSU- 7 8 12 8 8 11 10 7-226: 22 x 18
+Logging Shippu 84
+Shippo FEX-GYKICU- 10 9 9 11 8 12 8 5-102: 14 x 11
+Logging Shippu 85
+Shippo FAN-FUKI- 9 6 13 8 8 8 8 7-67: 10 x 9
+Logging Shippu 86
+Shippo FEN-GYKITU- 10 7 13 8 9 11 10 6-104: 16 x 12
+Logging Shippu 87
+Shippo FAN-GYKI- 9 7 10 9 8 12 10 4-67: 10 x 9
+Logging Shippu 88
+Shippo KAN-GYWYTUSUDE- 7 10 11 7 7 9 8 6-315: 26 x 20
+Logging Shippu 89
+Shippo FAN-GYKI- 8 6 9 9 9 12 9 6-67: 10 x 9
+Logging Shippu 90
+Shippo FEX-GYKICUXI- 11 10 9 11 6 11 8 8-182: 16 x 15
+Logging Shippu 91
+Shippo FAN-GYKI- 10 9 10 9 10 9 11 7-67: 10 x 9
+Logging Shippu 92
+Shippo SAN-GYKI- 8 11 10 8 8 9 9 6-67: 10 x 9
+Logging Shippu 93
+Shippo FAR-GYKI- 8 7 10 9 7 12 10 6-76: 10 x 9
+Logging Shippu 94
+Shippo FAN-GYKI- 9 7 11 7 9 11 10 6-67: 10 x 9
+Logging Shippu 95
+Shippo FET-GYKITU- 9 7 11 10 9 10 8 7-108: 16 x 12
+Logging Shippu 96
+Shippo DAT-GYNY- 8 7 10 7 10 10 11 7-45: 10 x 8
+Logging Shippu 97
+Shippo FEN-GYKITU- 9 7 12 11 7 12 10 6-104: 16 x 12
+Logging Shippu 98
+Shippo CAN-GYKI- 9 8 11 10 8 12 9 6-76: 10 x 9
+Logging Shippu 99
+Shippo FAN-GYKI- 7 5 12 11 6 12 10 6-67: 10 x 9
+Logging Shippu 100
+Shippo FAR-GYKI- 6 8 9 7 12 9 11 9-76: 10 x 9
+Logging Shippu 101
+Shippo FAN-GYXA- 10 6 10 9 9 10 9 7-57: 10 x 8
+Logging Shippu 102
+Shippo FEN-GYKIXE- 11 7 10 9 9 13 10 8-115: 16 x 12
+Logging Shippu 103
+Shippo FEN-GYJETU- 9 7 11 8 9 10 9 7-103: 10 x 12
+Logging Shippu 104
+Shippo FEN-GYFYTU- 10 8 8 10 10 7 9 6-144: 16 x 15
+Logging Shippu 105
+Shippo FEN-GYNYDY- 9 5 12 7 6 11 7 5-66: 14 x 10
+Logging Shippu 106
+Shippo FAN-FUVU- 7 6 9 11 11 9 11 6-67: 8 x 8
+Logging Shippu 107
+Shippo FAR-GYKI- 8 8 11 7 10 10 9 6-76: 10 x 9
+Logging Shippu 108
+Shippo FEL-GYKITU- 9 8 11 9 8 11 9 5-104: 16 x 12
+Logging Shippu 109
+Shippo FAN-LIKI- 8 10 13 9 11 10 9 7-40: 4 x 8
+Logging Shippu 110
+Shippo FAN-GYKI- 6 8 11 9 10 9 8 6-67: 10 x 9
+Logging Shippu 111
+Shippo FEN-GYCOTUXI- 9 13 8 9 9 9 6 8-195: 16 x 18
+Logging Shippu 112
+Shippo FAN-GYPA- 7 7 10 8 9 11 10 6-57: 8 x 8
+Logging Shippu 113
+Shippo FAN-GYRETU- 10 5 8 9 8 10 9 6-85: 10 x 8
+Logging Shippu 114
+Shippo FAN-NUKI- 9 7 9 10 10 9 10 6-29: 4 x 8
+Logging Shippu 115
+Shippo CEN-GYRETU- 8 9 9 9 8 8 9 6-69: 10 x 8
+Logging Shippu 116
+Shippo SAP-RAPA- 7 11 11 9 11 9 6 8-32: 8 x 5
+Logging Shippu 117
+Shippo DET-GYKIXEXIME- 9 8 9 10 7 11 10 7-309: 26 x 20
+Logging Shippu 118
+Shippo FAN-GYKI- 6 6 10 9 10 10 9 9-67: 10 x 9
+Logging Shippu 119
+TITLE.MAP: mapevents 1,  codesize 99
+Shippo FAT-PYFY- 8 9 8 7 11 3 9 7-50: 10 x 5
+Shippo KAT-RAFY- 8 8 5 7 8 2 9 8-42: 10 x 5
+Logging Shippu 21
+Shippo FAT-PYTO- 9 9 8 8 11 4 8 5-42: 10 x 5
+Logging Shippu 22
+Shippo FAT-PYFY- 9 9 7 7 12 3 9 7-50: 10 x 5
+Logging Shippu 23
+Shippo FAT-GYFY- 6 9 11 8 11 2 9 6-69: 10 x 9
+Logging Shippu 24
+Shippo CAT-TIFYNA- 9 10 10 9 10 6 6 6-118: 16 x 15
+Logging Shippu 25
+Shippo FAP-PYFY- 8 9 10 7 11 5 7 7-48: 10 x 5
+Logging Shippu 26
+Shippo FAT-LIDUNA- 8 8 8 7 12 4 9 6-61: 10 x 7
+Logging Shippu 27
+Shippo FAT-TIFY- 8 6 9 6 10 3 10 5-69: 10 x 9
+Logging Shippu 28
+Shippo KAT-JAFY- 11 6 6 7 12 4 10 10-50: 10 x 5
+Logging Shippu 29
+Shippo FAT-PYFY- 9 8 7 5 11 4 9 7-50: 10 x 5
+Logging Shippu 30
+Shippo VAT-VOFY- 7 8 10 7 10 5 8 9-50: 10 x 5
+Logging Shippu 31
+Shippo FAT-PYFY- 8 10 6 7 11 5 11 5-50: 10 x 5
+Logging Shippu 32
+Shippo FAT-SEJEVY- 10 9 7 8 10 6 12 7-117: 10 x 9
+Logging Shippu 33
+Shippo FAT-LIFY- 9 11 7 6 10 5 8 6-37: 4 x 8
+Logging Shippu 34
+Shippo SAL-PYFYNABU- 5 10 7 9 11 3 8 7-106: 22 x 11
+Logging Shippu 35
+Shippo FAX-WUFY- 9 9 8 7 10 4 10 9-37: 4 x 8
+Logging Shippu 36
+Shippo BAP-PYFY- 8 10 8 7 10 3 9 8-50: 10 x 5
+Logging Shippu 37
+Shippo CAT-KEFY- 7 8 9 7 10 5 7 6-37: 4 x 8
+Logging Shippu 38
+Shippo FAT-PYFYNA- 8 10 8 9 11 4 9 6-78: 16 x 8
+Logging Shippu 39
+Shippo FER-VOFYNA- 8 10 8 6 14 3 10 9-78: 16 x 8
+Logging Shippu 40
+Shippo FAT-SEFY- 8 8 11 9 9 3 6 7-69: 10 x 9
+Logging Shippu 41
+Shippo FET-PYFYNA- 10 10 9 7 10 5 8 7-78: 16 x 8
+Logging Shippu 42
+Shippo BAX-GYXANA- 9 11 7 6 9 7 8 9-87: 16 x 11
+Logging Shippu 43
+Shippo FAL-PYFY- 9 12 8 8 11 6 5 6-50: 10 x 5
+Logging Shippu 44
+Shippo SAT-WUFY- 7 8 7 9 9 3 9 8-37: 4 x 8
+Logging Shippu 45
+Shippo FAT-PYFYNA- 8 9 9 9 10 4 8 9-78: 16 x 8
+Logging Shippu 46
+Shippo FAT-PYFY- 7 9 8 7 10 5 7 6-50: 10 x 5
+Logging Shippu 47
+Shippo FAT-PYFY- 6 11 9 7 10 7 8 7-50: 10 x 5
+Logging Shippu 48
+Shippo SAL-PYBINA- 9 9 9 8 10 3 9 8-46: 16 x 4
+Logging Shippu 49
+Shippo FAT-BESINASU- 7 10 5 7 10 5 9 9-95: 16 x 14
+Logging Shippu 50
+Shippo FAX-PYFYNA- 8 9 9 6 12 3 10 5-78: 16 x 8
+Logging Shippu 51
+Shippo FAT-PYFYSO- 8 9 7 6 10 3 10 8-106: 16 x 8
+Logging Shippu 52
+Shippo FAT-CIFYNA- 8 7 8 7 11 5 8 6-78: 16 x 8
+Logging Shippu 53
+Shippo FAT-PYFY- 9 10 8 6 12 5 9 8-50: 10 x 5
+Logging Shippu 54
+Shippo FAT-SEFY- 6 12 6 7 11 3 7 5-69: 10 x 9
+Logging Shippu 55
+Shippo FAT-PYFY- 5 9 6 7 10 4 10 7-50: 10 x 5
+Logging Shippu 56
+Shippo FAT-WUFY- 4 10 8 6 9 4 10 4-37: 4 x 8
+Logging Shippu 57
+Shippo FAT-XYFYNA- 9 10 7 6 10 4 9 7-72: 10 x 11
+Logging Shippu 58
+Shippo FAT-PYFY- 10 8 9 8 11 4 8 6-50: 10 x 5
+Logging Shippu 59
+Shippo FAT-PYFYNA- 7 9 8 7 12 5 8 4-78: 16 x 8
+Logging Shippu 60
+Shippo FAT-LIFY- 7 8 8 7 10 4 10 8-37: 4 x 8
+Logging Shippu 61
+Shippo FAR-GYFYNABU- 9 10 10 8 11 4 8 7-167: 22 x 21
+Logging Shippu 62
+Shippo BAT-PYFYNA- 7 9 9 8 10 2 9 6-78: 16 x 8
+Logging Shippu 63
+Shippo FAT-PYFYNA- 7 7 8 6 12 4 8 7-78: 16 x 8
+Logging Shippu 64
+Shippo FAT-PYTO- 7 10 9 7 11 4 8 6-42: 10 x 5
+Logging Shippu 65
+Shippo FAT-PYFY- 7 10 8 6 10 5 10 8-50: 10 x 5
+Logging Shippu 66
+Shippo FAT-PYFYRI- 7 9 9 6 11 4 9 7-70: 14 x 6
+Logging Shippu 67
+Shippo FAM-PYFY- 6 8 10 10 14 5 9 5-50: 10 x 5
+Logging Shippu 68
+Shippo SET-PYFYNA- 7 9 7 7 11 6 7 9-76: 16 x 8
+Logging Shippu 69
+Shippo FAT-PYFY- 8 10 8 7 12 5 9 7-50: 10 x 5
+Logging Shippu 70
+Shippo CAT-PYFY- 8 10 7 7 9 3 8 8-50: 10 x 5
+Logging Shippu 71
+Shippo FET-PYFYNA- 7 8 8 7 8 4 6 7-78: 16 x 8
+Logging Shippu 72
+Shippo FAT-PYBINA- 8 8 10 8 11 6 11 8-48: 16 x 4
+Logging Shippu 73
+Shippo FAT-PYFY- 8 10 10 8 11 4 7 8-50: 10 x 5
+Logging Shippu 74
+Shippo FAR-PYFY- 6 8 7 5 10 6 7 9-50: 10 x 5
+Logging Shippu 75
+Shippo CAT-PYFY- 8 9 7 7 10 6 8 9-50: 10 x 5
+Logging Shippu 76
+Shippo FAT-SEDU- 7 8 8 7 10 3 10 8-45: 8 x 7
+Logging Shippu 77
+Shippo FAT-JAFY- 8 7 7 6 8 4 8 7-50: 10 x 5
+Logging Shippu 78
+Shippo FAT-PYFY- 7 11 6 5 9 6 9 9-50: 10 x 5
+Logging Shippu 79
+Shippo FAT-PYFY- 6 9 6 9 11 5 11 8-50: 10 x 5
+Logging Shippu 80
+Shippo SAT-PYRELU- 9 10 7 8 10 1 6 10-52: 8 x 8
+Logging Shippu 81
+Shippo DAT-PYFY- 8 8 9 8 10 4 9 7-50: 10 x 5
+Logging Shippu 82
+Shippo CAT-PYDU- 4 10 10 8 10 5 8 9-32: 8 x 5
+Logging Shippu 83
+Shippo FAT-PYFYNA- 8 10 8 4 9 4 7 7-78: 16 x 8
+Logging Shippu 84
+Shippo BAT-PYFY- 9 10 7 6 8 5 7 7-50: 10 x 5
+Logging Shippu 85
+Shippo FAM-MOMU- 8 10 6 7 9 4 8 5-54: 8 x 6
+Logging Shippu 86
+Shippo FAT-PYWY- 7 9 8 9 10 5 12 7-54: 10 x 5
+Logging Shippu 87
+Shippo FAT-CIFY- 8 8 7 6 9 4 8 9-50: 10 x 5
+Logging Shippu 88
+Shippo CAT-PYFYNABU- 7 12 8 9 11 6 13 8-106: 22 x 11
+Logging Shippu 89
+Shippo BAT-VOFY- 9 10 8 7 10 5 10 9-50: 10 x 5
+Logging Shippu 90
+Shippo FAT-PYFY- 7 10 10 6 9 4 8 10-50: 10 x 5
+Logging Shippu 91
+Shippo FAT-NUFY- 7 9 8 7 10 4 9 8-29: 4 x 8
+Logging Shippu 92
+Shippo FAT-PYFYNABU- 7 8 10 6 10 3 9 10-106: 22 x 11
+Logging Shippu 93
+Shippo FAT-PYFYNABU- 7 8 9 7 13 8 10 6-106: 22 x 11
+Logging Shippu 94
+Shippo FAL-PYFY- 8 9 8 7 10 4 9 6-50: 10 x 5
+Logging Shippu 95
+Shippo FAT-PYFY- 8 8 8 8 10 3 8 7-50: 10 x 5
+Logging Shippu 96
+Shippo KAT-PYSI- 8 8 7 6 11 3 9 7-50: 10 x 5
+Logging Shippu 97
+Shippo FAT-PYFY- 9 10 9 8 10 4 7 7-50: 10 x 5
+Logging Shippu 98
+Shippo VAT-PYFYNA- 8 8 7 6 11 4 11 7-78: 16 x 8
+Logging Shippu 99
+Shippo FAX-PYMU- 6 10 8 6 9 6 8 7-52: 8 x 6
+Logging Shippu 100
+Shippo SET-CIDUNA- 7 10 8 4 9 3 9 8-44: 8 x 8
+Logging Shippu 101
+Shippo FAN-PYFYNA- 7 11 7 8 11 3 9 4-78: 16 x 8
+Logging Shippu 102
+Shippo FAT-PYFYNA- 11 10 4 7 10 6 10 8-78: 16 x 8
+Logging Shippu 103
+Shippo FAL-PYFY- 5 10 6 7 10 7 8 5-50: 10 x 5
+Logging Shippu 104
+Shippo FAT-CIFY- 6 10 7 8 9 5 8 6-50: 10 x 5
+Logging Shippu 105
+Shippo KAT-PYKI- 7 10 9 5 11 3 9 7-54: 10 x 5
+Logging Shippu 106
+Shippo FAT-PYPA- 10 10 7 6 10 3 9 5-40: 8 x 5
+Logging Shippu 107
+Shippo FAR-PYPAZI- 7 10 10 8 13 5 7 6-56: 10 x 5
+Logging Shippu 108
+Shippo FAT-PYFY- 8 10 7 6 11 5 10 6-50: 10 x 5
+Logging Shippu 109
+Shippo FAX-PYZENA- 8 11 8 6 11 4 8 8-66: 8 x 9
+Logging Shippu 110
+Shippo FAT-PYFY- 6 9 7 8 10 5 7 8-50: 10 x 5
+Logging Shippu 111
+Shippo FAT-RAFYNA- 9 9 9 7 10 3 7 7-70: 16 x 8
+Logging Shippu 112
+Shippo FAT-WUFYNA- 9 8 7 7 8 4 10 7-72: 10 x 11
+Logging Shippu 113
+Shippo FAX-PYFYXE- 10 9 7 7 9 6 7 9-94: 16 x 9
+Logging Shippu 114
+Shippo DAL-DODU- 8 8 6 9 8 5 8 6-40: 8 x 5
+Logging Shippu 115
+Shippo FET-PYFYWA- 7 5 8 8 11 7 10 8-100: 16 x 8
+Logging Shippu 116
+Shippo FAT-LIFY- 10 10 9 8 14 2 9 8-37: 4 x 8
+Logging Shippu 117
+Shippo VAT-PYFYNAVA- 8 9 5 7 10 6 9 9-130: 20 x 9
+Logging Shippu 118
+Shippo FAT-CIFY- 10 6 8 7 11 5 7 8-50: 10 x 5
+Logging Shippu 119
+vc freed ptr at 211190352
+Exiting: http://zara.verge-rpg.com
