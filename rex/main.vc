@@ -1,0 +1,219 @@
+void Main()
+{
+ int done, i;
+ timer=0;
+ while(!done)
+ {
+  Updatecontrols();
+  while(!timer) { } 
+  t=timer; timer=0;
+  ProcessZones();
+  ProcessEnemies();
+  MovePlayer();
+  ShowPlayer();
+  Render();
+  ShowHP();
+  ShowPage();
+ }
+}
+
+void ProcessZones()
+{
+ int z;
+ z=GetTile(entity.tx[plr], entity.ty[plr], 7);
+ if(z=255) //food!
+ {
+  HP+=8; if(HP>32) HP=32;
+  log(str(gettile(entity.tx[plr], entity.ty[plr], 4)));
+  settile(entity.tx[plr], entity.ty[plr], 4, 0);
+  log(str(gettile(entity.tx[plr], entity.ty[plr], 4)));
+  settile(entity.tx[plr], entity.ty[plr], 7, 0);
+  
+  return;
+ }
+ if(z && z!=zone)
+ {
+  zone=z;
+  CallEvent(z);
+ }
+ else if(!z && zone) zone=0;
+}
+
+void MovePlayer()
+{
+ int i;
+ ismoving[plr]=false;
+ if(!attacking) 
+ {
+  if(up) 
+  { 
+   ismoving[plr]=true;
+   entity.facing[plr]=FaceUp;
+   for(i=0; i<t; i++) 
+   { 
+    if(!GetTile((entity.x[plr])>>4,(entity.y[plr]-1)>>4,6) && !GetTile((entity.x[plr]+15)>>4,(entity.y[plr]-1)>>4,6))
+    { 
+     entity.y[plr]--; 
+    }
+    else
+    {
+     ismoving[plr]=false; i=t;
+    }
+   } 
+  }
+  if(down) 
+  {  
+   ismoving[plr]=true;
+   entity.facing[plr]=FaceDown;
+   for(i=0; i<t; i++) 
+   { 
+    if(!GetTile((entity.x[plr])>>4,(entity.y[plr]+16)>>4,6) && !GetTile((entity.x[plr]+15)>>4,(entity.y[plr]+16)>>4,6))
+    { 
+     entity.y[plr]++; 
+    }
+    else
+    {
+     ismoving[plr]=false; i=t;
+    }
+   } 
+  } 
+  if(left) 
+  {  
+   ismoving[plr]=true;
+   entity.facing[plr]=FaceLeft;
+   for(i=0; i<t; i++) 
+   { 
+    if(!GetTile((entity.x[plr]-1)>>4,(entity.y[plr])>>4,6) && !GetTile((entity.x[plr]-1)>>4,(entity.y[plr]+15)>>4,6))
+    { 
+     entity.x[plr]--; 
+    }
+    else
+    {
+     ismoving[plr]=false; i=t;
+    }
+   } 
+  } 
+  if(right) 
+  {  
+   ismoving[plr]=true;
+   entity.facing[plr]=FaceRight;
+   for(i=0; i<t; i++) 
+   { 
+    if(!GetTile((entity.x[plr]+16)>>4,(entity.y[plr])>>4,6) && !GetTile((entity.x[plr]+16)>>4,(entity.y[plr]+15)>>4,6))
+    { 
+     entity.x[plr]++; 
+    }
+    else
+    {
+     ismoving[plr]=false; i=t;
+    }
+   } 
+  } 
+  if(key[keyattack] && !Pkeyattack)
+  {
+   pkeyattack=true;
+   attacking=true;
+   atime[plr]=0;
+   playsound(flags[91],63,127);
+  }
+  if(!key[keyattack] && PKeyattack) PKeyattack=false;
+  UPDCoords();
+ }
+} 
+
+void ShowPlayer()
+{
+ if(!attacking) 
+ {
+  if(ismoving[plr]) 
+  { 
+   ftime[plr]+=t; if(ftime[plr]>=64) ftime[plr]-=64; 
+   entity.specframe[plr]=(entity.facing[plr]*5)+1+(ftime[plr]/16);
+  }
+  else 
+  { 
+   ftime[plr]=0;
+   entity.specframe[plr]=(entity.facing[plr]*5); 
+  }
+  if(hurting[plr]) 
+  {
+   hurttime[plr]+=t; 
+   if(hurttime[plr]<10) 
+   {
+    entity.specframe[plr]=23+(entity.facing[plr]*5); 
+   }
+   else if(hurttime[plr]<=200)
+   {
+    if(HP<=0) { Gameover(); }
+    else entity.visible[plr]=(hurttime[plr]/2)%2;
+   }
+   else
+   {
+    Hurttime[plr]=0; hurting[plr]=false;
+    entity.visible[plr]=true;
+   }
+  }
+ } 
+ else //attacking
+ {
+  entity.specframe[plr]=20+(entity.facing[plr]*5)+(atime[plr]/10);
+  Attack(entity.facing[plr]);
+  atime[plr]+=t;
+  if(atime[plr]>=24) { attacking=false; }
+ }
+}
+
+void Attack(int facing)
+{
+ int i;
+ for(i=0; i<NumEnts; i++)
+ {
+  if(i!=plr) 
+  {
+   if(entity.on[i] && !hurting[i] && SwordCollision(i,facing))
+   {
+    hurting[i]=true;
+    EHP[i]-=5;
+    atime[i]=0;
+   }
+  }
+ }
+}
+
+void UPDCoords()
+{
+ entity.tx[plr]=entity.x[plr]>>4;
+ entity.ty[plr]=entity.y[plr]>>4;  
+}
+
+int Collision(int index)
+{ 
+ if (entity.x[plr]+15 < entity.x[index]) return false;
+ if (entity.x[plr] > entity.x[index]+15) return false; 
+ if (entity.y[plr]+15 < entity.y[index]) return false; 
+ if (entity.y[plr] > entity.y[index]+15) return false; 
+ return true;   
+}
+
+int SwordCollision(int index, int facing)
+{
+ int x, y;
+ switch(Facing)
+ {
+  Case Faceup: x=entity.x[plr]; y=entity.y[plr]-16;
+  Case Facedown: x=entity.x[plr]; y=entity.y[plr]+16;
+  Case Faceleft: x=entity.x[plr]-16; y=entity.y[plr];
+  Case Faceright: x=entity.x[plr]+16; y=entity.y[plr];
+ }
+ if (x+15 < entity.x[index]) return false;
+ if (x > entity.x[index]+15) return false; 
+ if (y+15 < entity.y[index]) return false; 
+ if (y > entity.y[index]+15) return false; 
+ return true;   
+}
+
+void ShowHP()
+{
+ Rect(10,10, 44, 18, 30);
+ RectFill(11,11, 11+HP, 17, 32);
+}

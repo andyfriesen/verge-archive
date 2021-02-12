@@ -1,0 +1,49 @@
+event //0, the autoexec event!
+{
+  palettemorph(0,0,0,0,0);
+  flags[0]++;
+  plr=Entityspawn(8,34,"rex.chr");
+  tracker=plr;
+  cameratracking=2;
+  entity.specframe[plr]=40;
+  render();
+  showpage();
+  fadein2();
+
+  Text("I wonder what the others are doing ",
+       "right now... I'm sure Tara's pissed",
+       "at me... I left without even saying",
+       "goodbye...");
+  RDelay(200);
+  Text("Damnit, this is stupid. I don't even",
+       "know who I'm supposed to meet.","","");
+  Text("All I have is a letter saying if I ", 
+       "want to find 'lost time' then I need",
+       "to come to Adrius' old mining camp. ",
+       "Could even be a trap.");
+  RDelay(200);
+  Text("I guess no matter how hard I try I'm",
+       "not gonna be able to just let go of my",
+       "questions and move on. I wanna know so",
+       "bad...");
+  Text("Why I can't remember the last 2 years",
+       "of my life.","","");
+  Text("The question is, will I like the answer",
+       "I find...","","");
+  RDelay(200);
+  Text("I had better get some rest. In the ",
+       "morning I'll set out east through the",
+       "woods. The camp should be just on the",
+       "other side.");
+  Text("The letter said he'd meet me there, ",
+       "with answers... ","","");
+
+ // Text("I might as well get some sleep while ",
+ //      "it's still dark...", "","");
+
+  render();
+  showpage();       
+  fadeout2();
+  delay(200);
+  map("woods.map");
+} 

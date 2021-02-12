@@ -107,6 +107,12 @@ let games: array(Game.game) = [|
         title: "Mannux",
         description: "Original V2 verion of Hatchet's classic Metroidvania.",
         engine: Game.V2
+    },    
+    {
+        name: "rex",
+        title: "Rex's Tale",
+        description: "A zelda style compo game by Hatchet.",
+        engine: Game.V2
     },
 |];
 

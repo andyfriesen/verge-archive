@@ -1,0 +1,61 @@
+event //0, the autoexec event!
+{
+ ClearEnemies();
+ PaletteMorph(0,0,0,0,0);
+// plr=Entityspawn(92,5,"rex.chr");
+ plr=Entityspawn(8,34,"rex.chr");
+ tracker=plr;
+ cameratracking=2;
+
+ AddEnemy(10,36,"wolf.chr", 0);
+ AddEnemy(26,30,"wolf.chr", 0);
+ AddEnemy(27,19,"wolf.chr", 0);
+ AddEnemy(43,19,"wolf.chr", 0);
+ AddEnemy(43,7,"wolf.chr", 0);
+ AddEnemy(27,7,"wolf.chr", 0);
+ AddEnemy(8,10,"wolf.chr", 0);
+ AddEnemy(8,19,"wolf.chr", 0);
+ AddEnemy(50,43,"wolf.chr", 0);
+ AddEnemy(59,59,"wolf.chr", 0);
+ AddEnemy(83,45,"wolf.chr", 0);
+ AddEnemy(87,55,"wolf.chr", 0);
+ AddEnemy(68,71,"wolf.chr", 0);
+ AddEnemy(56,80,"wolf.chr", 0);
+ AddEnemy(21,73,"wolf.chr", 0);
+ AddEnemy(27,14,"wolf.chr", 0);
+ AddEnemy(57,22,"wolf.chr", 0);
+ AddEnemy(57,32,"wolf.chr", 0);
+ AddEnemy(62,45,"wolf.chr", 0);
+ AddEnemy(70,36,"wolf.chr", 0);
+ AddEnemy(73,49,"wolf.chr", 0);
+ AddEnemy(75,62,"wolf.chr", 0);
+ AddEnemy(55,68,"wolf.chr", 0);
+ AddEnemy(32,81,"wolf.chr", 0);
+ AddEnemy(28,62,"wolf.chr", 0);
+ AddEnemy(86,77,"wolf.chr", 0);
+ AddEnemy(89,63,"wolf.chr", 0);
+ AddEnemy(95,50,"wolf.chr", 0);
+ AddEnemy(95,34,"wolf.chr", 0);
+ AddEnemy(93,21,"wolf.chr", 0);
+ AddEnemy(76,21,"wolf.chr", 0);
+ AddEnemy(63,6,"wolf.chr", 0);
+ AddEnemy(93,9,"wolf.chr", 0);
+ settile(8,32,1,0);
+ render();
+ showpage();
+ fadein();
+ Main();
+}
+
+event //to town
+{
+ fadeout();
+ map("miningto.map");
+}
+
+event //path out of woods
+{
+ Text("No, I'm not leaving until I find some",
+      "answers...","","");
+}
+

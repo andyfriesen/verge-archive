@@ -1,0 +1,11 @@
+event
+{
+ render(); Showpage();
+ setresolution(640,480);
+ Loadpal("title.pcx");
+ fadein();
+ Credits();
+ fadeout();
+ FreeAllSounds();
+ Exit("Thanks for playing Rex's tale!");
+}

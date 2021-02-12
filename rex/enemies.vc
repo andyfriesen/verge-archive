@@ -1,0 +1,763 @@
+int Addenemy(int x, int y, string file, int facing)
+{
+ int index;
+ index=entityspawn(x,y,file);
+ if(!Strcmp(file, "spearman.chr")) 
+ { 
+  EType[index]=1; 
+  EHP[index]=10; 
+  State[index]=Passive;
+  entity.facing[index]=facing;
+  EX[index]=entity.x[index]*3;
+  EY[index]=entity.y[index]*3;
+ }
+ if(!Strcmp(file, "wolf.chr")) 
+ { 
+  EType[index]=2;
+  EHP[index]=5;
+  State[index]=Passive;
+  entity.facing[index]=random(4);
+  EX[index]=entity.x[index]*2;
+  EY[index]=entity.y[index]*2;
+ }
+ if(!Strcmp(file, "kylian.chr")) 
+ { 
+  EType[index]=3;
+  EHP[index]=80;
+  State[index]=Passive;
+  entity.facing[index]=facing;
+  EX[index]=entity.x[index]*3;
+  EY[index]=entity.y[index]*3;
+ }
+}
+
+void ClearEnemies()
+{
+ int i;
+ for(i=0; i<MaxEnts; i++)
+ {
+  EType[i]=0;
+  EHP[i]=0;
+  State[i]=0;
+  EX[i]=0;
+  EY[i]=0;
+ }
+}
+
+void ProcessEnemies()
+{
+ int i;
+ if(Numents>1)
+ {
+  for(i=0; i<NumEnts; i++)
+  {
+   if(entity.on[i])
+   {
+    switch (EType[i])
+    {
+     case 0: //player or no enemy, don't do anything
+     case 1: SpearSoldier(i);
+     case 2: Wolf(i);
+     case 3: Boss(i);
+    }
+   }
+  }
+ }
+}
+
+int LineOfSight(int facing, int index)
+{
+ int i;
+ if(facing=Faceup && entity.tx[plr]=entity.tx[index] && entity.ty[plr]>entity.ty[index]-5 && entity.ty[plr]<=entity.ty[index]) //saw the player
+ {
+//  Message("EEEEP! U", 200);
+  return 1;
+ }
+ if(facing=FaceDown && entity.tx[plr]=entity.tx[index] && entity.ty[plr]<entity.ty[index]+5 && entity.ty[plr]>=entity.ty[index]) //saw the player
+ {
+//  Message("EEEEP! D", 200);
+  return 1;
+ }
+ if(facing=FaceLeft && entity.ty[plr]=entity.ty[index] && entity.tx[plr]>entity.tx[index]-5 && entity.tx[plr]<=entity.tx[index]) //saw the player
+ {
+//  Message("EEEEP! L", 200);
+  return 1;
+ }
+ if(facing=FaceRight && entity.ty[plr]=entity.ty[index] && entity.tx[plr]<entity.tx[index]+5 && entity.tx[plr]>=entity.tx[index]) //saw the player
+ {
+//  Message("EEEEP! R", 200);
+  return 1;
+ }
+ return 0;
+}
+
+void SpearSoldier(int index)
+{
+ int i;
+ atime[index]+=t;
+ if(hurting[index])
+ {
+  if(atime[index]<8) entity.specframe[index]=20+entity.facing[index];
+  else if(atime[index]<100) 
+  {
+   if(EHP[index]<=0)
+   {
+    entity.specframe[index]=24;
+   }
+   entity.visible[index]=(atime[index]/2)%2;
+  }
+  else 
+  {
+   if(EHP[index]<=0)
+   {
+    if(Random(10)>6 && !Gettile(entity.tx[index], entity.ty[index], 4))
+    { settile(entity.tx[index], entity.ty[index], 4, 134);
+      settile(entity.tx[index], entity.ty[index], 7, 255);
+    }  
+    entity.on[index]=false;
+   }
+   else
+   {
+    entity.visible[index]=true;
+    hurting[index]=false; atime[index]=0; State[index]=Looking; 
+   }
+  }
+ }
+ else
+ {
+  if(state[index]=Passive) //normal patrol mode.
+  {
+   if(atime[index]>=600 && atime[index]<=640) 
+   { ismoving[index]=false; } //wait a bit before changing direction
+   else if(atime[index]>640) //change direction.
+   {
+    atime[index]=0;
+    switch(entity.facing[index])
+    {
+     case FaceUp: entity.facing[index]=FaceRight;
+     case FaceDown: entity.facing[index]=FaceLeft;
+     case FaceLeft: entity.facing[index]=FaceUp;
+     case FaceRight: entity.facing[index]=FaceDown;  
+    }
+   }   
+   else //normal movement.
+   {
+    ismoving[index]=true;
+    switch(entity.facing[index])
+    {
+     case FaceUp: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]-1)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]-1)>>4,6))
+       { 
+        ey[index]--; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceDown;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     case FaceDown: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]+16)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]+16)>>4,6))
+       { 
+        ey[index]++; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceUp;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     case FaceLeft: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]-1)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]-1)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        ex[index]--; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceRight;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     case FaceRight: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]+16)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]+16)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        ex[index]++; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceLeft;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     }
+   }
+   entity.tx[index]=entity.x[index]>>4;
+   entity.ty[index]=entity.y[index]>>4;  
+   if(ismoving[index]) { ftime[index]+=t; if(ftime[index]>=80) ftime[index]-=80; }
+   else ftime[index]=0;
+   entity.specframe[index]=(entity.facing[index]*5)+(ftime[index]>>4);
+   if(LineOfSight(entity.facing[index], index))
+   {
+    atime[index]=0;
+    State[index]=Active;
+   }
+  } //end passive if
+  else if(state[index]=1) //active
+  {
+   if(atime[index]<=20) { ismoving[index]=false; } //do nothing if just seen
+   if(atime[index]>=520) {  state[index]=Looking; atime[index]=0; } //ran for 5 seconds, long enough.
+   else 
+   {
+    ismoving[index]=true;
+    switch(entity.facing[index])
+    {
+     case FaceUp: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]-1)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]-1)>>4,6))
+       { 
+        entity.y[index]--; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceDown: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]+16)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]+16)>>4,6))
+       { 
+        entity.y[index]++; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceLeft: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]-1)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]-1)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        entity.x[index]--; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceRight: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]+16)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]+16)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        entity.x[index]++; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+    } 
+    entity.tx[index]=entity.x[index]>>4;
+    entity.ty[index]=entity.y[index]>>4;
+    if(ismoving[index]) { ftime[index]+=t; if(ftime[index]>=80) ftime[index]-=80; }
+    else ftime[index]=0;
+    entity.specframe[index]=(entity.facing[index]*5)+(ftime[index]>>4); 
+   }   
+  } //end elseif
+  else //looking
+  {
+   if(atime[index]>=250) 
+   {
+    atime[index]=0;
+    state[index]=Passive;
+    EX[index]=entity.x[index]*3;
+    EY[index]=entity.y[index]*3;
+   }
+   else if(atime[index]<50) { }
+   else 
+   {
+    entity.facing[index]=(atime[index]-50)/50;
+    entity.specframe[index]=(entity.facing[index]*5);
+    if(LineOfSight(entity.facing[index], index))
+    {
+     atime[index]=0;
+     State[index]=Active;
+    }
+   }
+  }
+  If(Collision(index) && !hurting[plr])
+  {
+   hurting[plr]=True; atime[plr]=0; 
+   HP-=4;
+   atime[index]=0; State[index]=Looking;
+  }
+ }
+}
+
+void Wolf(int index)
+{
+ int i;
+ atime[index]+=t;
+ if(hurting[index])
+ {
+  if(atime[index]<8) entity.specframe[index]=entity.facing[index]*2;
+  else if(atime[index]<100) 
+  {
+   if(EHP[index]<=0)
+   {
+    //entity.specframe[index]=24;
+   }
+   entity.visible[index]=(atime[index]/2)%2;
+  }
+  else 
+  {
+   if(EHP[index]<=0)
+   {
+    if(Random(10)>6 && !Gettile(entity.tx[index], entity.ty[index], 4))
+    { settile(entity.tx[index], entity.ty[index], 4, 134);
+      settile(entity.tx[index], entity.ty[index], 7, 255);
+    }  
+    entity.on[index]=false;
+   }
+   else
+   {
+    entity.visible[index]=true;
+    hurting[index]=false; atime[index]=0; State[index]=Looking; 
+   }
+  }
+ }
+ else
+ {
+  if(state[index]=Passive) //normal patrol mode.
+  {
+   if(atime[index]>=600 && atime[index]<=640) 
+   { ismoving[index]=false; } //wait a bit before changing direction
+   else if(atime[index]>640) //change direction.
+   {
+    atime[index]=0;
+    switch(entity.facing[index])
+    {
+     case FaceUp: entity.facing[index]=FaceRight;
+     case FaceDown: entity.facing[index]=FaceLeft;
+     case FaceLeft: entity.facing[index]=FaceUp;
+     case FaceRight: entity.facing[index]=FaceDown;  
+    }
+   }   
+   else //normal movement.
+   {
+    ismoving[index]=true;
+    switch(entity.facing[index])
+    {
+     case FaceUp: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]-1)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]-1)>>4,6))
+       { 
+        ey[index]--; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceDown;
+       }
+       entity.x[index]=EX[index]/2;
+       entity.y[index]=EY[index]/2;
+      }
+     case FaceDown: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]+16)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]+16)>>4,6))
+       { 
+        ey[index]++; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceUp;
+       }
+       entity.x[index]=EX[index]/2;
+       entity.y[index]=EY[index]/2;
+      }
+     case FaceLeft: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]-1)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]-1)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        ex[index]--; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceRight;
+       }
+       entity.x[index]=EX[index]/2;
+       entity.y[index]=EY[index]/2;
+      }
+     case FaceRight: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]+16)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]+16)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        ex[index]++; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceLeft;
+       }
+       entity.x[index]=EX[index]/2;
+       entity.y[index]=EY[index]/2;
+      }
+     }
+   }
+   entity.tx[index]=entity.x[index]>>4;
+   entity.ty[index]=entity.y[index]>>4;  
+   if(ismoving[index]) { ftime[index]+=t; if(ftime[index]>=40) ftime[index]-=40; }
+   else ftime[index]=0;
+   entity.specframe[index]=(entity.facing[index]*2)+(ftime[index]/20);
+   if(LineOfSight(entity.facing[index], index))
+   {
+    atime[index]=0;
+    State[index]=Active;
+   }
+  } //end passive if
+  else if(state[index]=1) //active
+  {
+   if(atime[index]<=20) { ismoving[index]=false; } //do nothing if just seen
+   if(atime[index]>=520) {  state[index]=Looking; atime[index]=0; } //ran for 5 seconds, long enough.
+   else 
+   {
+    ismoving[index]=true;
+    switch(entity.facing[index])
+    {
+     case FaceUp: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]-1)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]-1)>>4,6))
+       { 
+        entity.y[index]--; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceDown: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]+16)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]+16)>>4,6))
+       { 
+        entity.y[index]++; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceLeft: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]-1)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]-1)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        entity.x[index]--; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceRight: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]+16)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]+16)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        entity.x[index]++; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+    } 
+    entity.tx[index]=entity.x[index]>>4;
+    entity.ty[index]=entity.y[index]>>4;
+    if(ismoving[index]) { ftime[index]+=t; if(ftime[index]>=40) ftime[index]-=40; }
+    else ftime[index]=0;
+    entity.specframe[index]=(entity.facing[index]*2)+(ftime[index]/20); 
+   }   
+  } //end elseif
+  else //looking
+  {
+   atime[index]+=t;
+   if(atime[index]>=50) 
+   {
+    EX[index]=entity.x[index]*2;
+    EY[index]=entity.y[index]*2;
+    atime[index]=0; state[index]=passive;
+    switch(entity.facing[index])
+    {
+     case FaceUp: entity.facing[index]=FaceRight;
+     case FaceDown: entity.facing[index]=FaceLeft;
+     case FaceLeft: entity.facing[index]=FaceUp;
+     case FaceRight: entity.facing[index]=FaceDown;  
+    }
+   }
+   else { }
+  }
+  If(Collision(index) && !hurting[plr])
+  {
+   hurting[plr]=True; atime[plr]=0; 
+   HP-=4;
+   atime[index]=0; State[index]=Looking;
+  }
+ }
+}
+
+void Boss(int index)
+{
+ int i;
+ atime[index]+=t;
+ if(hurting[index])
+ {
+  atime[index]++;
+  if(atime[index]<10) entity.specframe[index]=23+(entity.facing[index]*5);  
+  else 
+  {
+   if(EHP[index]<=0)
+   {
+    BossDeath();
+   }
+   else if(atime[index]<100) entity.visible[index]=(atime[index]/2)%2;
+   else { hurting[index]=false; atime[index]=0; entity.visible[index]=true; }
+  }
+ }
+ else
+ {
+  if(state[index]=Passive) //normal patrol mode.
+  {
+   if(atime[index]>=600 && atime[index]<=640) 
+   { ismoving[index]=false; } //wait a bit before changing direction
+   else if(atime[index]>640) //change direction.
+   {
+    atime[index]=0;
+    switch(entity.facing[index])
+    {
+     case FaceUp: entity.facing[index]=FaceRight;
+     case FaceDown: entity.facing[index]=FaceLeft;
+     case FaceLeft: entity.facing[index]=FaceUp;
+     case FaceRight: entity.facing[index]=FaceDown;  
+    }
+   }   
+   else //normal movement.
+   {
+    ismoving[index]=true;
+    switch(entity.facing[index])
+    {
+     case FaceUp: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]-1)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]-1)>>4,6))
+       { 
+        ey[index]--; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceDown;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     case FaceDown: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]+16)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]+16)>>4,6))
+       { 
+        ey[index]++; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceUp;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     case FaceLeft: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]-1)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]-1)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        ex[index]--; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceRight;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     case FaceRight: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]+16)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]+16)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        ex[index]++; 
+       }
+       else
+       {
+        i=t; entity.facing[index]=FaceLeft;
+       }
+       entity.x[index]=EX[index]/3;
+       entity.y[index]=EY[index]/3;
+      }
+     }
+   }
+
+   entity.tx[index]=entity.x[index]>>4;
+   entity.ty[index]=entity.y[index]>>4;  
+
+
+   if(ismoving[index]) { ftime[index]+=t; if(ftime[index]>=80) ftime[index]-=80; }
+   else ftime[index]=0;
+   entity.specframe[index]=(entity.facing[index]*5)+(ftime[index]>>4);
+
+   if(LineOfSight(entity.facing[index], index))
+   {
+    atime[index]=0;
+    State[index]=Active;
+   }
+  } //end passive if
+  else if(state[index]=1) //active
+  {
+   if(atime[index]<=20) { ismoving[index]=false; } //do nothing if just seen
+   if(atime[index]>=520) {  state[index]=Looking; atime[index]=0; } //ran for 5 seconds, long enough.
+   else 
+   {
+    ismoving[index]=true;
+    switch(entity.facing[index])
+    {
+     case FaceUp: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]-1)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]-1)>>4,6))
+       { 
+        entity.y[index]--; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceDown: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index])>>4,(entity.y[index]+16)>>4,6) && !GetTile((entity.x[index]+15)>>4,(entity.y[index]+16)>>4,6))
+       { 
+        entity.y[index]++; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceLeft: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]-1)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]-1)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        entity.x[index]--; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+     case FaceRight: 
+      for(i=0; i<t; i++) 
+      { 
+       if(!GetTile((entity.x[index]+16)>>4,(entity.y[index])>>4,6) && !GetTile((entity.x[index]+16)>>4,(entity.y[index]+15)>>4,6))
+       { 
+        entity.x[index]++; 
+       }
+       else
+       {
+        i=t; state[index]=Looking; atime[index]=0;
+       }
+      }
+    } 
+    entity.tx[index]=entity.x[index]>>4;
+    entity.ty[index]=entity.y[index]>>4;
+
+    if(ismoving[index]) { ftime[index]+=t; if(ftime[index]>=80) ftime[index]-=80; }
+    else ftime[index]=0;
+    entity.specframe[index]=(entity.facing[index]*5)+(ftime[index]>>4); 
+   }   
+
+  } //end elseif
+  else //looking
+  {
+   if(atime[index]>=250) 
+   {
+    atime[index]=0;
+    state[index]=Passive;
+    EX[index]=entity.x[index]*3;
+    EY[index]=entity.y[index]*3;
+   }
+   else if(atime[index]<50) { }
+   else 
+   {
+    entity.facing[index]=(atime[index]-50)/50;
+    entity.specframe[index]=(entity.facing[index]*5);
+    if(LineOfSight(entity.facing[index], index))
+    {
+     atime[index]=0;
+     State[index]=Active;
+    }
+   }
+  }
+  If(Collision(index) && !hurting[plr])
+  {
+   hurting[plr]=True; atime[plr]=0; 
+   HP-=4;
+   atime[index]=0; State[index]=Looking;
+  }
+ }
+}
+
+void Bossdeath()
+{
+ stopmusic();
+ Text("Kylian: Did... you get what... you",
+      "came for...?","","");
+ Text("Rex: I'm not gonna fall for your games",
+      "anymore, and you're not gonna torment",
+      "or use me.","");
+ Text("Kylian: It may be over for now. But",
+      "others will come for you.          ",
+      "And what about the day your power ",
+      "becomes too much, and you hurt the ");
+ Text("ones you love? What happens then?       ",
+      "No matter what you do, I win. You're",
+      "just a tool of the system, Rex.","");
+ entity.specframe[plr]=(entity.facing[plr]*5);
+ entity.visible[1]=0; render(); showpage(); delay(2);
+ entity.visible[1]=1; render(); showpage(); delay(2);
+ entity.visible[1]=0; render(); showpage(); delay(2);
+ entity.visible[1]=1; render(); showpage(); delay(2);
+ entity.visible[1]=0; render(); showpage(); delay(2);
+ entity.visible[1]=1; render(); showpage(); delay(2);
+ entity.visible[1]=0; render(); showpage(); delay(2);
+ fadeout();
+ map("credits.map");
+}
+

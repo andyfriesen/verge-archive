@@ -1,0 +1,112 @@
+event
+{
+ ClearEnemies();
+ PaletteMorph(0,0,0,0,0);
+ plr=Entityspawn(10, 9, "rex.chr");
+ ftime[plr]=0; ismoving[plr]=0; hurting[plr]=false;
+ entity.specframe[plr]=40;
+ addenemy(2,8,"spearman.chr", faceright); 
+ addenemy(16,10,"spearman.chr", faceleft);
+ entityspawn(10,7, "rex.chr"); //kylian
+ entityspawn(9,7, "lyane.chr"); //lyane
+ entity.specframe[1]=10;
+ entity.specframe[2]=15; 
+ setrstring("3");
+ render(); showpage();
+ fadein();
+ Text("Rex: So this is what I get for my",
+      "trouble. I should have just stayed",
+      "away. All I'm getting is more ",
+      "questions.");
+ Text("And besides the fact that this could",
+      "be it for me...            ",
+      "I've let my friends down.","");
+ Delay(100);
+ TExt("Damn, my head hurts...","","","");
+ fadeout();
+ delay(100);
+ setrstring("1E2R");
+ render();
+ showpage();
+ fadein();
+ Text("Man: Hello Rex. Glad you could join ", "us.","","");
+
+ Text("Rex: Holy crap!               ",
+      "You're the head of System! We saw you",
+      "in Pardica...","");
+ Text("Kylian: Yes... I'm Kylian Roux. You",
+      "should feel honoured that you're in my",
+      "presence and still breathing.","");
+ Text("Rex: Jeez, you're full of yourself.","","","");
+ Text("Kylian: In this world without order, ",
+      "and in complete disarray, I consider ",
+      "myself near God.","");
+ Text("I can rally men and raise an army that",
+      "follows my beliefs in a worldwide ",
+      "system. ","");
+ Text("I even managed to harness energy in ",
+      "its raw form, in the body of a man. ","","");
+ Text("So, you can imagine how I felt when", "you escaped.","","");
+ Text("Rex: You are far from being God. And I ",
+      "was not created!         ","I am REX!!","");
+ Text("Kylian: Seriously, grow up and quit ",
+      "trying to change the truth. Maybe you",
+      "weren't created in the true sense of ",
+      "the word. ");
+ Text("But we took your life and molded it.",
+      "We made it better than just another",
+      "wasted life. Power... purpose...            ",
+      "But you blew it.");
+ Text("Now we are gonna take you apart and",
+      "find out why. After we had tried this",
+      "process on 95 men whose bodies could",
+      "not contain the energies...");
+ Text("You, the 96th, survived. You became",
+      "a living battery that stored energy",
+      "that could be used at will.","");
+ Text("And do you really think that your real",
+      "name is Rex? Honestly...           ",
+      "who would name their child that?","");
+ Text("Rex: Wha... what the hell are you",
+      "talking about?","","");
+ Text("Lyane: All this time you've had enough",
+      "power in you to level a city. Haven't",
+      "you noticed intense headaches? Power",
+      "surges around you?");
+ Text("Or did we pick a moron to test our",
+      "process?","","");
+ Text("Your memory lapses... you've forgotton",
+      "all the pain you went through, all the",
+      "people who have died to make you ",
+      "become what you are...");
+ Text("And how you killed your wife when your",
+      "powers first manifested themselves.","","");
+ TExt("Rex: You just made your biggest ","mistake!","","");
+
+ Playsound(flags[90], 63, 127);
+ fadein3();
+ entity.specframe[1]=24;
+ entity.specframe[2]=24;
+ entity.on[plr]=0;
+ render(); Showpage();
+ delay(100);
+ fadeout3();
+ Text("Kylian: Dear Lord!","","","");
+ Text("Lyane: After him! I want my creation",
+      "back!","","");
+ entity.specframe[3]=15; render(); Showpage();
+ Text("Kylian: Lyane, you fool! You said he",
+      "wouldn't know how to harness his power",
+      "until he was taught!","");
+ Text("Lyane: I swear that's what I thought!","","","");
+ Text("Kylian: Leave us and catch him!","","","");
+ Text("And as for you Lyane... you only get",
+      "one chance to think, and you've used",
+      "yours.","");
+ Text("Lyane: Nooo!","","","");
+ 
+ 
+ 
+ fadeout();
+ map("mines.map");
+}

@@ -1,0 +1,60 @@
+V2 startup. Logfile initialized.
+Sys: Initializing keyboard handler.... OK
+Sys: Initializing timer. Set 100hz.... OK
+Sys: Initializing music system.... OK
+... OK
+Initialize console.... OK
+Initializing VC interpreter
+system vclib init: 35 funcs, 23 ints (2448 bytes), 2 strings
+Loading MAP title.map. [1] ... OK
+VC freeing allocated heap at 0x85431138.
+... OK
+vfree: Attempted to free ptr 0x831E50B0 that was not allocated. [dumping mem report]
+
+========================================
+= Memory usage report for this session =
+========================================
+Chunks currently allocated: 12 (MAXCHUNKS 1000)
+296866 total bytes allocated. 
+PARANOID is ON. (pad size: 256 pad value: 254)
+
+Per-chunk analysis: 
+[  0] Ptr at: 0x83174108 size:     2000 owner:   0 desc: strbuf
+[  1] Ptr at: 0x8317C138 size:    38400 owner:   0 desc: gif image
+[  2] Ptr at: 0x831C7138 size:    65536 owner:   3 desc: translucency_table
+[  3] Ptr at: 0x8309D8E0 size:     1104 owner:   5 desc: LoadSystemVC$vars
+[  4] Ptr at: 0x8309DF38 size:     2660 owner:   5 desc: LoadSystemVC$funcs
+[  5] Ptr at: 0x8309EBA0 size:       96 owner:   5 desc: LoadSystemVC$str
+[  6] Ptr at: 0x8309EE08 size:    17082 owner:   5 desc: LoadSystemCode$sysvc
+[  7] Ptr at: 0x830A32C8 size:     2448 owner:   5 desc: globalint
+[  8] Ptr at: 0x831E0138 size:     6000 owner:   5 desc: vcstack
+[  9] Ptr at: 0x831E8138 size:    65536 owner:   5 desc: movescriptbuf
+[ 10] Ptr at: 0x831F9138 size:    19204 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 11] Ptr at: 0x832BE138 size:    76800 owner:   0 desc: vscreen
+Loading MAP bossroom.map. [1] ... OK
+vfree: Attempted to free ptr 0x832D3BE8 that was not allocated. [dumping mem report]
+
+========================================
+= Memory usage report for this session =
+========================================
+Chunks currently allocated: 12 (MAXCHUNKS 1000)
+296866 total bytes allocated. 
+PARANOID is ON. (pad size: 256 pad value: 254)
+
+Per-chunk analysis: 
+[  0] Ptr at: 0x83174108 size:     2000 owner:   0 desc: strbuf
+[  1] Ptr at: 0x8317C138 size:    38400 owner:   0 desc: gif image
+[  2] Ptr at: 0x831C7138 size:    65536 owner:   3 desc: translucency_table
+[  3] Ptr at: 0x8309D8E0 size:     1104 owner:   5 desc: LoadSystemVC$vars
+[  4] Ptr at: 0x8309DF38 size:     2660 owner:   5 desc: LoadSystemVC$funcs
+[  5] Ptr at: 0x8309EBA0 size:       96 owner:   5 desc: LoadSystemVC$str
+[  6] Ptr at: 0x8309EE08 size:    17082 owner:   5 desc: LoadSystemCode$sysvc
+[  7] Ptr at: 0x830A32C8 size:     2448 owner:   5 desc: globalint
+[  8] Ptr at: 0x831E0138 size:     6000 owner:   5 desc: vcstack
+[  9] Ptr at: 0x831E8138 size:    65536 owner:   5 desc: movescriptbuf
+[ 10] Ptr at: 0x831F9138 size:    19204 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 11] Ptr at: 0x832BE138 size:    76800 owner:   0 desc: vscreen
+Loading MAP credits.map. [1] ... OK
+... OK
+VC freeing allocated heap at 0x854F9138.
+Sys: Exiting with message: 

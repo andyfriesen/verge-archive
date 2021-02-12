@@ -1,0 +1,284 @@
+//Attack key is space by default.
+#define KeyAttack 57 
+
+#define Faceup 1
+#define Facedown 0
+#define Faceleft 3
+#define Faceright 2
+
+#define True 1
+#define False 0
+
+#define MaxEnts 50
+
+#define Passive 0
+#define Active 1
+#define Looking 2
+
+int zone; //last zone called.
+int plr;
+int t;
+int ismoving[MaxEnts], ftime[MaxEnts], atime[MaxEnts];
+int HP;
+int EType[MaxEnts], EHP[maxents], State[MaxEnts]; 
+int Hurting[MaxEnts], HurtTime[MaxEnts];
+int EX[MaxEnts], EY[MaxEnts];
+int textbox, delaytime;
+string Sub[5];
+string KeyString[88];
+int PKeyMain, PKeyAttack, PKeyMenu, PKeyItem, PKeyMagic;
+int attacking;
+int flags[100];
+
+#include "main.vc"
+#include "enemies.vc"
+
+void Autoexec()
+{
+ Sub[1]="~";
+ Sub[2]="Ä";
+ Sub[3]="Å";
+ Sub[4]="Ç";
+ flags[90]=Cachesound("boom.wav");
+ flags[91]=Cachesound("slash.wav");
+ textbox=LoadImage("text.pcx");
+ Loadfont("big.fnt");
+ HP=32;
+ delaytime=3;
+ PlayMusic("afox13b.xm");
+ map("title.map");
+}
+
+void Title()
+{
+ string Tempmap; //DAMN YOU V2 :P
+ int img, done, pointer; 
+ img=Loadimage("title.pcx");
+ if(screenx!=640) setresolution(640,480);
+ Palettemorph(0,0,0,0,0);
+ Copysprite(0,0,640, 480,img);
+ Showpage();
+ Fadein();
+ while(!done)
+ {
+  Updatecontrols();
+  Copysprite(0,0,640, 480,img);
+  GotoXY(0, 200); 
+  If(Pointer=0) Printstring(1, Sub[2]+"New Game"+Sub[1]);
+  else Printstring(1, "New Game");
+  GotoXY(0, 224); 
+  if(pointer=1) Printstring(1, Sub[2]+"Scroll delay: "+Sub[3]+Str(delaytime)+Sub[1]); 
+  else Printstring(1, "Scroll delay: "+Str(delaytime));
+  GotoXY(0, 248); 
+  if(pointer=2) Printstring(1, Sub[2]+"Quit"+Sub[1]); 
+  else Printstring(1, "Quit");
+  Showpage();
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=2; }
+  if(down) { Unpress(6); pointer++; if(pointer>2) pointer=0; }
+  if(B1) 
+  {
+   Unpress(1);
+   switch(pointer)
+   {
+    case 0: done++; 
+    case 1: delaytime++; if(delaytime>8) delaytime=0;
+    case 2: if(img) Free(img); FreeAllSounds(); exit("Thank you for playing Rex's Tale");
+   }   
+  }
+ }
+ if(img) free(img);
+ Fadeout();
+ setresolution(320, 240);
+ if(!flags[0]) tempmap="campfire.map";
+ else tempmap="woods.map";
+ Map(tempmap); 
+}
+
+void LoadGame() { }
+
+void Text(string Line1, string Line2, string line3, string line4)
+{
+ int done;
+ int l1,l2,l3,l4;
+
+ if(!Strlen(line4)) Line4=" "; //make sure there's something in line 4 so that you can't press enter and close the textbox before it's done.
+ while(!done)
+ {
+  Updatecontrols();
+  Render();
+  TCopySprite(0, 180, 320, 60, textbox);
+//  GotoXY(0,0); Printstring(0, str(fontheight(0)));
+  GotoXY(8,188); Printstring(0, left(line1, l1));
+  GotoXY(8,200); Printstring(0, left(line2, l2));
+  GotoXY(8,212); Printstring(0, left(line3, l3));
+  GotoXY(8,224); Printstring(0, left(line4, l4));
+  ShowPage();
+  if(L1<strlen(line1)) L1++;
+  else if(L2<strlen(line2)) L2++;
+  else if(L3<strlen(line3)) L3++;
+  else if(L4<strlen(line4)) L4++;
+  Delay(delaytime);
+  If(B1 && L4=strlen(line4)) //allow closing the textbox only when the last line has finished scrolling.
+  {
+   Unpress(1);
+   done++; 
+  }
+ }
+ timer=0;
+}
+
+void ProcessEnts()
+{ 
+ ProcessEntities();
+}
+
+void S96()
+{
+ int i, img;
+ img=LoadImage("96.pcx"):
+ Palettemorph(0,0,0,0,63);
+ for(i=10000; i>0; i-=100)
+ {
+  rectfill(0,0,screenx-1, screeny-1, 1);
+  Rotscale(screenx>>1, screeny>>1, 270, 180, (i/10)%360, i, img);
+  //GotoXY(0,0); Printstring(0,str(i));
+  ShowPage();
+  Delay(1);
+ }
+ free(img);
+}
+
+void Delay(int d) //this delay doesn't modify the timer ;)
+{
+ int oldtime;
+ oldtime=timer;
+ while(timer-d<oldtime) { }
+}
+
+void RDelay(int d) 
+{
+ int oldtime;
+ oldtime=timer;
+ while(timer-d<oldtime) { Render(); Showpage(); }
+}
+
+void Fadeout() 
+{
+ int i;
+ for(i=63; i>0; i--)
+ {
+  PaletteMorph(0,0,0,0,i);
+  Delay(1);
+ }
+}
+
+void Fadein() 
+{
+ int i;
+ For(i=0; i<63; i++)
+ {
+  PaletteMorph(0,0,0,0,i);
+  Delay(1);
+ }
+}
+
+void Fadeout2() //for the dark scenes
+{
+ int i;
+ for(i=40; i>0; i--)
+ {
+  PaletteMorph(0,0,32,30,i);
+  Delay(1);
+ }
+}
+
+void Fadein2() //for the dark scenes
+{
+ int i;
+ For(i=0; i<40; i++)
+ {
+  PaletteMorph(0,0,32,30,i);
+  Delay(1);
+ }
+}
+
+void Fadeout3() //red flashes
+{
+ int i;
+ for(i=50; i>0; i--)
+ {
+  PaletteMorph(i,0,0,i*2,63);
+  Delay(1);
+ }
+}
+
+void Fadein3() 
+{
+ int i;
+ For(i=0; i<50; i++)
+ {
+  PaletteMorph(i,0,0,i*2,63);
+  Delay(1);
+ }
+}
+
+
+void LoadPal(string file)
+{
+ int img;
+ img=Loadimage(file);
+ Palettemorph(0,0,0,0,63);
+ free(img);
+}
+
+void GameOver()
+{
+ //exit("insert cool game over screen here."); 
+ //still needs a cool gameover screen ;)
+ unpress(1);
+ 
+ while(!B1)
+ {
+  render();
+  gotoxy(120, 116); Printstring(0, "Game Over...");
+  showpage();
+  updatecontrols();
+ }
+ HP=32;
+ flags[1]=0;
+ flags[2]=0;
+ flags[3]=0;
+ map("title.map");
+}
+
+void Credits()
+{
+ int i;
+ rectfill(0,0,screenx-1,screeny-1,0);
+ showpage();
+ fadein();
+ for(i=0; i<800; i++)
+ {
+  updatecontrols(); 
+  if(b1) { Unpress(1); i=1000; }
+  rectfill(0,0,screenx-1,screeny-1,0);
+  Center(480-i, Sub[3]+"--- "+Sub[1]+"Credits"+Sub[3]+" ---"+Sub[1]);
+  Center(540-i, "Code "+Sub[3]+"- "+Sub[2]+"Hatchet"+Sub[1]);
+  Center(580-i, "Maps "+Sub[3]+"- "+Sub[2]+"Hatchet, Jyrus"+Sub[1]);
+  Center(620-i, "Story "+Sub[3]+"- "+Sub[2]+"Jyrus"+Sub[1]);
+  Center(660-i, "Music "+Sub[3]+"- "+Sub[2]+"ArcticFox"+Sub[1]);
+  Center(700-i, "Sprites "+Sub[3]+"- "+Sub[2]+"SoulBain"+Sub[1]);
+  Center(740-i, "Tiles, Art "+Sub[3]+"- "+Sub[2]+"Jyrus"+Sub[1]);
+  
+  Center(860-i, "Thank you for playing!   ");
+  showpage();
+  delay(1);
+ }
+ delay(300);
+}
+
+void Center(int y, string txt)
+{ int x;
+  x=(screenx/2)-((strlen(txt)*FontWidth(1))/2);
+  gotoxy(x,y); Printstring(1,txt);
+}

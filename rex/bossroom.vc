@@ -1,0 +1,18 @@
+event
+{
+ ClearEnemies();
+ PaletteMorph(0,0,0,0,0);
+ plr=Entityspawn(12,21,"rex.chr");
+ entity.facing[plr]=Faceup; ftime[plr]=0; ismoving[plr]=0;
+ hurting[plr]=false; entity.specframe[plr]=5;
+ tracker=plr;
+ cameratracking=2;
+ Addenemy(12,14,"kylian.chr",facedown);
+ render();
+ showpage();
+ fadein();
+ Text("Kylian: You won't be escaping that ",
+      "easily!","","");
+ Main();
+}
+

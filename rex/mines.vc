@@ -1,0 +1,63 @@
+event
+{
+ ClearEnemies();
+ PaletteMorph(0,0,0,0,0);
+ plr=Entityspawn(22, 13, "rex.chr");
+ cameratracking=2; tracker=plr;
+ ftime[plr]=0; ismoving[plr]=0; hurting[plr]=false;
+
+
+ addenemy(9,14,"spearman.chr", faceright); 
+ addenemy(31,13,"spearman.chr", faceleft); 
+ addenemy(41,8,"spearman.chr", faceleft);  
+ addenemy(47,18,"spearman.chr", facedown);  
+ addenemy(9,66,"spearman.chr", faceup);
+ addenemy(9,83,"spearman.chr", faceleft);
+ addenemy(8,92,"spearman.chr", faceright);
+ addenemy(29,94,"spearman.chr", faceleft);
+ addenemy(46,94,"spearman.chr", faceup);
+ addenemy(64,94,"spearman.chr", facedown);
+ addenemy(93,79,"spearman.chr", faceleft);
+ addenemy(78,78,"spearman.chr", faceleft);
+ addenemy(92,66,"spearman.chr", faceleft);
+ addenemy(52,64,"spearman.chr", faceup);
+ addenemy(53,64,"spearman.chr", faceleft);
+ addenemy(54,64,"spearman.chr", facedown);
+ addenemy(55,64,"spearman.chr", faceright);
+ addenemy(56,64,"spearman.chr", faceup);
+ addenemy(57,64,"spearman.chr", facedown);
+ addenemy(58,64,"spearman.chr", faceleft);
+ addenemy(91,52,"spearman.chr", faceleft);
+ addenemy(76,46,"spearman.chr", faceleft);
+ addenemy(23,43,"spearman.chr", facedown);
+ addenemy(9,39,"spearman.chr", faceright);
+ addenemy(41,35,"spearman.chr", faceleft);
+ addenemy(43,43,"spearman.chr", faceleft); 
+
+ render(); Showpage();
+ Fadein();
+ Main();
+}
+
+event //don't wanna go back in the interrogation room!
+{
+ Text("No way in hell I'm going back in","there!","",""); 
+}
+
+event //the way out...
+{
+ if(!flags[3]) Text("Damn, it's locked...","","","");
+ else
+ {
+  Text("I'm outta here!","","","");
+  Map("bossroom.map");
+ }
+}
+
+event //the key!!
+{
+ Settile(15,66,7,0);
+ Settile(15,66,2,0);
+ Flags[3]++;
+}
+
