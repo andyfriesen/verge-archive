@@ -1,0 +1,192 @@
+event
+{
+ if(flags[16])
+ {
+  alterftile(36,33,0,0);
+ }
+ if(flags[19])
+ {
+  alterbtile(20,4,153,0);
+  alterbtile(21,4,153,0);
+  alterbtile(20,5,153,0);
+  alterbtile(21,5,153,0);
+ } 
+}
+
+event /* 1 leave arch */
+{
+ mapswitch("world.map",53,38,0);
+}
+
+event /* 2 Oliver joins */
+{
+ if(!flags[16])
+ {
+  flags[16]=1;
+  stext(2,"So you're searching for the",
+        "disks of Zip?","");
+  stext(1,"Yes, I was wondering if you",
+        "could help me out.","");
+  stext(2,"Well, that settles it, I'm",
+        "coming with you.","");
+  addcharacter(2);
+  alterftile(36,33,0,0);
+ }
+}
+
+event /* 3 Leader */
+{
+ if(!flags[17])
+ {  
+  stext(0,"Oh hello, I am the leader of",
+        "this expidition.  What can I",
+        "do for you?");
+  stext(1,"I'd like to get into the",
+        "Macroni cave.","");
+  stext(0,"Well, we just dug out the",
+        "entrance, but I lost the key.",
+        "");
+  stext(0,"If you find it you can get",
+        "into the cave. I know someone",
+        "around here has it.");
+  stext(1,"Thanks.","","");
+  flags[17]=1;
+ }
+ if(flags[18]<4)
+ {
+  stext(0,"I hope you find that key.","","");
+ }
+ if(flags[18]=4)
+ {
+  stext(0,"Good, you found the key.",
+        "Just go ahead in.","");
+ }
+}
+
+event /* 4 idiot */
+{
+ stext(0,"We were being attacked by",
+        "monsters so we had to hire",
+        "these pirates to protect us");
+}
+
+event /* 5 another idiot */
+{
+ stext(0,"I wish there were some women",
+        "out here.","");
+}
+
+event /* 6 yet another idiot */
+{
+ stext(0,"I'm thirsty.","","");
+}
+
+event /* 7 one more idiot */
+{
+ stext(0,"The elders who once lived in",
+        "this cave were excellent",
+        "chefs.");
+}
+
+event /* 8 idiot jr */
+{
+ stext(0,"Its dangerous in there, I",
+        "hope you're prepared.","");
+ if(flags[17] and !flags[18])
+ {
+  flags[18]=1;
+  stext(0,"I don't have a key for you",
+        "but you can have this stick.","");
+  giveitem(12);
+ }
+}
+ 
+event /* 9 idiots are coming out the woodwork */
+{
+ stext(0,"Whenever the Macronis would",
+        "have a feast, they would feed",
+        "each species the proper food.");
+}
+
+event /* 10 idiots are everywhere */
+{
+ stext(0,"The four species of inteligent",
+        "life are: Human, Cat, Turtle",
+        "and Penguin.");
+ if(flags[18]=1)
+ {
+  flags[18]=2;
+  stext(0,"Wow, let me take that stick",
+        "and I'll give you this mug.","");
+  destroyitem(12,0);
+  giveitem(13);
+ }
+}
+
+event /* 11 this kid's ... you guessed it... an Idiot! */
+{
+ stext(0,"We decoded the writings of the",
+        "elders and one said:",
+        "Left, Left, Right, Left");
+ if(flags[18]=2)
+ {
+  flags[18]=3;
+  stext(0,"Thats a great mug, I'll trade",
+         "you this salt for it.","");
+  destroyitem(13,0);
+  giveitem(14);
+ }
+}
+
+event /* 12 this guy is an idiot */
+{
+ stext(0,"There's one guy here who always",
+        "confuses his left and right.","");
+}
+
+event /* 13 the final idiot */
+{
+ stext(0,"I'd like to take this moment to",
+        "tell you something important",
+        "but I can't think of it.");
+ if(flags[18]=3)
+ {
+  flags[18]=4;
+  stext(0,"Oh yes I remember... I have the",
+        "key that you want, just give me",
+        "the salt.");
+  destroyitem(14,0);
+  giveitem(15);
+ }
+}
+
+event /* 14 pirate */
+{
+ stext(0,"These explorers are weaklings",
+        "but they pay well.","");
+}
+
+event /* 15 pirate */
+{
+ stext(0,"I'm drunk.","","");
+}
+
+event /* 16 sign */
+{
+ stext(0,"Caution","","");
+}
+
+event /* 17 use key */
+{
+ banner("The Key Works",1);
+ flags[19]=1;
+ alterbtile(20,4,153,0);
+ alterbtile(21,4,153,0);
+ alterbtile(20,5,153,0);
+ alterbtile(21,5,153,0);
+}
+
+event /* 18 enter cave */
+{
+ mapswitch("cave.map",34,82,0);
+}

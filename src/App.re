@@ -95,6 +95,12 @@ let games: array(Game.game) = [|
         title: "You Only Live Thrice",
         description: "A classic Jimmy Bong compo game by Eldritch / GameMaster Ben",
         engine: Game.V2
+    },
+        {
+        name: "teddy",
+        title: "Teddy Grahams",
+        description: "A V1 game with a battle system, it seems!",
+        engine: Game.V1
     }
 |];
 

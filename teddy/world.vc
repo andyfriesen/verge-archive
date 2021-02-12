@@ -1,0 +1,37 @@
+event
+{
+}
+
+event /* 1 enter nabizko */
+{
+ mapswitch("town.map",23,2,0);
+}
+
+event /* 2 imp battle grass */
+{
+ flags[5000]=5;
+ flags[5001]=5;
+ flags[4001]=2;
+ flags[4002]=locx;
+ flags[4003]=locy;
+ flags[4004]=0;
+ mapswitch("grass.map",1,1,0);
+}
+
+event /* 3 imp battle trees */
+{
+ flags[5000]=5;
+ flags[5001]=5;
+ flags[5002]=5;
+ flags[4001]=2;
+ flags[4002]=locx;
+ flags[4003]=locy;
+ flags[4004]=1;
+ flags[4008]=0;
+ mapswitch("grass.map",1,1,0);
+}
+
+event /* 4 enter arch */
+{
+ mapswitch("arch.map",18,39,0);
+}

@@ -1,0 +1,15 @@
+script
+{
+  playmusic("ultros.s3m");
+  sys_displaypcx("verge320.pcx");
+  vgadump();
+  fadein(100);
+  delay(100);
+  fadeout(100);
+  sys_displaypcx("title.pcx");
+  vgadump();
+  fadein(100);
+  delay(50);
+  OldStartupMenu();
+  return;
+}

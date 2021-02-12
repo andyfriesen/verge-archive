@@ -1,0 +1,712 @@
+event
+{
+ f=0;
+ autoon();
+ layervc=1;
+ vcloadpcx("mnu.pcx",0);
+ vcloadpcx("sel.pcx",6800);
+ vcloadpcx("spell.pcx",7312);
+ vcloadpcx("sel2.pcx",17762);
+ entity.locx(95)=7;  /* place party */
+ entity.locy(95)=7;
+ face(95)=1;
+ if(numchars>1)
+ {
+  entity.locx(96)=11;
+  entity.locy(96)=7;
+  face(96)=1;
+ }
+ if(numchars>2)
+ {
+  entity.locx(97)=9;
+  entity.locy(97)=8;
+  face(97)=1;
+ }
+ if(numchars>3)
+ {
+  entity.locx(98)=5;
+  entity.locy(98)=8;
+  face(98)=1;
+ }
+ if(numchars>4)
+ {
+  entity.locx(99)=13;
+  entity.locy(99)=8;
+  face(99)=1;
+ }
+ callevent(11);
+ callevent(2);
+ callevent(1);
+ if(flags[4004]=1)            /* flags 4004 is the background flags */
+ {                            /* 1 = trees */
+  alterftile(1,2,113,2);      
+  alterftile(2,2,114,2);
+  alterftile(1,3,111,2);
+  alterftile(2,3,112,2);
+  alterftile(17,2,113,2);
+  alterftile(18,2,114,2);
+  alterftile(17,3,111,2);
+  alterftile(18,3,112,2);
+  alterftile(1,7,113,2);
+  alterftile(2,7,114,2);
+  alterftile(1,8,111,2);
+  alterftile(2,8,112,2);
+  alterftile(17,7,113,2);
+  alterftile(18,7,114,2);
+  alterftile(17,8,111,2);
+  alterftile(18,8,112,2);
+ }
+ if(flags[4004]=2)            /* 2 = dungeon              */
+ {
+  for(n,0,19,1)
+  {
+   for(m,3,9,1)
+   {
+    alterbtile(n,m,116,0);
+   }
+  }
+  for(n,0,19,1)
+  {
+   for(m,0,2,1)
+   {
+    alterbtile(n,m,115,0);
+   }
+  }
+ }
+ fadein(30);
+ flags[4000]=0;
+ flags[4050]=0;
+ flags[4051]=0;
+ if(random(1,10)>5) {playmusic("ff7batt.s3m");}
+ callevent(7); /* go to main battle loop */
+ vcclear();
+ autooff();
+ layervc=0;
+ if(flags[4001]=1)                                  /* which map to switch */
+ {                                                  /* back to when done */
+  mapswitch("town.map",flags[4002],flags[4003],0);
+ }
+ if(flags[4001]=2)
+ {
+  mapswitch("world.map",flags[4002],flags[4003],0);
+ }
+ if(flags[4001]=3)
+ {
+  mapswitch("cave.map",flags[4002],flags[4003],0);
+ }
+}
+
+event /* 1 place stats */
+{
+ vcclearregion(0,150,200,200);
+ for(n,1,numchars,1)
+ {
+  if(char(1)=n){vctext((50*n)-40,160,"Alex");}
+  if(char(2)=n){vctext((50*n)-40,160,"Oliver");}
+  if(char(3)=n){vctext((50*n)-40,160,"Barrel");}
+  vctextnum((50*n)-40,170,curhp(partyindex(n)+1));
+  vctext((50*n)-10,170,"/");
+  vctextnum((50*n)-30,180,maxhp(partyindex(n)+1));
+ }                      
+}
+
+event /* 2 get enemy stats */
+{
+ flags[5010]=flags[6000+(flags[5000]*5)];
+ flags[5011]=flags[6000+(flags[5001]*5)];
+ flags[5012]=flags[6000+(flags[5002]*5)];
+ flags[5013]=flags[6000+(flags[5003]*5)];
+ flags[5014]=flags[6000+(flags[5004]*5)];
+}
+
+event /* 3 menu */
+{
+ if(var(0)=1)
+ {
+  u=7*16;
+  v=7*16;
+ }
+ if(var(0)=2)
+ {
+  u=11*16;
+  v=7*16;
+ }
+ if(var(0)=3)
+ {
+  u=9*16;
+  v=8*16;
+ }
+ if(var(0)=4)
+ {
+  u=5*16;
+  v=8*16;
+ }
+ if(var(0)=5)
+ {
+  u=13*16;
+  v=8*16;
+ }
+ vcblitimage(u,v,16,16,6800);
+ b1=0;                    
+ s=1;
+ while(!b1)                
+ { 
+  vcblitimage(40,160,50,17,0);
+  vcblitimage(100,160,50,17,850);
+  vcblitimage(160,160,50,17,1700);
+  vcblitimage(220,160,50,17,2550);
+  vcblitimage(40+(60*(s-1)),160,50,17,2550+(850*s));
+  readcontrols();
+  if(Right)
+  {
+   s+=1;
+   Right=0;
+  }
+  if(Left)
+  {
+   s-=1;
+   Left=0;
+  }
+  if(s=5)
+  {
+   s=1;
+  }
+  if(s=0)
+  {
+   s=4;
+  }  
+  redraw();
+ }   
+ vcclearregion(40,160,300,187);
+ vcclearregion(u,v,u+16,v+16);
+ callevent(1);             
+ if(s<4){callevent(s+3,var(0));}
+ if(s=4)
+ {
+  flags[4000]=2;
+  if(flags[4008]=1)
+  {
+   flags[4000]=0;
+   Banner("Can't Run",1);
+  }
+ }    
+}
+
+event /* 4 attack */
+{
+ b1=0;
+ s=1;
+ while(!b1)                
+ { 
+  vcclearregion(u,v,u+16,v+16);
+  if(s=1)
+  {
+   u=7*16;
+   v=4*16;
+  }
+  if(s=2)
+  {
+   u=11*16;
+   v=4*16;
+  }
+  if(s=3)
+  {
+   u=9*16;
+   v=3*16;
+  }
+  if(s=4)
+  {
+   u=5*16;
+   v=3*16;
+  }
+  if(s=5)
+  {
+   u=13*16;
+   v=3*16;
+  }
+  vcblitimage(u,v,16,16,7056);
+  readcontrols();
+  if(Right)
+  {
+   s+=1;
+   Right=0;
+  }
+  if(Left)
+  {
+   s-=1;
+   Left=0;
+  }
+  if(s=flags[4100]+1)
+  {
+   s=1;
+  }
+  if(s=0)
+  {
+   s=flags[4100];
+  }  
+  redraw();
+ }   
+ vcclearregion(u,v,u+16,v+16);
+ entitymove(var(0)+94,"U1D1");
+ wait(50);
+ face(var(0)+94)=1;
+ if(s=1){x=112;}
+ if(s=2){x=176;}
+ if(s=3){x=144;}
+ if(s=4){x=48;}
+ if(s=5){x=210;}
+ if(s<=2){y=64;}
+ if(s>=3){y=48;}
+ h=1;                                        /* check for hit */
+ d=(ATK(partyindex(var(0))+1)*random(1,3))-random(1,ATK(partyindex(var(0))+1));    /* calculate damage */
+ if((HIT(partyindex(var(0))+1)*random(1,4))<(flags[6003+(5*(flags[4999+s]))]))
+ {
+  h=0;
+ }
+ if(h=0)
+ {
+  vctext(x-10,y,"miss");
+ }
+ if(h=1)
+ {
+  vctextnum(x,y,d);
+  if(d>flags[5009+s]){d=flags[5009+s];}
+  for(n,1,d,1)
+  {
+   flags[5009+s]=flags[5009+s]-1;
+   if(flags[5009+s]<1)
+   {
+    wait(50);
+    vcclearregion(x-10,y,x+30,y+10);
+    callevent(12,s);
+   }
+  }
+ }
+ wait(50);
+ vcclearregion(x-10,y,x+30,y+10);
+ face(var(0)+94)=1;
+}
+
+event /* 5 special */
+{
+ waitkeyup();
+ vcblitimage(5,5,95,110,7312);
+ for(i,1,10,1)
+ {
+  if(flags[4200+((var(0)-1)*10)+i-1]=1){vctext(20,(i*10),"Lit");}
+  if(flags[4200+((var(0)-1)*10)+i-1]=2){vctext(20,(i*10),"Fire");}
+ }
+ b1=0;
+ s=1;
+ while(!b1)                
+ { 
+  for(i,1,10,1)
+  {
+   vcblitimage(10,(i*10),10,10,17862);
+  }
+  vctblitimage(10,(s*10),10,10,17762);
+  readcontrols();
+  if(Down)
+  {
+   s+=1;
+   Down=0;
+  }
+  if(Up)
+  {
+   s-=1;
+   Up=0;
+  }
+  if(s=11)
+  {
+   s=1;
+  }
+  if(s=0)
+  {
+   s=10;
+  }  
+  redraw();
+ }   
+ vcclearregion(5,5,100,115);
+ p=flags[4200+((var(0)-1)*10)+s-1];
+ if(p)
+ {
+  if(flags[5200+((p-1)*5)+3]=1)
+  {
+   callevent(15);
+   callevent(14,p);
+   vctextnum(u,v,d);
+   d=(flags[5201+((p-1)*5)]+MAG(partyindex(var(0))+1))*(random(1,3));
+   if(d>flags[5009+w]){d=flags[5009+w];}
+   for(g,1,d,1)
+   {
+    flags[5009+w]=flags[5009+w]-1;
+    if(flags[5009+w]<1)
+    {
+     wait(50);
+     vcclearregion(u-10,v,u+30,v+10);
+     callevent(12,w);
+    }
+    wait(50);
+    vcclearregion(u-10,v,u+30,v+10);
+   }
+  }
+ }
+ wait(50);
+}
+
+event /* 6 item */
+{
+}
+
+event /* 7 main battle loop */
+{
+ for(n,5020,5029,1)  /* iniatialize all charge times */
+ {
+  flags[n]=0;
+ }
+ while(!flags[4000]) /* flags[4000] is the end battle flag */
+ {
+  callevent(1);
+  wait(50);                          
+  for(n,1,numchars,1) /* add party speed to charge time */
+  {
+   flags[n+5024]=flags[n+5024]+REA[partyindex(n)+1];
+   if(flags[n+5024]>99 and curhp(partyindex(n)+1)>0 and !flags[4000])   /* call menu if ct > 99 */
+   {
+    flags[n+5024]=flags[n+5024]-100;
+    callevent(3,(n));
+   }
+  }
+  for(n,5020,5019+flags[4100],1)  /* add monster speed to charge time */
+  {
+   flags[n]=flags[n]+flags[(flags[(n-20)]*5)+6004];
+   if(flags[n]>99 and !flags[4000])   /* call menu if ct > 99 */
+   {
+    o=n-5019;
+    vcclearregion(u,v,u+16,v+16);
+    if(o=1)
+    {
+     u=7*16;
+     v=4*16;
+    }
+    if(o=2)
+    {
+     u=11*16;
+     v=4*16;
+    }
+    if(o=3)
+    {  
+     u=9*16;
+     v=3*16;
+    }  
+    if(o=4)
+    {
+     u=5*16;
+     v=3*16;
+    }
+    if(o=5)
+    {
+     u=13*16;
+     v=3*16;
+    }
+    vcblitimage(u,v,16,16,6800);
+    callevent(8,(n-5019));
+    flags[n]=flags[n]-100;
+    vcclearregion(u,v,u+16,v+16);
+   }                             
+   if(f=numchars)
+   {
+    flags[4000]=3;
+   }
+  }
+ }
+ callevent(13);
+}
+
+event /* 8 monster attack */
+{
+ s=1;
+ for(m,1,numchars,1)
+ {
+  if(curhp(partyindex(s)+1)=0)
+  {
+   s=s+1;
+  }
+ }
+ if(numchars>1)
+ {
+  if(flags[6001+(5*flags[4999+var(0)])]=1)    /* checks enemy AI stat */
+  {
+   for(m,s+1,numchars,1)
+   {
+    if(curhp(partyindex(m)+1)>curhp(partyindex(m)))
+    {
+     s=m;
+    }
+   }
+  }
+  if(flags[6001+(5*flags[4999+var(0)])]=2)
+  {
+   for(m,s+1,numchars,1)
+   {
+    if(curhp(partyindex(m)+1)<curhp(partyindex(m)) and curhp(partyindex(m)+1)>0)
+    {
+     s=m;
+    }
+   }
+  }
+  if(flags[6001+(5*flags[4999+var(0)])]=3)
+  {
+   s=random(1,numchars);
+  }
+ }
+  vcclearregion(j,k,j+16,k+16);
+  if(s=1)
+  {
+   j=7*16;
+   k=7*16;
+  }
+  if(s=2)
+  {
+   j=11*16;
+   k=7*16;
+  }
+  if(s=3)
+  {
+   j=9*16;
+   k=8*16;
+  }
+  if(s=4)
+  {
+   j=5*16;
+   k=8*16;
+  }
+  if(s=5)
+  {
+   j=13*16;
+   k=8*16;
+  }
+ vcblitimage(j,k,16,16,7056);
+ wait(50);
+ vcclearregion(j,k,j+16,k+16);
+ if(s=1){x=112;}
+ if(s=2){x=176;}
+ if(s=3){x=144;}
+ if(s=4){x=48;}
+ if(s=5){x=210;}
+ if(s<=2){y=112;}
+ if(s>=3){y=128;}
+ h=1;                                        /* check for hit */
+ d=(flags[6002+(5*flags[4999+var(0)])]*random(1,3))-random(1,flags[6002+(5*flags[4999+var(0)])]);    /* calculate damage */
+ if((DEF(partyindex(s)+1)*random(1,2))>(flags[6002+5*(flags[4999+var(0)])])*random(1,3))
+ {
+  h=0;
+ }
+ if(h=0)
+ {
+  vctext(x-10,y,"miss");
+ }
+ if(h=1)
+ {
+  vctextnum(x,y,d);
+  if(d>curhp(partyindex(s)+1)){d=curhp(partyindex(s)+1);}
+  for(m,1,d,1)
+  {
+   if(curhp(partyindex(s)+1)=1)     /* check for death */
+   {
+    f=f+1;
+    specialframe(s+94)=21;
+   }
+   curhp(partyindex(s)+1)=curhp(partyindex(s)+1)-1;
+  }
+ }
+ wait(50);
+ vcclearregion(x-10,y,x+30,y+10);
+ face(var(0)+94)=1;
+}
+
+event /* 9 monster attack2 */
+{
+}
+
+event /* 10 monster attack3 */
+{
+}
+
+event /* 11 place enemies */
+{
+ alterftile(7,4,flags[5000],0);       /* place enemies */
+ for(e,5001,5004,1)                   /* there MUST be at least */
+ {                                    /* one enemy */
+  if(flags[e])                        /* flags 5000 to 5004 are the tile # */
+  {                                   /* of the enemys */
+   if(e=5001){alterftile(11,4,flags[e],0);}  /*places associated tile for enemy*/
+   if(e=5002){alterftile(9,3,flags[e],0);}
+   if(e=5003){alterftile(5,3,flags[e],0);}
+   if(e=5004){alterftile(13,3,flags[e],0);}
+   flags[4100]=e-4999; /*finds number of enemys*/
+  }
+ }
+}
+
+event /* 12 die, monster, die */
+{
+ for(n,1,10,1)
+ {
+  if(var(0)+4999=5000){alterftile(7,4,flags[var(0)+4999],0);}
+  if(var(0)+4999=5001){alterftile(11,4,flags[var(0)+4999],0);}  
+  if(var(0)+4999=5002){alterftile(9,3,flags[var(0)+4999],0);}
+  if(var(0)+4999=5003){alterftile(5,3,flags[var(0)+4999],0);}
+  if(var(0)+4999=5004){alterftile(13,3,flags[var(0)+4999],0);}
+  wait(22-(n*2));
+  if(var(0)+4999=5000){alterftile(7,4,0,0);}
+  if(var(0)+4999=5001){alterftile(11,4,0,0);}  
+  if(var(0)+4999=5002){alterftile(9,3,0,0);}
+  if(var(0)+4999=5003){alterftile(5,3,0,0);}
+  if(var(0)+4999=5004){alterftile(13,3,0,0);}
+  wait(22-(n*2));
+ }
+ wait(100);
+ flags[4050]=flags[4050]+flags[6006+(flags[var(0)+4999]*5)];
+ flags[4051]=flags[4051]+flags[6007+(flags[var(0)+4999]*5)];
+ callevent(1);
+ for(n,var(0)+4999,5004,1)   /* update enemies */
+ {
+  flags[n]=flags[n+1];
+ }
+ flags[5004]=0;
+ for(n,var(0)+5009,5014,1)  /* update hp */
+ {
+  flags[n]=flags[n+1];
+ }
+ flags[5014]=0;
+ for(n,var(0)+5019,5024,1) /* update  charge time */
+ {
+  flags[n]=flags[n+1];
+ }
+ flags[5024]=0;
+ alterftile(7,4,0,0);
+ alterftile(11,4,0,0);
+ alterftile(9,3,0,0);
+ alterftile(5,3,0,0);
+ alterftile(13,3,0,0);
+ callevent(11);
+ if(flags[5000]=0) {flags[4000]=1;}
+}
+
+event /* 13 end battle */
+{
+ if(flags[4000]=1)
+ {
+  for(n,1,numchars,1)
+  {
+   givexp(partyindex(n)+1,flags[4050]);
+  }
+  givegp(flags[4051]);
+  Banner("Victory!",1);
+  for(n,1,numchars,1)
+  {
+   face(n+94)=0;
+  }
+  for(a,1,10,1)
+  {
+   for(n,1,numchars,1)
+   {
+    specialframe(n+94)=20;
+   }
+   wait(20);
+   for(n,1,numchars,1)
+   {
+    specialframe(n+94)=0;
+   }
+   wait(20);
+  }
+ }
+ if(flags[4000]=2)
+ {
+  for(n,1,numchars,1)
+  {
+   entitymove(n+94,"D6");
+  }
+  wait(200);
+ }
+ if(flags[4000]=3)
+ {
+  banner("Game Over",1);
+  quit("You lost");
+ }
+}
+
+event /* 14 magic animation */
+{
+ if(var(0)=1){vcloadpcx("lit.pcx",17962);}
+ if(var(0)=2){vcloadpcx("fire.pcx",17962);}
+ vcblitimage(u-8,v-8,32,32,17962);
+ wait(20);
+ vcblitimage(u-8,v-8,32,32,18986);
+ wait(20);
+ vcblitimage(u-8,v-8,32,32,20010);
+ wait(20);
+ vcblitimage(u-8,v-8,32,32,21034);
+ wait(20);
+ vcblitimage(u-8,v-8,32,32,22058);
+ wait(20);
+ vcclearregion(u-8,v-8,u+24,v+24);
+}
+
+event /* 15 magic select enemy */
+{
+ b1=0;
+ w=1;
+ while(!b1)                
+ { 
+  vcclearregion(u,v,u+16,v+16);
+  if(w=1)
+  {  
+   u=7*16;
+   v=4*16;
+  }
+  if(w=2)
+  {
+   u=11*16;
+   v=4*16;
+  }
+  if(w=3)
+  {
+   u=9*16;
+   v=3*16;
+  }
+  if(w=4)
+  {
+   u=5*16;
+   v=3*16;
+  }
+  if(w=5)
+  {
+   u=13*16;
+   v=3*16;
+  }
+  vcblitimage(u,v,16,16,7056);
+  readcontrols();
+  if(Right)
+  {
+   w+=1;
+   Right=0;
+  }
+  if(Left)
+  {
+   w-=1;
+   Left=0;
+  }
+  if(w=flags[4100]+1)
+  {
+   w=1;
+  }
+  if(w=0)
+  {
+   w=flags[4100];
+  }  
+  redraw();
+ }    
+ vcclearregion(u,v,u+16,v+16);
+}

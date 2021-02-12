@@ -1,0 +1,29 @@
+9  
+// Knife 
+ATK +5
+EQABLE 1 2
+- // Steel Sword
+ATK +10
+EQABLE 1 2
+- // Clothes
+DEF +7
+EQABLE 1 2
+- // Bandana
+DEF +2
+EQABLE 1 2
+- // Ring
+ATK +1
+EQABLE 1
+- //Shoes
+REA +3
+EQABLE 1 2 
+- // Knight Sword
+ATK +12
+EQABLE 1
+- // Armor
+DEF +10
+EQABLE 1 2
+- // Helmet
+DEF +5
+EQABLE 1
+-

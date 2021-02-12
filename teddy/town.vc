@@ -1,0 +1,425 @@
+event
+{
+ flags[4200]=1;
+ flags[4201]=2;
+ flags[4210]=1;
+ flags[4211]=1;
+ if(flags[70])
+ {   
+  alterftile(36,12,0,0);
+ } 
+ if(flags[2000])
+ {
+  alterftile(61,3,150,2);
+ }
+ if(flags[2001])
+ {
+  alterftile(49,84,150,2);
+ }
+ if(flags[2002])
+ {
+  alterftile(50,84,150,2);
+ }
+ if(flags[2003])
+ {
+  alterftile(13,70,150,2);
+ }
+ if(flags[2004])
+ {
+  alterftile(20,70,150,2);
+ }
+ if(flags[2005])
+ {
+  alterftile(82,73,150,2);
+ }
+ if(flags[2006])
+ {
+  alterftile(86,74,150,2);
+ }
+}
+
+event /* 1 warp around */
+{
+ if(locx=14 and locy=12){warp(10,57,0);}
+ if(locx=10 and locy=58){warp(14,13,0);}
+ if(locx=18 and locy=20){warp(13,77,0);}
+ if(locx=13 and locy=78){warp(18,21,0);}
+ if(locx=23 and locy=18){warp(20,74,0);}
+ if(locx=20 and locy=75){warp(23,19,0);}
+ if(locx=35 and locy=21){warp(36,62,0);}
+ if(locx=36 and locy=63){warp(35,22,0);}
+ if(locx=49 and locy=20){warp(52,67,0);}
+ if(locx=52 and locy=68){warp(49,21,0);}
+ if(locx=44 and locy=7){warp(52,88,0);}
+ if(locx=52 and locy=89){warp(44,8,0);}
+ if(locx=64 and locy=18){warp(75,82,0);}
+ if(locx=75 and locy=83){warp(64,19,0);}
+ if(locx=68 and locy=18){warp(83,82,0);}
+ if(locx=83 and locy=83){warp(68,19,0);}
+ if(locx=53 and locy=9){warp(74,59,0);}
+ if(locx=74 and locy=60){warp(53,10,0);}
+}
+
+event /* 2 sign */
+{
+ stext(0,"------Welcome to Nabizko------",
+        "The World's Leader in Teddy",
+        "Graham Exports.");
+}
+
+event /* 3 bros */
+{
+ if(flags[13]=3)
+ {
+  stext(0,"Sorry, you've beaten us too",
+        "many times. Go find someone",
+        "your own strength");
+  return;
+ }
+ prompt(0,"Hello, I am Chip and this is",
+        "my brother Ed. Would you like",
+        "fight us for practice?",10,"No","Yes");
+ if(flags[10])
+ {
+  flags[5000]=1;
+  flags[5001]=3;
+  flags[4001]=1;
+  flags[4002]=locx;
+  flags[4003]=locy;
+  flags[4004]=1;
+  flags[4008]=1;
+  flags[13]=flags[13]+1;
+  mapswitch("grass.map",1,1,0);
+ }
+ stext(0,"Come back when you're man","enough to fight us",
+        "");
+}
+
+event /* 4 move barrel */
+{
+ if(face(0)=2)
+ {
+  entitymove(var(0), "R1");
+ }
+ if(face(0)=1)
+ {
+  entitymove(var(0), "U1");
+ }
+ if(face(0)=0)
+ {
+  entitymove(var(0), "D1");
+ }
+ if(face(0)=3)
+ {
+  entitymove(var(0), "L1");
+ }
+}
+
+event /* 5 barrel 1 */
+{
+ waitkeyup();
+ callevent(4,5);
+ wait(10);
+}
+
+event /* 6 barrel 2 */
+{
+ waitkeyup();
+ callevent(4,6);
+ wait(10);
+}
+
+event /* 7 barrel 3 */
+{
+ waitkeyup();
+ callevent(4,7);
+ wait(10);
+}
+
+event /* 8 working */
+{
+ stext(0,"Leave me alone, I'm working",
+        "","");
+}
+
+event /* 9 turtle */
+{
+ stext(0,"I don't know why I'm here.",
+        "We turtles like cadbury cream",
+        "eggs not teddy grahams.");
+}
+
+event /* 10 newly weds */
+{
+ stext(0,"On our honeymoon we saw a",
+        "cat eating a donut.","");
+}
+
+event /* 11 teddy grahams human */
+{
+ stext(0,"Welcome to the Teddy Grahams",
+        "factory, this week only get a",
+        "free factory tour.");
+}
+
+event /* 12 teddy grahams bear */
+{
+ stext(0,"Teddy Grahams are the great",
+        "tasting, wholesome snack your",
+        "kids have always loved.");
+ a=random(1,10);
+ if(a<5)
+ {
+  stext(0,"..... Its hot in this costume.",
+        "","");
+ }
+ if(a>4)
+ {
+  stext(0,"...... God I hate this job.","","");
+ }
+}
+
+event /* 13 guy 1 */
+{
+ stext(0,"Teddy Grahams is the food of",
+        "choice for millions across the",
+        "kingdom.");
+}
+
+event /* 14 guy 2 */
+{
+ stext(0,"I check the inventory every",
+        "15 minutes so don't try to",
+        "rip us off");
+ shop(1,2);
+}
+
+event /* 15 idiot */
+{
+ stext(0,"I'm happy.","","");
+}
+
+event /* 16 weapon shop */
+{
+ shop(4,5,6,7,8);
+}
+
+event /* 17 warlord */
+{
+ stext(0,"I am a powerful Warlord.",
+        "Please do not attempt to steal",
+        "my belongings.");
+}
+
+event /* 18 try to steal */
+{
+ prompt(0,"You fool! Now I must destroy",
+        "you.  Or was is just an mistake",
+        "that you opened my chest?",11,"Yes","No");
+ if(flags[11])
+ {
+  flags[5000]=19;
+  flags[4001]=1;
+  flags[4002]=locx;
+  flags[4003]=locy;
+  flags[4004]=0;
+  flags[4008]=1;
+  mapswitch("grass.map",1,1,0);
+ }
+ stext(0,"ok, be more careful next time.",
+        "","");
+}
+
+event /* 19 sci fi boy */
+{
+ if(flags[12])
+ {
+  stext(0,"I'm still searching for",
+        "that gate...","");
+ }
+ if(!flags[12])
+ {
+  stext(0,"I'm searching for an ancient",
+        "weapon that can counteract",
+        "the power of the Disks of Zip");
+  stext(0,"Zip locked it away in Limbo",
+        "years ago.  It is rumored that",
+        "there is a gate to Limbo.");
+  stext(0,"By my calculations the gate",
+        "it somewhere near here....","");
+  flags[12]=1;
+ }
+}
+
+event /* 20 lady */
+{
+ stext(0,"Until recently many of us",
+        "thought that the Disks of Zip",
+        "were just legend....");
+}
+
+event /* 21 inn boy 1 */
+{
+ stext(0,"We have so much money from",
+        "the Teddy Graham industry that",
+        "the inn is free!");
+}
+
+event /* 22 inn girl 1 */
+{
+ stext(0,"That guy in the back hasn't",
+        "left the inn since we allowed",
+        "people to stay for free.");
+}
+
+event /* 23 old lady */
+{
+ stext(0,"Eat these Teddy Grahams. They",
+        "will restore your strength",
+        "");
+ healall();
+ banner("HP/MP Restored",1);
+}
+
+event /* 24 bum */
+{
+ stext(0,"This is great!","","");
+}
+
+event /* 25 Professor Giglan */
+{
+ if(!flags[13])
+ {
+  flags[13]=1;
+  stext(0,"Alex! I'm glad you could come.",
+          "The safety of the kingdom is",
+          "at stake.  I hope you can help");
+  stext(0,"As you may know, I have been",
+          "researching the legendary",
+          "disks of Zip.");
+  stext(1,"What progress have you made?","","");
+  stext(0,"Well, I was able to decode",
+        "Zip's secret language from",
+        "one of the disks.");
+  stext(0,"It seems the disks contain",
+          "a formula for a doomsday",
+          "weapon.");
+  stext(0,"Yesterday, a masked man",
+          "stole the one disk I had",
+          "and fled.");
+  stext(0,"Later this man, who we will",
+          "call Mr. X, was seen shortly",
+          "after another disk was stolen.");
+  stext(0,"There are four disks still",
+          "unaccounted for.  I want you",
+          "to retrieve them.");
+  stext(1,"Where are they?","","");
+  stext(0,"The first one is in Macroni",
+          "cave to the north.","");
+  stext(0,"Please find it and return",
+          "here.  Take this money for",
+          "supplies.");
+  givegp(250);
+ }
+ stext(0,"Remember, search in Macroni",
+         "cave, which is to the north.","");
+}
+
+event /* 26 x jr */
+{
+ stext(0,"I am my father's son.","","");
+}
+
+event /* 27 basic chest */
+{
+ if(!flags[var(3)])
+ {
+  alterftile(var(0),var(1),150,2);
+  giveitem(var(2));
+  flags[var(3)]=1;
+ }
+}
+
+event /* 28 chest 1 */
+{
+ chainevent(27,61,3,2,2000);
+}
+
+event /* 29 chest 2 */
+{
+ chainevent(27,49,84,1,2001);
+}
+
+event /* 30 chest 3 */
+{
+ chainevent(27,50,84,10,2002);
+}
+
+event /* 31 chest 4 */
+{
+ chainevent(27,13,70,6,2003);
+}
+
+event /* 32 chest 5 */
+{
+ chainevent(27,20,70,11,2004);
+}
+
+event /* 33 chest 6 */
+{
+ chainevent(27,82,73,2,2005);
+}
+
+event /* 34 chest 7 */
+{
+ chainevent(27,86,74,9,2006);
+}
+
+event /* 35 misstep */
+{
+ flags[14]=0;
+}
+
+event /* 36 correct step */
+{
+ flags[14]=1;
+}
+
+event /* 37 end of flowers */
+{
+ if(flags[14])
+ {
+  fadeout(30);
+  layer0=0;
+  layer1=0;
+  layervc=1;
+  fadein(10);
+  vccentertext(80,"Alex...");
+  wait(100);
+  vccentertext(90,"You are not yet ready for");
+  vccentertext(100,"such power.....");
+  wait(200);
+  fadeout(30);
+  layer0=1;
+  layer1=1;
+  layervc=0;
+  wait(50);
+  fadein(30);
+ }
+}
+
+event /* 38 leave town */
+{
+ mapswitch("world.map",47,51,0);
+}
+
+event /* 39 barrel joins */
+{
+ if(!flags[70])
+ {
+  stext(1,"What's that? You want to","come with me?","Well, ok");
+  alterftile(36,12,0,0);
+  addcharacter(3);
+  flags[70]=1;
+ }
+}

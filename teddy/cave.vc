@@ -1,0 +1,362 @@
+event
+{
+ callevent(4);
+ if(flags[40])
+ {
+  alterftile(12,41,150,2);
+ }
+ if(flags[41])
+ {
+  alterftile(55,47,150,2);
+ }
+ if(flags[42])
+ {
+  alterftile(66,66,150,2);
+ }
+ if(flags[43])
+ {
+  alterftile(85,71,150,2);
+ }
+ if(flags[44])
+ {
+  alterftile(87,71,150,2);
+ }
+ if(flags[45])
+ {
+  alterftile(18,52,150,2);
+ }
+ if(flags[46])
+ {
+  alterftile(15,71,150,2);
+ }
+ if(flags[47])
+ {
+  alterftile(23,71,150,2);
+ }
+}
+
+event /* 1 exit cave */
+{
+ mapswitch("arch.map",20,6,0);
+}
+
+event /* 2 switch 1 */
+{
+ alterftile(29,75,230,2);
+ flags[32]=1;
+ callevent(4); 
+}
+
+event /* 3 switch 2 */
+{
+ alterftile(41,75,230,2);
+ flags[33]=1;
+ callevent(4);
+}
+
+event /* 4 check for both switches */
+{
+ if(flags[32] and flags[33])
+ {
+  alterftile(34,60,0,0);
+  alterftile(35,60,0,0);
+ }
+}
+
+event /* 5 basic tile */
+{
+ if(flags[34])
+ {
+  stext(0,"These tiles are too heavy to",
+        "carry more than one at a time",
+        "");
+ }
+ if(!flags[34])
+ {
+  flags[34]=var(0);
+  if(face(0)=0)
+  {
+   alterftile(locx,locy+1,0,0);
+   changezone(locx,locy+1,0);
+  }
+  if(face(0)=1)
+  {
+   alterftile(locx,locy-1,0,0);
+   changezone(locx,locy-1,0);
+  }
+  if(face(0)=2)
+  {
+   alterftile(locx+1,locy,0,0);
+   changezone(locx+1,locy,0);
+  }
+  if(face(0)=3)
+  {
+   alterftile(locx-1,locy,0,0);
+   changezone(locx-1,locy,0);
+  }
+  giveitem(var(0));
+ }
+}
+
+event /* 6 tile 1 */
+{
+ callevent(5,16);
+}
+
+event /* 7 tile 2 */
+{
+ callevent(5,17);
+}
+
+event /* 8 tile 3 */
+{
+ callevent(5,18);
+}
+
+event /* 9 tile 4 */
+{
+ callevent(5,19);
+}
+
+event /* 10 human statue */
+{
+ stext(0,"This statue has a slot in it.",
+        "","");
+ if(flags[35] and !flags[34])
+ {
+  prompt(0,"Remove tile?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   flags[34]=flags[35];
+   flags[35]=0;
+   giveitem(flags[34]);
+  }
+ }
+ if(flags[34] and !flags[35])
+ {
+  prompt(0,"Place tile here?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   destroyitem(flags[34],0);
+   flags[35]=flags[34];
+   flags[34]=0;
+  }
+ }
+ callevent(14);
+}
+
+event /* 11 turtle statue */
+{
+ stext(0,"This statue has a slot in it.",
+        "","");
+ if(flags[36] and !flags[34])
+ {
+  prompt(0,"Remove tile?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   flags[34]=flags[36];
+   flags[36]=0;
+   giveitem(flags[34]);
+  }
+ }
+ if(flags[34] and !flags[36])
+ {
+  prompt(0,"Place tile here?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   destroyitem(flags[34],0);
+   flags[36]=flags[34];
+   flags[34]=0;
+  }
+ }
+ callevent(14);
+}
+
+event /* 12 cat statue */
+{
+ stext(0,"This statue has a slot in it.",
+        "","");
+ if(flags[37] and !flags[34])
+ {
+  prompt(0,"Remove tile?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   flags[34]=flags[37];
+   flags[37]=0;
+   giveitem(flags[34]);
+  }
+ }
+ if(flags[34] and !flags[37])
+ {
+  prompt(0,"Place tile here?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   destroyitem(flags[34],0);
+   flags[37]=flags[34];
+   flags[34]=0;
+  }
+ }
+ callevent(14);
+}
+
+event /* 13 penquin statue */
+{
+ stext(0,"This statue has a slot in it.",
+        "","");
+ if(flags[38] and !flags[34])
+ {
+  prompt(0,"Remove tile?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   flags[34]=flags[38];
+   flags[38]=0;
+   giveitem(flags[34]);
+  }
+ }
+ if(flags[34] and !flags[38])
+ {
+  prompt(0,"Place tile here?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   destroyitem(flags[34],0);
+   flags[38]=flags[34];
+   flags[34]=0;
+  }
+ }
+ callevent(14);
+}
+
+event /* 14 check for statues */
+{
+ if(flags[35]=16 and flags[36]=17 and flags[37]=18 and flags[38]=19 and !flags[39])
+ {
+  alterftile(33,29,151,1);
+  changezone(33,29,21);
+  flags[39]=1;
+ }
+}
+
+event /* 15 final chest */
+{
+ if(!flags[52])
+ {
+  stext(1,"Here it is! One of the Disks",
+         "of Zip...  ","");
+  callevent(16,33,29,20,52);
+ }
+}
+
+event /* 16 basic chest */
+{
+ if(!flags[var(3)])
+ {
+  alterftile(var(0),var(1),150,2);
+  giveitem(var(2));
+  flags[var(3)]=1;
+ }
+}
+
+event /* 17 chest 1 */
+{
+ callevent(16,12,41,21,40);
+}
+
+event /* 18 chest 2 */
+{
+ callevent(16,55,47,1,41);
+}
+
+event /* 19 chest 3 */
+{
+ callevent(16,66,66,2,42);
+}
+
+event /* 20 chest 4 */
+{
+ callevent(16,85,71,22,43);
+}
+
+event /* 21 chest 5 */
+{
+ callevent(16,87,71,23,44);
+}
+
+event /* 22 chest 6 */
+{
+ callevent(16,18,52,7,45);
+}
+
+event /* 23 chest 7 */
+{
+ callevent(16,15,71,10,46);
+}
+
+event /* 24 chest 8 */
+{
+ callevent(16,23,71,11,47);
+}
+
+event /* 25 random battle */
+{
+ flags[5000]=7;
+ flags[5001]=7;
+ flags[4004]=2;
+ flags[4001]=3;
+ flags[4002]=locx;
+ flags[4003]=locy;
+ flags[4008]=0;
+ mapswitch("grass.map",1,1,0);
+}
+
+event /* 26 blank   statue */
+{
+ stext(0,"This statue has a slot in it.",
+        "","");
+ if(flags[50] and !flags[34])
+ {
+  prompt(0,"Remove tile?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   flags[34]=flags[50];
+   flags[50]=0;
+   giveitem(flags[34]);
+  }
+ }
+ if(flags[34] and !flags[50])
+ {
+  prompt(0,"Place tile here?","","",39,"Yes","No");
+  if(!flags[39])
+  {
+   destroyitem(flags[34],0);
+   flags[50]=flags[34];
+   flags[34]=0;
+  }
+ }
+ callevent(14);
+}
+
+event /* 27 boss */
+{
+ if(!flags[51])
+ {
+  flags[5000]=7;
+  flags[5001]=7;
+  flags[5002]=9;
+  flags[4004]=2;
+  flags[4001]=3;
+  flags[4002]=locx;
+  flags[4003]=locy;
+  flags[4008]=1;
+  flags[51]=1;
+  mapswitch("grass.map",1,1,0);
+ }
+}
+
+event /* 28 end */
+{
+ if(flags[52])
+ {
+  stext(1,"This is the end of the",
+        "demo......","");
+ }
+}
