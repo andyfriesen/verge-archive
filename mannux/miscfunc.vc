@@ -37,7 +37,7 @@ void MapSwitch(int X, int Y, string m)
 void Delay(int d) //A short delay function. (note that it completely freezes the engine; nothing is redrawn.)
 {
  timer=0;
- while(timer<d) { }
+ while(timer<d) { ShowPage(); }
  timer = 0;
 }
 
@@ -57,6 +57,7 @@ void IntroPic(string file) {
       FOut();
       Map("Title.map");
     } //Make sure that the player isn't forced to sit through 30 seconds of intro. :)
+    ShowPage();
   }
   FOut();
   img=LoadImage("tabby.pcx");
@@ -93,6 +94,7 @@ void WEpress() //Function which waits for the user to press enter.
  While(!B1)
  {
   UpdateControls();
+  ShowPage();
  }
  Unpress(1);
 }
