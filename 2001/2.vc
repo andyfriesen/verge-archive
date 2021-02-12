@@ -1,0 +1,22 @@
+event //0 - Autoexec
+{
+ ClearEnts();
+ EHP[0]=3;
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+ if(warped=1) SetPlayer(EntitySpawn(9, 13, "marine.chr"));
+ if(warped=3) SetPlayer(EntitySpawn(10, 1, "marine.chr"));
+}
+
+event //1 - Back to room 1
+{
+ warped=2;
+ Map("1.map");
+}
+
+event //2 - To room 3
+{
+ warped=2;
+ Map("3.map");
+}
+//EOF

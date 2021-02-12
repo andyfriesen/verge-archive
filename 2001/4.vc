@@ -1,0 +1,49 @@
+event //0 - Autoexec
+{
+ ClearEnts();
+ EHP[0]=5; EHP[1]=3; EHP[2]=3;
+ entity.facing[0]=3;
+ EntityMove(0,"");
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+ if(warped=3) SetPlayer(EntitySpawn(16, 13, "marine.chr"));
+
+ if(Guns[0])
+ {
+  SetTile(2,4, 1, 6);
+  SetTile(2,4, 7, 0);
+ }
+
+ if(cards>=4)
+ {
+  SetTile(5,3, 0, 6);
+  SetTile(5,3, 7, 0);
+ }
+}
+
+event //1 - Back to room 3
+{
+ Warped=4;
+ Map("3.map");
+}
+
+event //2 - Keycard.
+{
+ PlaySound(SndPickup, 64, 128);
+ Text("I have picked up a", "level 3 keycard.", "", "");
+ cards=3;
+ SetTile(5,3, 0, 6);
+ SetTile(5,3, 7, 0);
+}
+
+event //3 - Gun powerup.
+{
+ PlaySound(SndPickup, 64, 128);
+ Text("I have picked up a", "gun powerup.", "", "");
+ WStr++;
+ SetTile(2,4, 1, 6);
+ SetTile(2,4, 7, 0);
+ Guns[0]++;
+}
+
+//EOF

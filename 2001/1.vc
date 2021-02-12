@@ -1,0 +1,67 @@
+event //0 -Autoexec
+{
+ if(!started)
+ {
+  Startup();
+ }
+
+ if(warped=2) SetPlayer(EntitySpawn(9,3, "marine.chr"));
+ if(lasers[1])
+ {
+  For(i=0; i<4; i++)
+  {
+   SetTile(7+i, 2, 1, 0);
+   SetTile(7+i, 2, 6, 0);
+  }
+ }
+
+ if(cards>=1)
+ {
+  SetTile(2,4, 0, 6);
+  SetTile(2,4, 7, 0);
+ }
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+}
+
+event //1 - Can't go back!
+{
+ Text("I can't go back to my", "ship, I have a mission", "to complete!", "");
+}
+
+event //2 - KeyCard
+{
+ PlaySound(SndPickup, 64, 128);
+ Text("I have picked up a", "level 1 keycard.", "", "");
+ cards=1;
+ SetTile(2,4, 0, 6);
+ SetTile(2,4, 7, 0);
+}
+
+event //3 - Keypad
+{
+ If(cards>=1 && !Lasers[1])
+ {
+  PlaySound(SndUse, 64, 128);
+  Text("Lasers disabled.","","","");
+  For(i=0; i<4; i++)
+  {
+   SetTile(7+i, 2, 1, 0);
+   SetTile(7+i, 2, 6, 0);
+  }
+  Lasers[1]++;
+ }
+ if(cards=0)
+ {
+  PlaySound(SndError, 64, 128);
+  Text("Keycard level 1 or", "greater required.","","");
+ }
+}
+
+event //4 - To room 2.
+{
+ warped=1;
+ Map("2.map");
+}
+
+//EOF

@@ -1,0 +1,62 @@
+event
+{
+ ClearEnts();
+ EHP[0]=7;
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+
+ if(warped=3) SetPlayer(EntitySpawn(1,9, "marine.chr"));
+ if(warped=6) SetPlayer(EntitySpawn(8,13, "marine.chr"));
+
+ if(lasers[3])
+ {
+  For(i=0; i<2; i++)
+  {
+   SetTile(7+i, 13, 1, 0);
+   SetTile(7+i, 13, 6, 0);
+  }
+ }
+}
+
+event //1 - Back to room 3
+{
+ warped=5;
+ Map("3.map");
+}
+
+event //2 - Ration
+{
+ PlaySound(SndPickup, 64, 128);
+ Text("I have picked up a", "ration.", "", "");
+ Rations++;
+ SetTile(18,4, 1, 6);
+ SetTile(18,4, 7, 0);
+}
+
+event //3 - Keypad
+{
+ If(cards>=3 && !Lasers[3])
+ {
+  PlaySound(SndUse, 64, 128);
+  Text("Lasers disabled.","","","");
+  For(i=0; i<2; i++)
+  {
+   SetTile(7+i, 13, 1, 0);
+   SetTile(7+i, 13, 6, 0);
+  }
+  Lasers[3]++;
+ }
+ if(cards<3)
+ {
+  PlaySound(SndError, 64, 128);
+  Text("Keycard level 3 or", "greater required.","","");
+ }
+}
+
+event //1 - To room 6
+{
+ warped=5;
+ Map("6.map");
+}
+
+//EOF

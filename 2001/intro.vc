@@ -1,0 +1,86 @@
+event //0 - Autoexec
+{
+ verge=LoadImage("Verge320.gif");
+ CopySprite(0,0, 320, 240, verge);
+
+ For(i=0; i<63; i++)
+ {
+  PaletteMorph(0,0,0,0,i);
+  ShowPage();
+  Delay(1);
+ }
+ Delay(30);
+ For(i=63; i>1; i--)
+ {
+  PaletteMorph(0,0,0,0,i);
+  ShowPage();
+  Delay(1);
+ }
+ Render();
+ Delay(20);
+
+ credits=LoadImage("credits.gif");
+ CopySprite(0,0, 320, 240, credits);
+
+ For(i=0; i<63; i++)
+ {
+  PaletteMorph(0,0,0,0,i);
+  ShowPage();
+  Delay(1);
+ }
+ Delay(30);
+ For(i=63; i>1; i--)
+ {
+   PaletteMorph(0,0,0,0,i);
+   ShowPage();
+   Delay(1);
+ }
+
+ Render();
+ ShowPage();
+ Delay(20);
+ free(verge);
+ free(credits);
+ verge=loadimage("title.gif");
+
+  CopySprite(0,0, 320, 240, verge);
+ For(i=0; i<63; i++)
+ {
+  PaletteMorph(0,0,0,0,i);
+  ShowPage();
+  Delay(1);
+ }
+
+ PaletteMorph(0,0,0,0,63);
+ Unpress(0);
+ For(i=0; i<500; i++)
+ {
+  Delay(2);
+  Render();
+  CopySprite(0,0, 320, 240, verge);
+  Center(240-i, "The Year is 2001. The once");
+  Center(260-i, "praised supercomputer");
+  Center(280-i, "HAL 9000 has gone haywire,");
+  Center(300-i, "and has taken control of");
+  Center(320-i, "the starship Discovery. ");
+
+  Center(360-i, "HAL has taken the crew");
+  Center(380-i, "hostage, and now controls");
+  Center(400-i, "the ship's defenses.");
+
+  Center(440-i, "You have been sent in to");
+  Center(460-i, "rescue the hostages, and");
+  Center(480-i, "to try and disable HAL.");
+  ShowPage();
+  UpdateControls();
+  If(b1)
+  {
+   Unpress(0);
+   i=500;
+  }
+ }
+
+ Map("1.map");
+}
+
+//EOF

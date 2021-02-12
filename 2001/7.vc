@@ -1,0 +1,52 @@
+event //0 - Autoexec
+{
+ ClearEnts();
+ EHP[0]=7; EHP[1]=7;
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+ if(warped=6) SetPlayer(EntitySpawn(8, 1, "marine.chr"));
+ if(warped=8) SetPlayer(EntitySpawn(8, 13, "marine.chr"));
+ if(warped=9) SetPlayer(EntitySpawn(17, 6, "marine.chr"));
+
+ if(Shock)
+ {
+  for(i=0; i<3; i++)
+  {
+   SetTile(14+i, 6, 0, 64);
+   SetTile(14+i, 6, 7, 0);
+   SetTile(14+i, 7, 0, 64);
+   SetTile(14+i, 7, 7, 0);
+  }
+ }
+}
+
+event //1 - Back to room 6
+{
+ warped=7;
+ Map("6.map");
+}
+
+event //2 - To room 8
+{
+ warped=7;
+ Map("8.map");
+}
+
+event //3 - To room 9
+{
+ warped=8;
+ Map("9.map");
+}
+
+event //4 - Shock!
+{
+ SetLucent(1);
+ RectFill(0,0,screenx-1, screeny-1, 32);
+ SetLucent(0);
+ ShowPage();
+ HP-=3;
+ If(HP<=0) Exit("You die now.");
+ PlaySound(SndHit, 64, 128);
+}
+
+//EOF

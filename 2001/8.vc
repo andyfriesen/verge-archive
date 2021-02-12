@@ -1,0 +1,28 @@
+event //0 - Autoexec
+{
+ ClearEnts();
+ EHP[0]=5; EHP[1]=3;
+ entity.facing[0]=2;
+ EntityMove(0,"");
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+ if(warped=7) SetPlayer(EntitySpawn(8, 1, "marine.chr"));
+}
+
+event //1 - Back to room 6
+{
+ warped=8;
+ Map("7.map");
+}
+
+event //2 - KeyPad
+{
+ If(!Shock)
+ {
+  Shock++;
+  PlaySound(SndUse, 64, 128);
+  Text("Electric floors disabled.", "", "", "");
+ }
+}
+
+//EOF

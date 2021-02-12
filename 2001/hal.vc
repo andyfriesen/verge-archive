@@ -1,0 +1,27 @@
+event
+{
+ ClearEnts();
+ SetPlayer(EntitySpawn(8, 13, "marine.chr"));
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+ Text("Hal!","","","");
+}
+
+event //1 - Kill Hal
+{
+ If(ents[0] && ents[1] && ents[2] && ents[3])
+ {
+  Text("Good bye Hal!","","","");
+  PlaySound(SndDie, 64, 128);
+  For(i=63; i>1; i--)
+  {
+   PaletteMorph(0,0,0,0,i);
+   ShowPage();
+   Delay(1);
+  }
+  Exit("You win, the end. :)");
+ }
+}
+
+
+

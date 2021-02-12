@@ -119,7 +119,25 @@ let games: array(Game.game) = [|
         title: "SHIPPU",
         description: "An original space shooter by Zaratustra with genetic spaceships! Doesn't fully work yet sadly..",
         engine: Game.V2
+    },
+    {
+        name: "2001",
+        title: "2001",
+        description: "A compo game by Hatchet.",
+        engine: Game.V2
     }
+    
+    
+    /*  Does not currently work
+    {
+        name: "fugue",
+        title: "Fugue",
+        description: "A pseudo 3d tunnel game by Zaratustra.",
+        engine: Game.V2
+    }
+    */
+    
+    
 |];
 
 let game_with_name = (name) => {

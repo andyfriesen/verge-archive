@@ -1,0 +1,560 @@
+/*
+
+This is the main script for the game. Feel free to use/modify the AI scripts/realtime BS/Inventory scripts if you like them, although the AI is very simplistic. Just be sure to give me credit, of course.
+
+-Hatchet
+
+*/
+
+int NumShots, ShotsHit; //Number of shots fired, and number of shots hit. Used for displaying your accuracy.
+int Shock; //Stores whether or not the electric floors have been disabled.
+int lasers[10]; //Stores which lasers have been turned off.
+int Guns[5]; //Stores which gun powerups have been picked up.
+int started; //Stores whether or not the game has been initialized.
+int SndShot, SndHit, SndDie, SndMove, SndUse, SndError, SndPickup; //Variables for storing sounds.
+int textbox, bar, pcard, pration, gun, finger, credits, verge; //Variables for storing pictures.
+int i, h; //Variables used for for loops.
+int ents[25]; //Stores whether or not a certain entity has been killed.
+int EBX[25], EBY[25], EBD[25]; //Variables for the entity bullets. EBD is the bullet direction.
+int EHP[25]; //Entity HP.
+int EShot[25]; //Stores whether or not an entity has a shot in the air.
+int Shot; //Stores whether the player has a shot in the air.
+int ShotD; //Stores the player's bullet's direction.
+int BulletX, BulletY; //X and Y coordinates of the player's bullets.
+int HP, MaxHP; //Player HP variables.
+int Wait, EWait[25]; //Timer variables for the player and entities, so that they can't fire too fast. :)
+int cards, rations; //inventory variables.
+int kills; //Stores how many kills the player has made.
+int WStr; //Stores the player's weapon's strength.
+int PlayerX, PlayerY; //Stores the player's coordinates when doing a mapswitch.
+int warped; //Stores which room the player is coming from.
+int time; //Alternate timer, because the timer variable doesn't work right. ;)
+
+void AutoExec()
+{
+    setresolution(320,240);
+    map("intro.map");
+}
+
+void Text(string Line1, string line2, string line3, string line4) //Basic text function, need I say more?
+{
+ int done;
+ unpress(0);
+ HookRetrace(0);
+ timer=0;
+ While(!done)
+ {
+  Render();
+  PEnts();
+  ScaleSprite(20, screeny-100, 200, 100, 280, 90, textbox);
+  GotoXY(35, screeny-90); PrintString(1, Line1);
+  GotoXY(35, screeny-70); PrintString(1, Line2);
+  GotoXY(35, screeny-50); PrintString(1, Line3);
+  GotoXY(35, screeny-30); PrintString(1, Line4);
+
+  ShowPage();
+  UpdateControls();
+  if(b1)
+  {
+   While(b1)
+   {
+    UpdateControls();
+   }
+   HookRetrace(ShowStuff);
+   Return;
+  }
+ }
+}
+
+
+
+void ShowStuff() //Main function, gets called every retrace.
+{
+ int b;
+ //if(time=0) return; //This SHOULD make the function be called at a maximum of 100 times a second, to help prevent speed issues.
+
+ b=time;
+
+ UpdateControls();
+
+ If(key[29]) //If Ctrl is pressed, let the player run.
+ {
+  Entity.speed[player]=5;
+ }
+ Else
+ {
+  Entity.speed[player]=4;
+ }
+
+ If(b4) //If space is pressed, fire.
+ {
+  Unpress(4);
+  Shoot();
+ }
+
+ //Main entity AI script starts here.
+
+ For(i=0; i<numentsonscreen-1; i++) //Loop for each entity on the screen, except the player of course. :)
+ {
+  EWait[i]++;
+  If(EWait[i]>25) Ewait[i]=25;
+
+  if(!ents[i] && Eshot[i] && Ewait[i]>5 || !EShot[i] && !ents[i]) entity.specframe[i]=0; //Make sure the entity isn't stuck on a special frame. :)
+
+
+
+  If(!Eshot[i] && ents[i]=0 && EWait[i] =25) //If the entity doesn't have a bullet in the air, is not dead, and it has been at least 25 refreshes since his last shot.
+  {
+   If(entity.ty[i] = entity.ty[player]) //If the entity is on the same row as the player.
+   {
+	If(entity.tx[player]<entity.tx[i] && entity.facing[i] =2) //If the entity is looking at the player, fire.
+    {
+	 EWait[i]=0;
+	 PlaySound(SndShot, 64, 128);
+     EShot[i]++;
+     EBD[i]=2;
+	 EBX[i]=entity.x[i]; EBY[i]=entity.y[i]+6;
+     entity.specframe[i]=27;
+	}
+
+	If(entity.tx[player]>entity.tx[i] && entity.facing[i] =3) //If the entity is looking at the player, fire.
+    {
+	 EWait[i]=0;
+	 PlaySound(SndShot, 64, 128);
+     EShot[i]++;
+     EBD[i]=3;
+	 EBX[i]=entity.x[i]+16; EBY[i]=entity.y[i]+6;
+     entity.specframe[i]=28;
+	}
+   }
+
+   If(entity.tx[i] = entity.tx[player]) //If the entity is on the same column as the player.
+   {
+	If(entity.ty[player]>entity.ty[i] && entity.facing[i] =0) //If the entity is looking at the player, fire.
+    {
+     EWait[i]=0;
+	 PlaySound(SndShot, 64, 128);
+     EShot[i]++;
+     EBD[i]=0;
+	 EBX[i]=entity.x[i]+12; EBY[i]=entity.y[i];
+     entity.specframe[i]=25;
+	}
+
+	If(entity.ty[player]<entity.ty[i] && entity.facing[i] =1) //If the entity is looking at the player, fire.
+    {
+     EWait[i]=0;
+	 PlaySound(SndShot, 64, 128);
+     EShot[i]++;
+     EBD[i]=1;
+	 EBX[i]=entity.x[i]+4; EBY[i]=entity.y[i];
+     entity.specframe[i]=26;
+
+	}
+   }
+  }
+
+  If(Eshot[i]) //If this entity has a bullet in the air.
+  {
+   Switch(EBD[i]) //Move the bullet in the proper direction.
+   {
+    Case 0: EBY[i]+=time*2;
+    Case 1: EBY[i]-=time*2;
+    Case 2: EBX[i]-=time*2;
+    Case 3: EBX[i]+=time*2;
+   }
+
+   If(EBX[i] >= Screenx || EBX[i] <= 0 || EBY[i] >= screeny || EBY[i] <= 0) //If the bullet went off the screen, stop the bullet.
+   {
+      EShot[i]=0;
+   }
+
+   If(GetTile(EBX[i]/16, EBY[i]/16, 6)=1) //If the bullet hit an obstruction, stop the bullet.
+   {
+    PlaySound(SndHit, 64, 128);
+    EShot[i]=0;
+   }
+
+   If(EBX[i]/16=entity.tx[player] && EBY[i]/16=entity.ty[player]) //If the bullet hit the player, flash the screen and reduce the player's HP.
+   {
+    SetLucent(1);
+	RectFill(0,0,screenx-1, screeny-1, 32);
+	SetLucent(0);
+    HP--;
+    If(HP<=0) Exit("You die now."); //If the player has 0 HP, kill him. >:)
+    PlaySound(SndHit, 64, 128);
+	EShot[i]=0;
+   }
+
+   SetPixel(EBX[i], EBY[i], 95); //Display the bullet.
+
+   Switch(EBD[i]) //Display the bullet's trail.
+   {
+    Case 0:   SetPixel(EBX[i], EBY[i]-1, 96);  SetPixel(EBX[i], EBY[i]-2, 97);  SetPixel(EBX[i], EBY[i]-3, 97);
+    Case 1:   SetPixel(EBX[i], EBY[i]+1, 96);  SetPixel(EBX[i], EBY[i]+2, 97);  SetPixel(EBX[i], EBY[i]+3, 97);
+    Case 2:   SetPixel(EBX[i]-1, EBY[i], 96);  SetPixel(EBX[i]-2, EBY[i], 97);  SetPixel(EBX[i]-3, EBY[i], 97);
+    Case 3:   SetPixel(EBX[i]+1, EBY[i], 96);  SetPixel(EBX[i]+2, EBY[i], 97);  SetPixel(EBX[i]+3, EBY[i], 97);
+   }
+  }
+
+  if(ents[i] && Ewait[i]<20) //If this entity is dead.
+  {
+   entity.specframe[i]=20+(EWait[i]/5);
+  }
+ }
+
+ //Player control starts here.
+
+ Wait++;
+ If(Wait>25) Wait=25;
+ entity.specframe[player]=0;
+ If(Shot) //If the player has a bullet in the air.
+ {
+  If(Wait<5) entity.specframe[player]=25+ShotD; //If the player just fired,show his firing frame.
+
+  Switch(ShotD) //Move the bullet in the apropriate direction.
+  {
+   Case 0: BulletY+=time*2;
+   Case 1: BulletY-=time*2;
+   Case 2: BulletX-=time*2;
+   Case 3: BulletX+=time*2;
+  }
+
+  If(BulletX >= Screenx || BulletX <= 0 || BulletY >= screeny || BulletY <= 0) //If the bullet went off the screen, stop the bullet.
+  {
+   Shot=0;
+  }
+
+  If(GetTile(BulletX/16, BulletY/16, 6)=1) //If the bullet hit an obstruction, stop the bullet.
+  {
+   PlaySound(SndHit, 64, 128);
+   Shot=0;
+  }
+
+  //Check if the player's bullet hit anyone.
+
+  for(i=0; i<numentsonscreen-1; i++) //Loop for each entity on the screen, except the player of course. :)
+  {
+   If(BulletX/16=entity.tx[i] && BulletY/16=entity.ty[i] && Ents[i]=0) //If the bullet hit an entity, and he's not dead, reduce the enemy's HP.
+   {
+    if(i!=player) //Make sure the player's not shooting himself. :)
+	{
+     EHP[i]-=WStr;
+	 If(EHP[i]<=0) //If the entity has 0 HP, kill it. :)
+	 {
+	  kills++;
+	  ents[i]=1; //Mark that this entity is dead.
+	  EWait[i]=0;
+	  PlaySound(SndDie, 64, 128);
+	  entity.x[i]=entity.tx[i]*16;
+      entity.y[i]=entity.ty[i]*16;
+	  EntityMove(i, ""); //Stop the entity from moving.
+	 }
+	 else //The entity isn't dead.
+	 {
+	  PlaySound(SndHit, 64, 128);
+	 }
+     Shot=0; //Stop the shot.
+	 ShotsHit++;
+    }
+   }
+  }
+
+  SetPixel(BulletX, BulletY, 32);   //Display the bullet.
+  Switch(ShotD) //Display the bullet's trail.
+  {
+   Case 0:   SetPixel(BulletX, BulletY-1, 34);  SetPixel(BulletX, BulletY-2, 36);  SetPixel(BulletX, BulletY-3, 38);
+   Case 1:   SetPixel(BulletX, BulletY+1, 34);  SetPixel(BulletX, BulletY+2, 36);  SetPixel(BulletX, BulletY+3, 38);
+   Case 2:   SetPixel(BulletX-1, BulletY, 34);  SetPixel(BulletX-2, BulletY, 36);  SetPixel(BulletX-3, BulletY, 38);
+   Case 3:   SetPixel(BulletX+1, BulletY, 34);  SetPixel(BulletX+2, BulletY, 36);  SetPixel(BulletX+3, BulletY, 38);
+  }
+ }
+
+ //Display the player's health bar.
+ RectFill(40,0, 40-(8*(MAXHP-HP)), 4, 32+(4*(HP-1)));
+ Rect(0,0, 8*MaxHP+1, 5, 30);
+ ScaleSprite(1,1, 16, 8, 8*HP, 4, bar);
+ //GotoXY(0, 20); PrintString(0, "Refresh rate: "+str(time)+" ticks."); //Debugging line for the timer function, I left it here in case you want to see how fast you computer is rendering this. :)
+ //GotoXY(0, 40); PrintString(0, "Refresh rate: "+str(b)+" ticks."); //Debugging line for the timer function, I left it here in case you want to see how fast you computer is rendering this. :)
+
+ time=0;
+}
+
+void Shoot() //Fires a bullet.
+{
+ If(!Shot && Wait>=25) //If the player doesn't have a shot in the air, and it's been at least 25 refreshes since his last shot.
+ {
+  Wait=0;
+  Shot++;
+  NumShots++;
+  PlaySound(SndShot, 64, 128);
+  ShotD=entity.facing[player];
+  Switch(entity.facing[player]) //Figure out where to start the bullet.
+  {
+   Case 0: BulletX=entity.x[player]+12; bullety=entity.y[player]+4;
+   Case 1: BulletX=entity.x[player]+4; bullety=entity.y[player]-4;
+   Case 2: BulletX=entity.x[player]; bullety=entity.y[player]+4;
+   Case 3: BulletX=entity.x[player]+16; bullety=entity.y[player]+4;
+  }
+ }
+}
+
+void OpenWindows() //Zooms open the inventory windows.
+{
+ For(i=0; i<150; i+=5)
+ {
+  Render();
+  PEnts();
+  Rect(160-i, 10, 160+i, 60, 30);
+  Rect(160-i+1, 11, 160+i-1, 59, 31);
+  Rect(160-i+2, 12, 160+i-2, 58, 30);
+  SetLucent(1);
+  RectFill(160-i+3, 13, 160+i-3, 57, 1);
+  SetLucent(0);
+
+  Rect(160-i, 62, 160+i, 200, 30);
+  Rect(160-i+1, 63, 160+i-1, 199, 31);
+  Rect(160-i+2, 64, 160+i-2, 198, 30);
+  SetLucent(1);
+  RectFill(160-i+3, 65, 160+i-3, 197, 1);
+  SetLucent(0);
+
+  ShowPage();
+ }
+}
+
+void CloseWindows() //Zooms closed the inventory windows.
+{
+ For(i=150; i>0; i-=5)
+ {
+  Render();
+  PEnts();
+  Rect(160-i, 10, 160+i, 60, 30);
+  Rect(160-i+1, 11, 160+i-1, 59, 31);
+  Rect(160-i+2, 12, 160+i-2, 58, 30);
+  SetLucent(1);
+  RectFill(160-i+3, 13, 160+i-3, 57, 1);
+  SetLucent(0);
+
+  Rect(160-i, 62, 160+i, 200, 30);
+  Rect(160-i+1, 63, 160+i-1, 199, 31);
+  Rect(160-i+2, 64, 160+i-2, 198, 30);
+  SetLucent(1);
+  RectFill(160-i+3, 65, 160+i-3, 197, 1);
+  SetLucent(0);
+  ShowPage();
+  time=0;
+ }
+}
+
+void Inventory() //Calls the inventory screen.
+{
+ int Done, Percent;
+ int pointer;
+ pointer=0;
+
+ HookRetrace(0);  //Make sure that the game AI still isn't going while the menu is up. :)
+
+ Unpress(0);
+
+ OpenWindows(); //Zoom open the windows.
+
+ While(!Done)
+ {
+  Render();
+  PEnts();
+
+  //Draw the status window.
+  Rect(10, 10, 310, 60, 30);
+  Rect(11, 11, 309, 59, 31);
+  Rect(12, 12, 308, 58, 30);
+  SetLucent(1);
+  RectFill(13, 13, 307, 57, 1);
+  SetLucent(0);
+
+  Center(15, "STATUS");
+
+  //Draw the player's health bar.
+  RectFill(16,32, 16+(16*MaxHP), 48 , 32+(4*(HP-1)));
+  Rect(16,32, 16+(16*MaxHP), 48, 30);
+  ScaleSprite(17,33, 16, 8, (16*HP)-1, 15, bar);
+  GotoXY(100, 36);
+  Percent=(100*HP)/MaxHP;
+  PrintString(0, str(Percent)+"%");
+
+  GotoXY(180, 36); PrintString(0, "Kills - " + str(kills));
+
+  //Draw the inventory window.
+  Rect(10, 62, 310, 200, 30);
+  Rect(11, 63, 309, 199, 31);
+  Rect(12, 64, 308, 198, 30);
+  SetLucent(1);
+  RectFill(13, 65, 307, 197, 1);
+  SetLucent(0);
+
+  Center(65, "INVENTORY");
+
+  TCopySprite(16, 80, 16, 16, gun);
+  GotoXY(40, 84); PrintString(0, "Weapon Strength - " + str(WStr));
+
+
+  If(Cards>0) //If the player has a keycard, display it.
+  {
+   TCopySprite(16, 100, 16, 16, pcard);
+   GotoXY(40, 104); PrintString(0, "Access Card Level - " + str(cards));
+  }
+
+  If(Rations>0) //If the player has a ration, display it.
+  {
+   TCopySprite(16, 120, 16, 16, pration);
+   GotoXY(40, 124); PrintString(0, "Rations - " + str(rations));
+  }
+
+  GotoXY(16, 160);
+
+  If(numshots>0)
+  {
+   Percent=(ShotsHit*100)/NumShots;
+   PrintString(0, "Accuracy: "+str(ShotsHit)+"/"+str(NumShots)+" "+str(Percent)+"%");
+  }
+  else
+  {
+   PrintString(0, "Accuracy: N/A");
+  }
+  //Main menu script begins here.
+
+  UpdateControls();
+  if(up)
+  {
+   PlaySound(SndMove, 64, 128);
+   pointer--;
+   UnPress(5);
+  }
+  if(down)
+  {
+    PlaySound(SndMove, 64, 128);
+    pointer++;
+    UnPress(6);
+  }
+  if(pointer<0) pointer=2;
+  if(pointer>2) pointer=0;
+
+  TCopySprite(10, 84+(20*pointer), 8, 8, finger);
+  ShowPage();
+
+  if(b1) //If the user pressed enter..
+  {
+   Unpress(1);
+   switch(pointer) //Make a decision based on what the user had highlighted at the time.
+   {
+    Case 0: PlaySound(SndError, 64, 128);
+    Case 1: PlaySound(SndError, 64, 128);
+    Case 2: UseRation();
+   }
+  }
+
+  If(key[29]) //If the user pressed Ctrl, exit the menu.
+  {
+   UnPress(0);
+   CloseWindows();
+   HookRetrace(ShowStuff); //Start the game AI up again.
+   Return;
+  }
+ }
+}
+
+void UseRation() //Uses a ration, if the player has any, and he has less than full HP.
+{
+ If(rations>0 && HP<MaxHP)
+ {
+  PlaySound(SndUse, 64, 128);
+  HP+=3;
+  If(HP>MaxHP) HP=MaxHP;
+  rations--;
+ }
+ else
+ {
+  PlaySound(SndError, 64, 128);
+ }
+}
+
+
+void Startup() //Initialize the game.
+{
+ LoadFont("text.fnt");
+
+ //Load game sounds.
+ SndShot=CacheSound("shoot.wav");
+ SndHit=CacheSound("hit.wav");
+ SndDie=CacheSound("dead.wav");
+ SndMove=CacheSound("menumove.wav");
+ SndUse=CacheSound("use.wav");
+ SndError=CacheSound("buzz.wav");
+ SndPickup=CacheSound("pickup.wav");
+
+ //Load game images.
+ bar=LoadImage("bar.gif");
+ textbox=LoadImage("textbox.gif");
+ pcard=LoadImage("keycard.pcx");
+ pration=LoadImage("ration.pcx");
+ finger=LoadImage("finger.pcx");
+ gun = loadimage("gun.pcx");
+
+ Palettemorph(0,0,0,0,63);
+
+ //Initialize starting variables.
+ HP=5; MaxHP=5; Wait=25;
+ Cards=0;
+ Rations=3;
+ WStr=1;
+ started++;
+
+ HookKey(1, Inventory); //Hook the esc key to the inventory menu.
+
+ SetPlayer(EntitySpawn(9,13, "marine.chr"));
+ PartyMove("U3");
+}
+
+void ClearEnts()
+{
+ For(i=0; i<25; i++)
+ {
+  Ents[i]=0;
+ }
+}
+
+void Center(int y, string Line1)
+{
+  //GotoXY(160 - ((StrLen("INVENTORY")*FontWidth(0))/2), 65);
+
+  int x;
+  x = 160 - ((strlen(Line1) * FontWidth(0))/2);
+  if(X < 0) X = 0;
+  GotoXY(x, y);
+  PrintString(0, Line1);
+}
+
+void PEnts() //Processes the entities at a constant rate. Much better than regular ProcessEntities. :)
+{
+ While(timer)
+ {
+  Timer--;
+  ProcessEntities();
+ }
+}
+
+void delay(int t) //I'm actually surprised this works, because of the timer bug and all... =P
+{
+ timer=0;
+ While(timer<t)
+ {
+ }
+}
+
+void TimeUpdate() //My alternate version of timer, time gets update once a second.
+{
+ time++;
+}
+
+
+
+//EOF

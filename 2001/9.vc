@@ -1,0 +1,73 @@
+event //0 - Autoexec
+{
+ ClearEnts();
+ EHP[0]=3; EHP[1]=3; EHP[2]=5;
+ HookTimer(TimeUpdate);
+ HookRetrace(ShowStuff);
+ if(warped=8) SetPlayer(EntitySpawn(1, 7, "marine.chr"));
+
+ If(Lasers[5])
+ {
+  For(i=0; i<2; i++)
+  {
+   SetTile(7+i, 3, 1, 0);
+   SetTile(7+i, 3, 6, 0);
+  }
+ }
+}
+
+event //1 - Back to room 7
+{
+ Warped=9;
+ Map("7.map");
+}
+
+event //2 - Keypad
+{
+ If(cards>=5 && !Lasers[5])
+ {
+  PlaySound(SndUse, 64, 128);
+  Text("Lasers disabled.","","","");
+  For(i=0; i<2; i++)
+  {
+   SetTile(7+i, 3, 1, 0);
+   SetTile(7+i, 3, 6, 0);
+  }
+  Lasers[5]++;
+ }
+ if(cards<5)
+ {
+  PlaySound(SndError, 64, 128);
+  Text("Keycard level 5 or", "greater required.","","");
+ }
+}
+
+event //3 - Hals' room.
+{
+ Map("Hal.map");
+}
+
+event //4 - Talk to prisoner
+{
+ if(cards<5)
+ {
+  Text("I'm free!","HAL has gone nuts!", "You must destroy it!","");
+  Text("But I don't have the", "key to HAL's chamber.","","");
+  Text("I was the systems op", "for HAL, I have the", "keycard to his room.","");
+
+  PlaySound(SndPickup, 64, 128);
+  Text("I have recieved a", "level 5 keycard.","","");
+  cards=5;
+ }
+ else
+ {
+  Text("You're still here?","You must destroy HAL!", "" ,"");
+ }
+}
+
+event //5 - Misc prisoner
+{
+ Text("We're free!", "","","");
+}
+
+//EOF
