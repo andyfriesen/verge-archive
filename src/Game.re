@@ -33,7 +33,7 @@ let make = (~game) => {
     | V2 => "game2.html?game=" ++ game.name
     };
 
-    let s = ReasonReact.string;
+    let s = React.string;
 
     <div className="game">
         <header>

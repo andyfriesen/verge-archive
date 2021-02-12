@@ -15,7 +15,7 @@
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": [
-    "reason-react"
+    "@rescript/react"
   ],
   "refmt": 3
 }

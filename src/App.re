@@ -155,7 +155,7 @@ let make = (~initialGame: option(string)) => {
 
     let mkGame = (game: Game.game) =>
         <li className="entry" onClick={onClick(game)}>
-            {ReasonReact.string(game.title)}
+            {React.string(game.title)}
         </li>;
     let allGames = Array.map(mkGame, games);
 
@@ -171,7 +171,7 @@ let make = (~initialGame: option(string)) => {
 
     <div className="app">
         <div className="game-list">
-            <p>{ReasonReact.string("Games:")}</p>
+            <p>{React.string("Games:")}</p>
             <ul>
             {ReactDOMRe.createDOMElementVariadic(
                 "div",
@@ -182,7 +182,7 @@ let make = (~initialGame: option(string)) => {
             {
                 switch (curGame) {
                 | None => (<span />)
-                | Some(_) => (<a className="close-button" onClick={closeGame}>{ReasonReact.string("Close")}</a>)
+                | Some(_) => (<a className="close-button" onClick={closeGame}>{React.string("Close")}</a>)
                 }
             }
         </div>

@@ -17,15 +17,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "bs-platform": "^7.3.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "reason-react": "^0.8.0"
+    "@rescript/react": "^0.10.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "bs-platform": "^7.3.2",
+    "bs-platform": "^9.0.0",
     "moduleserve": "^0.9.1",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
   }
 }

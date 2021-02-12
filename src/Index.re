@@ -10,7 +10,7 @@ switch (hash) {
 | Some(h) => print_endline("Hash: " ++ h)
 }
 
-ReactDOMRe.render(
+ReactDOM.render(
   <App initialGame={hash} />,
   document##body
 );
