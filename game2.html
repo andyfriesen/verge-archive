@@ -16,6 +16,7 @@
             background-color: #0a0804;
             color: #a8a0a0;
             text-align: center;
+            overflow: hidden;
         }
 
         .vergeContainer {
@@ -23,18 +24,11 @@
             height: 100%;
             position: relative;
             display: grid;
-            grid-template-columns: 225px auto 225px;
-            grid-template-rows: 75px auto 50px 25px;
-            grid-template-areas:
-                "header header header"
-                "leftside playarea controls"
-                "leftside loadingbar controls"
-                "footer footer footer"
-            ;
+            grid-template-rows: auto 50px 25px;
         }
 
         #canvasContainer {
-            grid-area: playarea;
+            grid-row: 1;
             align-self: stretch;
             justify-self: stretch;
             display: flex;
@@ -57,7 +51,7 @@
             height: 1em;
             position: relative;
             transition: opacity 2s;
-            grid-area: loadingbar;
+            grid-row: 2;
             align-self: center;
             justify-self: center;
         }
@@ -72,26 +66,9 @@
             bottom: 0;
         }
 
-        #controls {
-            text-align: left;
-            grid-area: controls;
-            padding: 0.5em;
-        }
-
-        #no-audio-worklet {
-            display: none;
-        }
-
-        header {
-            font-size: 32px;
-            grid-area: header;
-            align-self: center;
-            justify-self: center;
-        }
-
         footer {
             font-size: 9px;
-            grid-area: footer;
+            grid-row: 3;
             align-self: center;
             justify-self: center;
         }
@@ -104,28 +81,6 @@
             <canvas id="vergeCanvas" width="320" height="200"></canvas>
         </div>
         <div id='loadingProgress'><div></div></div>
-        <div id='controls'>
-            <h2>Controls</h2>
-            <dl>
-                <dt>Arrow keys</dt><dd>Move</dd>
-                <dt>Enter</dt><dd>Interact, select menu options</dd>
-                <dt>Tab</dt><dd>Cancel out of menus</dd>
-                <dt>Space</dt><dd>Main menu (items, equipment, etc)</dd>
-                <dt>ESC</dt><dd>System menu (save, load, etc)</dd>
-            </dl>
-            <h2>Gamepad Controls</h2>
-            <dl>
-                <dt>A</dt><dd>Interact</dd>
-                <dt>B</dt><dd>Cancel</dd>
-                <dt>Y</dt><dd>Main menu</dd>
-                <dt>Start</dt><dd>System Menu</dd>
-            </dl>
-            <div id='no-audio-worklet'>
-                Your browser does not support AudioWorklet.  We cannot play any music.  Sorry!<br />
-                The latest versions of Chrome and Firefox should work!
-            </div>
-            <button id="fullscreenButton">FULLSCREEN</button>
-        </div>
         <footer>
             <p>Last Updated 5 July 2020</p>
         </footer>
@@ -167,7 +122,7 @@
 
             ctx.fillStyle = 'white';
             ctx.textAlign = 'center';
-            ctx.fillText('Loading! :D', 160, 100);
+            ctx.fillText('Loading', 160, 100);
         })();
         </script>
 
@@ -209,19 +164,6 @@
             const u = new URLSearchParams(window.location.search);
             let game = u.get('game') || 'zeux';
             window.Module = {arguments: [game + '/']};
-
-            function toggleFullScreen() {
-                if (!document.fullscreenElement) {
-                    document.getElementById('vergeCanvas').requestFullscreen();
-                } else {
-                    if (document.exitFullscreen) {
-                        document.exitFullscreen();
-                    }
-                }
-            }
-
-            const fullscreenButton = document.getElementById('fullscreenButton');
-            fullscreenButton.addEventListener('click', toggleFullScreen);
         </script>
         <script async type="text/javascript" src="verge2.out.js"></script>
 </body>
