@@ -1,0 +1,196 @@
+void AddEnemy(int Type, int X, int Y, string file, int data) //Adds an enemy to the map. Fairly useless right now though. ;) data is misc data for an enemy, usually for which direction it starts off facing.
+{
+ int s;
+ s=entityspawn(X, Y, file); //should be obvious :)
+ EnType[s]=Type; //give the entmy its type.
+ IsAlive[s]=True; //it's alive, of course.
+ switch(type) //Set up any extra stuff for specific entity types.
+ {
+  case 1: //worm.
+   entity.facing[s]=data; //start off moving right.
+   En[s]=10; //It has 10 energy.
+ }
+// NumEntities++;
+}
+
+void ClearEnemies() //Should be called in the autoexec of every map, to make sure that no enemies are "Carried over" from the previous map.
+{
+ int i;
+ //NumEntities=1; //start off at one - there's always at least one entity, the player. ;)
+ for(I=0; i<MaxEnemies; i++) //loop to clear all enemies.
+ { 
+  EnType[I]=0;
+  En[I]=0;
+  Hurt[i]=0;
+  Hurttime[i]=0;
+ }
+}
+
+void ProcessEnemies() //contains the AI for all the enemies. :)
+{
+ int Index, i, v; //sorry for the ambiguous variables ;)
+ For(Index=0; Index<NumEnts; Index++) 
+ {
+  //GotoXY(entity.x[index]-xwin, entity.y[index]-ywin); 
+  //Printstring(0, "E"+str(EnType[index])+" "+Str(Index));
+  
+  Switch(EnType[Index])
+  {
+   Case 1: //Worm, counter clockwise movement.
+    if(IsAlive[Index]) //entity has to be alive to process it :P
+    { 
+     v=2; //Velocity is 2
+     Frame[Index]+=4; 
+     If (Frame[Index]>=40) Frame[Index]=0;
+     if(entity.facing[index]=0) //moving right
+     { 
+      entity.specframe[Index]=Frame[Index]/10;
+      for(i=0; i<v; i++)
+      {
+       entity.x[index]++; 
+       if(GetTilePixel(entity.x[index]+16,entity.y[index],5)) //obs on top right, change direction
+       { entity.facing[index]=3; //up 
+        i=v;
+       }  
+       while (GetTilePixel(entity.x[index]+15,entity.y[index]+15,5)) entity.y[index]--; //slopes.
+      }
+     } 
+     if(entity.facing[index]=1) //moving left
+     { 
+      entity.specframe[Index]=Frame[Index]/10+4;
+      for(i=0; i<v; i++)
+      {
+       entity.x[index]--;
+       if(GetTilePixel(entity.x[index]-1,entity.y[index]+15,5)) //obs on bottom left, change direction
+       { entity.facing[index]=2; //down
+         i=v;
+       }  
+       //else if(!GetTilePixel(entity.x[index]+16,entity.y[index]-1,5)) //he's run out of floor (cieling ;)! Move him back up.
+       //{ entity.facing[index]=3; //up
+       //  i=v;
+       //}  
+       while (GetTilePixel(entity.x[index],entity.y[index],5)) entity.y[index]++; //slopes.
+      }
+     }     
+     if(entity.facing[index]=2) //moving down
+     { 
+      entity.specframe[Index]=Frame[Index]/10+8;
+      for(i=0; i<v; i++)
+      {
+       entity.y[index]++;
+       if(GetTilePixel(entity.x[index]+15,entity.y[index]+16,5)) //obs on bottom right, change direction
+       { entity.facing[index]=0; //right
+         i=v;
+       }  
+       while (GetTilePixel(entity.x[index],entity.y[index]+15,5)) entity.x[index]++; //slopes.
+      }
+     }   
+     if(entity.facing[index]=3) //moving up
+     { 
+      entity.specframe[Index]=Frame[Index]/10+12;
+      for(i=0; i<v; i++)
+      {
+       entity.y[index]--;  
+       if(GetTilePixel(entity.x[index],entity.y[index]-1,5)) //obs on top left, change direction
+       { entity.facing[index]=1; //left
+         i=v;
+       }  
+       while (GetTilePixel(entity.x[index]+15,entity.y[index],5)) entity.x[index]--; //slopes.
+      }
+     }  
+
+     //check for collision with bullets.
+
+     if(!Hurt[index]) //entity isn't "hurt"
+     {
+      if(BCollision(Index, 16, 16)) //collision with bullet
+      {
+       En[index]-=ShotDamage;
+       Hurt[index]=True;
+       //Message("Ow!", 100);
+      }
+     }
+     else //he has been hurt recently.
+     {
+      if(En[index]<=0) //he's dead ;)
+      {
+       En[index]=0; 
+       IsAlive[index]=False;
+      }
+      else //still alive
+      {
+       if(hurttime[index]<4) //display flashing frame.
+       { 
+        entity.specframe[index]=16+entity.facing[index];
+        HurtTime[index]++; 
+       }
+       else { Hurttime[index]=0; hurt[index]=0; } //time's up, back to normal.
+      }
+     }
+    
+     //check for collision with player.
+     if(!Hurting && Collision(index, 16, 16))
+     {       
+       Energy-=8;
+       Hurting=True;
+     }
+    }
+    else //enemy is not alive
+    {
+     if(entity.visible[index]) //entity is still visible, therefore it must be in its death animation.
+     {
+      Hurttime[index]++;
+      entity.specframe[index]=20+(Hurttime[index]/2);
+      if(Hurttime[index]>=12) //time's up - make it invisible.
+      {
+       Hurttime[index]=0; Hurt[index]=0;
+       entity.visible[index]=False;
+      } 
+     }
+    }
+
+   Case 2:
+  }
+ }
+}
+
+int Collision(int Index, int W, int H) //Checks for a collision between the player and the enemy. 
+{
+ if (index=plr) return false; //Just in case ;)
+ // player is to the left of entity 
+ if (entity.x[plr]+18 < entity.x[index]) return false;
+ // player is to the right of entity 
+ if (entity.x[plr]+6 > entity.x[index]+W) return false; 
+ //player is above entity  
+ if (entity.y[plr]+35 < entity.y[index]) return false; 
+ //player is under entity  
+ if (entity.y[plr]+4 > entity.y[index]+H) return false; 
+ //if it gets here, they overlap.
+ return true;   
+}
+
+int Bcollision(int Index, int W, int H) //checks for collision with a bullet and an enemy.
+{
+ int i;
+ for(i=0; i<3; i++) //check each bullet.
+ {
+  If(InAir[i]) if(BCol(index, W, H, i)) return 1;
+ }
+}
+
+int BCol(int Index, int W, int H, int i)
+{
+ // bullet is to the left of entity 
+ if (BulletX[i]+8 < entity.x[index]) return false;
+ // bullet is to the right of entity 
+ if (BulletX[i] > entity.x[index]+W) return false; 
+ //bullet is above entity  
+ if (BulletY[i]+8 < entity.y[index]) return false; 
+ //bullet is under entity  
+ if (BulletY[i] > entity.y[index]+H) return false; 
+ //if it gets here, they overlap.
+ InAir[i]=0; //kill the bullet now to avoid it later :)
+ return true;   
+}
+
+//EOF

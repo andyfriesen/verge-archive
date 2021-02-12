@@ -1,0 +1,14 @@
+event //0 - Autoexec
+{
+ if(!sysinit) Startup();
+ PaletteMorph(0,0,0,0,63);
+// AddEnemy(0, 1);
+ //AddEnemy(1, 1);
+ plr=EntitySpawn(3,50, "test.chr");
+ CameraTracking=2;
+ Tracker=plr;
+ main();
+}
+
+
+//EOF

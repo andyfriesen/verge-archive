@@ -1,0 +1,304 @@
+void Main() //Function which controls the sidescroller engine.
+{
+ int t; //Time passed between frames.
+ int done; //when done is true, the game is over.
+ int i; //for loop variable. Any questions? ;)
+ timer=0; 
+ while(!done) //Keep looping while the game is still on.
+ {
+  UpdateControls();
+  while(timer<=2) //Do nothing if the timer is less than 2; helps to prevent speed/timing issues. (essentially it forces a framerate of 33 fps, but it should be fast enough for you. ;)
+  { }
+  t=timer; //store the amount of time passed since the last frame.
+  timer=0; //reset the timer.
+  //for(i=t; i>=0; i--) //Process the entities at the proper speed.
+  //{ ProcessEntities(); }
+  ProcessZones(); //Self explanatory, again. ;)
+  ControlPlr(); //Get which buttons the player is pressing, and  change his state/speed appropriately.
+  MovePlr(); //Move the player on the screen.
+  ShowPlr(); //Show the appropriate frames for the player.
+  if(DoorStatus) DoDoors(); //if a door is opening/closing, process it.
+  Render(); //Draw the map.
+  ProcessEnemies();
+  //Rect(entity.x[plr]-xwin, entity.y[plr]-ywin, entity.x[plr]+24-xwin, entity.y[plr]+36-ywin, 171); 
+  ShowBullets(); //self explanatory.
+  GotoXY(0,0); PrintString(0, "Health: "+str(Energy));
+  GotoXY(0,20); PrintString(0, "lookup: "+str(lookup));
+  ShowPage(); //Show everything which has been drawn.
+ }
+}
+
+void ProcessZones()
+{
+ z=GetTile(entity.x[plr]+12/16, entity.y[plr]+20/16, 7);
+ if(z && zonecalled != z) 
+  { 
+   zonecalled=z; 
+   CallEvent(z); 
+   return; 
+ }
+ if(!z && zonecalled) zonecalled=0;
+}
+
+void ControlPlr() //Gets player input, and changes his state and speed appropriately.
+{
+ int s;
+ UpdateControls();
+  if (key[29]) //If ctrl is pressed increase the player's max speed, otherwise lower it to the default running speed. 
+ {
+  maxvel=24; 
+  s=5;
+ }
+ else 
+ {
+  maxvel=16; 
+  s=4;
+ }
+ if (right) 
+ {
+  if(State=Idle || State=Ducking) State=Moving;
+  velocity+=s;
+  if(entity.facing[plr]!=1) { entity.facing[plr]=1; velocity=0; }
+ }
+ if (left) 
+ {
+  if(State=Idle || State=Ducking) State=Moving;
+  velocity-=s;
+  if(entity.facing[plr]!=0) { entity.facing[plr]=0; velocity=0; }
+ }
+ if(down && !velocity)
+ {
+  State=Ducking;
+ }
+
+ if(up && State=Ducking)
+ {
+  State=Idle;
+  Unpress(5);
+ }
+ if(!up && state=Idle) lookup=false;
+ if(up && state=Idle)
+ {
+  lookup=true;
+ }
+ if(!left && !right && State=Moving) 
+ {
+  State=Idle; velocity=0;
+ }
+ if(b2)
+ {
+  if(State!=Jumping && State!=Falling && GetObs(obsDown)) 
+  {
+   State=Jumping;
+   airvel=0;
+   jumppower=60;
+  }
+  if(State=Jumping && airvel>0-25) 
+  {
+   airvel-=jumppower/5;
+   if(airvel<0-32) airvel=0-32;
+  }
+  if(jumppower>0) 
+  {
+   jumpPower-=4;
+  }
+  else 
+  { 
+   If(!Hurting) { State=Falling; jumpPower=0; UnPress(2); }
+   else if(Hurtcount>4) { State=Falling; jumpPower=0; UnPress(2); }
+  }
+ }
+ //Check for whether the player should fall.
+ if(!GetObs(obsDown) && State!=Jumping)
+ {
+  if(State!=Falling) State=Falling;
+  if(airvel<50) Airvel+=4;
+ }
+ If(!b2 && State=Jumping)
+ {
+  State=Falling; jumpPower=0;
+ }
+ if(b4) 
+ { 
+  Shoot(); 
+  Unpress(4); 
+ }
+}
+
+void MovePlr() //moves the player, based on his current state and speed.
+{
+ int o, sloped;
+ int i;
+
+ //"friction" effect.
+ if(state!=moving)
+ {
+  if(velocity>0) velocity--;
+  if(velocity<0) velocity++;
+ }
+ if(velocity>maxvel) velocity=maxvel;
+ if(velocity<0-maxvel) velocity=0-maxvel;
+ //Move the player left or right.
+
+ for(i=0; i<abs(velocity/4); i++) 
+ { 
+  o=getobs(entity.facing[plr]);
+  if(!o) //no obstruction, so normal movement.
+  { 
+   entity.x[plr]+=sgn(velocity); 
+  } 
+  else //There is an obstruction
+  {
+   i=abs(velocity/4); //regular obstruction, so break from the loop.
+  }
+  //slope up
+  while (GetTilePixel(entity.x[plr]+6,entity.y[plr]+35,5)) { entity.y[plr]--; }
+  while (GetTilePixel(entity.x[plr]+18,entity.y[plr]+35,5)) { entity.y[plr]--; }
+  //slope down
+  if (!GetTilePixel(entity.x[plr]+5,entity.y[plr]+35,5) && GetTilePixel(entity.x[plr]+5,entity.y[plr]+36,5)) entity.y[plr]++;
+  if (!GetTilePixel(entity.x[plr]+18,entity.y[plr]+35,5) && GetTilePixel(entity.x[plr]+18,entity.y[plr]+36,5)) entity.y[plr]++;
+ }
+
+ //Check for obstructions above or below the player, and change state accordingly.
+ If(GetObs(ObsUp) && State=Jumping) { State=Falling; Airvel=0; }
+ If(GetObs(ObsDown) && State=Falling) { State=Idle; Airvel=0; velocity=0; PlaySound(sndStep, 48, 128); }
+ 
+ //Move the player upwards if he's jumping.
+ If(State=Jumping)
+ {
+  for(i=0; i<abs(airvel/4); i++)
+  {
+    if(!getobs(obsUp)) entity.y[plr]+=sgn(airvel);
+  }
+ }
+
+ //Move the player downwards if he's falling.
+ If(State=Falling)
+ {
+  if(sgn(airvel)=1) //If the player is really falling..
+  {
+   for(i=0; i<airvel/4; i++)
+   {
+    if(!getobs(ObsDown)) entity.y[plr]+=sgn(airvel);
+   }
+  }
+  if(sgn(airvel)=0-1) //Or if he's still moving upwards from a previous jump..
+  {
+   for(i=0; i<abs(airvel/4); i++)
+   {
+    if(!getobs(ObsUp)) entity.y[plr]+=sgn(airvel);
+    else i=abs(airvel/4);
+   }
+  }
+ }
+}
+
+void ShowPlr()
+{
+ int i;
+ if(State=moving) Frame[plr]+=abs(velocity/5); //If the player is moving, increase the frames by his speed.
+ else if(State=Jumping) Frame[plr]+=10;  
+ else Frame[plr]++; //if he's in any other state, increase by the amount of time since the last refresh.
+ if(Frame[plr]>=80) Frame[plr]=0; //Wrap the frames around.
+ if(hurting=true) //player's been hurt!
+ {
+  if(Energy<=0) Exit("you dead :P");
+  hurtcount++; //the "pain" counter ;)
+  if(hurtcount>=50) //enough time has passed, return the player to normal.
+  { 
+   entity.visible[plr]=true; //make him visible, just in case. ;)
+   hurting=false; //no longer hurting. :P.
+   hurtcount=0; //reset the pain counter.
+  }
+  else if(hurtcount<4) //just been hurt recently
+  {
+   if(entity.facing[plr]=0) //left
+   {
+    for(i=0; i<4; i++)
+    { 
+     if(!GetTilePixel(entity.x[plr]+21, entity.y[plr]+3, 5)) 
+     { entity.x[plr]++; entity.y[plr]++; } //"bounce" the player.
+    }
+   }
+   else //right
+   {
+    for(i=0; i<4; i++)
+    { 
+     if(!GetTilePixel(entity.x[plr]+3, entity.y[plr]+3, 5)) 
+     { entity.x[plr]--; entity.y[plr]++; } //"bounce" the player.
+    }
+   }
+   entity.specframe[plr]=32+entity.facing[plr]; //display the hurt frame.
+   return; //exit the function so that another frame won't be assigned.
+  }
+  else //time to display the flashing effect.
+  {
+   entity.visible[plr]=(hurtcount/2)%2; //The flashing effect. :P
+  } 
+ }
+ if(shooting=true)
+ {
+  if(Shotdelay>5) shooting=false;
+  Switch(State)
+  {
+   Case(Idle): 
+    entity.specframe[plr]=2+entity.facing[plr];
+   Case(Moving): 
+    entity.specframe[plr]=2+entity.facing[plr];
+   Case(Falling): 
+    entity.specframe[plr]=2+entity.facing[plr];
+   Case(Ducking): 
+    entity.specframe[plr]=6+entity.facing[plr];
+  }
+ }
+ else
+ { 
+  Switch(State) //Decide which frames to display, based on the player's state.
+  {
+   Case(Idle): //If the player is idle...
+    entity.specframe[plr]=entity.facing[plr];
+   Case(Moving): //If the player is walking...
+    if(Frame[plr]=0 || Frame[plr]=40) PlaySound(sndStep, 64, 96+(64*entity.facing[plr]));
+    entity.specframe[plr]=8+(8*entity.facing[plr])+(Frame[plr]/10);
+   Case(Jumping): //If the player is jumping...
+    entity.specframe[plr]=24+(4*entity.facing[plr])+(Frame[plr]/20);
+   Case(Falling): //If the player is falling...
+    entity.specframe[plr]=32+entity.facing[plr];
+   Case(Ducking): //If the player is ducking...
+    entity.specframe[plr]=4+entity.facing[plr];
+  }
+ }
+}
+
+int Getobs(int direction) //Gets the obstructions in any direction.
+{
+ int a; 
+ int b; //stores the type of obstruction.
+ if(direction=0 || direction = 1) //Left or right.
+ {
+  b=GetTilePixel(entity.x[plr]+4+(16*direction),entity.y[plr]+4,5);
+  // b=byte[RBuf+((screenx*(entity.y[plr]+4-ywin))+entity.x[plr]+4+(16*direction)-xwin)]; //check top corner
+  If(b) return b;
+  b=GetTilePixel(entity.x[plr]+4+(16*direction),entity.y[plr]+32,5);
+  // b=byte[RBuf+((screenx*(entity.y[plr]+34-ywin))+entity.x[plr]+4+(16*direction)-xwin)]; //check bottom corner
+  If(b) return b;
+ }
+ if(direction=2 || direction=3) //Up or down.
+ {
+  direction-=2;
+  b=GetTilePixel(entity.x[plr]+6,entity.y[plr]+(36*direction),5);
+  // b=byte[RBuf+((screenx*(entity.y[plr]+(36*direction)-ywin))+entity.x[plr]+6-xwin)]; //check left corner
+  if(b) return b;
+  b=GetTilePixel(entity.x[plr]+18,entity.y[plr]+(36*direction),5);
+  // b=byte[RBuf+((screenx*(entity.y[plr]+(36*direction)-ywin))+entity.x[plr]+18-xwin)]; //check right corner
+  if(b) return b;
+ }
+ return 0;
+}
+
+int GetTilePixel (int x, int y, int l)
+{
+ return byte[vsp+(256*GetTile(x/16,y/16,l))+(x%16)+(y%16*16)];
+}
+
+//EOF

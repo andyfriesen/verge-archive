@@ -101,7 +101,13 @@ let games: array(Game.game) = [|
         title: "Teddy Grahams",
         description: "A V1 game with a battle system, it seems!",
         engine: Game.V1
-    }
+    },
+    {
+        name: "mannux",
+        title: "Mannux",
+        description: "Original V2 verion of Hatchet's classic Metroidvania.",
+        engine: Game.V2
+    },
 |];
 
 let game_with_name = (name) => {

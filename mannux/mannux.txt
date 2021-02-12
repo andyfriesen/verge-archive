@@ -1,0 +1,88 @@
+(Last updated July 5, 2000)
+
+
+   /¯¯`¯¯/¯_¯`¯/¯\  /¯/¯\  /¯/¯/ /¯/\¯\/¯/
+  / /\/ / /_/ / /\\/ / /\\/ / /_/ /  }  {
+ /_/ /_/\ _._/_/  \_/_/  \_/\__._/  /_/\_\ 
+
+Amazing isn't it? Due to popular demand, as well as a sudden burst of inspiration, Mannux has been recontinued! I've always loved this project, and I assure you that this will be finished. (Yeah, we've all heard that before ;) The engine has changed a bit since the last version, and the story, art, and music are all gonna be redone. 
+
+If you're unfamiliar with Mannux however, it is a sidescroller similar to Super Metroid in gameplay. The story is explained in the intro, and the controls are right here (soon to be customizable :)
+
+Left/Right - Move left or right.
+Down - Duck (don't worry that you turn invisible, just a missing frame ;)
+Up - Stop ducking.
+Alt - Jump.
+Ctrl - Run.
+Space - Fire.
+
+I'm sure you want to know what's new, which brings us to...
+
+==========================================================================
+
+* Things Added/Changed since last release *
+
+- Ported it to V2.5, and cleaned much of the code. (The game runs faster now, but because of the framerate cap you probably won't notice)
+- Added pixel accurate obstructions! (Actually this was added a long time ago, but not released because it was still buggy - it works [almost] perfectly now ;)
+- Added working slopes (thanks Zaratustra!) and more efficient obstruction checking. 
+- Worms now move around using a true AI, following slopes. :)
+- Added collision detection for enemies-bullets and enemies-player. (you can now kill those pesky worms, but they can also kill you too. ;)
+
+==========================================================================
+
+* Known Bugs *
+
+I'd like to think my code is perfect but that's hardly the case. Oh well, it's still beta. ;)
+
+- Walking up and down slopes isn't perfect - you may notice a jump/fall in certain spots, but I think I ironed out most of the glitches.
+- The pixel accurate obstruction code is more efficient but less accurate - it only checkes the corners of the chr. I intend to make it check more spots, once the new chr is done (which will likely have new dimensions, introducing more bugs for me to fix. Whee.)
+- Not a bug, just a missing frame - pressing down to duck works but makes you invisible.
+- The worm AI is easy to screw up (Try opening the door and have him walk up it), just a matter of adding more ifs. :)
+- The doors are still a bit buggy.
+
+==========================================================================
+
+* Todo List *
+
+This part of the file is pretty much for my own benefit, but feel free to read it and mail me suggestions if you'd like. ;)
+
+Important Stuff:
+
+- Add to the todo list. :P
+- More enemies!
+- Fix AI on the worms.
+- New tiles and Tabby chr! 
+  * extra frames required for tabby chr: Ducking, Hit frames, shooting up (and maybe on diagonals).
+- Code for shooting up.
+- Options screen:
+  * Customize controls.
+  * Save screen - necessary?
+  * What else...?
+- Ingame inventory/status screens.
+- More gameplay elements - powerups, items, etc. (need to rework the story first)
+
+Would be nice to have:
+
+- fix "center" obstructions.
+- new map scrolling for the "large" map format.
+  * each general area will have its own map, rather than each room. This allows for smooth scrolling between each area.
+  * when moving between areas, the screen will fade out like it is currently.
+- Code for shooting on diagonals.
+- Fix up the doors, they're still a tad buggy...
+
+==========================================================================
+
+* Credits *
+
+H@tchet - Most of the code found in the game ;)
+Jyrus - Tile and sprite artwork.
+ArcticFox - The game's music.
+Toen - Fixing up the story a bit.
+
+Special thanks to:
+
+aen: For making V2.5 and for coding a kick ass intro!
+Zaratustra: For solving my slopes problem. 
+
+And of course, thanks to everyone who actually downloaded this game, you're the reason why I'm still coding this thing today. :)
+

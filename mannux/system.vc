@@ -1,0 +1,79 @@
+#define True 1
+#define False 0
+
+//Movement states.
+#define Idle 0
+#define Moving 1
+#define Jumping 2
+#define Falling 3
+#define Ducking 4
+
+//Obstruction directions.
+#define obsLeft 0
+#define obsRight 1
+#define obsUp 2
+#define obsDown 3
+
+
+#define MaxEnemies 25 //shouldn't need more than this, but you never know...
+
+int PlrX, PlrY; //X and Y locations of the player (in tiles) when mapswitching.
+int sysinit; //Stores whether or not the Startup function has been run.
+int shooting, shotdelay, hurting, hurtcount, lookup; //"extra state variables.
+int Energy; //Stores the player's energy.
+int shotdamage; //Damage the bullet will do.
+int plr; //Stores the entity index of the player.
+int State; //stores the various states of the player.
+//int plrFrame; //Stores which frame the game should display for the player.
+int velocity; //How fast the player is moving left or right.
+int airvel; //How fast the player is moving up or down.
+int maxvel; //The maximum speed the player can run.
+int jumpPower; //How much "power" is left in the jump.
+int shotpic[8]; //Image variables which hold the bullet pictures.
+int sndStep, sndShot, sndJump, sndOpen, SndClose; //Sound variables to store sounds.
+int BulletX[3], BulletY[3], BulletDir[3], InAir[3]; //Bullet variables - x and y positions, bullet's direction, and whether that bullet is in the air or not.
+int img; //Misc image variable.
+int pic1, pic2, pic3, pic4, pic5; //Image variables for the title screen.
+int pt; //Pointer position on the title screen.
+int EnType[25], Frame[25]; //Entity variables..
+int Hurt[25], HurtTime[25]; //whether the enemy has been hit lately, and how much time since the last.
+int En[25]; //health of enemies.
+int IsALive[25];
+int zonecalled, z;
+int doorstatus, doorx, doory, doorcount;
+int facingtemp; //stores the player's facing when switching maps.
+int n;
+int RBuf; //the new buffer where drawing takes place. Done to allow for custom obstructions.
+
+#include "main.vc"
+#include "shooting.vc"
+#include "miscfunc.vc"
+#include "enemies.vc"
+#include "rain.vc"
+
+void Autoexec()
+{
+ setresolution(320, 240);    
+ Startup();
+ Map("intro.map");
+}
+
+void Startup() //Loads any sounds, fonts, images, etc.
+{
+ RBuf=malloc(screenx*screeny);
+ SetRenderDest(screenx, screeny, Rbuf);
+ shotpic[0]=LoadImage("firel.pcx");
+ shotpic[1]=LoadImage("firer.pcx");
+ shotpic[2]=LoadImage("fireu.pcx");
+ shotpic[3]=LoadImage("fired.pcx");
+ sndStep=CacheSound("step1l.wav");
+ sndShot=CacheSound("shoot1.wav");
+ sndOpen=CacheSound("Open.wav");
+ sndClose=CacheSound("Close.wav");
+ Energy=100; //The player starts with full energy. ;)
+ shotdamage=5;
+ PlrX=5; PlrY=9; //Set where the player is to be placed on the first map.
+ sysinit=true; //This function has been run..
+}
+
+//EOF

@@ -1,0 +1,56 @@
+event // 0 -Autoexec
+{
+ //Please excuse the not-too-pretty code. ~_^
+
+ AllowConsole(0);
+ //playmusic("blank.s3m");
+ pt = 1;
+
+ pic1=LoadImage("manux320.pcx");
+ CopySprite(0,0,320,240, pic1);
+ PaletteMorph(0,0,0,0,0);
+ ShowPage();
+ Fin();
+ Delay(300);
+ Fout();
+ Free(pic1);
+
+ pic1=LoadImage("bgtitle1.pcx");
+ PaletteMorph(0,0,0,0,0);
+ pic2=LoadImage("quit.pcx");
+ pic3=LoadImage("continue.pcx");
+ pic4=LoadImage("newgame.pcx");
+ pic5=LoadImage("point.pcx");
+ CopySprite(0,0,320,240, pic1);
+ TCopySprite(120, 60, 100, 40, pic2);
+ TCopySprite(120, 100, 100, 40, pic3);
+ TCopySprite(120, 140, 100, 40, pic4);
+ TCopySprite(100, 65+((pt-1)*40), 9, 16, pic5);
+ ShowPage(); 
+ Fin();
+ 
+ While(1)
+ {
+  CopySprite(0,0,320,240, pic1);
+  TCopySprite(120, 60, 100, 40, pic2);
+  TCopySprite(120, 100, 100, 40, pic3);
+  TCopySprite(120, 140, 100, 40, pic4);
+  TCopySprite(100, 65+((pt-1)*40), 9, 16, pic5);
+  ShowPage();
+  UpdateControls();
+  if(up && pt>1) { pt--; UnPress(5); }
+  if(down && pt<3) { pt++; UnPress(6); }
+  ShowPage();
+  If(B1)
+  {
+   Switch(pt) 
+   {
+    Case 1: exit("Bye!");
+    Case 2: Fout(); map("map00.map"); //Continue not implemented yet, instead it's a shortcut to get into the game faster ;)
+    Case 3: Fout(); map("story.map");
+   }
+  }
+ }
+}
+
+//EOF

@@ -1,0 +1,173 @@
+V2 startup. Logfile initialized.
+Sys: Initializing keyboard handler.... OK
+Sys: Initializing timer. Set 100hz.... OK
+Sys: Initializing music system.... OK
+... OK
+Initialize console.... OK
+Initializing VC interpreter
+system vclib init: 30 funcs, 64 ints (1300 bytes), 1 strings
+VC allocating 76800 bytes, ptr at 0x002C6138.
+Loading MAP intro.map. [1] ... OK
+VC allocating 76800 bytes, ptr at 0x0033A138.
+VC freeing allocated heap at 0x00376138.
+VC freeing allocated heap at 0x00389138.
+VC freeing allocated heap at 0x0039C138.
+VC freeing allocated heap at 0x003AF138.
+VC freeing allocated heap at 0x003C2138.
+vfree: Attempted to free ptr 0x0028BA40 that was not allocated. [dumping mem report]
+
+========================================
+= Memory usage report for this session =
+========================================
+Chunks currently allocated: 22 (MAXCHUNKS 1000)
+558103 total bytes allocated. 
+PARANOID is ON. (pad size: 256 pad value: 254)
+
+Per-chunk analysis: 
+[  0] Ptr at: 0x00271778 size:     2000 owner:   0 desc: strbuf
+[  1] Ptr at: 0x00277138 size:    76800 owner:   0 desc: vscreen
+[  2] Ptr at: 0x00292138 size:    38400 owner:   0 desc: gif image
+[  3] Ptr at: 0x0029C138 size:    65536 owner:   3 desc: translucency_table
+[  4] Ptr at: 0x0028C840 size:     3072 owner:   5 desc: LoadSystemVC$vars
+[  5] Ptr at: 0x0028D648 size:     2280 owner:   5 desc: LoadSystemVC$funcs
+[  6] Ptr at: 0x0028E138 size:       48 owner:   5 desc: LoadSystemVC$str
+[  7] Ptr at: 0x0028E370 size:     9223 owner:   5 desc: LoadSystemCode$sysvc
+[  8] Ptr at: 0x00290980 size:     1300 owner:   5 desc: globalint
+[  9] Ptr at: 0x002AD138 size:     6000 owner:   5 desc: vcstack
+[ 10] Ptr at: 0x002B5138 size:    65536 owner:   5 desc: movescriptbuf
+[ 11] Ptr at: 0x002C6138 size:    76800 owner:   0 desc: vcreturn
+[ 12] Ptr at: 0x00291098 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 13] Ptr at: 0x002912E0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 14] Ptr at: 0x00291528 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 15] Ptr at: 0x00291770 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 16] Ptr at: 0x0033A138 size:    76800 owner:   0 desc: vcreturn
+[ 17] Ptr at: 0x002B1FF0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 18] Ptr at: 0x002B2238 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 19] Ptr at: 0x002B2480 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 20] Ptr at: 0x002B26C8 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 21] Ptr at: 0x00355138 size:   133764 owner:   2 desc: Image_LoadPCXBuf:buf
+Loading MAP title.map. [1] ... OK
+VC freeing allocated heap at 0x002E9138.
+vfree: Attempted to free ptr 0x0028BC50 that was not allocated. [dumping mem report]
+
+========================================
+= Memory usage report for this session =
+========================================
+Chunks currently allocated: 27 (MAXCHUNKS 1000)
+647067 total bytes allocated. 
+PARANOID is ON. (pad size: 256 pad value: 254)
+
+Per-chunk analysis: 
+[  0] Ptr at: 0x00271778 size:     2000 owner:   0 desc: strbuf
+[  1] Ptr at: 0x00277138 size:    76800 owner:   0 desc: vscreen
+[  2] Ptr at: 0x00292138 size:    38400 owner:   0 desc: gif image
+[  3] Ptr at: 0x0029C138 size:    65536 owner:   3 desc: translucency_table
+[  4] Ptr at: 0x0028C840 size:     3072 owner:   5 desc: LoadSystemVC$vars
+[  5] Ptr at: 0x0028D648 size:     2280 owner:   5 desc: LoadSystemVC$funcs
+[  6] Ptr at: 0x0028E138 size:       48 owner:   5 desc: LoadSystemVC$str
+[  7] Ptr at: 0x0028E370 size:     9223 owner:   5 desc: LoadSystemCode$sysvc
+[  8] Ptr at: 0x00290980 size:     1300 owner:   5 desc: globalint
+[  9] Ptr at: 0x002AD138 size:     6000 owner:   5 desc: vcstack
+[ 10] Ptr at: 0x002B5138 size:    65536 owner:   5 desc: movescriptbuf
+[ 11] Ptr at: 0x002C6138 size:    76800 owner:   0 desc: vcreturn
+[ 12] Ptr at: 0x00291098 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 13] Ptr at: 0x002912E0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 14] Ptr at: 0x00291528 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 15] Ptr at: 0x00291770 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 16] Ptr at: 0x0033A138 size:    76800 owner:   0 desc: vcreturn
+[ 17] Ptr at: 0x002B1FF0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 18] Ptr at: 0x002B2238 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 19] Ptr at: 0x002B2480 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 20] Ptr at: 0x002B26C8 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 21] Ptr at: 0x00355138 size:   133764 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 22] Ptr at: 0x002E9138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 23] Ptr at: 0x002E39A0 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 24] Ptr at: 0x002E4B48 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 25] Ptr at: 0x002E5CF0 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 26] Ptr at: 0x0028C1B0 size:      148 owner:   2 desc: Image_LoadPCXBuf:buf
+Loading MAP story.map. [1] ... OK
+vfree: Attempted to free ptr 0x0028BC50 that was not allocated. [dumping mem report]
+
+========================================
+= Memory usage report for this session =
+========================================
+Chunks currently allocated: 31 (MAXCHUNKS 1000)
+954283 total bytes allocated. 
+PARANOID is ON. (pad size: 256 pad value: 254)
+
+Per-chunk analysis: 
+[  0] Ptr at: 0x00271778 size:     2000 owner:   0 desc: strbuf
+[  1] Ptr at: 0x00277138 size:    76800 owner:   0 desc: vscreen
+[  2] Ptr at: 0x00292138 size:    38400 owner:   0 desc: gif image
+[  3] Ptr at: 0x0029C138 size:    65536 owner:   3 desc: translucency_table
+[  4] Ptr at: 0x0028C840 size:     3072 owner:   5 desc: LoadSystemVC$vars
+[  5] Ptr at: 0x0028D648 size:     2280 owner:   5 desc: LoadSystemVC$funcs
+[  6] Ptr at: 0x0028E138 size:       48 owner:   5 desc: LoadSystemVC$str
+[  7] Ptr at: 0x0028E370 size:     9223 owner:   5 desc: LoadSystemCode$sysvc
+[  8] Ptr at: 0x00290980 size:     1300 owner:   5 desc: globalint
+[  9] Ptr at: 0x002AD138 size:     6000 owner:   5 desc: vcstack
+[ 10] Ptr at: 0x002B5138 size:    65536 owner:   5 desc: movescriptbuf
+[ 11] Ptr at: 0x002C6138 size:    76800 owner:   0 desc: vcreturn
+[ 12] Ptr at: 0x00291098 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 13] Ptr at: 0x002912E0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 14] Ptr at: 0x00291528 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 15] Ptr at: 0x00291770 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 16] Ptr at: 0x0033A138 size:    76800 owner:   0 desc: vcreturn
+[ 17] Ptr at: 0x002B1FF0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 18] Ptr at: 0x002B2238 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 19] Ptr at: 0x002B2480 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 20] Ptr at: 0x002B26C8 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 21] Ptr at: 0x00355138 size:   133764 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 22] Ptr at: 0x002E9138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 23] Ptr at: 0x002E39A0 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 24] Ptr at: 0x002E4B48 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 25] Ptr at: 0x002E5CF0 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 26] Ptr at: 0x0028C1B0 size:      148 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 27] Ptr at: 0x00394540 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 28] Ptr at: 0x003A9138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 29] Ptr at: 0x003BC138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 30] Ptr at: 0x003CF138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+Loading MAP map00.map. [4] ... OK
+vfree: Attempted to free ptr 0x002E1358 that was not allocated. [dumping mem report]
+
+========================================
+= Memory usage report for this session =
+========================================
+Chunks currently allocated: 31 (MAXCHUNKS 1000)
+954283 total bytes allocated. 
+PARANOID is ON. (pad size: 256 pad value: 254)
+
+Per-chunk analysis: 
+[  0] Ptr at: 0x00271778 size:     2000 owner:   0 desc: strbuf
+[  1] Ptr at: 0x00277138 size:    76800 owner:   0 desc: vscreen
+[  2] Ptr at: 0x00292138 size:    38400 owner:   0 desc: gif image
+[  3] Ptr at: 0x0029C138 size:    65536 owner:   3 desc: translucency_table
+[  4] Ptr at: 0x0028C840 size:     3072 owner:   5 desc: LoadSystemVC$vars
+[  5] Ptr at: 0x0028D648 size:     2280 owner:   5 desc: LoadSystemVC$funcs
+[  6] Ptr at: 0x0028E138 size:       48 owner:   5 desc: LoadSystemVC$str
+[  7] Ptr at: 0x0028E370 size:     9223 owner:   5 desc: LoadSystemCode$sysvc
+[  8] Ptr at: 0x00290980 size:     1300 owner:   5 desc: globalint
+[  9] Ptr at: 0x002AD138 size:     6000 owner:   5 desc: vcstack
+[ 10] Ptr at: 0x002B5138 size:    65536 owner:   5 desc: movescriptbuf
+[ 11] Ptr at: 0x002C6138 size:    76800 owner:   0 desc: vcreturn
+[ 12] Ptr at: 0x00291098 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 13] Ptr at: 0x002912E0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 14] Ptr at: 0x00291528 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 15] Ptr at: 0x00291770 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 16] Ptr at: 0x0033A138 size:    76800 owner:   0 desc: vcreturn
+[ 17] Ptr at: 0x002B1FF0 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 18] Ptr at: 0x002B2238 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 19] Ptr at: 0x002B2480 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 20] Ptr at: 0x002B26C8 size:       68 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 21] Ptr at: 0x00355138 size:   133764 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 22] Ptr at: 0x002E9138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 23] Ptr at: 0x002E39A0 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 24] Ptr at: 0x002E4B48 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 25] Ptr at: 0x002E5CF0 size:     4004 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 26] Ptr at: 0x0028C1B0 size:      148 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 27] Ptr at: 0x00394540 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 28] Ptr at: 0x003A9138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 29] Ptr at: 0x003BC138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+[ 30] Ptr at: 0x003CF138 size:    76804 owner:   2 desc: Image_LoadPCXBuf:buf
+Loading MAP map01.map. [7] ... OK
+Sys: Exiting with message: 

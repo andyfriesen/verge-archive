@@ -1,0 +1,81 @@
+// 0 -Autoexec
+event {
+  PlayMusic("alin07s3.s3m");
+  StartUp();
+
+  // >> code assumes all images have matching palettes <<
+
+  img=LoadImage("tabby.pcx");
+
+  ntall=image_tall*2;
+  nwide=image_wide*2;
+  limit=ntall-video_tall;
+
+  imarr[0]=LoadImage("art.pcx");
+  imarr[1]=LoadImage("story.pcx");
+  imarr[2]=LoadImage("maps.pcx");
+  imarr[3]=LoadImage("music.pcx");
+  imarr[4]=LoadImage("code.pcx");
+  imx=0-video_wide;
+
+  UnPress(1);
+  timer=0;
+  mult=7;
+  n=0;
+  while (n < limit*mult) {
+    // lighting
+    if (n/mult < limit/10) {
+      PaletteMorph(0,0,0,0, (n/mult)*64/(limit/10));
+    }
+
+    // backdrop
+    ScaleSprite(0, 0-ntall+video_tall+(n/mult), nwide/2,ntall/2,
+      nwide,ntall, img);
+    if (n*5/(limit*mult) != graphic) {
+      imx=0-(video_wide+(video_wide-(video_wide*3/4)));
+    }
+    graphic=n*5/(limit*mult);
+    // credits
+    TCopySprite(imx*3/4,0, 320,240, imarr[graphic]);
+    ShowPage();
+
+    UpdateControls();
+    if (b1) {
+      n=limit*mult+1;
+    }
+
+    while (timer) {
+      timer--;
+      if (n < limit*mult) n++;
+      imx++;
+    }
+  }
+
+  if (n > limit*mult) {
+    FOut();
+  } else {
+    // intro fadeout sequence
+    timer=0;
+    mult=4;
+    n=0;
+    while (n < 150*mult) {
+      PaletteMorph(0,0,0,0, 63-(n*64/(150*mult)));
+
+      ScaleSprite(0-(n/mult),0-(n/mult), nwide/2,ntall/2,
+        nwide+(n/mult), ntall+(n/mult), img);
+      ShowPage();
+
+      while (timer) {
+        timer--; n++;
+      }
+    }
+  }
+
+  for (n=0; n<5; n++) {
+    free(imarr[n]);
+  }
+
+  Map("title.map");
+}
+
+// EOF

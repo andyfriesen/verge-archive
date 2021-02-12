@@ -1,0 +1,157 @@
+
+// hAcK haCK HAck HaCk
+
+#define image_wide image_width
+#define image_tall image_height
+#define video_wide screenx
+#define video_tall screeny
+
+int limit;
+int ntall,nwide;
+int imarr[5];
+int imx;
+int graphic;
+int mult;
+int breaker;
+
+int abs(int value) //Returns the absolute value of the number.
+{
+ if (value<0) return 0-value;
+ return value;
+}
+
+int sgn(int value) //Returns the sign of the number.
+{
+ if(value>0) return 1;
+ if(value<0) return 0-1;
+ return 0;
+}
+
+//Note, to use this function, the autoexec event of any map you switch to must have an Entityspawn(PlrX, PlrY, chrpic); for it to work (chrpic being the name of the .chr file to spwan, of course).
+void MapSwitch(int X, int Y, string m)
+{
+ facingtemp=entity.facing[plr]; //Make sure the player is facing the same direction on the new map.
+ PlrX=X; PlrY=Y; map(m);
+}
+
+void Delay(int d) //A short delay function. (note that it completely freezes the engine; nothing is redrawn.)
+{
+ timer=0;
+ while(timer<d) { }
+ timer = 0;
+}
+
+// Just a little function to display all the credit screens in the intro..
+// makes the intro code a little more readable. ;)
+void IntroPic(string file) {
+  FOut();
+  img=LoadImage(file);
+  CopySprite(0,0, 320,240, img);
+  ShowPage();
+  FIn();
+  timer=0;
+  // The 1 and a half second wait.
+  while (timer<150) {
+    UpdateControls();
+    if (b1) {
+      FOut();
+      Map("Title.map");
+    } //Make sure that the player isn't forced to sit through 30 seconds of intro. :)
+  }
+  FOut();
+  img=LoadImage("tabby.pcx");
+  //Redisplay the original image.
+  ScaleSprite(0-100, 0-n, 320, 418, 640, 836, img);
+  ShowPage();
+  FIn();
+}
+
+// Quick fadeout.
+void FOut() 
+{
+ int a;
+ for(A=63; A>0; A--)
+ {
+  PaletteMorph(0,0,0,0,A);
+  Delay(1);
+ }
+}
+
+void Fin() //Quick Fadein.
+{
+ int a;
+ For(A=0; A<63; A++)
+ {
+  PaletteMorph(0,0,0,0,A);
+  Delay(1);
+ }
+}
+
+void WEpress() //Function which waits for the user to press enter.
+{
+ Unpress(1);
+ While(!B1)
+ {
+  UpdateControls();
+ }
+ Unpress(1);
+}
+
+//NOTE: Doors would be screwy if one opened/closed at the same time as another. So make sure doors are far enough apart to prevent this.
+
+void OpenDoor(int x, int y)
+{
+ if(GetTile(x,y,5)) { DoorX=x; DoorY=y; DoorStatus=1; PlaySound(sndOpen, 64, 128); }
+}
+
+void CloseDoor(int x, int y)
+{
+ if(!GetTile(x,y,5)) { DoorX=x; DoorY=y; DoorStatus=2; PlaySound(sndClose, 64, 128); }
+}
+
+void DoDoors()
+{
+ if(DoorStatus=1) //Door opening.
+ {
+  doorcount++;
+  SetTile(doorx, doory, 5, 0);
+  SetTile(doorx, doory+1, 5, 0);
+  SetTile(doorx, doory+2, 5, 0);
+  SetTile(doorx, doory+3, 5, 0);
+  SetTile(doorx, doory, 0, 105+(doorcount/4));
+  SetTile(doorx, doory+1, 0, 123+(doorcount/4));
+  SetTile(doorx, doory+2, 0, 141+(doorcount/4));
+  SetTile(doorx, doory+3, 0, 159+(doorcount/4));
+  if(Doorcount>=8)
+  {
+   DoorStatus=0;     
+   Doorcount=0;
+  }
+ }
+ if(DoorStatus=2) //Door closing.
+ {
+  doorcount++;
+  SetTile(doorx, doory, 5, 756);
+  SetTile(doorx, doory+1, 5, 756);
+  SetTile(doorx, doory+2, 5, 756);
+  SetTile(doorx, doory+3, 5, 756);
+  SetTile(doorx, doory, 0, 107-(doorcount/4));
+  SetTile(doorx, doory+1, 0, 125-(doorcount/4));
+  SetTile(doorx, doory+2, 0, 143-(doorcount/4));
+  SetTile(doorx, doory+3, 0, 161-(doorcount/4));
+  if(Doorcount>=12)
+  {
+   DoorStatus=0; 
+   Doorcount=0;
+  }
+ }
+}
+
+/*
+int GetBufPixel(int x, int y, int Buf)
+{
+ return byte[Buf+((screenx*y)+x)];
+}
+*/
+
+//EOF

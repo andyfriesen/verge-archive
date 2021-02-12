@@ -1,0 +1,36 @@
+event // 0 -Autoexec
+{
+ //playmusic("blank.s3m");
+ img=LoadImage("notes1.pcx");
+ PaletteMorph(0,0,0,0,0);
+ TCopySprite(0,0,320, 240, img);
+ ShowPage();
+ Fin(); 
+ WEpress();
+ Fout();
+ img=LoadImage("notes2.pcx");
+ PaletteMorph(0,0,0,0,0);
+ TCopySprite(0,0,320, 240, img);
+ ShowPage();
+ Fin(); 
+ WEpress();
+ Fout();
+ img=LoadImage("notes3.pcx");
+ PaletteMorph(0,0,0,0,0);
+ TCopySprite(0,0,320, 240, img);
+ ShowPage();
+ Fin(); 
+ WEpress();
+ Fout();
+ img=LoadImage("notes4.pcx");
+ PaletteMorph(0,0,0,0,0);
+ TCopySprite(0,0,320, 240, img);
+ ShowPage();
+ Fin(); 
+ WEpress();
+ Fout();
+ RectFill(0,0, 319, 239, 0);
+ map("map00.map");
+}
+ 
+//EOF

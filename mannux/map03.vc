@@ -1,0 +1,43 @@
+event //0 - Autoexec
+{
+ if(!sysinit) Startup();
+ ClearEnemies();
+ DoorStatus=0;
+ //AddEnemy(0, 1);
+ //AddEnemy(1, 1);
+ plr=EntitySpawn(PlrX, PlrY, "tabby.chr");
+ entity.y[plr]+=12;
+ entity.facing[plr]=facingtemp;
+ ShowPlr();
+ CameraTracking=2;
+ Tracker=plr;
+ InitRain();
+ HookRetrace(Rain);
+ Render(); ShowPage();
+ Fin();
+ main();
+}
+
+event //1 - Open Door
+{
+ OpenDoor(3, 83);
+}
+
+event //2 - Close Door
+{
+ CloseDoor(3, 83);
+}
+
+event //3 - To Map02
+{
+ FOut(); 
+ MapSwitch(75, 9, "map02.map");
+}
+
+event //4 - To Map04 (Pit)
+{
+ FOut(); 
+ MapSwitch(56, 1, "map04.map");
+}
+
+//EOF

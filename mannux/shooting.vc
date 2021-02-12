@@ -1,0 +1,68 @@
+void Shoot()
+{
+ int i;
+ //for(i=0; i<3; i++) Numshots+=InAir[i];
+ If(ShotDelay>5)
+ {
+  //NumShots++;
+  for(i=0; i<3; i++)
+  {
+   if(!InAir[i]) 
+   {
+    PlaySound(sndShot, 63, 96+(64*entity.facing[plr]));
+    If(State=Jumping) State=Falling;
+    Shooting=True;
+    ShotDelay=0;
+    if(State!=Ducking)
+    {
+     if(!lookup)
+     {
+      BulletX[i]=entity.x[plr]-8+(32*entity.facing[plr]);
+      BulletY[i]=entity.y[plr]+12;
+      BulletDir[i]=entity.facing[plr];
+     }
+     else
+     {
+      BulletX[i]=entity.x[plr]+12;
+      BulletY[i]=entity.y[plr]+6;
+      BulletDir[i]=2;
+     }
+    }
+    else
+    {
+     BulletX[i]=entity.x[plr]+16+(8*entity.facing[plr]);
+     BulletY[i]=entity.y[plr]+28;
+     BulletDir[i]=entity.facing[plr];
+    }
+    InAir[i]=1;
+    return;
+   }
+  }
+ }
+}
+
+void ShowBullets()
+{
+ int i;
+ if(shotdelay<=10) ShotDelay++;
+ for(i=0; i<3; i++)
+ {
+  if(InAir[i]=1)
+  {
+   TCopySprite(BulletX[i]-xwin, BulletY[i]-ywin, 8, 8, ShotPic[BulletDir[i]]);   
+   if(BulletDir[i]<2)
+   {
+    if(BulletDir[i]=1) BulletX[i]+=8;
+    else BulletX[i]-=10;
+    if(GetTilePixel(BulletX[i]+(8*BulletDir[i]), BulletY[i]+4, 5))    InAir[i]=0;
+   }
+   else 
+   {
+    BulletY[i]-=8;
+    if(GetTilePixel(BulletX[i]+4, BulletY[i], 5)) InAir[i]=0;
+   }
+  }
+ }
+}
+
+//EOF

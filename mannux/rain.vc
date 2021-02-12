@@ -1,0 +1,66 @@
+//Rain script made by CYwolf.
+
+#define numdrops 50
+#define maxval 65536
+
+int dropx[numdrops];
+int dropy[numdrops];
+
+int wind;
+int gust;
+
+int hspeed;
+int vspeed;
+
+int rainstyle;
+int rainsound;
+
+void InitRain()
+{  int i;
+   for(i=0; i<numdrops; i++)
+   {  dropx[i] = Random(maxval);
+      dropy[i] = Random(maxval);
+   }
+   hspeed = 500;
+   vspeed = 600;
+   //rainsound = CacheSound("rain.wav");
+}
+
+void Rain()
+{  int i, j, k, l, m;
+   
+
+   if(!gust)
+   {  if(wind > 0) wind--;
+      else if(Random(10) > 7) gust = Random(50); // degrees!
+   } else
+   {  if(wind < gust) wind++;
+      else if(Random(10) > 6) gust = 0;
+   }
+
+   
+   for(i=0; i<numdrops; i++)
+   {  j = ScreenX * dropx[i] / maxval;
+      k = ScreenY * dropy[i] / maxval;
+      dropx[i] += hspeed * cos(270 - wind) / maxval;
+      dropy[i] -= Random(3000) + vspeed * sin(270 - wind) / maxval;
+      if(dropx[i] < 0)
+      {  dropx[i] = maxval - dropx[i];
+         j = ScreenX * dropx[i] / maxval;
+      }
+      if(dropy[i] > maxval)
+      {  dropy[i] = maxval - dropy[i];
+         k = ScreenY * dropy[i] / maxval;
+      }
+      l = ScreenX * dropx[i] / maxval;
+      m = ScreenY * dropy[i] / maxval;
+      if(vspeed < 1000)
+      {  j = l + j / 2;
+         k = m + k / 2;
+      }
+      //if(!GetTile(l / 16, m / 16, 6))
+      Line(j,k,l,m, 15);
+      SetPixel(l,m, 30);
+   }
+   //ShowPage();
+}
