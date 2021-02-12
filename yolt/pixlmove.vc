@@ -15,7 +15,7 @@ void PixelMove()
    {UpdateControls();
     UpdateZone();
 
-//- Check Obstructions & Entities-\\
+//- Check Obstructions & Entities
     swall=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+16)/16,6);
     nwall=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+10)/16,6);
     wwall=GetTile((entity.x[bongchr])/16,(entity.y[bongchr]+12)/16,6);
@@ -32,21 +32,21 @@ void PixelMove()
      {if(entsonscreen[i]!=bongchr)
         SetTile(entity.x[entsonscreen[i]]/16,entity.y[entsonscreen[i]]/16,6,1);}
       
-//- Set Facing -\\
+//- Set Facing 
     if(down) entity.facing[bongchr]=0;
     if(up) entity.facing[bongchr]=1;
     if(right) entity.facing[bongchr]=2;
     if(left) entity.facing[bongchr]=3;
 
-//- No Movement -\\
+//- No Movement 
     if(!up && !down && !left && !right)
      {frametimer=0;
       SetIdleFrame();}
 
-//- Adjacent Activation Compatability -\\
+//- Adjacent Activation Compatability 
     if(b1) CallZone(entity.facing[bongchr]);
 
-//- Movement Coding -\\
+//- Movement Coding 
     if(down && !swall)
      {ProcessDownMovement();
       entity.y[bongchr]++;
@@ -66,7 +66,7 @@ void PixelMove()
         frametimer++;}
       entity.x[bongchr]--;}
 
-//- Various Movement Checks -\\
+//- Various Movement Checks 
     if(up && down && !left && !right)
      {frametimer=0;
       SetIdleFrame();}
@@ -94,9 +94,10 @@ void PixelMove()
     if(left && wwall && !up && !down) entity.specframe[bongchr]=LFRAME_1;
     if(left && wwall && up && down) entity.specframe[bongchr]=LFRAME_1;
 
-//- Delay Between Refreshes -\\
-    for(i=0; i<movedelay; i++)
-     {}
+//- Delay Between Refreshes 
+    //for(i=0; i<movedelay; i++)
+    // {}
+    
     Render();
     ShowPage();}
  }
