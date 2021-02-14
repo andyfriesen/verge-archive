@@ -93,9 +93,16 @@ let games: array(Game.game) = [|
     {
         name: "yolt",
         title: "You Only Live Thrice",
-        description: "A classic Jimmy Bong compo game by Eldritch / GameMaster Ben",
+        description: "1st Jimmy Bong compo game by Eldritch / GameMaster Ben",
         engine: Game.V2
     },
+    {
+        name: "tgwmm",
+        title: "The Guy Who Mugged Me",
+        description: "2nd Jimmy Bong compo game by Eldritch / GameMaster Ben. ",
+        engine: Game.V2
+    },
+    
         {
         name: "teddy",
         title: "Teddy Grahams",
@@ -137,7 +144,20 @@ let games: array(Game.game) = [|
         title: "GBA Map editor",
         description: "A prototype of a map editor, intended to use to make GBA games (obviously didn't happen!) Made by Hatchet. ",
         engine: Game.V2
+    },
+    {
+        name: "casino",
+        title: "Casino",
+        description: "A 4 Colors of Verge compo entry. ",
+        engine: Game.V2
+    },
+        {
+        name: "babel",
+        title: "Beyond Babel",
+        description: "A Verge Olympics 2002 game, by choris and infey. ",
+        engine: Game.V2
     }
+    
     /*  Does not currently work
     {
         name: "fugue",
@@ -146,6 +166,8 @@ let games: array(Game.game) = [|
         engine: Game.V2
     }
     */
+
+    
     
     
 |];
