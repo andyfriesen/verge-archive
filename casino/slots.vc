@@ -1,0 +1,219 @@
+int slstart[3];
+int dshow[3];
+int btimer;
+int sPlayed[3];
+
+void btime()
+{
+ btimer++;
+}
+
+void ResetSlotGlobals()
+{
+ int i;
+ for (i=0; i<3; i++)
+ {
+  slstart[i]=0;
+  sPlayed[i]=0;
+  dshow[i]=0;
+ }
+ btimer=0;
+}
+
+int SlotsM()
+{
+ int i, smach, simgs, t, click, done, countdown, conf, dplays, prize;
+ int bet;
+ string result;
+ bet=BetMenu();
+ if(bet>0) money-=bet;
+ else return 0;
+ /*
+ if (money<10)
+ {
+  Msg("This game's minimal cost is $10! You only have $9! See ya.");
+  Unpress(1);
+  tcopysprite(0,0,320, 240, bg);
+  return 0;
+ }
+ */
+ ResetSlotGlobals();
+ smach=LoadImage("smachine.pcx");
+ simgs=LoadImage("slots.pcx");
+ //click=CacheSound("select.wav");
+ //conf =CacheSound("confirm.wav");
+ hooktimer(btime);
+ Unpress(1);
+ while (!b1)
+ {
+  UpdateControls();
+  copysprite(xc,yc,160,140,smach);
+  SetClipRect(xc+36,yc+55,xc+59,yc+86);
+  copysprite(xc+36,yc+55,24,192,simgs);
+  SetClipRect(xc+68,yc+55,xc+91,yc+86);
+  copysprite(xc+68,yc+55,24,192,simgs);
+  setClipRect(xc+100,yc+55,xc+123,yc+86);
+  copysprite(xc+100,yc+55,24,192,simgs);
+  RestoreRenderSettings();
+  ShowPage();
+ }
+ Unpress(1);
+ for (i=0; i<3; i++)
+ {
+  slstart[i]++;
+ }
+ i=0;
+ while (!done)
+ {
+  UpdateControls();
+  if (!countdown)
+  {
+   if (b1)
+   {
+    countdown=300;
+    btimer=0;
+   }
+  }
+
+  if (countdown)
+  {
+   if (btimer) {
+    countdown-=btimer;
+    btimer=0;
+   }
+
+  }
+  if (countdown && countdown<300)
+  {
+   dplays=1;
+   dshow[0]=1;
+   if (!sPlayed[0]) {
+    PlaySound(confirm, 64, 0);
+    sPlayed[0]=1;
+   }
+  }
+  if (countdown && countdown<200)
+  {
+   dshow[1]=1;
+   if (!sPlayed[1]) {
+    PlaySound(confirm, 64, 128);
+    sPlayed[1]=1;
+   }
+  }
+  if (countdown && countdown<100)
+  {
+   dshow[2]=1;
+   if (!sPlayed[2]) {
+    PlaySound(confirm, 64, 255);
+    sPlayed[2]=1;
+   }
+   done=1;
+  }
+  for (t=0; t<3; t++)
+  {
+   if (dshow[t] != 1) slstart[t]+=Random(50);
+  }
+
+  for (t=0; t<3; t++)
+  {
+   SetClipRect(xc+36+(t*32),yc+55, xc+59+(t*32), yc+86);
+   copysprite(xc+36+(t*32),yc+55-((slstart[t]%6)*32), 24, 192, simgs);
+   RestoreRenderSettings();
+  }
+  if(!dplays) PlaySound(select, 64, 128);
+  Delay(5);
+  //Center(1, 141, str(money));
+  ShowPage();
+ }
+ free(smach);
+ free(simgs);
+ result=str(slstart[0]%6)+str(slstart[1]%6)+str(slstart[2]%6);
+ if (!strcmp(result, "000")) prize=20*bet;
+ if (!strcmp(result, "111")) prize=5*bet;
+ if (!strcmp(result, "222")) prize=1*bet;
+ if (!strcmp(result, "333")) prize=40*bet;
+ if (!strcmp(result, "444")) prize=3*bet;
+ if (!strcmp(result, "555")) prize=10*bet;
+ if (!strcmp(result, "045")) prize=50*bet;
+ if (!strcmp(result, "313")) prize=50*bet;
+ if (!strcmp(result, "010")) prize=50*bet;
+ Delay(100);
+ if (!prize)
+ {
+  if(money<=0) return 0;
+  if (Prompt("You lose. Play again?", "Yes", "No"))
+  {
+   tcopysprite(0,0,320, 240, bg);
+   Unpress(1);
+  }
+  else
+  {
+   tcopysprite(0,0,320, 240, bg);
+   SlotsM();
+  }
+ }
+ else
+ {
+  money+=prize;
+  if (Prompt("You win $"+str(prize)+"! Play again?", "Yes", "No"))
+  {
+   tcopysprite(0,0,320, 240, bg);
+   Unpress(1);
+  }
+  else
+  {
+   tcopysprite(0,0,320, 240, bg);
+   SlotsM();
+  }
+ }
+}
+
+int cantbet[5];
+int BetMenu()
+{
+ int done, result, pointer;
+ cantbet[4]=0; cantbet[3]=0; cantbet[2]=0; cantbet[1]=0; cantbet[0]=0;
+ if(money<25) cantbet[4]=2;
+ if(money<10) cantbet[3]=2;
+ if(money<5) cantbet[2]=2;
+ if(money<2) cantbet[1]=2;
+ while(!done)
+ {
+  updatecontrols();
+  Box(90,103,230,164);
+  Center(1, 106, "Which slot machine will you play?");
+  
+  TCopysprite(152, 115, 5,7, dollar);  
+  Center(1, 116, "1");
+  TCopysprite(152, 125, 5,7, dollar);  
+  Center(1, 126, "2");
+  TCopysprite(152, 135, 5,7, dollar);  
+  Center(1, 136, "5");
+  TCopysprite(150, 145, 5,7, dollar);  
+  Center(1, 146, "10");
+  TCopysprite(150, 155, 5,7, dollar);  
+  Center(1, 156, "25");
+  TBox(148, 114+(10*pointer), 164, 122+(pointer*10));
+  showpage();
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=5; Playsound(select, 63, 128); }
+  if(down) { Unpress(6); pointer++; if(pointer>5) pointer=0; Playsound(select, 63, 128); }
+  if(b1) 
+  {
+   if(!cantbet[pointer])
+   {
+    done++;
+    Playsound(confirm, 63, 128);
+    switch(pointer)
+    {
+     case 0: result=1;
+     case 1: result=2;
+     case 2: result=5;
+     case 3: result=10;
+     case 4: result=25;
+    }
+   }
+   else Playsound(error, 63, 128);
+  }
+ }
+ return result;
+}

@@ -1,0 +1,502 @@
+event // 0 Automatic Execution
+ {if(flags[3]) SetTile(5,37,2,0);
+  if(flags[4]) SetTile(6,37,2,0);
+  if(flags[5]) SetTile(7,37,2,0);
+  if(flags[6]) SetTile(8,37,2,0);
+  if(flags[7]) SetTile(9,37,2,0);
+  if(flags[8]) SetTile(10,37,2,0);
+  Render(); ProcessEntities(); ShowPage();
+  InitMap("ohmcs.map","ohmcs.s3m");
+  if(lives==2 && flags[2] && !winflag && !loaded)
+   {Text("U","Double-Oh-Nothing, you must be more",
+              "careful.  I can only revive you once",
+              "more after this.","",4);
+    Text("Bong","It's not my fault!","","","",3);}
+  if(lives==1 && !winflag && !loaded)
+   {Text("U","This is it, Double-Oh-Nothing.  I",
+             "can't revive you anymore.","","",4);
+    Text("Bong","Oh, fiddlesticks.","","","",3);}
+  if(winflag==3)
+   {Text("U","Well, I guess I can't expect much more",
+             "than this from you, Bong.  But when did",
+             "you start fleeing from certain death?","",4);
+    Text("Bong","I really don't know what came over me,",
+                "U.  Cowardice is completely out of",
+                "character for me.","",3);
+    Text("U","Stupidity, on the other hand...","","","",4);
+    winflag=0;}
+  if(!flags[2])
+   {lives=3;
+    PartyMove("Z5");
+    cameratracking=0; ywin=30;
+    Render(); ShowPage();
+    FadeIn(50);
+    Text("N","Bong, do you realize you died?","","","",2);
+    Text("Bong","Of course I do, N.  It's not the first",
+                "time it's happened.","","",3);
+    Text("N","Bong, that's the 96th time you've died",
+             "this week alone!  The bills for your",
+             "usage of the Revivifier has gone off",
+             "the charts!",2);
+    Text("Bong","How expensive can resurrective",
+                "technology be?","","",3);
+    Text("N","Bong, you're an idiot.","","","",2);
+    Text("Bong","Oh come now, N, please don't",
+                "say things like that.  You're",
+                "insulting idiots everywhere!","",3);
+    Text("N","*sigh*  Bong, I have an assignment for",
+             "you.  It's a matter of extreme",
+             "importance, and the fate of the world",
+             "depends on its success.",2);
+    Text("Bong","I don't believe in fate, N.  Or",
+                "common sense, for that matter.","","",3);
+    Text("N","Shut up, Bong.  The woman on your right",
+             "is Dr. Medusa Farnsworth, a world-",
+             "renowned physicist.  She needs our",
+             "protection.",2);
+    Text("Farnsworth","Hello, Mr. Bong.","","","",1);
+    Text("Bong","Call me Jimmy, please.  ...N, if she's",
+                "so 'world-renowned,' how come I've",
+                "never heard of her?","",3);
+    Text("N","Because you're an idiot, you idiot.","","","",2);
+    Text("Bong","Oh, sorry.  I must be having amnesia",
+                "and deja vu at the same time.  I think",
+                "I've forgotten this before.","",3);
+    Text("Narrator","The TDA would like to take this moment",
+                    "to apologize for stealing a line from",
+                    "Steven Wright just now.","",4);
+    PartyMove("Z0W100Z10W100Z0W100Z15W100Z26");
+    Text("Bong","Who keeps saying stuff like that!?","","","",3);
+    PartyMove("Z5");
+    Text("N","Anyway, Dr. Farnsworth will explain her",
+             "situation.","","",2);
+    Text("Farnsworth","Thank you, N.","","","",1);
+    Text("Farnsworth","There is a man who lives in the moors",
+                      "north of here.  His name is Charles",
+                      "Sandburger.","",1);
+    Text("Bong","Fascinating.  Who comes up with all of",
+                "these stupid names?","","",3);
+    Text("Farnsworth","...anyway, Sandburger is an evil",
+                      "genius with sadistic plans.  He's",
+                      "created a device that could wipe",
+                      "out every living thing on earth.",1);
+    Text("Bong","Destroy every living creature on",
+                "earth?  Good lord, that's brilliant!",
+                "He must have the creative mind of the",
+                "writers of 'Spice World!'",3);
+    Text("Farnsworth","...uh...right.  This device he's",
+                      "created is called a 'Lunar",
+                      "Distortion Ray.'","",1);
+    Text("Farnsworth","It can theoretically be used to",
+                      "alter the gravitational pull of",
+                      "the moon on the earth.","",1);
+    Text("Farnsworth","Such an event would cause a",
+                      "violent pulling sensation on",
+                      "the hair of every human on the",
+                      "planet.",1);
+    Text("Farnsworth","As a result, everybody's heads",
+                      "would literally explode.","","",1);
+    PartyMove("W100Z0W70Z29W50Z0W50Z5");
+    Text("Bong","What?  That's absurd.  It'd make",
+                 "way more sense if you had said",
+                 "the tides would change and drown",
+                 "everyone.",3);
+    Text("Bong","I mean, it would make the plot much",
+                "more believeable.","","",3);
+    Text("N","Deal with it, Bong.","","","",2);
+    Text("Farnsworth","Anyway, the ray won't work unless",
+                      "it's programmed with the proper",
+                      "algorithm.","",1);
+    Text("Farnsworth","And due to the complexity of the",
+                      "device, I'm the only one capable of",
+                      "completing such a program.","",1);
+    Wait(200,1);
+    Text("Bong","This is the worst storyline I've",
+                "ever heard.","","",3);
+    Text("N","Whether you like it or not, Bong,",
+             "you are hereby assigned to be Dr.",
+             "Farnsworth's protector.","",2);
+    Text("N","There will be a taxi waiting outside",
+             "to take her back to her hotel in",
+             "downtown London.  You will escort her.","",2);
+    Text("N","Be sure you stop in U's laboratory to",
+             "pick up the necessary equipment.",
+             "And don't come back here until the",
+             "mission is finished.  That is all.",2);
+    PartyMove("F0");
+    flags[2]=1;
+    CallEvent(1);}
+  loaded=0;
+  PixelMove();}
+
+event // 1 Warp to U's Lab
+ {FadeOut(30);
+  Warp(8,34,1);
+  PartyMove("Z0F0");
+  cameratracking=1;
+  Render(); ShowPage();
+  FadeIn(30);
+  Text("U","Well, Double-Oh-Nothing, I",
+           "hope you're happy.  N has once",
+           "again restricted your usage of",
+           "the Revivifier.",4);
+  Text("Bong","Oh well, I'm sure it won't matter.",
+              "Not as long as you give me some",
+              "ample antiterrorism devices.","",3);
+  Text("U","Double-Oh-Nothing, you don't NEED",
+           "antiterrorist equipment.  You're only",
+           "on a protection assignment.","",4);
+  Text("Bong","Oh, I'll take care of that.","","","",3);
+  Text("U","That's what I was afraid of.  Your",
+           "equipment is here on the table, so",
+           "be sure to pick it up.","",4);
+  Text("U","Also, there's a battle drone in",
+           "that alcove in the corner that you",
+           "can train with.","",4);
+  Text("Bong","Okay, then.","","","",3);
+  PartyMove("Z5W50");
+  Text("Bong","Hey, that thing looks just like...","",
+              "The Guy Who Mugged Me!","",3);
+  Text("U","Yes, it's a replica of one",
+           "of Sandburger's creations; an",
+           "evil android named Artemus",
+           "Illbred, or AI for short.",4);
+  PartyMove("Z15");
+  Text("Bong","AI?  Interesting name.","","","",3);
+  Text("U","Anyway, gather your equipment.",
+           "Incidentally, some of your items",
+           "can be used through the menu, which",
+           "is opened up with the SPACE bar.",4);
+  PartyMove("F0");
+  PixelMove();}
+   
+event // 2 Training Bot
+ {Text("Bong","Guess it's time to do some training.","","","",3);
+  Switch(difficulty)
+   {Case 0: Battle("london",0,0,12,0,0);
+    Case 1: Battle("london",0,12,0,12,0);
+    Case 2: Battle("london",12,0,12,0,12);
+    Case 3: Battle("london",12,12,0,12,12);
+    Case 4: Battle("london",12,12,12,12,12);}
+  }
+
+event // 3 Surface-to-Bong Missles
+ {q=Prompt("Computer","This terminal contains information on",
+                      "as well as experience in weaponry",
+                      "utilized by On Her Majesty's Catering",
+                      "Service.  Will you examine it?",5);
+  if(q) return;
+  Text("Computer","First on the list are OHMCS's own",
+                  "Surface-to-Bong missles.  We will",
+                  "now commence a first-hand",
+                  "demonstration.",5);
+  Text("Bong","NO!  Don't launch them!!","","","",3);
+  Text("Computer","Prepare to die.","","","",5);
+  FadeOut(50);
+  PlaySFX("kaboom");
+  Wait(100,1);
+  PlaySFX("die");
+  Wait(50,1);
+  BongDeath();}
+
+event // 4 Weapons Info
+ {q=Prompt("Computer","This terminal contains information on",
+                      "weapons and tactics that are typically",
+                      "used by the foes of this mission.  Do",
+                      "you wish to review this information?",5);
+  if(q) return;
+  Text("Computer","Standard Handgun:",
+                  "Standard issue for typical villains.","","",5);
+  Text("Computer","Blank Stare:",
+                  "Stupid guards have a problem with",
+                  "this, due to severe mental handicaps.",
+                  "It has no effect whatsoever.",5);
+  if(flags[51])
+   {Text("Computer","Spit:",
+                    "The sheer derogatory impact of being",
+                    "spit upon gives this the same strength",
+                    "as a standard handgun.",5);
+    Text("Computer","Curse:",
+                    "The vile language of an irate old lady has",
+                    "the power to slow ones reflexes a",
+                    "considerable amount.",5);}
+  if(flags[52])
+   {Text("Computer","Punch:",
+                    "Strangely, punches carry the same",
+                    "power as a handgun against agent",
+                    "Jimmy Bong.  Otherwise, they're weak.",5);
+    Text("Computer","Scream:",
+                    "When a toddler screams, all those near",
+                    "have their basic instincts jolted, and",
+                    "find it hard to hurt the child.",5);}
+  Text("Computer","Smile:",
+                  "The trademark smile of Ears.  It",
+                  "hints at deep rooted sadistic",
+                  "impulses, but serves no real purpose.",5);
+  Text("Computer","Laser Beam:",
+                  "Utilized by the androids of Charles",
+                  "Sandburger.  Slightly more powerful",
+                  "than a pistol.",5);
+  if(flags[53]) Text("Computer","Shuriken:",
+                                "Utilized by guards of 'elite' caliber",
+                                "training, the shuriken, while weaker",
+                                "than a gun, carries a deadly poison.",5);
+  Text("Computer","Battle Cry:",
+                  "Has the net effect of increasing the",
+                  "crier's capability in battle, making",
+                  "them much stronger.",5);
+  Text("Computer","Polish Ray:",
+                  "Created by Charles Sandburger, it",
+                  "strengthens the armor of his many",
+                  "androids",5);
+  if(flags[55]) Text("Computer","Hyper Beam:",
+                                "A work of evil genius, the hyper beam",
+                                "speeds up the atoms of any armor for",
+                                "a short period, weakening it slightly.",5);
+  Text("Computer","AI Beam:",
+                  "Special issue laser beam installed in",
+                  "Artemus Illbred.  Approximately twice",
+                  "as strong as a handgun.",5);
+  Text("Computer","Evil Laugh:",
+                  "The true standard of the super-",
+                  "villain, it decreases the combat",
+                  "effectiveness of his foes.",5);}
+
+event // 5 Enemy Info
+ {q=Prompt("Computer","This terminal contains information on",
+                      "minions suspected to be in the employ",
+                      "of the villain of the current mission.",
+                      "Will you review this information?",5);
+  if(q) return;
+  InfoText("Computer","Stupid Guard:",
+                      "No villain would be without them,",
+                      "the truly moronic guards they put",
+                      "in charge of vital functions.",5,
+                      "stupidg.pcx",48,48);
+  InfoText("Computer","Ninja Guard:",
+                      "Typical cannon fodder troop of",
+                      "many super-villains.  Sub-standard",
+                      "in everything they do.",5,
+                      "ninjag.pcx",48,48);
+  if(flags[51]) InfoText("Computer","Old Lady:",
+                                    "Nobody knows what motivates the",
+                                    "old ladies, but they're out for",
+                                    "blood this time.",5,
+                                    "oldlady.pcx",48,48);
+  if(flags[52]) InfoText("Computer","Unruly Toddler:",
+                                    "Dangerous in their own right, the",
+                                    "toddlers of London view Sandburger",
+                                    "as some sort of superhero.",5,
+                                    "toddler.pcx",48,48);
+  if(flags[53]) InfoText("Computer","Elite Guard:",
+                                    "Better trained than their comrades,",
+                                    "these guards actually have the",
+                                    "capability to pose a threat.",5,
+                                    "eliteg.pcx",48,48);
+  if(flags[54]) InfoText("Computer","AI Wannabe:",
+                                    "The mass-produced version of the",
+                                    "super-drone, Artemus Illbred, they",
+                                    "are thought to have faulty beams.",5,
+                                    "wannabe.pcx",48,48);
+  if(flags[55]) InfoText("Computer","Hyper Drone:",
+                                    "A drone that has all its functions",
+                                    "sped up to high speed, as if on a",
+                                    "serious caffeine high.",5,
+                                    "hyperd.pcx",48,48);
+  InfoText("Computer","Ears:",
+                      "A giant of a man, he isn't even",
+                      "fazed by gunfire.  But look at",
+                      "those ears!!",5,
+                      "ears.pcx",48,48);
+  InfoText("Computer","Artemus Illbred:",
+                      "Remarkably powerful android in",
+                      "the service of his creator, Charles",
+                      "Sandburger.  Stronger than you.",5,
+                      "ai.pcx",48,48);
+  InfoText("Computer","Charles Sandburger:",
+                      "An engineering genius, he's famous",
+                      "for his androids.  He is also",
+                      "quite proficient with handguns.",5,
+                      "sandbrgr.pcx",48,48);}
+
+event // 6 Inexplicable Saveamabob
+ {if(!flags[38])
+   {Text("Bong","Oh goody, it's U's Inexplicable",
+                "Save-a-ma-bob!  I can save my",
+                "progress with this device.","",3);
+    flags[38]=1;}
+  SaveMenu();}
+
+event // 7 Pistol
+ {if(!flags[3])
+   {Text("Bong","Yay, it's my trusty pistol!","","","",3);
+    Text("U","Don't be so happy, Bong.  Remember",
+             "the unfortunate incident that",
+             "occured when I gave you Her Majesty's",
+             "Bazooka (v.96)?",4);
+    Text("Bong","Ah, yes.  That was an awful mess.","","","",3);
+    SetTile(5,37,2,0);
+    flags[3]=1;}}
+
+event // 8 Exploding Frisbee
+ {if(!flags[4])
+   {Text("U","This is a frisbee that will explode",
+             "upon impact when thrown.  It has",
+             "a substantial blast radius.","",4);
+    Text("Bong","This will be quite useful if I run",
+                "across a foul-tempered dog!","","",3);
+   SetTile(6,37,2,0);
+   flags[4]=1;}
+ }
+
+event // 9 Suicide Pills
+ {if(!flags[5])
+   {Text("Bong","What are these, U?","","","",3);
+    Text("U","Something I'd encourage you to try:",
+             "Suicide pills!","","",4);
+    Text("Bong","But why do I need two of them?","","","",3);
+    Text("U","Well, one of them is a placebo.",
+             "I think.","","",4);
+    Text("Bong","Which one?","","","",3);
+    Text("U","I can't remember.  But you",
+             "can always find out for yourself.","","",4);
+    SetTile(7,37,2,0);
+    flags[5]=1;}
+ }
+
+event // 10 Q-Tips
+ {if(!flags[6])
+   {Text("Bong","Q-tips?  Why on earth would I",
+                "need q-tips?","","",3);
+    Text("U","Those aren't just any q-tips!",
+             "They're tipped with a very",
+             "deadly poison, and should be",
+             "extremely useful.",4);
+    Text("Bong","What am I supposed to do, kill",
+                "Dumbo?","","",3);
+    Text("U","Double-Oh-Nothing, have you cleaned",
+             "your ears lately?","","",4);
+    SetTile(8,37,2,0);
+    flags[6]=1;}
+ }
+ 
+event // 11 Antimatter
+ {if(!flags[7])
+   {Text("Bong","This is kinda funny-looking.","","","",3);
+    Text("U","Be ESPECIALLY careful with that!",
+             "It's a small particle of anti-",
+             "matter contained within a stable",
+             "magnetic field.",4);
+    Text("U","Whatever you do, don't EVER use it!","","","",4);
+    Text("Bong","...then why are you giving it to",
+                "me?","","",3);
+    Text("U","I don't know.  I just don't know.","","","",4);
+    SetTile(9,37,2,0);
+    flags[7]=1;}
+ }
+
+event // 12 Magnet Shoes
+ {if(!flags[8])
+   {Text("U","Those are magnetic shoes.  When you put",
+             "them on, you'll stay anchored to any",
+             "metal surface.","",4);
+    Text("Bong","So I could stand on a ceiling?","","","",3);
+    Text("U","Absolutely.  I wouldn't recommend",
+             "trying it, though.","","",4);
+    Text("Bong","Good advice, considering I can't",
+                "even tie my own shoes.","","",3);
+    SetTile(10,37,2,0);
+    flags[8]=1;}
+ }
+
+event // 13 Leave U's Lab
+ {Warp(48,31,0);
+  if(!flags[37])
+   {Text("Farnsworth","AAAAGH!!  Heeeeelllp!!","","","",1);
+    PartyMove("Z28");
+    Text("Bong","Holy jeepers!  Dr. Farnsworth is in",
+                "trouble!","","",3);
+    flags[37]=1;
+    PartyMove("F0");}
+ }
+
+event // 14 U Speaks
+ {if(!flags[37]) Text("U","Don't waste your time talking to",
+                          "me!  Dr. Farnsworth is waiting for",
+                          "you outside!","",4);
+  if(flags[37]) Text("U","Dr. Farnsworth, the woman with the",
+                         "capability of destroying the world, is",
+                         "gone and you're standing here chatting?",
+                         "You're an idiot, Bong!",4);
+  if(lives==2) Text("U","And remember, you only have two",
+                        "uses of the revivifier left.","","",4);
+  if(lives==1) Text("U","Don't forget, I'm only allowed to",
+                        "revive you one more time.","","",4);}
+
+event // 15 In Front of Table
+ {SetRString("1423E");}
+
+event // 16 Behind Table
+ {SetRString("14E23");}
+
+event // 17 Turn Back
+ {Text("Bong","I can't go this way!  Dr. Farnsworth",
+              "needs my help!","","",3);}
+
+event // 18 Exit OHMCS
+ {Warp(48,54,0);
+  if(flags[36])
+   {Text("Bong","I must get back to Sandburger's moor.","","","",3);
+    MapSwitch("moor.map",3,43,0);}
+  if(flags[37] && flags[9])
+   {Text("Bong","I must get back to downtown London.","","","",3);
+    MapSwitch("london.map",9,1,0);}
+  if(!flags[9])
+   {CameraTracking=0;
+    PartyMove("D2R1");
+    Wait(25,1);
+    Text("Bong","Horrors!  Dr. Farnsworth has been",
+                "kidnapped!  I must hurry into downtown",
+                "London and save her!","",3);
+    flags[9]=1;}
+  MapSwitch("london.map",9,1,0);}
+
+event // 19 Enter U's Lab
+ {Warp(13,42,0);}
+
+event // 20 Training Controls
+ {q=Prompt("Computer","This terminal controls the difficulty",
+                      "level of the combat simulator.  Do you",
+                      "wish to alter the difficulty level?","",5);
+  if(q) return;
+  Render(); ShowPage();
+  i=LoadImage("ptrh.pcx");
+  while(!b1)
+   {RectFill(110,60,208,140,0);
+    Rect(110,60,208,140,16);
+    Rect(111,61,207,139,31);
+    Rect(112,62,206,138,25);
+    HLine(112,84,206,25);
+    HLine(111,85,207,31);
+    HLine(112,86,206,25);
+    PrintText(120,65,"Set to How");
+    PrintText(116,75,"Many Drones");
+    PrintText(133,89,"1 Drone");
+    PrintText(129,99,"2 Drones");
+    PrintText(129,109,"3 Drones");
+    PrintText(129,119,"4 Drones");
+    PrintText(129,129,"5 Drones");
+    TCopySprite(116,89+(difficulty*10),10,10,i);
+    ShowPage(); UpdateControls();
+    if(up)
+     {difficulty--;
+      if(difficulty<0) difficulty=4;
+      Unpress(5);}
+    if(down)
+     {difficulty++;
+      if(difficulty>4) difficulty=0;
+      Unpress(6);}
+   }
+  Text("Computer","Combat simulator difficulty level",
+                  "has been set successfully.","","",5);
+  free(i);}

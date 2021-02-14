@@ -1,0 +1,16 @@
+event // 0 Automatic Execution
+ {InitMap("test.map","blank.mod");
+  PixelMove();}
+
+event // 1 Battle
+ {if(!flags[1])
+   {Battle("london",0,12,0,12,0);
+    flags[1]++;}
+ }
+
+event // 2 Text Test
+ {Text("Bong","Why, it's Dr. Medusa Farnsworth!",
+              "What are you doing in the lake,",
+              "Dr. Farnsworth?","",3);
+  Text("Farnsworth","Just standing.  Not actually doing",
+                    "much of anything at all.","","",1);}

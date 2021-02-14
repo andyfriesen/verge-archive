@@ -1,0 +1,61 @@
+----------
+CASINO! Readme
+----------
+
+Name:  CASINO!, a 4 Colors of Verge game
+Released:  Wednesday, August 23, 2000
+Author:  Team Confluence
+
+----------
+
+Team Confluence:
+
+Hatchet - organizer, programming
+Tatsumi_oreo - programming, artwork
+Afterglow - artwork
+Zaril - music, sound effects
+
+----------
+
+Description:
+
+A casino game created with V2K, silly!  You just scroll around to each game table and start playing cards.  Simple as that!  You can save at the information desk, and uh, get information (I think).
+
+Basically, a terrorist has threatened to nuke the world, but has offered to not drop the bombs if he gets a rather large amount of money (a billion dollars or something, you can make it up :P).  The U.S. government will front ya the money, and they want you to spend their money at a casino (yeah, to make more money).  Aren't they smart?  Whee.
+
+----------
+
+Features:
+
+- Blackjack
+- Slot Machine
+- Fully functioning save/load system
+- Purdy graphics
+- A jukebox featuring 6 wonderful Zaril-made chiptunes
+
+----------
+
+Credits:
+
+vecna - Yeah, vecna. 
+aenzeromusloretian - The three-headed monster.
+etc. etc. 'cause I wrote this 1 sec before the deadline.
+
+----------
+
+Your time wasted by Afterglow.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

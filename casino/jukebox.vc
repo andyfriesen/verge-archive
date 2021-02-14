@@ -1,0 +1,73 @@
+string song[7];
+int musix; // if True, then mute music everywhere.
+
+void JukeBox()
+{
+int mrk; // marker
+int wmrk; // window marker
+int sngs; // number of songs
+int exitjukebox; // if True, the loop ends
+
+sngs=6;
+mrk=7;
+
+song[1]="Casino Sleeze";
+song[2]="Black Jack";
+song[3]="Drunken Wheel";
+song[4]="Starlite Schnooz";
+song[5]="Winner Theme";
+song[6]="Loser Theme";
+
+
+  while(!exitjukebox)
+    {
+    render();
+    if(wmrk>sngs-3)wmrk=sngs-3;
+    if(wmrk<0)wmrk=0;
+    Box(96,53,224,106);
+    
+    Center(1,56,Sub[3]+"  -  Go Up  -"+Sub[1]);
+    Center(1,62,song[wmrk+1]);
+    Center(1,68,song[wmrk+2]);
+    Center(1,74,song[wmrk+3]);
+    Center(1,80,Sub[3]+"  - Go Down -"+Sub[1]);
+    Center(1,86,Sub[2]+"  No Music"+Sub[1]);
+    Center(1,98,"Exit");
+    
+    Tbox(126,55+(mrk*6),194,61+(mrk*6));
+  
+    if(up){unpress(5); mrk--; playsound(select,63,128); if(mrk<1)mrk=0;}
+    if(down){unpress(6); mrk++; playsound(select,63,128); if(mrk>7)mrk=7;}
+    if(b1){
+    unpress(1);
+    switch(mrk+1)
+      {
+      case 1 : wmrk--; // decrease window mark
+      case 2 : playtune(wmrk+1); musix=0; playsound(confirm,63,128);
+      case 3 : playtune(wmrk+2); musix=0; playsound(confirm,63,128);
+      case 4 : playtune(wmrk+3); musix=0; playsound(confirm,63,128);
+      case 5 : wmrk++; // increase window mark
+      case 6 : playmusic("blank.s3m"); musix=1; playsound(confirm,63,128);
+      case 7 : // nothing happens
+      case 8 : exitjukebox=1; playsound(confirm,63,128); // bye Juke Box !
+      }
+          }
+    updatecontrols();
+    showpage();
+    }
+
+}
+
+void PlayTune(int whichtune)
+{
+switch(whichtune)
+  {
+  case 1 : playmusic("sleeze.s3m");
+  case 2 : playmusic("blckjack.s3m");
+  case 3 : playmusic("drnkwhee.s3m");
+  case 4 : playmusic("starlite.s3m");
+  case 5 : playmusic("winner.s3m");
+  case 6 : playmusic("loser.s3m");
+  }
+}
+// EOF //

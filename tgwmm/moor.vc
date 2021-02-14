@@ -1,0 +1,372 @@
+event // 0 Automatic Execution
+ {if(flags[21]) EntityMove(3,"Z20");
+  if(flags[22]) EntityMove(4,"Z20");
+  if(flags[23]) EntityMove(5,"Z20");
+  if(flags[24]) EntityMove(6,"Z20");
+  if(flags[25]) EntityMove(7,"Z20");
+  if(flags[26]) EntityMove(8,"Z20");
+  if(flags[27]) EntityMove(9,"Z20");
+  if(flags[28]) EntityMove(10,"Z20");
+  if(flags[29])
+   {EntityMove(11,"Z20");
+    EntityMove(12,"Z20");
+    EntityMove(13,"Z20");}
+  if(flags[60])
+   {SetTile(72,65,1,3); SetTile(73,65,1,3);
+    SetTile(74,65,1,3); SetTile(72,66,1,0);
+    SetTile(73,66,1,0); SetTile(74,66,1,0);
+    SetTile(72,67,1,0); SetTile(73,67,1,0);
+    SetTile(74,67,1,0); SetTile(73,67,6,0);}
+  if(flags[61])
+   {EntityMove(17,"Z20");
+    EntityMove(18,"Z20");
+    EntityMove(19,"Z20");}
+  if(flags[63]) SetTile(22,65,1,111);
+  if(flags[64]) SetTile(22,65,1,114);
+  Render(); ProcessEntities(); ShowPage();
+  InitMap("moor.map","hotseat.s3m");
+  flags[36]=1;
+  if(!flags[20])
+   {EntityMove(2,"U3Z0");
+    PartyMove("D6W25");
+    while(entity.moving[2])
+     {Wait(1,1);}
+    Text("Sandburger","Hello, Mr. Bong.","","","",4);
+    Text("Bong","Who the heck are you?","","","",3);
+    Text("Sandburger","I'm Charles Sandburger, you dolt.",
+                      "I've kidnapped Dr. Farnsworth and",
+                      "imprisoned her in my secret",
+                      "hollowed-out moor.  Muahaha!",4);
+    PartyMove("W100Z28W75Z0");
+    Text("Bong","You twisted fiend!  You won't get",
+                "away with this!","","",3);
+    Text("Sandburger","I will too, stupid.  My evil",
+                      "plan is on the verge of success!","","",4);
+    Text("Bong","Oh...drat.  Well, I'm going to",
+                "STOP your evil plans through an",
+                "act of antiterrorism!","",3);
+    EntityMove(2,"Z5");
+    Text("Sandburger","No you won't, because my drones are",
+                      "going to capture you.","","",4);
+    Text("Bong","Drones?  What drones?","","","",3);
+    EntityMove(0,"Z8");
+    EntityMove(1,"Z8");
+    Wait(50,1);
+    PartyMove("Z10W75Z15W75Z0");
+    Text("Bong","Oh...those drones.","","","",3);
+    Warp(3,43,0);
+    Text("Bong","Great.  Just great.  How am I going",
+                "to get out of this cell?","","",3);
+    PartyMove("Z10W125Z28W75Z10");
+    Text("Bong","Oh!  The door's been inexplicably",
+               "open this whole time.  Imagine that.",
+               "","",3);
+    PartyMove("F0");
+    flags[20]=1;}
+  PixelMove();
+  BongDeath();}
+
+event // 1 Battle 3
+ {if(!flags[21])
+   {Battle("london",0,0,7,0,0);
+    EntityMove(3,"Z20");
+    flags[21]=1;}
+  }
+
+event // 2 Warp AIW Room
+ {Warp(42,14,0);}
+
+event // 3 Battle 4
+ {if(!flags[22])
+   {Battle("london",0,0,9,0,0);
+    EntityMove(4,"Z20");
+    flags[22]=1;}
+  flags[54]=1;}
+
+event // 4 Battle 5
+ {if(!flags[23])
+   {Battle("london",0,0,9,0,0);
+    EntityMove(5,"Z20");
+    flags[23]=1;}
+ }
+
+event // 5 Exploding Frisbee
+ {if(!flags[30])
+   {Text("Bong","Good gravy!  There must be about 96",
+                "guards in the next room!  I can't go",
+                "in there!","",3);
+    flags[40]=1;}
+ }
+
+event // 6 Warp Final Hallway
+ {if(flags[30]) {Warp(63,84,0); return;}
+  FadeOut(30);
+  s=CacheSound("gun.wav");
+  for(x=0; x<10; x++)
+   {PlaySound(s,64,128);
+    Wait(Random(5)+5,0);}
+  PlaySFX("die");
+  BongDeath();}
+
+event // 7 Battle 6
+ {if(!flags[24])
+   {Battle("london",0,0,6,0,0);
+    EntityMove(6,"Z20");
+    flags[24]=1;}
+  flags[53]=1;}
+
+event // 8 Battle 7
+ {if(!flags[25])
+   {Battle("london",0,0,6,0,0);
+    EntityMove(7,"Z20");
+    flags[25]=1;}
+ }
+
+event // 9 Battle 8
+ {if(!flags[26])
+   {Battle("london",0,0,6,0,0);
+    EntityMove(8,"Z20");
+    flags[26]=1;}
+ }
+
+event // 10 Battle 9
+ {if(!flags[27])
+   {Battle("london",0,0,8,0,0);
+    EntityMove(9,"Z20");
+    flags[27]=1;}
+  flags[55]=1;}
+
+event // 11 Battle 10
+ {if(!flags[28])
+   {Battle("london",0,0,8,0,0);
+    EntityMove(10,"Z20");
+    flags[28]=1;}
+ }
+
+event // 12 Battle 11-13
+ {if(!flags[29])
+   {Battle("london",0,0,8,0,0);
+    EntityMove(11,"Z20");
+    EntityMove(12,"Z20");
+    EntityMove(13,"Z20");
+    flags[29]=1;}
+ }
+
+event // 13 Inexplicable Save-a-ma-bob
+ {if(flags[63] && !flags[64]) SaveMenu();
+  if(!flags[62])
+   {Text("Bong","Amazing!  Sandburger has a remote",
+                "save-a-ma-bob!  Too bad blue isn't the",
+                "OHMCS channel.  I wish I could change",
+                "it.",3);
+    flags[62]++;}
+  if(!flags[63] && !flags[64])
+   {Text("Bong","If I can't change the channel,",
+                "I should shatter it.  But there",
+                "might be a way to change it.  But",
+                "it could be trouble.  However...",3);
+    q=Prompt("Narrator","MAKE UP YOUR MIND!!!  Are you",
+                        "going to break it or not?","","",4);
+    if(q) return;
+    SetTile(22,65,1,114);
+    PlaySFX("smash");
+    Render(); ShowPage();
+    Wait(200,0);
+    Text("Bong","Well, that settles that.","","","",3);
+    flags[64]++;}
+ }
+
+event // 14 Warp Control Room
+ {Warp(76,20,0);}
+
+event // 15 Battle AI & Sandburger
+ {if(!flags[31])
+   {PartyMove("Z25W75Z0U4");
+    Wait(150,1);
+    Text("Bong","Hold it, Sandburger!","","","",3);
+    Text("Sandburger","Well, Mr. Bong, what a displeasure",
+                      "to see you.","","",4);
+    Text("Bong","Dr. Farnsworth!  Are you alright!?","","","",3);
+    Text("Farnsworth","Uh, no...","","","",1);
+    Text("Sandburger","The good doctor has just completed the",
+                      "algorithm for the Lunar Distortion Ray.",
+                      "Now I will destroy the world!  HA HA",
+                      "HA HAR HO HO HAR!!",4);
+    Text("Bong","You fool!  If you activate that thing,",
+                "you'll destroy yourself as well!","","",3);
+    Text("Sandburger","No I won't, you thundering moron.",
+                      "This hollowed-out moor is equipped with",
+                      "an artificial gravity field which will",
+                      "negate the effects of the lunar pull.",4);
+    Text("Bong","Really?  Then your plan is ingenious!","","","",3);
+    Text("Sandburger","I've had enough talk.  AI!  Get him!","","","",4);
+    Text("AI","Yes, master.","","","",5);
+    Battle("london",0,0,10,0,0);
+    EntityMove(15,"Z29");
+    Text("Bong","It's just you and me now, Sandburger!","","","",3);
+    Text("Sandburger","Ha! You think you can beat me?","","","",4);
+    Battle("london",0,0,11,0,0);
+    EntityMove(16,"Z25");
+    Text("Sandburger","Aaaagh!  I can't believe it!","","","",4);
+    Text("Bong","I've got to disarm that ray!","","","",3);
+    PartyMove("F0");
+    flags[31]=1;}
+ }
+
+event // 16 Lunar Distortion Ray
+ {Text("Bong","Maybe this switch will do something","helpful!","","",3);
+  Text("Computer","*beep*  Lunar Distortion Ray has been","fired.","","",5);
+  Text("Bong","Blast!  I'm going to get fired for","this...","","",3);
+  Exit("And so, Bong ended up destroying the world.  Nice going, moron.");}
+
+event // 17 Gravity Switch
+ {Text("Bong","Hmmm...'gravity control.'","","","",3);
+  Wait(100,1);
+  if(!flags[45])
+   {Text("Bong","Let's see what happens when I...","","","",3);
+    Text("Computer","*beep*  Interior gravity reversed.","","","",5);
+    Text("Bong","Reversed?  Uh-oh...","","","",3);
+    CameraTracking=0;
+    entity.speed[14]=7;
+    entity.speed[16]=7;
+    entity.speed[bongchr]=7;
+    Wait(50,1);
+    EntityMove(16,"U5Z24");
+    Wait(50,1);
+    EntityMove(14,"Z28U5Z24");
+    Wait(50,1);
+    PlaySFX("die");
+    PartyMove("Z25U3Z24");
+    Wait(150,1);
+    Exit("Due to the reversed gravity, Bong, along with Dr. Farnsworth and Sandburger,    fell into the unforgiving ceiling fans above.  The end.");}
+  if(flags[45])
+   {Text("Bong","Dr. Farnsworth, come here quickly!","","","",3);
+    EntityMove(14,"U2R7W100");
+    Text("Bong","Now hold on to me!","","","",3);
+    Text("Farnsworth","Okay, Jimmy!","","","",1);
+    Text("Sandburger","No!  Get away from that!","","","",4);
+    Text("Computer","*beep*  Interior gravity reversed.","","","",5);
+    entity.speed[16]=7;
+    EntityMove(16,"W75U5Z24W50");
+    Text("Sandburger","Aaaaaarghh.....","","","",4);
+    Text("Bong","Thank goodness for magnetic footwear.","","","",3);
+    Text("Farnsworth","Ugh.  I pity the person who has to",
+                      "clean out those ceiling fans.","","",1);
+    Text("Bong","Anyway, let's disable the ray and get",
+                "back to London.","","",3);
+    Text("Bong","You know, I wonder what would happen",
+                "if I opened this case of anti-matter...","","",3);
+    Text("Farnsworth","Jimmy, NO!!!","","","",1);
+    flags[39]=1;
+    AntiMatter();}
+ }
+
+event // 18 Enemy Swarms Button
+ {Text("Bong","Maybe this console will do something!","","","",3);
+  Text("Computer","*beep*  Releasing enemy swarms.","","","",5);
+  PartyMove("W75Z28W75Z5");
+  Text("Bong","What!? NO! Maybe another button will do",
+              "the trick...","","",3);
+  Text("Computer","*beep*  Releasing more enemy swarms.","","","",5);
+  PartyMove("W75Z28W75Z5");
+  Text("Bong","Ack!  No!!  Maybe if I push a bunch",
+              "of buttons at once...","","",3);
+  Text("Computer","*beep* *beep* *beep* *beep* *beep*",
+                  "*beep* *beep* *beep* *beep* *beep*",
+                  "*beep* *beep* *beep* *beep* *beep*",
+                  "*beep* *beep* *beep* *beep* *beep*",5);
+  Wait(100,1);
+  Text("Computer","You have a death wish, don't you?","","","",5);
+  Text("Bong","Look, just cancel the enemy swarms!","","","",3);
+  Text("Computer","This is not a voice-input console.","","","",5);
+  Text("Bong","Then how could you understand what I",
+              "just said?","","",3);
+  Wait(100,1);
+  Text("Computer","Er....","","","",5);
+  Text("Computer","Syntax error.  Press button to",
+                  "restart system.","","",5);
+  Text("Bong","That's more like it!","","","",3);
+  Text("Computer","*beep*  Releasing enemy swarms.","","","",5);
+  PartyMove("Z25");
+  Text("Bong","NO!!!","","","",3);
+  FadeOut(100);
+  Exit("And so Bong and Dr. Farnsworth were overrun by vast amounts of enemy swarms.    And Sandburger destroyed the world anyway.  The end.");}
+
+event // 19 Warp back to final hallway
+ {Warp(76,37,0);}
+
+event // 20 Warp back to AIW room
+ {Warp(49,4,0);}
+
+event // 21 Warp back to cell room
+ {Warp(9,35,0);}
+
+event // 22 Reset frisbee
+ {flags[40]=0;}
+
+event // 23 RString 1E234
+ {SetRString("1E234");}
+
+event // 24 RString 12E34
+ {SetRString("12E34");}
+
+event // 25 Enter Save Room
+ {if(flags[60]) Warp(22,75,0);
+  if(!flags[60])
+   {Text("Bong","Hey!  There's a door behind this",
+                "curtain!!","","",3);
+    SetTile(72,65,1,3); SetTile(73,65,1,3);
+    SetTile(74,65,1,3); SetTile(72,66,1,0);
+    SetTile(73,66,1,0); SetTile(74,66,1,0);
+    SetTile(72,67,1,0); SetTile(73,67,1,0);
+    SetTile(74,67,1,0); SetTile(73,67,6,0);
+    flags[60]++;}
+ }
+
+event // 26 Leave Save Room
+ {Warp(73,68,0);}
+
+event // 27 Save Room Battle (17-19)
+ {if(!flags[61])
+   {Battle("london",0,6,0,6,0);
+    EntityMove(17,"Z20");
+    EntityMove(18,"Z20");
+    EntityMove(19,"Z20");
+    flags[61]++;}
+ }
+
+event // 28 Save Computer
+ {q=Prompt("Computer","This terminal controls the channel of",
+                      "the Secret Hollowed-Out Moor's Remote",
+                      "Save-a-ma-bob.  Do you wish to alter",
+                      "the channel?",5);
+  if(q) return;
+  Text("Computer","Understood.  Now detonating incendiary",
+                  "explosives.","","",5);
+  Text("Bong","WHAT!  You said you controlled the",
+              "save channel!","","",3);
+  Text("Computer","I lied.","","","",5);
+  FadeOut(30);
+  Wait(25,0); PlaySFX("kaboom");
+  Wait(100,0); PlaySFX("die");
+  Wait(250,0); BongDeath();}
+
+event // 29 Drone Computer (20)
+ {q=Prompt("Computer","This console controls hyper drone",
+                      "drone assignments and movements.",
+                      "Will you alter their programming?","",5);
+  if(q) return;
+  Text("Computer","Understood.  Now summoning an AI",
+                  "Wannabe.","","",5);
+  EntityMove(20,"Z7");
+  Render(); ProcessEntities(); ShowPage();
+  Text("Bong","WHAT?!  That's not a hyper drone!","","","",3);
+  Text("AI Wannabe","Intruder.  Initiate combat routine.","","","",5);
+  Battle("london",0,0,9,0,0);
+  EntityMove(20,"Z20");}
+
+event // 30 Near Save-a-ma-bob
+ {flags[65]=1;}
+
+event // 31 Leaving Save-a-ma-bob
+ {flags[65]=0;}

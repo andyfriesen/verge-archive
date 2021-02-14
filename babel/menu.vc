@@ -1,0 +1,2018 @@
+
+int bcurs, cx, cy, menu, ichoose;
+string temp;
+
+int shitem[16], shicost[16], shitot;
+int mentsave;
+
+int sslot[4], slv[4], sarea[4], sgp[4];
+string sname[4], schr[4];
+
+void call_menu()
+{
+	if(b4)
+	{
+		unpress(4);
+		updatecontrols();
+		if(menu=0 && combat=0)
+		{
+			menu=1;
+			play_sound(OPEN,16);
+			cx=5;
+			cy=15;
+			mentsave=timer;
+			run_menu();
+		}
+	}
+}
+
+void menu_exit()
+{
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Exit");
+	
+	window(139,104,179,142);
+	put_text(146,110,bgfnt,"Yes");
+	put_text(146,125,bgfnt,"No");
+	
+	tcopysprite(cx,cy,9,9,bcurs);
+	
+	switch(cy)
+	{
+		case 111:
+			put_text(146,110,bggold,"Yes");
+		case 126:
+			put_text(146,125,bggold,"No");
+	}
+	
+	if(down)
+	{
+		unpress(6);
+		updatecontrols();
+		if(cy=111)
+		{
+			cy+=15;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(up)
+	{
+		unpress(5);
+		updatecontrols();
+		if(cy!=111)
+		{
+			cy-=15;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		switch(cy)
+		{
+			case 111:
+				menu=0;
+				timer=0;
+				while(timer<64)
+				{
+					render();
+					if(timer>0)
+						palettemorph(0,0,0,0,64-timer);
+					updatecontrols();
+					showpage();
+				}
+				palettemorph(0,0,0,0,0);
+				music_out();
+				quit_game();
+			case 126:
+				menu=1;
+				cx=5;
+				cy=60;
+		}
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=1;
+		cx=5;
+		cy=60;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_items()
+{
+	int fnt, m, n;
+
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Items");
+
+	if(hp<hpmax)
+		fnt=bggrey;
+	else
+		fnt=bgfnt;
+		
+	if(hp<10)
+		temp="00"+str(hp);
+	if(hp>=10 && hp<100)
+		temp="0"+str(hp);
+	if(hp>=100)
+		temp=str(hp);
+		
+	stat_window(8,8+(strlen("HP")*9)+9,8+(strlen("HP")*9)+20+(strlen(temp)*9),72,72+23);
+	put_text(8+6,72+6,bgfnt,"HP");
+	put_text(8+(strlen("HP")*9)+14,72+6,fnt,temp);
+		
+	if(gold<10)
+		temp="000"+str(gold);
+	if(gold>=10 && gold<100)
+		temp="00"+str(gold);
+	if(gold>=100 && gold<1000)
+		temp="0"+str(gold);	
+	if(gold>=1000)
+		temp=str(gold);		
+
+	stat_window(8,8+(strlen("G")*9)+9,8+(strlen("G")*9)+20+(strlen(temp)*9),40,40+23);
+	put_text(8+6,40+6,bgfnt,"G");
+	put_text(8+(strlen("G")*9)+14,40+6,bgfnt,temp);
+
+	window(81,8,281,196);
+	tcopysprite(cx,15+(cy*15),9,9,bcurs);
+	
+	window(81,205,281,228);
+	put_text(87,211,bgfnt,idesc[item[cy]]);
+
+	if(itotal=0)
+		put_text(87,14,bggrey,"No Items");
+	else
+	{
+		n=0;
+		for(m=0;m<itotal;m++)
+		{
+			if(iequip[m]=1)
+			{
+				put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+				put_text(87,14+(m*15),bgfnt,"                  (E)");
+				if(cy=m)
+				{
+					put_text(87,14+(m*15),bggold,iname[item[m]]);
+					put_text(87,14+(m*15),bggold,"                  (E)");
+				}
+			}
+			else if(itemx[m]>0)
+			{
+				put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+				if(itemx[m]<10)
+					put_text(87,14+(m*15),bgfnt,"                 x00"+str(itemx[m]));
+				if(itemx[m]>=10 && itemx[m]<100)
+					put_text(87,14+(m*15),bgfnt,"                 x0"+str(itemx[m]));
+				if(itemx[m]>=100)
+					put_text(87,14+(m*15),bgfnt,"                 x"+str(itemx[m]));
+				if(cy=m)
+				{
+					put_text(87,14+(m*15),bggold,iname[item[m]]);
+					if(itemx[m]<10)
+						put_text(87,14+(m*15),bggold,"                 x00"+str(itemx[m]));
+					if(itemx[m]>=10 && itemx[m]<100)
+						put_text(87,14+(m*15),bggold,"                 x0"+str(itemx[m]));
+					if(itemx[m]>=100)
+						put_text(87,14+(m*15),bggold,"                 x"+str(itemx[m]));
+				}
+			}
+			else
+			{
+				put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+				if(cy=m)
+					put_text(87,14+(m*15),bggold,iname[item[m]]);	
+			}
+			if(b1)
+			{
+				unpress(1);
+				updatecontrols();
+				play_sound(CONFIRM,32);
+				menu=6;
+				ichoose=cy;
+				cx=5;
+				cy=0;
+			}
+		}
+		if(down)
+		{
+			unpress(6);
+			updatecontrols();
+			if(cy<itotal-1)
+			{
+				cy++;
+				play_sound(SCROLL,32);
+			}
+		}
+		if(up)
+		{
+			unpress(5);
+			updatecontrols();
+			if(cy>0)
+			{
+				cy--;
+				play_sound(SCROLL,32);
+			}
+		}
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=1;
+		cx=5;
+		cy=15;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_items_explicit()
+{
+	int fnt, m, n;
+
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Items");
+
+	window(8,104,73,172);
+	put_text(14,110,bgfnt,"Use");
+	put_text(14,125,bgfnt,"Equip");
+	put_text(14,140,bgfnt,"Drop");
+	put_text(14,155,bgfnt,"Back");	
+	tcopysprite(cx,111+(cy*15),9,9,bcurs);
+	switch(cy)
+	{
+		case 0:
+			put_text(14,110,bggold,"Use");
+		case 1:
+			put_text(14,125,bggold,"Equip");
+		case 2:
+			put_text(14,140,bggold,"Drop");
+		case 3:
+			put_text(14,155,bggold,"Back");			
+	}
+	
+	if(hp<hpmax)
+		fnt=bggrey;
+	else
+		fnt=bgfnt;
+		
+	if(hp<10)
+		temp="00"+str(hp);
+	if(hp>=10 && hp<100)
+		temp="0"+str(hp);
+	if(hp>=100)
+		temp=str(hp);
+		
+	stat_window(8,8+(strlen("HP")*9)+9,8+(strlen("HP")*9)+20+(strlen(temp)*9),72,72+23);
+	put_text(8+6,72+6,bgfnt,"HP");
+	put_text(8+(strlen("HP")*9)+14,72+6,fnt,temp);
+		
+	if(gold<10)
+		temp="000"+str(gold);
+	if(gold>=10 && gold<100)
+		temp="00"+str(gold);
+	if(gold>=100 && gold<1000)
+		temp="0"+str(gold);	
+	if(gold>=1000)
+		temp=str(gold);		
+
+	stat_window(8,8+(strlen("G")*9)+9,8+(strlen("G")*9)+20+(strlen(temp)*9),40,40+23);
+	put_text(8+6,40+6,bgfnt,"G");
+	put_text(8+(strlen("G")*9)+14,40+6,bgfnt,temp);
+		
+	window(81,8,281,196);
+	tcopysprite(78,15+(ichoose*15),9,9,bcurs);
+	
+	window(81,205,281,228);
+	put_text(87,211,bgfnt,idesc[item[ichoose]]);
+
+	n=0;
+	for(m=0;m<itotal;m++)
+	{
+		if(iequip[m]=1)
+		{
+			put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+			put_text(87,14+(m*15),bgfnt,"                  (E)");
+			if(ichoose=m)
+			{
+				put_text(87,14+(m*15),bggold,iname[item[m]]);
+				put_text(87,14+(m*15),bggold,"                  (E)");
+			}
+		}
+		else if(itemx[m]>0)
+		{
+			put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+			if(itemx[m]<10)
+				put_text(87,14+(m*15),bgfnt,"                 x00"+str(itemx[m]));
+			if(itemx[m]>=10 && itemx[m]<100)
+				put_text(87,14+(m*15),bgfnt,"                 x0"+str(itemx[m]));
+			if(itemx[m]>=100)
+				put_text(87,14+(m*15),bgfnt,"                 x"+str(itemx[m]));
+			if(ichoose=m)
+			{
+				put_text(87,14+(m*15),bggold,iname[item[m]]);
+				if(itemx[m]<10)
+					put_text(87,14+(m*15),bggold,"                 x00"+str(itemx[m]));
+				if(itemx[m]>=10 && itemx[m]<100)
+					put_text(87,14+(m*15),bggold,"                 x0"+str(itemx[m]));
+				if(itemx[m]>=100)
+					put_text(87,14+(m*15),bggold,"                 x"+str(itemx[m]));
+			}
+		}
+		else
+		{
+			put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+			if(ichoose=m)
+				put_text(87,14+(m*15),bggold,iname[item[m]]);	
+		}
+	}
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		switch(cy)
+		{
+			case 0:
+				if(item[ichoose]<4 && hp<hpmax)
+				{
+					play_sound(IUSE,32);
+					hp+=iplus[item[ichoose]];
+					if(hp>hpmax)
+						hp=hpmax;
+					remove_item(ichoose);
+					menu=5;
+					cx=78;
+					cy=0;
+				}
+				else
+					play_sound(ERROR,32);
+			case 1:
+				if(item[ichoose]>=4 && item[ichoose]<26)
+				{
+					play_sound(EQUP,32);
+					if(item[ichoose]>=4 && item[ichoose]<12)
+					{
+						for(m=0;m<itotal;m++)
+						{
+							if(item[m]>=4 && item[m]<12 && iequip[m]=1)
+								unequip(m,item[m]);
+						}
+						equip(ichoose,item[ichoose]);
+					}
+					if(item[ichoose]>=12 && item[ichoose]<16)
+					{
+						for(m=0;m<itotal;m++)
+						{
+							if(item[m]>=12 && item[m]<16 && iequip[m]=1)
+								unequip(m,item[m]);
+						}
+						equip(ichoose,item[ichoose]);
+						switch(item[ichoose])
+						{
+							case 12:
+								m=entity.facing[player];
+								n=entityspawn(entity.tx[player],entity.ty[player],"graphics/chrs/"+base_chr);
+								chr_file=base_chr;
+								entity.tx[player]=0;
+								entity.ty[player]=0;
+								entity.x[player]=0;
+								entity.y[player]=0;
+								pnum=n;
+								entitymove(n,"F"+str(m));
+								processentities();
+								setplayer(n);
+							case 13:
+								m=entity.facing[player];
+								n=entityspawn(entity.tx[player],entity.ty[player],"graphics/chrs/playcmbt.chr");
+								chr_file="playcmbt.chr";
+								entity.tx[player]=0;
+								entity.ty[player]=0;
+								entity.x[player]=0;
+								entity.y[player]=0;
+								pnum=n;
+								entitymove(n,"F"+str(m));
+								processentities();
+								setplayer(n);
+						}
+					}
+					if(item[ichoose]>=16 && item[ichoose]<19)
+					{
+						for(m=0;m<itotal;m++)
+						{
+							if(item[m]>=16 && item[m]<19 && iequip[m]=1)
+								unequip(m,item[m]);
+						}
+						equip(ichoose,item[ichoose]);
+					}
+					if(item[ichoose]>=19 && item[ichoose]<22)
+					{
+						for(m=0;m<itotal;m++)
+						{
+							if(item[m]>=19 && item[m]<22 && iequip[m]=1)
+								unequip(m,item[m]);
+						}
+						equip(ichoose,item[ichoose]);
+					}					
+					if(item[ichoose]>=22 && item[ichoose]<24)
+					{
+						for(m=0;m<itotal;m++)
+						{
+							if(item[m]>=22 && item[m]<24 && iequip[m]=1)
+								unequip(m,item[m]);
+						}
+						equip(ichoose,item[ichoose]);
+					}
+					if(item[ichoose]>=24 && item[ichoose]<26)
+					{
+						for(m=0;m<itotal;m++)
+						{
+							if(item[m]>=24 && item[m]<26 && iequip[m]=1)
+								unequip(m,item[m]);
+						}
+						equip(ichoose,item[ichoose]);
+					}
+					menu=5;
+					cx=78;
+					cy=ichoose;
+				}
+				else
+					play_sound(ERROR,32);
+			case 2:
+				if(iequip[ichoose]=0)
+				{
+					play_sound(CONFIRM,32);
+					remove_item(ichoose);
+					menu=5;
+					cx=78;
+					cy=0;
+				}
+				else
+					play_sound(ERROR,32);
+			case 3:
+				play_sound(CONFIRM,32);
+				menu=5;
+				cx=78;
+				cy=ichoose;				
+		}
+	}
+	
+	if(down)
+	{
+		unpress(6);
+		updatecontrols();
+		if(cy<3)
+		{
+			cy++;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(up)
+	{
+		unpress(5);
+		updatecontrols();
+		if(cy>0)
+		{
+			cy--;
+			play_sound(SCROLL,32);
+		}
+	}
+	
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=5;
+		cx=78;
+		cy=ichoose;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_load()
+{
+	int file, i, j;
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Load");
+	
+	for(i=1;i<5;i++)
+	{
+		file=fopen("save0"+str(i)+".dat");
+		temp="not";
+		fgettoken(temp,file);
+		if(!strcmp(temp,"sgame"))
+		{
+			window(88,8+(57*(i-1)),270,56+(57*(i-1)));
+			fgettoken(temp,file);
+			put_text(114,17+(57*(i-1)),bgfnt,temp);
+			fgettoken(temp,file);
+			fgettoken(temp,file);
+			switch(val(temp))
+			{
+				case RENESCO:
+					put_text(265-(strlen("Renesco")*9),35+(57*(i-1)),bgfnt,"Renesco");
+				case SOUTH:
+					put_text(265-(strlen("South")*9),35+(57*(i-1)),bgfnt,"South");
+				case CAVERN:
+					put_text(265-(strlen("Wolf Cave")*9),35+(57*(i-1)),bgfnt,"Wolf Cave");
+				case DAMEON:
+					put_text(265-(strlen("Dameon")*9),35+(57*(i-1)),bgfnt,"Dameon");
+				case NORTH:
+					put_text(265-(strlen("North")*9),35+(57*(i-1)),bgfnt,"North");
+				case WEST:
+					put_text(265-(strlen("West")*9),35+(57*(i-1)),bgfnt,"West");
+				case SEWAGE:
+					put_text(265-(strlen("Sewage")*9),35+(57*(i-1)),bgfnt,"Sewage");
+				case BABEL:
+					put_text(265-(strlen("Babel")*9),35+(57*(i-1)),bgfnt,"Babel");
+			}
+			for(j=0;j<5;j++)
+				fgettoken(temp,file);
+			if(!strcmp(temp,"player.chr"))
+				tcopysprite(91,16+(57*(i-1)),24,32,dress[0]);
+			if(!strcmp(temp,"playcmbt.chr"))
+				tcopysprite(91,16+(57*(i-1)),24,32,dress[1]);
+			
+			
+			fgettoken(temp,file);
+
+			put_text(114,35+(57*(i-1)),bggold,"LV");
+			if(val(temp)<10)
+				put_text(114,35+(57*(i-1)),bgfnt,"   0"+temp);
+			else
+				put_text(114,35+(57*(i-1)),bgfnt,"   "+temp);
+			
+			for(j=0;j<13;j++)
+				fgettoken(temp,file);	
+			put_text(265-(strlen(temp+"G")*9),17+(57*(i-1)),bgfnt,temp+"G");
+			j=265-(strlen(temp+"G")*9)+(strlen(temp)*9);
+			put_text(j,17+(57*(i-1)),bggold,"G");
+		}
+		else
+		{
+			window_grey(88,8+(57*(i-1)),270,56+(57*(i-1)));
+			put_text(157,27+(57*(i-1)),bgfnt,"EMPTY");
+		}
+		fclose(file);
+	}
+	
+	tcopysprite(85,28+(cy*57),9,9,bcurs);
+
+	if(down)
+	{
+		unpress(6);
+		updatecontrols();
+		if(cy<3)
+		{
+			cy++;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(up)
+	{
+		unpress(5);
+		updatecontrols();
+		if(cy>0)
+		{
+			cy--;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		file=fopen("save0"+str(cy+1)+".dat");
+		temp="not";
+		fgettoken(temp,file);
+		if(!strcmp(temp,"sgame"))
+		{
+			play_sound(CONFIRM,32);
+			fade_out();
+			music_out();
+			delay(32);
+			load_game(cy+1);
+		}
+		else
+			play_sound(ERROR,32);
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		cy=60;
+		menu=1;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_main()
+{
+	render();
+	window(8,8,73,121);
+	put_text(14,14,bgfnt,"Items");
+	put_text(14,29,bgfnt,"Status");
+	put_text(14,44,bgfnt,"Quests");
+	put_text(14,59,bgfnt,"Save");
+	put_text(14,74,bgfnt,"Load");
+	put_text(14,89,bgfnt,"Exit");	
+	put_text(14,104,bgfnt,"Return");
+	tcopysprite(cx,cy,9,9,bcurs);
+	switch(cy)
+	{
+		case 15:
+			put_text(14,14,bggold,"Items");
+		case 30:
+			put_text(14,29,bggold,"Status");
+		case 45:
+			put_text(14,44,bggold,"Quests");
+		case 60:
+			put_text(14,59,bggold,"Save");	
+		case 75:
+			put_text(14,74,bggold,"Load");	
+		case 90:
+			put_text(14,89,bggold,"Exit");
+		case 105:
+			put_text(14,104,bggold,"Return");
+	}
+	if(down)
+	{
+		unpress(6);
+		updatecontrols();
+		if(cy<105)
+		{
+			cy+=15;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(up)
+	{
+		unpress(5);
+		updatecontrols();
+		if(cy>15)
+		{
+			cy-=15;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		switch(cy)
+		{
+			case 15:
+				menu=5;
+				cx=78;
+				cy=0;
+			case 30:
+				menu=4;
+			case 45:
+				menu=3;
+			case 60:
+				unpress(1);
+				updatecontrols();
+				save_game_update();
+				menu=7;
+				cy=0;
+			case 75:
+				unpress(1);
+				updatecontrols();
+				save_game_update();
+				menu=8;
+				cy=0;				
+			case 90:
+				menu=2;
+				cx=136;
+				cy=111;
+			case 105:
+				menu=0;
+		}
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=0;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_quests()
+{
+	int m, n;
+
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Quests");
+
+	window(81,8,311,231);
+
+	if(total_quests=0)
+		put_text(87,14,bggrey,"No Quests");
+	else
+	{
+		n=0;
+		for(m=0;m<total_quests;m++)
+		{
+			if(quest[n]=0)	
+			{	
+				while(quest[n]=0)
+					n++;
+			}
+			if(quest[n]=1)
+				put_text(87,14+(m*15),bgfnt,qname[n]);
+			else
+				put_text(87,14+(m*15),bggrey,qname[n]);
+			n++;
+		}
+	}
+
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=1;
+		cx=5;
+		cy=45;
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=1;
+		cx=5;
+		cy=45;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_save()
+{
+	int file, i, j;
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Save");
+	
+	for(i=1;i<5;i++)
+	{
+		if(sslot[i-1]=1)
+		{
+			window(88,8+(57*(i-1)),270,56+(57*(i-1)));
+			put_text(114,17+(57*(i-1)),bgfnt,sname[i-1]);
+			switch(sarea[i-1])
+			{
+				case RENESCO:
+					put_text(265-(strlen("Renesco")*9),35+(57*(i-1)),bgfnt,"Renesco");
+				case SOUTH:
+					put_text(265-(strlen("South")*9),35+(57*(i-1)),bgfnt,"South");
+				case CAVERN:
+					put_text(265-(strlen("Wolf Cave")*9),35+(57*(i-1)),bgfnt,"Wolf Cave");
+				case DAMEON:
+					put_text(265-(strlen("Dameon")*9),35+(57*(i-1)),bgfnt,"Dameon");
+				case NORTH:
+					put_text(265-(strlen("North")*9),35+(57*(i-1)),bgfnt,"North");
+				case WEST:
+					put_text(265-(strlen("West")*9),35+(57*(i-1)),bgfnt,"West");
+				case SEWAGE:
+					put_text(265-(strlen("Sewage")*9),35+(57*(i-1)),bgfnt,"Sewage");
+				case BABEL:
+					put_text(265-(strlen("Babel")*9),35+(57*(i-1)),bgfnt,"Babel");
+			}
+			if(!strcmp(schr[i-1],"player.chr"))
+				tcopysprite(91,16+(57*(i-1)),24,32,dress[0]);
+			if(!strcmp(schr[i-1],"playcmbt.chr"))
+				tcopysprite(91,16+(57*(i-1)),24,32,dress[1]);
+
+			put_text(114,35+(57*(i-1)),bggold,"LV");
+			if(slv[i-1]<10)
+				put_text(114,35+(57*(i-1)),bgfnt,"   0"+str(slv[i-1]));
+			else
+				put_text(114,35+(57*(i-1)),bgfnt,"   "+str(slv[i-1]));
+			
+			temp=str(sgp[i-1]);
+			put_text(265-(strlen(temp+"G")*9),17+(57*(i-1)),bgfnt,temp+"G");
+			j=265-(strlen(temp+"G")*9)+(strlen(temp)*9);
+			put_text(j,17+(57*(i-1)),bggold,"G");
+		}
+		else
+		{
+			window_grey(88,8+(57*(i-1)),270,56+(57*(i-1)));
+			put_text(157,27+(57*(i-1)),bgfnt,"EMPTY");
+		}
+	}
+	
+	tcopysprite(85,28+(cy*57),9,9,bcurs);
+
+	if(down)
+	{
+		unpress(6);
+		updatecontrols();
+		if(cy<3)
+		{
+			cy++;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(up)
+	{
+		unpress(5);
+		updatecontrols();
+		if(cy>0)
+		{
+			cy--;
+			play_sound(SCROLL,32);
+		}
+	}
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		save_game(cy+1);
+		play_sound(CONFIRM,32);
+		save_game_update();
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		cy=60;
+		menu=1;
+	}
+	updatecontrols();
+	showpage();
+}
+
+void menu_status()
+{
+	int m, n;
+
+	render();
+	window(8,8,73,31);
+	put_text(14,14,bgfnt,"Status");
+
+	window(81,8,146,31);
+	put_text(87,14,bggold,name);
+
+	if(level<10)
+		stat_box(81,40,"LV","0"+str(level));
+	else
+		stat_box(81,40,"LV",str(level));
+
+	if(apmax<10)
+		stat_box(180,40,"AP","0"+str(apmax));
+	else
+		stat_box(180,40,"AP",str(apmax));
+
+	if(xp<10)		
+		stat_box(81,76,"EXP","0000"+str(xp));	
+	if(xp>=10 && xp<100)		
+		stat_box(81,76,"EXP","000"+str(xp));	
+	if(xp>=100 && xp<1000)		
+		stat_box(81,76,"EXP","00"+str(xp));
+	if(xp>=1000 && xp<1000)		
+		stat_box(81,76,"EXP","0"+str(xp));
+	if(xp>=10000)		
+		stat_box(81,76,"EXP",str(xp));		
+		
+	if(level<99)
+	{
+		if(xpneed[level]<10)		
+			stat_box(180,76,"NXT","0000"+str(xpneed[level]));	
+		if(xpneed[level]>=10 && xpneed[level]<100)		
+			stat_box(180,76,"NXT","000"+str(xpneed[level]));		
+		if(xpneed[level]>=100 && xpneed[level]<1000)		
+			stat_box(180,76,"NXT","00"+str(xpneed[level]));
+		if(xpneed[level]>=1000 && xpneed[level]<10000)		
+			stat_box(180,76,"NXT","0"+str(xpneed[level]));
+		if(xpneed[level]>=10000)		
+			stat_box(180,76,"NXT",str(xpneed[level]));		
+	}
+	else
+		stat_box(180,76,"NXT","XXXXX");
+		
+	stat_box(81,110,"HP",str(hp)+"/"+str(hpmax));	
+		
+	if(atk<10)
+		temp="00"+str(atk);
+	if(atk>=10 && atk<100)
+		temp="0"+str(atk);
+	if(atk>=100)
+		temp=str(atk);
+	stat_box(81,144,"ATK",temp);
+	if(def<10)
+		temp="00"+str(def);
+	if(def>=10 && atk<100)
+		temp="0"+str(def);
+	if(def>=100)
+		temp=str(def);
+	stat_box(180,144,"DEF",temp);		
+		
+	if(strength<10)
+		temp="00"+str(strength);
+	if(strength>=10 && strength<100)
+		temp="0"+str(strength);
+	if(strength>=100)
+		temp=str(strength);
+	stat_box(81,176,"STR",temp);
+	if(dexterity<10)
+		temp="00"+str(dexterity);
+	if(dexterity>=10 && dexterity<100)
+		temp="0"+str(dexterity);
+	if(dexterity>=100)
+		temp=str(dexterity);
+	stat_box(180,176,"DEX",temp);
+		
+	if(agility<10)
+		temp="00"+str(agility);
+	if(agility>=10 && agility<100)
+		temp="0"+str(agility);
+	if(agility>=100)
+		temp=str(agility);
+	stat_box(81,208,"AGI",temp);
+	if(vitality<10)
+		temp="00"+str(vitality);
+	if(vitality>=10 && vitality<100)
+		temp="0"+str(vitality);
+	if(vitality>=100)
+		temp=str(vitality);
+	stat_box(180,208,"VIT",temp);		
+		
+	if(b1)
+	{
+		unpress(1);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=1;
+		cx=5;
+		cy=30;
+	}
+	if(b2)
+	{
+		unpress(2);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		menu=1;
+		cx=5;
+		cy=30;
+	}
+	if(down)
+	{
+		unpress(5);
+		updatecontrols();
+		if(key[38] && key[47])
+		{
+			if(level>0)
+				level--;
+			figure_stats();
+		}
+	}
+
+	updatecontrols();
+	showpage();
+}
+
+void run_menu()
+{
+	while(menu>0)
+	{
+		switch(menu)
+		{
+			case 1:
+				menu_main();
+			case 2:
+				menu_exit();
+			case 3:
+				menu_quests();
+			case 4:
+				menu_status();
+			case 5:
+				menu_items();
+			case 6:
+				menu_items_explicit();
+			case 7:
+				menu_save();
+			case 8:
+				menu_load();
+		}
+	}
+	timer=mentsave;
+}
+
+void shop_clear()
+{
+	shitot=0;
+}
+
+void shop_item(int i, int cost)
+{
+	shitem[shitot]=i;
+	shicost[shitot]=cost;
+	shitot++;
+}
+
+void shop_buy()
+{
+	int c, fnt, i, itcheck, m, n;
+
+	cx=78;
+	cy=0;
+	itcheck=0;
+	c=1;
+	while(c=1 && itcheck=0)
+	{
+		render();
+
+		if(itotal<12)
+			itcheck=0;
+		else
+		{
+			itcheck=1;
+			for(i=0;i<itotal;i++)
+			{
+				if(item[i]>=26 && item[i]<30 && itemx[i]<999)
+					itcheck=0;
+			}
+		}
+		
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Buy");
+			
+		if(gold<10)
+			temp="000"+str(gold);
+		if(gold>=10 && gold<100)
+			temp="00"+str(gold);
+		if(gold>=100 && gold<1000)
+			temp="0"+str(gold);	
+		if(gold>=1000)
+			temp=str(gold);		
+
+		stat_window(8,8+(strlen("G")*9)+9,8+(strlen("G")*9)+20+(strlen(temp)*9),40,40+23);
+		put_text(8+6,40+6,bgfnt,"G");
+		put_text(8+(strlen("G")*9)+14,40+6,bgfnt,temp);
+
+		window(81,8,239,196);
+		tcopysprite(cx,15+(cy*15),9,9,bcurs);
+	
+		window(248,8,295,196);
+	
+		window(81,205,295,228);
+		put_text(87,211,bgfnt,idesc[shitem[cy]]);
+
+		if(shitot=0)
+			put_text(87,14,bggrey,"No Items");
+		else
+		{
+			n=0;
+			for(m=0;m<shitot;m++)
+			{
+					if(gold<shicost[m])
+						put_text(87,14+(m*15),bggrey,iname[shitem[m]]);
+					else
+						put_text(87,14+(m*15),bgfnt,iname[shitem[m]]);
+					if(cy=m)
+						put_text(87,14+(m*15),bggold,iname[shitem[m]]);	
+					if(shicost[m]<10)
+						temp="000"+str(shicost[m]);
+					if(shicost[m]>=10 && shicost[m]<100)
+						temp="00"+str(shicost[m]);
+					if(shicost[m]>=100 && shicost[m]<1000)
+						temp="0"+str(shicost[m]);
+					if(shicost[m]>=1000)
+						temp=str(shicost[m]);
+					if(cy=m)
+						put_text(254,14+(m*15),bggold,temp);
+					else
+						put_text(254,14+(m*15),bgfnt,temp);
+			}
+			if(b1)
+			{
+				unpress(1);
+				updatecontrols();
+				if(gold>=shicost[cy])
+				{
+					if(shitem[cy]<26 || shitem[cy]>=30)
+					{
+						if(itotal<12)
+						{
+							play_sound(CHING,32);
+							get_item(shitem[cy],0);
+							gold-=shicost[cy];
+						}
+						else
+							play_sound(ERROR,32);
+					}
+					else
+					{
+						play_sound(CONFIRM,32);
+						shop_buy_x();
+					}
+				}
+				else
+					play_sound(ERROR,32);
+			}
+			if(down)
+			{
+				unpress(6);
+				updatecontrols();
+				if(cy<shitot-1)
+				{
+					cy++;
+					play_sound(SCROLL,32);
+				}
+			}
+			if(up)
+			{
+				unpress(5);
+				updatecontrols();
+				if(cy>0)
+				{
+					cy--;
+					play_sound(SCROLL,32);
+				}
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=0;
+		}
+		updatecontrols();
+		showpage();
+	}
+
+}	
+
+void shop_sell()
+{
+	int c, fnt, i, itcheck, m, n;
+
+	cx=78;
+	cy=0;
+	c=1;
+	while(c=1)
+	{
+		render();
+
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Sell");
+			
+		if(gold<10)
+			temp="000"+str(gold);
+		if(gold>=10 && gold<100)
+			temp="00"+str(gold);
+		if(gold>=100 && gold<1000)
+			temp="0"+str(gold);	
+		if(gold>=1000)
+			temp=str(gold);		
+
+		stat_window(8,8+(strlen("G")*9)+9,8+(strlen("G")*9)+20+(strlen(temp)*9),40,40+23);
+		put_text(8+6,40+6,bgfnt,"G");
+		put_text(8+(strlen("G")*9)+14,40+6,bgfnt,temp);
+
+		window(81,8,239,196);
+		tcopysprite(cx,15+(cy*15),9,9,bcurs);
+	
+		window(248,8,295,196);
+	
+		window(81,205,295,228);
+		
+
+		if(itotal=0)
+			put_text(87,14,bggrey,"No Items");	
+		else
+		{
+			put_text(87,211,bgfnt,idesc[item[cy]]);
+			n=0;
+			for(m=0;m<itotal;m++)
+			{
+					put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+					if(iequip[m]=1)
+						put_text(205,16+(m*15),bgfnt,"(E)");
+					if(item[m]>=26 && item[m]<30)
+					{
+						if(itemx[m]<10)
+							temp="x00"+str(itemx[m]);
+						if(itemx[m]>=10 && itemx[m]<100)
+							temp="x0"+str(itemx[m]);
+						if(itemx[m]>=100)
+							temp="x"+str(itemx[m]);
+						put_text(197,15+(m*15),bgfnt,temp);	
+					}
+					if(cy=m)
+					{
+						put_text(87,14+(m*15),bggold,iname[item[m]]);
+						if(iequip[m]=1)
+							put_text(205,16+(m*15),bggold,"(E)");
+						if(item[m]>=26 && item[m]<30)
+						{
+							if(itemx[m]<10)
+								temp="x00"+str(itemx[m]);
+							if(itemx[m]>=10 && itemx[m]<100)
+								temp="x0"+str(itemx[m]);
+							if(itemx[m]>=100)
+								temp="x"+str(itemx[m]);
+							put_text(197,15+(m*15),bggold,temp);	
+						}
+						
+						
+					}
+					if(icost[item[m]]/2<10)
+						temp="000"+str(icost[item[m]]/2);
+					if(icost[item[m]]/2>=10 && icost[item[m]]/2<100)
+						temp="00"+str(icost[item[m]]/2);
+					if(icost[item[m]]/2>=100 && icost[item[m]]/2<1000)
+						temp="0"+str(icost[item[m]]/2);
+					if(icost[item[m]]/2>=1000)
+						temp=str(icost[item[m]]/2);
+					if(cy=m)
+						put_text(254,14+(m*15),bggold,temp);
+					else
+						put_text(254,14+(m*15),bgfnt,temp);
+			}
+			if(b1)
+			{
+				unpress(1);
+				updatecontrols();
+				
+				if(item[cy]<26 || item[cy]>=30)
+				{
+					if(iequip[cy]=0)
+					{
+						gold+=(icost[item[cy]]/2);
+						if(gold>9999)
+							gold=9999;
+						remove_item(cy);
+						if(cy>0)
+							cy--;
+						play_sound(CHING,32);
+					}
+					else
+						play_sound(ERROR,32);
+				}
+				else
+				{
+					play_sound(CONFIRM,32);
+					shop_sell_x();
+				}
+			}
+			if(down)
+			{
+				unpress(6);
+				updatecontrols();
+				if(cy<itotal-1)
+				{
+					cy++;
+					play_sound(SCROLL,32);
+				}
+			}
+			if(up)
+			{
+				unpress(5);
+				updatecontrols();
+				if(cy>0)
+				{
+					cy--;
+					play_sound(SCROLL,32);
+				}
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=0;
+		}
+		updatecontrols();
+		showpage();
+	}
+
+}	
+
+void shop_buy_x()
+{
+	int c, fnt, i, itcheck, m, n;
+	int one, ten, hun, amvar, amount, tam;
+	int iremain;
+	amvar=2;
+	one=1;
+	ten=0;
+	hun=0;
+	c=1;
+	while(c=1)
+	{
+		render();
+
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Buy");
+			
+		if(gold<10)
+			temp="000"+str(gold);
+		if(gold>=10 && gold<100)
+			temp="00"+str(gold);
+		if(gold>=100 && gold<1000)
+			temp="0"+str(gold);	
+		if(gold>=1000)
+			temp=str(gold);		
+
+		stat_window(8,8+(strlen("G")*9)+9,8+(strlen("G")*9)+20+(strlen(temp)*9),40,40+23);
+		put_text(8+6,40+6,bgfnt,"G");
+		put_text(8+(strlen("G")*9)+14,40+6,bgfnt,temp);
+
+		amount=(hun*100)+(ten*10)+one;
+		if(amount<10)
+			temp="x00"+str(amount);
+		if(amount>=10 && amount<100)
+			temp="x0"+str(amount);
+		if(amount>=100)
+			temp="x"+str(amount);
+
+		window(8,72,73,95);
+		put_text(22,78,bgfnt,temp);
+
+		setlucent(1);
+		rectfill(31+(amvar*9),77,39+(amvar*9),90,20);
+		setlucent(0);
+
+		window(81,8,239,196);
+		tcopysprite(cx,15+(cy*15),9,9,bcurs);
+	
+		window(248,8,295,196);
+	
+		window(81,205,295,228);
+		put_text(87,211,bgfnt,idesc[shitem[cy]]);
+
+		if(shitot=0)
+			put_text(87,14,bggrey,"No Items");
+		else
+		{
+			n=0;
+			for(m=0;m<shitot;m++)
+			{
+					if(gold<shicost[m])
+						put_text(87,14+(m*15),bggrey,iname[shitem[m]]);
+					else
+						put_text(87,14+(m*15),bgfnt,iname[shitem[m]]);
+					if(cy=m)
+						put_text(87,14+(m*15),bggold,iname[shitem[m]]);	
+					if(shicost[m]<10)
+						temp="000"+str(shicost[m]);
+					if(shicost[m]>=10 && shicost[m]<100)
+						temp="00"+str(shicost[m]);
+					if(shicost[m]>=100 && shicost[m]<1000)
+						temp="0"+str(shicost[m]);
+					if(shicost[m]>=1000)
+						temp=str(shicost[m]);
+					if(cy=m)
+						put_text(254,14+(m*15),bggold,temp);
+					else
+						put_text(254,14+(m*15),bgfnt,temp);
+			}
+			if(b1)
+			{
+				unpress(1);
+				updatecontrols();
+				amount=((hun)*100)+(ten*10)+one;
+				var2=1;
+				iremain=amount;
+				for(i=0;i<itotal;i++)
+				{
+					if(item[i]=shitem[cy] && itemx[i]<999)
+					{
+						if(itemx[i]+iremain<999)
+							iremain=0;
+						else
+						{
+							iremain-=999-itemx[i];
+						}
+					}
+				}
+				if(itotal<12)
+					iremain=0;
+				if(iremain=0 && amount>0)
+				{
+					gold-=amount*shicost[cy];
+					iremain=amount;
+					for(i=0;i<itotal;i++)
+					{
+						if(item[i]=shitem[cy] && itemx[i]<999 && iremain>0)
+						{
+						
+							var=itemx[i];
+							if(iremain+itemx[i]<1000)
+							{
+								itemx[i]+=iremain;
+								iremain=0;
+							}
+							else
+							{
+								itemx[i]+=iremain;
+								iremain=itemx[i]-999;
+								itemx[i]=999;
+							}
+							
+						}
+					}
+					if(iremain>0)
+						get_item(shitem[cy],iremain);
+					amount=0;
+					one=0;
+					ten=0;
+					hun=0;
+					play_sound(CHING,32);
+				}
+				else
+					play_sound(ERROR,32);
+			}
+			if(down)
+			{
+				unpress(6);
+				updatecontrols();
+				switch(amvar)
+				{
+					case 0:
+						if(hun>0)
+							tam=((hun-1)*100)+(ten*10)+one;
+						else
+							tam=((9)*100)+(ten*10)+one;
+						if(gold>=tam*shicost[cy])
+						{
+							if(hun>0)
+								hun--;
+							else
+								hun=9;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 1:
+						if(ten>0)
+							tam=(hun*100)+((ten-1)*10)+one;
+						else
+							tam=(hun*100)+((9)*10)+one;
+						if(gold>=tam*shicost[cy])
+						{
+							if(ten>0)
+								ten--;
+							else
+								ten=9;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 2:
+						if(one>0)
+							tam=(hun*100)+(ten*10)+one-1;
+						else
+							tam=(hun*100)+(ten*10)+9;
+						if(gold>=tam*shicost[cy])
+						{
+							if(one>0)
+								one--;
+							else
+								one=9;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);
+				}
+			}
+			if(up)
+			{
+				unpress(5);
+				updatecontrols();
+				switch(amvar)
+				{
+					case 0:
+						if(hun<9)
+							tam=((hun+1)*100)+(ten*10)+one;
+						else
+							tam=0+(ten*10)+one;
+						if(gold>=tam*shicost[cy])
+						{
+							hun++;
+							if(hun=10)
+								hun=0;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 1:
+						if(ten<9)
+							tam=(hun*100)+((ten+1)*10)+one;
+						else
+							tam=(hun*100)+0+one;
+						if(gold>=tam*shicost[cy])
+						{
+							ten++;
+							if(ten=10)
+								ten=0;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 2:
+						if(one<9)
+							tam=(hun*100)+(ten*10)+one+1;
+						else
+							tam=(hun*100)+(ten*10)+0;
+						if(gold>=tam*shicost[cy])
+						{
+							one++;
+							if(one=10)
+								one=0;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);
+				}
+			}
+			if(left)
+			{
+				unpress(7);
+				updatecontrols();
+				if(amvar>0)
+				{
+					amvar--;
+					play_sound(SCROLL,32);
+				}
+			}
+			if(right)
+			{
+				unpress(8);
+				updatecontrols();
+				if(amvar<2)
+				{
+					amvar++;
+					play_sound(SCROLL,32);
+				}
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=0;
+		}
+		updatecontrols();
+		showpage();
+	}
+
+}	
+
+void shop_sell_x()
+{
+	int c, fnt, i, m, n;
+	int one, ten, hun, amvar, amount, tam;
+	amvar=2;
+	one=1;
+	ten=0;
+	hun=0;
+	c=1;
+	while(c=1)
+	{
+		render();
+
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Sell");
+			
+		if(gold<10)
+			temp="000"+str(gold);
+		if(gold>=10 && gold<100)
+			temp="00"+str(gold);
+		if(gold>=100 && gold<1000)
+			temp="0"+str(gold);	
+		if(gold>=1000)
+			temp=str(gold);		
+
+		stat_window(8,8+(strlen("G")*9)+9,8+(strlen("G")*9)+20+(strlen(temp)*9),40,40+23);
+		put_text(8+6,40+6,bgfnt,"G");
+		put_text(8+(strlen("G")*9)+14,40+6,bgfnt,temp);
+
+		amount=(hun*100)+(ten*10)+one;
+		if(amount<10)
+			temp="x00"+str(amount);
+		if(amount>=10 && amount<100)
+			temp="x0"+str(amount);
+		if(amount>=100)
+			temp="x"+str(amount);
+
+		window(8,72,73,95);
+		put_text(22,78,bgfnt,temp);
+
+		setlucent(1);
+		rectfill(31+(amvar*9),77,39+(amvar*9),90,20);
+		setlucent(0);
+
+		window(81,8,239,196);
+		tcopysprite(cx,15+(cy*15),9,9,bcurs);
+	
+		window(248,8,295,196);
+	
+		window(81,205,295,228);
+
+		if(itotal=0)
+			put_text(87,14,bggrey,"No Items");	
+		else
+		{
+			put_text(87,211,bgfnt,idesc[item[cy]]);
+			n=0;
+			for(m=0;m<itotal;m++)
+			{
+					put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+					if(iequip[m]=1)
+						put_text(205,16+(m*15),bgfnt,"(E)");
+					if(item[m]>=26 && item[m]<30)
+					{
+						if(itemx[m]<10)
+							temp="x00"+str(itemx[m]);
+						if(itemx[m]>=10 && itemx[m]<100)
+							temp="x0"+str(itemx[m]);
+						if(itemx[m]>=100)
+							temp="x"+str(itemx[m]);
+						put_text(197,15+(m*15),bgfnt,temp);	
+					}
+					if(cy=m)
+					{
+						put_text(87,14+(m*15),bggold,iname[item[m]]);
+						if(iequip[m]=1)
+							put_text(205,16+(m*15),bggold,"(E)");
+						if(item[m]>=26 && item[m]<30)
+						{
+							if(itemx[m]<10)
+								temp="x00"+str(itemx[m]);
+							if(itemx[m]>=10 && itemx[m]<100)
+								temp="x0"+str(itemx[m]);
+							if(itemx[m]>=100)
+								temp="x"+str(itemx[m]);
+							put_text(197,15+(m*15),bggold,temp);	
+						}
+						
+						
+					}
+					if(icost[item[m]]/2<10)
+						temp="000"+str(icost[item[m]]/2);
+					if(icost[item[m]]/2>=10 && icost[item[m]]/2<100)
+						temp="00"+str(icost[item[m]]/2);
+					if(icost[item[m]]/2>=100 && icost[item[m]]/2<1000)
+						temp="0"+str(icost[item[m]]/2);
+					if(icost[item[m]]/2>=1000)
+						temp=str(icost[item[m]]/2);
+					if(cy=m)
+						put_text(254,14+(m*15),bggold,temp);
+					else
+						put_text(254,14+(m*15),bgfnt,temp);
+			}
+			if(b1)
+			{
+				unpress(1);
+				updatecontrols();
+				amount=((hun)*100)+(ten*10)+one;
+				if(itemx[cy]>=amount)
+				{
+					itemx[cy]-=amount;
+					gold+=amount*icost[item[cy]]/2;
+					if(gold>9999)
+						gold=9999;
+					amount=0;
+					one=0;
+					ten=0;
+					hun=0;
+					if(itemx[cy]<=0)
+					{
+						remove_item(cy);
+						if(cy>0)
+							cy--;
+						c=0;
+					}
+					play_sound(CHING,32);
+				}
+				else
+					play_sound(ERROR,32);
+			}
+			if(down)
+			{
+				unpress(6);
+				updatecontrols();
+				switch(amvar)
+				{
+					case 0:
+						if(hun>0)
+							tam=((hun-1)*100)+(ten*10)+one;
+						else
+							tam=((9)*100)+(ten*10)+one;
+						if(itemx[cy]>=tam)
+						{
+							if(hun>0)
+								hun--;
+							else
+								hun=9;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 1:
+						if(ten>0)
+							tam=(hun*100)+((ten-1)*10)+one;
+						else
+							tam=(hun*100)+((9)*10)+one;
+						if(itemx[cy]>=tam)
+						{
+							if(ten>0)
+								ten--;
+							else
+								ten=9;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 2:
+						if(one>0)
+							tam=(hun*100)+(ten*10)+one-1;
+						else
+							tam=(hun*100)+(ten*10)+9;
+						if(itemx[cy]>=tam)
+						{
+							if(one>0)
+								one--;
+							else
+								one=9;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);
+				}
+			}
+			if(up)
+			{
+				unpress(5);
+				updatecontrols();
+				switch(amvar)
+				{
+					case 0:
+						if(hun<9)
+							tam=((hun+1)*100)+(ten*10)+one;
+						else
+							tam=0+(ten*10)+one;
+						if(itemx[cy]>=tam)
+						{
+							hun++;
+							if(hun=10)
+								hun=0;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 1:
+						if(ten<9)
+							tam=(hun*100)+((ten+1)*10)+one;
+						else
+							tam=(hun*100)+0+one;
+						if(itemx[cy]>=tam)
+						{
+							ten++;
+							if(ten=10)
+								ten=0;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);					
+					case 2:
+						if(one<9)
+							tam=(hun*100)+(ten*10)+one+1;
+						else
+							tam=(hun*100)+(ten*10)+0;
+						if(itemx[cy]>=tam)
+						{
+							one++;
+							if(one=10)
+								one=0;
+							play_sound(SCROLL,32);
+						}
+						else
+							play_sound(ERROR,32);
+				}
+			}
+			if(left)
+			{
+				unpress(7);
+				updatecontrols();
+				if(amvar>0)
+				{
+					amvar--;
+					play_sound(SCROLL,32);
+				}
+			}
+			if(right)
+			{
+				unpress(8);
+				updatecontrols();
+				if(amvar<2)
+				{
+					amvar++;
+					play_sound(SCROLL,32);
+				}
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=0;
+		}
+		updatecontrols();
+		showpage();
+	}
+
+}	
+
+void save_game_update()
+{
+	int file, i, j;
+	log("init sgup routine");
+	for(i=0;i<4;i++)
+		sslot[i]=0;
+	for(i=0;i<4;i++)
+	{
+		//if(sslot[i]=1)
+		//{
+			file=fopen("save0"+str(i+1)+".dat");
+			temp="not";
+			fgettoken(temp,file);
+			if(!strcmp(temp,"sgame"))
+			{
+				fgettoken(temp,file);
+				sname[i]=temp;
+				fgettoken(temp,file);
+				fgettoken(temp,file);
+				sarea[i]=val(temp);
+
+				for(j=0;j<5;j++)
+					fgettoken(temp,file);
+				schr[i]=temp;
+			
+				fgettoken(temp,file);
+				slv[i]=val(temp);
+				
+				for(j=0;j<13;j++)
+					fgettoken(temp,file);
+				sgp[i]=val(temp);
+				sslot[i]=1;
+			}
+			fclose(file);
+		//}
+	}
+}
+
+void main_menu_load()
+{
+	int c, file, i, j;
+	cy=0;
+	c=0;
+	while(c=0)
+	{
+		render();
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Load");
+	
+		for(i=1;i<5;i++)
+		{
+			file=fopen("save0"+str(i)+".dat");
+			temp="not";
+			fgettoken(temp,file);
+			if(!strcmp(temp,"sgame"))
+			{
+				window(88,8+(57*(i-1)),270,56+(57*(i-1)));
+				fgettoken(temp,file);
+				put_text(114,17+(57*(i-1)),bgfnt,temp);
+				fgettoken(temp,file);
+				fgettoken(temp,file);
+				switch(val(temp))
+				{
+					case RENESCO:
+						put_text(265-(strlen("Renesco")*9),35+(57*(i-1)),bgfnt,"Renesco");
+					case SOUTH:
+						put_text(265-(strlen("South")*9),35+(57*(i-1)),bgfnt,"South");
+					case CAVERN:
+						put_text(265-(strlen("Wolf Cave")*9),35+(57*(i-1)),bgfnt,"Wolf Cave");
+					case DAMEON:
+						put_text(265-(strlen("Dameon")*9),35+(57*(i-1)),bgfnt,"Dameon");
+					case NORTH:
+						put_text(265-(strlen("North")*9),35+(57*(i-1)),bgfnt,"North");
+					case WEST:
+						put_text(265-(strlen("West")*9),35+(57*(i-1)),bgfnt,"West");
+					case SEWAGE:
+						put_text(265-(strlen("Sewage")*9),35+(57*(i-1)),bgfnt,"Sewage");
+					case BABEL:
+						put_text(265-(strlen("Babel")*9),35+(57*(i-1)),bgfnt,"Babel");
+				}
+				for(j=0;j<5;j++)
+					fgettoken(temp,file);
+				if(!strcmp(temp,"player.chr"))
+					tcopysprite(91,16+(57*(i-1)),24,32,dress[0]);
+				if(!strcmp(temp,"playcmbt.chr"))
+					tcopysprite(91,16+(57*(i-1)),24,32,dress[1]);
+				
+				
+				fgettoken(temp,file);
+	
+				put_text(114,35+(57*(i-1)),bggold,"LV");
+				if(val(temp)<10)
+					put_text(114,35+(57*(i-1)),bgfnt,"   0"+temp);
+				else
+					put_text(114,35+(57*(i-1)),bgfnt,"   "+temp);
+				
+				for(j=0;j<13;j++)
+					fgettoken(temp,file);	
+				put_text(265-(strlen(temp+"G")*9),17+(57*(i-1)),bgfnt,temp+"G");
+				j=265-(strlen(temp+"G")*9)+(strlen(temp)*9);
+				put_text(j,17+(57*(i-1)),bggold,"G");
+			}
+			else
+			{
+				window_grey(88,8+(57*(i-1)),270,56+(57*(i-1)));
+				put_text(157,27+(57*(i-1)),bgfnt,"EMPTY");
+			}
+			fclose(file);
+		}
+		
+		tcopysprite(85,28+(cy*57),9,9,bcurs);
+	
+		if(down)
+		{
+			unpress(6);
+			updatecontrols();
+			if(cy<3)
+			{
+				cy++;
+				play_sound(SCROLL,32);
+			}
+		}
+		if(up)
+		{
+			unpress(5);
+			updatecontrols();
+			if(cy>0)
+			{
+				cy--;
+				play_sound(SCROLL,32);
+			}
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			file=fopen("save0"+str(cy+1)+".dat");
+			temp="not";
+			fgettoken(temp,file);
+			if(!strcmp(temp,"sgame"))
+			{
+				play_sound(CONFIRM,32);
+				free(gfx);
+				//music_out();
+				delay(32);
+				load_game(cy+1);
+			}
+			else
+				play_sound(ERROR,32);
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=1;
+		}
+		updatecontrols();
+		showpage();
+	}
+	cy=1;
+}	

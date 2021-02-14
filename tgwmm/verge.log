@@ -1,0 +1,24 @@
+V2 startup. Logfile initialized. 
+Sys: Initializing keyboard handler.... OK 
+Sys: Initializing timer. Set 100hz.... OK 
+Sys: Initializing CD Audio.... OK 
+Sys: Initializing music system.... OK 
+Sys: Initializing 320x200 (Mode 13h, linear).... OK 
+Initialize console.... OK 
+Initializing VC interpreter 
+system vclib init: 34 funcs, 77 ints (848 bytes), 7 strings (3840 bytes) 
+Loading MAP start.map. [3] ... OK 
+VC freeing allocated heap at 6365188. 
+ --> VC opened file guymug.sv1, ptr 0 
+ --> VC opened file guymug.sv2, ptr 0 
+ --> VC opened file guymug.sv3, ptr 0 
+ --> VC opened file guymug.sv4, ptr 0 
+0 
+ --> VC closed file at ptr 0 
+ --> VC closed file at ptr 0 
+ --> VC closed file at ptr 0 
+ --> VC closed file at ptr 0 
+0 
+VC freeing allocated heap at 6471684. 
+Loading MAP ohmcs.map. [21] ... OK 
+Sys: Exiting with message: Exiting: ALT-X pressed. 

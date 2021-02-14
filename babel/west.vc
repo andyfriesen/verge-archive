@@ -1,0 +1,32 @@
+
+event // autoevent
+{
+	area=WEST;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	put_party();
+	//put_denizens();
+	denz_on_map=0;
+
+	assign_denizen(0,43);
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);
+}
+
+event // 01 : Return to Renesco
+{
+	fade_out();
+	delay(32);
+	load_map(52,73,3,"renesco.map");
+}
+
+event // 02 : Enter Sewers
+{
+	fade_out();
+	delay(32);
+	load_map(149,68,0,"sewage.map");
+}

@@ -1,0 +1,64 @@
+
+event // autoevent
+{
+	area=SEWAGE;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	put_party();
+	//put_denizens();
+	denz_on_map=0;
+
+	if(flag[4]>0)
+		settile(132,99,1,58);
+
+	assign_denizen(0,41);
+	
+	assign_denizen(1,44);
+	assign_denizen(2,45);
+	assign_denizen(3,46);
+	assign_denizen(4,47);
+	assign_denizen(5,48);
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);
+}
+
+event // 01 : Return to West
+{
+	fade_out();
+	delay(32);
+	load_map(74,77,0,"west.map");
+}
+
+event // 02 : Power
+{
+	if(flag[4]>0)
+		text_box("","Power seems to be","flowing through this","equipment.");	
+	if(flag[4]=0)
+	{
+		text_box("","There are some loose","and corroded wires.","");
+		dialogue_clear();
+		dialogue_add("Fiddle with it.");
+		dialogue_add("Leave it alone.");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("","Amazingly you fix the","problem that caused","the power failure.");
+			settile(132,99,1,58);	
+			flag[4]=1;
+		}
+	}
+}
+
+event // 03 : Treasure 07
+{
+	treasure(7,8,0);
+}
+
+event // 04 : Treasure 08
+{
+	treasure(8,411,37);
+}

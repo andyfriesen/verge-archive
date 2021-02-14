@@ -1,0 +1,305 @@
+int PlrHand[5], AIHand[5];
+
+int numcards[2];
+int dealer, dollar;
+int bet;
+int mode;
+int doubled;
+#define AI 1
+#define Plr 0
+
+void BlackJack()
+{
+ int done, i, pointer, value;
+ int emotion;
+ int Choices;
+ int doneai;
+
+ dealer=loadimage("dealer3.pcx");
+ copysprite(0,0,320, 240, bg); 
+ fadeout();
+ fadein();
+ BJReset();
+ choices=1; mode=0;
+ while(!done)
+ {
+  updatecontrols();
+
+  DrawUI();
+  //cards
+  DrawMenu();
+  DrawAICards();
+  DrawPlrCards();
+
+  tbox(88,57+(10*pointer),132,65+(10*pointer));
+
+  showpage();
+  if(b1) 
+  {
+   unpress(1);
+   if(mode=0) //first screen
+   {
+    switch (pointer)
+    {
+     case 0: mode=1; choices=4; pointer=0;
+     case 1: done++;  
+    }
+   } 
+   else if(mode=1) //betting screen
+   {
+    switch(pointer)
+    {
+     case 0: 
+      if(money>=5) { bet=5; money-=5; mode=2; choices=2; pointer=0; BJDeal(); }
+      else { Playsound(error, 63, 128); Msg("Not enough money!"); }
+     case 1: 
+      if(money>=10) { bet=10; money-=10; mode=2; choices=2; pointer=0; BJDeal(); }
+      else { Playsound(error, 63, 128); Msg("Not enough money!"); }
+     case 2: 
+      if(money>=25) { bet=25; money-=25; mode=2; choices=2; pointer=0; BJDeal(); }
+      else { Playsound(error, 63, 128); Msg("Not enough money!"); }
+     case 3: 
+      if(money>=50) { bet=50; mode=2; money-=50; choices=2; pointer=0; BJDeal(); }
+      else { Playsound(error, 63, 128); Msg("Not enough money!"); }
+     case 4: 
+      if(money>=100) { bet=100; money-=100; mode=2; choices=2; pointer=0; BJDeal(); }
+      else { Playsound(error, 63, 128); Msg("Not enough money!"); }
+    }
+   }
+   else if(mode=2)
+   {
+    switch(pointer)
+    {
+     case 0: //Hit
+      if(numcards[Plr]<5)
+      {
+       Hit(Plr);
+       if(CalcVal()>21)
+       {
+        Playsound(lose, 63, 128);
+        Msg("Sorry, you busted!");
+        mode=0; choices=1; pointer=0; BJReset();
+        if(money<=0) return; 
+       }
+      }
+      else Playsound(error, 63, 128);
+     case 1: //Stay
+      while(!doneai)
+      {
+       if(NumCards[AI]<5) 
+       {
+        if(CalcValAI()<CalcVal() && CalcValAI()>17) hit(AI);
+        else if(CalcValAI()<17) hit(AI);
+        else doneai++; 
+       }
+       else doneai++;
+      }
+      doneai=0;
+      DrawUI();
+      DrawMenu();
+      DrawAICardsB();
+      DrawPlrCards();
+      
+      showpage();
+      Delay(50);
+      if(CalcValAI()>21)
+      { 
+       Playsound(win, 63, 128);
+       Msg("Dealer busts, you win!");
+       money+=bet*2;
+      }
+      else if(CalcValAI()>=CalcVal())
+      {
+       Playsound(lose, 63, 128);
+       Msg("Dealer wins.");
+      }
+      else
+      {
+       Playsound(win, 63, 128);
+       Msg("You win!");
+       money+=bet*2;
+      }
+      mode=0; choices=1; pointer=0; 
+      BJReset();
+      if(money<=0) return; 
+     case 2: //Double-Down
+      if(!doubled && money-bet>=0) { money-=bet; bet=bet*2; doubled++; }
+      else Playsound(error, 63, 128);
+    }
+   }
+  }
+  if(b2)
+  {
+   if(mode=1) { mode=0; choices=1; pointer=0; }
+  }
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=Choices; Playsound(select, 63, 128); }
+  if(down) { Unpress(6); pointer++; if(pointer>Choices) pointer=0; Playsound(select, 63, 128); }
+ } 
+ free(dealer); 
+}
+
+void BJDeal()
+{
+ Hit(AI); Hit(Plr);
+ Hit(AI); Hit(Plr);
+}
+
+void DrawUI()
+{
+ rectfill(80,50,240,190,3); 
+ //deck
+ TCopysprite(168, 56, 25,33,Bimage);
+ TCopysprite(170, 56, 25,33,Bimage);
+ TCopysprite(172, 56, 25,33,Bimage);
+
+ //dealer
+ Box(202,55,235, 88);
+ Copysprite(203,56, 32,32,dealer);
+
+ //money box
+ Box(168, 95, 235, 107);
+ TCopysprite(171, 98, 5,7,dollar); 
+ GotoXY(177, 99); Printstring(1, str(money));
+ //bug testing
+// GotoXY(90, 50); Printstring(1, str(CalcValAI()));
+// GotoXY(120, 50); Printstring(1, str(CalcVal()));
+}
+
+void DrawMenu()
+{
+ int i;
+ Box(85,55, 162, 107); 
+ Switch(mode)
+ {
+  case 0: //default
+   GotoXY(90,59); Printstring(1,"Bet");
+   GotoXY(90,69); Printstring(1,"Quit");
+  case 1: //bet
+   for(i=0; i<5;i++) TCopysprite(90, 58+(10*i), 5,7,dollar);   
+   GotoXY(96,59); Printstring(1,"5");   
+   GotoXY(96,69); Printstring(1,"10");
+   GotoXY(96,79); Printstring(1,"25");   
+   GotoXY(96,89); Printstring(1,"50");
+   GotoXY(96,99); Printstring(1,"100");
+  case 2: //game
+   GotoXY(90,59); Printstring(1,"Hit");
+   GotoXY(90,69); Printstring(1,"Stay"); 
+   GotoXY(90,79); Printstring(1,Sub[1+(doubled*2)]+"Double-Down"+Sub[1]); 
+ }
+}
+
+void DrawAICards()
+{
+ int i;
+ if(numcards[AI])
+ {
+  for(i=0; i<numcards[AI]; i++)
+  {
+   TCopysprite(160-(29*numcards[AI]/2)+(29*i)+i, 115, 25,33,Cimage[AIHand[i]]);
+  }
+  TCopysprite(160-(29*numcards[AI]/2), 115, 25,33,BImage);
+ }
+}
+
+void DrawAICardsB()
+{
+ int i;
+ if(numcards[AI])
+ {
+  for(i=0; i<numcards[AI]; i++)
+  {
+   TCopysprite(160-(29*numcards[AI]/2)+(29*i)+i, 115, 25,33,Cimage[AIHand[i]]);
+  }
+ }
+}
+
+void DrawPlrCards()
+{
+ int i;
+ if(numcards[Plr])
+ {
+  for(i=0; i<numcards[Plr]; i++)
+  {
+   TCopysprite(160-(29*numcards[Plr]/2)+(29*i)+i, 153, 25,33,Cimage[PlrHand[i]]);
+  }
+ }
+} 
+
+//172,56
+//145,153
+
+//run: -27
+//rise: 97
+
+
+void Hit(int who)
+{
+ //int done, x, y;
+ playsound(dealcard, 63, 128);
+ if(who)
+ {
+  AIHand[Numcards[AI]]=DrawTopCard();
+  NumCards[AI]++;
+  DrawUI();
+  DrawMenu();
+  DrawAICards();
+  DrawPlrCards();
+  showpage();
+  delay(100);
+ }
+ else
+ {
+  PlrHand[Numcards[Plr]]=DrawTopCard();
+  NumCards[Plr]++;
+  DrawUI();
+  DrawMenu();
+  DrawAICards();
+  DrawPlrCards();
+  showpage();
+  delay(100);
+ }
+}
+
+void BJReset()
+{
+ int i;
+ For(I=0; i<5; i++)
+ { PlrHand[i]=0; AIHand[i]=0; }
+ NumCards[AI]=0; NumCards[Plr]=0;
+ doubled=0; 
+ ShuffleDeck();
+}
+
+int CalcVal()
+{
+ int i, v;
+ if(numcards[plr])
+ {
+  for(i=0; i<numcards[Plr]; i++)
+  {
+   if(Value[PlrHand[i]]>=1 && Value[PlrHand[i]]<10)
+   {
+    v+=Value[PlrHand[i]];
+   }
+   else v+=10;
+  }
+ }
+ return v;
+}
+
+int CalcValAI()
+{
+ int i, v;
+ if(numcards[AI])
+ {
+  for(i=0; i<numcards[AI]; i++)
+  {
+   if(Value[AIHand[i]]>=1 && Value[AIHand[i]]<10)
+   {
+    v+=Value[AIHand[i]];
+   }
+   else v+=10;
+  }
+ }
+ return v;
+}

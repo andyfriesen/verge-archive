@@ -1,0 +1,90 @@
+
+event // autoevent
+{
+	area=SOUTH;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	denz_on_map=0;
+	put_party();
+	//put_denizens();
+	
+	entitymove(9,"F2");
+	processentities();
+	
+	assign_denizen(0,14);
+	assign_denizen(1,15);
+	assign_denizen(2,16);
+	assign_denizen(3,17);
+	assign_denizen(4,18);
+	assign_denizen(5,19);
+	assign_denizen(6,20);
+	assign_denizen(7,21);
+	
+	assign_denizen(8,22);
+	assign_denizen(9,23);
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);
+	
+}
+
+event // 01 : Return to Renesco
+{
+	fade_out();
+	delay(32);
+	load_map(86,119,1,"renesco.map");
+}
+
+event // 02 : Confront Bandits
+{
+	if(denz_hp[22]>0 && denz_hp[23]>0)
+	{
+		text_box("Hoodlum","Who the hell are you?","You better talk fast.","");
+		dialogue_clear();
+		dialogue_add("I need to talk to Dameon.");
+		dialogue_add("I'm here to rumble!");
+		dialogue_add("I was just leaving.");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("Hoodlum","Are you gone? Get the","hell out of here now!","");
+			dialogue_clear();
+			dialogue_add("LET ME TALK TO D-A-M-E-O-N.");
+			dialogue_add("Fine, forget it.");
+			dialogue();			
+			if(dchoice=0)
+			{	
+				text_box("Hoodlum","I'm gonna rip your head","off and shit down your","neck.");	
+				denz_disp[22]=ANGRY;
+				denz_disp[23]=ANGRY;
+			}
+			else
+				move(2,1);
+		}
+		else if(dchoice=1)
+		{
+			text_box("Hoodlum","Lucky for you I've been","bored all day. Time for","some fun.");	
+			denz_disp[22]=ANGRY;
+			denz_disp[23]=ANGRY;
+		}
+		else
+			move(2,1);
+	}
+}
+
+event // 03 : Cavern
+{
+	fade_out();
+	delay(32);
+	load_map(54,159,1,"cavern.map");
+}
+
+event // 04 : Enter Dameon's Camp
+{
+	fade_out();
+	delay(32);
+	load_map(46,75,3,"dameon.map");
+}

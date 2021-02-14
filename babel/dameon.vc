@@ -1,0 +1,302 @@
+
+event // autoevent
+{
+	area=DAMEON;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	put_party();
+	//put_denizens();
+	denz_on_map=0;
+
+	entitymove(2,"F3");
+	processentities();
+	entitymove(3,"F2");
+	processentities();
+	
+	assign_denizen(0,33);
+	assign_denizen(1,34);
+	assign_denizen(2,35);
+	assign_denizen(3,36);
+	assign_denizen(4,37);
+	assign_denizen(5,38);
+	
+	assign_denizen(6,42);
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);	
+}
+
+event // 01 : Return to the South
+{
+	fade_out();
+	delay(32);
+	load_map(137,63,2,"south.map");
+}
+
+event // 02 : Enter Cavern
+{
+	fade_out();
+	delay(32);
+	load_map(83,123,2,"cavern.map");
+}
+
+event // 03 : Suprise Dameon
+{
+	if(denz_hp[33]>0)
+	{
+		text_box("Dameon","Who are you? How'd","you get in here? I'm","gonna flog those guards.");
+		dialogue_clear();
+		dialogue_add("I'm here to kill you.");
+		dialogue_add("Leave Renesco alone.");
+		dialogue_add("I want to join.");
+		dialogue();		
+		if(dchoice=0)
+		{
+			text_box("Dameon","Well shut up and try!","No one can outmatch","Dameon Vacelos Freise!");
+			denz_disp[33]=ANGRY;
+		}
+		else if(dchoice=1)
+		{
+			text_box("Dameon","Renewhat? You mean the","lil' sow northwest that","we milk occasionally?");
+			text_box("Dameon","Wake up kid, the old","days are over. The","strong eat weak.");
+			text_box("Dameon","Now let's end this nice","little chat the way we","both knew it would.");
+			denz_disp[33]=ANGRY;
+		}
+		else if(dchoice=2)
+		{
+			text_box("Dameon","Ha! Well let me fetch","the membership","committee!");
+			text_box("Dameon","Seriously, you join","up with me you have to","take me on first.");
+			text_box("Dameon","Let's go newbie! Old","Dameon here has a lil'","fight left in him yet!");
+			denz_disp[33]=ANGRY;
+		}
+		flag[1]=3;
+	}
+}
+
+event // 04 : Enter the North
+{
+	fade_out();
+	delay(32);
+	load_map(98,79,1,"north.map");
+}
+
+event // 05 : Treasure 06
+{
+	treasure(5,27,5);
+}
+
+event // 06 : Treasure 07
+{
+	treasure(6,411,26);
+}
+
+event // 07 : Mickey
+{
+	if(flag[5]>0)
+	{
+		text_box("Mickey","Good to see you","again friend.","");
+		dialogue_clear();
+		dialogue_add("Have any goods?");
+		dialogue_add("What's your story?");
+		dialogue_add("I changed my mind, DIE!!");
+		dialogue_add("Nothing, bye.");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("Mickey","It just so happens","that I do! What's","your pleasure?");
+			dialogue_clear();
+			dialogue_add("I wanna buy.");
+			dialogue_add("I wanna sell.");
+			dialogue_add("Got anything with a punch?");
+			dialogue_add("Nevermind.");
+			dialogue();
+			if(dchoice=0)
+			{
+				var2=1;
+				if(itotal<12)
+					var2=0;
+				else
+				{
+					for(var=0;var<itotal;var++)
+					{
+						if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+							var2=0;
+					}
+				}
+				if(var2=0)
+				{		
+					shop_clear();
+					shop_item(2,icost[2]);
+					shop_item(6,icost[6]);
+					shop_item(9,icost[9]);
+					shop_item(27,icost[27]);
+					shop_item(13,icost[13]);
+					shop_item(17,icost[17]);
+					shop_item(20,icost[20]);
+					shop_item(23,icost[23]);
+					shop_item(25,icost[25]);
+					shop_item(22,icost[22]);
+					shop_item(24,icost[24]);
+					shop_buy();
+	
+					var2=1;
+					if(itotal<12)
+						var2=0;
+					else
+					{
+						for(var=0;var<itotal;var++)
+						{
+							if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+								var2=0;
+						}
+					}
+					if(var2=1)
+						text_box("Mickey","Unless you've got","some friends you can't","carry any more.");
+				}
+				else
+					text_box("Mickey","Unless you've got","some friends you can't","carry any more.");
+			}
+			else if(dchoice=1)
+				shop_sell();
+			else if(dchoice=2)
+			{
+				flag[5]=2;
+				text_box("Mickey","Actually no, but I","know a guy that can","set you up.");
+				text_box("Mickey","You can find him in","the western edge of","Renesco.");
+				text_box("Mickey","Tell him that you're","a friend of Mickey.","");
+			}	
+		}
+		else if(dchoice=1)
+		{
+			text_box("Mickey","Well my brother Dameon","and me moved out from","Yeropa some years ago.");
+			text_box("Mickey","This petty thug gig","is just until we can","get some trade going.");			
+			dialogue_clear();
+			dialogue_add("Yeropa? You mean Babel?");
+			dialogue_add("That's very interesting.");
+			dialogue();
+			if(dchoice=0)
+			{
+				text_box("Mickey","Babel? That's just what","those religious nuts","called it.");
+				text_box("Mickey","Yeropa Corp. ruled","the world back in the","ancient days.");
+				text_box("Mickey","Those nuts that call","Yeropa Babel caused","the shit we're in.");				
+			}
+		}
+		else if(dchoice=2)
+			denz_disp[42]=ANGRY;
+	}
+	if(flag[5]=0)
+	{
+		text_box("Mickey","Please don't hurt me!","I surrender!","");
+		dialogue_clear();
+		dialogue_add("Okay.");
+		dialogue_add("DIE!!!");
+		dialogue();
+		if(dchoice=0)
+		{
+			flag[5]=1;
+			text_box("Mickey","Thanks! Now what do","you want?!?","");
+			dialogue_clear();
+			dialogue_add("Have any goods?");
+			dialogue_add("What's your story?");
+			dialogue_add("I changed my mind, DIE!!");
+			dialogue_add("Nothing, bye.");
+			dialogue();
+			if(dchoice=0)
+			{
+				text_box("Mickey","It just so happens","that I do! What's","your pleasure?");
+				dialogue_clear();
+				dialogue_add("I wanna buy.");
+				dialogue_add("I wanna sell.");
+				dialogue_add("Got anything with a punch?");
+				dialogue_add("Nevermind.");
+				dialogue();
+				if(dchoice=0)
+				{
+					var2=1;
+					if(itotal<12)
+						var2=0;
+					else
+					{
+						for(var=0;var<itotal;var++)
+						{
+							if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+								var2=0;
+						}
+					}
+					if(var2=0)
+					{		
+						shop_clear();
+						shop_item(2,icost[2]);
+						shop_item(6,icost[6]);
+						shop_item(9,icost[9]);
+						shop_item(27,icost[27]);
+						shop_item(13,icost[13]);
+						shop_item(17,icost[17]);
+						shop_item(20,icost[20]);
+						shop_item(23,icost[23]);
+						shop_item(25,icost[25]);
+						shop_item(22,icost[22]);
+						shop_item(24,icost[24]);
+						shop_buy();
+		
+						var2=1;
+						if(itotal<12)
+							var2=0;
+						else
+						{
+							for(var=0;var<itotal;var++)
+							{
+								if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+									var2=0;
+							}
+						}
+						if(var2=1)
+							text_box("Mickey","Unless you've got","some friends you can't","carry any more.");
+					}
+					else
+						text_box("Mickey","Unless you've got","some friends you can't","carry any more.");
+				}
+				else if(dchoice=1)
+					shop_sell();
+				else if(dchoice=2)
+				{
+					flag[5]=2;
+					text_box("Mickey","Actually no, but I","know a guy that can","set you up.");
+					text_box("Mickey","You can find him in","the western edge of","Renesco.");
+					text_box("Mickey","Tell him that you're","a friend of Mickey.","");
+				}	
+			}
+			else if(dchoice=1)
+			{
+				text_box("Mickey","Well my brother Dameon","and me moved out from","Yeropa some years ago.");
+				text_box("Mickey","This petty thug gig","is just until we can","get some trade going.");			
+				dialogue_clear();
+				dialogue_add("Yeropa? You mean Babel?");
+				dialogue_add("That's very interesting.");
+				dialogue();
+				if(dchoice=0)
+				{
+					text_box("Mickey","Babel? That's just what","those religious nuts","called it.");
+					text_box("Mickey","Yeropa Corp. ruled","the world back in the","ancient days.");
+					text_box("Mickey","Those nuts that call","Yeropa Babel caused","the shit we're in.");				
+				}
+			}
+			else if(dchoice=2)
+				denz_disp[42]=ANGRY;
+		}
+		else if(dchoice=1)
+		{
+			denz_disp[42]=ANGRY;
+		}
+	}
+}
+
+
+
+
+
+
+

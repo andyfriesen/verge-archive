@@ -1,0 +1,227 @@
+int money; //Really, do I need to explain this? ;)
+int bg;
+string Sub[5];
+int cas;
+int ding, error, showcard, dealcard, lose, win, select, confirm;
+string Name;
+
+#include "SaveLoad.vc"
+#include "hi_score.vc"
+#include "Cards.vc"
+#include "names.vc"
+#include "jukebox.vc"
+#include "slots.vc"
+#include "blckjack.vc"
+
+void Autoexec()
+{    
+ int p;
+ setresolution(320,240);     
+ 
+ LoadFont("minifont.fnt");
+ dollar=LoadImage("dollar.pcx");
+ ding=Cachesound("ding.wav");
+ error=Cachesound("error.wav");
+ showcard=Cachesound("showcard.wav");
+ dealcard=Cachesound("dealcard.wav");
+ lose=Cachesound("lose.wav");
+ win=Cachesound("win.wav");
+ select=Cachesound("select.wav");
+ confirm=Cachesound("confirm.wav");
+ Sub[1]="~";
+ Sub[2]="Ä";
+ Sub[3]="Å";
+ Sub[4]="Ç";
+
+ money=100; 
+ CreateDeck();
+ ShuffleDeck();
+ bg=loadimage("cgskin.pcx");
+ p=loadimage("pal.pcx"); free(p); //cheap hack to avoid color pink images :P
+ Palettemorph(0,0,0,0,63); 
+ Playmusic("blank.s3m");
+// BlackJack();
+
+ Intro();
+ map("casino.map");
+}
+
+void Intro()
+{
+ int logo,  y;
+ 
+ logo=Loadimage("cglogo.pcx");
+ copysprite(0,0,320, 240, bg); 
+ rectfill(80,50,240,190,4); showpage();
+ delay(50);
+ fadein();
+ for(y=0; y<140; y++)
+ {
+  copysprite(80,50-140+y, 160,140, logo);
+  tcopysprite(0,0,320, 240, bg); 
+  showpage();
+  delay(2);
+ }
+ Playsound(ding, 63, 128);
+ delay(200);
+ free(logo);  
+ fadeout();
+ delay(10); 
+ fadein();
+ TitleMenu();
+}
+
+void TitleMenu()
+{
+ int done, pointer;
+ cas=Loadimage("casino.pcx");
+ playmusic("sleeze.s3m");
+ while(!done)
+ {
+  updatecontrols();
+  copysprite(80,50, 160,140, cas); 
+  
+  Center(1, 150, "New Game");
+  Center(1, 160, "Continue");
+  Center(1, 170, "Quit Game");
+  TBox(136, 148+(10*pointer), 184, 156+(10*pointer));
+  showpage(); 
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=2; Playsound(select, 63, 128); }
+  if(down) { Unpress(6); pointer++; if(pointer>2) pointer=0; Playsound(select, 63, 128); }
+  if(b1)
+  {
+   unpress(1);
+   switch(pointer)
+   {
+    case 0: if(EnterName()=1) { done++; }
+    case 1: LoadGame();
+    case 2: Exit("");
+            //HiScores(2, "hiandlow.hsc");
+   }
+  }
+ }
+ Fadeout();
+ Fadein();
+}
+
+void Text(string line1, string line2, string line3)
+{
+ int l1,l2,l3;
+ unpress(1);
+ if(!Strlen(line3)) line3=" ";
+ while(!b1) 
+ {
+  updatecontrols();
+  render();
+  
+  box(90,160,230,180);
+  GotoXY(92,162); Printstring(1, left(line1, l1));
+  GotoXY(92,168); Printstring(1, left(line2, l2));
+  GotoXY(92,174); Printstring(1, left(line3, l3));
+  if(l1<strlen(line1)) l1++;
+  else if(l2<strlen(line2)) l2++;
+  else if(l3<strlen(line3)) l3++;
+  delay(1);
+  If(b1 && l3<strlen(line3)) unpress(1);
+  
+  showpage();
+ }
+}
+
+int Prompt(string m, string op1, string op2)
+{
+ int pointer;
+ while(!b1) 
+ {
+  updatecontrols();
+  render();
+  box(90,150,230,176);
+  GotoXY(94,152); Printstring(1, m);
+  GotoXY(94,160); Printstring(1, op1);
+  GotoXY(94,168); Printstring(1, op2);
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=1; Playsound(select, 63, 128); }
+  if(down) { Unpress(6); pointer++; if(pointer>1) pointer=0; Playsound(select, 63, 128); }
+  TBox(92,158+(8*pointer),124,166+(8*pointer));
+  showpage();
+ }
+ return pointer;
+}
+
+void Box(int x, int y, int x2, int y2)
+{
+ RectFill(x+1,y+1,x2-1,y2-1, 3);
+ HLine(x+1, y, x2-1, 2);
+ VLine(x, y+1, y2-1, 2);
+ HLine(x+1, y2, x2-1, 1);
+ VLine(x2,y+1, y2-1, 1);
+} 
+
+void TBox(int x, int y, int x2, int y2)
+{
+ HLine(x+1, y, x2-1, 2);
+ VLine(x, y+1, y2-1, 2);
+ HLine(x+1, y2, x2-1, 1);
+ VLine(x2,y+1, y2-1, 1);
+} 
+
+void Delay(int d) 
+{
+ timer=0;
+ while(timer<d) { }
+ timer=0;
+}
+
+void DrawBorder()
+{
+ tcopysprite(0,0,320,240,bg);
+ if(money>0)
+ {
+  tcopysprite(84, 180, 5,7, dollar);
+  GotoXY(90, 181); Printstring(1, str(money));
+  Tbox(82, 179, 90+(4*strlen(str(money))), 187);
+ }
+ else GameEnd();
+}
+
+void Center(int font, int y, string txt)
+{
+ GotoXY(screenx/2-(fontwidth(font)*strlen(txt)/2), y); Printstring(font, txt);
+}
+
+void Fadein()
+{
+ rectfill(80,50,240,190,0); showpage();
+ delay(5);  
+ rectfill(80,50,240,190,1); showpage();
+ delay(5); 
+ rectfill(80,50,240,190,2); showpage();
+ delay(5); 
+ rectfill(80,50,240,190,3); showpage();
+ delay(5); 
+}
+
+void Fadeout()
+{
+ rectfill(80,50,240,190,3); showpage();
+ delay(5);
+ rectfill(80,50,240,190,2); showpage();
+ delay(5); 
+ rectfill(80,50,240,190,1); showpage();
+ delay(5); 
+ rectfill(80,50,240,190,0); showpage();
+ Delay(5);
+}
+
+void Msg(string M)
+{
+ Box(157-(strlen(M)*fontwidth(1)/2),126,161+(strlen(M)*fontwidth(1)/2),134);
+ Center(1, 128, M);
+ showpage();
+ while(!b1) { Updatecontrols(); } 
+ unpress(1);
+}
+
+void GameEnd()
+{
+ Exit("Insert cool ending here");
+}

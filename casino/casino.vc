@@ -1,0 +1,58 @@
+event
+{
+ HookRetrace(DrawBorder);
+ setplayer(entityspawn(37,11,"blank.chr"));
+ Render();
+ showpage();
+ //BlackJack();
+ //Text("Mwehehehehe","Mwahahahaha","MOOO!");
+}
+
+event
+{
+ unpress(1);
+ Text("Welcome to the Service desk! Here",
+      "you can save your game.",
+      "");
+ SaveGame();
+ unpress(1);
+}
+
+event
+{
+ unpress(1);
+ Text("Arrr. This be the BlackJack table.",
+      "Would you like to play?","");
+ BlackJack();
+ unpress(1);
+}
+
+event 
+{
+ unpress(1);
+ //Text("Wanna go play some slots?","","");
+ SlotsM();
+ unpress(1);
+}
+
+event 
+{
+ unpress(1);
+ Text("Sorry, poker isn't implemented","due to lack of time. :(","");
+  unpress(1);
+}
+
+event 
+{
+ unpress(1);
+ Text("Hi and low isn't implemented ", "either.","");
+  unpress(1);
+}
+
+event
+{
+ unpress(1);
+ //Text("Hey, it's the jukebox!","","");
+ JukeBox();
+  unpress(1);
+}

@@ -1,0 +1,921 @@
+
+event // autoevent
+{
+	area=RENESCO;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	denz_on_map=0;
+	put_party();
+	//put_denizens();
+
+	assign_denizen(0,BENARD);
+	assign_denizen(1,MASON);
+	entitymove(1,"F2");
+	processentities();
+	assign_denizen(2,DENOTHAR);
+	assign_denizen(3,3);
+	entitymove(3,"F1");
+	processentities();
+	assign_denizen(4,4);
+	entitymove(4,"F1");
+	processentities();
+	assign_denizen(5,5);
+	assign_denizen(6,6);
+	assign_denizen(7,7);
+	assign_denizen(8,8);
+	assign_denizen(9,9);
+	assign_denizen(10,10);
+	assign_denizen(11,11);
+	assign_denizen(12,12);
+	assign_denizen(13,13);
+
+	entitymove(12,"F3");
+	processentities();
+
+	//flag[0]=1;
+
+	if(flag[0]=0)
+	{
+		partymove("Z22");
+		entity.tx[8]=84;
+		entity.x[8]=84*16;
+		entity.ty[8]=92;
+		entity.y[8]=92*16;
+		entitymove(8,"F1");
+		processentities();
+	}
+	
+	render();
+	processentities();
+	showpage();
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);
+	
+	if(flag[0]=0)
+	{
+		delay(64);
+		
+		text_box("Wallace","Hey cousin, wake up!","","");
+		
+		delay(32);
+		
+		partymove("Z21");
+		delay(48);
+		partymove("Z22");
+		delay(8);
+		partymove("Z21");
+		delay(32);
+
+		text_box("Wallace","Denothar wants to talk","to you. Now come on,","it's important.");
+		delay(8);
+		
+		partymove("Z23");
+		delay(48);
+		partymove("Z24");
+		delay(12);		
+		partymove("Z23");
+		delay(32);
+		partymove("Z25");
+		delay(32);
+		partymove("Z26");
+		delay(32);
+		partymove("Z0");
+		delay(8);
+		text_box("Wallace","Follow me.","","");
+		delay(8);
+		entitymove(8,"R6U13R20U1F0");
+		flag[0]=1;
+	}
+	
+	/*
+	flag[1]=2;
+	get_item(4,0);
+	get_item(0,0);
+	get_item(0,0);
+	get_quest(0);
+	*/
+	/*
+	flag[1]=6;
+	flag[4]=2;
+	flag[5]=2;
+	*/
+}
+
+event // 01 : Mason
+{
+	if(flag[1]=0)
+	{
+		text_box("Mason","What? Oh it's you",name+". I hear Denothar","wants to talk to you.");
+		text_box("Mason","Moving up eh? Well","don't forget about your","ol' pal Mason.");
+	}
+	if(flag[1]=1)
+	{
+		text_box("Mason","I turned down a mission","once too. I suggest","you think again.");
+		text_box("Mason","See this? *points*","One of the guards tore","me a new one.");
+		text_box("Mason","It's alright though.","Girls dig scars.","");
+	}
+	if(flag[2]=3)
+	{
+		text_box("Mason","If you want to look","for more treasure, go","to the west.");
+		text_box("Mason","I hear there are some","ruins of the ancients","to be found there.");
+	}
+	if(flag[2]=2)
+	{
+		var=0;
+		var2=0;
+		for(var=0;var<itotal;var++)
+		{
+			if(item[var]=30)
+			{
+				remove_item(var);
+				var2=1;
+			}
+		}
+		if(var2=1)
+		{
+			text_box("Mason","My ring! Give it to me!","*grabs it without","letting you answer*");
+			text_box("Mason","Thank you, here's a few","gold for you trouble.","");
+			get_gold(72);
+			finish_quest(1);
+			flag[2]=3;
+		}
+		else
+			text_box("Mason","Why don't you have","it yet? Who knows who","might steal it!");
+	}
+	if(flag[2]=1)
+		text_box("Mason","I'm still mad. Go","finish your stupid","quests.");
+	if(flag[1]>=2 && flag[2]=0)
+	{
+		text_box("Mason","You're headed south?!?","Oh man, could you do","me a favor?");
+		dialogue_clear();
+		dialogue_add("How can I help?");
+		dialogue_add("I have better things to do.");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("Mason","Right before Denothar","barred the South Gate,","I lost something.");
+			text_box("Mason","My Aunt Alicia's ring!","They won't let me go","look for it. Will you?");		
+			dialogue_clear();
+			dialogue_add("No problem, Mason.");
+			dialogue_add("I don't think so.");
+			dialogue();		
+			if(dchoice=0)
+			{
+				text_box("Mason","You're the greatest!","","");
+				flag[2]=2;
+				get_quest(1);
+			}
+			else
+			{
+				text_box("Mason","Gee, thanks alot!","*glares at you*","");
+				flag[2]=1;
+			}
+		}
+		else
+		{
+			text_box("Mason","Gee, thanks alot!","*glares at you*","");	
+			flag[2]=1;
+		}
+	}
+
+	
+}
+
+event // 02 : Benard
+{
+	if(flag[1]=0)
+		text_box("Benard","We shouldn't barter","now. Better go talk to","Denothar.");
+	if(flag[1]=1)
+		text_box("Benard","I refuse to talk to","you. You betrayed us.","");	
+	if(flag[1]>=2)
+	{
+		text_box("Benard","Ah, welcome "+name+".","What can I do for you?","");
+		dialogue_clear();
+		dialogue_add("I want to buy goods.");
+		dialogue_add("I want to sell goods.");
+		//dialogue_add("What are you up to?");
+		dialogue_add("Nothing.");
+		dialogue();
+		if(dchoice=0)
+		{
+			var2=1;
+			if(itotal<12)
+				var2=0;
+			else
+			{
+				for(var=0;var<itotal;var++)
+				{
+					if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+						var2=0;
+				}
+			}
+			if(var2=0)
+			{		
+				shop_clear();
+				shop_item(0,icost[0]);
+				shop_item(1,icost[1]);
+				shop_item(2,icost[2]);
+				shop_item(4,icost[4]);
+				shop_item(5,icost[5]);
+				shop_item(8,icost[8]);
+				shop_item(26,icost[26]);
+				shop_item(16,icost[16]);
+				shop_item(19,icost[19]);
+				shop_item(22,icost[22]);
+				shop_item(24,icost[24]);
+				
+				shop_buy();
+		
+				var2=1;
+				if(itotal<12)
+					var2=0;
+				else
+				{
+					for(var=0;var<itotal;var++)
+					{
+						if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+							var2=0;
+					}
+				}
+				if(var2=1)
+					text_box("Benard","I'm sorry, you can't,","carry any more items.","");
+			}
+			else
+				text_box("Benard","I'm sorry, you can't,","carry any more items.","");
+		
+		}
+		if(dchoice=1)
+			shop_sell();
+	}
+}
+
+event // 03 : Denothar
+{
+	if(flag[1]=6)
+	{
+		text_box("Denothar","How goes the mission?","What can I do for you?","");
+		dialogue_clear();
+		dialogue_add("I've been to Babel.");
+		dialogue_add("Can I rest here?");
+		dialogue_add("Just saying hello.");
+		dialogue();		
+		if(dchoice=0)
+		{
+			text_box("Denothar","What really? Did you","defeat the infidels?","");
+			dialogue_clear();
+			dialogue_add("Everyone was dead...");
+			dialogue_add("Yah, I whipped 'em good!");
+			dialogue();
+			if(dchoice=0)
+				text_box("Denothar","What?!? Tell me all","you found out...","");
+			if(dchoice=1)
+				text_box("Denothar","That's impossible,","tell me the truth!","");
+			fade_out();
+			delay(16);
+			fade_in();
+			text_box("Denothar","So they were killed","by their own obscene","creations.");
+			dialogue_clear();
+			dialogue_add("No, it was sabotage.");
+			dialogue_add("Yes, praise the fathers.");
+			dialogue();			
+			text_box("Denothar","At any rate thanks","alot for all you've","done for us.");
+			text_box("Denothar","Renesco should be in","good shape for the","time being.");
+			text_box("Denothar","Your importance is","now insured, cousin.","Job well done.");
+			delay(8);
+			fade_out();
+			delay(64);
+			callevent(23);
+		}
+		else if(dchoice=1)
+		{
+			text_box("Denothar","I'm gonna have to","charge you 15 gold.","");	
+			dialogue_clear();
+			dialogue_add("Alright.");
+			dialogue_add("Nevermind.");
+			dialogue();
+			if(dchoice=0)
+			{
+				if(gold>=15)
+				{
+					delay(32);
+					fade_out();
+					delay(64);
+					hp=hpmax;
+					fade_in();
+					delay(8);
+					gold-=15;
+				}
+				else
+					text_box("Denothar","Sorry, but you seem","to be a bit light.","");
+			}
+		}
+	}
+	if(flag[1]=5)
+	{
+		text_box("Denothar","How goes the mission?","What can I do for you?","");
+		dialogue_clear();
+		dialogue_add("Where's Babel again?");
+		dialogue_add("Can I rest here?");
+		dialogue_add("Just saying hello.");
+		dialogue();		
+		if(dchoice=0)
+			text_box("Denothar","Babel is a massive","city, but you can enter","it to the north.");
+		else if(dchoice=1)
+		{
+			text_box("Denothar","I'm gonna have to","charge you 15 gold.","");	
+			dialogue_clear();
+			dialogue_add("Alright.");
+			dialogue_add("Nevermind.");
+			dialogue();
+			if(dchoice=0)
+			{
+				if(gold>=15)
+				{
+					delay(32);
+					fade_out();
+					delay(64);
+					hp=hpmax;
+					fade_in();
+					delay(8);
+					gold-=15;
+				}
+				else
+					text_box("Denothar","Sorry, but you seem","to be a bit light.","");
+			}
+		}
+	}
+	if(flag[1]=4)
+	{
+		text_box("Denothar","Have you reconsidered?","","");
+		dialogue_clear();
+		dialogue_add("Yes, I'll do it.");
+		dialogue_add("I don't think so.");
+		dialogue();		
+		if(dchoice=0)
+		{
+			text_box("Denothar","Alright! You're really","a good sport! I knew","you'd do it.");
+			text_box("Denothar","The entrance to Babel","is to the north. The","guards will stand down.");
+			text_box("Denothar","I don't expect that","entering the city will","be easy though.");
+			get_quest(2);
+			flag[1]=5;
+		}
+	}
+	if(flag[1]=3)
+	{
+		text_box("Denothar","What do you need?","","");	
+		dialogue_clear();
+		dialogue_add("I killed Denothar.");
+		dialogue_add("What am I supposed to do?");
+		dialogue_add("I need more supplies.");
+		dialogue_add("I want to rest.");
+		dialogue_add("Nothing.");
+		dialogue();
+		if(dchoice=0)
+		{
+			flag[1]=4;
+			finish_quest(0);
+			text_box("Denothar","Really! Wow! That's","great! His followers","will soon fall too.");
+			text_box("Denothar","You're now an official","guard of Renesco! You","should be proud.");
+			text_box("Denothar","But, sadly now is not","a time to rejoice...","We still need you.");
+			dialogue_clear();
+			dialogue_add("Oh?");
+			dialogue_add("Forget it! I did my thing!");
+			dialogue();			
+			if(dchoice=1)
+				text_box("Denothar","Come on, just hear me","out alright?","");
+			text_box("Denothar","As you know, after the","fathers vanquished the","infidels...");
+			text_box("Denothar","They left Babel and so","went their seperate","ways.");
+			text_box("Denothar","Our grandsire founded","Renesco in which we","now are in peril.");
+			text_box("Denothar","Peril, because they did","not destroy all of","their enemies.");
+			text_box("Denothar","I fear Dameon served","a master that still","dwells in Babel.");
+			text_box("Denothar","We will not be safe","until the last enemies","of old are dead.");
+			text_box("Denothar","You must be the one","who saves us.","");
+			dialogue_clear();
+			dialogue_add("I will gladly save Renesco.");
+			dialogue_add("Save your sermons, I'm out.");
+			dialogue();		
+			if(dchoice=0)
+			{
+				text_box("Denothar","Alright! You're really","a good sport! I knew","you'd do it.");
+				text_box("Denothar","The entrance to Babel","is to the north. The","guards will stand down.");
+				text_box("Denothar","I don't expect that","entering the city will","be easy though.");
+				get_quest(2);
+				flag[1]=5;
+			}
+			else
+				text_box("Denothar","I can't make you help","us, but know that you","have damned us.");
+		}
+		else if(dchoice=1)
+		{
+			text_box("Denothar","Pay attention alright?","You have to go deal","with Dameon.");	
+			text_box("Denothar","Leave town through the","South Gate. Come on","now. This is urgent.");
+		}
+		else if(dchoice=2)
+			text_box("Denothar","Well Benard is always","stocked up with goods.","Go talk to him.");
+		else if(dchoice=3)
+		{
+			text_box("Denothar","Well I'm gonna have","to charge you around...","say, 15 gold?");	
+			dialogue_clear();
+			dialogue_add("Okay.");
+			dialogue_add("No thanks.");
+			dialogue();
+			if(dchoice=0)
+			{
+				if(gold>=15)
+				{
+					delay(32);
+					fade_out();
+					delay(64);
+					hp=hpmax;
+					fade_in();
+					delay(8);
+					gold-=15;
+				}
+				else
+					text_box("Denothar","You trying to short","change me? Come back if","you get some cash.");
+			}
+			
+		}
+	}
+	if(flag[1]=2)
+	{
+		text_box("Denothar","What do you need?","","");	
+		dialogue_clear();
+		dialogue_add("What am I supposed to do?");
+		dialogue_add("I need more supplies.");
+		dialogue_add("I want to rest.");
+		dialogue_add("Nothing.");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("Denothar","Pay attention alright?","You have to go deal","with Dameon.");	
+			text_box("Denothar","Leave town through the","South Gate. Come on","now. This is urgent.");
+		}
+		if(dchoice=1)
+			text_box("Denothar","Well Benard is always","stocked up with goods.","Go talk to him.");
+		if(dchoice=2)
+		{
+			text_box("Denothar","Well I'm gonna have","to charge you around...","say, 15 gold?");	
+			dialogue_clear();
+			dialogue_add("Okay.");
+			dialogue_add("No thanks.");
+			dialogue();
+			if(dchoice=0)
+			{
+				if(gold>=15)
+				{
+					delay(32);
+					fade_out();
+					delay(64);
+					hp=hpmax;
+					fade_in();
+					delay(8);
+					gold-=15;
+				}
+				else
+					text_box("Denothar","You trying to short","change me? Come back if","you get some cash.");
+			}
+			
+		}
+	}
+	if(flag[1]=1)
+	{
+		text_box("Denothar","Changed you mind?","","");	
+		dialogue_clear();
+		dialogue_add("Yah, I'll do it.");
+		dialogue_add("Just saying hi!");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("Denothar","Great! Here's some","supplies. I'll tell the","guards to let you leave.");
+			recieve(4,0);
+			recieve(0,0);
+			text_box("Denothar","Dameon's camp is in the","wastes southwest. So","exit via South Gate.");
+			text_box("Denothar","We're all counting on","you. Return to town if","you want to rest.");
+			flag[1]=2;
+			get_quest(0);	
+		}
+		if(dchoice=1)
+			text_box("Denothar","Get the hell out of","here you loser.","");
+	}
+	if(flag[1]=0)
+	{
+		text_box("Denothar","Ah, cousin "+name+". I","hope you're doing well","these days.");
+		dialogue_clear();
+		dialogue_add("I manage.");
+		dialogue_add("Things could be better.");
+		dialogue();
+		if(dchoice=0)
+			text_box("Denothar","Ha! That's why I like","you "+name+", you're not","one to complain.");
+		if(dchoice=1)
+			text_box("Denothar","*sigh* You speak the","truth. Things could be","a whole lot better.");
+		text_box("Denothar","I won't lie to you.","Renesco's dug itself in","quite a hole.");
+		text_box("Denothar","Our main problem is","the constant raids led","by Dameon and his gang.");
+		text_box("Denothar","We're an easy target","and they'll plunder us","'till we starve.");
+		dialogue_clear();
+		dialogue_add("How can I help?");
+		dialogue_add("So why'd you call me?");
+		dialogue_add("Whose Dameon?");
+		dialogue();
+		if(dchoice=2)
+			text_box("Denothar","THEIR LEADER, sheesh.","Pay attention alright?","");
+		text_box("Denothar","Dameon needs to be cut","out of the picture. If","he dies we're free.");
+		text_box("Denothar","You're most expendable",name+". You have to do","this. Renesco needs you.");
+		dialogue_clear();
+		dialogue_add("Uh, I guess.");
+		dialogue_add("What's in it for me?");
+		dialogue_add("Why me?!? What'd I do?");
+		dialogue();
+		if(dchoice=0)	
+			text_box("Denothar","I knew I could count","on you. Do this and","your status improves.");
+		if(dchoice=1)
+		{
+			text_box("Denothar","I know you've wanted","to join the ranks of","my guards.");
+			text_box("Denothar","If you succeed I will","assign you immediantly.","No loyalty fees either!");
+		}
+		if(dchoice=2)
+			text_box("Denothar","Like I said just now.","E-X-P-E-N-D-A-B-L-E!","Everyone else is needed.");
+		text_box("Denothar","So you'll do it?","","");	
+		dialogue_clear();
+		dialogue_add("Of course.");
+		dialogue_add("No way.");
+		dialogue();
+		if(dchoice=0)
+		{
+			text_box("Denothar","Great! Here's some","supplies. I'll tell the","guards to let you leave.");
+			recieve(4,0);
+			recieve(0,0);
+			recieve(0,0);
+			text_box("Denothar","Dameon's camp is in the","wastes southwest. So","exit via South Gate.");
+			text_box("Denothar","We're all counting on","you. Return to town if","you want to rest.");
+			flag[1]=2;
+			get_quest(0);
+		}
+		if(dchoice=1)
+		{
+			text_box("Denothar","I must say I'm very","disapointed.  Come back","if you reconsider.");
+			flag[1]=1;
+		}
+	}
+}
+
+event // 04 : South Gate Guard 1
+{
+	if(flag[1]=0)
+		text_box("Guard","What are you doing?","Go talk to Denothar.","");
+	if(flag[1]=1)
+		text_box("Guard","Nobody gets past here.","Especially not you.","");
+	if(flag[1]>=2)
+		text_box("Guard","Denothar told us to let","you pass, but I'm still","watching you.");
+}
+
+event // 05 : South Gate Guard 2
+{
+	if(flag[1]=0)
+		text_box("Guard","Yah? What? Do I look","like I care?","");
+	if(flag[1]=1)
+		text_box("Guard","I'm on duty so go bug","somebody else.","");
+	if(flag[1]>=2)
+		text_box("Guard","Go ahead and leave. I","could care less.","");
+}
+
+event // 06 : South Gate Blocked
+{
+	if(flag[1]<2)
+	{
+		text_box("Guard","Not so fast cowboy.","Nobody but nobody gets","through here.");
+		dialogue_clear();
+		dialogue_add("I do.");
+		dialogue_add("Oh, my mistake.");
+		dialogue();		
+		if(dchoice=0)
+		{
+			text_box("Guard","Listen idiot. We are","authorized to take out","ignorant individuals.");			
+			dialogue_clear();
+			dialogue_add("Me too! Let's dance!");
+			dialogue_add("Okay! I'm leaving!");
+			dialogue();
+			if(dchoice=0)
+			{
+				flag[1]=99;
+				denz_disp[DENOTHAR]=ANGRY;
+				denz_disp[3]=ANGRY;
+				denz_disp[4]=ANGRY;
+				denz_disp[5]=ANGRY;
+				denz_disp[6]=ANGRY;
+				denz_disp[7]=ANGRY;
+				denz_disp[8]=ANGRY;
+				denz_disp[9]=ANGRY;
+
+
+
+			}
+			else
+				move(1,1);
+		}
+		else
+			move(1,1);
+	}
+}
+
+event // 07 : North Gate Guard 1
+{
+	if(flag[1]=0)
+		text_box("Guard","Aren't you supposed to","be having a meeting","with Denothar now?");
+	if(flag[1]=1)
+		text_box("Guard","Some of us have work","to do.","");
+	if(flag[1]>=2 && flag[1]<5)
+		text_box("Guard","This is the NORTH","gate.  Go through the","SOUTH gate.");
+	if(flag[1]>=5)
+		text_box("Guard","I don't know why","but Denothar told us","to let you pass.");
+}
+
+event // 08 : North Gate Guard 2
+{
+	if(flag[1]=0)
+		text_box("Guard","Better go straight to","Denothar, cousin.","");
+	if(flag[1]=1)
+		text_box("Guard","Are you really that","stupid? NOBODY turns","down a mission.");
+	if(flag[1]>=2 && flag[1]<5)
+		text_box("Guard","Good to see you cousin.","","");
+	if(flag[1]>=5)
+		text_box("Guard","What's north anyhow?","","");		
+}
+
+event // 09 : North Gate Blocked
+{
+	if(flag[1]<5)
+	{
+		text_box("Guard","Nothing up north for","you pal. You'd best","turn back around.");
+		dialogue_clear();
+		dialogue_add("I still want to go.");
+		dialogue_add("I'm Leaving.");
+		dialogue();		
+		if(dchoice=0)
+		{
+			text_box("Guard","I must persist. You","don't have permission","to go north.");			
+			dialogue_clear();
+			dialogue_add("Get bent.");
+			dialogue_add("Alright, forget it.");
+			dialogue();
+			if(dchoice=0)
+			{
+				flag[1]=99;
+				denz_disp[DENOTHAR]=ANGRY;
+				denz_disp[3]=ANGRY;
+				denz_disp[4]=ANGRY;
+				denz_disp[5]=ANGRY;
+				denz_disp[6]=ANGRY;
+				denz_disp[7]=ANGRY;
+				denz_disp[8]=ANGRY;
+				denz_disp[9]=ANGRY;
+			}
+			else
+				move(0,1);
+		}
+		else
+			move(0,1);
+	}
+}
+
+event // 10 : Main Denothar Guard
+{
+	if(flag[1]=0)
+		text_box("Wallace","Right this way "+name+",","Denothar is waiting.","");
+	if(flag[1]>=1)
+		text_box("Wallace","I'm on guard duty now","so please just don't","distract me.");
+}
+
+event // 11 : Guard on Break
+{
+	text_box("Guard","I hear Den' thinks","Dameon has a boss that","we don't know about.");
+}
+
+event // 12 : Guard on Break
+{
+	text_box("Guard","Me and Wallace found","some tracks in the","wastes to the west.");
+	text_box("Guard","Maybe we oughta start","posting a guard there.","");
+}
+
+event // 13 : Farmer
+{
+	text_box("Farmer","The sun! It wasn't","like this before the","war.");
+	text_box("Farmer","My father worked earth","too, but I doubt he had","to put up with this.");
+}
+
+event // 14 : Worker Girl
+{
+	text_box("Girl","Please don't kick up","dirt. I'm trying to","keep the tents clean.");
+}
+
+event // 15 : Wallace's Girl
+{
+	text_box("Girl","Wallace works too much.","I need a boyfriend that","will spend time with me!");
+	dialogue_clear();
+	dialogue_add("Wallace works hard.");
+	dialogue_add("You deserve better.");
+	dialogue();
+	if(dchoice=0)
+		text_box("Girl","That's what he says!","A lady needs to feel","appreciated you know?");
+	if(dchoice=1)
+	{
+		text_box("Girl","That's what I say! A","girl needs a guy who'll","treat her right.");
+		dialogue_clear();
+		dialogue_add("Like me, baby.");
+		dialogue_add("Whatever.");
+		dialogue();
+		if(dchoice=0)
+			text_box("Girl","Oh my god?! Do you","really think you have a","chance?!?");			
+	}
+}
+
+event // 16 : Senile Old Mane
+{
+	if(flag[5]>2)
+	{
+		text_box("Old Man","What can I do you","for?","");
+		dialogue_clear();
+		dialogue_add("I'm looking to buy.");
+		dialogue_add("I'd like to sell.");
+		dialogue_add("Where do you get your goods?");
+		dialogue_add("Nothing.");
+		dialogue();
+		if(dchoice=0)
+		{
+			var2=1;
+			if(itotal<12)
+				var2=0;
+			else
+			{
+				for(var=0;var<itotal;var++)
+				{
+					if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+						var2=0;
+				}
+			}
+			if(var2=0)
+			{		
+				shop_clear();
+				shop_item(3,icost[3]);
+				shop_item(7,icost[7]);
+				shop_item(10,icost[10]);
+				shop_item(11,icost[11]);
+				shop_item(28,icost[28]);
+				shop_item(29,icost[29]);
+				shop_item(18,icost[18]);
+				shop_item(21,icost[21]);
+				shop_buy();
+
+				var2=1;
+				if(itotal<12)
+					var2=0;
+				else
+				{
+					for(var=0;var<itotal;var++)
+					{
+						if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+							var2=0;
+					}
+				}
+				if(var2=1)
+					text_box("Old Man","No good. You just","can't carry more.","");
+			}
+			else
+				text_box("Old Man","No good. You just","can't carry more.","");
+		}
+		else if(dchoice=1)
+			shop_sell();
+		if(dchoice=2)
+		{
+			text_box("Old Man","Well Mickey sells me","a thing from time to","time..");
+			text_box("Old Man","But I found most of","my stuff in the sewer","west of here.");
+		}	
+	}
+	else if(flag[5]=2)
+	{
+		text_box("Old Man","Why, hello young nephew.","Maybe you will help me.","The others ignore me.");
+		dialogue_clear();
+		dialogue_add("I'm a friend of Mickey.");
+		dialogue_add("I live to serve.");
+		dialogue_add("The others are nicer than me.");
+		dialogue();
+		if(dchoice=0)
+		{
+			flag[5]=3;
+			text_box("Old Man","Hah! well it sure is","great to expand my","business!");
+			text_box("Old Man","What can I do you","for?","");
+			dialogue_clear();
+			dialogue_add("I'm looking to buy.");
+			dialogue_add("I'd like to sell.");
+			dialogue_add("Where do you get your goods?");
+			dialogue_add("Nothing.");
+			dialogue();
+			if(dchoice=0)
+			{
+				var2=1;
+				if(itotal<12)
+					var2=0;
+				else
+				{
+					for(var=0;var<itotal;var++)
+					{
+						if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+							var2=0;
+					}
+				}
+				if(var2=0)
+				{		
+					shop_clear();
+					shop_item(3,icost[3]);
+					shop_item(7,icost[7]);
+					shop_item(10,icost[10]);
+					shop_item(11,icost[11]);
+					shop_item(28,icost[28]);
+					shop_item(29,icost[29]);
+					shop_item(18,icost[18]);
+					shop_item(21,icost[21]);
+					shop_buy();
+	
+					var2=1;
+					if(itotal<12)
+						var2=0;
+					else
+					{
+						for(var=0;var<itotal;var++)
+						{
+							if(item[var]>=26 && item[var]<30 && itemx[var]<999)
+								var2=0;
+						}
+					}
+					if(var2=1)
+						text_box("Old Man","No good. You just","can't carry more.","");
+				}
+				else
+					text_box("Old Man","No good. You just","can't carry more.","");
+			}
+			else if(dchoice=1)
+				shop_sell();
+			if(dchoice=2)
+			{
+				text_box("Old Man","Well Mickey sells me","a thing from time to","time..");
+				text_box("Old Man","But I found most of","my stuff in the sewer","west of here.");
+			}
+		}
+		else
+			text_box("Old Man","I hear things at night","coming from the west!","Oh, what am I saying?");	
+	}
+	else
+	{
+		text_box("Old Man","Why, hello young nephew.","Maybe you will help me.","The others ignore me.");
+		dialogue_clear();
+		dialogue_add("I live to serve.");
+		dialogue_add("The others are nicer than me.");
+		dialogue();
+		text_box("Old Man","I hear things at night","coming from the west!","Oh, what am I saying?");
+	}
+}
+
+event // 17 : Southern Exit
+{
+	fade_out();
+	delay(32);
+	load_map(74,26,0,"south.map");
+}
+
+event // 18 : Treasure 01
+{
+	treasure(0,0,0);
+}
+
+event // 19 : Treasure 02
+{
+	treasure(1,411,9);
+}
+
+event // 20 : Treasure 03
+{
+	treasure(2,411,12);
+}
+
+event // 21 : Northern Exit
+{
+	fade_out();
+	delay(32);
+	load_map(49,75,1,"north.map");
+}
+
+event // 22 : Western Exit
+{
+	fade_out();
+	delay(32);
+	load_map(90,82,2,"west.map");
+}
+
+event // 23 : Ending
+{
+	ending();	
+}

@@ -1,0 +1,694 @@
+
+string name, chr_file, base_chr;
+
+int pnum, face, mapx, mapy, area, PIGBACK;
+string curmap, music;
+
+int level, xp, xpneed[99], hp, hpmax, ap, apmax;
+int strength, vitality, agility, dexterity;
+int atk, def, atk_plus, def_plus, turn;
+int item[12], itemx[12], iequip[12], itotal;
+int equipment[6];
+
+int pcom;
+
+int iplus[50], icost[50], gold;
+string iname[50], idesc[50];
+
+int quest[16], total_quests;
+string qname[16];
+
+int tflag[32];
+
+void equip(int inum, int item)
+{
+	iequip[inum]=1;
+	if(item>=4 && item<12)
+	{
+		equipment[WEAPON]=item;
+		atk_plus+=iplus[item];
+	}
+	if(item>=12 && item<16)
+	{
+		equipment[BODY]=item;
+		def_plus+=iplus[item];
+	}	
+	if(item>=16 && item<19)
+	{
+		equipment[HEAD]=item;
+		def_plus+=iplus[item];
+	}	
+	if(item>=19 && item<22)
+	{
+		equipment[HANDS]=item;
+		def_plus+=iplus[item];
+	}	
+	if(item>=22 && item<24)
+	{
+		equipment[WAIST]=item;
+		def_plus+=iplus[item];
+	}
+	if(item>=24 && item<26)
+	{
+		equipment[FEET]=item;
+		def_plus+=iplus[item];
+	}
+	figure_stats();
+}
+
+void figure_stats()
+{
+	hpmax=20+(vitality*2)+((level)*3/2)+((vitality*level)/2);
+	if(equipment[WEAPON]<8)
+		atk=(strength*2)+level+atk_plus;
+	else
+		atk=level+atk_plus;
+	def=(dexterity*2)+level+def_plus;
+	apmax=3+agility;
+	turn=15-ap;
+	if(turn<0)
+		turn=0;
+}
+
+void finish_quest(int q)
+{
+	quest[q]=2;
+}
+
+void get_gold(int g)
+{
+	gold+=g;
+}
+
+void get_item(int i, int x)
+{
+	item[itotal]=i;
+	itemx[itotal]=x;
+	iequip[itotal]=0;
+	itotal++;
+}
+
+void get_quest(int q)
+{
+	quest[q]=1;
+	total_quests++;
+}
+
+void init_items()
+{
+	// healing items
+	iname[0]="Herb";
+	idesc[0]="Recovers 50 HP";
+	iplus[0]=50;
+	icost[0]=15;
+	iname[1]="Tonic";
+	idesc[1]="Recovers 150 HP";
+	iplus[1]=100;
+	icost[1]=35;
+	iname[2]="Potion";
+	idesc[2]="Recovers 400 HP";
+	iplus[2]=350;
+	icost[2]=70;
+	iname[3]="Elixer";
+	idesc[3]="Recovers all HP";
+	iplus[3]=999;
+	icost[3]=120;
+	// melee weapons
+	iname[4]="Rusty Dirk";
+	idesc[4]="Crude small knife";
+	iplus[4]=7;
+	icost[4]=40;
+	iname[5]="Wood Club";
+	idesc[5]="Large piece of wood";
+	iplus[5]=12;
+	icost[5]=65;
+	iname[6]="Mashedi";
+	idesc[6]="Hand made sword";
+	iplus[6]=20;
+	icost[6]=95;
+	iname[7]="Laser Sword";
+	idesc[7]="High-tech melee sword";
+	iplus[7]=30;
+	icost[7]=160;
+	// ranged weapons
+	iname[8]="Pistol";
+	idesc[8]="Bullet Firing gun";
+	iplus[8]=15;
+	icost[8]=150;
+	iname[9]="Shotgun";
+	idesc[9]="Shell Firing gun";
+	iplus[9]=30;
+	icost[9]=190;
+	iname[10]="Bazooka";
+	idesc[10]="Rocket firing gun";
+	iplus[10]=70;
+	icost[10]=250;
+	iname[11]="Phaser";
+	idesc[11]="Energy based gun";
+	iplus[11]=100;
+	icost[11]=325;
+	// armor
+	iname[12]="Worn Rags";
+	idesc[12]="A peasant's garments";
+	iplus[12]=5;
+	icost[12]=5;
+	iname[13]="Combat Vest";
+	idesc[13]="Basic battle gear";
+	iplus[13]=15;
+	icost[13]=210;
+	iname[14]="Steel Coat";
+	idesc[14]="Heavy coat of armor";
+	iplus[14]=30;
+	icost[14]=650;
+	iname[15]="Babel Armor";
+	idesc[15]="Ancient's armor";
+	iplus[15]=50;
+	icost[15]=1200;
+	// head
+	iname[16]="Worn Cap";
+	idesc[16]="A peasant's garments";
+	iplus[16]=2;
+	icost[16]=25;
+	iname[17]="Tough Cap";
+	idesc[17]="Basic battle helmet";
+	iplus[17]=7;
+	icost[17]=60;
+	iname[18]="Iron Helmet";
+	idesc[18]="Hard metal helm";
+	iplus[18]=15;
+	icost[18]=125;
+	// hands
+	iname[19]="Worn Glove";
+	idesc[19]="Thin old gloves";
+	iplus[19]=1;
+	icost[19]=15;
+	iname[20]="Heavy Glove";
+	idesc[20]="Rough worn gloves";
+	iplus[20]=4;
+	icost[20]=40;
+	iname[21]="Combat Mit";
+	idesc[21]="Thick battle gloves";
+	iplus[21]=9;
+	icost[21]=85;
+	// waist
+	iname[22]="Rope Belt";
+	idesc[22]="Hap-hazard belt";
+	iplus[22]=1;
+	icost[22]=16;
+	iname[23]="Heavy Belt";
+	idesc[23]="Durable belt";
+	iplus[23]=3;
+	icost[23]=38;
+	// feet
+	iname[24]="Worn Shoes";
+	idesc[24]="Home-made shoes";
+	iplus[24]=2;
+	icost[24]=25;
+	iname[25]="Battle Boot";
+	idesc[25]="Combat-ready shoes";	
+	iplus[25]=6;
+	icost[25]=60;
+	// ammo
+	iname[26]="Bullet";
+	idesc[26]="Pistol ammo";
+	icost[26]=1;
+	iname[27]="Shell";
+	idesc[27]="Shotgun ammo";
+	icost[27]=2;
+	iname[28]="Rocket";
+	idesc[28]="Launcher ammo";
+	icost[28]=4;
+	iname[29]="Battery";
+	idesc[29]="Phaser ammo";
+	icost[29]=7;
+	// misc items
+	iname[30]="Alicia Ring";
+	idesc[30]="Mason might want this";
+	icost[30]=1;
+	iname[31]="Rabbit Foot";
+	idesc[31]="A lucky charm";
+	icost[31]=1;
+}
+
+void init_map()
+{
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	put_party();
+	put_denizens();
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);
+}
+
+void init_party()
+{
+	int i;
+	name="";
+	base_chr="player.chr";
+	chr_file=base_chr;
+	
+	level=1;
+	xp=0;
+	xpneed[0]=0;
+	for(i=1;i<99;i++)
+		xpneed[i]=(100*(i))+((i-1)*25);
+		
+	strength=1;
+	dexterity=1;
+	agility=1;
+	vitality=1;
+	
+	hpmax=20+(vitality*2)+((level+vitality)/2);
+	hp=hpmax;
+	apmax=3+agility;
+	ap=apmax;
+	
+	atk=0;
+	atk_plus=0;
+	def=0;
+	def_plus=0;
+	
+	for(i=0;i<6;i++)
+		equipment[i]=0;
+	
+	figure_stats();
+}
+
+void init_quests()
+{
+	int i;
+
+	for(i=0;i<3;i++)
+		quest[i]=0;
+
+	qname[0]="Deal with Dameon";
+	qname[1]="Retrieve Mason's Ring";
+	qname[2]="Destroy Babel";
+
+	total_quests=0;
+}
+
+void init_treasure()
+{
+	int i;
+	for(i=0;i<32;i++)
+		tflag[i]=0;
+}
+
+void move(int dir, int num)
+{
+	int tx, ty;
+	tx=entity.tx[pnum];
+	ty=entity.ty[pnum];
+	cameratracking=2;
+	tracker=pnum;
+	setplayer(PIGBACK);
+	switch(dir)
+	{
+		case 0:
+			ty=entity.ty[pnum]+num;
+			entitymove(pnum,"D"+str(num));
+			while(entity.y[pnum]/16<ty)
+			{
+				render();
+				processentities();
+				updatecontrols();
+				showpage();
+			}
+		case 1:
+			ty=entity.ty[pnum]-num;
+			entitymove(pnum,"U"+str(num));
+			while(entity.y[pnum]>ty*16)
+			{
+				render();
+				processentities();
+				updatecontrols();
+				showpage();
+			}
+		case 2:
+			ty=entity.tx[pnum]-num;
+			entitymove(pnum,"L"+str(num));
+			while(entity.x[pnum]>ty*16)
+			{
+				render();
+				processentities();
+				updatecontrols();
+				showpage();
+			}
+		case 3:
+			ty=entity.tx[pnum]+num;
+			entitymove(pnum,"R"+str(num));
+			while(entity.x[pnum]/16<ty)
+			{
+				render();
+				processentities();
+				updatecontrols();
+				showpage();
+			}
+	}
+	setplayer(pnum);
+	cameratracking=1;
+}
+
+void put_party()
+{
+	pnum=entityspawn(mapx,mapy,"graphics/chrs/"+chr_file);	
+	setplayer(pnum);
+	partymove("F"+str(face));
+	processentities();
+}
+
+void recieve(int t, int tx)
+{
+	int tsave, z, len, i, iremain, amount, rcheck;
+	tsave=timer;
+	delay(8);
+	//if(tflag[tf]!=1)
+	//{
+		unpress(1);
+		updatecontrols();
+		if(t!=411)
+		{
+			if(tx<10)
+				temp="00"+str(tx);
+			if(tx>=10 && tx<100)
+				temp="0"+str(tx);
+			if(tx>=100)
+				temp=str(tx);	
+		}
+		else
+			temp=str(tx);
+		if(t>=26 && t<30)
+			len=strlen("Recieve "+iname[t]+" x"+temp);
+		else if(t!=411)
+			len=strlen("Recieve "+iname[t]);
+		else
+			len=strlen("Recieve "+temp+" Gold");
+		while(!b1)
+		{
+			render();
+			window(160-(len*9/2)-6,16,160+(len*9/2)+5,38);
+			if(t>=26 && t<30)
+				put_text(160-(len*9/2),21,bgfnt,"Recieve "+iname[t]+" x"+temp);
+			else if(t!=411)
+				put_text(160-(len*9/2),21,bgfnt,"Recieve "+iname[t]);
+			else
+				put_text(160-(len*9/2),21,bgfnt,"Recieve "+temp+" Gold");
+			if(t!=411)
+				put_text(160-(len*9/2),21,bggold,"        "+iname[t]);
+			else
+				put_text(160-(len*9/2),21,bggold,"        "+temp);
+			updatecontrols();
+			showpage();
+		}
+		unpress(1);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		
+		rcheck=0;
+		
+		if(t>=26 && t<30)
+		{
+			amount=tx;
+			iremain=amount;
+			for(i=0;i<itotal;i++)
+			{
+				if(item[i]=t && itemx[i]<999)
+				{
+					if(itemx[i]+iremain<999)
+						iremain=0;
+					else
+					{
+						iremain-=999-itemx[i];
+					}
+				}
+			}
+			if(itotal<12)
+				iremain=0;
+			if(iremain=0)
+			{
+				iremain=tx;
+				for(i=0;i<itotal;i++)
+				{
+					if(item[i]=t && itemx[i]<999 && iremain>0)
+					{
+						if(iremain+itemx[i]<1000)
+						{
+							itemx[i]+=iremain;
+							iremain=0;
+						}
+						else
+						{
+							itemx[i]+=iremain;
+							iremain=itemx[i]-999;
+							itemx[i]=999;
+						}	
+					}
+				}
+				if(iremain>0)
+					get_item(t,iremain);
+			}
+			else
+				rcheck=1;
+		
+		}
+		else
+		{
+			if(itotal<12 || t=411)
+			{
+				if(t=411)
+					get_gold(tx);
+				else
+					get_item(t,tx);
+			}
+			else
+				rcheck=1;
+		}
+		if(rcheck=1)
+		{
+			unpress(1);
+			updatecontrols();
+			len=strlen("Not enough room!");
+			while(!b1)
+			{
+				render();
+				window(160-(len*9/2)-6,16,160+(len*9/2)+5,38);
+				put_text(160-(len*9/2),21,bgfnt,"Not enough room!");
+				updatecontrols();
+				showpage();
+			}
+			unpress(1);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+		}
+	//}
+	timer=tsave;
+}
+
+void remove_item(int i)
+{
+	int z;
+	for(z=i;z<itotal;z++)
+	{
+		if(z<itotal-1)
+		{
+			item[z]=item[z+1];
+			itemx[z]=itemx[z+1];
+			iequip[z]=iequip[z+1];
+		}
+		else
+		{
+			item[z]=0;
+			itemx[z]=0;
+			iequip[z]=0;
+		}
+	}
+	itotal--;
+}
+
+void still()
+{
+	entity.x[player]=entity.x[player]/16*16;
+	entity.y[player]=entity.y[player]/16*16;
+	entity.tx[player]=entity.x[player]/16;
+	entity.ty[player]=entity.y[player]/16;
+	face=entity.facing[player];
+	switch(face)
+	{
+		case 0:
+			partymove("F0");
+		case 1:
+			partymove("F1");
+		case 2:
+			partymove("F2");
+		case 3:
+			partymove("F3");		
+	}
+}
+
+void treasure(int tf, int t, int tx)
+{
+	int tsave, z, len, i, iremain, amount, rcheck;
+	tsave=timer;
+	if(tflag[tf]!=1)
+	{
+		unpress(1);
+		updatecontrols();
+		if(t!=411)
+		{
+			if(tx<10)
+				temp="00"+str(tx);
+			if(tx>=10 && tx<100)
+				temp="0"+str(tx);
+			if(tx>=100)
+				temp=str(tx);	
+		}
+		else
+			temp=str(tx);
+		if(t>=26 && t<30)
+			len=strlen("Found "+iname[t]+" x"+temp);
+		else if(t!=411)
+			len=strlen("Found "+iname[t]);
+		else
+			len=strlen("Found "+temp+" Gold");
+		while(!b1)
+		{
+			render();
+			window(160-(len*9/2)-6,16,160+(len*9/2)+5,38);
+			if(t>=26 && t<30)
+				put_text(160-(len*9/2),21,bgfnt,"Found "+iname[t]+" x"+temp);
+			else if(t!=411)
+				put_text(160-(len*9/2),21,bgfnt,"Found "+iname[t]);
+			else
+				put_text(160-(len*9/2),21,bgfnt,"Found "+temp+" Gold");
+			if(t!=411)
+				put_text(160-(len*9/2),21,bggold,"      "+iname[t]);
+			else
+				put_text(160-(len*9/2),21,bggold,"      "+temp);
+			updatecontrols();
+			showpage();
+		}
+		unpress(1);
+		updatecontrols();
+		play_sound(CONFIRM,32);
+		
+		rcheck=0;
+		
+		if(t>=26 && t<30)
+		{
+			amount=tx;
+			iremain=amount;
+			for(i=0;i<itotal;i++)
+			{
+				if(item[i]=t && itemx[i]<999)
+				{
+					if(itemx[i]+iremain<999)
+						iremain=0;
+					else
+					{
+						iremain-=999-itemx[i];
+					}
+				}
+			}
+			if(itotal<12)
+				iremain=0;
+			if(iremain=0)
+			{
+				iremain=tx;
+				for(i=0;i<itotal;i++)
+				{
+					if(item[i]=t && itemx[i]<999 && iremain>0)
+					{
+						if(iremain+itemx[i]<1000)
+						{
+							itemx[i]+=iremain;
+							iremain=0;
+						}
+						else
+						{
+							itemx[i]+=iremain;
+							iremain=itemx[i]-999;
+							itemx[i]=999;
+						}	
+					}
+				}
+				if(iremain>0)
+					get_item(t,iremain);
+				tflag[tf]=1;
+			}
+			else
+				rcheck=1;
+		
+		}
+		else
+		{
+			if(itotal<12 || t=411)
+			{
+				if(t=411)
+					get_gold(tx);
+				else
+					get_item(t,tx);
+				tflag[tf]=1;
+			}
+			else
+				rcheck=1;
+		}
+		if(rcheck=1)
+		{
+			unpress(1);
+			updatecontrols();
+			len=strlen("Not enough room!");
+			while(!b1)
+			{
+				render();
+				window(160-(len*9/2)-6,16,160+(len*9/2)+5,38);
+				put_text(160-(len*9/2),21,bgfnt,"Not enough room!");
+				updatecontrols();
+				showpage();
+			}
+			unpress(1);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+		}
+	}
+	timer=tsave;
+}
+
+void unequip(int inum, int item)
+{
+	iequip[inum]=0;
+	if(item>=4 && item<8)
+	{
+		equipment[WEAPON]=0;
+		atk_plus-=iplus[item];
+	}
+	if(item>=12 && item<16)
+	{
+		equipment[BODY]=0;
+		def_plus-=iplus[item];
+	}	
+	if(item>=16 && item<19)
+	{
+		equipment[HEAD]=0;
+		def_plus-=iplus[item];
+	}	
+	if(item>=19 && item<22)
+	{
+		equipment[HANDS]=0;
+		def_plus-=iplus[item];
+	}	
+	if(item>=22 && item<24)
+	{
+		equipment[WAIST]=0;
+		def_plus-=iplus[item];
+	}
+	if(item>=24 && item<26)
+	{
+		equipment[FEET]=0;
+		def_plus-=iplus[item];
+	}
+	figure_stats();
+}

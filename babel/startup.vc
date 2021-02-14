@@ -1,0 +1,291 @@
+
+event // autoevent
+{
+	delay(32);
+	
+	playmusic("sounds/music/silence.xm");
+
+	init_game();
+	
+	// title screen
+	delay(64);
+	gfx=loadimage("graphics/misc/ld03.pcx");
+	sound=cachesound("sounds/sfx/BLIP.wav");
+	timer=0;
+	while(timer<4)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		updatecontrols();
+		showpage();
+	}
+	free(gfx);
+	gfx=loadimage("graphics/misc/ld02.pcx");
+	timer=0;
+	while(timer<4)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		updatecontrols();
+		showpage();
+	}
+	free(gfx);
+	gfx=loadimage("graphics/misc/ld01.pcx");
+	timer=0;
+	playsound(sound,64,128);
+	while(timer<4)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		updatecontrols();
+		showpage();
+	}	
+	free(gfx);
+	gfx=loadimage("graphics/misc/ld00.pcx");
+	timer=0;
+	while(timer<64)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		updatecontrols();
+		showpage();
+	}
+	free(gfx);
+	gfx=loadimage("graphics/misc/ld01.pcx");
+	playsound(sound,32,128);
+	timer=0;
+	while(timer<4)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		updatecontrols();
+		showpage();
+	}	
+	free(gfx);
+	gfx=loadimage("graphics/misc/ld00.pcx");
+	timer=0;
+	while(timer<4)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		updatecontrols();
+		showpage();
+	}	
+	timer=0;
+	while(timer<32)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		put_text(8+320-(timer*10),8,smfnt,"Choris");
+		put_text(271-320+(timer*10),223,smfnt,"Infey");
+		updatecontrols();
+		showpage();
+	}	
+	timer=0;
+	while(timer<48)
+	{
+		render();
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		put_text(8,8,smfnt,"Choris");
+		put_text(271,223,smfnt,"Infey");
+		updatecontrols();
+		showpage();
+	}	
+	timer=0;
+	while(timer<128)
+	{
+		render();
+		palettemorph(63,63,63,timer/2,63);
+		rectfill(0,0,320,240,0);
+		tcopysprite(61,103,197,33,gfx);
+		put_text(8,8,smfnt,"Choris");
+		put_text(271,223,smfnt,"Infey");
+		updatecontrols();
+		showpage();
+	}
+	free(gfx);
+	free(sound);
+	
+	timer=0;
+	while(timer<16)
+	{
+		render();
+		palettemorph(63,63,63,63,63);
+		updatecontrols();
+		showpage();
+	}
+	gfx=loadimage("graphics/misc/title.pcx");
+	timer=0;
+	while(timer<128)
+	{
+		render();
+		palettemorph(63,63,63,64-(timer/2),63);
+		rotscale(161+random(2)-random(2),100+random(2)-random(2),262,39,0,1000-random(5)+random(5),gfx);
+		updatecontrols();
+		showpage();
+	}
+	palettemorph(0,0,0,0,63);
+	cy=0;
+	var2=0;
+	timer=0;
+	while(var2=0)
+	{
+		render();
+	
+		window(136,194,183,217);
+	
+		rotscale(161+random(2)-random(2),100+random(2)-random(2),262,39,0,1000-random(5)+random(5),gfx);
+	
+		if(cy>0 && timer<16)
+			tcopysprite(128,202,7,6,BACK);
+		if(cy<2 && timer<16)
+			tcopysprite(185,202,7,6,FORWARD);
+	
+		switch(cy)
+		{
+			case 0:
+				put_text(159-(strlen("New")*9/2),200,bgfnt,"New");
+			case 1:
+				put_text(160-(strlen("Load")*9/2),200,bgfnt,"Load");			
+			case 2:
+				put_text(160-(strlen("Exit")*9/2),200,bgfnt,"Exit");		
+		}
+
+		if(left)
+		{
+			unpress(7);
+			updatecontrols();
+			if(cy>0)
+			{
+				play_sound(SCROLL,32);
+				cy--;
+			}
+		}	
+		if(right)
+		{
+			unpress(8);
+			updatecontrols();
+			if(cy<2)
+			{
+				play_sound(SCROLL,32);
+				cy++;
+			}
+		}
+	
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			switch(cy)
+			{
+				case 0:
+					play_sound(CONFIRM,32);
+					timer=0;
+					while(timer<128)
+					{
+						render();
+						palettemorph(0,0,0,0,64-(timer/2));
+						rotscale(161+random(2)-random(2),100+random(2)-random(2),262,39,0,1000-random(5)+random(5),gfx);
+						updatecontrols();
+						showpage();
+					}
+					free(gfx);
+					
+				
+					delay(16);
+					create_char();
+					//name="Choris";
+					log(name);
+					figure_stats();
+	
+					hp=hpmax;
+					get_gold(20);
+					get_item(12,0);
+					equip(0,item[0]);
+					get_item(0,0);
+					
+					intro();
+					
+					figure_stats();
+	
+					for(var=0;var<10;var++)
+						flag[var]=0;
+	
+					delay(32);
+					music_in("wastes.xm");
+
+					load_map(84,90,0,"renesco.map");		
+				case 1:
+					play_sound(CONFIRM,32);
+					main_menu_load();
+				case 2:
+					play_sound(CONFIRM,32);
+					timer=0;
+					while(timer<128)
+					{
+						render();
+						palettemorph(0,0,0,0,64-(timer/2));
+						rotscale(161+random(2)-random(2),100+random(2)-random(2),262,39,0,1000-random(5)+random(5),gfx);
+						updatecontrols();
+						showpage();
+					}
+					free(gfx);
+					//music_out();
+					quit_game();
+			}
+		}
+	
+		if(timer>=24)
+			timer=0;
+			
+		updatecontrols();
+		showpage();
+	}
+	
+	delay(64);
+	create_char();
+	/*
+	name="Choris";
+	strength=4;
+	dexterity=4;
+	vitality=4;
+	agility=4;
+	figure_stats();
+	
+	hp=hpmax;
+	get_gold(20);
+	get_item(12,0);
+	equip(0,item[0]);
+	get_item(0,0);
+	*/
+	/*
+	get_item(13,0);
+	get_item(11,0);
+	get_item(29,999);
+	level=98;
+	*/
+	
+	figure_stats();
+	
+	for(var=0;var<10;var++)
+		flag[var]=0;
+	
+	delay(32);
+
+	//load_game(1);
+
+	//intro();
+
+	music_in("wastes.xm");
+
+	load_map(84,90,0,"renesco.map");
+	//load_map(79,47,0,"dameon.map");
+}

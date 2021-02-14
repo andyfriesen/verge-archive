@@ -1,0 +1,61 @@
+string Letters[63];
+
+int EnterName()
+{
+ int pointer, done, I;
+ Name="";
+ For(I=0; I<26; I++)
+ {
+  Letters[i]=Chr(65+i);
+  Letters[26+i]=Chr(97+i);
+ }
+ For(I=0; I<10; I++)
+ {
+  Letters[52+i]=Chr(48+i);
+ }
+ Letters[62]="_";
+ 
+ while(!done)
+ {
+  updatecontrols();
+  Box(90,60, 230, 180);
+  Center(1, 66, "Please enter your name");
+  Center(1, 83, Name);
+  GotoXY(98, 100); PrintString(1, "A B C D E F G H I J K L M N O P");
+  GotoXY(98, 110); PrintString(1, "Q R S T U V W X Y Z a b c d e f");
+  GotoXY(98, 120); PrintString(1, "g h i j k l m n o p q r s t u v");
+  GotoXY(98, 130); PrintString(1, "w x y z 0 1 2 3 4 5 6 7 8 9 _ <");
+  GotoXY(98, 140); PrintString(1, "Confirm   Cancel"); 
+  if(pointer<64) TBox(95+(pointer%16*8),98+(pointer/16*10),103+(pointer%16*8),106+(pointer/16*10));
+  else
+  {
+   if(pointer=64) TBox(95,138,127,146);
+   else if(pointer=65) TBox(136,138,160,146);
+  }
+  showpage();
+  if(up && pointer>15) { unpress(5); pointer-=16; }
+  if(down)
+  {
+   if(pointer<48) { unpress(6); pointer+=16; }
+   else if(pointer>=48 && pointer<64) { unpress(6); pointer=64; }
+  } 
+  if(left && pointer>0) { unpress(7); pointer--; }
+  if(right && pointer<65) { unpress(8); pointer++; }
+  if(b1)
+  {
+   unpress(1);
+   if(pointer<63)
+   {
+    if(StrLen(Name)<10) Name=Name+Letters[pointer];
+    else Playsound(error, 63, 128);
+   }
+   else if(pointer=63)
+   {
+    Name=Left(Name, StrLen(Name)-1);
+   }
+   else if(pointer=64) return 1;
+   else return 2;
+  }
+ }
+}
+

@@ -1,0 +1,181 @@
+event // 0 Automatic Execution
+ {if(flags[10]) EntityMove(21,"Z20");
+  if(flags[11])
+   {EntityMove(19,"Z20");
+    EntityMove(20,"Z20");}
+  if(flags[12])
+   {EntityMove(15,"Z20");
+    EntityMove(16,"Z20");
+    EntityMove(17,"Z20");
+    EntityMove(18,"Z20");}
+  if(flags[13])
+   {EntityMove(11,"Z20");
+    EntityMove(12,"Z20");
+    EntityMove(13,"Z20");
+    EntityMove(14,"Z20");}
+  if(flags[14])
+   {EntityMove(8,"Z20");
+    EntityMove(9,"Z20");
+    EntityMove(10,"Z20");}
+  if(flags[15])
+   {EntityMove(5,"Z20");
+    EntityMove(6,"Z20");
+    EntityMove(7,"Z20");}
+  if(flags[16]) EntityMove(4,"Z20");
+  if(flags[17])
+   {EntityMove(1,"Z20");
+    EntityMove(2,"Z20");
+    EntityMove(3,"Z20");}
+  if(flags[18]) EntityMove(0,"Z20");
+  Render(); ProcessEntities(); ShowPage();
+  InitMap("london.map","hotseat.s3m");
+  CameraTracking=1;
+  if(!flags[19])
+   {PartyMove("D5W20Z15W30Z0W30Z10W30Z0");
+    Text("Bong","Dr. Farnsworth must be around here",
+                "somewhere.","","",3);
+    PartyMove("W100Z28W50Z0");
+    Text("Bong","Egads!  Somebody's blocked off",
+                "the roads!  How am I going to",
+                "get through?","",3);
+    Text("Narrator","How, indeed.","","","",4);
+    PartyMove("W50Z25W75Z0");
+    Text("Bong","I'd still like to know who the heck",
+                "keeps saying stuff out of nowhere.",
+                "","",3);
+    PartyMove("F0");
+    flags[19]=1;}
+  PixelMove();
+  BongDeath();}
+
+event // 1 Inexplicable Save-a-ma-Bob
+ {SaveMenu();}
+
+event // 2 Stupid Guard (1)
+ {if(!flags[10])
+   {Battle("london",0,0,7,0,0);
+    EntityMove(21,"Z20");
+    flags[10]=1;}
+ }
+
+event // 3 Stupid Guard (2)
+ {if(!flags[11])
+   {Battle("london",0,7,0,7,0);
+    EntityMove(19,"Z20");
+    EntityMove(20,"Z20");
+    flags[11]=1;}
+ }
+
+event // 4 Ninja Guard (4)
+ {if(!flags[12])
+   {Battle("london",2,2,0,2,2);
+    EntityMove(15,"Z20");
+    EntityMove(16,"Z20");
+    EntityMove(17,"Z20");
+    EntityMove(18,"Z20");
+    flags[12]=1;}
+ }
+
+event // 5 Fight Ears
+ {Text("Bong","Good gravy!  It's...EARS!","","","",3);
+  Text("Ears","*smile*","","","",4);
+  Text("Bong","...you never say anything, do you?","","","",3);
+  Text("Ears","*smile*","","","",4);
+  Text("Bong","...right.","","","",3);
+  Battle("london",0,0,5,0,0);
+  if(bongdead) BongDeath();
+  EntityMove(22,"Z20");
+  PartyMove("F0");
+  Render(); ProcessEntities(); ShowPage();
+  Text("Bong","Well, that was fun.  Looks",
+              "like Dr. Farnsworth can't be",
+              "far off.","",3);
+  MapSwitch("moor.map",9,0,0);}
+
+event // 6 Ninja Guard (4)
+ {if(!flags[13])
+   {Battle("london",2,0,2,0,2);
+    EntityMove(11,"Z20");
+    EntityMove(12,"Z20");
+    EntityMove(13,"Z20");
+    EntityMove(14,"Z20");
+    flags[13]=1;}
+ }
+  
+event // 7 Old Lady (1), Toddler (2)
+ {if(!flags[14])
+   {Battle("london",3,0,4,0,3);
+    EntityMove(8,"Z20");
+    EntityMove(9,"Z20");
+    EntityMove(10,"Z20");
+    flags[51]=1;
+    flags[52]=1;
+    flags[14]=1;}
+ }
+
+event // 8 Unruly Toddler (3)
+ {if(!flags[15])
+   {Battle("london",0,4,0,4,0);
+    EntityMove(5,"Z20");
+    EntityMove(6,"Z20");
+    EntityMove(7,"Z20");
+    flags[52]=1;
+    flags[15]=1;}
+ }
+
+event // 9 Old Lady (1)
+ {if(!flags[16])
+   {Battle("london",0,0,3,0,0);
+    EntityMove(4,"Z20");
+    flags[51]=1;
+    flags[16]=1;}
+ }
+
+event // 10 Ninja Guard (3)
+ {if(!flags[17])
+   {Battle("london",0,2,0,2,0);
+    EntityMove(1,"Z20");
+    EntityMove(2,"Z20");
+    EntityMove(3,"Z20");
+    flags[17]=1;}
+ }
+
+event // 11 Ninja Guard (1)
+ {if(!flags[18])
+   {Battle("london",0,0,2,0,0);
+    EntityMove(0,"Z20");
+    flags[18]=1;}
+ }
+
+event // 12 U in London
+ {if(flags[50]) Text("U","Let's go, Bong.  Dr. Farnsworth isn't",
+                         "getting any safer.","","",4);
+  if(!flags[50])
+   {Text("U","Hello, Bong.","","","",4);
+    Text("Bong","U!  What are you doing here?","","","",3);
+    Text("U","In a fit of insanity, I decided to",
+             "bring a remote Save-a-ma-bob out to",
+             "London for you.","",4);
+    Text("Bong","A remote Save-a-ma-bob?  How does",
+                "that work?","","",3);
+    Text("U","It reads your life data, then sends",
+             "it back to the real Save-a-ma-bob in",
+             "OHMCS Secret Headquarters.  It's too",
+             "dangerous to bring out the real thing.",4);
+    Text("Bong","Incredible!  Can I take it with me?","","","",3);
+    Text("U","No.  I'm not that insane.  As I was",
+             "saying, the colored band shows that",
+             "this is only a remote, so you need a",
+             "passcode to access the save function.",4);
+    Text("U","The OHMCS Remote Save-a-ma-bob Save",
+             "Channel is locked by our agents'",
+             "fingerprints to avoid tampering from",
+             "outside sources.",4);
+    Text("Bong","So if I ever find a Save-a-ma-bob",
+                "with a colored band, it will send",
+                "my life data back to HQ?  Ingenious.","",3);
+    Text("U","Only a green band, Bong.  Other colors",
+             "are different channels.  Now hurry",
+             "up and use it so I can get out of here.","",4);
+    flags[50]++;}
+ }

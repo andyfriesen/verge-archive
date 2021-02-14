@@ -1,0 +1,141 @@
+string Names[3], Score[3];
+int IsThere[3];
+string TempString;
+
+void LoadGame()
+{
+ int done, pointer, i, file;
+ for(i=0; I<3;i++)
+ { Names[i]=""; Score[i]=""; Isthere[i]=0; }
+ 
+ for(i=0; i<10; i++)
+ {
+  copysprite(80,50, 160,140, cas); 
+  Center(1, 160-i, "Continue");
+  showpage();
+  delay(2);
+ }
+ for(i=0; i<3; i++)
+ {
+  file=fopen("save"+Str(i+1)+".sav");
+  if(file) 
+  {
+   Isthere[i]=1;
+   FGetline(TempString, file);
+   Names[i]=TempString;
+   FGetline(TempString, file);
+   Score[i]=TempString;
+  }
+  fclose(file);
+ }
+ 
+ while(!done)
+ {
+  updatecontrols();
+  copysprite(80,50, 160,140, cas); 
+  Center(1, 150,"Continue");
+  for(i=0; i<3; i++)
+  {
+   if(isthere[i])
+   {
+    Center(1, 160+(10*i), Names[i]+" "+Score[i]);
+   }
+   else { Center(1, 160+(10*i),Sub[3]+"Empty"+Sub[1]); }
+  }
+  TBox(108, 158+(10*pointer), 212, 166+(10*pointer));
+  showpage();
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=2; Playsound(select, 63, 128); }
+  if(down) { Unpress(6); pointer++; if(pointer>2) pointer=0; Playsound(select, 63, 128); }
+  if(b1) 
+  {  
+   unpress(1);
+   if(!Isthere[pointer]) Playsound(error, 63, 128);
+   else
+   {
+    done=2;
+    Name=Names[pointer];
+    Money=val(Score[pointer]);
+   }
+  }
+  if(b2)
+  {
+   unpress(2);
+   done=1;
+  }
+ }
+ if(done=1)
+ {
+  for(i=10; i>0; i--)
+  {
+   copysprite(80,50, 160,140, cas); 
+   Center(1, 160-i, "Continue");
+   showpage();
+   delay(2);
+  }
+ }
+ else
+ {
+  fadeout();
+  map("casino.map");
+ }
+}
+
+void SaveGame()
+{
+ int done, pointer, i, file;
+ fadeout();
+ for(i=0; I<3;i++)
+ { Names[i]=""; Score[i]=""; Isthere[i]=0; }
+ for(i=0; i<3; i++)
+ {
+  file=fopen("save"+Str(i+1)+".sav");
+  if(file) 
+  {
+   Isthere[i]=1;
+   FGetline(TempString, file);
+   Names[i]=TempString;
+   FGetline(TempString, file);
+   Score[i]=TempString;
+  }
+  fclose(file);
+ }
+ fadein();
+ while(!done)
+ {
+  updatecontrols();
+  copysprite(80,50, 160,140, cas); 
+  Center(1, 150,"Save Game");
+  for(i=0; i<3; i++)
+  {
+   if(isthere[i])
+   {
+    Center(1, 160+(10*i), Names[i]+" "+Score[i]);
+   }
+   else { Center(1, 160+(10*i),Sub[3]+"Empty"+Sub[1]); }
+  }
+  TBox(108, 158+(10*pointer), 212, 166+(10*pointer));
+  showpage();
+  if(up) { Unpress(5); pointer--; if(pointer<0) pointer=2; Playsound(select, 63, 128); }
+  if(down) { Unpress(6); pointer++; if(pointer>2) pointer=0; Playsound(select, 63, 128); }
+  if(b1) 
+  {  
+   unpress(1);
+   Isthere[pointer]=1;
+   Names[pointer]=name;
+   Score[pointer]=str(money);
+   file=fwopen("save"+str(pointer+1)+".sav");
+   FWritestring(Name, file);
+   FWritestring(str(money), file);
+   fwclose(file);
+   Msg("Save Successful!");
+   done++;
+  }
+  if(b2)
+  {
+   unpress(2);
+   done++;
+  }
+ }
+ fadeout();
+ fadein();
+}

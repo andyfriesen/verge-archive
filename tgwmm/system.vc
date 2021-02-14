@@ -1,0 +1,547 @@
+#include "battle.vc"
+#include "pixlmove.vc"
+
+int curhp,maxhp,atk,def,hit,dod,stat,bleargh,bongchr,flags[100],xdest,ydest,loaded;
+int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,lives,faded,difficulty;
+string mainmusic,curmap;
+
+void AntiMatter()
+ {int z;
+  PlaySFX("kaboom");
+  for(z=0; z<126; z++)
+   {Render();
+    SetLucent(1);
+    CircleFill(25,30,z,224);
+    CircleFill(160,100,z*3,232);
+    CircleFill(250,73,z/2,239);
+    CircleFill(91,132,z+14,38);
+    CircleFill(293,157,z*2,229);
+    if(z>25) CircleFill(100,58,z-25,224);
+    if(z>50) CircleFill(192,96,(z-50)*3,232);
+    if(z>75) CircleFill(212,173,(z-75)/2,239);
+    if(z>100) CircleFill(5,12,z-86,38);
+    SetLucent(0);
+    PaletteMorph(0,0,0,0,63-(z/2));
+    ShowPage(); Wait(2,0);}
+  if(flags[39])
+    {Exit("And so, Bong saved the day once again.  Sort of.  Thanks for playing            'The Guy Who Mugged Me!'");
+    }
+  Exit("The resulting explosion destroyed much of western Europe.  And Bong.");}
+
+void BongDeath()
+ {lives--; faded=1; curhp=maxhp;
+  if(lives<1) Exit("And so Dr. Farnsworth was forced to destroy the world.  Way to go, Bong.");
+  MapSwitch("ohmcs.map",8,34,1);}
+
+void FadeIn(int span)
+ {int delay;
+  timer=0;
+  while(delay<span)
+   {PaletteMorph(0,0,0,0,(delay*63)/span);
+    ShowPage();
+    while(timer)
+     {delay++;
+      timer--;}
+   }
+ }
+
+void FadeOut(int span)
+ {int delay;
+  timer=0;
+  while(delay<span)
+   {PaletteMorph(0,0,0,0,63-((delay*63)/span));
+    ShowPage();
+    while(timer)
+     {delay++;
+      timer--;}
+   }
+ }
+
+void InfoText(string spc, string line1, string line2, string line3, string line4, int vox, string image, int iw, int ih)
+ {int i, v, x, y, z;
+  string curstring;
+  if(strcmp(image,"")) i=LoadImage(image);
+  Unpress(1);
+  Switch(vox)
+   {Case 1: v=CacheSound("highvoc.wav");
+    Case 2: v=CacheSound("midvoc.wav");
+    Case 3: v=CacheSound("lowvoc.wav");
+    Case 4: v=CacheSound("bassvoc.wav");
+    Case 5: v=CacheSound("robvoc.wav");}
+  z=(strlen(spc)*9)+10;
+  for(y=0; y<4; y++)
+   {x=0;
+    Switch(y)
+     {Case 0: curstring=line1;
+      Case 1: curstring=line2;
+      Case 2: curstring=line3;
+      Case 3: curstring=line4;}
+    while(x<strlen(curstring))
+     {Render();
+      RectFill(0,130,z,147,0);
+      RectFill(0,146,319,199,0);
+      Rect(0,145,319,199,16);
+      Rect(0,130,z,147,16);
+      Rect(1,131,z-1,146,31);
+      Rect(2,132,z-2,145,25);
+      Rect(1,146,318,198,31);
+      Rect(2,147,317,197,25);
+      TCopySprite(315-iw,195-ih,iw,ih,i);
+      PrintText(5,136,spc+":");
+      if(y) PrintText(5,154,line1);
+      if(y>1) PrintText(5,164,line2);
+      if(y>2) PrintText(5,174,line3);
+      PrintText(5,154+(y*10),left(curstring,x));
+      PlaySound(v,32,128);
+      ShowPage(); x++;
+      Wait(2,0);}
+   }
+  FreeAllSounds();
+  while(!b1)
+   {Render();
+    RectFill(0,130,z,147,0);
+    RectFill(0,146,319,199,0);
+    Rect(0,145,319,199,16);
+    Rect(0,130,z,147,16);
+    Rect(1,131,z-1,146,31);
+    Rect(2,132,z-2,145,25);
+    Rect(1,146,318,198,31);
+    Rect(2,147,317,197,25);
+    TCopySprite(315-iw,195-ih,iw,ih,i);
+    PrintText(5,136,spc+":");
+    PrintText(5,154,line1);
+    PrintText(5,164,line2);
+    PrintText(5,174,line3);
+    PrintText(5,184,line4);
+    ShowPage(); UpdateControls();}
+  Unpress(1);}
+
+void InitMap(string mapname, string musicname)
+ {PlayMusic(musicname);
+  bongchr=EntitySpawn(xdest,ydest,"bong.chr");
+  SetPlayer(bongchr);
+  lastmove=0; cameratracking=1;
+  Render(); ProcessEntities(); ShowPage();
+  if(faded)
+   {FadeIn(30);
+    faded=0;}
+  curmap=mapname; mainmusic=musicname;}
+
+void InitSystem()
+ {xdest=0; ydest=0;
+  curhp=50; maxhp=50; lives=2;
+  atk=10; def=8; hit=3; dod=3;}
+
+void LoadGame(int idx)
+ {int fptr;
+  Switch(idx)
+   {Case 1: fptr=fopen("guymug.sv1");
+    Case 2: fptr=fopen("guymug.sv2");
+    Case 3: fptr=fopen("guymug.sv3");
+    Case 4: fptr=fopen("guymug.sv4");}
+  ReadVars(fptr);
+  fclose(fptr);
+  lastmove=0;}
+
+int LoadMenu()
+ {int f1, f2, f3, f4, p, i, x;
+  Unpress(1); Unpress(2);
+  p=LoadImage("ptrh.pcx");
+  f1=fopen("guymug.sv1");
+  f2=fopen("guymug.sv2");
+  f3=fopen("guymug.sv3");
+  f4=fopen("guymug.sv4");
+  while(!b1 && !b2)
+   {RectFill(110,60,208,140,0);
+    Rect(110,60,208,140,16);
+    Rect(111,61,207,139,31);
+    Rect(112,62,206,138,25);
+    HLine(112,84,206,25);
+    HLine(111,85,207,31);
+    HLine(112,86,206,25);
+    PrintText(116,65," Load from");
+    PrintText(116,75,"Which File?");
+    PrintText(116,89,"  No Load");
+    if(!f1) PrintText(116,99,"   Empty");
+     else PrintText(121,99,"  File 1");
+    if(!f2) PrintText(116,109,"   Empty");
+     else PrintText(121,109,"  File 2");
+    if(!f3) PrintText(116,119,"   Empty");
+     else PrintText(121,119,"  File 3");
+    if(!f4) PrintText(116,129,"   Empty");
+     else PrintText(121,129,"  File 4");
+    TCopySprite(116,89+(i*10),10,10,p);
+    ShowPage(); UpdateControls();
+    if(up)
+     {i--;
+      if(i<0) i=4;
+      Unpress(5);}
+    if(down)
+     {i++;
+      if(i>4) i=0;
+      Unpress(6);}
+   }
+  log(str(f3));
+  fclose(f1); fclose(f2); fclose(f3); fclose(f4);
+  log(str(f3));
+  if(i==1 && f1) return 1;
+  if(i==2 && f2) return 2;
+  if(i==3 && f3) return 3;
+  if(i==4 && f4) return 4;
+  return 0;}
+
+void MapSwitch(string mapname, int x, int y, int fade)
+ {xdest=x; ydest=y;
+  if(!fade)
+   {FadeOut(30);
+    faded++;}
+  Map(mapname);}
+
+void Menu()
+  {int b, p, p2, i;
+  b=LoadImage("battstat.pcx");
+  p=LoadImage("ptrh.pcx");
+  p2=LoadImage("ptrh2.pcx");
+  while(!b2 && !b1)
+   {Render();
+    CopySprite(0,130,320,70,b);
+    TCopySprite(305,185,10,10,p);
+    TCopySprite(5,185,10,10,p2);
+    Switch(i)
+     {Case 0: PrintText(5,136,"Pistol");
+              PrintText(5,154,"Standard issue OHMCS hand-gun.");
+      Case 1: if(!flags[42])
+               {PrintText(5,136,"Exploding Frisbee");
+                PrintText(5,154,"Normal looking frisbee that will");
+                PrintText(5,164,"explode upon impact with any object.");
+                PrintText(15,186,"(Press ENTER to use)");}
+              if(flags[42]) i++;
+      Case 2: if(!flags[43])
+               {PrintText(5,136,"Suicide Pill (Blue)");
+                PrintText(5,154,"Eating the pill will induce sudden,");
+                PrintText(5,164,"painful death, unless it's the placebo.");
+                PrintText(15,186,"(Press ENTER to use)");}
+              if(flags[43]) i++;
+      Case 3: if(!flags[44])
+               {PrintText(5,136,"Suicide Pill (Red)");
+                PrintText(5,154,"Eating the pill will induce sudden,");
+                PrintText(5,164,"painful death, unless it's the placebo.");
+                PrintText(15,186,"(Press ENTER to use)");}
+              if(flags[44]) i++;
+      Case 4: PrintText(5,136,"Poison-Tipped Q-Tips");
+              PrintText(5,154,"When used in the ear, a debilitating");
+              PrintText(5,164,"poison may enter the system, causing");
+              PrintText(5,174,"a slow death.");
+      Case 5: PrintText(5,136,"Anti-Matter");
+              PrintText(5,154,"The most reactive substance known to");
+              PrintText(5,164,"exist, it explodes upon release.");
+              PrintText(15,186,"(Press ENTER to use)");
+      Case 6: PrintText(5,136,"Magnetic Boots");
+              PrintText(5,154,"Cause wearer to stick to most metal");
+              PrintText(5,164,"surfaces.");
+              if(!flags[45]) PrintText(15,186,"(Press ENTER to wear)");
+              if(flags[45]) PrintText(15,186,"(Press ENTER to remove)");}
+    ShowPage();
+    UpdateControls();
+    if(left)
+     {i--;
+      if(i<0) i=6;
+      if(i==3 && flags[44]) i--;
+      if(i==2 && flags[43]) i--;
+      if(i==1 && flags[42]) i--;
+      Unpress(7);}
+    if(right)
+     {i++;
+      if(i>6) i=0;
+      if(i==1 && flags[42]) i++;
+      if(i==2 && flags[43]) i++;
+      if(i==3 && flags[44]) i++;
+      Unpress(8);}
+   }
+  if(b1)
+   {Unpress(1);
+    UseItem(i);}
+ }
+
+void Narrator(string line1, string line2, string line3, string line4)
+ {Unpress(1);
+  while(!b1)
+   {Render();
+    RectFill(0,146,319,199,0);
+    Rect(0,145,319,199,16);
+    Rect(1,146,318,198,31);
+    Rect(2,147,317,197,25);
+    PrintText(5,154,line1);
+    PrintText(5,164,line2);
+    PrintText(5,174,line3);
+    PrintText(5,184,line4);
+    ShowPage(); UpdateControls();}
+  Unpress(1);}
+
+void PlaySFX(string sound)
+ {int ss;
+  ss=CacheSound(sound+".wav");
+  PlaySound(ss,64,128);}
+
+void PrintText(int x, int y, string words)
+ {GotoXY(x,y); PrintString(0,words);}
+
+int Prompt(string spc, string line1, string line2, string line3, string line4, int vox)
+ {int i, p, v, x, y, z;
+  string curstring;
+  Unpress(1);
+  p=LoadImage("ptrh.pcx");
+  Switch(vox)
+   {Case 1: v=CacheSound("highvoc.wav");
+    Case 2: v=CacheSound("midvoc.wav");
+    Case 3: v=CacheSound("lowvoc.wav");
+    Case 4: v=CacheSound("bassvoc.wav");
+    Case 5: v=CacheSound("robvoc.wav");}
+  z=(strlen(spc)*9)+10;
+  for(y=0; y<4; y++)
+   {x=0;
+    Switch(y)
+     {Case 0: curstring=line1;
+      Case 1: curstring=line2;
+      Case 2: curstring=line3;
+      Case 3: curstring=line4;}
+    while(x<strlen(curstring))
+     {Render();
+      RectFill(0,130,z,147,0);
+      RectFill(0,146,319,199,0);
+      Rect(0,145,319,199,16);
+      Rect(0,130,z,147,16);
+      Rect(1,131,z-1,146,31);
+      Rect(2,132,z-2,145,25);
+      Rect(1,146,318,198,31);
+      Rect(2,147,317,197,25);
+      PrintText(5,136,spc+":");
+      if(y) PrintText(5,154,line1);
+      if(y>1) PrintText(5,164,line2);
+      if(y>2) PrintText(5,174,line3);
+      PrintText(5,154+(y*10),left(curstring,x));
+      PlaySound(v,32,128);
+      ShowPage(); x++;
+      Wait(2,0);}
+   }
+  FreeAllSounds();
+  while(!b1)
+   {Render();
+    RectFill(0,130,z,147,0);
+    RectFill(0,146,319,199,0);
+    RectFill(280,120,319,147,0);
+    Rect(0,145,319,199,16);
+    Rect(0,130,z,147,16);
+    Rect(1,131,z-1,146,31);
+    Rect(2,132,z-2,145,25);
+    Rect(280,120,319,147,16);
+    Rect(281,121,318,146,31);
+    Rect(282,122,317,145,25);
+    Rect(1,146,318,198,31);
+    Rect(2,147,317,197,25);
+    PrintText(5,136,spc+":");
+    PrintText(293,126,"Yes");
+    PrintText(293,136,"No");
+    PrintText(5,154,line1);
+    PrintText(5,164,line2);
+    PrintText(5,174,line3);
+    PrintText(5,184,line4);
+    TCopySprite(283,125+(i*10),10,10,p);
+    ShowPage(); UpdateControls();
+    if(up)
+     {i--;
+      if(i<0) i=1;
+      Unpress(5);}
+    if(down)
+     {i++;
+      if(i>1) i=0;
+      Unpress(6);}
+   }
+  Unpress(1); free(p);
+  return i;}
+
+void SaveMenu()
+ {int f1, f2, f3, f4, p, i, x;
+  Unpress(1); Unpress(2);
+  p=LoadImage("ptrh.pcx");
+  f1=fopen("guymug.sv1");
+  f2=fopen("guymug.sv2");
+  f3=fopen("guymug.sv3");
+  f4=fopen("guymug.sv4");
+  while(!b1 && !b2)
+   {Render();
+    RectFill(110,60,208,130,0);
+    Rect(110,60,208,130,16);
+    Rect(111,61,207,129,31);
+    Rect(112,62,206,128,25);
+    HLine(112,84,206,25);
+    HLine(111,85,207,31);
+    HLine(112,86,206,25);
+    PrintText(116,65,"  Save to");
+    PrintText(116,75,"Which File?");
+    if(!f1) PrintText(116,89,"   Empty");
+     else PrintText(121,89,"  File 1");
+    if(!f2) PrintText(116,99,"   Empty");
+     else PrintText(121,99,"  File 2");
+    if(!f3) PrintText(116,109,"   Empty");
+     else PrintText(121,109,"  File 3");
+    if(!f4) PrintText(116,119,"   Empty");
+     else PrintText(121,119,"  File 4");
+    TCopySprite(116,89+(i*10),10,10,p);
+    ShowPage(); UpdateControls();
+    if(up)
+     {i--;
+      if(i<0) i=3;
+      Unpress(5);}
+    if(down)
+     {i++;
+      if(i>3) i=0;
+      Unpress(6);}
+   }
+  if(b2) {Unpress(2); return;}
+  Unpress(1);
+  fclose(f1); fclose(f2); fclose(f3); fclose(f4);
+  Switch(i)
+   {Case 0: f1=fwopen("guymug.sv1");
+    Case 1: f1=fwopen("guymug.sv2");
+    Case 2: f1=fwopen("guymug.sv3");
+    Case 3: f1=fwopen("guymug.sv4");}
+  xdest=entity.tx[bongchr]; ydest=entity.ty[bongchr];
+  entity.facing[bongchr]=0; entity.specframe[bongchr]=0;
+  WriteVars(f1);
+  fwclose(f1);
+  free(p);}
+
+void Text(string spc, string line1, string line2, string line3, string line4, int vox)
+ {int v, x, y, z;
+  string curstring;
+  Unpress(1);
+  Switch(vox)
+   {Case 1: v=CacheSound("highvoc.wav");
+    Case 2: v=CacheSound("midvoc.wav");
+    Case 3: v=CacheSound("lowvoc.wav");
+    Case 4: v=CacheSound("bassvoc.wav");
+    Case 5: v=CacheSound("robvoc.wav");}
+  z=(strlen(spc)*9)+10;
+  timer=0;
+  for(y=0; y<4; y++)
+   {x=0;
+    Switch(y)
+     {Case 0: curstring=line1;
+      Case 1: curstring=line2;
+      Case 2: curstring=line3;
+      Case 3: curstring=line4;}
+    while(x<strlen(curstring))
+     {Render();
+      RectFill(0,130,z,147,0);
+      RectFill(0,146,319,199,0);
+      Rect(0,145,319,199,16);
+      Rect(0,130,z,147,16);
+      Rect(1,131,z-1,146,31);
+      Rect(2,132,z-2,145,25);
+      Rect(1,146,318,198,31);
+      Rect(2,147,317,197,25);
+      PrintText(5,136,spc+":");
+      if(y) PrintText(5,154,line1);
+      if(y>1) PrintText(5,164,line2);
+      if(y>2) PrintText(5,174,line3);
+      PrintText(5,154+(y*10),left(curstring,x));
+      PlaySound(v,32,128);
+      ProcessEntities();
+      ShowPage(); x++;
+      Wait(2,0);}
+   }
+  FreeAllSounds();
+  while(!b1)
+   {Render();
+    RectFill(0,130,z,147,0);
+    RectFill(0,146,319,199,0);
+    Rect(0,145,319,199,16);
+    Rect(0,130,z,147,16);
+    Rect(1,131,z-1,146,31);
+    Rect(2,132,z-2,145,25);
+    Rect(1,146,318,198,31);
+    Rect(2,147,317,197,25);
+    PrintText(5,136,spc+":");
+    PrintText(5,154,line1);
+    PrintText(5,164,line2);
+    PrintText(5,174,line3);
+    PrintText(5,184,line4);
+    if(timer) {timer=0; ProcessEntities();}
+    ShowPage(); UpdateControls();}
+  Unpress(1);}
+
+void UseItem(int idx)
+ {Switch(idx)
+   {Case 1: if(!flags[40])
+             {Text("Bong","I'll just toss this over there and...","","","",3);
+              Text("Bong","Oops!  I dropped it!","","","",3);
+              PaletteMorph(0,0,0,0,0); ShowPage();
+              PlaySFX("kaboom"); Wait(50,0);
+              PlaySFX("die"); Wait(150,0);
+              BongDeath();}
+            if(flags[40])
+             {Text("Bong","Hey, if I use this frisbee, I can wipe",
+                          "out all those guards!","","",3);
+               PartyMove("Z5");
+               Wait(100,1);
+               PlaySFX("kaboom");
+               Wait(150,1);
+               Text("Bong","YES!  It worked!","","","",3);
+               PartyMove("F0");
+               flags[30]=1;
+               flags[42]=1;}
+    Case 2: if(!flags[41])
+             {Text("Bong","I think this one's the placebo.","","","",3);
+              Wait(150,1);
+              Text("Bong","Nope.","","","",3);
+              PaletteMorph(0,0,0,0,0); ShowPage();
+              PlaySFX("die"); Wait(150,0);
+              BongDeath();}
+            if(flags[41])
+             {}
+    Case 3: if(!flags[41])
+             {Text("Bong","I think this one's the placebo.","","","",3);
+              Wait(150,1);
+              Text("Bong","Nope.","","","",3);
+              PaletteMorph(0,0,0,0,0); ShowPage();
+              PlaySFX("die"); Wait(150,0);
+              BongDeath();}
+            if(flags[41])
+             {}
+    Case 5: Text("Bong","I wonder what this can actually do.","","","",3);
+            if(!flags[65] || flags[63]) AntiMatter();
+            SetTile(22,65,1,111); flags[63]++;
+            Text("Bong","Wow!  The proximity with the anti-",
+                        "matter altered the channel on the",
+                        "save-a-ma-bob!  I can use it now!",
+                        "I'll just put this stuff away.",3);
+    Case 6: if(!flags[45])
+             {Text("Bong","I'll put on these boots.","","","",3);
+              flags[45]++;}
+             else
+              {Text("Bong","I guess I'll take these off.","","","",3);
+               flags[45]=0;}
+   }
+ }
+
+void Wait(int delay, int upd)
+ {timer=0;
+  while(delay)
+   {if(timer)
+     {timer--;
+      delay--;
+      if(upd)
+       {Render();
+        ProcessEntities();
+        ShowPage();}
+     }
+   }
+ }
+
+void Warp(int x, int y, int fade)
+ {if(!fade) FadeOut(30);
+  entity.x[bongchr]=x*16; entity.tx[bongchr]=x;
+  entity.y[bongchr]=y*16; entity.ty[bongchr]=y;
+  Render(); ProcessEntities(); ShowPage();
+  if(!fade) FadeIn(30);}

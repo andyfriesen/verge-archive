@@ -1,0 +1,1736 @@
+
+#define CONFIRM 0
+#define ERROR 1
+#define SCROLL 2
+#define OPEN 3
+#define IUSE 4
+#define EQUP 5
+#define SWING 6
+#define MELEE 7
+#define SHOT 8
+#define SHTGUN 9
+#define ROCKET 10
+#define PHASER 11
+#define EMPTY 12
+#define EDIE 13
+#define CHING 14
+#define SWTCH 15
+
+#define RENESCO 0
+#define SLUMS 1
+#define SOUTH 2
+#define CAVERN 3
+#define DAMEON 4
+#define NORTH 5
+#define BABEL 6
+#define WEST 7
+#define SEWAGE 8
+
+int smfnt, bgfnt, bggrey, bggold, bggren;
+int sfx[16], flag[10], var, var2, dress[4];
+int gfx, sound;
+
+int save_slot[4];
+
+void autoexec()
+{
+	map("startup.map");
+}
+
+
+void create_char()
+{
+	int c, d, i, okay, plus, minus, plusgry, minusgry, pool;
+	int cursor, ctime, z;
+	pool=12;
+	cx=18;
+	cy=8;
+	ctime=0;
+	chcurs=0;
+	set_up_alpha();
+	cursor=loadimage("graphics/misc/cursor.pcx");
+	okay=loadimage("graphics/misc/green.pcx");
+	plus=loadimage("graphics/misc/plus.pcx");
+	minus=loadimage("graphics/misc/minus.pcx");
+	plusgry=loadimage("graphics/misc/plusgry.pcx");
+	minusgry=loadimage("graphics/misc/minusgry.pcx");
+	palettemorph(0,0,0,0,0);
+	timer=0;
+	while(timer<64)
+	{
+		render();
+		if(timer<64)
+			palettemorph(0,0,0,0,timer);
+		else
+			palettemorph(0,0,0,0,63);
+		for(i=0;i<240;i++)
+			line(0,i,320,i,6-(i*6/240));
+		updatecontrols();
+		showpage();
+	}
+	palettemorph(0,0,0,0,63);
+	timer=0;
+	while(timer<32)
+	{
+		render();	
+		for(i=0;i<240;i++)
+			line(0,i,320,i,6-(i*6/240));
+		updatecontrols();
+		showpage();
+	}
+	play_sound(OPEN,16);
+	timer=0;
+	c=1;
+	while(c=1)
+	{
+		render();	
+	
+		for(i=0;i<240;i++)
+			line(0,i,320,i,6-(i*6/240));
+
+		window(12,12,35,35);
+		tcopysprite(12+3,12+3,18,18,okay);
+		window_grey(35,12,102,35);
+		put_text(42,18,bgfnt,name);
+
+		window(12,60,35,83);
+		if(pool>0)
+			tcopysprite(12+3,60+3,18,18,plus);
+		else
+			tcopysprite(12+3,60+3,18,18,plusgry);
+		window(35,60,58,83);
+		if(strength>1)
+			tcopysprite(35+3,60+3,18,18,minus);
+		else
+			tcopysprite(35+3,60+3,18,18,minusgry);
+		if(strength<10)
+			temp="00"+str(strength);
+		if(strength>=10 && strength<100)
+			temp="0"+str(strength);
+		if(strength>=100)
+			temp=str(strength);			
+		stat_box(58,60,"STR",temp);
+		
+		window(12,96,35,119);
+		if(pool>0)
+			tcopysprite(12+3,96+3,18,18,plus);
+		else
+			tcopysprite(12+3,96+3,18,18,plusgry);
+		window(35,96,58,119);
+		if(dexterity>1)
+			tcopysprite(35+3,96+3,18,18,minus);
+		else
+			tcopysprite(35+3,96+3,18,18,minusgry);
+		if(dexterity<10)
+			temp="00"+str(dexterity);
+		if(dexterity>=10 && dexterity<100)
+			temp="0"+str(dexterity);
+		if(dexterity>=100)
+			temp=str(dexterity);
+		stat_box(58,96,"DEX",temp);		
+
+		window(12,132,35,155);
+		if(pool>0)
+			tcopysprite(12+3,132+3,18,18,plus);
+		else
+			tcopysprite(12+3,132+3,18,18,plusgry);
+		window(35,132,58,155);
+		if(agility>1)
+			tcopysprite(35+3,132+3,18,18,minus);
+		else
+			tcopysprite(35+3,132+3,18,18,minusgry);
+		if(agility<10)
+			temp="00"+str(agility);
+		if(agility>=10 && agility<100)
+			temp="0"+str(agility);
+		if(agility>=100)
+			temp=str(agility);
+		stat_box(58,132,"AGI",temp);	
+
+		window(12,168,35,191);
+		if(pool>0)
+			tcopysprite(12+3,168+3,18,18,plus);
+		else
+			tcopysprite(12+3,168+3,18,18,plusgry);
+		window(35,168,58,191);
+		if(vitality>1)
+			tcopysprite(35+3,168+3,18,18,minus);
+		else
+			tcopysprite(35+3,168+3,18,18,minusgry);
+		if(vitality<10)
+			temp="00"+str(vitality);
+		if(vitality>=10 && vitality<100)
+			temp="0"+str(vitality);
+		if(vitality>=100)
+			temp=str(vitality);
+		stat_box(58,168,"VIT",temp);	
+
+		window(12,216,35,239);
+		tcopysprite(12+3,216+3,18,18,okay);
+		window_grey(35,216,102,239);
+		put_text(42,222,bgfnt,"Done");
+
+		stat_box(192,60,"HP",str(hpmax));
+
+		if(apmax<10)
+			temp="0"+str(apmax);
+		else
+			temp=str(apmax);
+		stat_box(192,96,"AP",temp);
+		if(atk<10)
+			temp="00"+str(atk);
+		if(atk>=10 && atk<100)
+			temp="0"+str(atk);
+		if(atk>=100)
+			temp=str(atk);
+		stat_box(192,132,"ATK",temp);
+		if(def<10)
+			temp="00"+str(def);
+		if(def>=10 && def<100)
+			temp="0"+str(def);
+		if(def>=100)
+			temp=str(def);
+		stat_box(192,168,"DEF",temp);
+
+		if(pool<10)
+			temp="0"+str(pool);
+		else
+			temp=str(pool);
+		stat_box(192,216,"Pool",temp);
+
+		if(ctime<14)
+			tcopysprite(cx,cy,12,9,cursor);
+		
+		if(down)
+		{
+			unpress(6);
+			updatecontrols();
+			if(cy<212)
+				play_sound(SCROLL,32);
+			switch(cy)
+			{
+				case 8:
+					//cx=18;
+					cy=56;
+					ctime=0;
+				case 56:
+					//cx=18;
+					cy=92;					
+					ctime=0;
+				case 92:
+					//cx=18;
+					cy=128;	
+					ctime=0;
+				case 128:
+					//cx=18;
+					cy=164;	
+					ctime=0;
+				case 164:
+					cx=18;
+					cy=212;	
+					ctime=0;
+		
+			}
+		}
+		if(up)
+		{
+			unpress(5);
+			updatecontrols();
+			if(cy>8)
+				play_sound(SCROLL,32);
+			switch(cy)
+			{
+				case 56:
+					cx=18;
+					cy=8;
+					ctime=0;
+				case 92:
+					//cx=18;
+					cy=56;	
+					ctime=0;
+				case 128:
+					//cx=18;
+					cy=92;	
+					ctime=0;
+				case 164:
+					//cx=18;
+					cy=128;						
+					ctime=0;
+				case 212:
+					//cx=18;
+					cy=164;		
+					ctime=0;
+			}
+		}
+		if(left)
+		{
+			unpress(7);
+			updatecontrols();
+			switch(cy)
+			{
+				case 56:
+					if(cx=41)
+					{
+						cx=18;
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+				case 92:
+					if(cx=41)
+					{
+						cx=18;
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+				case 128:
+					if(cx=41)
+					{
+						cx=18;	
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+				case 164:
+					if(cx=41)
+					{
+						cx=18;					
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+			}
+		}
+		if(right)
+		{
+			unpress(8);
+			updatecontrols();
+			switch(cy)
+			{
+				case 56:
+					if(cx=18)
+					{
+						cx=41;
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+				case 92:
+					if(cx=18)
+					{
+						cx=41;
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+				case 128:
+					if(cx=18)
+					{
+						cx=41;	
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+				case 164:
+					if(cx=18)
+					{
+						cx=41;					
+						ctime=0;
+						play_sound(SCROLL,32);
+					}
+			}
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			switch(cy)
+			{
+				case 8:
+					d=1;
+					play_sound(CONFIRM,32);
+					ctime=0;
+					timer=0;
+					while(d=1)
+					{
+						render();
+						for(i=0;i<240;i++)
+							line(0,i,320,i,6-(i*6/240));	
+						window(12,12,35,35);
+						tcopysprite(12+3,12+3,18,18,okay);
+						window_grey(35,12,102,35);
+						
+						temp=chars[0]+chars[1]+chars[2]+chars[3]+chars[4]+chars[5];
+						put_text(42,18,bgfnt,temp);
+				
+						window(12,60,35,83);
+						if(pool>0)
+							tcopysprite(12+3,60+3,18,18,plus);
+						else
+							tcopysprite(12+3,60+3,18,18,plusgry);
+						window(35,60,58,83);
+						if(strength>1)
+							tcopysprite(35+3,60+3,18,18,minus);
+						else
+							tcopysprite(35+3,60+3,18,18,minusgry);
+						if(strength<10)
+							temp="00"+str(strength);
+						if(strength>=10 && strength<100)
+							temp="0"+str(strength);
+						if(strength>=100)
+							temp=str(strength);			
+						stat_box(58,60,"STR",temp);
+						
+						window(12,96,35,119);
+						if(pool>0)
+							tcopysprite(12+3,96+3,18,18,plus);
+						else
+							tcopysprite(12+3,96+3,18,18,plusgry);
+						window(35,96,58,119);
+						if(dexterity>1)
+							tcopysprite(35+3,96+3,18,18,minus);
+						else
+							tcopysprite(35+3,96+3,18,18,minusgry);
+						if(dexterity<10)
+							temp="00"+str(dexterity);
+						if(dexterity>=10 && dexterity<100)
+							temp="0"+str(dexterity);
+						if(dexterity>=100)
+							temp=str(dexterity);
+						stat_box(58,96,"DEX",temp);		
+		
+						window(12,132,35,155);
+						if(pool>0)
+							tcopysprite(12+3,132+3,18,18,plus);
+						else
+							tcopysprite(12+3,132+3,18,18,plusgry);
+						window(35,132,58,155);
+						if(agility>1)
+							tcopysprite(35+3,132+3,18,18,minus);
+						else
+							tcopysprite(35+3,132+3,18,18,minusgry);
+						if(agility<10)
+							temp="00"+str(agility);
+						if(agility>=10 && agility<100)
+							temp="0"+str(agility);
+						if(agility>=100)
+							temp=str(agility);
+						stat_box(58,132,"AGI",temp);	
+				
+						window(12,168,35,191);
+						if(pool>0)
+							tcopysprite(12+3,168+3,18,18,plus);
+						else
+							tcopysprite(12+3,168+3,18,18,plusgry);
+						window(35,168,58,191);
+						if(vitality>1)
+							tcopysprite(35+3,168+3,18,18,minus);
+						else
+							tcopysprite(35+3,168+3,18,18,minusgry);
+						if(vitality<10)
+							temp="00"+str(vitality);
+						if(vitality>=10 && vitality<100)
+							temp="0"+str(vitality);
+						if(vitality>=100)
+							temp=str(vitality);
+						stat_box(58,168,"VIT",temp);	
+				
+						window(12,216,35,239);
+						tcopysprite(12+3,216+3,18,18,okay);
+						window_grey(35,216,102,239);
+						put_text(42,222,bgfnt,"Done");
+				
+						stat_box(192,60,"HP",str(hpmax));
+				
+						if(apmax<10)
+							temp="0"+str(apmax);
+						else
+							temp=str(apmax);
+						stat_box(192,96,"AP",temp);
+						if(atk<10)
+							temp="00"+str(atk);
+						if(atk>=10 && atk<100)
+							temp="0"+str(atk);
+						if(atk>=100)
+							temp=str(atk);
+						stat_box(192,132,"ATK",temp);
+						if(def<10)
+							temp="00"+str(def);
+						if(def>=10 && def<100)
+							temp="0"+str(def);
+						if(def>=100)
+							temp=str(def);
+						stat_box(192,168,"DEF",temp);
+				
+						if(pool<10)
+							temp="0"+str(pool);
+						else
+							temp=str(pool);
+						stat_box(192,216,"Pool",temp);
+				
+						tcopysprite(cx,cy,12,9,cursor);
+						
+						if(ctime=0)
+						{
+							setlucent(1);
+							rectfill(42+(chcurs*9),16,50+(chcurs*9),30,20);
+							setlucent(0);
+						}
+						
+						for(z=16;z<54;z++)
+						{
+							if(z>=16 && z<27)
+							{
+								if(key[z])
+								{
+									key[z]=0;
+									updatecontrols();
+									play_sound(SCROLL,32);
+									if(key[42] || key[54])
+										chars[chcurs]=alpha_caps[z];
+									else
+										chars[chcurs]=alpha[z];
+									if(chcurs<5)
+										chcurs++;
+								}
+							}
+							if(z>=30 && z<40)
+							{
+								if(key[z])
+								{
+									key[z]=0;
+									updatecontrols();
+									play_sound(SCROLL,32);
+									if(key[42] || key[54])
+										chars[chcurs]=alpha_caps[z];
+									else
+										chars[chcurs]=alpha[z];
+									if(chcurs<5)
+										chcurs++;
+								}
+							}
+							if(z>=44 && z<53)
+							{
+								if(key[z])
+								{
+									key[z]=0;
+									updatecontrols();
+									play_sound(SCROLL,32);
+									if(key[42] || key[54])
+										chars[chcurs]=alpha_caps[z];
+									else
+										chars[chcurs]=alpha[z];
+									if(chcurs<5)
+										chcurs++;
+								}
+							}
+						}
+						if(b4)
+						{
+							unpress(4);
+							updatecontrols();
+							play_sound(SCROLL,32);
+							chars[chcurs]=" ";
+							if(chcurs<5)
+								chcurs++;
+						}
+						if(key[14])
+						{
+							key[14]=0;
+							updatecontrols();
+							play_sound(CONFIRM,32);
+							chars[chcurs]="";
+							if(chcurs>0)
+								chcurs--;
+						}
+						
+						if(b1)
+						{
+							unpress(1);
+							updatecontrols();
+							play_sound(CONFIRM,32);
+							name=chars[0]+chars[1]+chars[2]+chars[3]+chars[4]+chars[5];
+							d=0;
+						}
+						if(b2)
+						{
+							unpress(2);
+							updatecontrols();
+							play_sound(CONFIRM,32);
+							d=0;
+						}
+						
+						if(timer>=32)
+						{
+							timer=0;
+							ctime++;
+							if(ctime=2)
+								ctime=0;
+						}
+						
+						updatecontrols();
+						showpage();
+					}
+				case 56:
+					if(cx=18)
+					{
+						if(pool>0)
+						{
+							strength++;
+							pool--;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}
+					if(cx=41)
+					{
+						if(strength>1)
+						{
+							strength--;
+							pool++;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}										
+				case 92:
+					if(cx=18)
+					{
+						if(pool>0)
+						{
+							dexterity++;
+							pool--;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}
+					if(cx=41)
+					{
+						if(dexterity>1)
+						{
+							dexterity--;
+							pool++;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}			
+				case 128:	
+					if(cx=18)
+					{
+						if(pool>0)
+						{
+							agility++;
+							pool--;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}
+					if(cx=41)
+					{
+						if(agility>1)
+						{
+							agility--;
+							pool++;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}		
+				case 164:
+					if(cx=18)
+					{
+						if(pool>0)
+						{
+							vitality++;
+							pool--;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}
+					if(cx=41)
+					{
+						if(vitality>1)
+						{
+							vitality--;
+							pool++;
+							play_sound(CONFIRM,32);
+						}
+						else
+							play_sound(ERROR,32);
+					}			
+				case 212:
+					if(strlen(name)>0 && pool=0)
+					{
+						c=0;
+						play_sound(CONFIRM,32);
+					}
+					else
+						play_sound(ERROR,32);
+				
+			}
+			figure_stats();
+		}
+		
+		if(timer>=2)
+		{
+			timer=0;
+			ctime++;
+			if(ctime=16)
+				ctime=0;
+		}
+		
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<32)
+	{
+		render();	
+		for(i=0;i<240;i++)
+			line(0,i,320,i,6-(i*6/240));
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<64)
+	{
+		render();
+		if(timer<64)
+			palettemorph(0,0,0,0,64-timer);
+		else
+			palettemorph(0,0,0,0,0);
+		for(i=0;i<240;i++)
+			line(0,i,320,i,6-(i*6/240));
+		updatecontrols();
+		showpage();
+	}
+	palettemorph(0,0,0,0,0);
+}
+
+void delay(int t)
+{
+	timer=0;
+	while(timer<t)
+	{
+		render();	
+		updatecontrols();
+		showpage();
+	}
+}
+
+void ending()
+{
+	int i, tx, ty, stent;
+
+	cameratracking=0;
+	xwin=0;
+	ywin=48;
+	palettemorph(0,0,0,0,63);
+	text_box("Guard","WHAT THE?!?!","Somebody HEL-!!","");
+	delay(32);
+	
+	xwin=95*16;
+	ywin=42*16;
+	
+	stent=entityspawn(102,46,"graphics/chrs/drone.chr");
+	entityspawn(104,46,"graphics/chrs/drone.chr");
+	entityspawn(106,46,"graphics/chrs/drone.chr");
+	entityspawn(103,45,"graphics/chrs/drone.chr");
+	entityspawn(105,45,"graphics/chrs/drone.chr");
+	entityspawn(102,44,"graphics/chrs/drone.chr");
+	entityspawn(104,44,"graphics/chrs/drone.chr");
+	entityspawn(106,44,"graphics/chrs/drone.chr");
+	entityspawn(103,43,"graphics/chrs/drone.chr");
+	entityspawn(105,43,"graphics/chrs/drone.chr");
+	entityspawn(102,42,"graphics/chrs/drone.chr");
+	entityspawn(104,42,"graphics/chrs/drone.chr");
+	entityspawn(106,42,"graphics/chrs/drone.chr");
+		
+	entitymove(5,"F1");
+	processentities();
+	entitymove(6,"F1");
+	processentities();
+			
+	fade_in();
+		
+	delay(24);
+		
+	timer=0;
+	var=0;
+	ty=entity.ty[stent]+1;
+	while(entity.y[stent]/16<ty)
+	{
+		render();
+		if(timer>=2)
+		{
+			if(var=0)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z1");
+					processentities();
+				}
+			}
+			if(var=14)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z0");
+					processentities();
+				}
+			}
+			var++;
+			for(i=stent;i<stent+13;i++)
+				entity.y[i]++;
+			timer=0;
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}
+	delay(12);
+	text_box("Drone","Priamary Protocol","Initiated.","");
+	delay(12);
+	timer=0;
+	var=0;
+	ty=entity.ty[stent]+1;
+	while(entity.y[stent]/16<ty)
+	{
+		render();
+		if(timer>=2)
+		{
+			if(var=0)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z2");
+					processentities();
+				}
+			}
+			if(var=14)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z0");
+					processentities();
+				}
+			}
+			var++;
+			for(i=stent;i<stent+13;i++)
+				entity.y[i]++;
+			timer=0;
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}
+	delay(24);
+	timer=0;
+	var=0;
+	ty=entity.ty[stent]+1;
+	while(entity.y[stent]/16<ty)
+	{
+		render();
+		if(timer>=2)
+		{
+			if(var=0)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z1");
+					processentities();
+				}
+				entitymove(5,"Z16");
+				processentities();
+				entitymove(6,"Z16");
+				processentities();
+			}
+			if(var=4)
+			{
+				entitymove(5,"Z17");
+				processentities();
+				entitymove(6,"Z17");
+				processentities();			
+			}
+			if(var=8)
+			{
+				entitymove(5,"Z18");
+				processentities();
+				entitymove(6,"Z18");
+				processentities();			
+			}
+			if(var=15)
+			{
+				play_sound(EDIE,64);
+				entitymove(5,"Z19");
+				processentities();
+				entitymove(6,"Z19");
+				processentities();			
+			}
+			if(var=14)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z0");
+					processentities();
+				}
+			}
+			var++;
+			for(i=stent;i<stent+13;i++)
+				entity.y[i]++;
+			entity.y[5]++;
+			entity.y[6]++;
+			timer=0;
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}
+	delay(24);
+		
+	timer=0;
+	var=0;
+	ty=entity.ty[stent]+1;
+	while(entity.y[stent]/16<ty)
+	{
+		render();
+		if(timer>=2)
+		{
+			if(var=0)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z2");
+					processentities();
+				}
+			}
+			if(var=14)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z0");
+					processentities();
+				}
+			}
+			var++;
+			for(i=stent;i<stent+13;i++)
+				entity.y[i]++;
+			timer=0;
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}	
+	delay(24);
+		
+	timer=0;
+	var=0;
+	ty=entity.ty[stent]+1;
+	while(entity.y[stent]/16<ty)
+	{
+		render();
+		if(timer>=2)
+		{
+			if(var=0)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z1");
+					processentities();
+				}
+			}
+			if(var=14)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z0");
+					processentities();
+				}
+			}
+			var++;
+			for(i=stent;i<stent+13;i++)
+				entity.y[i]++;
+			timer=0;
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}
+	delay(24);
+		
+	timer=0;
+	var=0;
+	ty=entity.ty[stent]+1;
+	while(entity.y[stent]/16<ty)
+	{
+		render();
+		if(timer>=2)
+		{
+			if(var=0)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z2");
+					processentities();
+				}
+			}
+			if(var=14)
+			{
+				for(i=stent;i<stent+13;i++)
+				{
+					entitymove(i,"Z0");
+					processentities();
+				}
+			}
+			var++;
+			for(i=stent;i<stent+13;i++)
+				entity.y[i]++;
+			timer=0;
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}
+	tx=xwin;
+	ty=ywin;
+	i=0;
+	while(i<256)
+	{
+		render();
+		xwin=tx+(i*((103*16)-tx)/256);
+		ywin=ty+(i*((66*16)-ty)/256);
+		if(timer>=1)
+		{
+			timer=0;
+			i++;
+		}
+		updatecontrols();
+		showpage();
+	}
+	delay(16);
+	text_box("Denothar","This is it, cousin..","We have been judged.","");
+	text_box("Denothar","Tonight we sleep with","the fathers.","");	
+	text_box(name,"...","","");		
+	dialogue_clear();
+	dialogue_add("There are no fathers..");
+	dialogue_add("Yes, shall we be off?");
+	dialogue();
+	if(dchoice=0)
+		text_box("Denothar","... I know it.","","");	
+	if(dchoice=1)
+		text_box("Denothar","*smiles* You're great","Cousin. Even up to the","last second...");
+	delay(32);
+	fade_out();
+	music_out();
+	delay(32);
+	i=0;
+	timer=0;
+	while(i<48)
+	{
+		render();
+		if(timer>=2)
+		{
+			i++;
+			timer=0;
+			var=random(4);
+			switch(var)
+			{
+				case 0:
+					play_sound(SHOT,64);
+				case 1:
+					play_sound(SHTGUN,64);					
+				case 2:
+					play_sound(ROCKET,64);
+				case 3:
+					play_sound(PHASER,64);		
+			}
+		}
+		updatecontrols();
+		showpage();
+	}
+	cameratracking=0;
+	xwin=0;
+	ywin=64;
+	delay(128);
+	timer=0;
+	palettemorph(0,0,0,0,63);
+	play_sound(SHTGUN,64);
+	while(timer<256)
+	{
+		render();
+		put_text(160-(strlen("The End")*9/2),112,bgfnt,"The End");
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<256)
+	{
+		render();
+		palettemorph(0,0,0,0,64-(timer/4));
+		put_text(160-(strlen("The End")*9/2),112,bgfnt,"The End");
+		updatecontrols();
+		showpage();
+	}	
+	palettemorph(0,0,0,0,0);
+	delay(48);
+	quit_game();
+}
+
+void fade_in()
+{
+	int tsave;
+	tsave=timer;
+	menu=1;
+	timer=0;
+	while(timer<64)
+	{
+		render();
+		if(timer<64)
+			palettemorph(0,0,0,0,timer);
+		updatecontrols();
+		showpage();
+	}
+	palettemorph(0,0,0,0,63);
+	timer=tsave;
+	menu=0;
+}
+
+void fade_out()
+{
+	int tsave;
+	tsave=timer;
+	menu=1;
+	timer=0;
+	while(timer<64)
+	{
+		render();
+		if(timer<64)
+			palettemorph(0,0,0,0,64-timer);
+		updatecontrols();
+		showpage();
+	}
+	palettemorph(0,0,0,0,0);
+	timer=tsave;
+	menu=0;
+}
+
+void free_all()
+{
+	free(sfx[0]);
+	free(sfx[1]);
+	free(sfx[2]);
+	free(sfx[3]);
+	free(sfx[4]);
+	free(sfx[5]);
+	free(sfx[6]);
+	free(sfx[7]);
+	free(sfx[8]);
+	free(sfx[9]);
+	free(sfx[10]);
+	free(sfx[11]);
+	free(sfx[12]);
+	free(sfx[13]);
+	free(sfx[14]);
+	free(sfx[15]);
+	
+	free(bcurs);
+	free(border);
+	free(forward);
+	free(back);
+	free(clock);
+	
+	free(baticon[0]);
+	free(baticon[1]);
+	free(baticon[2]);
+	free(baticon[3]);
+	free(btgicon[0]);
+	free(btgicon[2]);
+	
+	free(dress[0]);
+	free(dress[1]);
+}
+
+void init_game()
+{
+	init_fonts();
+	init_gfx();
+	init_sounds();
+	init_items();
+	init_party();
+	init_quests();
+	init_denizens();
+	init_treasure();
+}
+
+void init_gfx()
+{
+	bcurs=loadimage("graphics/misc/bcurs.pcx");
+	
+	border=loadimage("graphics/misc/border.pcx");
+	baticon[0]=loadimage("graphics/misc/attack.pcx");
+	baticon[1]=loadimage("graphics/misc/move.pcx");
+	baticon[2]=loadimage("graphics/misc/item.pcx");
+	baticon[3]=loadimage("graphics/misc/stop.pcx");
+	btgicon[0]=loadimage("graphics/misc/atkgrey.pcx");
+	btgicon[2]=loadimage("graphics/misc/itemgrey.pcx");
+	
+	forward=loadimage("graphics/misc/forward.pcx");
+	back=loadimage("graphics/misc/back.pcx");
+	clock=loadimage("graphics/misc/clock.pcx");
+	
+	dress[0]=loadimage("graphics/misc/player.pcx");
+	dress[1]=loadimage("graphics/misc/playcmbt.pcx");
+}
+
+void init_fonts()
+{
+	smfnt=LoadFont("system.fnt");
+	bgfnt=LoadFont("graphics/fonts/big.fnt");
+	bggrey=LoadFont("graphics/fonts/biggrey.fnt");
+	bggold=LoadFont("graphics/fonts/biggold.fnt");
+	bggren=LoadFont("graphics/fonts/biggren.fnt");	
+}
+
+void init_sounds()
+{
+	sfx[CONFIRM]=cachesound("sounds/sfx/CONFIRM.wav");	
+	sfx[ERROR]=cachesound("sounds/sfx/ERROR.wav");
+	sfx[SCROLL]=cachesound("sounds/sfx/SCROLL.wav");	
+	sfx[OPEN]=cachesound("sounds/sfx/OPEN.wav");
+	sfx[IUSE]=cachesound("sounds/sfx/IUSE.wav");
+	sfx[EQUP]=cachesound("sounds/sfx/EQUIP.wav");
+	sfx[SWING]=cachesound("sounds/sfx/SWING.wav");
+	sfx[MELEE]=cachesound("sounds/sfx/MELEE.wav");	
+	sfx[SHOT]=cachesound("sounds/sfx/SHOT.wav");	
+	sfx[SHTGUN]=cachesound("sounds/sfx/SHTGUN.wav");
+	sfx[ROCKET]=cachesound("sounds/sfx/ROCKET.wav");	
+	sfx[PHASER]=cachesound("sounds/sfx/PHASER.wav");
+	sfx[EMPTY]=cachesound("sounds/sfx/EMPTY.wav");
+	sfx[EDIE]=cachesound("sounds/sfx/EDIE.wav");
+	sfx[CHING]=cachesound("sounds/sfx/CHING.wav");
+	sfx[SWTCH]=cachesound("sounds/sfx/SWITCH.wav");
+}
+
+void intro()
+{
+	palettemorph(0,0,0,0,0);
+
+	entityspawn(50,50,"graphics/chrs/cloaked.chr");
+	setplayer(0);
+
+	fade_in();
+	delay(64);
+	partymove("Z12");
+	delay(24);
+	partymove("Z13");
+	delay(24);
+	partymove("Z14");
+	delay(24);
+	partymove("Z15");
+	delay(64);
+
+	var=0;
+	var2=0;
+	timer=0;
+	while(var2=0 && var<192)
+	{
+		render();
+
+		if(var<14) 
+		{
+			temp="The elders seldom speak of the past,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+		}
+		if(var>=14 && var<28) 
+		{
+			temp="The elders seldom speak of the past,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+			temp="but it is well known.";
+			put_text(160-(strlen(temp)*4),210,smfnt,temp);
+		}
+		if(var>=32 && var<46) 
+		{
+			temp="The ancients were lords of the earth,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+		}
+		if(var>=46 && var<60) 
+		{
+			temp="The ancients were lords of the earth,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+			temp="both wise and strong,";
+			put_text(160-(strlen(temp)*4),210,smfnt,temp);
+		}
+		if(var>=64 && var<78) 
+		{
+			temp="They destroyed the old gods,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+		}
+		if(var>=78 && var<92) 
+		{
+			temp="They destroyed the old gods,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+			temp="and built new ones of iron and steel.";
+			put_text(160-(strlen(temp)*4),210,smfnt,temp);
+		}
+		if(var>=96 && var<110) 
+		{
+			temp="The fathers saw the evil in this,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+		}
+		if(var>=110 && var<124) 
+		{
+			temp="The fathers saw the evil in this,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+			temp="and tore down these false idols.";
+			put_text(160-(strlen(temp)*4),210,smfnt,temp);
+		}
+		if(var>=128 && var<142) 
+		{
+			temp="But in so doing,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+		}
+		if(var>=142 && var<156) 
+		{
+			temp="But in so doing,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+			temp="they destroyed themselves...";
+			put_text(160-(strlen(temp)*4),210,smfnt,temp);
+		}
+		if(var>=160 && var<174) 
+		{
+			temp="The remaining fathers dispered,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+		}
+		if(var>=174 && var<188) 
+		{
+			temp="The remaining fathers disperced,";
+			put_text(160-(strlen(temp)*4),190,smfnt,temp);
+			temp="one founded your village, Renesco.";
+			put_text(160-(strlen(temp)*4),210,smfnt,temp);
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			var2=1;
+		}
+		if(timer>=14)
+		{
+			timer=0;
+			var++;		
+		}
+		processentities();
+		updatecontrols();
+		showpage();
+	}
+	delay(8);
+	partymove("Z14");
+	delay(16);
+	partymove("Z13");
+	delay(16);
+	partymove("Z12");
+	delay(16);
+	partymove("Z0");
+	delay(32);	
+	timer=0;
+	var=0;
+	while(var<16)
+	{
+		render();
+		if(var<14) 
+		{
+			temp="This is your story...";
+			put_text(160-(strlen(temp)*4),200,smfnt,temp);
+		}	
+		if(timer>=12)
+		{
+			timer=0;
+			var++;		
+		}
+		updatecontrols();
+		showpage();
+	}
+	fade_out();
+}
+
+void load_game(int slot)
+{
+	int i, file;
+	file=fopen("save0"+str(slot)+".dat");
+	// header
+	fgettoken(temp,file);
+	// basic info
+	fgettoken(temp,file); name=temp;
+	fgettoken(temp,file); curmap=temp;
+	fgettoken(temp,file); area=val(temp);
+	fgettoken(temp,file); mapx=val(temp);
+	fgettoken(temp,file); mapy=val(temp);
+	fgettoken(temp,file); face=val(temp);
+	// party info
+	fgettoken(temp,file); base_chr=temp;
+	fgettoken(temp,file); chr_file=temp;
+	fgettoken(temp,file); level=val(temp);
+	fgettoken(temp,file); xp=val(temp);
+	fgettoken(temp,file); strength=val(temp);
+	fgettoken(temp,file); dexterity=val(temp);
+	fgettoken(temp,file); agility=val(temp);
+	fgettoken(temp,file); vitality=val(temp);
+	fgettoken(temp,file); hp=val(temp);
+	fgettoken(temp,file); hpmax=val(temp);
+	fgettoken(temp,file); apmax=val(temp);
+	fgettoken(temp,file); atk=val(temp);
+	fgettoken(temp,file); atk_plus=val(temp);
+	fgettoken(temp,file); def=val(temp);
+	fgettoken(temp,file); def_plus=val(temp);
+	// items & equipment
+	fgettoken(temp,file); gold=val(temp);
+	fgettoken(temp,file); itotal=val(temp);
+	for(i=0;i<itotal;i++)
+	{
+		fgettoken(temp,file); item[i]=val(temp);
+		fgettoken(temp,file); itemx[i]=val(temp);
+		fgettoken(temp,file); iequip[i]=val(temp);
+	}
+	for(i=0;i<6;i++)
+	{
+		fgettoken(temp,file); 
+		equipment[i]=val(temp);
+	}
+	// quests
+	fgettoken(temp,file); total_quests=val(temp);
+	for(i=0;i<16;i++)
+	{
+		fgettoken(temp,file); 
+		quest[i]=val(temp);
+	}
+	// treasure flags
+	for(i=0;i<32;i++)
+	{
+		fgettoken(temp,file); 
+		tflag[i]=val(temp);
+	}
+	// generic flags
+	for(i=0;i<10;i++)
+	{
+		fgettoken(temp,file); 
+		flag[i]=val(temp);
+	}
+	// denizens
+	fgettoken(temp,file); denz_total=val(temp);
+	for(i=0;i<denz_total;i++)
+	{	
+		/*
+		fgettoken(temp,file); denz_name[i]=temp;
+		fgettoken(temp,file); denz_file[i]=temp;
+		fgettoken(temp,file); denz_area[i]=val(temp);
+		fgettoken(temp,file); denz_mapx[i]=val(temp);
+		fgettoken(temp,file); denz_mapy[i]=val(temp);
+		fgettoken(temp,file); denz_face[i]=val(temp);
+		*/
+		fgettoken(temp,file); denz_disp[i]=val(temp);
+		/*
+		fgettoken(temp,file); denz_event[i]=val(temp);
+		fgettoken(temp,file); denz_active[i]=val(temp);
+		*/
+		fgettoken(temp,file); denz_hp[i]=val(temp);
+		fgettoken(temp,file); denz_hpmax[i]=val(temp);
+		/*
+		fgettoken(temp,file); denz_ap[i]=val(temp);
+		fgettoken(temp,file); denz_apmax[i]=val(temp);
+		fgettoken(temp,file); denz_atk[i]=val(temp);
+		fgettoken(temp,file); denz_def[i]=val(temp);
+		fgettoken(temp,file); denz_turn[i]=val(temp);
+		fgettoken(temp,file); denz_gold[i]=val(temp);
+		fgettoken(temp,file); denz_weapon[i]=val(temp);
+		fgettoken(temp,file); denz_item[i]=val(temp);
+		fgettoken(temp,file); denz_itemx[i]=val(temp);
+		fgettoken(temp,file); denz_xp[i]=val(temp);
+		*/
+		fgettoken(temp,file); denz_battle[i]=val(temp);
+		fgettoken(temp,file); denz_assigned[i]=val(temp);		
+	}
+	fclose(file);
+	//stopmusic();
+	music_in("wastes.xm");	
+
+	load_map(mapx,mapy,face,curmap);
+}
+
+void load_map(int x, int y, int f, string mapname)
+{
+	mapx=x;
+	mapy=y;
+	face=f;
+	curmap=mapname;
+	map(curmap);
+}
+
+void main()
+{
+	call_menu();
+	denizens();
+	run_combat();
+}
+
+void music_in(string m)
+{
+	int tsave;
+	menu=1;
+	tsave=timer;
+	music=m;
+	playmusic("sounds/music/"+music);
+	music_volume=0;
+	timer=0;
+	while(timer<128)
+	{
+		render();
+		if(timer<128)
+			music_volume=timer;
+		else
+			music_volume=128;
+		updatecontrols();
+		showpage();
+	}
+	music_volume=128;
+	timer=tsave;
+	menu=0;
+}
+
+void music_out()
+{
+	int tsave;
+	menu=1;
+	tsave=timer;
+	timer=0;
+	while(timer<128)
+	{
+		render();
+		if(timer<128)
+			music_volume=128-timer;
+		else
+			music_volume=0;
+		updatecontrols();
+		showpage();
+	}
+	music_volume=0;
+	timer=tsave;
+	menu=0;
+}
+
+void play_sound(int n, int vol)
+{
+	playsound(sfx[n],32,128);
+}
+
+void put_text(int x, int y, int font, string txt)
+{
+	gotoxy(x,y);
+	printstring(font,txt);
+}
+
+void quit_game()
+{
+	free_all();	
+	
+	exit("choris@verge-rpg.com");
+}
+
+void save_game(int slot)
+{
+	int i, file;
+	file=fwopen("save0"+str(slot)+".dat");
+	// header
+	fwritestring("sgame",file);
+	// basic info
+	fwritestring(name,file);
+	fwritestring(curmap,file);
+	fwritestring(str(area),file);
+	fwritestring(str(entity.tx[pnum]),file);
+	fwritestring(str(entity.ty[pnum]),file);
+	fwritestring(str(entity.facing[pnum]),file);
+	// party info
+	fwritestring(base_chr,file);
+	fwritestring(chr_file,file);
+	fwritestring(str(level),file);
+	fwritestring(str(xp),file);
+	fwritestring(str(strength),file);
+	fwritestring(str(dexterity),file);
+	fwritestring(str(agility),file);
+	fwritestring(str(vitality),file);
+	fwritestring(str(hp),file);
+	fwritestring(str(hpmax),file);
+	fwritestring(str(apmax),file);
+	fwritestring(str(atk),file);
+	fwritestring(str(atk_plus),file);
+	fwritestring(str(def),file);
+	fwritestring(str(def_plus),file);
+	// items & equipment
+	fwritestring(str(gold),file);
+	fwritestring(str(itotal),file);
+	for(i=0;i<itotal;i++)
+	{
+		fwritestring(str(item[i]),file);
+		fwritestring(str(itemx[i]),file);
+		fwritestring(str(iequip[i]),file);
+	}
+	for(i=0;i<6;i++)
+		fwritestring(str(equipment[i]),file);
+	// quests
+	fwritestring(str(total_quests),file);
+	for(i=0;i<16;i++)
+		fwritestring(str(quest[i]),file);
+	// treasure flags
+	for(i=0;i<32;i++)
+		fwritestring(str(tflag[i]),file);
+	// generic flags
+	for(i=0;i<10;i++)
+		fwritestring(str(flag[i]),file);
+	// denizens
+	fwritestring(str(denz_total),file);
+	for(i=0;i<denz_total;i++)
+	{	
+		/*
+		fwritestring(denz_name[i],file);
+		fwritestring(denz_file[i],file);
+		fwritestring(str(denz_area[i]),file);
+		fwritestring(str(denz_mapx[i]),file);
+		fwritestring(str(denz_mapy[i]),file);
+		fwritestring(str(denz_face[i]),file);
+		*/
+		fwritestring(str(denz_disp[i]),file);
+		/*
+		fwritestring(str(denz_event[i]),file);
+		fwritestring(str(denz_active[i]),file);
+		*/
+		fwritestring(str(denz_hp[i]),file);
+		fwritestring(str(denz_hpmax[i]),file);
+		/*
+		fwritestring(str(denz_ap[i]),file);
+		fwritestring(str(denz_apmax[i]),file);
+		fwritestring(str(denz_atk[i]),file);
+		fwritestring(str(denz_def[i]),file);
+		fwritestring(str(denz_turn[i]),file);
+		fwritestring(str(denz_gold[i]),file);
+		fwritestring(str(denz_weapon[i]),file);
+		fwritestring(str(denz_item[i]),file);
+		fwritestring(str(denz_itemx[i]),file);
+		fwritestring(str(denz_xp[i]),file);
+		*/
+		fwritestring(str(denz_battle[i]),file);
+		fwritestring(str(denz_assigned[i]),file);		
+	}
+	fwclose(file);
+}
+
+void stat_box(int x, int y, string lbl, string txt)
+{
+	stat_window(x,x+(strlen(lbl)*9)+9,x+(strlen(lbl)*9)+18+(strlen(txt)*9),y,y+23);
+	put_text(x+6,y+6,bgfnt,lbl);
+	put_text(x+(strlen(lbl)*9)+14,y+6,bgfnt,txt);
+}
+
+void stat_window(int strx, int midx, int endx, int y, int y2)
+{
+	int gy;
+	// black outline
+	line(strx+1,y,endx-1,y,1);
+	line(strx,y+1,strx,y2-1,1);
+	line(strx+1,y2,endx-1,y2,1);
+	line(endx,y+1,endx,y2-1,1);
+	// gradient grey rect
+	line(strx+1,y+1,endx-1,y+1,28);
+	for(gy=y+1;gy<=y2-1;gy++)
+	{
+		setpixel(strx+1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+		setpixel(midx+1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+		setpixel(endx-1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+	}
+	line(strx+1,y2-1,endx-1,y2-1,10);
+	// black outline
+	rectfill(strx+2,y+2,midx,y2-2,1);	
+	rectfill(midx+2,y+2,endx-2,y2-2,1);
+	// gradient rectfills
+	for(gy=y+3;gy<=y2-3;gy++)
+	{
+		line(strx+3,gy,midx-1,gy,143+((gy-(y+3))*(16)/((y2-3)-(y+3))));
+		line(midx+3,gy,endx-3,gy,9-((gy-(y+1))*(6)/((y2-1)-(y+1))));
+	}
+}
+
+void text_box(string n, string a, string b, string c)
+{
+	int tsave;
+	tsave=timer;
+	still();
+	delay(4);
+	unpress(1);
+	updatecontrols();
+	while(!b1)
+	{
+		render();
+		window(56,171,256,221);
+
+		put_text(61,166,bgfnt,n);
+
+		put_text(64,182,smfnt,a);
+		put_text(64,194,smfnt,b);
+		put_text(64,206,smfnt,c);
+		updatecontrols();
+		showpage();
+	}
+	unpress(1);
+	updatecontrols();
+	play_sound(SCROLL,32);
+	timer=tsave;
+}
+
+void window(int x, int y, int x2, int y2)
+{
+	int gy;
+	// black outline
+	line(x+1,y,x2-1,y,1);
+	line(x,y+1,x,y2-1,1);
+	line(x+1,y2,x2-1,y2,1);
+	line(x2,y+1,x2,y2-1,1);
+	// gradient grey rect
+	line(x+1,y+1,x2-1,y+1,28);
+	for(gy=y+1;gy<=y2-1;gy++)
+	{
+		setpixel(x+1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+		setpixel(x2-1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+	}
+	line(x+1,y2-1,x2-1,y2-1,10);
+	// black outline
+	rectfill(x+2,y+2,x2-2,y2-2,1);	
+	// gradient blue rectfill
+	for(gy=y+3;gy<=y2-3;gy++)
+		line(x+3,gy,x2-3,gy,143+((gy-(y+3))*(16)/((y2-3)-(y+3))));	
+}
+
+void window_grey(int x, int y, int x2, int y2)
+{
+	int gy;
+	// black outline
+	line(x+1,y,x2-1,y,1);
+	line(x,y+1,x,y2-1,1);
+	line(x+1,y2,x2-1,y2,1);
+	line(x2,y+1,x2,y2-1,1);
+	// gradient grey rect
+	line(x+1,y+1,x2-1,y+1,28);
+	for(gy=y+1;gy<=y2-1;gy++)
+	{
+		setpixel(x+1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+		setpixel(x2-1,gy,28-((gy-(y+1))*(18)/((y2-1)-(y+1))));
+	}
+	line(x+1,y2-1,x2-1,y2-1,10);
+	// black outline
+	rectfill(x+2,y+2,x2-2,y2-2,1);	
+	// gradient blue rectfill
+	for(gy=y+3;gy<=y2-3;gy++)
+		line(x+3,gy,x2-3,gy,12-((gy-(y+3))*(12)/((y2-3)-(y+3))));	
+}
+
+#include "combat.vc"
+#include "denizens.vc"
+#include "menu.vc"
+#include "party.vc"
+#include "scancode.vc"

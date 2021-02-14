@@ -1,0 +1,116 @@
+
+event // autoevent
+{
+	area=NORTH;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	put_party();
+	//put_denizens();
+	denz_on_map=0;
+
+	assign_denizen(0,39);
+
+	if(flag[4]>=2)
+	{
+		settile(47,51,0,0);
+		settile(48,51,0,0);
+		settile(49,51,0,0);
+		settile(47,52,0,0);
+		settile(48,52,0,0);
+		settile(49,52,0,0);
+		settile(47,53,0,231);
+		settile(48,53,0,231);
+		settile(49,53,0,231);
+		settile(48,53,6,0);
+	}
+	
+	clear_combat();
+	fade_in();
+	menu=0;
+	hookretrace(main);
+}
+
+event // 01 : Return to Renesco
+{
+	fade_out();
+	delay(32);
+	load_map(104,45,0,"renesco.map");
+}
+
+event // 02 : Console
+{
+	if(flag[3]=0)
+	{
+		
+		text_box("Console","Booting system...","Entering User Mode...","");
+		dchoice=0;
+		while(dchoice!=2)
+		{
+			dchoice=0;
+			dialogue_clear();
+			dialogue_add("System Info");
+			dialogue_add("Execute Program");
+			dialogue_add("Logoff");
+			dialogue();
+			if(dchoice=0)
+				text_box("Console","Yeropa Corp. Software","City Gate Console v3.1","Installation #a10-f3c.");
+			else if(dchoice=1)
+			{
+				dchoice=0;
+				dialogue_clear();
+				dialogue_add("Open Gate");
+				dialogue_add("Sector Info");
+				dialogue_add("Tic-Tac-Toe");
+				dialogue_add("Cancel");
+				dialogue();				
+				if(dchoice=0)
+				{
+					text_box("Console","Error : Insuffient","Power, gate must be","opened manually.");
+					text_box("Console","Controls located in","corridor 30m east of","this installation.");
+				}
+				else if(dchoice=1)
+				{
+					text_box("Console","This system is aware","of one nearby Yeropa","Corp. facility.");
+					text_box("Console","The Yeropa Sewage","processing plant is","200m southeast.");
+				}
+				else if(dchoice=2)
+				{
+					dchoice=0;
+					fade_out();
+					delay(8);
+					fade_in();
+					var=random(3);
+					if(var=0)
+						text_box("Console","Player wins!","","");
+					if(var=1)
+						text_box("Console","System wins!","","");	
+					if(var=2)
+						text_box("Console","No winner!","","");	
+				}
+			}
+		}
+	}
+}
+
+event // 03 : Babel Maintenance Room
+{
+	fade_out();
+	delay(32);
+	load_map(104,159,1,"babel.map");
+}
+
+event // 04 : Return to Dameon's Camp
+{
+	fade_out();
+	delay(32);
+	load_map(79,47,0,"dameon.map");
+}
+
+event // 05 : Babel Main Entrance
+{
+	fade_out();
+	delay(32);
+	load_map(68,155,1,"babel.map");
+}
+

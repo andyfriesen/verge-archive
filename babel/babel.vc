@@ -1,0 +1,104 @@
+
+event // autoevent
+{
+	area=BABEL;
+
+	palettemorph(0,0,0,0,0);
+	PIGBACK=entityspawn(0,0,"graphics/chrs/pigback.chr");
+	put_party();
+	//put_denizens();
+	denz_on_map=0;
+	
+	if(flag[4]>=2)
+		settile(101,152,1,22);
+	
+	assign_denizen(0,40);
+	
+	assign_denizen(1,49);
+	assign_denizen(2,50);
+	assign_denizen(3,51);
+	assign_denizen(4,52);
+	assign_denizen(5,53);
+	assign_denizen(6,54);
+	
+	fade_in();
+	menu=0;
+	hookretrace(main);
+}
+
+event // 01 : Return to the North East
+{
+	fade_out();
+	delay(32);
+	load_map(92,54,0,"north.map");
+}
+
+event // 02 : Switch
+{
+	if(flag[4]=1)
+	{
+		play_sound(SWTCH,64);
+		settile(101,152,1,22);
+		flag[4]=2;
+	}
+	if(flag[4]=0)
+		text_box("","Nothing happens....","The power to this area","appears to be off.");	
+}
+
+event // 03 : Return to the North West
+{
+	fade_out();
+	delay(32);
+	load_map(48,54,0,"north.map");
+}
+
+event // 04 : Babel Console
+{
+	text_box("Console","Booting system...","Entering User Mode...","");
+	dchoice=0;
+	while(dchoice!=2)
+	{
+		dchoice=0;
+		dialogue_clear();
+		dialogue_add("Outpost Info");
+		dialogue_add("Public Records");
+		dialogue_add("Logoff");
+		dialogue();
+		if(dchoice=0)
+			text_box("Console","Yeropa Area F4B83C.","Established 2461-09-13.","");
+		else if(dchoice=1)
+		{
+			text_box("Console","2461-09-13","Outpost founded and","records initiated.");
+			text_box("Console","2467-02-07","Due to social unrest","outpost quarantined.");
+			text_box("Console","2467-02-28","Yeropa main outpost is","attacked.");
+			text_box("Console","2467-03-13","Massive chaos, outpost","completely sealed.");
+			text_box("Console","2467-05-21","Still no contact with","outside world.");
+			text_box("Console","2468-01-04","Critical failure of","robotic systems.");
+			text_box("Console","2468-01-05","Sabotage apparent in","system failure.");
+			text_box("Console","2468-01-05","MAYDAY : assistence is","requested immediantly.");
+			text_box("Console","2468-01-06","CAN ANYONE HEAR US?","GOD HELP US!");			
+			text_box("Console","End of records.","","");		
+			flag[1]=6;
+		}
+	}
+}
+
+event // 05 : Treasure 08
+{
+	treasure(9,26,40);
+}
+
+event // 06 : Treasure 09
+{
+	treasure(10,27,25);
+}
+
+event // 07 : Treasure 10
+{
+	treasure(11,28,15);
+}
+
+event // 08 : Treasure 11
+{
+	treasure(12,29,10);
+}

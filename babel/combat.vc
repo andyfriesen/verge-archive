@@ -1,0 +1,5147 @@
+
+#define WEAPON 0
+#define BODY 1
+#define HEAD 2
+#define HANDS 3
+#define WAIST 4
+#define FEET 5
+
+#define NEUTRAL 0
+#define ANGRY 1
+#define AFRAID 2
+#define FRIENDLY 3
+#define DEAD 4
+
+int combat, comtsave;
+int enemy[99], etotal;
+
+int border, baticon[4], btgicon[4], forward, back;
+int bounce[13];
+
+int blast, ammo;
+string tstr;
+
+int clock, sec, min, hour;
+
+void add_enemy(int d)
+{
+	denz_face[d]=entity.facing[denz_chr[d]];
+	entity.x[denz_chr[d]]=entity.x[denz_chr[d]]/16*16;
+	entity.y[denz_chr[d]]=entity.y[denz_chr[d]]/16*16;
+	entity.tx[denz_chr[d]]=entity.x[denz_chr[d]]/16;
+	entity.ty[denz_chr[d]]=entity.y[denz_chr[d]]/16;
+	denz_curx[d]=entity.tx[denz_chr[d]];
+	denz_cury[d]=entity.ty[denz_chr[d]];
+	hookretrace(0);
+	hookretrace(main);
+	denz_battle[d]=1;
+	denz_prev[d]=5;
+	enemy[etotal]=d;
+	etotal++;
+	if(combat=0 && etotal>0)
+	{
+		hookretrace(0);
+		entity.x[player]=entity.x[player]/16*16;
+		entity.y[player]=entity.y[player]/16*16;
+		entity.tx[player]=entity.x[player]/16;
+		entity.ty[player]=entity.y[player]/16;
+		face=entity.facing[player];
+		processentities();
+		setplayer(PIGBACK);
+		switch(face)
+		{
+			case 0:
+				entitymove(pnum,"Z20");
+			case 1:
+				entitymove(pnum,"Z6");
+			case 2:
+				entitymove(pnum,"Z3");
+			case 3:
+				entitymove(pnum,"Z9");		
+		}
+		processentities();
+		
+		cameratracking=2;
+		tracker=pnum;
+		sec=0;
+		min=0;
+		hour=0;
+		combat_intro();
+		combat=1;
+		comtsave=timer;
+		hookretrace(main);
+	}
+}
+
+void clear_combat()
+{
+	combat=0;
+	etotal=0;
+}
+
+void combat_back()
+{
+	int x, y;
+	stat_window(8,8+(strlen("HP")*9)+9,8+(strlen("HP")*9)+18+(7*9),208,208+23);
+	put_text(8+6,208+6,bgfnt,"HP");
+	for(y=211;y<229;y++)
+	{
+		line(104-(hp*66/hpmax),y,104,y,32+((y-211)*16/18));
+	}
+	put_text(8+(strlen("HP")*9)+((7-strlen(str(hp)+"/"+str(hpmax)))*9)+14,208+6,bgfnt,str(hp)+"/"+str(hpmax));
+
+	stat_window(257,257+(strlen("AP")*9)+9,311,208,208+23);
+	put_text(257+6,208+6,bgfnt,"AP");
+	if(ap<10)
+		temp="0"+str(ap);
+	else
+		temp=str(ap);
+	put_text(257+(strlen("HP")*9)+14,208+6,bgfnt,temp);
+}
+
+void combat_clock()
+{
+	tcopysprite(302,1,17,17,clock);
+	switch(hour)
+	{
+		case 0:
+			setpixel(310,9,1);
+			setpixel(310,8,1);
+			setpixel(310,7,1);
+			setpixel(310,6,1);
+			setpixel(310,5,1);
+		case 1:
+			setpixel(310,9,1);
+			setpixel(311,8,1);
+			setpixel(312,7,1);
+			setpixel(313,6,1);
+		case 2:
+			setpixel(310,9,1);
+			setpixel(311,9,1);
+			setpixel(312,9,1);
+			setpixel(313,9,1);
+			setpixel(314,9,1);
+		case 3:
+			setpixel(310,9,1);
+			setpixel(311,10,1);
+			setpixel(312,11,1);
+			setpixel(313,12,1);
+		case 4:
+			setpixel(310,9,1);
+			setpixel(310,10,1);
+			setpixel(310,11,1);
+			setpixel(310,12,1);
+			setpixel(310,13,1);			
+		case 5:
+			setpixel(310,9,1);
+			setpixel(309,10,1);
+			setpixel(308,11,1);
+			setpixel(307,12,1);			
+		case 6:
+			setpixel(310,9,1);
+			setpixel(309,9,1);
+			setpixel(308,9,1);
+			setpixel(307,9,1);
+			setpixel(306,9,1);
+		case 7:
+			setpixel(310,9,1);
+			setpixel(309,8,1);
+			setpixel(308,7,1);
+			setpixel(307,6,1);
+	}
+	switch(min)
+	{
+		case 0:
+			setpixel(310,9,7);
+			setpixel(310,8,7);
+			setpixel(310,7,7);
+			setpixel(310,6,7);
+			setpixel(310,5,7);
+		case 1:
+			setpixel(310,9,7);
+			setpixel(311,8,7);
+			setpixel(312,7,7);
+			setpixel(313,6,7);
+		case 2:
+			setpixel(310,9,7);
+			setpixel(311,9,7);
+			setpixel(312,9,7);
+			setpixel(313,9,7);
+			setpixel(314,9,7);
+		case 3:
+			setpixel(310,9,7);
+			setpixel(311,10,7);
+			setpixel(312,11,7);
+			setpixel(313,12,7);
+		case 4:
+			setpixel(310,9,7);
+			setpixel(310,10,7);
+			setpixel(310,11,7);
+			setpixel(310,12,7);
+			setpixel(310,13,7);			
+		case 5:
+			setpixel(310,9,7);
+			setpixel(309,10,7);
+			setpixel(308,11,7);
+			setpixel(307,12,7);			
+		case 6:
+			setpixel(310,9,7);
+			setpixel(309,9,7);
+			setpixel(308,9,7);
+			setpixel(307,9,7);
+			setpixel(306,9,7);
+		case 7:
+			setpixel(310,9,7);
+			setpixel(309,8,7);
+			setpixel(308,7,7);
+			setpixel(307,6,7);
+	}
+}
+
+void combat_clock_update()
+{
+	sec++;
+	if(sec=2)
+	{
+		min++;
+		sec=0;
+	}
+	if(min=8)
+	{
+		min=0;
+		hour++;
+	}
+	if(hour=8)
+		hour=0;
+}
+
+void combat_enemy(int e)
+{
+	int c, d, i, z, com, targ, dir, xdif, ydif;
+	int aob, bob, lob, rob, prev;
+	d=enemy[e];
+	denz_ap[d]=denz_apmax[d];
+	dir=denz_face[d];
+	c=1;
+	while(denz_ap[d]>0)
+	{
+		if(denz_hp[d]<denz_hpmax[d]/10 && denz_item[d]<4 && denz_ap[d]>=3)
+			com=2;
+		else
+			com=0;
+			
+		switch(denz_disp[d])
+		{
+			case ANGRY:
+				if(denz_weapon[d]<8 && com=0)
+				{
+					if(entity.tx[pnum]=denz_curx[d] && denz_cury[d]=entity.ty[pnum]-1)
+					{
+						if(denz_ap[d]>=4)
+						{
+							com=1;
+							dir=0;
+						}
+						else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+							com=2;
+						else
+							denz_ap[d]=0;
+					}
+					if(entity.tx[pnum]=denz_curx[d] && denz_cury[d]=entity.ty[pnum]+1)
+					{
+						if(denz_ap[d]>=4)
+						{
+							com=1;
+							dir=1;
+						}
+						else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+							com=2;
+						else
+							denz_ap[d]=0;
+					}
+					if(entity.tx[pnum]=denz_curx[d]-1 && denz_cury[d]=entity.ty[pnum])
+					{
+						if(denz_ap[d]>=4)
+						{
+							com=1;
+							dir=2;
+						}
+						else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+							com=2;
+						else
+							denz_ap[d]=0;
+					}
+					if(entity.tx[pnum]=denz_curx[d]+1 && denz_cury[d]=entity.ty[pnum])
+					{
+						if(denz_ap[d]>=4)
+						{
+							com=1;
+							dir=3;
+						}
+						else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+							com=2;
+						else
+							denz_ap[d]=0;
+					}
+				}
+				if(denz_weapon[d]>=8 && com=0)
+				{
+					if(entity.tx[pnum]=denz_curx[d] && entity.ty[pnum]>denz_cury[d] && entity.ty[pnum]<denz_cury[d]+8)
+					{
+						z=0;
+						for(i=denz_cury[d];i<entity.ty[pnum];i++)
+						{
+							if(gettile(denz_curx[d],i,6)=1)
+								z=1;
+						}
+						if(z=0)
+						{
+							if(denz_ap[d]>=4)
+							{
+								com=1;
+								dir=0;
+							}
+							else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+								com=2;
+							else
+								denz_ap[d]=0;
+						}
+					}
+					if(entity.tx[pnum]=denz_curx[d] && entity.ty[pnum]<denz_cury[d] && entity.ty[pnum]>denz_cury[d]-8)
+					{
+						z=0;
+						for(i=denz_cury[d];i>entity.ty[pnum];i--)
+						{
+							if(gettile(denz_curx[d],i,6)=1)
+								z=1;
+						}
+						if(z=0)
+						{
+							if(denz_ap[d]>=4)
+							{
+								com=1;
+								dir=1;
+							}
+							else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+								com=2;
+							else
+								denz_ap[d]=0;
+						}
+					}
+					if(entity.tx[pnum]>denz_curx[d]-8 && entity.tx[pnum]<denz_curx[d] && entity.ty[pnum]=denz_cury[d])
+					{
+						z=0;
+						for(i=denz_curx[d];i>entity.tx[pnum];i--)
+						{
+							if(gettile(i,denz_cury[d],6)=1)
+								z=1;
+						}
+						if(z=0)
+						{
+							if(denz_ap[d]>=4)
+							{
+								com=1;
+								dir=2;
+							}
+							else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+								com=2;
+							else
+								denz_ap[d]=0;
+						}
+					}
+					if(entity.tx[pnum]<denz_curx[d]+8 && entity.tx[pnum]>denz_curx[d] && entity.ty[pnum]=denz_cury[d])
+					{
+						z=0;
+						for(i=denz_curx[d];i<entity.tx[pnum];i++)
+						{
+							if(gettile(i,denz_cury[d],6)=1)
+								z=1;
+						}
+						if(z=0)
+						{
+							if(denz_ap[d]>=4)
+							{
+								com=1;
+								dir=3;
+							}
+							else if(denz_ap[d]>=3 && denz_hp[d]<denz_hpmax[d]/2 && denz_item[d]<4)
+								com=2;
+							else
+								denz_ap[d]=0;
+						}
+					}
+				}
+		}
+		
+		switch(com)
+		{
+			case 0:
+				if(denz_ap[d]>0)
+				{
+					aob=gettile(denz_curx[d],denz_cury[d]-1,6);
+					bob=gettile(denz_curx[d],denz_cury[d]+1,6);
+					lob=gettile(denz_curx[d]-1,denz_cury[d],6);
+					rob=gettile(denz_curx[d]+1,denz_cury[d],6);
+					for(z=0;z<etotal;z++)
+					{
+						if(denz_curx[d]=denz_curx[enemy[z]] && denz_cury[d]=denz_cury[enemy[z]]-1)
+							bob=1;
+						if(denz_curx[d]=denz_curx[enemy[z]] && denz_cury[d]=denz_cury[enemy[z]]+1)
+							aob=1;
+						if(denz_curx[d]=denz_curx[enemy[z]]+1 && denz_cury[d]=denz_cury[enemy[z]])
+							lob=1;				
+						if(denz_curx[d]=denz_curx[enemy[z]]-1 && denz_cury[d]=denz_cury[enemy[z]])
+							rob=1;				
+					}
+					/*
+						if(denz_cury[d]<entity.ty[pnum] && bob=0)
+							combat_enemy_move(d,0);
+						else if(denz_cury[d]>entity.ty[pnum] && aob=0) 
+							combat_enemy_move(d,1);
+						else if(denz_curx[d]>entity.tx[pnum] && lob=0) 
+							combat_enemy_move(d,2);
+						else if(denz_curx[d]<entity.tx[pnum] && rob=0)
+							combat_enemy_move(d,3);
+						else if(denz_cury[d]<entity.ty[pnum] && bob=0)
+							combat_enemy_move(d,0);
+						else if(denz_cury[d]>entity.ty[pnum] && aob=0) 
+							combat_enemy_move(d,1);
+						else if(denz_curx[d]>entity.tx[pnum] && lob=0) 
+							combat_enemy_move(d,2);
+						else if(denz_curx[d]<entity.tx[pnum] && rob=0)
+							combat_enemy_move(d,3);
+						else
+							denz_ap[d]--;
+					*/
+					if(denz_cury[d]<entity.ty[pnum] && bob=0 && denz_prev[d]!=1)
+					{
+						combat_enemy_move(d,0);
+						denz_prev[d]=0;
+					}
+					else if(denz_cury[d]>entity.ty[pnum] && aob=0 && denz_prev[d]!=0) 
+					{
+						combat_enemy_move(d,1);
+						denz_prev[d]=1;
+					}
+					else if(denz_curx[d]>entity.tx[pnum] && lob=0 && denz_prev[d]!=3) 
+					{
+						combat_enemy_move(d,2);
+						denz_prev[d]=2;
+					}
+					else if(denz_curx[d]<entity.tx[pnum] && rob=0 && denz_prev[d]!=2)
+					{
+						combat_enemy_move(d,3);
+						denz_prev[d]=3;
+					}
+					else
+					{
+						if(denz_cury[d]<entity.ty[pnum])
+						{
+							if(lob=0 && denz_prev[d]!=3) 
+							{
+								combat_enemy_move(d,2);
+								denz_prev[d]=2;
+							}
+							else if(rob=0 && denz_prev[d]!=2)
+							{
+								combat_enemy_move(d,3);
+								denz_prev[d]=3;
+							}
+							else if(aob=0 && denz_prev[d]!=0) 
+							{
+								combat_enemy_move(d,1);
+								denz_prev[d]=1;
+							}
+							else if(bob=0 && denz_prev[d]!=1)
+							{
+								combat_enemy_move(d,0);
+								denz_prev[d]=0;
+							}
+							else
+								denz_ap[d]--;
+						}
+						else if(denz_cury[d]>entity.ty[pnum])
+						{
+							if(lob=0 && denz_prev[d]!=3) 
+							{
+								combat_enemy_move(d,2);
+								denz_prev[d]=2;
+							}
+							else if(rob=0 && denz_prev[d]!=2)
+							{
+								combat_enemy_move(d,3);
+								denz_prev[d]=3;
+							}
+							else if(bob=0 && denz_prev[d]!=1)
+							{
+								combat_enemy_move(d,0);
+								denz_prev[d]=0;
+							}
+							else if(aob=0 && denz_prev[d]!=0) 
+							{
+								combat_enemy_move(d,1);
+								denz_prev[d]=1;
+							}
+							else
+								denz_ap[d]--;
+						}
+						else if(denz_curx[d]>entity.tx[pnum])
+						{
+							if(bob=0 && denz_prev[d]!=1)
+							{
+								combat_enemy_move(d,0);
+								denz_prev[d]=0;
+							}
+							else if(aob=0 && denz_prev[d]!=0) 
+							{
+								combat_enemy_move(d,1);
+								denz_prev[d]=1;
+							}
+							else if(rob=0 && denz_prev[d]!=2)
+							{
+								combat_enemy_move(d,3);
+								denz_prev[d]=3;
+							}
+							else if(lob=0 && denz_prev[d]!=3) 
+							{
+								combat_enemy_move(d,2);
+								denz_prev[d]=2;
+							}
+							else
+								denz_ap[d]--;
+						}				
+						else if(denz_curx[d]<entity.tx[pnum])
+						{
+							if(bob=0 && denz_prev[d]!=1)
+							{
+								combat_enemy_move(d,0);
+								denz_prev[d]=0;
+							}
+							else if(aob=0 && denz_prev[d]!=0) 
+							{
+								combat_enemy_move(d,1);
+								denz_prev[d]=1;
+							}
+							else if(lob=0 && denz_prev[d]!=3) 
+							{
+								combat_enemy_move(d,2);
+								denz_prev[d]=2;
+							}
+							else if(rob=0 && denz_prev[d]!=2)
+							{
+								combat_enemy_move(d,3);
+								denz_prev[d]=3;
+							}
+							else
+								denz_ap[d]--;
+						}
+						else
+							denz_ap[d]--;
+					}
+				}
+			case 1:
+				combat_enemy_attack(d,dir);
+			case 2:
+				combat_enemy_item(d,denz_item[d]);
+		}
+		
+		if(denz_ap[d]<=0)
+			c=0;
+	}
+	
+}
+
+void combat_enemy_attack(int d, int dir)
+{
+	int atkdam, check, pcheck, pframe, wep, z;
+	denz_ap[d]-=4;
+	atkdam=denz_atk[d]-(def/2);
+	if(atkdam<=0)
+		atkdam=1;
+	switch(denz_weapon[d])
+	{
+		case 4:
+			wep=loadimage("graphics/weapons/dagger.pcx");
+		case 5:
+			wep=loadimage("graphics/weapons/club.pcx");
+		case 6:
+			wep=loadimage("graphics/weapons/mashedi.pcx");	
+		case 7:
+			wep=loadimage("graphics/weapons/esword.pcx");	
+		case 8:
+			if(dir=0)
+				wep=loadimage("graphics/weapons/dpist.pcx");
+			if(dir=1)
+				wep=loadimage("graphics/weapons/dpist.pcx");
+			if(dir=2)
+				wep=loadimage("graphics/weapons/lpist.pcx");
+			if(dir=3)
+				wep=loadimage("graphics/weapons/rpist.pcx");	
+		case 9:
+			if(dir=0)
+				wep=loadimage("graphics/weapons/dshot.pcx");
+			if(dir=1)
+				wep=loadimage("graphics/weapons/dpist.pcx");
+			if(dir=2)
+				wep=loadimage("graphics/weapons/lshot.pcx");
+			if(dir=3)
+				wep=loadimage("graphics/weapons/rshot.pcx");	
+		case 10:
+			if(dir=0)
+				wep=loadimage("graphics/weapons/drlaun.pcx");
+			if(dir=1)
+				wep=loadimage("graphics/weapons/dpist.pcx");
+			if(dir=2)
+				wep=loadimage("graphics/weapons/lrlaun.pcx");
+			if(dir=3)
+				wep=loadimage("graphics/weapons/rrlaun.pcx");
+			ammo=loadimage("graphics/weapons/rocket.pcx");
+		case 11:
+			if(dir=0)
+				wep=loadimage("graphics/weapons/dphas.pcx");
+			if(dir=1)
+				wep=loadimage("graphics/weapons/dpist.pcx");
+			if(dir=2)
+				wep=loadimage("graphics/weapons/lphas.pcx");
+			if(dir=3)
+				wep=loadimage("graphics/weapons/rphas.pcx");	
+			ammo=loadimage("graphics/weapons/energy.pcx");
+		case 14:
+			ammo=loadimage("graphics/weapons/rocket.pcx");
+		case 15:
+			ammo=loadimage("graphics/weapons/energy.pcx");
+	}
+	if(denz_weapon[d]>7)
+	{
+		blast=loadimage("graphics/weapons/shot.pcx");	
+	}
+	// enemy attacks	
+	switch(dir)
+	{
+		case 0:
+			denz_face[d]=0;
+			z=0;
+			timer=0;
+			while(z<42)
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(denz_weapon[d]<8)
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z1");
+						processentities();
+					}
+					if(z>=1 && z<10)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								tcopysprite(entity.x[denz_chr[d]]+1-xwin,entity.y[denz_chr[d]]-ywin,7,7,wep);
+							case 5:
+								tcopysprite(entity.x[denz_chr[d]]-5-xwin,entity.y[denz_chr[d]]-8-ywin,9,12,wep);
+							case 6:
+								tcopysprite(entity.x[denz_chr[d]]-6-xwin,entity.y[denz_chr[d]]-7-ywin,10,12,wep);
+							case 7:
+								rotscale(entity.x[pnum]-3-xwin,entity.y[denz_chr[d]]-4-ywin,14,17,0+random(2),1000-random(200),wep);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						play_sound(SWING,32);
+						check=1;
+					}
+					if(z=10)
+					{
+						entitymove(denz_chr[d],"Z2");
+						processentities();
+					}
+					if(z>=10 && z<28)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								tcopysprite(entity.x[denz_chr[d]]+2-xwin,entity.y[denz_chr[d]]+1-ywin,7,7,wep);
+							case 5:
+								rotscale(entity.x[denz_chr[d]]+9-xwin,entity.y[denz_chr[d]]+7-ywin,9,12,180,1000,wep);
+							case 6:
+								rotscale(entity.x[denz_chr[d]]+9-xwin,entity.y[denz_chr[d]]+6-ywin,10,12,180,1000,wep);
+							case 7:
+								rotscale(entity.x[denz_chr[d]]+10-xwin,entity.y[denz_chr[d]]+11-ywin,14,17,180-random(3)+random(3),1000-random(200),wep);
+						}
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z20");
+						processentities();
+					}
+				}
+				else
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z2");
+						processentities();
+					}
+					if(z>=1 && z<28)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								tcopysprite(entity.x[denz_chr[d]]+3-xwin,entity.y[denz_chr[d]]+2-ywin,3,4,wep);
+							case 9:
+								tcopysprite(entity.x[denz_chr[d]]+3-xwin,entity.y[denz_chr[d]]+1-ywin,4,7,wep);
+							case 10:
+								tcopysprite(entity.x[denz_chr[d]]+1-xwin,entity.y[denz_chr[d]]-6-ywin,8,13,wep);
+							case 11:
+								tcopysprite(entity.x[denz_chr[d]]+1-xwin,entity.y[denz_chr[d]]-4-ywin,8,11,wep);	
+						}
+					}
+					if(z>=8 && z<12)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								rotscale(entity.x[denz_chr[d]]+4-xwin,entity.y[denz_chr[d]]+3-ywin,5,5,0,1000-((z-8)*50),blast);
+							case 9:
+								rotscale(entity.x[denz_chr[d]]+4-xwin,entity.y[denz_chr[d]]+5-ywin,5,5,0,1000-((z-8)*100),blast);
+							case 10:
+								rotscale(entity.x[denz_chr[d]]+4-xwin,entity.y[denz_chr[d]]-3-ywin,5,5,0,1000-((z-8)*200),blast);
+								tcopysprite(entity.x[denz_chr[d]]+1-xwin+(z-8),entity.y[denz_chr[d]]-3-ywin+((z-8)*((entity.ty[pnum]*16)-(entity.y[denz_chr[d]]-3))/4),8,9,ammo);
+							case 11:
+								rotscale(entity.x[denz_chr[d]]+1+3-xwin+(z-8),entity.y[denz_chr[d]]-3+3-ywin+((z-8)*((entity.ty[pnum]*16)-(entity.y[denz_chr[d]]-3))/4),6,6,0+random(360),1000-random(500),ammo);
+							case 12:
+								rotscale(entity.x[denz_chr[d]]+4-xwin,entity.y[denz_chr[d]]+3-ywin,5,5,0,1000-((z-8)*50),blast);
+							case 13:
+								rotscale(entity.x[denz_chr[d]]+4-xwin,entity.y[denz_chr[d]]+5-ywin,5,5,0,1000-((z-8)*100),blast);
+							case 14:
+								rotscale(entity.x[denz_chr[d]]+4-xwin,entity.y[denz_chr[d]]-3-ywin,5,5,0,1000-((z-8)*200),blast);
+								tcopysprite(entity.x[denz_chr[d]]+1-xwin+(z-8),entity.y[denz_chr[d]]-3-ywin+((z-8)*((entity.ty[pnum]*16)-(entity.y[denz_chr[d]]-3))/4),8,9,ammo);
+							case 15:
+								rotscale(entity.x[denz_chr[d]]+1+3-xwin+(z-8),entity.y[denz_chr[d]]-3+3-ywin+((z-8)*((entity.ty[pnum]*16)-(entity.y[denz_chr[d]]-3))/4),6,6,0+random(360),1000-random(500),ammo);
+						
+						
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								play_sound(SHOT,32);
+							case 9:
+								play_sound(SHTGUN,32);
+							case 10:
+								play_sound(ROCKET,32);
+							case 11:
+								play_sound(PHASER,32);
+							case 12:
+								play_sound(SHOT,32);
+							case 13:
+								play_sound(SHTGUN,32);
+							case 14:
+								play_sound(ROCKET,32);
+							case 15:
+								play_sound(PHASER,32);	
+						}
+						check=1;
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z20");
+						processentities();
+					}
+				}
+				if(z=11)
+					pcheck=0;
+				if(z=12 && pcheck=0)
+				{
+					hp-=atkdam;
+					if(hp<0)
+						hp=0;
+					switch(face)
+					{
+						case 0:
+							pframe=12;
+						case 1:
+							pframe=14;
+						case 2:
+							pframe=13;
+						case 3:
+							pframe=15;	
+					}
+					pcheck=1;
+				}
+				if(z=13 || z=17 || z=21 || z=25)
+				{
+					entitymove(pnum,"Z"+str(pframe));
+					processentities();
+				}
+				if(z=15 || z=19 || z=23)
+				{
+					entitymove(pnum,"Z19");
+					processentities();
+				}
+				if(z=27)
+					pcheck=0;
+				if(z=28 && pcheck=0)
+				{
+					switch(face)
+					{
+						case 0:
+							entitymove(pnum,"Z20");
+						case 1:
+							entitymove(pnum,"Z6");	
+						case 2:
+							entitymove(pnum,"Z3");
+						case 3:
+							entitymove(pnum,"Z9");
+					}
+					processentities();
+					pcheck=1;
+				}
+				if(z>12 && z<24)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+				if(z>=24 && z<40)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin,bgfnt,str(atkdam));
+				if(timer>=2)
+				{
+					combat_clock_update();
+					timer=0;
+					z++;
+				}
+				updatecontrols();
+				showpage();
+			}
+		case 1:
+			denz_face[d]=1;
+			entitymove(denz_chr[d],"Z6");
+			processentities();
+			z=0;
+			timer=0;
+			while(z<42)
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(denz_weapon[d]<8)
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z7");
+						processentities();
+					}
+					if(z>=1 && z<10)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								tcopysprite(entity.x[denz_chr[d]]+12-xwin,entity.y[denz_chr[d]]+1-ywin,7,7,wep);
+							case 5:
+								rotscale(entity.x[denz_chr[d]]+18-xwin,entity.y[denz_chr[d]]+8-ywin,9,12,180,1000,wep);
+							case 6:
+								rotscale(entity.x[denz_chr[d]]+19-xwin,entity.y[denz_chr[d]]+7-ywin,10,12,180,1000,wep);
+							case 7:
+								rotscale(entity.x[denz_chr[d]]+20-xwin,entity.y[denz_chr[d]]+11-ywin,14,17,180+random(3)-random(3),1000-random(200),wep);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						play_sound(SWING,32);
+						check=1;
+					}
+					if(z=10)
+					{
+						entitymove(denz_chr[d],"Z8");
+						processentities();
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z6");
+						processentities();
+					}
+				}
+				else
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z8");
+						processentities();
+					}
+					if(z>=8 && z<12)
+					{
+						switch(denz_weapon[d])
+						{
+							case 10:
+								rotscale(entity.x[denz_chr[d]]+10-xwin,entity.y[denz_chr[d]]-3-ywin-((z-8)*((entity.y[denz_chr[d]]-3)-(entity.ty[pnum]*16))/4),8,9,180,1000,ammo);
+							case 11:
+								rotscale(entity.x[denz_chr[d]]+10-xwin,entity.y[denz_chr[d]]-3-ywin-((z-8)*((entity.y[denz_chr[d]]-3)-(entity.ty[pnum]*16))/4),6,6,0+random(360),1000-random(500),ammo);
+							case 14:
+								rotscale(entity.x[denz_chr[d]]+10-xwin,entity.y[denz_chr[d]]-3-ywin-((z-8)*((entity.y[denz_chr[d]]-3)-(entity.ty[pnum]*16))/4),8,9,180,1000,ammo);
+							case 15:
+								rotscale(entity.x[denz_chr[d]]+10-xwin,entity.y[denz_chr[d]]-3-ywin-((z-8)*((entity.y[denz_chr[d]]-3)-(entity.ty[pnum]*16))/4),6,6,0+random(360),1000-random(500),ammo);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								play_sound(SHOT,32);
+							case 9:
+								play_sound(SHTGUN,32);
+							case 10:
+								play_sound(ROCKET,32);
+							case 11:
+								play_sound(PHASER,32);
+							case 12:
+								play_sound(SHOT,32);
+							case 13:
+								play_sound(SHTGUN,32);
+							case 14:
+								play_sound(ROCKET,32);
+							case 15:
+								play_sound(PHASER,32);	
+						}
+						check=1;
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z6");
+						processentities();
+					}
+				}
+				if(z=11)
+					pcheck=0;
+				if(z=12 && pcheck=0)
+				{
+					hp-=atkdam;
+					if(hp<0)
+						hp=0;
+					switch(face)
+					{
+						case 0:
+							pframe=12;
+						case 1:
+							pframe=14;
+						case 2:
+							pframe=13;
+						case 3:
+							pframe=15;	
+					}
+					pcheck=1;
+				}
+				if(z=13 || z=17 || z=21 || z=25)
+				{
+					entitymove(pnum,"Z"+str(pframe));
+					processentities();
+				}
+				if(z=15 || z=19 || z=23)
+				{
+					entitymove(pnum,"Z19");
+					processentities();
+				}
+				if(z=27)
+					pcheck=0;
+				if(z=28 && pcheck=0)
+				{
+					switch(face)
+					{
+						case 0:
+							entitymove(pnum,"Z20");
+						case 1:
+							entitymove(pnum,"Z6");	
+						case 2:
+							entitymove(pnum,"Z3");
+						case 3:
+							entitymove(pnum,"Z9");
+					}
+					processentities();
+					pcheck=1;
+				}
+				if(z>12 && z<24)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+				if(z>=24 && z<40)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin,bgfnt,str(atkdam));
+				if(timer>=2)
+				{
+					combat_clock_update();
+					timer=0;
+					z++;
+				}
+				updatecontrols();
+				showpage();
+			}
+		case 2:
+			denz_face[d]=2;
+			entitymove(denz_chr[d],"Z3");
+			processentities();
+			z=0;
+			timer=0;
+			while(z<42)
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(denz_weapon[d]<8)
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z5");
+						processentities();
+					}
+					if(z>=1 && z<10)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								//tcopysprite(entity.x[denz_chr[d]]+1-xwin,entity.y[denz_chr[d]]-ywin,7,7,wep);
+							case 5:
+								//tcopysprite(entity.x[denz_chr[d]]-5-xwin,entity.y[denz_chr[d]]-8-ywin,9,12,wep);
+							case 6:
+								//tcopysprite(entity.x[denz_chr[d]]-6-xwin,entity.y[denz_chr[d]]-7-ywin,10,12,wep);
+							case 7:
+								//rotscale(entity.x[pnum]-3-xwin,entity.y[denz_chr[d]]-4-ywin,14,17,0+random(2),1000-random(200),wep);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						play_sound(SWING,32);
+						check=1;
+					}
+					if(z=10)
+					{
+						entitymove(denz_chr[d],"Z4");
+						processentities();
+					}
+					if(z>=10 && z<28)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								rotscale(entity.x[denz_chr[d]]+2-xwin,entity.y[denz_chr[d]]+3-ywin,7,7,270,1000,wep);
+							case 5:
+								rotscale(entity.x[denz_chr[d]]-1-xwin,entity.y[denz_chr[d]]+6-ywin,9,12,90,1000,wep);
+							case 6:
+								rotscale(entity.x[denz_chr[d]]-1-xwin,entity.y[denz_chr[d]]+7-ywin,10,12,90,1000,wep);
+							case 7:
+								rotscale(entity.x[denz_chr[d]]-4-xwin,entity.y[denz_chr[d]]+7-ywin,14,17,90+random(3)-random(3),1000-random(200),wep);
+						}
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z3");
+						processentities();
+					}
+				}
+				else
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z4");
+						processentities();
+					}
+					if(z>=1 && z<28)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								tcopysprite(entity.x[denz_chr[d]]-1-xwin,entity.y[denz_chr[d]]-2-ywin,7,4,wep);
+							case 9:
+								tcopysprite(entity.x[denz_chr[d]]-5-xwin,entity.y[denz_chr[d]]-1-ywin,9,5,wep);
+							case 10:
+								tcopysprite(entity.x[denz_chr[d]]-xwin,entity.y[denz_chr[d]]-7-ywin,18,12,wep);
+							case 11:
+								tcopysprite(entity.x[denz_chr[d]]-1-xwin,entity.y[denz_chr[d]]-3-ywin,7,7,wep);	
+						}
+					}
+					if(z>=8 && z<12)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								rotscale(entity.x[denz_chr[d]]-2-xwin,entity.y[denz_chr[d]]-1-ywin,5,5,0,1000-((z-8)*50),blast);
+							case 9:
+								rotscale(entity.x[denz_chr[d]]-6-xwin,entity.y[denz_chr[d]]-ywin,5,5,0,1000-((z-8)*100),blast);
+							case 10:
+								rotscale(entity.x[denz_chr[d]]-3-xwin,entity.y[denz_chr[d]]-5-ywin,5,5,0,1000-((z-8)*200),blast);
+								rotscale(entity.x[denz_chr[d]]-5-xwin-((z-8)*((entity.x[denz_chr[d]]-5)-(entity.tx[pnum]*16))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),8,9,270,1000,ammo);
+							case 11:
+								rotscale(entity.x[denz_chr[d]]-5-xwin-((z-8)*((entity.x[denz_chr[d]]-5)-(entity.tx[pnum]*16))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),6,6,270+random(60)-random(60),1000-random(500),ammo);		
+							case 12:
+								rotscale(entity.x[denz_chr[d]]-2-xwin,entity.y[denz_chr[d]]-1-ywin,5,5,0,1000-((z-8)*50),blast);
+							case 13:
+								rotscale(entity.x[denz_chr[d]]-6-xwin,entity.y[denz_chr[d]]-ywin,5,5,0,1000-((z-8)*100),blast);
+							case 14:
+								rotscale(entity.x[denz_chr[d]]-3-xwin,entity.y[denz_chr[d]]-5-ywin,5,5,0,1000-((z-8)*200),blast);
+								rotscale(entity.x[denz_chr[d]]-5-xwin-((z-8)*((entity.x[denz_chr[d]]-5)-(entity.tx[pnum]*16))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),8,9,270,1000,ammo);
+							case 15:
+								rotscale(entity.x[denz_chr[d]]-5-xwin-((z-8)*((entity.x[denz_chr[d]]-5)-(entity.tx[pnum]*16))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),6,6,270+random(60)-random(60),1000-random(500),ammo);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								play_sound(SHOT,32);
+							case 9:
+								play_sound(SHTGUN,32);
+							case 10:
+								play_sound(ROCKET,32);
+							case 11:
+								play_sound(PHASER,32);
+							case 12:
+								play_sound(SHOT,32);
+							case 13:
+								play_sound(SHTGUN,32);
+							case 14:
+								play_sound(ROCKET,32);
+							case 15:
+								play_sound(PHASER,32);	
+						}
+						check=1;
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z3");
+						processentities();
+					}
+				}
+				if(z=11)
+					pcheck=0;
+				if(z=12 && pcheck=0)
+				{
+					hp-=atkdam;
+					if(hp<0)
+						hp=0;
+					switch(face)
+					{
+						case 0:
+							pframe=12;
+						case 1:
+							pframe=14;
+						case 2:
+							pframe=13;
+						case 3:
+							pframe=15;	
+					}
+					pcheck=1;
+				}
+				if(z=13 || z=17 || z=21 || z=25)
+				{
+					entitymove(pnum,"Z"+str(pframe));
+					processentities();
+				}
+				if(z=15 || z=19 || z=23)
+				{
+					entitymove(pnum,"Z19");
+					processentities();
+				}
+				if(z=27)
+					pcheck=0;
+				if(z=28 && pcheck=0)
+				{
+					switch(face)
+					{
+						case 0:
+							entitymove(pnum,"Z20");
+						case 1:
+							entitymove(pnum,"Z6");	
+						case 2:
+							entitymove(pnum,"Z3");
+						case 3:
+							entitymove(pnum,"Z9");
+					}
+					processentities();
+					pcheck=1;
+				}
+				if(z>12 && z<24)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+				if(z>=24 && z<40)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin,bgfnt,str(atkdam));
+				if(timer>=2)
+				{
+					combat_clock_update();
+					timer=0;
+					z++;
+				}
+				updatecontrols();
+				showpage();
+			}
+		case 3:
+			denz_face[d]=3;
+			entitymove(denz_chr[d],"Z9");
+			processentities();
+			z=0;
+			timer=0;
+			while(z<42)
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(denz_weapon[d]<8)
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z11");
+						processentities();
+					}
+					if(z>=1 && z<10)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								rotscale(entity.x[denz_chr[d]]+3-xwin,entity.y[denz_chr[d]]+1-ywin,7,7,180,1000,wep);
+							case 5:
+								rotscale(entity.x[denz_chr[d]]+2-xwin,entity.y[denz_chr[d]]-1-ywin,9,12,0,1000,wep);
+							case 6:
+								tcopysprite(entity.x[denz_chr[d]]-4-xwin,entity.y[denz_chr[d]]-7-ywin,10,12,wep);
+							case 7:
+								rotscale(entity.x[denz_chr[d]]-xwin,entity.y[denz_chr[d]]-5-ywin,14,17,0+random(2),1000-random(200),wep);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						play_sound(SWING,32);
+						check=1;
+					}
+					if(z=10)
+					{
+						entitymove(denz_chr[d],"Z10");
+						processentities();
+					}
+					if(z>=10 && z<28)
+					{
+						switch(denz_weapon[d])
+						{
+							case 4:
+								rotscale(entity.x[denz_chr[d]]+9-xwin,entity.y[denz_chr[d]]+4-ywin,7,7,0,1000,wep);
+							case 5:
+								rotscale(entity.x[denz_chr[d]]+12-xwin,entity.y[denz_chr[d]]+7-ywin,9,12,180,1000,wep);
+							case 6:
+								rotscale(entity.x[denz_chr[d]]+13-xwin,entity.y[denz_chr[d]]+7-ywin,10,12,180,1000,wep);
+							case 7:
+								rotscale(entity.x[denz_chr[d]]+13-xwin,entity.y[denz_chr[d]]+11-ywin,14,17,180+random(3)-random(3),1000-random(200),wep);
+						}
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z9");
+						processentities();
+					}
+				}
+				else
+				{
+					if(z=1)
+					{
+						entitymove(denz_chr[d],"Z10");
+						processentities();
+					}
+					if(z>=1 && z<28)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								tcopysprite(entity.x[denz_chr[d]]+7-xwin,entity.y[denz_chr[d]]-1-ywin,7,4,wep);
+							case 9:
+								tcopysprite(entity.x[denz_chr[d]]+2-xwin,entity.y[denz_chr[d]]+1-ywin,16,4,wep);
+							case 10:
+								tcopysprite(entity.x[denz_chr[d]]-1-xwin,entity.y[denz_chr[d]]-5-ywin,17,8,wep);
+							case 11:
+								tcopysprite(entity.x[denz_chr[d]]+7-xwin,entity.y[denz_chr[d]]-1-ywin,7,7,wep);	
+						}
+					}
+					if(z>=8 && z<12)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								rotscale(entity.x[denz_chr[d]]+13-xwin,entity.y[denz_chr[d]]-ywin,5,5,0,1000-((z-8)*50),blast);
+							case 9:
+								rotscale(entity.x[denz_chr[d]]+17-xwin,entity.y[denz_chr[d]]+1-ywin,5,5,0,1000-((z-8)*100),blast);
+							case 10:
+								rotscale(entity.x[denz_chr[d]]+15-xwin,entity.y[denz_chr[d]]-2-ywin,5,5,0,1000-((z-8)*200),blast);
+								rotscale(entity.x[denz_chr[d]]+21-xwin+((z-8)*((entity.tx[pnum]*16)-(entity.x[denz_chr[d]]+21))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),8,9,90,1000,ammo);
+							case 11:
+								rotscale(entity.x[denz_chr[d]]+21-xwin+((z-8)*((entity.tx[pnum]*16)-(entity.x[denz_chr[d]]+21))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),6,6,0+random(360),1000-random(500),ammo);
+							case 12:
+								rotscale(entity.x[denz_chr[d]]+13-xwin,entity.y[denz_chr[d]]-ywin,5,5,0,1000-((z-8)*50),blast);
+							case 13:
+								rotscale(entity.x[denz_chr[d]]+17-xwin,entity.y[denz_chr[d]]+1-ywin,5,5,0,1000-((z-8)*100),blast);
+							case 14:
+								rotscale(entity.x[denz_chr[d]]+15-xwin,entity.y[denz_chr[d]]-2-ywin,5,5,0,1000-((z-8)*200),blast);
+								rotscale(entity.x[denz_chr[d]]+21-xwin+((z-8)*((entity.tx[pnum]*16)-(entity.x[denz_chr[d]]+21))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),8,9,90,1000,ammo);
+							case 15:
+								rotscale(entity.x[denz_chr[d]]+21-xwin+((z-8)*((entity.tx[pnum]*16)-(entity.x[denz_chr[d]]+21))/4),entity.y[denz_chr[d]]-3-ywin+(z-8),6,6,0+random(360),1000-random(500),ammo);
+						}
+					}
+					if(z=7)
+						check=0;
+					if(z=8 && check=0)
+					{
+						switch(denz_weapon[d])
+						{
+							case 8:
+								play_sound(SHOT,32);
+							case 9:
+								play_sound(SHTGUN,32);
+							case 10:
+								play_sound(ROCKET,32);
+							case 11:
+								play_sound(PHASER,32);
+							case 12:
+								play_sound(SHOT,32);
+							case 13:
+								play_sound(SHTGUN,32);
+							case 14:
+								play_sound(ROCKET,32);
+							case 15:
+								play_sound(PHASER,32);	
+						}
+						check=1;
+					}
+					if(z=12)
+						check=0;
+					if(z=13 && check=0)
+					{
+						play_sound(MELEE,32);
+						check=1;
+					}
+					if(z=27)
+					{
+						entitymove(denz_chr[d],"Z9");
+						processentities();
+					}
+				}
+				if(z=11)
+					pcheck=0;
+				if(z=12 && pcheck=0)
+				{
+					hp-=atkdam;
+					if(hp<0)
+						hp=0;
+					switch(face)
+					{
+						case 0:
+							pframe=12;
+						case 1:
+							pframe=14;
+						case 2:
+							pframe=13;
+						case 3:
+							pframe=15;	
+					}
+					pcheck=1;
+				}
+				if(z=13 || z=17 || z=21 || z=25)
+				{
+					entitymove(pnum,"Z"+str(pframe));
+					processentities();
+				}
+				if(z=15 || z=19 || z=23)
+				{
+					entitymove(pnum,"Z19");
+					processentities();
+				}
+				if(z=27)
+					pcheck=0;
+				if(z=28 && pcheck=0)
+				{
+					switch(face)
+					{
+						case 0:
+							entitymove(pnum,"Z20");
+						case 1:
+							entitymove(pnum,"Z6");	
+						case 2:
+							entitymove(pnum,"Z3");
+						case 3:
+							entitymove(pnum,"Z9");
+					}
+					processentities();
+					pcheck=1;
+				}
+				if(z>12 && z<24)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+				if(z>=24 && z<40)
+					put_text(entity.tx[pnum]*16+7-(strlen(str(atkdam))*4)-xwin,entity.ty[pnum]*16-ywin,bgfnt,str(atkdam));
+				if(timer>=2)
+				{
+					combat_clock_update();
+					timer=0;
+					z++;
+				}
+				updatecontrols();
+				showpage();
+			}			
+	}					
+	if(denz_weapon[d]>0)
+		free(wep);
+	if(denz_weapon[d]>7)
+		free(blast);
+	if(denz_weapon[d]=10 || denz_weapon[d]=11 || denz_weapon[d]=14 || denz_weapon[d]=15)
+		free(ammo);
+	if(hp<=0)
+	{
+		z=0;
+		timer=0;						
+		while(z<31)
+		{
+			render();			
+			if(z=0)
+				entitymove(pnum,"Z16");
+			if(z=3)
+				entitymove(pnum,"Z17");
+			if(z=6)
+				entitymove(pnum,"Z18");
+			if(z=10)
+				entitymove(pnum,"Z19");
+			if(z=16)
+				entitymove(pnum,"Z18");	
+			if(z=18)
+				entitymove(pnum,"Z19");	
+			if(z=20)
+				entitymove(pnum,"Z18");
+			if(z=22)
+				entitymove(pnum,"Z19");
+			if(z=23)
+				entitymove(pnum,"Z18");
+			if(z=24)
+				entitymove(pnum,"Z19");
+			if(z=25)
+				entitymove(pnum,"Z18");
+			if(z=26)
+				entitymove(pnum,"Z19");	
+			if(z=27)
+				entitymove(pnum,"Z18");
+			if(z=28)
+			{
+				entitymove(pnum,"Z19");
+				check=0;
+			}
+			if(z=29)
+			{
+				entitymove(pnum,"Z18");
+				if(check=0)
+					play_sound(EDIE,32);
+			}
+			if(z=30)
+				entitymove(pnum,"Z19");	
+			if(timer>=2)
+			{
+				timer=0;
+				z++;
+			}
+			processentities();
+			updatecontrols();
+			showpage();
+		}
+		fade_out();
+		music_out();
+		delay(8);
+		quit_game();
+	}
+						
+}
+
+void combat_enemy_item(int d, int i)
+{
+	int check, heal, z;
+	denz_ap[d]-=3;
+	heal=iplus[denz_item[d]];
+	check=0;
+	z=0;
+	timer=0;
+	while(z<42)
+	{
+		render();
+		combat_back();
+		combat_clock();	
+		if(z=8 && check=0)
+		{
+			play_sound(IUSE,32);
+			switch(denz_face[d])
+			{
+				case 0:		
+					entitymove(denz_chr[d],"Z1");
+				case 1:		
+					entitymove(denz_chr[d],"Z7");
+				case 2:		
+					entitymove(denz_chr[d],"Z4");
+				case 3:		
+					entitymove(denz_chr[d],"Z10");
+			}
+			processentities();
+			check=1;
+		}
+		if(z>8 && z<20)
+			put_text(entity.tx[denz_chr[d]]*16+7-(strlen(str(heal))*4)-xwin,entity.ty[denz_chr[d]]*16-ywin-bounce[z-8],bggren,str(heal));
+		if(z>=20 && z<40)
+			put_text(entity.tx[denz_chr[d]]*16+7-(strlen(str(heal))*4)-xwin,entity.ty[denz_chr[d]]*16-ywin,bggren,str(heal));
+		if(z=34)
+			check=0;
+		if(z=35 && check=0)
+		{
+			switch(denz_face[d])
+			{
+				case 0:		
+					entitymove(denz_chr[d],"Z20");
+				case 1:		
+					entitymove(denz_chr[d],"Z6");
+				case 2:		
+					entitymove(denz_chr[d],"Z3");
+				case 3:		
+					entitymove(denz_chr[d],"Z9");
+			}
+			processentities();
+			check=1;
+		}		
+		if(timer>=2)
+		{
+			timer=0;
+			z++;
+			combat_clock_update();
+		}
+		updatecontrols();
+		showpage();
+	}
+	denz_hp[d]+=iplus[denz_item[d]];
+	if(denz_hp[d]>denz_hpmax[d])
+		denz_hp[d]=denz_hpmax[d];
+	denz_item[d]=311;
+}
+
+void combat_enemy_move(int d, int dir)
+{
+	int z;
+	denz_ap[d]--;
+	entity.x[denz_chr[d]]=entity.x[denz_chr[d]]/16*16;
+	entity.y[denz_chr[d]]=entity.y[denz_chr[d]]/16*16;
+	entity.tx[denz_chr[d]]=entity.x[denz_chr[d]]/16;
+	entity.ty[denz_chr[d]]=entity.y[denz_chr[d]]/16;
+	denz_curx[d]=entity.tx[denz_chr[d]];
+	denz_cury[d]=entity.ty[denz_chr[d]];
+	switch(dir)
+	{
+		case 0:
+			denz_face[d]=0;
+			timer=0;
+			z=0;
+			//entity.ty[denz_chr[d]]++;
+			denz_cury[d]++;
+			while(entity.y[denz_chr[d]]/16<denz_cury[d])
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(timer>=1)
+				{
+					combat_clock_update();
+					z++;
+					if(z=1)
+					{
+						if(denz_anim[d]=0)
+						{
+							entitymove(denz_chr[d],"Z1");
+							processentities();
+						}
+						if(denz_anim[d]=1)
+						{
+							entitymove(denz_chr[d],"Z2");
+							processentities();
+						}
+						denz_anim[d]++;
+						if(denz_anim[d]=2)
+							denz_anim[d]=0;
+						combat_back();
+					}
+					if(z=14)
+					{
+						entitymove(denz_chr[d],"Z20");
+						processentities();
+					}
+					entity.y[denz_chr[d]]++;
+					timer=0;
+				}
+				updatecontrols();
+				showpage();
+			}
+		case 1:
+			denz_face[d]=1;
+			timer=0;
+			z=0;
+			//entity.ty[denz_chr[d]]--;
+			denz_cury[d]--;
+			while(entity.y[denz_chr[d]]>denz_cury[d]*16)
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(timer>=1)
+				{
+					combat_clock_update();
+					z++;
+					if(z=1)
+					{
+						if(denz_anim[d]=0)
+						{
+							entitymove(denz_chr[d],"Z7");
+							processentities();
+						}
+						if(denz_anim[d]=1)
+						{
+							entitymove(denz_chr[d],"Z8");
+							processentities();
+						}
+						denz_anim[d]++;
+						if(denz_anim[d]=2)
+							denz_anim[d]=0;
+						combat_back();
+					}
+					if(z=14)
+					{
+						entitymove(denz_chr[d],"Z6");
+						processentities();
+					}
+					entity.y[denz_chr[d]]--;
+					timer=0;
+				}
+				updatecontrols();
+				showpage();
+			}
+		case 2:
+			denz_face[d]=2;
+			timer=0;
+			z=0;
+			//entity.tx[denz_chr[d]]--;
+			denz_curx[d]--;
+			while(entity.x[denz_chr[d]]>denz_curx[d]*16)
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(timer>=1)
+				{
+					combat_clock_update();
+					z++;
+					if(z=1)
+					{
+						if(denz_anim[d]=0)
+						{
+							entitymove(denz_chr[d],"Z4");
+							processentities();
+						}
+						if(denz_anim[d]=1)
+						{
+							entitymove(denz_chr[d],"Z5");
+							processentities();
+						}
+						denz_anim[d]++;
+						if(denz_anim[d]=2)
+							denz_anim[d]=0;
+						combat_back();
+					}
+					if(z=14)
+					{
+						entitymove(denz_chr[d],"Z3");
+						processentities();
+					}
+					entity.x[denz_chr[d]]--;
+					timer=0;
+				}
+				updatecontrols();
+				showpage();
+			}	
+		case 3:
+			denz_face[d]=3;
+			timer=0;
+			z=0;
+			//entity.tx[denz_chr[d]]++;
+			denz_curx[d]++;
+			while(entity.x[denz_chr[d]]/16<denz_curx[d])
+			{
+				render();
+				combat_back();
+				combat_clock();
+				if(timer>=1)
+				{
+					combat_clock_update();
+					z++;
+					if(z=1)
+					{
+						if(denz_anim[d]=0)
+						{
+							entitymove(denz_chr[d],"Z10");
+							processentities();
+						}
+						if(denz_anim[d]=1)
+						{
+							entitymove(denz_chr[d],"Z11");
+							processentities();
+						}
+						denz_anim[d]++;
+						if(denz_anim[d]=2)
+							denz_anim[d]=0;
+						combat_back();
+					}
+					if(z=14)
+					{
+						entitymove(denz_chr[d],"Z9");
+						processentities();
+					}
+					entity.x[denz_chr[d]]++;
+					timer=0;
+				}
+				updatecontrols();
+				showpage();
+			}	
+	}
+	entity.x[denz_chr[d]]=entity.x[denz_chr[d]]/16*16;
+	entity.y[denz_chr[d]]=entity.y[denz_chr[d]]/16*16;
+	entity.tx[denz_chr[d]]=entity.x[denz_chr[d]]/16;
+	entity.ty[denz_chr[d]]=entity.y[denz_chr[d]]/16;
+	denz_curx[d]=entity.tx[denz_chr[d]];
+	denz_cury[d]=entity.ty[denz_chr[d]];
+}
+
+void combat_exit()
+{
+	int c, x, y;
+	timer=0;
+	while(timer<32)
+	{
+		render();
+		
+		stat_window(8,8+(strlen("HP")*9)+9,8+(strlen("HP")*9)+18+(7*9),208,208+23);
+		put_text(8+6,208+6,bgfnt,"HP");
+		for(y=211;y<229;y++)
+		{
+			line(104-(hp*66/hpmax),y,104,y,32+((y-211)*16/18));
+		}
+		put_text(8+(strlen("HP")*9)+((7-strlen(str(hp)+"/"+str(hpmax)))*9)+14,208+6,bgfnt,str(hp)+"/"+str(hpmax));
+	
+		stat_window(257,257+(strlen("AP")*9)+9,311,208,208+23);
+		put_text(257+6,208+6,bgfnt,"AP");
+		if(ap<10)
+			temp="0"+str(ap);
+		else
+			temp=str(ap);
+		put_text(257+(strlen("HP")*9)+14,208+6,bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<32)
+	{
+		render();
+		
+		stat_window(8,8+(strlen("HP")*9)+9,8+(strlen("HP")*9)+18+(7*9),208+timer,208+23+timer);
+		put_text(8+6,208+6+timer,bgfnt,"HP");
+		for(y=211;y<229;y++)
+		{
+			line(104-(hp*66/hpmax),y+timer,104,y+timer,32+((y-211)*16/18));
+		}
+		put_text(8+(strlen("HP")*9)+((7-strlen(str(hp)+"/"+str(hpmax)))*9)+14,208+6+timer,bgfnt,str(hp)+"/"+str(hpmax));
+	
+		stat_window(257,257+(strlen("AP")*9)+9,311,208+timer,208+23+timer);
+		put_text(257+6,208+6+timer,bgfnt,"AP");
+		if(ap<10)
+			temp="0"+str(ap);
+		else
+			temp=str(ap);
+		put_text(257+(strlen("HP")*9)+14,208+6+timer,bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+	timer=comtsave;
+}
+
+void combat_intro()
+{
+	int c, x, y;
+	timer=0;
+	while(timer<32)
+	{
+		render();
+		
+		stat_window(8,8+(strlen("HP")*9)+9,8+(strlen("HP")*9)+18+(7*9),208+(32-(timer)),208+23+(32-(timer)));
+		put_text(8+6,208+6+(32-(timer)),bgfnt,"HP");
+		for(y=211;y<229;y++)
+		{
+			line(104-(hp*66/hpmax),y+(32-(timer)),104,y+(32-(timer)),32+((y-211)*16/18));
+		}
+		put_text(8+(strlen("HP")*9)+((7-strlen(str(hp)+"/"+str(hpmax)))*9)+14,208+6+(32-(timer)),bgfnt,str(hp)+"/"+str(hpmax));
+	
+		stat_window(257,257+(strlen("AP")*9)+9,311,208+(32-(timer)),208+23+(32-(timer)));
+		put_text(257+6,208+6+(32-(timer)),bgfnt,"AP");
+		if(ap<10)
+			temp="0"+str(ap);
+		else
+			temp=str(ap);
+		put_text(257+(strlen("HP")*9)+14,208+6+(32-(timer)),bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+}	
+	
+void combat_main()
+{
+	int c, z;
+	bounce[0]=8;
+	bounce[1]=7;
+	bounce[2]=5;
+	bounce[3]=3;
+	bounce[4]=0;
+	bounce[5]=6;
+	bounce[6]=4;
+	bounce[7]=2;
+	bounce[8]=0;
+	bounce[9]=3;
+	bounce[10]=2;
+	bounce[11]=1;
+	bounce[12]=0;
+	for(c=0;c<15;c++)
+	{
+		if(turn=c)
+		{
+			hookretrace(0);
+			ap=apmax;
+			play_sound(OPEN,16);
+			combat_player();
+			hookretrace(main);
+		}
+		if(etotal>0)
+		{
+			for(z=0;z<etotal;z++)
+			{
+				if(denz_turn[enemy[z]]=c && denz_hp[enemy[z]]>0)
+				{
+					hookretrace(0);
+					combat_enemy(z);
+					hookretrace(main);
+				}
+			}
+		}
+	}
+	if(etotal=0)
+	{
+		combat=0;
+		hookretrace(0);
+		combat_exit();
+		entitymove(pnum,"Z0");
+		processentities();
+		switch(face)
+		{
+			case 0:
+				entitymove(pnum,"F0");
+			case 1:
+				entitymove(pnum,"F1");
+			case 2:
+				entitymove(pnum,"F2");
+			case 3:
+				entitymove(pnum,"F3");
+		}
+		processentities();
+		cameratracking=1;
+		setplayer(pnum);
+		hookretrace(main);
+	}
+}
+
+void combat_player()
+{
+	int c, com;
+	com=0;
+	c=1;
+	timer=0;
+	while(c=1)
+	{
+		render();
+
+		combat_back();
+
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[com]);
+
+		if(com<3 && timer<27)
+			tcopysprite(entity.x[pnum]+21-xwin,entity.y[pnum]-32-ywin,7,6,forward);	
+		if(com>0 && timer<27)
+			tcopysprite(entity.x[pnum]-12-xwin,entity.y[pnum]-32-ywin,7,6,back);
+
+
+		switch(com)
+		{
+			case 0:
+				temp="4";
+				if(ap<4)
+					tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,btgicon[0]);
+			case 1:
+				temp="1";
+			case 2:
+				temp="3";
+				if(ap<3)
+					tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,btgicon[2]);
+			case 3:
+				temp="0";
+		}
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+		
+		if(left)
+		{
+			unpress(7);
+			updatecontrols();
+			if(com>0)
+			{
+				com--;
+				play_sound(SCROLL,32);
+			}
+		}
+		if(right)
+		{
+			unpress(8);
+			updatecontrols();
+			if(com<3)
+			{
+				com++;
+				play_sound(SCROLL,32);
+			}
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			switch(com)
+			{
+				case 0:
+					if(ap>=4)
+					{
+						play_sound(CONFIRM,32);
+						combat_player_attack();			
+					}
+					else
+						play_sound(ERROR,32);
+				case 1:
+					play_sound(CONFIRM,64);
+					combat_player_move();
+				case 2:
+					if(ap>=3)
+					{
+						play_sound(CONFIRM,32);
+						combat_player_items();			
+					}
+					else
+						play_sound(ERROR,32);				
+				case 3:
+					play_sound(CONFIRM,32);
+					c=0;
+			}
+		}
+		if(ap=0 || etotal=0)
+			c=0;
+		if(timer>=54)
+			timer=0;
+		updatecontrols();
+		showpage();
+	}
+}
+
+void combat_player_attack()
+{
+	int eb, ea, el, er, c, dir, ddist;
+	int z, x, y, psave, check, echeck, eframe;
+	int wep, dtarg, atkdam, iammo;
+	
+	entity.x[pnum]=entity.x[pnum]/16*16;
+	entity.y[pnum]=entity.y[pnum]/16*16;
+	entity.tx[pnum]=entity.x[pnum]/16;
+	entity.ty[pnum]=entity.y[pnum]/16;
+	ea=0;
+	eb=0;
+	el=0;
+	er=0;
+	ddist=8;
+	dtarg=0;
+	dir=0;
+	for(z=0;z<denz_total;z++)
+	{
+		if(equipment[WEAPON]<8)
+		{
+			ea=0;
+			eb=0;
+			el=0;
+			er=0;
+			if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]+1)
+				eb=1;
+			if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]-1)
+				ea=1;					
+			if(denz_curx[z]=entity.tx[pnum]-1 && denz_cury[z]=entity.ty[pnum])
+				el=1;					
+			if(denz_curx[z]=entity.tx[pnum]+1 && denz_cury[z]=entity.ty[pnum])
+				er=1;					
+			if(dir=0 && eb=1)
+			{
+				dtarg=z;
+				z=denz_total;
+			}
+			if(dir=1 && ea=1)
+			{
+				dtarg=z;
+				z=denz_total;
+			}
+			if(dir=2 && el=1)
+			{
+				dtarg=z;
+				z=denz_total;
+			}
+			if(dir=3 && er=1)
+			{
+				dtarg=z;
+				z=denz_total;
+			}
+		}
+		else
+		{
+			if(dir=0 && entity.tx[pnum]=denz_curx[z] && entity.ty[pnum]<denz_cury[z] &&
+		           denz_cury[z]-entity.ty[pnum]<ddist)
+		        {
+		        	x=0;
+		        	for(y=entity.ty[pnum];y<denz_cury[z];y++)
+		        	{
+		        		if(gettile(denz_curx[z],y,6)=1)
+						x=1;
+		        	}
+		        	if(x=0)
+		        	{
+		 			eb=1;
+		 			dtarg=z;
+		        		ddist=denz_cury[z]-entity.ty[pnum];
+		        	}
+		        }
+			if(dir=1 && entity.tx[pnum]=denz_curx[z] && entity.ty[pnum]>denz_cury[z] &&
+			   entity.ty[pnum]-denz_cury[z]<ddist)
+		        {
+		        	x=0;
+		        	for(y=entity.ty[pnum];y>denz_cury[z];y--)
+		        	{
+		        		if(gettile(denz_curx[z],y,6)=1)
+						x=1;
+		        	}
+		        	if(x=0)
+		        	{
+			        	ea=1;
+			        	dtarg=z;
+			        	ddist=entity.ty[pnum]-denz_cury[z];
+			        }
+		        }
+			if(dir=2 && entity.ty[pnum]=denz_cury[z] && entity.tx[pnum]>denz_curx[z] &&
+			   entity.tx[pnum]-denz_curx[z]<ddist)
+		        {
+		        	y=0;
+		        	for(x=entity.tx[pnum];x>denz_curx[z];x--)
+		        	{
+		        		if(gettile(x,denz_cury[z],6)=1)
+						y=1;
+		        	}
+		        	if(y=0)
+		        	{
+		        		el=1;
+		        		dtarg=z;
+		        		ddist=entity.tx[pnum]-denz_curx[z];
+		        	}
+		        }		
+			if(dir=3 && entity.ty[pnum]=denz_cury[z] && entity.tx[pnum]<denz_curx[z] &&
+		           denz_curx[z]-entity.tx[pnum]<ddist)
+		        {
+		        	y=0;
+		        	for(x=entity.tx[pnum];x<denz_curx[z];x++)
+		        	{
+		        		if(gettile(x,denz_cury[z],6)=1)
+						y=1;
+		        	}
+		        	if(y=0)
+		        	{
+		        		er=1;
+		        		dtarg=z;
+		        		ddist=denz_curx[z]-entity.tx[pnum];
+		        	}
+		        }		
+		}
+	}
+	echeck=0;
+	settile(entity.tx[pnum],entity.ty[pnum]+1,2,2);	
+	c=1;
+	timer=0;
+	while(c=1)
+	{
+		render();
+
+		for(z=0;z<denz_total;z++)
+		{
+			if(equipment[WEAPON]<8)
+			{	
+				ea=0;
+				eb=0;
+				el=0;
+				er=0;
+				if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]+1)
+					eb=1;
+				if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]-1)
+					ea=1;					
+				if(denz_curx[z]=entity.tx[pnum]-1 && denz_cury[z]=entity.ty[pnum])
+					el=1;					
+				if(denz_curx[z]=entity.tx[pnum]+1 && denz_cury[z]=entity.ty[pnum])
+					er=1;					
+				if(dir=0 && eb=1)
+				{
+					dtarg=z;
+					z=denz_total;
+				}
+				if(dir=1 && ea=1)
+				{
+					dtarg=z;
+					z=denz_total;
+				}
+				if(dir=2 && el=1)
+				{
+					dtarg=z;
+					z=denz_total;
+				}
+				if(dir=3 && er=1)
+				{
+					dtarg=z;
+					z=denz_total;
+				}
+			}
+			else
+			{
+				if(dir=0 && entity.tx[pnum]=denz_curx[z] && entity.ty[pnum]<denz_cury[z] &&
+			           denz_cury[z]-entity.ty[pnum]<ddist)
+			        {
+			        	x=0;
+			        	for(y=entity.ty[pnum];y<denz_cury[z];y++)
+			        	{
+			        		if(gettile(denz_curx[z],y,6)=1)
+							x=1;
+			        	}
+			        	if(x=0)
+			        	{
+			 			eb=1;
+			 			dtarg=z;
+			        		ddist=denz_cury[z]-entity.ty[pnum];
+			        	}
+			        }
+				if(dir=1 && entity.tx[pnum]=denz_curx[z] && entity.ty[pnum]>denz_cury[z] &&
+				   entity.ty[pnum]-denz_cury[z]<ddist)
+			        {
+			        	x=0;
+			        	for(y=entity.ty[pnum];y>denz_cury[z];y--)
+			        	{
+			        		if(gettile(denz_curx[z],y,6)=1)
+							x=1;
+			        	}
+			        	if(x=0)
+			        	{
+				        	ea=1;
+				        	dtarg=z;
+				        	ddist=entity.ty[pnum]-denz_cury[z];
+				        }
+			        }
+				if(dir=2 && entity.ty[pnum]=denz_cury[z] && entity.tx[pnum]>denz_curx[z] &&
+				   entity.tx[pnum]-denz_curx[z]<ddist)
+			        {
+			        	y=0;
+			        	for(x=entity.tx[pnum];x>denz_curx[z];x--)
+			        	{
+			        		if(gettile(x,denz_cury[z],6)=1)
+							y=1;
+			        	}
+			        	if(y=0)
+			        	{
+			        		el=1;
+			        		dtarg=z;
+			        		ddist=entity.tx[pnum]-denz_curx[z];
+			        	}
+			        }		
+				if(dir=3 && entity.ty[pnum]=denz_cury[z] && entity.tx[pnum]<denz_curx[z] &&
+			           denz_curx[z]-entity.tx[pnum]<ddist)
+			        {
+			        	y=0;
+			        	for(x=entity.tx[pnum];x<denz_curx[z];x++)
+			        	{
+			        		if(gettile(x,denz_cury[z],6)=1)
+							y=1;
+			        	}
+			        	if(y=0)
+			        	{
+			        		er=1;
+			        		dtarg=z;
+			        		ddist=denz_curx[z]-entity.tx[pnum];
+			        	}
+			        }		
+			}
+		}
+
+		combat_back();
+
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+
+		temp="4";
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+
+		switch(dir)
+		{
+			case 0:
+				if(eb=0)
+					put_text(entity.x[pnum]+3-xwin,entity.y[pnum]+18-ywin,bgfnt,"X");
+			case 1:
+				if(ea=0)
+					put_text(entity.x[pnum]+3-xwin,entity.y[pnum]-14-ywin,bgfnt,"X");		
+			case 2:
+				if(el=0)
+					put_text(entity.x[pnum]-13-xwin,entity.y[pnum]+2-ywin,bgfnt,"X");
+			case 3:
+				if(er=0)
+					put_text(entity.x[pnum]+19-xwin,entity.y[pnum]+2-ywin,bgfnt,"X");		
+		}
+
+		if(up)
+		{
+			unpress(7);
+			updatecontrols();
+			if(dir!=1)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum],entity.ty[pnum]-1,2,2);
+			dir=1;
+		}
+		if(down)
+		{
+			unpress(8);
+			updatecontrols();
+			if(dir!=0)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum],entity.ty[pnum]+1,2,2);
+			dir=0;
+		}		
+		if(left)
+		{
+			unpress(7);
+			updatecontrols();
+			if(dir!=2)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum]-1,entity.ty[pnum],2,2);
+			dir=2;
+		}
+		if(right)
+		{
+			unpress(8);
+			updatecontrols();
+			if(dir!=3)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum]+1,entity.ty[pnum],2,2);
+			dir=3;
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			switch(equipment[WEAPON])
+			{
+				case 4:
+					wep=loadimage("graphics/weapons/dagger.pcx");
+				case 5:
+					wep=loadimage("graphics/weapons/club.pcx");
+				case 6:
+					wep=loadimage("graphics/weapons/mashedi.pcx");	
+				case 7:
+					wep=loadimage("graphics/weapons/esword.pcx");	
+				case 8:
+					if(dir=0)
+						wep=loadimage("graphics/weapons/dpist.pcx");
+					if(dir=1)
+						wep=loadimage("graphics/weapons/dpist.pcx");
+					if(dir=2)
+						wep=loadimage("graphics/weapons/lpist.pcx");
+					if(dir=3)
+						wep=loadimage("graphics/weapons/rpist.pcx");	
+				case 9:
+					if(dir=0)
+						wep=loadimage("graphics/weapons/dshot.pcx");
+					if(dir=1)
+						wep=loadimage("graphics/weapons/dpist.pcx");
+					if(dir=2)
+						wep=loadimage("graphics/weapons/lshot.pcx");
+					if(dir=3)
+						wep=loadimage("graphics/weapons/rshot.pcx");	
+				case 10:
+					if(dir=0)
+						wep=loadimage("graphics/weapons/drlaun.pcx");
+					if(dir=1)
+						wep=loadimage("graphics/weapons/dpist.pcx");
+					if(dir=2)
+						wep=loadimage("graphics/weapons/lrlaun.pcx");
+					if(dir=3)
+						wep=loadimage("graphics/weapons/rrlaun.pcx");
+					ammo=loadimage("graphics/weapons/rocket.pcx");
+				case 11:
+					if(dir=0)
+						wep=loadimage("graphics/weapons/dphas.pcx");
+					if(dir=1)
+						wep=loadimage("graphics/weapons/dpist.pcx");
+					if(dir=2)
+						wep=loadimage("graphics/weapons/lphas.pcx");
+					if(dir=3)
+						wep=loadimage("graphics/weapons/rphas.pcx");	
+					ammo=loadimage("graphics/weapons/energy.pcx");					
+					
+			}
+			if(equipment[WEAPON]>7)
+			{
+				blast=loadimage("graphics/weapons/shot.pcx");	
+			}
+			switch(dir)
+			{
+				case 0:
+					face=0;
+					iammo=0;
+					if(eb=1 && equipment[WEAPON]>7)
+					{
+						iammo=311;
+						if(equipment[WEAPON]>7)
+						{
+							iammo=311;
+							
+							for(x=0;x<itotal;x++)
+							{
+								switch(equipment[WEAPON])
+								{
+									case 8:	
+										if(item[x]=26)
+											iammo=x;
+									case 9:	
+										if(item[x]=27)	
+											iammo=x;
+									case 10:	
+										if(item[x]=28)	
+											iammo=x;		
+									case 11:	
+										if(item[x]=29)	
+											iammo=x;		
+								}
+							}
+						}
+						if(iammo=311)
+						{
+							eb=0;	
+						}
+					}
+					if(eb=1)
+					{
+						atkdam=atk-(denz_def[dtarg]/2);
+						itemx[iammo]--;
+						if(itemx[iammo]=0)
+							remove_item(item[iammo]);
+						if(atkdam<=0)
+							atkdam=1;
+						entitymove(pnum,"Z20");
+						processentities();
+						z=0;
+						timer=0;
+						while(z<42)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+							temp="4";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(equipment[WEAPON]<8)
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z1");
+									processentities();
+								}
+								if(z>=1 && z<10)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											tcopysprite(entity.x[pnum]+1-xwin,entity.y[pnum]-ywin,7,7,wep);
+										case 5:
+											tcopysprite(entity.x[pnum]-5-xwin,entity.y[pnum]-8-ywin,9,12,wep);
+										case 6:
+											tcopysprite(entity.x[pnum]-6-xwin,entity.y[pnum]-7-ywin,10,12,wep);
+										case 7:
+											rotscale(entity.x[pnum]-3-xwin,entity.y[pnum]-4-ywin,14,17,0+random(2),1000-random(200),wep);
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									play_sound(SWING,32);
+									check=1;
+								}
+								if(z=10)
+								{
+									entitymove(pnum,"Z2");
+									processentities();
+								}
+								if(z>=10 && z<28)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											tcopysprite(entity.x[pnum]+2-xwin,entity.y[pnum]+1-ywin,7,7,wep);
+										case 5:
+											rotscale(entity.x[pnum]+9-xwin,entity.y[pnum]+7-ywin,9,12,180,1000,wep);
+										case 6:
+											rotscale(entity.x[pnum]+9-xwin,entity.y[pnum]+6-ywin,10,12,180,1000,wep);
+										case 7:
+											rotscale(entity.x[pnum]+10-xwin,entity.y[pnum]+11-ywin,14,17,180-random(3)+random(3),1000-random(200),wep);
+									}
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z20");
+									processentities();
+								}
+							}
+							else
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z2");
+									processentities();
+								}
+								if(z>=1 && z<28)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											tcopysprite(entity.x[pnum]+3-xwin,entity.y[pnum]+2-ywin,3,4,wep);
+										case 9:
+											tcopysprite(entity.x[pnum]+3-xwin,entity.y[pnum]+1-ywin,4,7,wep);
+										case 10:
+											tcopysprite(entity.x[pnum]+1-xwin,entity.y[pnum]-6-ywin,8,13,wep);
+										case 11:
+											tcopysprite(entity.x[pnum]+1-xwin,entity.y[pnum]-4-ywin,8,11,wep);	
+									}
+								}
+								if(z>=8 && z<12)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											rotscale(entity.x[pnum]+4-xwin,entity.y[pnum]+3-ywin,5,5,0,1000-((z-8)*50),blast);
+										case 9:
+											rotscale(entity.x[pnum]+4-xwin,entity.y[pnum]+5-ywin,5,5,0,1000-((z-8)*100),blast);
+										case 10:
+											rotscale(entity.x[pnum]+4-xwin,entity.y[pnum]-3-ywin,5,5,0,1000-((z-8)*200),blast);
+											tcopysprite(entity.x[pnum]+1-xwin+(z-8),entity.y[pnum]-3-ywin+((z-8)*((denz_cury[dtarg]*16)-(entity.y[pnum]-3))/4),8,9,ammo);
+										case 11:
+											rotscale(entity.x[pnum]+1+3-xwin+(z-8),entity.y[pnum]-3+3-ywin+((z-8)*((denz_cury[dtarg]*16)-(entity.y[pnum]-3))/4),6,6,0+random(360),1000-random(500),ammo);
+
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											play_sound(SHOT,32);
+										case 9:
+											play_sound(SHTGUN,32);
+										case 10:
+											play_sound(ROCKET,32);
+										case 11:
+											play_sound(PHASER,32);
+									}
+									check=1;
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z20");
+									processentities();
+								}
+							}
+							if(z=11)
+								echeck=0;
+							if(z=12 && echeck=0)
+							{
+								denz_hp[dtarg]-=atkdam;
+								if(denz_hp[dtarg]<0)
+									denz_hp[dtarg]=0;
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										eframe=12;
+									case 1:
+										eframe=14;
+									case 2:
+										eframe=13;
+									case 3:
+										eframe=15;	
+								}
+								echeck=1;
+							}
+							if(z=13 || z=17 || z=21 || z=25)
+							{
+								entitymove(denz_chr[dtarg],"Z"+str(eframe));
+								processentities();
+							}
+							if(z=15 || z=19 || z=23)
+							{
+								entitymove(denz_chr[dtarg],"Z19");
+								processentities();
+							}
+							if(z=27)
+								echeck=0;
+							if(z=28 && echeck=0)
+							{
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										entitymove(denz_chr[dtarg],"Z0");
+									case 1:
+										entitymove(denz_chr[dtarg],"Z6");
+									case 2:
+										entitymove(denz_chr[dtarg],"Z3");
+									case 3:
+										entitymove(denz_chr[dtarg],"Z9");
+								}
+								processentities();
+								echeck=1;
+							}
+							if(z>12 && z<24)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+							if(z>=24 && z<40)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin,bgfnt,str(atkdam));
+							if(timer>=2)
+							{
+								timer=0;
+								//if(z<11)
+									z++;
+							}
+							updatecontrols();
+							showpage();
+						}
+						ap-=4;
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+						if(denz_hp[dtarg]<=0)
+						{
+							z=0;
+							timer=0;						
+							while(z<31)
+							{
+								render();			
+								combat_back();
+								tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+								tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+								temp="4";
+								put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+								if(z=0)
+									entitymove(denz_chr[dtarg],"Z16");
+								if(z=3)
+									entitymove(denz_chr[dtarg],"Z17");
+								if(z=6)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=10)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=16)
+									entitymove(denz_chr[dtarg],"Z18");	
+								if(z=18)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=20)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=22)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=23)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=24)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=25)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=26)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=27)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=28)
+								{
+									entitymove(denz_chr[dtarg],"Z19");
+									check=0;
+								}
+								if(z=29)
+								{
+									entitymove(denz_chr[dtarg],"Z18");
+									if(check=0)
+										play_sound(EDIE,32);
+								}
+								if(z=30)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(timer>=2)
+								{
+									timer=0;
+									z++;
+								}
+								processentities();
+								updatecontrols();
+								showpage();
+							}
+							combat_player_victory(dtarg);
+							remove_enemy(dtarg);
+						}
+					
+					}
+					else
+					{
+						if(iammo=311)
+							play_sound(EMPTY,32);
+						else
+							play_sound(ERROR,32);
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+					}
+				case 1:
+					face=1;
+					iammo=0;
+					if(ea=1 && equipment[WEAPON]>7)
+					{
+						iammo=311;
+						if(equipment[WEAPON]>7)
+						{
+							iammo=311;
+							
+							for(x=0;x<itotal;x++)
+							{
+								switch(equipment[WEAPON])
+								{
+									case 8:	
+										if(item[x]=26)
+											iammo=x;
+									case 9:	
+										if(item[x]=27)	
+											iammo=x;
+									case 10:	
+										if(item[x]=28)	
+											iammo=x;		
+									case 11:	
+										if(item[x]=29)	
+											iammo=x;		
+								}
+							}
+						}
+						if(iammo=311)
+							ea=0;					
+					}
+					if(ea=1)
+					{
+						atkdam=atk-(denz_def[dtarg]/2);
+						itemx[iammo]--;
+						if(itemx[iammo]=0)
+							remove_item(item[iammo]);
+						if(atkdam<=0)
+							atkdam=1;
+						entitymove(pnum,"Z6");
+						processentities();
+						z=0;
+						timer=0;
+						while(z<42)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+							temp="4";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(equipment[WEAPON]<8)
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z7");
+									processentities();
+								}
+								if(z>=1 && z<10)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											tcopysprite(entity.x[pnum]+12-xwin,entity.y[pnum]+1-ywin,7,7,wep);
+										case 5:
+											rotscale(entity.x[pnum]+18-xwin,entity.y[pnum]+8-ywin,9,12,180,1000,wep);
+										case 6:
+											rotscale(entity.x[pnum]+19-xwin,entity.y[pnum]+7-ywin,10,12,180,1000,wep);
+										case 7:
+											rotscale(entity.x[pnum]+20-xwin,entity.y[pnum]+11-ywin,14,17,180+random(3)-random(3),1000-random(200),wep);
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									play_sound(SWING,32);
+									check=1;
+								}
+								if(z=10)
+								{
+									entitymove(pnum,"Z8");
+									processentities();
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z6");
+									processentities();
+								}
+							}
+							else
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z8");
+									processentities();
+								}
+								if(z>=8 && z<12)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 10:
+											rotscale(entity.x[pnum]+10-xwin,entity.y[pnum]-3-ywin-((z-8)*((entity.y[pnum]-3)-(denz_cury[dtarg]*16))/4),8,9,180,1000,ammo);
+										case 11:
+											rotscale(entity.x[pnum]+10-xwin,entity.y[pnum]-3-ywin-((z-8)*((entity.y[pnum]-3)-(denz_cury[dtarg]*16))/4),6,6,0+random(360),1000-random(500),ammo);
+
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											play_sound(SHOT,32);
+										case 9:
+											play_sound(SHTGUN,32);
+										case 10:
+											play_sound(ROCKET,32);
+										case 11:
+											play_sound(PHASER,32);
+									}
+									check=1;
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z6");
+									processentities();
+								}
+							}
+							if(z=11)
+								echeck=0;
+							if(z=12 && echeck=0)
+							{
+								denz_hp[dtarg]-=atkdam;
+								if(denz_hp[dtarg]<0)
+									denz_hp[dtarg]=0;
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										eframe=12;
+									case 1:
+										eframe=14;
+									case 2:
+										eframe=13;
+									case 3:
+										eframe=15;	
+								}
+								echeck=1;
+							}
+							if(z=13 || z=17 || z=21 || z=25)
+							{
+								entitymove(denz_chr[dtarg],"Z"+str(eframe));
+								processentities();
+							}
+							if(z=15 || z=19 || z=23)
+							{
+								entitymove(denz_chr[dtarg],"Z19");
+								processentities();
+							}
+							if(z=27)
+								echeck=0;
+							if(z=28 && echeck=0)
+							{
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										entitymove(denz_chr[dtarg],"Z0");
+									case 1:
+										entitymove(denz_chr[dtarg],"Z6");
+									case 2:
+										entitymove(denz_chr[dtarg],"Z3");
+									case 3:
+										entitymove(denz_chr[dtarg],"Z9");
+								}
+								processentities();
+								echeck=1;
+							}
+							if(z>12 && z<24)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+							if(z>=24 && z<40)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin,bgfnt,str(atkdam));
+							if(timer>=2)
+							{
+								timer=0;
+								//if(z<2)
+									z++;
+							}
+							updatecontrols();
+							showpage();
+						}
+						ap-=4;
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+						if(denz_hp[dtarg]<=0)
+						{
+							z=0;
+							timer=0;						
+							while(z<31)
+							{
+								render();			
+								combat_back();
+								tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+								tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+								temp="4";
+								put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+								if(z=0)
+									entitymove(denz_chr[dtarg],"Z16");
+								if(z=3)
+									entitymove(denz_chr[dtarg],"Z17");
+								if(z=6)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=10)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=16)
+									entitymove(denz_chr[dtarg],"Z18");	
+								if(z=18)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=20)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=22)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=23)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=24)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=25)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=26)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=27)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=28)
+								{
+									entitymove(denz_chr[dtarg],"Z19");
+									check=0;
+								}
+								if(z=29)
+								{
+									entitymove(denz_chr[dtarg],"Z18");
+									if(check=0)
+										play_sound(EDIE,32);
+								}
+								if(z=30)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(timer>=2)
+								{
+									timer=0;
+									z++;
+								}
+								processentities();
+								updatecontrols();
+								showpage();
+							}
+							combat_player_victory(dtarg);
+							remove_enemy(dtarg);
+						}
+					
+					}
+					else
+					{
+						if(iammo=311)
+							play_sound(EMPTY,32);
+						else
+							play_sound(ERROR,32);
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+					}
+				case 2:
+					face=2;
+					iammo=0;
+					if(el=1 && equipment[WEAPON]>7)
+					{
+						iammo=311;
+						if(equipment[WEAPON]>7)
+						{
+							iammo=311;
+							
+							for(x=0;x<itotal;x++)
+							{
+								switch(equipment[WEAPON])
+								{
+									case 8:	
+										if(item[x]=26)
+											iammo=x;
+									case 9:	
+										if(item[x]=27)	
+											iammo=x;
+									case 10:	
+										if(item[x]=28)	
+											iammo=x;		
+									case 11:	
+										if(item[x]=29)	
+											iammo=x;		
+								}
+							}
+						}
+						if(iammo=311)
+							el=0;					
+					}
+					if(el=1)
+					{
+						atkdam=atk-(denz_def[dtarg]/2);
+						itemx[iammo]--;
+						if(itemx[iammo]=0)
+							remove_item(item[iammo]);
+						if(atkdam<=0)
+							atkdam=1;
+						entitymove(pnum,"Z3");
+						processentities();
+						z=0;
+						timer=0;
+						while(z<42)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+							temp="4";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(equipment[WEAPON]<8)
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z5");
+									processentities();
+								}
+								if(z>=1 && z<10)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											//tcopysprite(entity.x[pnum]+1-xwin,entity.y[pnum]-ywin,7,7,wep);
+										case 5:
+											//tcopysprite(entity.x[pnum]-5-xwin,entity.y[pnum]-8-ywin,9,12,wep);
+										case 6:
+											//tcopysprite(entity.x[pnum]-6-xwin,entity.y[pnum]-7-ywin,10,12,wep);
+										case 7:
+											//rotscale(entity.x[pnum]-3-xwin,entity.y[pnum]-4-ywin,14,17,0+random(2),1000-random(200),wep);
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									play_sound(SWING,32);
+									check=1;
+								}
+								if(z=10)
+								{
+									entitymove(pnum,"Z4");
+									processentities();
+								}
+								if(z>=10 && z<28)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											rotscale(entity.x[pnum]+2-xwin,entity.y[pnum]+3-ywin,7,7,270,1000,wep);
+										case 5:
+											rotscale(entity.x[pnum]-1-xwin,entity.y[pnum]+6-ywin,9,12,90,1000,wep);
+										case 6:
+											rotscale(entity.x[pnum]-1-xwin,entity.y[pnum]+7-ywin,10,12,90,1000,wep);
+										case 7:
+											rotscale(entity.x[pnum]-4-xwin,entity.y[pnum]+7-ywin,14,17,90+random(3)-random(3),1000-random(200),wep);
+									}
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z3");
+									processentities();
+								}
+							}
+							else
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z4");
+									processentities();
+								}
+								if(z>=1 && z<28)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-2-ywin,7,4,wep);
+										case 9:
+											tcopysprite(entity.x[pnum]-5-xwin,entity.y[pnum]-1-ywin,9,5,wep);
+										case 10:
+											tcopysprite(entity.x[pnum]-xwin,entity.y[pnum]-7-ywin,18,12,wep);
+										case 11:
+											tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-3-ywin,7,7,wep);	
+									}
+								}
+								if(z>=8 && z<12)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											rotscale(entity.x[pnum]-2-xwin,entity.y[pnum]-1-ywin,5,5,0,1000-((z-8)*50),blast);
+										case 9:
+											rotscale(entity.x[pnum]-6-xwin,entity.y[pnum]-ywin,5,5,0,1000-((z-8)*100),blast);
+										case 10:
+											rotscale(entity.x[pnum]-3-xwin,entity.y[pnum]-5-ywin,5,5,0,1000-((z-8)*200),blast);
+											rotscale(entity.x[pnum]-5-xwin-((z-8)*((entity.x[pnum]-5)-(denz_curx[dtarg]*16))/4),entity.y[pnum]-3-ywin+(z-8),8,9,270,1000,ammo);
+										case 11:
+											rotscale(entity.x[pnum]-5-xwin-((z-8)*((entity.x[pnum]-5)-(denz_curx[dtarg]*16))/4),entity.y[pnum]-3-ywin+(z-8),6,6,270+random(60)-random(60),1000-random(500),ammo);
+
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											play_sound(SHOT,32);
+										case 9:
+											play_sound(SHTGUN,32);
+										case 10:
+											play_sound(ROCKET,32);
+										case 11:
+											play_sound(PHASER,32);
+									}
+									check=1;
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z3");
+									processentities();
+								}
+							}
+							if(z=11)
+								echeck=0;
+							if(z=12 && echeck=0)
+							{
+								denz_hp[dtarg]-=atkdam;
+								if(denz_hp[dtarg]<0)
+									denz_hp[dtarg]=0;
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										eframe=12;
+									case 1:
+										eframe=14;
+									case 2:
+										eframe=13;
+									case 3:
+										eframe=15;	
+								}
+								echeck=1;
+							}
+							if(z=13 || z=17 || z=21 || z=25)
+							{
+								entitymove(denz_chr[dtarg],"Z"+str(eframe));
+								processentities();
+							}
+							if(z=15 || z=19 || z=23)
+							{
+								entitymove(denz_chr[dtarg],"Z19");
+								processentities();
+							}
+							if(z=27)
+								echeck=0;
+							if(z=28 && echeck=0)
+							{
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										entitymove(denz_chr[dtarg],"Z0");
+									case 1:
+										entitymove(denz_chr[dtarg],"Z6");
+									case 2:
+										entitymove(denz_chr[dtarg],"Z3");
+									case 3:
+										entitymove(denz_chr[dtarg],"Z9");
+								}
+								processentities();
+								echeck=1;
+							}
+							if(z>12 && z<24)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+							if(z>=24 && z<40)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin,bgfnt,str(atkdam));
+							if(timer>=2)
+							{
+								timer=0;
+								//if(z<10)
+									z++;
+							}
+							updatecontrols();
+							showpage();
+						}
+						ap-=4;
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+						if(denz_hp[dtarg]<=0)
+						{
+							z=0;
+							timer=0;						
+							while(z<31)
+							{
+								render();			
+								combat_back();
+								tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+								tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+								temp="4";
+								put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+								if(z=0)
+									entitymove(denz_chr[dtarg],"Z16");
+								if(z=3)
+									entitymove(denz_chr[dtarg],"Z17");
+								if(z=6)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=10)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=16)
+									entitymove(denz_chr[dtarg],"Z18");	
+								if(z=18)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=20)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=22)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=23)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=24)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=25)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=26)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=27)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=28)
+								{
+									entitymove(denz_chr[dtarg],"Z19");
+									check=0;
+								}
+								if(z=29)
+								{
+									entitymove(denz_chr[dtarg],"Z18");
+									if(check=0)
+										play_sound(EDIE,32);
+								}
+								if(z=30)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(timer>=2)
+								{
+									timer=0;
+									z++;
+								}
+								processentities();
+								updatecontrols();
+								showpage();
+							}
+							combat_player_victory(dtarg);
+							remove_enemy(dtarg);
+						}
+					
+					}
+					else
+					{
+						if(iammo=311)
+							play_sound(EMPTY,32);
+						else
+							play_sound(ERROR,32);
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+					}
+				case 3:
+					face=3;
+					iammo=0;
+					if(er=1 && equipment[WEAPON]>7)
+					{
+						iammo=311;
+						if(equipment[WEAPON]>7)
+						{
+							iammo=311;
+							
+							for(x=0;x<itotal;x++)
+							{
+								switch(equipment[WEAPON])
+								{
+									case 8:	
+										if(item[x]=26)
+											iammo=x;
+									case 9:	
+										if(item[x]=27)	
+											iammo=x;
+									case 10:	
+										if(item[x]=28)	
+											iammo=x;		
+									case 11:	
+										if(item[x]=29)	
+											iammo=x;		
+								}
+							}
+						}
+						if(iammo=311)
+							er=0;					
+					}
+					if(er=1)
+					{
+						atkdam=atk-(denz_def[dtarg]/2);
+						itemx[iammo]--;
+						if(itemx[iammo]=0)
+							remove_item(item[iammo]);
+						if(atkdam<=0)
+							atkdam=1;
+						entitymove(pnum,"Z9");
+						processentities();
+						z=0;
+						timer=0;
+						while(z<42)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+							temp="4";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(equipment[WEAPON]<8)
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z11");
+									processentities();
+								}
+								if(z>=1 && z<10)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											rotscale(entity.x[pnum]+3-xwin,entity.y[pnum]+1-ywin,7,7,180,1000,wep);
+										case 5:
+											rotscale(entity.x[pnum]+2-xwin,entity.y[pnum]-1-ywin,9,12,0,1000,wep);
+										case 6:
+											tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-7-ywin,10,12,wep);
+										case 7:
+											rotscale(entity.x[pnum]-xwin,entity.y[pnum]-5-ywin,14,17,0+random(2),1000-random(200),wep);
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									play_sound(SWING,32);
+									check=1;
+								}
+								if(z=10)
+								{
+									entitymove(pnum,"Z10");
+									processentities();
+								}
+								if(z>=10 && z<28)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 4:
+											rotscale(entity.x[pnum]+9-xwin,entity.y[pnum]+4-ywin,7,7,0,1000,wep);
+										case 5:
+											rotscale(entity.x[pnum]+12-xwin,entity.y[pnum]+7-ywin,9,12,180,1000,wep);
+										case 6:
+											rotscale(entity.x[pnum]+13-xwin,entity.y[pnum]+7-ywin,10,12,180,1000,wep);
+										case 7:
+											rotscale(entity.x[pnum]+13-xwin,entity.y[pnum]+11-ywin,14,17,180+random(3)-random(3),1000-random(200),wep);
+									}
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z9");
+									processentities();
+								}
+							}
+							else
+							{
+								if(z=1)
+								{
+									entitymove(pnum,"Z10");
+									processentities();
+								}
+								if(z>=1 && z<28)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											tcopysprite(entity.x[pnum]+7-xwin,entity.y[pnum]-1-ywin,7,4,wep);
+										case 9:
+											tcopysprite(entity.x[pnum]+2-xwin,entity.y[pnum]+1-ywin,16,4,wep);
+										case 10:
+											tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-5-ywin,17,8,wep);
+										case 11:
+											tcopysprite(entity.x[pnum]+7-xwin,entity.y[pnum]-1-ywin,7,7,wep);	
+									}
+								}
+								if(z>=8 && z<12)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											rotscale(entity.x[pnum]+13-xwin,entity.y[pnum]-ywin,5,5,0,1000-((z-8)*50),blast);
+										case 9:
+											rotscale(entity.x[pnum]+17-xwin,entity.y[pnum]+1-ywin,5,5,0,1000-((z-8)*100),blast);
+										case 10:
+											rotscale(entity.x[pnum]+15-xwin,entity.y[pnum]-2-ywin,5,5,0,1000-((z-8)*200),blast);
+											rotscale(entity.x[pnum]+21-xwin+((z-8)*((denz_curx[dtarg]*16)-(entity.x[pnum]+21))/4),entity.y[pnum]-3-ywin+(z-8),8,9,90,1000,ammo);
+										case 11:
+											rotscale(entity.x[pnum]+21-xwin+((z-8)*((denz_curx[dtarg]*16)-(entity.x[pnum]+21))/4),entity.y[pnum]-3-ywin+(z-8),6,6,0+random(360),1000-random(500),ammo);
+
+									}
+								}
+								if(z=7)
+									check=0;
+								if(z=8 && check=0)
+								{
+									switch(equipment[WEAPON])
+									{
+										case 8:
+											play_sound(SHOT,32);
+										case 9:
+											play_sound(SHTGUN,32);
+										case 10:
+											play_sound(ROCKET,32);
+										case 11:
+											play_sound(PHASER,32);
+									}
+									check=1;
+								}
+								if(z=12)
+									check=0;
+								if(z=13 && check=0)
+								{
+									play_sound(MELEE,32);
+									check=1;
+								}
+								if(z=27)
+								{
+									entitymove(pnum,"Z9");
+									processentities();
+								}
+							}
+							if(z=11)
+								echeck=0;
+							if(z=12 && echeck=0)
+							{
+								denz_hp[dtarg]-=atkdam;
+								if(denz_hp[dtarg]<0)
+									denz_hp[dtarg]=0;
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										eframe=12;
+									case 1:
+										eframe=14;
+									case 2:
+										eframe=13;
+									case 3:
+										eframe=15;	
+								}
+								echeck=1;
+							}
+							if(z=13 || z=17 || z=21 || z=25)
+							{
+								entitymove(denz_chr[dtarg],"Z"+str(eframe));
+								processentities();
+							}
+							if(z=15 || z=19 || z=23)
+							{
+								entitymove(denz_chr[dtarg],"Z19");
+								processentities();
+							}
+							if(z=27)
+								echeck=0;
+							if(z=28 && echeck=0)
+							{
+								switch(denz_face[dtarg])
+								{
+									case 0:
+										entitymove(denz_chr[dtarg],"Z0");
+									case 1:
+										entitymove(denz_chr[dtarg],"Z6");
+									case 2:
+										entitymove(denz_chr[dtarg],"Z3");
+									case 3:
+										entitymove(denz_chr[dtarg],"Z9");
+								}
+								processentities();
+								echeck=1;
+							}
+							if(z>12 && z<24)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin-bounce[z-12],bgfnt,str(atkdam));
+							if(z>=24 && z<40)
+								put_text(denz_curx[dtarg]*16+7-(strlen(str(atkdam))*4)-xwin,denz_cury[dtarg]*16-ywin,bgfnt,str(atkdam));
+							if(timer>=2)
+							{
+								timer=0;
+								//if(z<2)
+									z++;
+							}
+							updatecontrols();
+							showpage();
+						}
+						ap-=4;
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+						if(denz_hp[dtarg]<=0)
+						{
+							z=0;
+							timer=0;						
+							while(z<31)
+							{
+								render();			
+								combat_back();
+								tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+								tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+								temp="4";
+								put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+								if(z=0)
+									entitymove(denz_chr[dtarg],"Z16");
+								if(z=3)
+									entitymove(denz_chr[dtarg],"Z17");
+								if(z=6)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=10)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=16)
+									entitymove(denz_chr[dtarg],"Z18");	
+								if(z=18)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=20)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=22)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=23)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=24)
+									entitymove(denz_chr[dtarg],"Z19");
+								if(z=25)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=26)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(z=27)
+									entitymove(denz_chr[dtarg],"Z18");
+								if(z=28)
+								{
+									entitymove(denz_chr[dtarg],"Z19");
+									check=0;
+								}
+								if(z=29)
+								{
+									entitymove(denz_chr[dtarg],"Z18");
+									if(check=0)
+										play_sound(EDIE,32);
+								}
+								if(z=30)
+									entitymove(denz_chr[dtarg],"Z19");	
+								if(timer>=2)
+								{
+									timer=0;
+									z++;
+								}
+								processentities();
+								updatecontrols();
+								showpage();
+							}
+							combat_player_victory(dtarg);
+							remove_enemy(dtarg);
+						}
+					
+					}
+					else
+					{
+						if(iammo=311)
+							play_sound(EMPTY,32);
+						else
+							play_sound(ERROR,32);
+						if(equipment[WEAPON]>0)
+							free(wep);
+						if(equipment[WEAPON]>7)
+							free(blast);
+						if(equipment[WEAPON]=10 || equipment[WEAPON]=11)
+							free(ammo);
+					}			
+			}
+			entity.x[pnum]=entity.x[pnum]/16*16;
+			entity.y[pnum]=entity.y[pnum]/16*16;
+			entity.tx[pnum]=entity.x[pnum]/16;
+			entity.ty[pnum]=entity.y[pnum]/16;
+			ea=0;
+			eb=0;
+			el=0;
+			er=0;
+			ddist=8;
+			dtarg=0;
+			for(z=0;z<denz_total;z++)
+			{
+				if(equipment[WEAPON]<8)
+				{	
+					ea=0;
+					eb=0;
+					el=0;
+					er=0;
+					if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]+1)
+						eb=1;
+					if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]-1)
+						ea=1;					
+					if(denz_curx[z]=entity.tx[pnum]-1 && denz_cury[z]=entity.ty[pnum])
+						el=1;					
+					if(denz_curx[z]=entity.tx[pnum]+1 && denz_cury[z]=entity.ty[pnum])
+						er=1;					
+					if(dir=0 && eb=1)
+					{
+						dtarg=z;
+						z=denz_total;
+					}
+					if(dir=1 && ea=1)
+					{
+						dtarg=z;
+						z=denz_total;
+					}
+					if(dir=2 && el=1)
+					{
+						dtarg=z;
+						z=denz_total;
+					}
+					if(dir=3 && er=1)
+					{
+						dtarg=z;
+						z=denz_total;
+					}	
+				}
+				else
+				{
+					if(dir=0 && entity.tx[pnum]=denz_curx[z] && entity.ty[pnum]<denz_cury[z] &&
+				           denz_cury[z]-entity.ty[pnum]<ddist)
+				        {
+				        	x=0;
+				        	for(y=entity.ty[pnum];y<denz_cury[z];y++)
+				        	{
+				        		if(gettile(denz_curx[z],y,6)=1)
+								x=1;
+				        	}
+				        	if(x=0)
+				        	{
+				 			eb=1;
+				 			dtarg=z;
+				        		ddist=denz_cury[z]-entity.ty[pnum];
+				        	}
+				        }
+					if(dir=1 && entity.tx[pnum]=denz_curx[z] && entity.ty[pnum]>denz_cury[z] &&
+					   entity.ty[pnum]-denz_cury[z]<ddist)
+				        {
+				        	x=0;
+				        	for(y=entity.ty[pnum];y>denz_cury[z];y--)
+				        	{
+				        		if(gettile(denz_curx[z],y,6)=1)
+								x=1;
+				        	}
+				        	if(x=0)
+				        	{
+					        	ea=1;
+					        	dtarg=z;
+					        	ddist=entity.ty[pnum]-denz_cury[z];
+					        }
+				        }
+					if(dir=2 && entity.ty[pnum]=denz_cury[z] && entity.tx[pnum]>denz_curx[z] &&
+					   entity.tx[pnum]-denz_curx[z]<ddist)
+				        {
+				        	y=0;
+				        	for(x=entity.tx[pnum];x>denz_curx[z];x--)
+				        	{
+				        		if(gettile(x,denz_cury[z],6)=1)
+								y=1;
+				        	}
+				        	if(y=0)
+				        	{
+				        		el=1;
+				        		dtarg=z;
+				        		ddist=entity.tx[pnum]-denz_curx[z];
+				        	}
+				        }		
+					if(dir=3 && entity.ty[pnum]=denz_cury[z] && entity.tx[pnum]<denz_curx[z] &&
+				           denz_curx[z]-entity.tx[pnum]<ddist)
+				        {
+				        	y=0;
+				        	for(x=entity.tx[pnum];x<denz_curx[z];x++)
+				        	{
+				        		if(gettile(x,denz_cury[z],6)=1)
+								y=1;
+				        	}
+				        	if(y=0)
+				        	{
+				        		er=1;
+				        		dtarg=z;
+				        		ddist=denz_curx[z]-entity.tx[pnum];
+				        	}
+				        }		
+				}
+			}
+			if(ap<4 || etotal=0)
+			{
+				c=0;
+				switch(dir)
+				{
+					case 0:
+						settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+					case 1:
+						settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+					case 2:
+						settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+					case 3:
+						settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+				}
+				
+				
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+			}
+			c=0;
+		}
+		updatecontrols();
+		showpage();
+	}
+}
+
+void combat_player_items()
+{
+	int fnt, m, n, c;
+	cx=78;
+	cy=0;
+	c=1;
+	while(c=1)
+	{
+		render();
+		combat_back();
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Items");
+		
+		if(gold<10)
+			temp="000"+str(gold);
+		if(gold>=10 && gold<100)
+			temp="00"+str(gold);
+		if(gold>=100 && gold<1000)
+			temp="0"+str(gold);	
+		if(gold>=1000)
+			temp=str(gold);		
+	
+		// 8, 40
+	
+		window(81,8,281,196);
+		tcopysprite(cx,15+(cy*15),9,9,bcurs);
+
+		if(itotal=0)
+			put_text(87,14,bggrey,"No Items");
+		else
+		{
+			n=0;
+			for(m=0;m<itotal;m++)
+			{
+				if(iequip[m]=1)
+				{
+					put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+					put_text(87,14+(m*15),bgfnt,"                  (E)");
+					if(cy=m)
+					{
+						put_text(87,14+(m*15),bggold,iname[item[m]]);
+						put_text(87,14+(m*15),bggold,"                  (E)");
+					}
+				}
+				else if(itemx[m]>0)
+				{
+					put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+					if(itemx[m]<10)
+						put_text(87,14+(m*15),bgfnt,"                 x00"+str(itemx[m]));
+					if(itemx[m]>=10 && itemx[m]<100)
+						put_text(87,14+(m*15),bgfnt,"                 x0"+str(itemx[m]));
+					if(itemx[m]>=100)
+						put_text(87,14+(m*15),bgfnt,"                 x"+str(itemx[m]));
+					if(cy=m)
+					{
+						put_text(87,14+(m*15),bggold,iname[item[m]]);
+						if(itemx[m]<10)
+							put_text(87,14+(m*15),bggold,"                 x00"+str(itemx[m]));
+						if(itemx[m]>=10 && itemx[m]<100)
+							put_text(87,14+(m*15),bggold,"                 x0"+str(itemx[m]));
+						if(itemx[m]>=100)
+							put_text(87,14+(m*15),bggold,"                 x"+str(itemx[m]));
+					}
+				}
+				else
+				{
+					put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+					if(cy=m)
+						put_text(87,14+(m*15),bggold,iname[item[m]]);	
+				}
+				if(b1)
+				{
+					unpress(1);
+					updatecontrols();
+					play_sound(CONFIRM,32);
+					ichoose=cy;
+					cx=5;
+					cy=0;
+					combat_player_items_explicit();
+				}
+			}
+			if(down)
+			{
+				unpress(6);
+				updatecontrols();
+				if(cy<itotal-1)
+				{
+					cy++;
+					play_sound(SCROLL,32);
+				}
+			}
+			if(up)
+			{
+				unpress(5);
+				updatecontrols();
+				if(cy>0)
+				{
+					cy--;
+					play_sound(SCROLL,32);
+				}
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=0;
+		}
+	
+		if(ap<3)
+			c=0;
+			
+		updatecontrols();
+		showpage();
+	}
+}
+
+void combat_player_items_explicit()
+{
+	int c, fnt, m, n;
+	c=1;
+	while(c=1)
+	{
+		render();
+		combat_back();	
+		window(8,8,73,31);
+		put_text(14,14,bgfnt,"Items");
+	
+		window(8,40,73,108);
+		put_text(14,46,bgfnt,"Use");
+		put_text(14,61,bgfnt,"Equip");
+		put_text(14,76,bgfnt,"Drop");
+		put_text(14,91,bgfnt,"Back");	
+		tcopysprite(cx,47+(cy*15),9,9,bcurs);
+		switch(cy)
+		{
+			case 0:
+				put_text(14,46,bggold,"Use");
+			case 1:
+				put_text(14,61,bggold,"Equip");
+			case 2:
+				put_text(14,76,bggold,"Drop");
+			case 3:
+				put_text(14,91,bggold,"Back");			
+		}
+			
+		window(81,8,281,196);
+		tcopysprite(78,15+(ichoose*15),9,9,bcurs);
+	
+		n=0;
+		for(m=0;m<itotal;m++)
+		{
+			if(iequip[m]=1)
+			{
+				put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+				put_text(87,14+(m*15),bgfnt,"                  (E)");
+				if(ichoose=m)
+				{
+					put_text(87,14+(m*15),bggold,iname[item[m]]);
+					put_text(87,14+(m*15),bggold,"                  (E)");
+				}
+			}
+			else if(itemx[m]>0)
+			{
+				put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+				if(itemx[m]<10)
+					put_text(87,14+(m*15),bgfnt,"                 x00"+str(itemx[m]));
+				if(itemx[m]>=10 && itemx[m]<100)
+					put_text(87,14+(m*15),bgfnt,"                 x0"+str(itemx[m]));
+				if(itemx[m]>=100)
+					put_text(87,14+(m*15),bgfnt,"                 x"+str(itemx[m]));
+				if(ichoose=m)
+				{
+					put_text(87,14+(m*15),bggold,iname[item[m]]);
+					if(itemx[m]<10)
+						put_text(87,14+(m*15),bggold,"                 x00"+str(itemx[m]));
+					if(itemx[m]>=10 && itemx[m]<100)
+						put_text(87,14+(m*15),bggold,"                 x0"+str(itemx[m]));
+					if(itemx[m]>=100)
+						put_text(87,14+(m*15),bggold,"                 x"+str(itemx[m]));
+				}
+			}
+			else
+			{
+				put_text(87,14+(m*15),bgfnt,iname[item[m]]);
+				if(ichoose=m)
+					put_text(87,14+(m*15),bggold,iname[item[m]]);	
+			}
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			switch(cy)
+			{
+				case 0:
+					if(item[ichoose]<4 && hp<hpmax)
+					{
+						play_sound(IUSE,32);
+						ap-=3;
+						hp+=iplus[item[ichoose]];
+						if(hp>hpmax)
+							hp=hpmax;
+						remove_item(ichoose);
+						c=0;
+						cx=78;
+						cy=0;
+					}
+					else
+						play_sound(ERROR,32);
+				case 1:
+					if(item[ichoose]>=4 && item[ichoose]<26)
+					{
+						play_sound(EQUP,32);
+						if(item[ichoose]>=4 && item[ichoose]<12)
+						{
+							ap-=3;
+							for(m=0;m<itotal;m++)
+							{
+								if(item[m]>=4 && item[m]<12 && iequip[m]=1)
+									unequip(m,item[m]);
+							}
+							equip(ichoose,item[ichoose]);
+						}
+						if(item[ichoose]>=12 && item[ichoose]<16)
+						{
+							ap-=3;
+							for(m=0;m<itotal;m++)
+							{
+								if(item[m]>=12 && item[m]<16 && iequip[m]=1)
+									unequip(m,item[m]);
+							}
+							equip(ichoose,item[ichoose]);
+							switch(item[ichoose])
+							{
+								case 12:
+									m=entity.facing[pnum];
+									n=entityspawn(entity.tx[pnum],entity.ty[pnum],"graphics/chrs/"+base_chr);
+									tracker=n;
+									chr_file=base_chr;
+									entity.tx[pnum]=0;
+									entity.ty[pnum]=0;
+									entity.x[pnum]=0;
+									entity.y[pnum]=0;
+									pnum=n;
+									entitymove(n,"F"+str(m));
+									processentities();
+									//setplayer(n);
+								case 13:
+									m=entity.facing[pnum];
+									n=entityspawn(entity.tx[pnum],entity.ty[pnum],"graphics/chrs/playcmbt.chr");
+									tracker=n;
+									chr_file="playcmbt.chr";
+									entity.tx[pnum]=0;
+									entity.ty[pnum]=0;
+									entity.x[pnum]=0;
+									entity.y[pnum]=0;
+									pnum=n;
+									entitymove(n,"F"+str(m));
+									processentities();
+									//setplayer(n);
+							}
+						}
+						if(item[ichoose]>=16 && item[ichoose]<19)
+						{
+							ap-=3;
+							for(m=0;m<itotal;m++)
+							{
+								if(item[m]>=16 && item[m]<19 && iequip[m]=1)
+									unequip(m,item[m]);
+							}
+							equip(ichoose,item[ichoose]);
+						}
+						if(item[ichoose]>=19 && item[ichoose]<22)
+						{
+							ap-=3;
+							for(m=0;m<itotal;m++)
+							{
+								if(item[m]>=19 && item[m]<22 && iequip[m]=1)
+									unequip(m,item[m]);
+							}
+							equip(ichoose,item[ichoose]);
+						}					
+						if(item[ichoose]>=22 && item[ichoose]<24)
+						{
+							ap-=3;
+							for(m=0;m<itotal;m++)
+							{
+								if(item[m]>=22 && item[m]<24 && iequip[m]=1)
+									unequip(m,item[m]);
+							}
+							equip(ichoose,item[ichoose]);
+						}
+						if(item[ichoose]>=24 && item[ichoose]<26)
+						{
+							ap-=3;
+							for(m=0;m<itotal;m++)
+							{
+								if(item[m]>=24 && item[m]<26 && iequip[m]=1)
+									unequip(m,item[m]);
+							}
+							equip(ichoose,item[ichoose]);
+						}
+						c=0;
+						cx=78;
+						cy=ichoose;
+					}
+					else
+						play_sound(ERROR,32);
+				case 2:
+					if(iequip[ichoose]=0)
+					{
+						play_sound(CONFIRM,32);
+						ap-=3;
+						remove_item(ichoose);
+						c=0;
+						cx=78;
+						cy=0;
+					}
+					else
+						play_sound(ERROR,32);
+				case 3:
+					play_sound(CONFIRM,32);
+					c=0;
+					cx=78;
+					cy=ichoose;				
+			}
+		}
+		
+		if(down)
+		{
+			unpress(6);
+			updatecontrols();
+			if(cy<3)
+			{
+				cy++;
+				play_sound(SCROLL,32);
+			}
+		}
+		if(up)
+		{
+			unpress(5);
+			updatecontrols();
+			if(cy>0)
+			{
+				cy--;
+				play_sound(SCROLL,32);
+			}
+		}
+		
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			c=0;
+			cx=78;
+			cy=ichoose;
+		}
+	
+		if(ap<3)
+			c=0;
+				
+		updatecontrols();
+		showpage();	
+	}
+}
+
+void combat_player_move()
+{
+	int aob, bob, lob, rob, c, dir;
+	int w, z, x, y, tx, ty, psave;
+	entity.x[pnum]=entity.x[pnum]/16*16;
+	entity.y[pnum]=entity.y[pnum]/16*16;
+	entity.tx[pnum]=entity.x[pnum]/16;
+	entity.ty[pnum]=entity.y[pnum]/16;
+	aob=gettile(entity.tx[pnum],entity.ty[pnum]-1,6);
+	bob=gettile(entity.tx[pnum],entity.ty[pnum]+1,6);
+	lob=gettile(entity.tx[pnum]-1,entity.ty[pnum],6);
+	rob=gettile(entity.tx[pnum]+1,entity.ty[pnum],6);
+	for(z=0;z<denz_total;z++)
+	{
+		if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]+1 && denz_area[z]=area)
+			bob=1;
+		if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]-1 && denz_area[z]=area)
+			aob=1;					
+		if(denz_curx[z]=entity.tx[pnum]-1 && denz_cury[z]=entity.ty[pnum] && denz_area[z]=area)
+			lob=1;					
+		if(denz_curx[z]=entity.tx[pnum]+1 && denz_cury[z]=entity.ty[pnum] && denz_area[z]=area)
+			rob=1;					
+	}
+	dir=0;
+	settile(entity.tx[pnum],entity.ty[pnum]+1,2,1);
+	c=1;
+	w=0;
+	timer=0;
+	while(c=1)
+	{
+		render();
+
+		combat_back();
+
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[1]);
+
+		temp="1";
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+
+		switch(dir)
+		{
+			case 0:
+				if(bob=1)
+					put_text(entity.x[pnum]+3-xwin,entity.y[pnum]+18-ywin,bgfnt,"X");
+			case 1:
+				if(aob=1)
+					put_text(entity.x[pnum]+3-xwin,entity.y[pnum]-14-ywin,bgfnt,"X");		
+			case 2:
+				if(lob=1)
+					put_text(entity.x[pnum]-13-xwin,entity.y[pnum]+2-ywin,bgfnt,"X");
+			case 3:
+				if(rob=1)
+					put_text(entity.x[pnum]+19-xwin,entity.y[pnum]+2-ywin,bgfnt,"X");		
+		}
+
+		if(up)
+		{
+			unpress(7);
+			updatecontrols();
+			if(dir!=1)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum],entity.ty[pnum]-1,2,1);
+			dir=1;
+		}
+		if(down)
+		{
+			unpress(8);
+			updatecontrols();
+			if(dir!=0)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum],entity.ty[pnum]+1,2,1);
+			dir=0;
+		}		
+		if(left)
+		{
+			unpress(7);
+			updatecontrols();
+			if(dir!=2)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum]-1,entity.ty[pnum],2,1);
+			dir=2;
+		}
+		if(right)
+		{
+			unpress(8);
+			updatecontrols();
+			if(dir!=3)
+				play_sound(SCROLL,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+			}
+			settile(entity.tx[pnum]+1,entity.ty[pnum],2,1);
+			dir=3;
+		}
+		if(b1)
+		{
+			unpress(1);
+			updatecontrols();
+			switch(dir)
+			{
+				case 0:
+					if(bob=0)
+					{
+						face=0;
+						play_sound(CONFIRM,32);
+						ap--;
+						settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);
+						timer=0;
+						z=0;
+						ty=entity.ty[pnum]+1;
+						while(entity.y[pnum]/16<ty)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[1]);
+							temp="1";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(timer>=1)
+							{
+								z++;
+								if(z=1)
+								{
+									if(w=0)
+									{
+										entitymove(pnum,"Z1");
+										processentities();
+									}
+									if(w=1)
+									{
+										entitymove(pnum,"Z2");
+										processentities();
+									}
+									w++;
+									if(w=2)
+										w=0;
+									combat_back();
+								}
+								if(z=14)
+								{
+									
+									entitymove(pnum,"Z20");
+									processentities();
+								}
+								entity.y[pnum]++;
+								timer=0;
+							}
+							updatecontrols();
+							showpage();
+						}
+						settile(entity.tx[pnum],entity.ty[pnum]+1,2,1);
+					}
+					else
+						play_sound(ERROR,32);
+				case 1:
+					
+					if(aob=0)
+					{
+						face=1;
+						play_sound(CONFIRM,32);
+						ap--;
+						settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+						timer=0;
+						z=0;
+						ty=entity.ty[pnum]-1;
+						while(entity.y[pnum]>ty*16)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[1]);
+							temp="1";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(timer>=1)
+							{
+								z++;
+								if(z=1)
+								{
+									if(w=0)
+									{
+										entitymove(pnum,"Z7");
+										processentities();
+									}
+									if(w=1)
+									{
+										entitymove(pnum,"Z8");
+										processentities();
+									}
+									w++;
+									if(w=2)
+										w=0;
+									combat_back();
+								}
+								if(z=14)
+								{
+									entitymove(pnum,"Z6");
+									processentities();
+								}
+								entity.y[pnum]--;
+								timer=0;
+							}
+							updatecontrols();
+							showpage();
+						}
+						settile(entity.tx[pnum],entity.ty[pnum]-1,2,1);
+					}
+					else
+						play_sound(ERROR,32);
+				case 2:
+					if(lob=0)
+					{
+						face=2;
+						play_sound(CONFIRM,32);
+						ap--;
+						settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+						timer=0;
+						z=0;
+						tx=entity.tx[pnum]-1;
+						while(entity.x[pnum]>tx*16)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[1]);
+							temp="1";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(timer>=1)
+							{
+								z++;
+								if(z=1)
+								{
+									if(w=0)
+									{
+										entitymove(pnum,"Z4");
+										processentities();
+									}
+									if(w=1)
+									{
+										entitymove(pnum,"Z5");
+										processentities();
+									}
+									w++;
+									if(w=2)
+										w=0;
+									combat_back();
+								}
+								if(z=14)
+								{
+									entitymove(pnum,"Z3");
+									processentities();
+								}
+								entity.x[pnum]--;
+								timer=0;
+							}
+							updatecontrols();
+							showpage();
+						}
+						settile(entity.tx[pnum]-1,entity.ty[pnum],2,1);
+					}
+					else
+						play_sound(ERROR,32);
+				case 3:
+					if(rob=0)
+					{
+						face=3;
+						play_sound(CONFIRM,32);
+						ap--;
+						settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+						timer=0;
+						z=0;
+						tx=entity.tx[pnum]+1;
+						while(entity.x[pnum]/16<tx)
+						{
+							render();
+							combat_back();
+							tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+							tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[1]);
+							temp="1";
+							put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,temp);
+							if(timer>=1)
+							{
+								z++;
+								if(z=1)
+								{
+									if(w=0)
+									{
+										entitymove(pnum,"Z10");
+										processentities();
+									}
+									if(w=1)
+									{
+										entitymove(pnum,"Z11");
+										processentities();
+									}
+									w++;
+									if(w=2)
+										w=0;
+									combat_back();
+								}
+								if(z=14)
+								{
+									entitymove(pnum,"Z9");
+									processentities();
+								}
+								entity.x[pnum]++;
+								timer=0;
+							}
+							updatecontrols();
+							showpage();
+						}
+						settile(entity.tx[pnum]+1,entity.ty[pnum],2,1);
+					}
+					else
+						play_sound(ERROR,32);			
+			}
+			entity.x[pnum]=entity.x[pnum]/16*16;
+			entity.y[pnum]=entity.y[pnum]/16*16;
+			entity.tx[pnum]=entity.x[pnum]/16;
+			entity.ty[pnum]=entity.y[pnum]/16;
+			aob=gettile(entity.tx[pnum],entity.ty[pnum]-1,6);
+			bob=gettile(entity.tx[pnum],entity.ty[pnum]+1,6);
+			lob=gettile(entity.tx[pnum]-1,entity.ty[pnum],6);
+			rob=gettile(entity.tx[pnum]+1,entity.ty[pnum],6);
+			for(z=0;z<denz_total;z++)
+			{
+				if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]+1 && denz_area[z]=area)
+					bob=1;
+				if(denz_curx[z]=entity.tx[pnum] && denz_cury[z]=entity.ty[pnum]-1 && denz_area[z]=area)
+					aob=1;					
+				if(denz_curx[z]=entity.tx[pnum]-1 && denz_cury[z]=entity.ty[pnum] && denz_area[z]=area)
+					lob=1;					
+				if(denz_curx[z]=entity.tx[pnum]+1 && denz_cury[z]=entity.ty[pnum] && denz_area[z]=area)
+					rob=1;					
+			}
+			if(ap=0)
+			{
+				c=0;
+				switch(dir)
+				{
+					case 0:
+						settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+					case 1:
+						settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+					case 2:
+						settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+					case 3:
+						settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+				}
+				
+				
+			}
+		}
+		if(b2)
+		{
+			unpress(2);
+			updatecontrols();
+			play_sound(CONFIRM,32);
+			switch(dir)
+			{
+				case 0:
+					settile(entity.tx[pnum],entity.ty[pnum]+1,2,0);	
+				case 1:
+					settile(entity.tx[pnum],entity.ty[pnum]-1,2,0);
+				case 2:
+					settile(entity.tx[pnum]-1,entity.ty[pnum],2,0);
+				case 3:
+					settile(entity.tx[pnum]+1,entity.ty[pnum],2,0);
+			}
+			c=0;
+		}
+		updatecontrols();
+		showpage();
+	}
+}
+
+void combat_player_victory(int d)
+{
+	int x, y, z, lvup, tempxp, spcheck, gmax, tempgold, iam, isave;
+	int oflow, actix; 
+	// GET XP / LEVEL UP
+	timer=0;
+	while(timer<32)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempxp=xp;
+
+		stat_window(257-27,257+(strlen("XP")*9)+9-27,311,8-32+timer,8+23-32+timer);
+		put_text(257+6-27,8+6-32+timer,bgfnt,"XP");
+		
+		for(y=11;y<8+20;y++)
+		{
+			line(308-((tempxp-xpneed[level-1])*48/(xpneed[level]-xpneed[level-1])),y-32+timer,308,y-32+timer,96+((y-11)*16/18));
+		}
+		
+		if(tempxp<10)
+			temp="0000"+str(tempxp);
+		if(tempxp>=10 && tempxp<100)
+			temp="000"+str(tempxp);
+		if(tempxp>=100 && tempxp<1000)
+			temp="00"+str(tempxp);
+		if(tempxp>=1000 && tempxp<10000)
+			temp="0"+str(tempxp);
+		if(tempxp>=10000)
+			temp=str(tempxp);
+
+		put_text(257+(strlen("HP")*9)+14-27,8+6-32+timer,bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<8)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempxp=xp;
+
+		stat_window(257-27,257+(strlen("XP")*9)+9-27,311,8,8+23);
+		put_text(257+6-27,8+6,bgfnt,"XP");
+		
+		for(y=11;y<8+20;y++)
+		{
+			line(308-((tempxp-xpneed[level-1])*48/(xpneed[level]-xpneed[level-1])),y,308,y,96+((y-11)*16/18));
+		}
+		
+		if(tempxp<10)
+			temp="0000"+str(tempxp);
+		if(tempxp>=10 && tempxp<100)
+			temp="000"+str(tempxp);
+		if(tempxp>=100 && tempxp<1000)
+			temp="00"+str(tempxp);
+		if(tempxp>=1000 && tempxp<10000)
+			temp="0"+str(tempxp);
+		if(tempxp>=10000)
+			temp=str(tempxp);
+
+		put_text(257+(strlen("HP")*9)+14-27,8+6,bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<32)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		if(timer<32)
+			tempxp=xp+(timer*denz_xp[d]/32);
+		else
+			tempxp=xp+denz_xp[d];
+			
+		if(tempxp>=xpneed[level])
+			timer=32;
+			
+		stat_window(257-27,257+(strlen("XP")*9)+9-27,311,8,8+23);
+		put_text(257+6-27,8+6,bgfnt,"XP");
+		
+		for(y=11;y<8+20;y++)
+		{
+			line(308-((tempxp-xpneed[level-1])*48/(xpneed[level]-xpneed[level-1])),y,308,y,96+((y-11)*16/18));
+		}
+		
+		if(tempxp<10)
+			temp="0000"+str(tempxp);
+		if(tempxp>=10 && tempxp<100)
+			temp="000"+str(tempxp);
+		if(tempxp>=100 && tempxp<1000)
+			temp="00"+str(tempxp);
+		if(tempxp>=1000 && tempxp<10000)
+			temp="0"+str(tempxp);
+		if(tempxp>=10000)
+			temp=str(tempxp);
+
+		put_text(257+(strlen("HP")*9)+14-27,8+6,bgfnt,temp);
+		
+		play_sound(SCROLL,32);
+		
+		updatecontrols();
+		showpage();
+	}
+	lvup=0;
+	xp+=denz_xp[d];
+	if(xp>=xpneed[level])
+	{
+		lvup=1;
+		level++;
+		figure_stats();
+		play_sound(OPEN,16);
+	}
+	timer=0;
+	while(timer<96)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempxp=xp;
+		
+		if(lvup=1)
+		{
+			window(8,8,98,31);
+			put_text(14,14,bggold,"Level up!");
+		}
+		
+		stat_window(257-27,257+(strlen("XP")*9)+9-27,311,8,8+23);
+		put_text(257+6-27,8+6,bgfnt,"XP");
+
+		for(y=11;y<8+20;y++)
+		{
+			line(308-((tempxp-xpneed[level-1])*48/(xpneed[level]-xpneed[level-1])),y,308,y,96+((y-11)*16/18));
+		}
+		
+		if(tempxp<10)
+			temp="0000"+str(tempxp);
+		if(tempxp>=10 && tempxp<100)
+			temp="000"+str(tempxp);
+		if(tempxp>=100 && tempxp<1000)
+			temp="00"+str(tempxp);
+		if(tempxp>=1000 && tempxp<10000)
+			temp="0"+str(tempxp);
+		if(tempxp>=10000)
+			temp=str(tempxp);
+
+		put_text(257+(strlen("HP")*9)+14-27,8+6,bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<32)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempxp=xp;
+		
+		if(lvup=1)
+		{
+			window(8,8-timer,98,31-timer);
+			put_text(14,14-timer,bggold,"Level up!");
+		}
+		
+		stat_window(257-27,257+(strlen("XP")*9)+9-27,311,8-timer,8+23-timer);
+		put_text(257+6-27,8+6-timer,bgfnt,"XP");
+
+		for(y=11;y<8+20;y++)
+		{
+			line(308-((tempxp-xpneed[level-1])*48/(xpneed[level]-xpneed[level-1])),y-timer,308,y-timer,96+((y-11)*16/18));
+		}
+		
+		if(tempxp<10)
+			temp="0000"+str(tempxp);
+		if(tempxp>=10 && tempxp<100)
+			temp="000"+str(tempxp);
+		if(tempxp>=100 && tempxp<1000)
+			temp="00"+str(tempxp);
+		if(tempxp>=1000 && tempxp<10000)
+			temp="0"+str(tempxp);
+		if(tempxp>=10000)
+			temp=str(tempxp);
+
+		put_text(257+(strlen("HP")*9)+14-27,8+6-timer,bgfnt,temp);
+		
+		updatecontrols();
+		showpage();
+	}
+	// GET GOLD
+	timer=0;
+	while(timer<32)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempgold=gold;
+		
+		stat_window(257-9,257+(strlen("G")*9)+9-9,311,8-32+timer,8+23-32+timer);
+		put_text(257+6-9,8+6-32+timer,bgfnt,"G");
+			
+		if(tempgold<10)
+			temp="000"+str(tempgold);
+		if(tempgold>=10 && tempgold<100)
+			temp="00"+str(tempgold);
+		if(tempgold>=100 && tempgold<1000)
+			temp="0"+str(tempgold);
+		if(tempgold>=1000)
+			temp=str(tempgold);
+	
+		put_text(257+(strlen("G")*9)+14-9,8+6-32+timer,bgfnt,temp);
+		updatecontrols();
+		showpage();
+	}	
+	while(timer<8)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempgold=gold;
+		
+		stat_window(257-9,257+(strlen("G")*9)+9-9,311,8,8+23);
+		put_text(257+6-9,8+6,bgfnt,"G");
+			
+		if(tempgold<10)
+			temp="000"+str(tempgold);
+		if(tempgold>=10 && tempgold<100)
+			temp="00"+str(tempgold);
+		if(tempgold>=100 && tempgold<1000)
+			temp="0"+str(tempgold);
+		if(tempgold>=1000)
+			temp=str(tempgold);
+	
+		put_text(257+(strlen("G")*9)+14-9,8+6,bgfnt,temp);
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<32)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		if(timer<32)
+			tempgold=gold+(timer*denz_gold[d]/32);
+		else
+			tempgold=gold+denz_gold[d];
+		if(tempgold>9999)
+		{
+			tempgold=9999;
+			timer=32;
+		}
+		
+		stat_window(257-9,257+(strlen("G")*9)+9-9,311,8,8+23);
+		put_text(257+6-9,8+6,bgfnt,"G");
+			
+		if(tempgold<10)
+			temp="000"+str(tempgold);
+		if(tempgold>=10 && tempgold<100)
+			temp="00"+str(tempgold);
+		if(tempgold>=100 && tempgold<1000)
+			temp="0"+str(tempgold);
+		if(tempgold>=1000)
+			temp=str(tempgold);
+	
+		put_text(257+(strlen("G")*9)+14-9,8+6,bgfnt,temp);
+		
+		play_sound(SCROLL,32);
+		
+		updatecontrols();
+		showpage();
+	}
+	gmax=0;
+	if(gold+denz_gold[d]>=9999)
+	{
+		gmax=1;
+		play_sound(ERROR,32);
+	}
+	gold+=denz_gold[d];
+	if(gold>9999)
+		gold=9999;	
+	timer=0;
+	while(timer<96)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempgold=gold;
+		
+		if(gmax=1)
+		{
+			window(8,8,98,31);
+			put_text(14,14,bggold,"Gold Max!");
+		}
+		
+		stat_window(257-9,257+(strlen("G")*9)+9-9,311,8,8+23);
+		put_text(257+6-9,8+6,bgfnt,"G");
+			
+		if(tempgold<10)
+			temp="000"+str(tempgold);
+		if(tempgold>=10 && tempgold<100)
+			temp="00"+str(tempgold);
+		if(tempgold>=100 && tempgold<1000)
+			temp="0"+str(tempgold);
+		if(tempgold>=1000)
+			temp=str(tempgold);
+	
+		put_text(257+(strlen("G")*9)+14-9,8+6,bgfnt,temp);
+		updatecontrols();
+		showpage();
+	}
+	timer=0;
+	while(timer<32)
+	{
+		render();			
+		combat_back();
+		tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+		tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+		put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+
+		tempgold=gold;
+		
+		if(gmax=1)
+		{
+			window(8,8-timer,98,31-timer);
+			put_text(14,14-timer,bggold,"Gold Max!");
+		}
+		
+		stat_window(257-9,257+(strlen("G")*9)+9-9,311,8-timer,8+23-timer);
+		put_text(257+6-9,8+6-timer,bgfnt,"G");
+			
+		if(tempgold<10)
+			temp="000"+str(tempgold);
+		if(tempgold>=10 && tempgold<100)
+			temp="00"+str(tempgold);
+		if(tempgold>=100 && tempgold<1000)
+			temp="0"+str(tempgold);
+		if(tempgold>=1000)
+			temp=str(tempgold);
+	
+		put_text(257+(strlen("G")*9)+14-9,8+6-timer,bgfnt,temp);
+		updatecontrols();
+		showpage();
+	}
+	// GET ITEM
+	if(denz_item[d]!=311)
+	{
+		spcheck=0;
+		if(denz_item[d]>=26 && denz_item[d]<30)
+		{
+			oflow=0;
+			iam=311;
+			for(z=0;z<itotal;z++)
+			{
+				if(item[z]=denz_item[d])
+				{
+					iam=z;
+					if(itemx[iam]+denz_itemx[d]>999)
+					{
+						oflow=1;
+						actix=denz_itemx[d];
+						isave=itemx[iam]+denz_itemx[d];
+						itemx[iam]+=denz_itemx[d];
+						itemx[iam]=999;
+						iam=311;
+					}
+					z=itotal;
+				}
+			}
+			if(iam=311)
+			{
+				if(itotal<12)
+				{
+					if(oflow=0)
+						get_item(denz_item[d],denz_itemx[d]);
+					else
+						get_item(denz_item[d],denz_itemx[d]-(isave-999));
+				}
+				else
+					spcheck=1;
+			}
+			else
+			{
+				itemx[iam]+=denz_itemx[d];
+			}
+			
+			if(denz_itemx[d]<10)
+				tstr=iname[denz_item[d]]+" x00"+str(denz_itemx[d]);
+			if(denz_itemx[d]>=10 && denz_itemx[d]<100)
+				tstr=iname[denz_item[d]]+" x0"+str(denz_itemx[d]);
+			if(denz_itemx[d]>=100)
+				tstr=iname[denz_item[d]]+" x"+str(denz_itemx[d]);
+		}
+		else
+		{
+			if(itotal<12)
+				get_item(denz_item[d],0);
+			else
+				spcheck=1;
+			tstr=iname[denz_item[d]];
+		}
+		timer=0;
+		while(timer<32)
+		{
+			render();			
+			combat_back();
+			tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+			tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+			put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+			window(263-(strlen(tstr)*9),8-32+timer,311,31-32+timer);
+			put_text(269-(strlen(tstr)*9),14-32+timer,bgfnt,"Get "+tstr);
+			put_text(269-(strlen(tstr)*9),14-32+timer,bggold,"    "+tstr);
+			updatecontrols();
+			showpage();
+		}
+		if(spcheck=1)
+			play_sound(ERROR,32);
+		timer=0;
+		while(timer<96)
+		{
+			render();			
+			combat_back();
+			tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+			tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+			put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+			if(spcheck=1)
+			{
+				window(8,8,98,31);
+				put_text(14,14,bggold,"No room!!");
+			}
+
+			window(263-(strlen(tstr)*9),8,311,31);
+			put_text(269-(strlen(tstr)*9),14,bgfnt,"Get "+tstr);
+			put_text(269-(strlen(tstr)*9),14,bggold,"    "+tstr);
+			updatecontrols();
+			showpage();
+		}	
+		timer=0;
+		while(timer<32)
+		{
+			render();			
+			combat_back();
+			tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+			tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+			put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+			if(spcheck=1)
+			{
+				window(8,8-timer,98,31-timer);
+				put_text(14,14-timer,bggold,"No room!!");
+			}
+
+			window(263-(strlen(tstr)*9),8-timer,311,31-timer);
+			put_text(269-(strlen(tstr)*9),14-timer,bgfnt,"Get "+tstr);
+			put_text(269-(strlen(tstr)*9),14-timer,bggold,"    "+tstr);
+			updatecontrols();
+			showpage();
+		}
+		timer=0;
+		while(timer<32)
+		{
+			render();			
+			combat_back();
+			tcopysprite(entity.x[pnum]-4-xwin,entity.y[pnum]-41-ywin,24,24,border);
+			tcopysprite(entity.x[pnum]-1-xwin,entity.y[pnum]-38-ywin,18,18,baticon[0]);
+			put_text(entity.x[pnum]+14-xwin,entity.y[pnum]-24-ywin,smfnt,"4");
+			updatecontrols();
+			showpage();
+		}
+	}
+}
+
+void remove_enemy(int d)
+{
+	int i, z;
+	denz_battle[d]=0;
+	denz_disp[d]=DEAD;
+	denz_curx[d]=0;
+	denz_cury[d]=0;
+	denz_active[d]=0;
+	entity.tx[denz_chr[d]]=0;
+	entity.ty[denz_chr[d]]=0;
+	entity.x[denz_chr[d]]=0;
+	entity.y[denz_chr[d]]=0;
+	for(i=0;i<etotal;i++)
+	{
+		if(enemy[i]=d)
+		{
+			z=i;
+			i=etotal;
+		}
+	}
+	for(i=z;i<etotal;i++)
+		enemy[i]=enemy[i+1];
+	etotal--;
+}
+
+void run_combat()
+{
+	if(etotal>0)
+	{
+		combat_main();
+	}
+}

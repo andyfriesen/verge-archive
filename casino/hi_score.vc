@@ -1,0 +1,238 @@
+#define xc 80
+#define yc 50
+#define xzc 240
+#define yzc 190
+#define hscore 30
+#define FALSE 0
+#define TRUE  1
+#define HIANDLOW 0
+#define BLAKJACK 1
+#define SLOTS    2
+#define POKER    3
+
+int hsc[hscore], hsc_bj[hscore], hsc_hal[hscore], hsc_pkr[hscore], hsc_slt[hscore];
+string hsn_bj[hscore], hsn_hal[hscore], hsn_pkr[hscore], hsn_slt[hscore], temp;
+
+void rStr(string lineS, int x, int y)
+{
+ int dx;
+ dx=x-(strlen(lineS)*fontwidth(1));
+ GotoXY(dx, y);PrintString(1, lineS);
+}
+
+void cStr(string lineC, int y)
+{
+ int dx;
+ dx=(screenx/2)-((strlen(lineC)*fontwidth(1))/2);
+ gotoxy(dx, y);PrintString(1, lineC);
+}
+
+
+void HiScores(int user, string hsc_file) // user,0-2, indexed for 3 saved files.
+{
+ int i, logo, casino;
+ string t;
+ stor_hsclist("hiandlow.hsc");
+ casino=Loadimage("cas-g.pcx");
+ CheckScore(120000, "hiandlow.hsc", user);
+ rtr_hsclist(hsc_file);
+ copysprite(80,50, 160,140, casino);
+ for (i=0; i<10; i++)
+ {
+  if (!strcmp(hsc_file, "hiandlow.hsc")) temp=hsn_hal[i+(10*user)];
+  if (!strcmp(hsc_file, "blakjack.hsc")) temp=hsn_bj[i+(10*user)];
+  if (!strcmp(hsc_file, "slots.hsc")) temp=hsn_slt[i+(10*user)];
+  if (!strcmp(hsc_file, "poker.hsc")) temp=hsn_pkr[i+(10*user)];
+  gotoxy(xc+3, yc+3+(fontheight(1)+3*i)+fontheight(1));
+  if (!strcmp(temp, "blank")) cStr("BLANK", yc+3+(fontheight(1)+3*i)+fontheight(1));
+  if (strcmp(temp, "blank"))
+  {
+   gotoxy(xc+3, yc+3+(fontheight(1)+3*i)+fontheight(1));
+   PrintString(1, temp);
+   if (!strcmp(hsc_file, "hiandlow.hsc")) t=str(hsc_hal[i+(10*user)]);
+   if (!strcmp(hsc_file, "blakjack.hsc")) t=str(hsc_bj[i+(10*user)]);
+   if (!strcmp(hsc_file, "slots.hsc")) t=str(hsc_slt[i+(10*user)]);
+   if (!strcmp(hsc_file, "poker.hsc")) t=str(hsc_pkr[i+(10*user)]);
+   rStr(t, xzc, yc+3+(fontheight(1)+3*i)+fontheight(1));
+  }
+ }
+
+ ShowPage();
+ Unpress(1);
+ while(!b1)
+ {
+  UpdateControls();
+  for (i=0; i<10; i++)
+  {
+   if (!strcmp(hsc_file, "hiandlow.hsc")) temp=hsn_hal[i+(10*user)];
+   if (!strcmp(hsc_file, "blakjack.hsc")) temp=hsn_bj[i+(10*user)];
+   if (!strcmp(hsc_file, "slots.hsc")) temp=hsn_slt[i+(10*user)];
+   if (!strcmp(hsc_file, "poker.hsc")) temp=hsn_pkr[i+(10*user)];
+   if (!strcmp(temp, "blank")) cStr("BLANK", yc+3+(fontheight(1)+3*i)+fontheight(1));
+   if (strcmp(temp, "blank"))
+   {
+    gotoxy(xc+3, yc+3+(fontheight(1)+3*i)+fontheight(1));
+    PrintString(1, temp);
+    if (!strcmp(hsc_file, "hiandlow.hsc")) t=str(hsc_hal[i+(10*user)]);
+    if (!strcmp(hsc_file, "blakjack.hsc")) t=str(hsc_bj[i+(10*user)]);
+    if (!strcmp(hsc_file, "slots.hsc")) t=str(hsc_slt[i+(10*user)]);
+    if (!strcmp(hsc_file, "poker.hsc")) t=str(hsc_pkr[i+(10*user)]);
+    rStr(t, xzc, yc+3+(fontheight(1)+3*i)+fontheight(1));
+   }
+  }
+  ShowPage();
+ }
+ Unpress(1);
+}
+
+int CheckScore(int score, string game, int user) // string game, Used with one of the following identifiers, "hiandlow", "blakjack", "slots", and "poker"
+{
+ int i, temp_var, done_t;
+ int success;
+ rtr_hsclist(game);
+ for (i=0; i<10; i++)
+ {
+  if (!done_t)
+  {
+   if (!strcmp(game, "hiandlow.hsc")) temp_var = isLarger(score, hsc_hal[i+(10*user)]);
+   if (!strcmp(game, "blakjack.hsc")) temp_var = isLarger(score, hsc_bj[i+(10*user)]);
+   if (!strcmp(game, "slots.hsc")) temp_var = isLarger(score, hsc_slt[i+(10*user)]);
+   if (!strcmp(game, "poker.hsc")) temp_var = isLarger(score, hsc_pkr[i+(10*user)]);
+   switch (temp_var)
+   {
+    case 0: InsertScore(game, user, score, i);
+     done_t=1; 
+     i=10; 
+     success=1;
+    case 1: InsertScore(game, user, score, i);
+      done_t=1; i=10; success=1;
+   }
+  }
+ }
+ return success;
+}
+
+void InsertScore(string game, int user, int score, int slot)
+{
+ int i, passing, t;
+ rtr_hsclist(game);
+ t=9;
+ for (i=9; i>=slot; i--; t--)
+ {
+  if (!strcmp(game, "hiandlow.hsc"))
+  {
+   hsc_hal[t+(user*10)]=hsc_hal[t-1+(user*10)];
+   hsn_hal[t+(user*10)]=hsn_hal[t-1+(user*10)];
+   if (i == slot)
+   {
+    hsc_hal[slot+(user*10)]=score;
+    hsn_hal[slot+(user*10)]=Name;
+   }
+  }
+  if (!strcmp(game, "blakjack.hsc"))
+  {
+   hsc_bj[t+(user*10)]=hsc_bj[t-1+(user*10)];
+   hsn_bj[t+(user*10)]=hsn_bj[t-1+(user*10)];
+   if (i == slot)
+   {
+    hsc_bj[slot+(user*10)]=score;
+    hsn_bj[slot+(user*10)]=Name;
+   }
+  }
+  if (!strcmp(game, "slots.hsc"))
+  {
+   hsc_slt[t+(user*10)]=hsc_slt[t-1+(user*10)];
+   hsn_slt[t+(user*10)]=hsn_slt[t-1+(user*10)];
+   if (i == slot)
+   {
+    hsc_slt[slot+(user*10)]=score;
+    hsn_slt[slot+(user*10)]=Name;
+   }
+  }
+  if (!strcmp(game, "poker.hsc"))
+  {
+   hsc_pkr[t+(user*10)]=hsc_pkr[t-1+(user*10)];
+   hsn_pkr[t+(user*10)]=hsn_pkr[t-1+(user*10)];
+   if (i == slot)
+   {
+    hsc_pkr[slot+(user*10)]=score;
+    hsn_pkr[slot+(user*10)]=Name;
+   }
+  }
+ }
+ stor_hsclist(game);
+}
+
+int isLarger(int a, int b) // Returns 0 if a is bigger, 1 if it's the same, 2 if b is larger
+{
+ if (a>b) return 0;
+ if (a==b) return 1;
+ if (a<b) return 2;
+}
+
+void rtr_hsclist(string f_to_open)
+{
+ int f, i;
+ if (strcmp(right(f_to_open,4), ".hsc")) f_to_open=f_to_open+".hsc";
+ f=fopen(f_to_open);
+ for (i=0; i<60; i++)
+ {
+  fgettoken(temp, f);
+  if (i<30)
+  {
+   if (!strcmp(f_to_open,"hiandlow.hsc")) hsn_hal[i]=temp;
+   if (!strcmp(f_to_open,"blakjack.hsc")) hsn_bj[i]=temp;
+   if (!strcmp(f_to_open,"slots.hsc")) hsn_slt[i]=temp;
+   if (!strcmp(f_to_open,"poker.hsc")) hsn_pkr[i]=temp;
+  }
+  if (i>29)
+  {
+   if (!strcmp(f_to_open,"hiandlow.hsc")) hsc_hal[i-30]=val(temp);
+   if (!strcmp(f_to_open,"blakjack.hsc")) hsc_bj[i-30]=val(temp);
+   if (!strcmp(f_to_open,"slots.hsc")) hsc_slt[i-30]=val(temp);
+   if (!strcmp(f_to_open,"poker.hsc")) hsc_pkr[i-30]=val(temp);
+  }
+ }
+ fclose(f);
+}
+
+void stor_hsclist(string filelist)
+{
+ int f, i;
+ string score_data;
+ labelStrings();
+ if (strcmp(right(filelist,4), ".hsc")) filelist=filelist+".hsc";
+ f=fwopen(filelist);
+ for (i=0; i<60; i++)
+ {
+  if (i<30)
+  {
+   if (!strcmp(filelist,"hiandlow.hsc")) score_data=score_data+" "+hsn_hal[i];
+   if (!strcmp(filelist,"blakjack.hsc")) score_data=score_data+" "+hsn_bj[i];
+   if (!strcmp(filelist,"slots.hsc")) score_data=score_data+" "+hsn_slt[i];
+   if (!strcmp(filelist,"poker.hsc")) score_data=score_data+" "+hsn_pkr[i];
+  }
+  if (i>=30)
+  {
+   if (!strcmp(filelist,"hiandlow.hsc")) score_data=score_data+" "+str(hsc_hal[i-30]);
+   if (!strcmp(filelist,"blakjack.hsc")) score_data=score_data+" "+str(hsc_bj[i-30]);
+   if (!strcmp(filelist,"slots.hsc")) score_data=score_data+" "+str(hsc_slt[i-30]);
+   if (!strcmp(filelist,"poker.hsc")) score_data=score_data+" "+str(hsc_pkr[i-30]);
+  }
+ }
+ fwritestring(score_data, f);
+ fwclose(f);
+}
+
+
+void labelStrings()
+{
+ int i;
+ for (i=0; i<30; i++)
+ {
+  if (!strcmp(hsn_hal[i], "")) hsn_hal[i]="blank";
+  if (!strcmp(hsn_bj[i], ""))  hsn_bj[i] ="blank";
+  if (!strcmp(hsn_slt[i], "")) hsn_slt[i]="blank";
+  if (!strcmp(hsn_pkr[i], "")) hsn_pkr[i]="blank";
+ }
+}

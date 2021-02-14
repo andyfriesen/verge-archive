@@ -1,0 +1,76 @@
+int movetick,framecounter,actframe,lastmove,curzone,lastzone,bongdead;
+
+void PixelMove()
+ {while(1)
+   {Render();
+    UpdateControls();
+    if(!left && !right && !up && !down)
+     {movetick=0; framecounter=0; actframe=0;
+      entity.specframe[bongchr]=lastmove;}
+    if(Right)
+     {movetick++; lastmove=10;
+      if(!GetTile((entity.x[bongchr]+16)/16,(entity.y[bongchr]+9)/16,6))
+       entity.x[bongchr]++;
+      entity.facing[bongchr]=2;}
+    if(Left)
+     {movetick++; lastmove=15;
+      if(!GetTile((entity.x[bongchr]-1)/16,(entity.y[bongchr]+9)/16,6))
+       entity.x[bongchr]--;
+      entity.facing[bongchr]=3;}
+    if(Down)
+     {if(!left && !right) movetick++;
+      lastmove=0;
+      if(!GetTile(entity.x[bongchr]/16,(entity.y[bongchr]+16)/16,6))
+       entity.y[bongchr]++;
+      entity.facing[bongchr]=0;}
+    if(Up)
+     {if(!left && !right) movetick++;
+      lastmove=5;
+      if(!GetTile(entity.x[bongchr]/16,(entity.y[bongchr]+8)/16,6))
+       entity.y[bongchr]--;
+      entity.facing[bongchr]=1;}
+    if(left && right)
+     {actframe=0; movetick=0;
+      if(up) entity.y[bongchr]++;
+      if(down) entity.y[bongchr]--;}
+    if(up && down)
+     {actframe=0; movetick=0;
+      if(left) entity.x[bongchr]++;
+      if(right) entity.x[bongchr]--;}
+    if(b4) Menu();
+    ProcessEntities();
+    ShowPage();
+    for(x=0; x<1500; x++)
+     {}
+    if(movetick==20)
+     {movetick=0;
+      Switch(framecounter)
+       {Case 0: actframe=1;
+        Case 1: actframe=2;
+        Case 2: actframe=1;
+        Case 3: actframe=0;
+        Case 4: actframe=3;
+        Case 5: actframe=4;
+        Case 6: actframe=3;
+        Case 7: actframe=0; framecounter=0;}
+      framecounter++;
+      actframe+=entity.facing[bongchr]*5;}
+    entity.specframe[bongchr]=actframe;
+    curzone=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+9)/16,7);
+    if(b1)
+     {Unpress(1);
+      Switch(entity.facing[bongchr])
+       {Case 0: curzone=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]+16)/16,7);
+        Case 1: curzone=GetTile((entity.x[bongchr]+8)/16,(entity.y[bongchr]-4)/16,7);
+        Case 2: curzone=GetTile((entity.x[bongchr]+24)/16,(entity.y[bongchr]+9)/16,7);
+        Case 3: curzone=GetTile((entity.x[bongchr]-8)/16,(entity.y[bongchr]+9)/16,7);}
+     }
+    if(!actframe) entity.specframe[bongchr]=lastmove;
+    if(!curzone) lastzone=0;
+    if(curzone!=lastzone && curzone)
+     {entity.specframe[bongchr]=lastmove;
+      ProcessEntities(); ShowPage();
+      CallEvent(curzone);
+      lastzone=curzone;}
+   }
+ }

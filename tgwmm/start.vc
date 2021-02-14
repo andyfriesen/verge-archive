@@ -1,0 +1,99 @@
+event // 0 Automatic Execution
+ {PaletteMorph(0,0,0,0,63);
+  PlayMusic("bond.s3m");
+  t=LoadImage("tdatitle.pcx");
+  CopySprite(0-320,55,320,91,t);
+  PaletteMorph(0,0,0,0,63);
+  for(x=0; x<640; x++)
+   {Render();
+    RectFill(0,0,319,199,0);
+    CopySprite(0+(x-320),55,320,91,t);
+    ShowPage(); Wait(1,0);}
+  Render(); free(t);
+  PaletteMorph(0,0,0,0,0);
+  i=LoadImage("guymug.pcx");
+  CopySprite(0,0,320,200,i);
+  ShowPage();
+  Wait(100,0);
+  FadeIn(200);
+  Wait(300,0);
+  l=LoadMenu();
+  FadeOut(50);
+  if(l)
+   {LoadGame(l);
+    faded=1; loaded=1;
+    MapSwitch("ohmcs.map",2,32,1);}
+  free(i);
+  InitSystem();
+  xdest=1; ydest=7; faded=1;
+  InitMap("start.map","bond.s3m");
+  Text("Narrator","We begin our story to find Jimmy Bong,",
+                  "Agent Double-Oh-Nothing, roaming the",
+                  "streets of London.","",4);
+  Text("Bong","Ah, it sure is good to have the night",
+              "off for a change.  I think I'll go to",
+              "the theatre and watch a Disney movie.",
+              "",3);
+  Text("Narrator","Little does Bong know that peril lurks",
+                  "just around the corner! MUAHAHA!!","","",4);
+  PartyMove("W50Z28W100Z15W70Z0W70Z10W70Z0");
+  Text("Bong","Who the bloody heck is saying that?","","","",3);
+  Text("Narrator","I am.","","","",4);
+  PartyMove("Z0");
+  Text("Bong","Who're you?","","","",3);
+  Text("Narrator","Yes.","","","",4);
+  Text("Bong","...","","","",3);
+  Text("Bong","Never mind.","","","",3);
+  EntityMove(0,"W100D3L3");
+  PartyMove("F0");
+  Render(); ProcessEntities(); ShowPage();
+  CameraTracking=0;
+  PixelMove();}
+
+event // 1 AI Calls Out
+ {if(!flags[1])
+   {Text("???","Hey, you!","","","",5);
+    PartyMove("Z28W150Z23");
+    Text("Bong","Who, me?","","","",3);
+    Text("???","No, the person behind you, stupid.",
+               "YES, you.  Come here, I have",
+               "something important to show you.","",5);
+    Wait(50,1);
+    Text("Bong","Hm, it's late at night and a dark",
+                "and mysterious stranger wants me to",
+                "go talk to him...","",3);
+    Text("Bong","I guess there's no harm in that!","","","",3);
+    EntityMove(0,"W50R3U3F0W50");
+    PartyMove("F0");
+    Render(); ProcessEntities(); ShowPage();
+    flags[1]=1;}
+ }
+
+event // 2 AI Mugs Bong
+ {Text("???","Ha ha, I fooled you!","","","",5);
+  Text("Bong","What?  What ARE you talking about?","","","",3);
+  Text("???","It's very simple.  I'm going to mug",
+             "you and take all of your valuables.",
+             "How does that sound?","",5);
+  Text("Bong","It sounds like a really stupid way to",
+              "start this game...","","",3);
+  Text("???","Just shut up and let me maim you, ok?","","","",5);
+  PartyMove("Z25W100Z5");
+  Text("Bong","MAIM me?  You said you were only",
+              "going to mug me!","","",3);
+  Text("???","Mug, maim, potato, tomato.  It's all",
+             "same.","","",5);
+  Text("Bong","What!?  They are NOT the same!","","","",3);
+  Text("???","Look, are you going to let me do my",
+             "work so we can get on with this game",
+             "or not?","",5);
+  Text("Bong","Alright, just don't kill me.","","","",3);
+  Text("???","I won't.  I promise.","","","",5);
+  Wait(50,1);
+  FadeOut(100);
+  Wait(50,1);
+  PlaySFX("gun");
+  Wait(55,1);
+  PlaySFX("die");
+  Wait(200,1);
+  MapSwitch("ohmcs.map",9,9,1);}

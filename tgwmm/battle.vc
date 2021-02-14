@@ -1,0 +1,870 @@
+int battbg,battstat,winflag,bongbatt,bongback,bongact,endat,ptrh,ptrv,blrg;
+int enemy[5],enhp[5],enmax[5],enatk[5],endef[5],enhit[5],endod[5],enimg[5],enstat[5];
+int losstot,damtot,deftot,hittot,dodtot,atkloss,defloss,hitloss,dodloss;
+string bongcond,enname1[5],enname2[5],datstr,snide;
+
+void AttackAnimation()
+ {int z;
+  for(z=0; z<3; z++)
+   {DrawBattle(1);
+    SetClipRect(152,98,167,129);
+    TCopySprite(152-(z*16),98,96,32,bongbatt);
+    RestoreRenderSettings();
+    ShowPage(); Wait(7,0);}
+ }
+
+void Battle(string background, int en1, int en2, int en3, int en4, int en5)
+ {int ptrx, ptry, target, dam, dodbonus, z, x, r;
+  Unpress(1); Unpress(5); Unpress(6); Unpress(7); Unpress(8);
+  PlayMusic("battle.xm");
+  battbg=LoadImage(background+".pcx");
+  battstat=LoadImage("battstat.pcx");
+  bongbatt=LoadImage("bongbatt.pcx");
+  bongback=LoadImage("bongback.pcx");
+  ptrh=LoadImage("ptrh.pcx");
+  ptrv=LoadImage("ptrv.pcx");
+  endat=fopen("enemy.dat");
+  enemy[0]=en1; enemy[1]=en2; enemy[2]=en3; enemy[3]=en4; enemy[4]=en5;
+  winflag=0;
+  for(x=0; x<5; x++)
+   {if(enemy[x])
+     {fseekline(enemy[x],endat);
+      fgettoken(datstr,endat); enname1[x]=datstr;
+      fgettoken(datstr,endat); enname2[x]=datstr;
+      fgettoken(datstr,endat); enhp[x]=val(datstr); enmax[x]=val(datstr);
+      fgettoken(datstr,endat); enatk[x]=val(datstr);
+      fgettoken(datstr,endat); endef[x]=val(datstr);
+      fgettoken(datstr,endat); enhit[x]=val(datstr);
+      fgettoken(datstr,endat); endod[x]=val(datstr);
+      fgettoken(datstr,endat); enimg[x]=LoadImage(datstr+".pcx");}
+   }
+  while(!winflag)
+   {Unpress(1);
+    ptry=0; ptrx=0; snide="";
+    while(!b1)
+     {DrawBattle(3);
+      h=(curhp*10)/maxhp; 
+      if(h==0) bongcond="Dying";
+      if(h>0) bongcond="Quite Hurt Indeed";
+      if(h>2) bongcond="Hurt";
+      if(h>5) bongcond="Scratched";
+      if(h>8) bongcond="Healthy";
+      PrintText(5,136,"Present Condition: "+bongcond);
+      PrintText(20,154,"Shoot Pistol");
+      PrintText(20,164,"Toss Q-Tip");
+      PrintText(20,174,"Eat Suicide Pill");
+      PrintText(20,184,"Use Anti-Matter");
+      PrintText(175,154,"Bleargh ("+str(bleargh)+")");
+      PrintText(175,164,"Duck and Cover");
+      PrintText(175,174,"Play Dead");
+      PrintText(175,184,"Flee in Terror");
+      TCopySprite(7+(ptrx*155),153+(ptry*10),10,10,ptrh);
+      ShowPage(); UpdateControls();
+      if(up)
+       {ptry--;
+        if(ptry<0) ptry=3;
+        Unpress(5);}
+      if(down)
+       {ptry++;
+        if(ptry>3) ptry=0;
+        Unpress(6);}
+      if(left)
+       {ptrx--;
+        if(ptrx<0) ptrx=1;
+        Unpress(7);}
+      if(right)
+       {ptrx++;
+        if(ptrx>1) ptrx=0;
+        Unpress(8);}
+     } 
+    if(!ptrx) bongact=ptry+1;
+    if(ptrx) bongact=ptry+5; 
+    target=1;
+    if(bongact==1 || bongact==2) target=SelectTarget();
+    if(target)
+     {Switch(bongact)
+       {Case 1: DrawBattle(3); 
+                PrintText(5,154,"Bong shoots at "+enname1[target-1]+" "+enname2[target-1]+"!");
+                ShowPage(); AttackAnimation();
+                PlaySFX("gun");
+                h=DieRoll()+hit;
+                if(h<endod[target-1])
+                 {snide="Fancy shootin', dead-eye.";
+                  if(Random(2)) snide="You shoot like an old lady!";
+                  GunAnimation(2,target-1);
+                  hittot--; if(hittot<0) hittot=0;
+                  PrintText(5,136,snide);
+                  PrintText(5,174,"Bong misses the target!");
+                  ShowPage(); Wait(150,0);}
+                 else
+                  {dam=((atk*(Random(2)+1))-endef[target-1])+((h-endod[target-1])*(Random(5)+1));
+                   if(dam<1) dam=1;
+                   r=(dam*100)/enmax[target-1];
+                   datstr="Graze";
+                   if(r>9) datstr="Scratch";
+                   if(r>24) datstr="Hit";
+                   if(r>49) datstr="Critical Hit";
+                   if(r>74) datstr="Crippling Strike";
+                   if(r>99) datstr="Mortal Blow";
+                   GunAnimation(1,target-1);
+                   PrintText(5,136,"Relative Damage: "+datstr);
+                   PrintText(5,174,"Bong shoots the target for "+str(dam)+" damage.");
+                   enhp[target-1]-=dam;
+                   hittot++; damtot+=dam;
+                   if(enhp[target-1]<=0)
+                    {enhp[target-1]=0;
+                     EnemyDeath(target-1);}
+                   ShowPage(); Wait(150,0);}
+        Case 2: DrawBattle(3);
+                PrintText(5,154,"Bong lobs a Q-Tip at "+enname1[target-1]+" "+enname2[target-1]+"!");
+                ShowPage(); AttackAnimation();
+                h=DieRoll()+hit;
+                if(enemy[target-1]==5) h+=8;
+                if(h-4<endod[target-1])
+                 {snide="Nice pitch, slugger.";
+                  if(Random(2)) snide="Think you could whiff any worse?";
+                  QTipAnimation(2,target-1,0);
+                  hittot--; if(hittot<0) hittot=0;
+                  PrintText(5,136,snide);
+                  PrintText(5,174,"Bong misses the target!");
+                  ShowPage(); Wait(150,0);}
+                 else
+                  {dam=(h-endod[target-1])*(Random(5)+1);
+                   if(dam<endef[target-1]) r=0;
+                    else r=1;
+                   if(enemy[target-1]>7 && enemy[target-1]<11) r=0;
+                   if(!r) snide="The poison didn't take.";
+                   if(r) snide="The target is poisoned.";
+                   QTipAnimation(1,target-1,r);
+                   PrintText(5,136,snide);
+                   PrintText(5,174,"The Q-Tip hits the target!");
+                   if(r) enstat[target-1]=1;
+                   hittot++; damtot+=r*h;
+                   ShowPage(); Wait(150,0);}
+        Case 3: DrawBattle(3);
+                PrintText(5,154,"Bong eats the suicide pill!");
+                ShowPage(); AttackAnimation();
+                Wait(50,0); curhp=0; winflag=2;
+                snide="Present Condition: Dead Moron";
+        Case 4: DrawBattle(3);
+                PrintText(5,154,"Bong releases the anti-matter!");
+                ShowPage(); AttackAnimation();
+                for(z=0; z<126; z++)
+                 {DrawBattle(3);
+                  PrintText(5,136,"MORON!!!");
+                  PrintText(5,154,"Bong releases the anti-matter!");
+                  SetLucent(1);
+                  CircleFill(25,30,z,224);
+                  CircleFill(160,100,z*3,232);
+                  CircleFill(250,73,z/2,239);
+                  CircleFill(91,132,z+14,38);
+                  CircleFill(293,157,z*2,229);
+                  if(z>25) CircleFill(100,58,z-25,224);
+                  if(z>50) CircleFill(192,96,(z-50)*3,232);
+                  if(z>75) CircleFill(212,173,(z-75)/2,239);
+                  if(z>100) CircleFill(5,12,z-86,38);
+                  SetLucent(0);
+                  PaletteMorph(0,0,0,0,63-(z/2));
+                  ShowPage(); Wait(2,0);}
+                Exit("The resulting explosion destroyed much of western Europe.  And Bong.");
+        Case 5: Blearghs(); 
+        Case 6: DrawBattle(3);
+                PrintText(5,154,"Bong ducks and covers!");
+                snide="The question becomes 'Why?'";
+                if(Random(2)) snide="This reeks of 'Pointless.'";
+                PrintText(5,136,snide);
+                ShowPage(); Wait(150,0); dod+=2; dodbonus+=2;
+        Case 7: DrawBattle(3);
+                PrintText(5,154,"Bong plays dead!");
+                snide="That was truly idiotic.";
+                if(Random(2)) snide="Pray for divine intervention, stupid.";
+                PrintText(5,136,snide);
+                ShowPage(); Wait(150,0); dod-=5;
+        Case 8: DrawBattle(3);
+                PrintText(5,154,"Bong flees in terror!");
+                snide="Coward!";
+                if(Random(2)) snide="Loser!";
+                PrintText(5,136,snide);
+                for(z=0; z<32; z+=2)
+                 {DrawBattle(1);
+                  SetClipRect(152,98,167,129);
+                  TCopySprite(72,98+z,96,32,bongbatt);
+                  RestoreRenderSettings();
+                  ShowPage(); Wait(2,0);}
+                winflag=3; losstot=0; damtot=0;
+                deftot=0; hittot=0; dodtot=0;}
+     }
+    if(target && !winflag)
+     {for(s=0; s<5; s++)
+       {DrawBattle(3); ShowPage();
+        if(enhp[s] && !winflag)
+         {Switch(enemy[s])
+           {Case 2: EnemyAttack(1,s);                 //Gun
+            Case 3: a=Random(3);
+                    if(a) EnemyAttack(2,s);           //Spit
+                    if(!a) EnemySpell(1,s);           //Curse (DOD down)
+            Case 4: a=Random(3);
+                    if(a) EnemyAttack(3,s);           //Punch
+                    if(!a) EnemySpell(2,s);           //Scream (ATK down)
+            Case 5: a=Random(2);
+                    if(a) EnemyAttack(1,s);           //Gun
+                    if(!a) EnemySpell(3,s);           //Smile (nothing)
+            Case 6: a=Random(5);
+                    if(a<4 && a>0) EnemyAttack(1,s);  //Gun
+                    if(a>3) EnemyAttack(4,s);         //Shuriken (poison)
+                    if(!a) EnemySpell(4,s);           //Battle Cry (HIT up)
+            Case 7: a=Random(3);
+                    if(a) EnemyAttack(1,s);           //Gun
+                    if(!a) EnemySpell(5,s);           //Blank Stare (nothing)
+            Case 8: a=Random(8);
+                    if(a<2) EnemyAttack(1,s);         //Gun
+                    if(a>1 && a<4) EnemyAttack(5,s);  //Beam (higher ATK)
+                    if(a==4) EnemySpell(4,s);         //Battle Cry (HIT up)
+                    if(a==5) EnemySpell(6,s);         //Polish Ray (DEF up)
+                    if(a>5) EnemyAttack(7,s);         //Hyper Beam (DEF down)
+            Case 9: a=Random(5);
+                    if(a<3) EnemyAttack(5,s);         //Beam (higher ATK)
+                    if(a==3) EnemySpell(4,s);         //Battle Cry (HIT up)
+                    if(a==4) EnemySpell(7,s);         //AI Beam (nothing)
+            Case 10: a=Random(6);
+                     if(a<3) EnemyAttack(5,s);        //Beam (higher ATK)
+                     if(a==3) EnemySpell(4,s);        //Battle Cry (HIT up)
+                     if(a==4) EnemySpell(6,s);        //Polish Ray (DEF up)
+                     if(a==5) EnemyAttack(6,s);       //AI Beam (super ATK)
+            Case 11: a=Random(4);
+                     if(a) EnemyAttack(1,s);          //Gun
+                     if(!a) EnemySpell(8,s);          //Evil Laugh (all down)
+            Case 12: a=Random(3);
+                     if(a) EnemyAttack(1,s);          //Gun
+                     if(!a) EnemyAttack(5,s);}        //Beam (higher ATK)
+          Wait(150,0);}
+       }
+     }
+    if(dodbonus) {dod--; dodbonus--;}
+    if(bongact==7) dod+=5;
+    if(losstot>=maxhp) {maxhp+=5; curhp+=5; losstot=0;}
+    if(damtot>=(atk+atkloss)*5) {atk++; damtot=0;}
+    if(deftot>=(def+defloss)*5) {def++; deftot=0;}
+    if(hittot>=(hit+hitloss)*10) {hit++; hittot=0;}
+    if(dodtot>=(dod-dodbonus+dodloss)*10) {dod++; dodtot=0;}
+    for(z=0; z<5; z++)
+     {if(enhp[z] && enstat[z] && !winflag && target)
+       {snide="That's gonna hurt."; DrawBattle(2);
+        PrintText(5,154,enname1[z]+" "+enname2[z]+" is hurt by poison.");
+        PoisonAnimation(z); enhp[z]-=(enmax[z]/(Random(5)+5));
+        if(enhp[z]<=0) {enhp[z]=0; EnemyDeath(z);}
+        DrawBattle(1); TCopySprite(152,98,16,32,bongback);
+        ShowPage(); Wait(100,0);}
+     }
+    if(curhp && stat && target && !winflag)
+     {snide="Feeling poorly, Bong?"; DrawBattle(2); 
+      PrintText(5,154,"Bong is hurt by poison.");
+      PoisonAnimation(0); curhp-=(maxhp/(Random(5)+5));
+      if(curhp<=0) {curhp=0; winflag=2;}
+     }
+    if(winflag==1)
+     {PlayMusic("victory.xm");
+      DrawBattle(3);
+      PrintText(5,154,"Bong is victorious!!");
+      bleargh+=Random(2)+1; dod-=dodbonus;
+      atk+=atkloss; def+=defloss;
+      hit+=hitloss; dod+=dodloss;
+      atkloss=0; defloss=0; hitloss=0;
+      dodloss=0; curhp=maxhp; stat=0;
+      ShowPage(); Wait(300,0);}
+    if(winflag==2)
+     {PlaySFX("die");
+      curhp=0; dod-=dodbonus;
+      atk+=atkloss; def+=defloss;
+      hit+=hitloss; dod+=dodloss;
+      atkloss=0; defloss=0;
+      hitloss=0; dodloss=0; stat=0;
+      for(z=1; z<32; z++)
+       {DrawBattle(1);
+        DrawBattle(2);
+        PrintText(5,154,"Bong has died.");
+        SetClipRect(152,98,167,129);
+        TCopySprite(72+(Random(5)-2),98+z,96,32,bongbatt);
+        RestoreRenderSettings();
+        PaletteMorph(0,0,0,0,64-(z*2));
+        bongdead++; stat=0;
+        ShowPage(); Wait(3,0);}
+      if(bleargh>5)
+       {PlaySFX("blearg");
+        curhp=maxhp; bleargh-=5;
+        if(bleargh<0) bleargh=0;
+        for(z=32; z>1; z--)
+         {DrawBattle(1);
+          DrawBattle(2);
+          PrintText(5,154,"The power of Bleargh revives Bong!");
+          SetClipRect(152,98,167,129);
+          TCopySprite(72+(Random(5)-2),98+z,96,32,bongbatt);
+          RestoreRenderSettings();
+          PaletteMorph(0,0,0,0,64-(z*2));
+          bongdead=0; winflag=0; 
+          ShowPage(); Wait(3,0);}
+       }
+      if(!curhp) bleargh=0;}
+    if(winflag==3)
+     {bleargh=0; dod-=dodbonus;
+      atk+=atkloss; def+=defloss;
+      hit+=hitloss; dod+=dodloss;
+      atkloss=0; defloss=0;
+      hitloss=0; dodloss=0;
+      curhp=maxhp; stat=0;}
+    if(!winflag) FreeAllSounds();}
+  for(x=0; x<5; x++)
+   {enemy[x]=0; enhp[x]=0;
+    enatk[x]=0; endef[x]=0;
+    enhit[x]=0; endod[x]=0;
+    enname1[x]=""; enname2[x]="";
+    if(enimg[x]) free(enimg[x]);
+    enimg[x]=0; enstat[x]=0;}
+  free(battbg); free(battstat);
+  free(bongbatt); fclose(endat);
+  if(winflag==3)
+   {FadeOut(30);
+    faded=1;
+    MapSwitch("ohmcs.map",8,34,1);}
+  winflag=0;
+  if(!curhp) BongDeath();
+  PlayMusic(mainmusic);
+  FreeAllSounds();}
+
+void Blearghs()
+ {int b, h, dam, target, tmp, r, x;
+  snide="BLEARGH!"; DrawBattle(3);
+  PrintText(5,154,"Bong BLEARGHS!!!");
+  PlaySFX("bleargh");
+  ShowPage(); Wait(100,0);
+  b=Random(3); DrawBattle(3);
+  if(bleargh<10)
+   {DrawBattle(3);
+    PrintText(5,154,"Nothing happens!");
+    ShowPage(); Wait(150,0); return;}
+  Switch(b)
+   {Case 0: for(x=0; x<5; x++)
+             {DrawBattle(3);
+              PrintText(5,154,"Bleargh grants Bong 5 attacks!");
+              target=x;
+              if(!winflag)
+               {while(!enhp[target])
+                 {target++;
+                  if(target>4) target=0;}
+                PrintText(5,164,"Bong shoots at "+enname1[target]+" "+enname2[target]+"!");
+                ShowPage(); AttackAnimation();
+                PlaySFX("gun");
+                h=8;
+                dam=((atk*(Random(2)+1))-endef[target])+((h-endod[target])*(Random(5)+1));
+                if(dam<1) dam=1;
+                GunAnimation(1,target);
+                PrintText(5,174,"Bong shoots the target for "+str(dam)+" damage.");
+                enhp[target]-=dam;
+                hittot++; damtot+=dam;
+                if(enhp[target]<=0)
+                 {enhp[target]=0;
+                  EnemyDeath(target);}
+                ShowPage(); Wait(25,0);}
+               }
+            Wait(150,0);
+    Case 1: PrintText(5,154,"Bleargh grants Bong a Rocket Launcher!");
+            target=Random(5);
+            while(!enhp[target])
+             {target++;
+              if(target>4) target=0;}
+            PrintText(5,164,"Bong shoots at "+enname1[target]+" "+enname2[target]+"!");
+            ShowPage(); AttackAnimation();
+            PlaySFX("kaboom");
+            h=8;
+            dam=((atk*(Random(3)+1))+((h-(endod[target]-2))*(Random(5)+1)))*(Random(4)+2);
+            if(dam<1) dam=1;
+            for(x=0; x<25; x++)
+             {DrawBattle(1);
+              SetClipRect(152,98,167,129);
+              TCopySprite(120,98,96,32,bongbatt);
+              RestoreRenderSettings();
+              SetLucent(1);
+              CircleFill(34+(64*target)+(Random(20)-10),74+(Random(20)-10),x,Random(10)+225);
+              SetLucent(0);
+              ShowPage(); Wait(2,0);}
+            for(x=25; x>0; x--)
+             {DrawBattle(1);
+              SetClipRect(152,98,167,129);
+              TCopySprite(120,98,96,32,bongbatt);
+              RestoreRenderSettings();
+              SetLucent(1);
+              CircleFill(34+(64*target)+(Random(20)-10),74+(Random(20)-10),x,Random(10)+225);
+              SetLucent(0);
+              ShowPage(); Wait(2,0);}
+            PrintText(5,174,"Bong shoots the target for "+str(dam)+" damage.");
+            DrawBattle(1);
+            TCopySprite(152,98,16,32,bongback);
+            ShowPage();
+            enhp[target]-=dam;
+            hittot++; damtot+=dam;
+            if(enhp[target]<=0)
+             {enhp[target]=0;
+              EnemyDeath(target);}
+            ShowPage(); Wait(150,0);
+    Case 2: PrintText(5,154,"Bleargh heals Bong!");
+            atk+=atkloss; def+=defloss;
+            hit+=hitloss; dod+=dodloss;
+            atkloss=0; defloss=0; hitloss=0;
+            dodloss=0; curhp=maxhp; stat=0;
+            for(x=0; x<25; x++)
+             {DrawBattle(1);
+              TCopySprite(152,98,16,32,bongback);
+              SetClipRect(0,0,319,129);
+              SetLucent(1);
+              Circle(160,114,x,Random(10)+140);
+              Line(Random(320),Random(130),160,114,Random(10)+114);
+              SetLucent(0);
+              RestoreRenderSettings();
+              ShowPage(); Wait(2,0);}
+            for(x=25; x>0; x--)
+             {DrawBattle(1);
+              TCopySprite(152,98,16,32,bongback);
+              SetClipRect(0,0,319,129);
+              SetLucent(1);
+              Circle(160,114,x,Random(10)+140);
+              Line(Random(320),Random(130),160,114,Random(10)+114);
+              SetLucent(0);
+              RestoreRenderSettings();
+              ShowPage(); Wait(2,0);}
+   }
+  bleargh-=10;}
+            
+            
+int DieRoll()
+ {int d,x;
+  for(x=0; x<4; x++)
+   {d+=Random(3)-1;}
+  return d;}
+
+void DrawBattle(int upd)
+ {if(upd==3) Render();
+  if(upd==1 || upd==3) CopySprite(0,0,320,130,battbg);
+  if(upd==3) TCopySprite(152,98,16,32,bongback);
+  if(upd>1)
+   {CopySprite(0,130,320,70,battstat);
+    PrintText(5,136,snide);}
+  for(x=0; x<5; x++)
+   {if(enhp[x]) TCopySprite(10+(64*x),50,48,48,enimg[x]);}
+ }
+
+void EnemyAttack(int type, int idx)
+ {int weapon, hitimg, xtarget, xloc, yloc, xstep, ystep, max, d, h, p, z;
+  string line1;
+  weapon=LoadImage("enweap.pcx");
+  hitimg=LoadImage("gunani.pcx");
+  line1=enname1[idx]+" "+enname2[idx]+" ";
+  Switch(type)
+   {Case 1: line1=line1+"shoots at Bong!"; PlaySFX("gun");
+    Case 2: line1=line1+"spits at Bong!"; PlaySFX("spit");
+    Case 3: line1=line1+"punches Bong!"; PlaySFX("punch");
+    Case 4: line1=line1+"throws a shuriken!";
+    Case 5: line1=line1+"fires a beam at Bong!"; PlaySFX("beam");
+    Case 6: line1=line1+"fires the AI beam!"; PlaySFX("beam");
+    Case 7: line1=line1+"fires the Hyper Beam!"; PlaySFX("beam");}
+  PrintText(5,154,line1); ShowPage();
+  h=DieRoll()+enhit[idx];
+  if(h<dod) h=0;
+   else
+    {d=(h-dod)*(Random(5)+1);
+     h=(enatk[idx]*(Random(2)+1))-def;
+     deftot+=d-h; h+=d;
+     if(type==4) h-=(enatk[idx]/2);
+     if(type==5) h+=enatk[idx];
+     if(type==6) h+=(enatk[idx]*2);
+     if(type==7) {h-=enatk[idx]; d=Random(10)+1;}
+     if(h<1) h=1;
+     if(type==4 && h>=def) p=1;}
+  Switch(idx)
+   {Case 0: max=12; ystep=2;
+    Case 1: max=6;  ystep=4;
+    Case 2: max=4;  ystep=6;
+    Case 3: max=6;  ystep=4;
+    Case 4: max=12; ystep=2;}
+  xtarget=29+(64*idx);
+  if(!h) {ystep=10; max=12;}
+  xstep=(xtarget-160)/max;
+  xloc=29+(64*idx); yloc=69;
+  xtarget=155;
+  if(type<5)
+   {for(z=0; z<max; z++)
+     {DrawBattle(1);
+      TCopySprite(152,98,16,32,bongback);
+      SetClipRect(xloc,yloc,xloc+9,yloc+9);
+      TCopySprite(xloc-((type-1)*10),yloc,40,10,weapon);
+      RestoreRenderSettings();
+      ShowPage(); Wait(1,0);
+      xloc-=xstep; yloc+=ystep;}
+   }
+  if(type>=5)
+   {if(!h && idx<3) xtarget=90;
+    if(!h && idx>2) xtarget=210;
+    for(z=0; z<max; z++)
+     {DrawBattle(1);
+      TCopySprite(152,98,16,32,bongback);
+      Line(xloc,74,xloc-(xstep*z),yloc+(ystep*z),Random(222)+32);
+      ShowPage(); Wait(1,0);}
+    if(h)
+     {for(z=0; z<12; z++)
+       {DrawBattle(1);
+        TCopySprite(152,98,16,32,bongback);
+        Line(xloc,74,160,114,Random(222)+32);
+        ShowPage(); Wait(1,0);}
+     }
+   }
+  if(!h)
+   {snide="Lucky break, Bong.";
+    if(Random(2)) snide="How did you pull that off?";
+    DrawBattle(3); dodtot++;
+    PrintText(5,154,line1);
+    PrintText(5,174,"The attack misses Bong!");
+    ShowPage();}    
+  if(h)
+   {for(z=1; z<5; z++)
+     {DrawBattle(1);
+      TCopySprite(152,98,16,32,bongback);
+      SetClipRect(xtarget,110,xtarget+9,119);
+      TCopySprite(xtarget-(z*10),110,50,10,hitimg);
+      RestoreRenderSettings();
+      ShowPage(); Wait(5,0);}
+    r=(h*100)/maxhp;
+    datstr="Graze";
+    if(r>9) datstr="Scratch";
+    if(r>24) datstr="Hit";
+    if(r>49) datstr="Critical Hit";
+    if(r>74) datstr="Crippling Strike";
+    if(r>99) datstr="Mortal Blow";
+    if(p) datstr=datstr+" plus poison!";
+    snide="Relative Damage: "+datstr;
+    curhp-=h; losstot+=h;
+    if(curhp<=0) {curhp=0; winflag=2;}
+    DrawBattle(2);
+    PrintText(5,154,line1);
+    PrintText(5,174,"The attack hits Bong for "+str(h)+" damage!");
+    if(p)
+     {PoisonAnimation(0);
+      stat=1;}
+    if(type==7)
+     {PrintText(5,164,"Bong's defense is weakened!");
+      if(d>def) d=def;
+      def-=d; defloss+=d;}
+   }
+  DrawBattle(1);
+  TCopySprite(152,98,16,32,bongback);
+  ShowPage();
+  free(weapon); free(hitimg);}
+
+void EnemyDeath(int idx)
+ {int q, k;
+  string dead;
+  dead=enname1[idx]+" "+enname2[idx]+" ";
+  Switch(Random(4))
+   {Case 0: dead=dead+"screams pitifully.";
+    Case 1: dead=dead+"gasps and dies.";
+    Case 2: dead=dead+"dies!!  Hooray!";
+    Case 3: dead=dead+"keels over.";}
+  PrintText(5,184,dead);
+  ShowPage();
+  for(q=1; q<90; q+=2)
+   {DrawBattle(1);
+    TCopySprite(152,98,16,32,bongback);
+    RotScale(34+(64*idx),74,48,48,q,1000,enimg[idx]);
+    ShowPage(); Wait(1,0);}
+  for(q=0; q<320; q+=5)
+   {DrawBattle(1);
+    TCopySprite(152,98,16,32,bongback);
+    RotScale(34+(64*idx)-q,74,48,48,90,1000,enimg[idx]);
+    ShowPage();}
+  for(q=0; q<5; q++)
+   {if(!enhp[q]) k++;}
+  if(k==5) winflag=1;}
+
+void EnemySpell(int type, int idx)
+ {int tmp, x, q, effect;
+  DrawBattle(3);
+  Switch(type)
+   {Case 1: PrintText(5,154,"Old Lady curses at Bong!");
+            PlaySFX("curse");
+            tmp=enhp[idx]; enhp[idx]=0;
+            q=Random(2);
+            for(x=0; x<50; x++)
+             {DrawBattle(1);
+              TCopySprite(10+(64*idx)+(Random(3)-1),50+(Random(3)-1),48,48,enimg[idx]);
+              if(x<25) TCopySprite(152,98,16,32,bongback);
+              if(x==25)
+               {snide=""; DrawBattle(2);
+                PrintText(5,154,"Old Lady curses at Bong!");}
+              if(x>=25)
+               {if(!q) PrintText(5,136,"Ooh, what nasty language.");
+                 else PrintText(5,136,"Them's fightin' words!");
+                SetClipRect(152,98,167,129);
+                TCopySprite(72,98,96,32,bongbatt);
+                RestoreRenderSettings();}
+              ShowPage(); Wait(2,0);}
+            effect=Random(5)+1;
+            if(effect>dod) effect=dod;
+            dod-=effect; dodloss+=effect;
+            PrintText(5,164,"Bong loses some mobility!");
+            ShowPage(); enhp[idx]=tmp;
+    Case 2: PrintText(5,154,"Unruly Toddler SCREAMS!!");
+            PlaySFX("scream");
+            tmp=enhp[idx]; enhp[idx]=0;
+            q=Random(2);
+            for(x=0; x<50; x++)
+             {DrawBattle(1);
+              TCopySprite(10+(64*idx)+(Random(3)-1),50+(Random(3)-1),48,48,enimg[idx]);
+              if(x<25) TCopySprite(152,98,16,32,bongback);
+              if(x==25)
+               {snide=""; DrawBattle(2);
+                PrintText(5,154,"Unruly Toddler SCREAMS!!");}
+              if(x>=25)
+               {if(!q) PrintText(5,136,"What lungs.");
+                 else PrintText(5,136,"Impressive.");
+                SetClipRect(152,98,167,129);
+                TCopySprite(72,98,96,32,bongbatt);
+                RestoreRenderSettings();}
+              ShowPage(); Wait(2,0);}
+            effect=Random(5)+1;
+            if(effect>atk) effect=atk;
+            atk-=effect; atkloss+=effect;
+            PrintText(5,164,"Bong becomes weaker!");
+            ShowPage(); enhp[idx]=tmp;
+    Case 3: PrintText(5,154,"Ears smiles.");
+            ShowPage(); Wait(100,0);
+            snide=""; DrawBattle(2);
+            PrintText(5,154,"Ears smiles.");
+            if(!Random(2)) PrintText(5,136,"Exciting.");
+             else PrintText(5,136,"Whee.");
+            ShowPage();
+    Case 4: PrintText(5,154,enname1[idx]+" "+enname2[idx]+" yells a battle cry!");
+            PlaySFX("battlcry");
+            tmp=enhp[idx]; enhp[idx]=0;
+            q=Random(2);
+            for(x=0; x<50; x++)
+             {DrawBattle(1);
+              TCopySprite(10+(64*idx)+(Random(3)-1),50+(Random(3)-1),48,48,enimg[idx]);
+              TCopySprite(152,98,16,32,bongback);
+              if(x==25)
+               {snide=""; DrawBattle(2);
+                PrintText(5,154,enname1[idx]+" "+enname2[idx]+" yells a battle cry!");
+                if(!q) PrintText(5,136,"Tarzan audition drop-out quality here.");
+                 else PrintText(5,136,"Not even on par with BLEARGH.");}
+              ShowPage(); Wait(1,0);}
+            effect=Random(5)+1;
+            enatk[idx]+=effect;
+            PrintText(5,164,"The battle cry strengthens him!");
+            ShowPage(); enhp[idx]=tmp;
+    Case 5: PrintText(5,154,"Stupid Guard stares blankly.");
+            ShowPage(); Wait(100,0);
+            snide=""; DrawBattle(2);
+            PrintText(5,154,"Stupid Guard stares blankly.");
+            if(!Random(2)) PrintText(5,136,"Right.");
+             else PrintText(5,136,"He's about as bad as you, Bong.");
+            ShowPage();
+    Case 6: PrintText(5,154,enname1[idx]+" "+enname2[idx]+" uses a Polish Ray.");
+            PlaySFX("beam");
+            q=Random(2);
+            for(z=0; z<50; z++)
+             {DrawBattle(1); 
+              TCopySprite(152,98,16,32,bongback);
+              Circle(20+(64*idx)+(Random(30)+1),74+(Random(15)+1),Random(10)+10,Random(20)+130);
+              if(x==25)
+               {snide=""; DrawBattle(2);
+                PrintText(5,154,enname1[idx]+" "+enname2[idx]+" uses a Polish Ray.");
+                if(!q) PrintText(5,136,"Ooh, shiny.");
+                 else PrintText(5,136,"Pretty colors.");}
+              ShowPage(); Wait(2,0);}
+            effect=Random(5)+1; endef[idx]+=effect;
+            PrintText(5,164,"His armor sparkles and gets stronger.");
+            DrawBattle(1); TCopySprite(152,98,16,32,bongback);
+            ShowPage();
+    Case 7: PrintText(5,154,"AI Wannabe fires the AI beam!");
+            ShowPage(); Wait(100,0);        
+            snide=""; DrawBattle(2);
+            PrintText(5,154,"AI Wannabe fires the AI beam!");
+            if(!Random(2)) PrintText(5,136,"Where's the beam?");
+             else PrintText(5,136,"Quite effective, don't you think?");
+            ShowPage();
+    Case 8: PrintText(5,154,"Charles Sandburger laughs evilly!");
+            PlaySFX("evilaugh");
+            tmp=enhp[idx]; enhp[idx]=0;
+            q=Random(2);
+            for(x=0; x<50; x++)
+             {DrawBattle(1);
+              TCopySprite(10+(64*idx)+(Random(3)-1),50+(Random(3)-1),48,48,enimg[idx]);
+              if(x<25) TCopySprite(152,98,16,32,bongback);
+              if(x==25)
+               {snide=""; DrawBattle(2);
+                PrintText(5,154,"Charles Sandburger laughs evilly!");}
+              if(x>=25)
+               {if(!q) PrintText(5,136,"Ooh, scary.");
+                 else PrintText(5,136,"Can you say 'Stereotype?'");
+                SetClipRect(152,98,167,129);
+                TCopySprite(72,98,96,32,bongbatt);
+                RestoreRenderSettings();}
+              ShowPage(); Wait(2,0);}
+            effect=Random(5)+1;
+            if(effect>atk) effect=atk;
+            if(effect>def) effect=def;
+            if(effect>hit) effect=hit;
+            if(effect>dod) effect=dod;
+            atk-=effect; atkloss+=effect;
+            def-=effect; defloss+=effect;
+            hit-=effect; hitloss+=effect;
+            dod-=effect; dodloss+=effect;
+            PrintText(5,164,"Bong feels awful all over!");
+            ShowPage(); enhp[idx]=tmp;}
+ }
+
+void GunAnimation(int idx, int target)
+ {int img, xtarget, xloc, yloc, xstep, ystep, max, z;
+  img=LoadImage("gunani.pcx");
+  Switch(target)
+   {Case 0: max=12; ystep=2;
+    Case 1: max=6;  ystep=4;
+    Case 2: max=4;  ystep=6;
+    Case 3: max=6;  ystep=4;
+    Case 4: max=12; ystep=2;}
+  xtarget=29+(64*target);
+  if(idx==2) {ystep=10; max=12;}
+  xstep=(xtarget-160)/max;
+  xloc=155; yloc=98;
+  for(z=0; z<max; z++)
+   {DrawBattle(1);
+    SetClipRect(152,98,167,129);
+    TCopySprite(120,98,96,32,bongbatt);
+    SetClipRect(xloc,yloc,xloc+9,yloc+9);
+    TCopySprite(xloc,yloc,50,10,img);
+    RestoreRenderSettings();
+    ShowPage(); Wait(1,0);
+    xloc+=xstep; yloc-=ystep;}
+  if(idx!=2)
+   {for(z=1; z<5; z++)
+     {DrawBattle(1);
+      SetClipRect(152,98,167,129);
+      TCopySprite(120,98,96,32,bongbatt);
+      SetClipRect(xtarget,69,xtarget+9,78);
+      TCopySprite(xtarget-(z*10),69,50,10,img);
+      RestoreRenderSettings();
+      ShowPage(); Wait(5,0);}
+   }
+  DrawBattle(1);
+  SetClipRect(152,98,167,129);
+  TCopySprite(120,98,96,32,bongbatt);
+  RestoreRenderSettings();
+  free(img);}
+
+void PoisonAnimation(int target)
+ {int img, x, z;
+  img=LoadImage("poisani.pcx");
+  x=29+(64*target);
+  for(z=0; z<5; z++)
+   {DrawBattle(1);
+    TCopySprite(152,98,16,32,bongback);
+    SetClipRect(x,59,x+9,68);
+    if(target) TCopySprite(x-(z*10),59,50,10,img);
+    if(!target) TCopySprite(155-(z*10),110,50,10,img);
+    RestoreRenderSettings();
+    ShowPage(); Wait(5,0);}
+ }
+
+void QTipAnimation(int idx, int target, int pois)
+ {int ctr, img, xtarget, xloc, yloc, xstep, ystep, max, z;
+  img=LoadImage("qtipani.pcx");
+  Switch(target)
+   {Case 0: max=12; ystep=4;
+    Case 1: max=6;  ystep=8;
+    Case 2: max=4;  ystep=12;
+    Case 3: max=6;  ystep=8;
+    Case 4: max=12; ystep=4;}
+  xtarget=29+(64*target);
+  if(idx==2) {ystep=10; max=12;}
+  xstep=(xtarget-160)/max;
+  xloc=155; yloc=98;
+  for(z=0; z<max; z++)
+   {DrawBattle(1);
+    SetClipRect(152,98,167,129);
+    TCopySprite(120,98,96,32,bongbatt);
+    SetClipRect(xloc,yloc,xloc+9,yloc+9);
+    TCopySprite(xloc-(ctr*10),yloc,50,10,img);
+    RestoreRenderSettings();
+    ShowPage(); Wait(1,0);
+    xloc+=xstep; yloc-=ystep;
+    ctr++; if(ctr>1) ctr=0;}
+  if(idx!=2)
+   {for(z=2; z<5; z++)
+     {DrawBattle(1);
+      SetClipRect(152,98,167,129);
+      TCopySprite(120,98,96,32,bongbatt);
+      SetClipRect(xtarget,35,xtarget+9,44);
+      TCopySprite(xtarget-(z*10),35,50,10,img);
+      RestoreRenderSettings();
+      ShowPage(); Wait(7,0);}
+    for(z=0; z<12; z++)
+     {DrawBattle(1);
+      SetClipRect(152,98,167,129);
+      TCopySprite(120,98,96,32,bongbatt);
+      SetClipRect(xtarget,35+(z*2),xtarget+9,44+(z*2));
+      TCopySprite(xtarget-40,35+(z*2),50,10,img);
+      RestoreRenderSettings();
+      ShowPage(); Wait(2,0);}
+    if(pois) PoisonAnimation(target);}
+  DrawBattle(1);
+  TCopySprite(152,98,16,32,bongback);
+  RestoreRenderSettings();
+  free(img);}
+
+int SelectTarget()
+ {int ptrx;
+  Unpress(1);
+  while(!enhp[ptrx])
+   {ptrx++;}
+  while(!b1 && !b2)
+   {DrawBattle(1);
+    TCopySprite(152,98,16,32,bongback);
+    WriteEnemyName();
+    TCopySprite(29+(ptrx*64),40,10,10,ptrv);
+    ShowPage(); UpdateControls();
+    if(left)
+     {ptrx--;
+      if(ptrx<0) ptrx=4;
+      while(!enhp[ptrx])
+       {ptrx--;
+        if(ptrx<0) ptrx=4;}
+      Unpress(7);}
+    if(right)
+     {ptrx++;
+      if(ptrx>4) ptrx=0;
+      while(!enhp[ptrx])
+       {ptrx++;
+        if(ptrx>4) ptrx=0;}
+      Unpress(8);}
+   }
+  if(b2) ptrx=0-1;
+  return ptrx+1;}
+
+void WriteEnemyName()
+ {int c,s,w,b,corner;
+  for(x=0; x<5; x++)
+   {if(enhp[x])
+     {s=strlen(enname1[x]);
+      w=strlen(enname2[x]);
+      if(s>w) b=s*8+10;
+       else b=w*8+10;
+      corner=34+(x*64)-(b/2);
+      c=(enhp[x]*100)/enmax[x];
+      RectFill(corner+1,10,corner+b-1,39,0);
+      Rect(corner+1,10,corner+b-1,39,16);
+      Rect(corner+2,11,corner+b-2,38,38);
+      if(c>25) Rect(corner+2,11,corner+b-2,38,237);
+      if(c>50) Rect(corner+2,11,corner+b-2,38,255);
+      Rect(corner+3,12,corner+b-3,37,25);
+      if(enstat[x]) Rect(corner+3,12,corner+b-3,37,85);
+      PrintText(corner+(b/2)-(strlen(enname1[x])*4)+1,16,enname1[x]);
+      PrintText(corner+(b/2)-(strlen(enname2[x])*4)+1,26,enname2[x]);}
+   }
+ }
