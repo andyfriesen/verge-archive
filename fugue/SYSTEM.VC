@@ -1,0 +1,39 @@
+
+int system_initialized;               // V1 Compatibility lib initialized
+int mainfont, darkfont;
+
+void autoexec() { map ("tunnel.map"); }
+
+void SystemStartup()
+{
+  if (system_initialized) return;
+  mainfont=LoadFont("fugue.fnt");
+  darkfont=LoadFont("dark.fnt");
+
+  PaletteMorph(0,0,0,0,63);
+  system_initialized=1;
+}
+
+void CenterText(int y, string t)
+{
+ int x;
+ x=fontwidth(mainfont)*strlen(t);
+ x=(screenx/2)-(x/2);
+ GotoXY(x,y);
+ PrintString(mainfont,t);
+}
+
+void CenterText2(int x1, int y, string t, int font)
+{
+ int x;
+ x=fontwidth(font)*strlen(t);
+ x=x1-(x/2);
+ GotoXY(x,y);
+ PrintString(font,t);
+}
+
+#include "3d.vc"
+#include "intro.vc"
+#include "fugue.vc"
+
+

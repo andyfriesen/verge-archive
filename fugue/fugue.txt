@@ -1,0 +1,47 @@
+-----------------------------------------------------------
+Name:           Fugue
+Author:         Zaratustra 
+E-Mail:         shrooms00@yahoo.com
+Home Page:      http://zara.verge-rpg.com
+Description:    A bizarre tunnel-running game.
+-----------------------------------------------------------
+
+Features
+-----------------------------
+Style:          Arcade
+Music:          by Zathras
+Battle System:  No
+Source Code:    Yes
+
+Technical Data
+-----------------------------
+Engine:         VERGE 2
+Build Time:     1 day
+Programs Used:  DOS Edit
+Ave. Play Time: 30 minutes
+
+Commands
+-----------------------------
+ARROW KEYS -	Control cube
+ENTER / B1 -    Chooses stage, pauses game
+LEFT / RIGHT - 	Change speed in stage select
+ESC / B3 -	Leaves stage
+
+Documentation
+-----------------------------
+Your objective is to guide the cube to the end of each valley. Avoid all 
+obstacles in the way. If you hit a wall, you're returned about 10% up the
+tunnel.
+
+Once you finish 3 valleys, four more become available. Finish three more and
+four more appear.
+
+Version Notes
+-----------------------------
+v1.1    Better music.
+RE      Pause button.
+        Change resolutions in user.cfg.
+
+v1.0    First version.
+DO
+

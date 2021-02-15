@@ -151,25 +151,18 @@ let games: array(Game.game) = [|
         description: "A 4 Colors of Verge compo entry. ",
         engine: Game.V2
     },
-        {
+    {
         name: "babel",
         title: "Beyond Babel",
-        description: "A Verge Olympics 2002 game, by choris and infey. ",
+        description: "A Verge Olympics 2002 game, by choris and infey.",
         engine: Game.V2
-    }
-    
-    /*  Does not currently work
+    },
     {
         name: "fugue",
         title: "Fugue",
         description: "A pseudo 3d tunnel game by Zaratustra.",
         engine: Game.V2
     }
-    */
-
-    
-    
-    
 |];
 
 let game_with_name = (name) => {

@@ -1,0 +1,253 @@
+
+#define GRAY    0
+#define RED     16
+#define BLUE    32
+#define GREEN   48
+#define YELLOW  64
+#define PURPLE  80
+#define CYAN    96
+#define RAINBOW 112
+#define BEIGE   192
+#define ORANGE  208
+
+
+int tunneltype;
+string tunnelname;
+
+int wallcolor, floorcolor, pillarcolor;
+
+int startwidth, endwidth, randwidth;
+int randmove;
+
+int canyonheight;
+int pillarrate;
+// 0 - no horizontal, 1 - alternate, 2 - random, 3 - all horz
+int horzpillars;
+// 0 - full, 1 - variable
+int pillarlength;
+
+
+void TunnelVars(int t)
+{
+ tunneltype=t;
+ canyonheight=60;
+ horzpillars=0;
+ pillarlength=0;
+ 
+ tunnelname=choicename[t];
+
+ wallcolor=choice.wall[t];
+ floorcolor=choice.floor[t];
+ pillarcolor=choice.pillar[t];
+ startwidth=choice.start[t];
+ endwidth=choice.end[t];
+ randwidth=choice.vary[t];
+ canyonheight=choice.height[t];
+ randmove=choice.move[t];
+ pillarrate=choice.pillars[t];
+ horzpillars=choice.horz[t];
+ pillarlength=choice.length[t];
+
+ switch (t)
+  {
+   case 13: // Random
+    wallcolor=random(7)*16; floorcolor=random(7)*16; pillarcolor=random(7)*16;
+    startwidth=70+random(30)+random(30);
+    endwidth=50+random(15)+random(15);
+    randwidth=random(10)+random(10);
+    randmove=random(10)+random(10);
+    pillarrate=random(5)+random(5);
+    canyonheight=30+random(30)+random(30);
+    horzpillars=random(4);
+    pillarlength=random(2);
+  }
+
+ wallcolor=wallcolor+14;
+ floorcolor=floorcolor+14;
+ pillarcolor=pillarcolor+14;
+
+ canyonheight=canyonheight/2;
+}
+
+#define LENGTH 1000
+int leftx[LENGTH], rightx[LENGTH];
+int pillar[LENGTH];
+int pillarx1[LENGTH], pillarx2[LENGTH];
+int pillary1[LENGTH], pillary2[LENGTH];
+
+Void MakeTunnel()
+{
+ int i, x, w, v, h;
+ w=100;
+ for (i=0; i<1000; i++)
+ {
+  leftx[i]=x-(w/2);
+  rightx[i]=x+(w/2);
+
+  if (i%pillarrate=0 && i>20)
+   {
+    pillar[i]=1;
+    h=0;
+    if (horzpillars=1 && i%(pillarrate*2)=0) h=1;
+    if (horzpillars=2 && random(2)=0) h=1;
+    if (horzpillars=3 || h=1)
+     {
+      pillary1[i]=0-canyonheight+random(canyonheight*2-10);
+      pillary2[i]=pillary1[i]+10;
+
+      pillarx1[i]=leftx[i];
+      pillarx2[i]=rightx[i];
+      if (pillarlength=1)
+       {
+        if (random(2)) pillarx1[i]=leftx[i]+random(rightx[i]-leftx[i]);
+                  else pillarx2[i]=leftx[i]+random(rightx[i]-leftx[i]);
+       }
+     }
+    else
+     {
+      pillarx1[i]=x-(w/2)+random(w-10);
+      pillarx2[i]=pillarx1[i]+10;
+      pillary1[i]=0-canyonheight;
+      pillary2[i]=canyonheight;
+      if (pillarlength=1)
+       {
+        if (random(2)) pillary1[i]=canyonheight-random(canyonheight*2);
+                  else pillary2[i]=canyonheight-random(canyonheight*2);
+       }
+     }
+   } 
+  else
+   {
+    pillar[i]=0;
+   }
+  v=randmove;
+  x=x-v+random(v*2+1);
+
+  w=((startwidth*(1000-i))+(endwidth*i))/1000;
+  w=w-(randwidth/2)+random(randwidth);
+ }
+}
+
+
+int tunnelstart;
+
+void TunnelLoop()
+{
+ int i, done, z;
+ int xf, yf, zf;
+ int speed, timer2;
+ int pause;
+ 
+ speed=gamespeed+3;
+ timer2=timer;
+
+ tunnelstart=0;
+
+ xfugue=screenx/2; yfugue=screeny/2;
+ xprop=256*screenx/320; yprop=256*screeny/200;
+
+ xp=0; yp=0; zp=-100;
+
+ while (!done)
+ {
+  if (timer>timer2)
+  {
+   counter+=(timer-timer2)*speed;
+   while (counter>5)
+   {
+    UpdateControls();
+    if (b1) { pause=1-pause; Unpress(1); }
+
+    if (!pause)
+    {
+    if (up) yp-=1;
+    if (down) yp+=1;
+    if (left) xp-=1;
+    if (right) xp+=1;
+
+
+    if (yp>canyonheight-2) yp=canyonheight-2;
+    if (yp<-canyonheight+2) yp=-canyonheight+2;
+    
+    zp+=1;
+    CheckCollisions();
+    }
+    counter-=5;
+    
+    if (zp>20200) done=2;
+   }
+   timer2=timer;
+  }
+  
+  // if (b1) zp-=1;
+  // if (b2) zp+=1;
+  if (b3) { done=1; unpress(3); }
+
+
+  xf=xp; yf=yp/2; zf=zp-65;
+  if (zf>20000) zf=20000;
+
+  RectFill(0,0,screenx-1,screeny-1,0);
+
+  z=zf/20;
+
+  Cube3D(xp-2-xf,2+xp-xf,canyonheight-yf,canyonheight-yf,zp-5-zf,5+zp-zf,8);
+
+
+  for (i=z+14; i>z-1; i--)
+   if (i<999 && i>tunnelstart) { OuterWalls(leftx[i]-xf, rightx[i]-xf,
+                          leftx[i+1]-xf, rightx[i+1]-xf,
+                          -canyonheight-yf, canyonheight-yf,
+                          i*20-zf, i*20-zf+20,
+                          wallcolor-i+z, floorcolor-i+z);
+    if (pillar[i])
+     { Cube3D (pillarx1[i]-xf, pillarx2[i]-xf,
+               pillary1[i]-yf, pillary2[i]-yf,
+               i*20-zf+5, i*20-zf+15,
+               pillarcolor-i+z);
+     }
+   }
+
+//  Walls(20+xf, 30+xf, 10+xf, 50+xf, 10+yf, 30+yf, 10+zf, 30+zf,210);
+
+  Cube3D(xp-2-xf,2+xp-xf,yp-yf,4+yp-yf,zp-5-zf,5+zp-zf,12);
+
+
+  if (!pause) CenterText(0,tunnelname);
+         else CenterText(0,"Pause");
+  ShowPage();
+ }
+ 
+ if (done=2) { choiceon[choice]=2; SetupChoices(); }
+}
+
+void CheckCollisions()
+{
+ int i, z2, z3, c, t;
+ i=zp/20; z3=zp%20; z2=20-z3;
+ if (i>=999 || i<tunnelstart) return;
+ if (xp<(leftx[i]*z2)+(leftx[i+1]*z3)/20) c=1;
+ if (xp>(rightx[i]*z2)+(rightx[i+1]*z3)/20) c=1;
+ if (z3>=5 && z3<=15 && pillar[i])
+  {
+   if (xp>pillarx1[i] && xp<pillarx2[i] && yp>pillary1[i] && yp<pillary2[i]) c=1;
+  }
+ if (!c) return;
+
+ t=timer;
+ RectFill(0,0,screenx-1,screeny-1,0);
+ while (timer<t+10)
+ {
+  ShowPage();
+ }
+ PaletteMorph(0,0,0,0,63);
+
+ zp=zp-2000;
+ if (zp<-100) zp=-100;
+ tunnelstart=zp/20+5;
+ xp=leftx[tunnelstart]+rightx[tunnelstart]/2;
+ yp=0;
+}
+
+int hit;
+
