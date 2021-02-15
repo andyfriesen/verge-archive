@@ -40,8 +40,8 @@ void PixelMove()
     if(b4) Menu();
     ProcessEntities();
     ShowPage();
-    for(x=0; x<1500; x++)
-     {}
+    //for(x=0; x<1500; x++)
+    // {}
     if(movetick==20)
      {movetick=0;
       Switch(framecounter)

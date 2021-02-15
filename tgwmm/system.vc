@@ -5,6 +5,10 @@ int curhp,maxhp,atk,def,hit,dod,stat,bleargh,bongchr,flags[100],xdest,ydest,load
 int a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,lives,faded,difficulty;
 string mainmusic,curmap;
 
+void AutoExec() {
+    Map("start.map");
+}
+
 void AntiMatter()
  {int z;
   PlaySFX("kaboom");

@@ -37,6 +37,7 @@ london.pcx
 london.vc
 london.vsp
 lowvoc.wav
+manifest.txt
 medusa.chr
 midvoc.wav
 moor.map
@@ -72,6 +73,7 @@ system.fnt
 system.idx
 system.vc
 system.vcs
+system.xvc
 tdatitle.pcx
 test.map
 test.vc
