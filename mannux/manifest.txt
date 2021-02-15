@@ -8,7 +8,6 @@ close.wav
 code.pcx
 console.gif
 continue.pcx
-dos4gw.exe
 enemies.vc
 fired.pcx
 firel.pcx
@@ -62,7 +61,6 @@ map20.vc
 map21.vc
 mapcap.pcx
 maped.cfg
-maped.exe
 maps.pcx
 miscfunc.vc
 music.pcx
@@ -97,8 +95,6 @@ title.vc
 title1.pcx
 trans.tbl
 user.cfg
-vcc.exe
-verge.exe
 verge.log
 worm.chr
 worm.pcx

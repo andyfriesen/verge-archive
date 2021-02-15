@@ -21,9 +21,7 @@ bar.gif
 buzz.wav
 console.gif
 credits.gif
-cwsdpmi.exe
 dead.wav
-dos4gw.exe
 downlow.s3m
 droid1.chr
 droid2.chr
@@ -38,10 +36,8 @@ intro.map
 intro.vc
 keycard.pcx
 king.chr
-main.exe
 manifest.txt
 maped.cfg
-maped.exe
 marine.chr
 menumove.wav
 pickup.wav
@@ -63,7 +59,5 @@ trans.tbl
 turret.chr
 use.wav
 user.cfg
-vcc.exe
 vecna.chr
-verge.exe
 verge320.gif

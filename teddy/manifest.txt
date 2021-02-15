@@ -11,7 +11,6 @@ cave.map
 cave.vc
 char.vsp
 cry2.s3m
-cwsdpmi.exe
 darin.cr2
 delgame.mnu
 effects.vc
@@ -27,7 +26,6 @@ itemicon.dat
 items.dat
 lit.pcx
 loadgame.mnu
-main.exe
 main.fnt
 main.sfx
 manifest.txt

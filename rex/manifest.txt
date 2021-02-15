@@ -15,7 +15,6 @@ campfire.vc
 console.gif
 credits.map
 credits.vc
-dos4gw.exe
 enemies.vc
 keys.vc
 kylian.chr
@@ -37,7 +36,7 @@ renamy.py
 rex.chr
 rex.mak
 rex.pcx
-REX.VSP
+rex.vsp
 slash.wav
 spearman.chr
 spearman.mak
@@ -52,10 +51,9 @@ title.map
 title.pcx
 title.vc
 trans.tbl
-UNTITLED.VSP
+untitled.vsp
 user.cfg
 vecna.chr
-verge.exe
 verge.log
 wolf.chr
 wolf.mak
