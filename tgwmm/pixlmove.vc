@@ -42,17 +42,35 @@ void PixelMove()
     ShowPage();
     //for(x=0; x<1500; x++)
     // {}
-    if(movetick==4)
+    if(movetick==1)
      {movetick=0;
       Switch(framecounter)
-       {Case 0: actframe=1;
-        Case 1: actframe=2;
+       {
+        Case 0: actframe=1;
+        Case 1: actframe=1;
         Case 2: actframe=1;
-        Case 3: actframe=0;
-        Case 4: actframe=3;
-        Case 5: actframe=4;
-        Case 6: actframe=3;
-        Case 7: actframe=0; framecounter=0;}
+        Case 3: actframe=2;
+        Case 4: actframe=2;
+        Case 5: actframe=2;        
+        Case 6: actframe=1;
+        Case 7: actframe=1;
+        Case 8: actframe=1;
+        Case 9: actframe=0;
+        Case 10: actframe=0;
+        Case 11: actframe=0;        
+        Case 12: actframe=3;
+        Case 13: actframe=3;
+        Case 14: actframe=3;
+        Case 15: actframe=4;
+        Case 16: actframe=4;
+        Case 17: actframe=4;
+        Case 18: actframe=3;
+        Case 19: actframe=3;
+        Case 20: actframe=3;
+        Case 21: actframe=0;
+        Case 22: actframe=0;
+        Case 23: actframe=0; framecounter=0;
+        }
       framecounter++;
       actframe+=entity.facing[bongchr]*5;}
     entity.specframe[bongchr]=actframe;
