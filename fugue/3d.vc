@@ -1,0 +1,124 @@
+
+
+
+#define pers 4
+
+#define gravity 30
+
+int xp,yp,zp,xfugue,yfugue,xprop,yprop;
+
+void Cube3D(int x1, int x2, int y1, int y2, int z1, int z2, int c)
+{
+ int x11, x21, y11, y21, x12, x22, y12, y22;
+
+ if (z2<1) z2=1;
+ if (z1<1) z1=1;
+
+ x11 = xfugue+(x2*xprop/z2);
+ y11 = yfugue+(y2*yprop/z2);
+ x12 = xfugue+(x2*xprop/z1);
+ y12 = yfugue+(y2*yprop/z1);
+ x21 = xfugue+(x1*xprop/z2);
+ y21 = yfugue+(y1*yprop/z2);
+ x22 = xfugue+(x1*xprop/z1);
+ y22 = yfugue+(y1*yprop/z1);
+
+ if (z1>40) RectFill(x11,y11,x21,y21,0);
+
+ if (y2<0) { Line(x11,y11,x21,y11,c);}
+ if (x2<0) { Line(x11,y11,x11,y21,c);}
+ if (x1>0) { Line(x21,y11,x21,y21,c);}
+ if (y1>0) { Line(x11,y21,x21,y21,c);}
+                           
+ if (x2<0 || y2<0) { Line(x11,y11,x12,y12,c);}
+ if (x2<0 || y1>0) { Line(x11,y21,x12,y22,c);}
+ if (x1>0 || y2<0) { Line(x21,y11,x22,y12,c);}
+ if (x1>0 || y1>0) { Line(x21,y21,x22,y22,c);}
+
+ if (z1>40) RectFill(x12,y12,x22,y22,0);
+
+ Rect(x22,y22,x12,y12,c);
+
+}
+
+//  x3x1   x2x4
+//  | |    | |
+//  .        . -----z2
+//
+//    .    .   -----z1
+//
+//
+//
+
+void Walls(int x1, int x2, int x3, int x4, int y1, int y2, int z1, int z2, int c, int c2)
+{
+ int x11,x21,x32,x42;
+ int y11,y12,y21,y22;
+
+ if (z2<1) z2=1;
+ if (z1<1) z1=1;
+
+ x11 = xfugue+(x1*xprop/z1);
+ y11 = yfugue+(y1*yprop/z1);
+ x21 = xfugue+(x2*xprop/z1);
+ y21 = yfugue+(y2*yprop/z1);
+
+ x32 = xfugue+(x3*xprop/z2);
+ y12 = yfugue+(y1*yprop/z2);
+ x42 = xfugue+(x4*xprop/z2);
+ y22 = yfugue+(y2*yprop/z2);
+
+ RectFill(x11,y11,x21,y21,0);
+ RectFill(x32,y12,x42,y22,0);
+
+ Line(x11,y11,x11,y21,c);
+ Line(x21,y11,x21,y21,c);
+
+ Line(x32,y12,x32,y22,c);
+ Line(x42,y12,x42,y22,c);
+
+ Line(x11,y11,x32,y12,c);
+ Line(x11,y21,x32,y22,c);
+ Line(x21,y11,x42,y12,c);
+ Line(x21,y21,x42,y22,c);
+
+}
+
+void OuterWalls(int x1, int x2, int x3, int x4, int y1, int y2, int z1, int z2, int c, int c2)
+{
+ int x11,x21,x32,x42;
+ int y11,y12,y21,y22;
+
+
+ if (z2<1) z2=1;
+ if (z1<1) z1=1;
+
+ x11 = xfugue+(x1*xprop/z1);
+ y11 = yfugue+(y1*yprop/z1);
+ x21 = xfugue+(x2*xprop/z1);
+ y21 = yfugue+(y2*yprop/z1);
+
+ x32 = xfugue+(x3*xprop/z2);
+ y12 = yfugue+(y1*yprop/z2);
+ x42 = xfugue+(x4*xprop/z2);
+ y22 = yfugue+(y2*yprop/z2);
+
+
+// Line(x32,y12,x32,y22,c);
+// Line(x42,y12,x42,y22,c);
+
+ Line(x11,y21,x21,y21,c2);
+
+ Line(x11,y11,x32,y12,c);
+ Line(x11,y21,x32,y22,c);
+ Line(x21,y11,x42,y12,c);
+ Line(x21,y21,x42,y22,c);
+
+ if (x1<-5 || z1>40) { RectFill(0,y11,x11,y21,0); Line(x11,y11,x11,y21,c); }
+ if (x2>5 || z1>40) { RectFill(x21,y11,screenx,y21,0); Line(x21,y11,x21,y21,c); }
+
+}
+
+
+int counter;
+

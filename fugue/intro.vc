@@ -1,0 +1,207 @@
+
+int savebuf;
+
+int xtox, xtoy, ytox, ytoy;
+
+int gamespeed;
+
+void IntroLine (int x1, int y1, int x2, int y2, int c)
+{
+ int x1a, y1a, x2a, y2a;
+ x1a=((x1*xtox*xprop)>>20)+((y1*ytox*xprop)>>20)+xfugue;
+ y1a=((x1*xtoy*yprop)>>20)+((y1*ytoy*yprop)>>20)+yfugue;
+ x2a=((x2*xtox*xprop)>>20)+((y2*ytox*xprop)>>20)+xfugue;
+ y2a=((x2*xtoy*yprop)>>20)+((y2*ytoy*yprop)>>20)+yfugue;
+ Line (x1a, y1a, x2a, y2a, c);
+}
+
+void IntroLoop()
+{
+ int xdir, ydir, xdir2, ydir2, xdirv, ydirv, done, i, mt, xt, yt;
+ done=0;
+ 
+ StartupChoices();
+ 
+ while (!done)
+ {
+
+  xfugue=screenx*3/8;
+  yfugue=screeny/2;
+  xprop=16*screenx/320;
+  yprop=16*screeny/240;
+  xt=screenx*27/32;
+  yt=screeny/2;
+
+
+  UpdateControls();
+  if (b2)
+  {
+   if (up) ydir2-=100;
+   if (down) ydir2+=100;
+   if (left) xdir2-=100;
+   if (right) xdir2+=100;
+  }
+  else
+  {
+   xdir2+=xdirv;
+   ydir2+=ydirv;
+
+   xdirv=sin(timer/4%360)*20>>16;
+   ydirv=cos(timer/4%360)*20>>16;
+  }
+  xdir2=(xdir2+36000)%36000;
+  ydir2=(ydir2+36000)%36000;
+  xdir=xdir2/100;
+  ydir=ydir2/100;
+  xtox=cos(xdir);
+  xtoy=sin(xdir);
+  ytox=sin(ydir);
+  ytoy=cos(ydir);
+
+  RectFill(0,0,screenx-1,screeny-1,0);
+
+
+  IntroLine(-60, -3, 50, -3, 15);
+  IntroLine(-60,  3, 50,  3, 15);
+
+  // F
+  IntroLine(-60,-25,-40,-25, 15);
+  IntroLine(-60,-25,-60, -3, 15);
+  IntroLine(-60, 25,-60,  3, 15);
+
+  // U
+  IntroLine(-35,-25,-35, -3, 15);
+  IntroLine(-35, 25,-35,  3, 15);
+  IntroLine(-35, 25,-15, 25, 15);
+  IntroLine(-15,-25,-15, -3, 15);
+  IntroLine(-15, 25,-15,  3, 15);
+
+  // G
+  IntroLine(-10,-25,-10, -3, 15);
+  IntroLine(-10, 25,-10,  3, 15);
+  IntroLine( 10, 25, 10,  3, 15);
+  IntroLine(-10,-25, 10,-25, 15);
+  IntroLine(-10, 25, 10, 25, 15);
+
+  // U
+  IntroLine( 35,-25, 35, -3, 15);
+  IntroLine( 35, 25, 35,  3, 15);
+  IntroLine( 35, 25, 15, 25, 15);
+  IntroLine( 15,-25, 15, -3, 15);
+  IntroLine( 15, 25, 15,  3, 15);
+
+  // E
+  IntroLine( 40,-25, 40, -3, 15);
+  IntroLine( 40, 25, 40,  3, 15);
+  IntroLine( 40,-25, 60,-25, 15);
+  IntroLine( 40, 25, 60, 25, 15);
+
+  IntroLine( 50, -3, 50,-15, 15);
+  IntroLine( 50,  3, 50, 15, 15);
+  IntroLine( 50,-15, 65,  0, 15);
+  IntroLine( 50, 15, 65,  0, 15);
+
+
+ // CenterText(0,str(xdir));
+ // CenterText(10,str(ydir));
+  
+  
+  RectFill(xt-45,yt-101+(choice*10),xt+45,yt-92+(choice*10),5);
+  
+  for (i=0; i<15; i++)
+   {
+    if (choiceon[i]=2) CenterText2(xt,yt-100+(i*10),choicename[i], mainfont);
+    if (choiceon[i]=1) CenterText2(xt,yt-100+(i*10),choicename[i], darkfont);
+   }
+  
+  if (up && mt<timer)
+   {
+    choice=choice+14%15;
+    while (!choiceon[choice]) choice=choice+14%15;
+    mt=timer+20; 
+   }
+  if (down && mt<timer)  
+   {
+    choice=choice+1%15;
+    while (!choiceon[choice]) choice=choice+1%15;
+    mt=timer+20; 
+   }
+  if (left && mt<timer)  { gamespeed=gamespeed+9%10; mt=timer+20; }
+  if (right && mt<timer) { gamespeed=gamespeed+1%10; mt=timer+20; }
+  
+  
+  if (b1)
+   {
+    unpress(1);
+    if (choice=14) done=1;
+    else
+    {
+     TunnelVars(choice);
+     MakeTunnel();
+     TunnelLoop();
+    }
+   }
+  
+  CenterText2(xt,yt+60,"Speed "+str(gamespeed),mainfont);
+  CenterText2(xt,yt+80,"(C) 2002",mainfont);
+  CenterText2(xt,yt+90,"Zaratustra",mainfont);
+  
+  ShowPage();
+ }
+ Exit ("http://zara.verge-rpg.com");
+}
+
+string choicename[15];
+int choiceon[15], choice;
+int choice.wall[15],   choice.floor[15],   choice.pillar[15];
+int choice.start[15],  choice.end[15],     choice.vary[15],   choice.move[15];
+int choice.height[15], choice.pillars[15], choice.horz[15],   choice.length[15];
+string dummy;
+
+void StartupChoices()
+{
+ int i, f;
+ f=fopen("FUGUE.DAT");
+ fgetline(dummy,f);
+ for (i=0; i<14; i++)
+ {
+  fgettoken(dummy,f); choicename[i]=dummy;
+  fgettoken(dummy,f); choice.wall[i]=val(dummy);
+  fgettoken(dummy,f); choice.floor[i]=val(dummy);
+  fgettoken(dummy,f); choice.pillar[i]=val(dummy);
+  fgettoken(dummy,f); choice.start[i]=val(dummy);
+  fgettoken(dummy,f); choice.end[i]=val(dummy);
+  fgettoken(dummy,f); choice.vary[i]=val(dummy);
+  fgettoken(dummy,f); choice.move[i]=val(dummy);
+  fgettoken(dummy,f); choice.height[i]=val(dummy);
+  fgettoken(dummy,f); choice.pillars[i]=val(dummy);
+  fgettoken(dummy,f); choice.horz[i]=val(dummy);
+  fgettoken(dummy,f); choice.length[i]=val(dummy);
+ }
+ choicename[14]="Leave Game";
+ fclose(f);
+
+ if (!savebuf) savebuf=LoadRaw("FUGUE.SAV");
+ for (i=0;i<15;i++)
+ {
+  choiceon[i]=byte[savebuf+i];
+ }
+ gamespeed=3;
+}
+
+void SetupChoices()
+{
+ int i, j, f;
+ for (i=0; i<15; i++)
+  {
+   if (choiceon[i]=2) j=j+1;
+   if (j>=3 && i<8   && choiceon[i]=0) choiceon[i]=1;
+   if (j>=6 && i<12  && choiceon[i]=0) choiceon[i]=1;
+   if (j>=9  && i=12 && choiceon[i]=0) choiceon[i]=1;
+   if (j>=12 && i=13 && choiceon[i]=0) choiceon[i]=2;
+   byte[savebuf+i]=choiceon[i];
+  }
+ f=fwopen("FUGUE.SAV");
+ fwrite(savebuf,15,f);
+ fwclose(f);
+}

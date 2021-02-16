@@ -1,0 +1,16 @@
+                wall    floor   pillar  start   end     vary    move    height  pillars horz    length
+Tightening      48      48      48      100     40      0       10      60      8       0       0   
+Current         96      32      0       80      60      0       20      50      5       0       0
+Obstacle        80      80      64      80      80      0       10      50      3       0       0
+Movement        48      64      80      90      70      0       10      60      2       0       1
+Mundane         208     48      208     80      70      10      20      60      5       1       0
+Oscillation     16      96      16      100     70      30      15      60      10      0       0
+Meanderings     32      80      32      80      80      0       30      50      9999    0       0
+Simplicity      0       0       0       60      60      0       0       60      2       1       0
+Repetition      208     64      48      80      50      10      15      40      3       0       1
+Speed           64      48      32      50      35      0       20      30      9999    0       0
+Synthesis       16      208     64      100     50      10      20      60      3       2       1
+Fragment        16      32      16      100     100     0       10      80      1       2       1
+Enigma          112     112     112     120     60      40      20      60      3       2       0
+Random          -1      -1      -1      -1      -1      -1      -1      -1      -1      -1      -1
+
