@@ -162,7 +162,14 @@ let games: array(Game.game) = [|
         title: "Fugue",
         description: "A pseudo 3d tunnel game by Zaratustra.",
         engine: Game.V2
+    },
+    {
+        name: "dungbet2",
+        title: "Dungeon Crawler Beta",
+        description: "A clone of Dungeon Master by Hatchet.",
+        engine: Game.V2        
     }
+    
 |];
 
 let game_with_name = (name) => {

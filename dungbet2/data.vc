@@ -1,0 +1,109 @@
+string Names[4];
+string Race[4];
+
+int Level[4];
+int Exp[4];
+
+int HP[4];
+int MaxHP[4];
+int MP[4];
+int MaxMP[4];
+
+int Portrait[4];
+
+int Mup;
+int leader;
+
+void InitStats() //Temp solution to fill in the stats until the player making functions are created.
+{
+ int i;
+ For(i=0; i<4; i++)
+ {
+  Names[i]="Player "+Str(I+1);
+  HP[i]=50;
+  MaxHP[i]=HP[i];
+  MP[i]=40-(10*i);
+  MaxMP[i]=MP[i];
+  Portrait[i]=LoadImage("img\faces\port"+str(i)+".gif");
+ }
+}
+
+int PItems[80];
+int held;
+int itemimage[4];
+
+void StatusScreen()
+{
+ int i;
+ int a, b, tmp;
+
+ CopySprite(16+(80*St), 10, 32, 29, Portrait[St]);
+ TCopySprite(0, 40, 224,136, inv);
+ GotoXY(2,42); PrintString(0, Names[St]);
+
+ GotoXY(2,152); PrintString(0, "HP:  " + str(HP[St]) + "/" + str(MaxHP[St]));
+ GotoXY(2,164); PrintString(0, "MP:  " + str(MP[St]) + "/" + str(MaxMP[St]));
+
+ setlucent(1);
+ for(i=0; i<16; i++)
+ {
+  a=83+(i%8*17);
+  b=56+(i/8*17);
+  //rectfill(a,b,a+16,b+16, 32);
+  tcopysprite(a, b, 16, 16, itemimage[Pitems[i+(20*St)]]);
+ }
+ setlucent(0);
+
+
+ If(mb=1 && !Mup)
+ {
+  Mup=1;
+
+
+  If(mx>=180 && mx<=192 && my>=42 && my<=53) Quit();
+  If(mx>=210 && mx<=219 && my>=42 && my<=53) Dscreen=0;
+
+
+  If(mx>=82 && mx<=219 && my>=55 && my<=90) //main item group
+  {
+   for(i=0; i<16; i++)
+   {
+    a=83+(i%8*17);
+    b=56+(i/8*17);
+    If(mx>=a && mx<=a+16 && my>=b && my<=b+16) //find which item was clicked!
+    {
+     if(held) //item in hand, put it in inventory
+     {
+      if(Pitems[i+(20*St)]) //already an item there, so swap.
+      {
+       tmp=held;
+       held=Pitems[i+(20*St)];
+       ptr=itemimage[held];
+       Pitems[i+(20*St)]=tmp;
+
+      }
+      else //no item, simply drop.
+      {
+       Pitems[i+(20*St)]=held;
+       held=0;
+       ptr=ptr2; //reset ptr image
+      }
+     }
+     else if(Pitems[i+(20*St)]) //empty hand, pick up item
+     {
+      held=Pitems[i+(20*St)];
+      ptr=itemimage[held];
+      Pitems[i+(20*St)]=0;
+     }
+     else { } //both hand and inventory empty, so do nothing.
+    }
+   }
+  } //end main item check
+
+ } //end mb check
+
+}
+
+int percent(int s, int d, int c) { return (d * c) / s; }
+
+//EOF

@@ -12,6 +12,7 @@ for filename in filenames:
     
     
 manifest.close()    
+print ('Files renamed and manifest.txt created.')
 
     
     

@@ -1,0 +1,38 @@
+event //0 - Autoexec
+{
+ Img=LoadImage("Verge.gif");
+ PaletteMorph(0,0,0,0,63);
+ CopySprite(0,0, 320, 240, Img);
+ For(i=0; i<63; i++)
+ {
+  PaletteMorph(0,0,0,0,i);
+  ShowPage();
+  //Del(1);
+ }
+ free(img);
+ Img=LoadImage("Vergel.gif");
+ PaletteMorph(0,0,0,0,63);
+ CopySprite(0, 0, 320, 240, Img);
+ ShowPage();
+ Startup();
+ //Del(30,0,0,0);
+ free(img);
+ Img=LoadImage("Verge.gif");
+ PaletteMorph(0,0,0,0,63);
+ CopySprite(0,0, 320, 240, Img);
+ Free(Img);
+ For(i=63; i>1; i--)
+ {
+  PaletteMorph(0,0,0,0,i);
+  ShowPage();
+  //Del(1);
+ }
+ Render(); 
+// Del(20);
+ PaletteMorph(0,0,0,0,0);
+ del(1);
+ Map("Dungeon.map");
+}
+
+
+//EOF

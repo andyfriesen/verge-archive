@@ -1,0 +1,66 @@
+int percent(int s, int d, int c) { return (d * c) / s; }
+int Btime[4];
+
+void ShowBSStats()
+{
+ for(i=0; i<4; i++)
+ {
+  GotoXY(10+(60*i), 10); PrintString(0, Names[i]);
+  GotoXY(10+(60*i), 20); PrintString(0, "HP: " + Str(HP[i]) + "/" + Str(MaxHP[i]));
+  GotoXY(10+(60*i), 30); PrintString(0, "MP: " + Str(MP[i]) + "/" + Str(MaxMP[i]));
+  RectFill(10+(60*i), 40, 10+(60*i)+percent(1000, 50, BTime[i]), 50, 32);
+ }
+}
+
+void BMenu(int index)
+{
+ While(!done)
+ {
+  ShowBSStats();
+  
+ }
+}
+
+void BattleTimer()
+{
+ int i;
+ for(i=0; i<4; i++)
+ {
+  BTime[i]+=Dexterity[i]>>1;
+ }  
+}
+
+void Battle()
+{
+ int done, i, temp;
+ HookRetrace(0);
+ for(i=0; i<4; i++)
+ {
+  BTime[i]=Dexterity[i];
+ }
+ HookTimer(BattleTimer);
+ while(!done)
+ {
+  Render();
+  DrawFrame(0,0, 319, 229);
+  ShowBSStats();
+  ShowPage();
+  for(i=0; i<4; i++)
+  {   
+	if(Btime[i]>=1000) 
+   {
+    HookTimer(0);
+	 //Banner(0, Names[i]+"'s attack.", 200);
+	 BMenu(i);
+    HookTimer(BattleTimer);
+    temp++; BTime[i]=0;
+   }
+  }  
+  if(temp>=4) done++;
+ }
+ HookRetrace(Main);
+}
+
+
+
+//EOF

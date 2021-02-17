@@ -1,0 +1,19 @@
+event
+{
+ SetRString("2R");
+ Render();
+ PaletteMorph(0,0,0,0,63);
+ Plr=EntitySpawn(5,5, "Dungeon.chr");
+ UpdateTiles(1);
+ HookKey(1, Quit);
+ hooktimer(PEnts);
+ Main();
+}
+
+event
+{
+ //Banner(0, "Battle!", 100);
+ //Battle();
+}
+
+//EOF

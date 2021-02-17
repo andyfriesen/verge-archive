@@ -1,0 +1,184 @@
+#define DGW DrawGradientWindow
+#define True 1
+#define False 0
+
+#define numsets 10
+
+#include "flip.vc"
+#include "Window.vc"
+#include "Data.vc"
+#include "Engine.vc"
+#include "keys.vc"
+
+int oof; //Player hitting walls sounds. :)
+
+int lw0[numsets], lw1[numsets], lw2[numsets], flw2[numsets], cw0[numsets], cw1[numsets], cw2[numsets], rw0[numsets], rw1[numsets], rw2[numsets], frw2[numsets], lh0[numsets], lh1[numsets], lh2[numsets], flh2[numsets], lh3[numsets], flh3[numsets], rh0[numsets], rh1[numsets], rh2[numsets], frh2[numsets], rh3[numsets], frh3[numsets]; //Variables that store the wall images.
+int Back[2], backflip;
+int inv;
+int clr[4];
+
+int pointer[4], ptr, ptr2; //Pointer images;
+int plr; 
+int face; //Direction the player faces.
+string Dir[4]; //Stores the compass points for wherever the player is facing.
+int i; //Standard for loop variable.
+int Img; //For storing full screen images.
+int Started; //Stores whether or not the startup function has been run.
+int bigfont; //Stores a big font.
+
+
+
+
+
+//enemy definitions
+int scream[3];
+
+
+void Autoexec()
+{ 
+ setresolution(320,240); 
+ Map("Start.map");
+}
+
+void Startup() //Loads all the images, sounds, etc. in the game.
+{
+ string path;
+ int i;
+ If(!Started) //If this function hasn't been run yet..
+ {
+  Started++; //Make sure it can't be run again.
+    
+  BigFont=LoadFont("mono.fnt");
+  
+  //Load all of the game images.
+  back[0]=LoadImage("back.gif");
+  back[1]=LoadImage("back2.gif");
+  for(i=0; i<3; i++) //walls
+  {
+   switch(i)
+   {
+    case 0: path="walls";
+    case 1: path="door_c";
+    case 2: path="door_o";
+   }
+   lw0[i]=LoadImage("img/"+path+"/lw0.gif");
+   cw0[i]=LoadImage("img/"+path+"/cw0.gif");
+   rw0[i]=LoadImage("img/"+path+"/rw0.gif");
+   lh0[i]=LoadImage("img/"+path+"/lh0.gif");  
+   rh0[i]=LoadImage("img/"+path+"/rh0.gif");
+
+   lw1[i]=LoadImage("img/"+path+"/lw1.gif");
+   cw1[i]=LoadImage("img/"+path+"/cw1.gif");
+   rw1[i]=LoadImage("img/"+path+"/rw1.gif");
+   lh1[i]=LoadImage("img/"+path+"/lh1.gif");
+   rh1[i]=LoadImage("img/"+path+"/rh1.gif");
+
+   flw2[i]=LoadImage("img/"+path+"/flw2.gif");
+   lw2[i]=LoadImage("img/"+path+"/lw2.gif");
+   cw2[i]=LoadImage("img/"+path+"/cw2.gif");
+   rw2[i]=LoadImage("img/"+path+"/rw2.gif");
+   frw2[i]=LoadImage("img/"+path+"/frw2.gif");
+   flh2[i]=LoadImage("img/"+path+"/flh2.gif");
+   lh2[i]=LoadImage("img/"+path+"/lh2.gif");
+   rh2[i]=LoadImage("img/"+path+"/rh2.gif");
+   frh2[i]=LoadImage("img/"+path+"/frh2.gif");  
+
+   flh3[i]=LoadImage("img/"+path+"/flh3.gif");
+   lh3[i]=LoadImage("img/"+path+"/lh3.gif");
+   rh3[i]=LoadImage("img/"+path+"/rh3.gif");
+   frh3[i]=LoadImage("img/"+path+"/frh3.gif");  
+  }
+ 
+  inv=LoadImage("img/inv.gif");
+  ptr2=LoadImage("img/ptr.gif");
+  ptr=ptr2;
+  
+  Dbuf=malloc(224*136);
+
+  pointer[0]=LoadImage("pointer.gif");
+  pointer[1]=LoadImage("pointer1.gif");
+  pointer[2]=LoadImage("pointer2.gif");
+  pointer[3]=LoadImage("pointer3.gif");
+
+  //items
+  itemimage[0]=Loadimage("img/items/empty.gif");
+  itemimage[1]=Loadimage("img/items/cheese.gif");
+  itemimage[2]=Loadimage("img/items/meat.gif");
+  PItems[0]=1;
+  PItems[2]=1;
+  PItems[8]=1;
+  PItems[14]=1;
+  PItems[7]=2;
+  
+  oof=CacheSound("oof.wav");
+
+  //Store the compass points for each direction.
+  Dir[0]="N";
+  Dir[1]="E";
+  Dir[2]="S";
+  Dir[3]="W";
+
+  //player colors
+  clr[0]=95;
+  clr[1]=239;
+  clr[2]=32;
+  clr[3]=144;
+  
+  //enemies
+  scream[0]=Loadimage("img/enemies/scream0.gif");
+  scream[1]=Loadimage("img/enemies/scream1.gif");
+  scream[2]=Loadimage("img/enemies/scream2.gif");
+  
+  InitStats();
+ }
+}
+
+void Quit()
+{
+ Exit("Thanks for playing!");
+}
+
+//Delay function made by Lord Fruitiger.
+void del(int d)
+{
+ timer=0;
+ while (timer<d) { } 
+}
+
+void Banner(int font, String Msg, int Delay) //Puts a little banner up on the screen.
+{
+ int x;
+ x = (ScreenX/2) - ((strlen(Msg) * FontWidth(font))/2);
+ if(X < 0) X = 0;
+ 
+ DrawGradientWindow(x-6, screeny/2-6, x+(strlen(Msg) * FontWidth(font))+6, screeny/2+15);
+ GotoXY(x, ScreenY/2);
+ PrintString(font, Msg);
+ ShowPage();
+ del(Delay);
+}
+
+void Center(int font, int y, string Msg) //Bsaically a printstring that is at the center of the screen.
+{
+  int x;
+  x = (screenx/2) - ((strlen(Msg) * FontWidth(0))/2);
+  if(x < font) x = 0;
+  GotoXY(x, y);
+  PrintString(0, Msg);
+}
+
+int GetEntity(int x, int y)
+{
+ int i;
+ for(i=0; i<numents; i++)
+ {
+  if(entity.tx[i]=x && entity.ty[i]=y && entity.on[i]=true)
+   return i;
+
+ }
+ return 0;
+}
+
+void PEnts() { ProcessEntities(); }
+
+//EOF

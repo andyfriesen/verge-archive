@@ -1,0 +1,29 @@
+/* 
+   flipmode 0: horizontal
+   flipmode 1: vertical
+   flipmode 2: both
+*/
+
+void FlipCopySprite(int x, int y, int width, int height, int image, int flipmode)
+{	int i, j;
+	for(j=0; j<height; j++)
+		for(i=0; i<width; i++)
+			switch(flipmode)
+			{	case 0: SetPixel(x+i, y+j, byte[image + (j * width) + (width - i - 1)]);
+				case 1: SetPixel(x+i, y+j, byte[image + ((height - j - 1) * width) + i]);
+				case 2: SetPixel(x+i, y+j, byte[image + ((height - j - 1) * width) + (width - i - 1)]);
+			}
+}
+
+int FlipImage(int image, int width, int height, int flipmode)
+{	int i, j, img;
+	img = malloc(width * height);
+	for(j=0; j<height; j++)
+		for(i=0; i<width; i++)
+			switch(flipmode)
+			{	case 0: byte[img + (j*width) + i] = byte[image + (j * width) + (width - i - 1)];
+				case 1: byte[img + (j*width) + i] = byte[image + ((height - j - 1) * width) + i];
+				case 2: byte[img + (j*width) + i] = byte[image + ((height - j - 1) * width) + (width - i - 1)];
+			}
+	return img;
+}
