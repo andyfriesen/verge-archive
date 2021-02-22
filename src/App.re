@@ -174,6 +174,12 @@ let games: array(Game.game) = [|
         title: "Monty Vecna Battle System Demo",
         description: "A battle system for Monty Vecna by Thrasher.",
         engine: Game.V2        
+    },
+    {
+        name: "mv",
+        title: "Monty Vecna Demo",
+        description: "Demo of Monty Vecna by Thrasher.",
+        engine: Game.V2        
     }
     
 |];
