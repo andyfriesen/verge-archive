@@ -20,7 +20,6 @@ jeff.gif
 manifest.txt
 miyamoto.gif
 monsters.dat
-mv.exe
 mvbsvc.zip
 party.dat
 phoenix.gif
