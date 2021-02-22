@@ -168,6 +168,12 @@ let games: array(Game.game) = [|
         title: "Dungeon Crawler Beta",
         description: "A clone of Dungeon Master by Hatchet.",
         engine: Game.V2        
+    },
+    {
+        name: "mvbs",
+        title: "Monty Vecna Battle System Demo",
+        description: "A battle system for Monty Vecna by Thrasher.",
+        engine: Game.V2        
     }
     
 |];

@@ -1,0 +1,14 @@
+NAME          CLASS       HP   MP  SP  STR  DEF  VIT  AGI  INT  HIT  SKILL    NEXP
+
+Thrasher      Monster     287  8   10  14   7    13   9    5    83   Rage     110
+Elpacoloco    Chaosman    249  10  11  18   6    11   6    7    76   Psycho   130
+Jeff          Magic_Monk  197  14  8   11   6    9    13   14   81   Pummel   120
+Skyfire       Knight      328  10  9   21   9    12   4    11   65   Blade    150
+Yamucha       Spy         224  9   12  13   6    10   10   6    74   Secret   110
+Seraph        Otaku       175  11  10  9    5    9    9    9    82   Call     100
+SilverCat     Ninja       260  7   12  15   8    11   16   8    91   Throw    140
+Miyamoto      Samurai     272  8   9   17   10   10   14   7    89   Slice    120
+Saij-Lyn      Sage        248  10  11  14   9    13   11   10   72   Energy   130 
+Ear           Scientist   233  9   16  13   9    12   10   9    70   Tools    140
+Tatsumi_Oreo  Fighter     341  6   13  19   11   14   3    4    67   Change   150
+Phoenix	      Summoner    306  13  8   13   8    11   7    13   88   Summon   140

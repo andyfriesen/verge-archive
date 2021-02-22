@@ -1,0 +1,27 @@
+NAME           POINTS  SP   POW   DESC
+ 
+Pizza Rant     Lv 1    3    20    Throws several pizzas.
+Fast Fist      Lv 4    5    8x4   Punches the enemy 4 times.
+Suplex         Lv 8    7    50    Does a series of karate moves.
+Sucker Punch   Lv 12   11   67    Can stun the enemy.
+Screwdriver    Lv 17   17   91    Twisted-fist punch.
+Brainblow      Lv 23   23   ---   Knocks the enemy out.
+Chakra Fist    Lv 29   30   119   Absorbs HP from enemy.
+Chain Punch    Lv 35   40   17x8  Punches the enemy constantly.
+Sidestrike     Lv 40   52   159   Winds up, charges, and delivers a blow.
+Consume        Lv 46   66   ---   Consumes the enemy. (ALL)
+Meteor Pound   Lv 54   85   125   Hits the ground, uproots earth. (ALL)
+Dimensions     ---     All  60x5  Hits enemies with space power. (ALL)
+
+Resist         Lv 1    4    ---   Makes immune to damage until hit. (USER)
+Punt           Lv 6    8    35    Punts enemy across the world.
+Bumper Cars    Lv 10   13   52    Car drives over enemies. (C, ALL)
+Frenzy         Lv 15   13   67    Punches the enemy countless times.
+Ravenous       Lv 19   19   93    Chews large chunks out of the enemy.
+Chainsaw       Lv 25   24   ---   Chops the enemy up. Instant death. (D)
+Blood Tornado  Lv 30   31   51    Summons acid rain and tornado. (ALL)
+Vengeful       Lv 36   21   ---   Sets entire party to Resist. (PARTY)
+Hot Pipes      Lv 42   40   93    Bursts hot water pipes to heal. (PARTY)
+Atlas Charge   Lv 49   64   197   Sets axe on fire, slices enemy in midair.
+Postal         Lv 57   90   149   Pulls out 2 uzis and goes nuts. (ALL)
+Plagiarize     ---     All  1250  Learns enemy's skill and attacks. (ALL)  

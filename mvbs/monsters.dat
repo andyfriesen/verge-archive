@@ -1,0 +1,21 @@
+NAME        HP      STR  DEF  AGI  HIT  TYP  ABI  EXP    MONEY
+
+Rioter      63      12   4    17   63   R    1    70     6    
+Inciter     98      13   4    17   61   R    1    90     8    
+Burner      77      16   5    16   49   R    0    150    8
+Pond_Scum   254     29   8    20   72   R    0    180    30   
+Goblin      300     30   9    23   81   R    0    200    13   
+Crocodile   339     30   10   21   80   R    2    220    15   
+Sand_Viper  693     57   13   23   67   R    3    360    13   
+Sun_Totem   607     59   15   27   100  R    0    340    18   
+Serpent     800     60   20   18   79   R    0    410    25
+Golem       704     90   36   34   84   R    0    691    41
+Silhouette  1082    84   35   36   92   R    0    638    62
+Blume       1213    105  30   31   52   R    0    687    59
+Drone       1500    200  10   50   75   R    6    1250   100
+Drone       1500    200  10   50   75   R    6    1250   100
+Drone       1500    200  10   50   75   R    6    1250   100
+Drone_X     2000    300  0    75   100  R    6    2000   300
+Drone_X     2000    300  0    75   100  R    6    2000   300
+Drone_X     2000    300  0    75   100  R    6    2000   300
+SADEEN      30000   350  30   50   75   R    6    10000  3000
