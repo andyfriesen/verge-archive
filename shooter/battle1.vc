@@ -1,0 +1,80 @@
+event
+{
+}
+
+event /* 1 */
+{
+changechr(1,"BBLANE.CHR");
+autoon();
+wait(10);
+layerVC=1;
+Disablemenu();
+wait(50);
+Textmenu(150,0,1,0,"FIGHT","POWERSHOT","ITEM","RUN LIKE HELL","CRY");
+if(flags[1]=1){
+CallEvent(2);
+wait(50);
+Soundeffect(11); }
+if(flags[1]=2)
+MagicMenu(1);
+if(flags[1]=3)
+ItemMenu(1);
+If(flags[1]=4)
+Mapswitch("TEST.MAP",0,0,0);
+if(flags[1]=5)
+Quit("Baby!");
+}
+
+event // attack (2)
+{
+Textmenu(150,0,2,0,"OLD GUY 1","OLD GUY 2", "OLD GUY 3");
+if(flags[2]=1)
+{
+a=random(200,400);
+SoundEffect(3);
+VCtextnum(50,50,a);
+SpecialFrame[5]=29;
+Wait(50);
+VCClear();
+SText(0,"You bastard! You shot",
+        "Vinny! Aughhh!!!!","");
+AutoOff();
+ChangeChr(1,"new.chr");
+Mapswitch("show.map",0,0,0);
+}
+if(flags[2]=2)
+{
+a=random(200,400);
+SoundEffect(3);
+VCTextnum(150,50,a);
+SpecialFrame[6]=29;
+Wait(50);
+VCClear();
+SText(0,"What the hell is wrong",
+        "with you!?! You shot Steve",
+        "right in the head!");
+AutoOff();
+ChangeChr(1,"new.chr");
+Mapswitch("show.map",0,0,0);
+}
+if(flags[2]=3)
+{
+VCText(250,50,"MISS");
+Wait(50);
+VCClear();
+SText(0,"Ohohoho! What a lousy",
+        "shot! You missed by",
+        "a mile!");
+Wait(50);
+a=random(900,1000);
+SoundEffect(3);
+VCTextnum(250,50,a);
+SpecialFrame[7]=29;
+Wait(50);
+VCClear();
+SText(0,"Ya got him that time!","","");
+AutoOff();
+ChangeChr(1,"new.chr");
+Mapswitch("show.map",0,0,0);
+}
+}

@@ -45,7 +45,13 @@ let games: array(Game.game) = [|
     {
         name: "resdemo",
         title: "Resonance Demo",
-        description: "Hatchet's first verge 'Game'. ",
+        description: "Hatchet's first Verge 'Game'. ",
+        engine: Game.V1,
+    },    
+    {
+        name: "shooter",
+        title: "Jeff's Shooter",
+        description: "Jeff's first Verge Game!",
         engine: Game.V1,
     },    
     {

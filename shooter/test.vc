@@ -1,0 +1,203 @@
+event
+{
+}
+
+event /*  1 */ //receive pistol
+{
+alterbtile(8,3,3,0);
+giveitem(48);
+Changezone(8,3,0);
+}
+
+Event /* 2 */  //shoot target
+{
+autoon();
+specialframe[95]=24;
+wait(50);
+soundeffect(3);
+alterbtile(29,5,9,0);
+specialframe[95]=29;
+wait(75);
+specialframe[95]=25;
+wait(30);
+specialframe[95]=26;
+wait(30);
+specialframe[95]=25;
+wait(30);
+specialframe[95]=26;
+wait(75);
+autooff();
+}
+
+event /* 3 */  //old guys
+{
+layerVC=1;
+partymove("R2");
+wait(100);
+disablemenu();
+alterbtile(45,8,2,1);
+alterbtile(45,9,2,1);
+alterbtile(45,10,2,1);
+alterbtile(45,11,2,1);
+alterbtile(45,12,2,1);
+alterbtile(45,13,2,1);
+soundeffect(19);
+wait(50);
+playmusic("POOL.XM");
+VCcentertext(79,"HAHAHAHAHAHAHA!!");
+specialframe[6]=20;
+wait(20);
+specialframe[6]=21;
+wait(20);
+specialframe[6]=22;
+wait(20);
+specialframe[6]=21;
+wait(20);
+specialframe[6]=20;
+wait(20);
+specialframe[6]=21;
+wait(20);
+specialframe[6]=22;
+wait(20);
+specialframe[6]=21;
+wait(20);
+specialframe[6]=20;
+wait(40);
+specialframe[6]=1;
+wait(20);
+VCclear();
+autoon();
+setface(95,1);
+wait(50);
+Stext(0,"OLD GUY:Hey",
+        "Blane boy! Ready for yer",
+        "daily beatin?!");
+wait(50);
+setface(95,0);
+wait(40);
+specialframe[95]=23;
+wait(60);
+specialframe[95]=0;
+wait(50);
+setface(95,1);
+wait(30);
+specialframe[95]=25;
+wait(45);
+stext(1,"Oh yeah old guy?!",
+        "I got a gun! See!","");
+wait(75);
+soundeffect(6);
+specialframe[95]=24;
+alterftile(47,10,12,0);
+wait(120);
+specialframe[95]=0;
+alterftile(47,10,0,1);
+specialframe[6]=22;
+wait(20);
+stext(0,"You call that..","","");
+wait(50);
+VCcentertext(90,"A GUN??!!!");
+wait(100);
+VCclear();
+Stext(1,"Oh yeah! I'll show",
+        "you its a gun!","");
+stext(0,"Oh! so you want to",
+        "fight eh?! Fine!",
+        "Come on guys!");
+specialframe[6]=0;
+wait(50);
+playmusic("STARMAN.S3M");
+wait(100);
+changechr(1,"BBLANE.CHR");
+wait(20);
+setface(95,1);
+VCcr2(4,4,1,0);
+VCtext(4,8,"BLANE");
+wait(20);
+specialframe[6]=22;
+wait(40);
+soundeffect(4);
+wait(70);
+specialframe[95]=25;
+soundeffect(11);
+VCtext(160,90,"34");
+wait(70);
+VCclearRegion(150,75,180,100);
+wait(70);
+Specialframe[95]=5;
+wait(100);
+changechr(1,"BLANK.CHR");
+textmenu(105,0,1,0,"Attack","Defend","Powershot","Run like hell","Cry");
+if(flags[1]=1)
+Stext(0,"Attack? Too bad you suck!","","");
+if(flags[1]=2)
+Stext(0,"Defend? .......","","");
+if(flags[1]=3)
+Stext(0,"Sorry, you are too weak!","","");
+if(flags[1]=4)
+Stext(0,"Running is no good!","","");
+if(flags[1]=5)
+Stext(0,"Good job!","","");
+playVAS("BFT2.PCX",15,33,38,145,80);
+specialframe[6]=21;
+Soundeffect(3);
+wait(40);
+VCtext(130,80,"63");
+soundeffect(11);
+changechr(1,"BBLANE.CHR");
+VCclearRegion(120,45,200,150);
+wait(200);
+specialframe[7]=22;
+soundeffect(4);
+wait(50);
+VCtext(160,90,"46");
+soundeffect(11);
+wait(100);
+specialframe[95]=25;
+soundeffect(4);
+Wait(130);
+changechr(1,"BLANK.CHR");
+PlayVAS("BFT4.PCX",15,33,38,145,80);
+Soundeffect(3);
+Specialframe[8]=23;
+wait(40);
+Changechr(1,"BBlane.chr");
+Soundeffect(4);
+specialframe[8]=28;
+specialframe[95]=25;
+wait(100);
+VCclear();
+specialframe[95]=20;
+wait(40);
+stopmusic();
+wait(100);
+specialframe[95]=20;
+Wait(50);
+autooff();
+VCclear();
+mapswitch("JUNGLE.MAP",0,0,0);
+}
+
+event /* 4 */
+{
+Mapswitch("BATTLE1.MAP",0,0,0);
+}
+event /* 5 */
+{
+Mapswitch("jungle.map",0,0,0);
+}
+event /* 6 */
+{
+Mapswitch("show.map",0,0,0);
+}
+event // 7
+{Text(0,"Hey! If you want to see",
+        "a really bug-filled",
+        "attempt at a battle");
+Text(0,"system, go straight down!",
+       "if not, go right!","");
+}
+event //8
+{Text(0,"Stand in front of",
+        "target and press ENTER","");
+}
