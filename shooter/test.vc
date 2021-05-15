@@ -138,7 +138,7 @@ if(flags[1]=4)
 Stext(0,"Running is no good!","","");
 if(flags[1]=5)
 Stext(0,"Good job!","","");
-playVAS("BFT2.PCX",15,33,38,145,80);
+//playVAS("BFT2.PCX",15,33,38,145,80);
 specialframe[6]=21;
 Soundeffect(3);
 wait(40);
@@ -157,7 +157,7 @@ specialframe[95]=25;
 soundeffect(4);
 Wait(130);
 changechr(1,"BLANK.CHR");
-PlayVAS("BFT4.PCX",15,33,38,145,80);
+//PlayVAS("BFT4.PCX",15,33,38,145,80);
 Soundeffect(3);
 Specialframe[8]=23;
 wait(40);
