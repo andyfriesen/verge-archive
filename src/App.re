@@ -31,6 +31,12 @@ let games: array(Game.game) = [|
         engine: Game.V1,
     },    
     {
+        name: "dreamseekers",
+        title: "Dreamseekers",
+        description: "Game made by Wyrdwad!",
+        engine: Game.V1,
+    },    
+    {
         name: "galaxy",
         title: "Galaxy Destroyer Demo",
         description: "Game made by Tarkuss!",
