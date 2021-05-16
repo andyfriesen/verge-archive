@@ -1,0 +1,45 @@
+      ===================================================
+       Verge 2 CHR character graphic file specifications
+      ===================================================
+   Document produced by Brad Smith on guidelines provided by
+                Benjamin Eirich (vecna), 1999.
+
+ The left column is offsets (HEX). Second column is data size.
+
+  00 BYTE - Always equal to 1
+  01 WORD - Width of sprites
+  03 WORD - Height of sprites
+  05 WORD - Hotspot Left
+  07 WORD - Hotspot Top
+  09 WORD - Hotspot size X (Always 16, tile size)
+  0B WORD - Hotspot size Y (Always 16, tile size)
+  0D WORD - Total frames (refered to as #f from now on)
+
+  0F LONG - Length of compressed data.
+     Compressed data follows in an RLE type:
+      -> Data byte is 0-254 - means plain, uncompressed data byte.
+      -> Data byte is 255 - run length packet:
+         -> next byte is run length.
+         -> next byte is run color.
+
+  -- LONG - Idle Frame Left
+  -- LONG - Idle Frame Right
+  -- LONG - Idle Frame Up
+  -- LONG - Idle Frame Down
+  -- - Movement scripts begin, 4 packets, of the following:
+        00 DWORD  - Length of script
+        04 STRING - The script, the scripts are formatted:
+            'F##' Displays frame ## (eg. F1 F12 F34)
+            'W##' Waits ## sec/100s (eg. W10 W100)
+        The scripts appear like this:
+          "F1W10F4W10F3W100F6W10F5W10F2W10"
+     The 8 scripts are Left Right Up Down all terminated by a null zero.
+     The first byte of every script should be an F.
+  END OF FILE
+
+Notes:
+   The hotspot coordinates are the top left point of a tile that
+ your character would be standing on.
+   Make sure to add 1 when doing a STRLEN on a movement script.
+   The original V1 CHR file was just 15360 bytes (30*16*32) of
+ raw 8bit graphical data. (Or less in the original 20 frame version.)

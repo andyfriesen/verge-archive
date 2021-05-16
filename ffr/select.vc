@@ -1,0 +1,577 @@
+event // 0, Autoexec
+{
+ SetPlayer(EntitySpawn(9,13, "arrow.chr"));
+// PaletteMorph(0,0,0,0,63); //get proper palette going
+ Render();
+ ShowPage();
+ FadeIn(100,0);
+ HookKey(KEY_SPACE,0);
+ HookKey(KEY_M,0);
+
+ /* Setting the amount of GP */
+ GP=400;
+
+ /* Seting the Fighters' stats */
+ for(i=1; i<=2; i++)
+ {
+  Level[i]=1;
+  MaxHP[i]=35;
+  CurHP[i]=35;
+  Strength[i]=20;
+  Agility[i]=5;
+  Intelligence[i]=1;
+  Vitality[i]=10;
+  Luck[i]=5;
+  Damage[i]=10;
+  Hit[i]=10;
+  Evade[i]=53;
+  Exp[i]=0;
+  Next[i]=40;
+  Nxt[i]=40;
+ }
+
+ /* Seting the Thieves' stats */
+ for(i=3; i<=4; i++)
+ {
+  Level[i]=1;
+  MaxHP[i]=30;
+  CurHP[i]=30;
+  Strength[i]=5;
+  Agility[i]=10;
+  Intelligence[i]=5;
+  Vitality[i]=5;
+  Luck[i]=15;
+  Damage[i]=2;
+  Hit[i]=5;
+  Evade[i]=58;
+  Next[i]=40;
+  Nxt[i]=40;
+ }
+
+
+  /* Seting the Black Belts' stats */
+ for(i=5; i<=6; i++)
+ {
+  Level[i]=1;
+  MaxHP[i]=33;
+  CurHP[i]=33;
+  Strength[i]=5;
+  Agility[i]=5;
+  Intelligence[i]=5;
+  Vitality[i]=20;
+  Luck[i]=5;
+  Damage[i]=2;
+  Hit[i]=5;
+  Absorb[i]=1;
+  Evade[i]=53;
+  Next[i]=40;
+  Nxt[i]=40;
+ }
+
+  /* Seting the Red Mages' stats */
+ for(i=7; i<=8; i++)
+ {
+  Level[i]=1;
+  MaxHP[i]=30;
+  CurHP[i]=30;
+  MaxMP[i]=5;
+  CurMP[i]=5;
+  Strength[i]=10;
+  Agility[i]=10;
+  Intelligence[i]=10;
+  Vitality[i]=5;
+  Luck[i]=5;
+  Damage[i]=5;
+  Hit[i]=7;
+  Evade[i]=58;
+  Next[i]=40;
+  Nxt[i]=40;
+ }
+
+  /* Seting the White Mages' stats */
+ for(i=9; i<=10; i++)
+ {
+  Level[i]=1;
+  MaxHP[i]=28;
+  CurHP[i]=28;
+  MaxMP[i]=7;
+  CurMP[i]=7;
+  Strength[i]=5;
+  Agility[i]=5;
+  Intelligence[i]=15;
+  Vitality[i]=10;
+  Luck[i]=5;
+  Damage[i]=2;
+  Hit[i]=5;
+  Evade[i]=53;
+  Next[i]=40;
+  Nxt[i]=40;
+ }
+
+  /* Seting the Black Mages' stats */
+ for(i=11; i<=12; i++)
+ {
+  Level[i]=1;
+  MaxHP[i]=25;
+  CurHP[i]=25;
+  MaxMP[i]=8;
+  CurMP[i]=8;
+  Strength[i]=1;
+  Agility[i]=10;
+  Intelligence[i]=20;
+  Vitality[i]=1;
+  Luck[i]=10;
+  Damage[i]=1;
+  Hit[i]=5;
+  Evade[i]=58;
+  Next[i]=40;
+  Nxt[i]=40;
+ }
+
+/* Setting Stats for the Secret Character */
+  Level[15]=1;
+  MaxHP[15]=35;
+  CurHP[15]=35;
+  Strength[15]=20;
+  Agility[15]=5;
+  Intelligence[15]=1;
+  Vitality[15]=10;
+  Luck[15]=5;
+  Damage[15]=10;
+  Hit[15]=10;
+  Evade[15]=53;
+  Exp[15]=0;
+  Next[15]=40;
+  Nxt[15]=40;
+
+
+ TickText(0, "Form a group of four warriors!!!","","");
+}
+
+event // 1, Game Start
+{
+ If(NumChars<4)
+ {
+  TickText(0, "Form a group of four warriors!!!","","");
+ }
+ else
+ {
+  FadeOut(100,0);
+  HookKey(KEY_SPACE,Menu);
+  HookKey(KEY_M,WorldMap);
+  MapSwitch(50,89,"Cornelia.map");
+ }
+}
+
+event // 2, Boy Fighter
+{
+ If(!Character[1] AND NumChars<4)
+ {
+  Character[1]=1;
+  NumChars++;
+  PartyIndex[NumChars]=1;
+  TickText(0, "Boy Fighter is now in the Party.","Give him a name!","");
+  Naming(1);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[1])
+   {
+    TickText(0, "Party full and character already","in Party.","Changing name!");
+    Naming(1);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party.","Changing name!","");
+   Naming(1);
+  }
+ }
+}
+
+event // 3, Girl Fighter
+{
+ If(!Character[2] AND NumChars<4)
+ {
+  Character[2]=1;
+  NumChars++;
+  PartyIndex[NumChars]=2;
+  TickText(0, "Girl Fighter is now in the Party!","Give her a name!","");
+  Naming(2);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[2])
+   {
+    TickText(0, "Party full and character already","in party.","Changing name!");
+    Naming(2);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(2);
+  }
+ }
+}
+
+event // 4, Boy Thief
+{
+ If(!Character[3] AND NumChars<4)
+ {
+  Character[3]=1;
+  NumChars++;
+  PartyIndex[NumChars]=3;
+  TickText(0, "Boy Thief is now in the Party.","Give him a name!","");
+  Naming(3);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[3])
+   {
+    TickText(0, "Party full and character already","in party.","Changing name!");
+    Naming(3);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(3);
+  }
+ }
+}
+
+event // 5, Girl Thief
+{
+ If(!Character[4] AND NumChars<4)
+ {
+  Character[4]=1;
+  NumChars++;
+  PartyIndex[NumChars]=4;
+  TickText(0, "Girl Thief is now in the Party!","Give her a name!","");
+  Naming(4);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[4])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(4);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(4);
+  }
+ }
+}
+
+event // 6, Boy Black Belt
+{
+ If(!Character[5] AND NumChars<4)
+ {
+  Character[5]=1;
+  NumChars++;
+  PartyIndex[NumChars]=5;
+  TickText(0, "Boy Bl.Belt is now in the Party!","Give him a name!","");
+  Naming(5);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[5])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(5);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(5);
+  }
+ }
+}
+
+event // 7, Girl Black Belt
+{
+ If(!Character[6] AND NumChars<4)
+ {
+  Character[6]=1;
+  NumChars++;
+  PartyIndex[NumChars]=6;
+  TickText(0, "Girl Bl.Belt is now in the Party!","Give her a name!","");
+  Naming(6);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[6])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(6);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(6);
+  }
+ }
+}
+
+event // 8, Boy Red Mage
+{
+ If(!Character[7] AND NumChars<4)
+ {
+  Character[7]=1;
+  NumChars++;
+  PartyIndex[NumChars]=7;
+  TickText(0, "Boy RedMage is now in the Party!","Give him a name!","");
+  Naming(7);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[7])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(7);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(7);
+  }
+ }
+}
+
+event // 9, Girl Red Mage
+{
+ If(!Character[8] AND NumChars<4)
+ {
+  Character[8]=1;
+  NumChars++;
+  PartyIndex[NumChars]=8;
+  TickText(0, "Girl RedMage is now in the Party!","Give her a name!","");
+  Naming(8);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[8])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(8);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(8);
+  }
+ }
+}
+
+event // 10, Boy White Mage
+{
+ If(!Character[9] AND NumChars<4)
+ {
+  Character[9]=1;
+  NumChars++;
+  PartyIndex[NumChars]=9;
+  TickText(0, "Boy Wh.Mage is now in the Party!","Give him a name!","");
+  Naming(9);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[9])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(9);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(9);
+  }
+ }
+}
+
+event // 11, Girl White Mage
+{
+ If(!Character[10] AND NumChars<4)
+ {
+  Character[10]=1;
+  NumChars++;
+  PartyIndex[NumChars]=10;
+  TickText(0, "Girl Wh.Mage is now in the Party!","Give her a name!","");
+  Naming(10);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[10])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(10);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(10);
+  }
+ }
+}
+
+event // 12, Boy Black Mage
+{
+ If(!Character[11] AND NumChars<4)
+ {
+  Character[11]=1;
+  NumChars++;
+  PartyIndex[NumChars]=11;
+  TickText(0, "Boy Bl.Mage is now in the Party!","Give him a name!","");
+  Naming(11);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[11])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(11);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(11);
+  }
+ }
+}
+
+event // 13, Girl Black Mage
+{
+ If(!Character[12] AND NumChars<4)
+ {
+  Character[12]=1;
+  NumChars++;
+  PartyIndex[NumChars]=12;
+  TickText(0, "Girl Bl.Mage is now in the Party!","Give her a name!","");
+  Naming(12);
+ }
+ else
+ {
+  If(NumChars=4)
+  {
+   If(Character[12])
+   {
+    TickText(0, "Party full and character already","in party!","Changing name!");
+    Naming(12);
+   }
+   Else
+   {
+    TickText(0, "Party full!","","");
+   }
+  }
+  else
+  {
+   TickText(0, "Character already in Party!","Changing name!","");
+   Naming(12);
+  }
+ }
+}
+
+event // 14, Undo Party
+{
+ TickText(0, "Party reset!","","");
+ NumChars=0;
+ Character[1]=0;
+ Character[2]=0;
+ Character[3]=0;
+ Character[4]=0;
+ Character[5]=0;
+ Character[6]=0;
+ Character[7]=0;
+ Character[8]=0;
+ Character[9]=0;
+ Character[10]=0;
+ Character[11]=0;
+ Character[12]=0;
+ PartyIndex[1]=0;
+ PartyIndex[2]=0;
+ PartyIndex[3]=0;
+ PartyIndex[4]=0;
+}
+
+event //15
+{
+ TickText(0, "This Character is here just to",
+             "Fill the space. Please choose",
+             "another one.");
+}

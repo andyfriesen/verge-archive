@@ -1,0 +1,164 @@
+int bgimg;
+
+void DrawWindow(int x, int y, int x2, int y2, int kind)
+{ 
+ int I,x_1,x_2,y_1,y_2;
+ If(windowbgtp=0)
+ {
+  switch (kind)
+  {
+   case 0: y_1=(y+5);
+           y_2=(y2-4);
+           For(I=y_1; I<y_2; I++)
+           {
+            HLine(x+5,I,x2-5, 145 - ((y_1-I)*(15)/(y_2-y_1))); // C'mon, figure this part out =)
+           }
+ 
+   case 1: x_1=(x+5);
+           x_2=(x2-4);
+           For(I=x_1; I<x_2; I++)
+           {
+            VLine(I,y+5,y2-5, 145 - ((x_1-I)*(15)/(x_2-x_1))); // C'mon, figure this part out =)
+           }
+
+   case 2: x_1=(x+5);
+           x_2=(x+4);
+           y_1=(y+4);
+           y_2=(y+5);
+           For(I=0; I<(((x2-x)-9)+((y2-y)-9)); I++)
+           {
+            if(y_1<=(y2))
+            {
+             x_1--;
+            }
+            if(x_2<=(x2))
+            {
+             y_2--;
+            }
+            if(y_1>(y2))
+            {
+             y_1--;
+            }
+            if(x_2>(x2))
+            {
+             x_2--;
+            }
+            Line(x_1,y_1,x_2,y_2, 145 + (I*(15)/((x2-x)+(y2-y))));
+            x_1++;
+            y_1++;
+            x_2++;
+            y_2++;
+           }
+  }
+ }
+ else
+ {
+  SetClipRect(x+4,y+4,x2-4,y2-4);
+  WrapBlit(x+4,y+4,32,32,bgimg);
+  RestoreRenderSettings();
+ }
+ DrawWindowBorder(x,y,x2,y2);
+}
+
+/* void DrawHGradientWindow(int x, int y, int x2, int y2)
+{
+ int I,x_1,x_2;
+ x_1=(x+5);
+ x_2=(x2-4);
+ For(I=x_1; I<x_2; I++)
+ {
+  VLine(I,y+5,y2-5, 145 - ((x_1-I)*(15)/(x_2-x_1))); // C'mon, figure this part out =)
+ }
+ DrawWindowBorder(x,y,x2,y2);
+}
+
+void DrawDGradientWindow(int x, int y, int x2, int y2)
+{
+ int I,x_1,x_2,y_1,y_2;
+ x_1=(x+5);
+ x_2=(x+4);
+ y_1=(y+4);
+ y_2=(y+5);
+ For(I=0; I<(((x2-x)-9)+((y2-y)-9)); I++)
+ {
+  if(y_1<=(y2))
+  {
+   x_1--;
+  }
+  if(x_2<=(x2))
+  {
+   y_2--;
+  }
+  if(y_1>(y2))
+  {
+   y_1--;
+  }
+  if(x_2>(x2))
+  {
+   x_2--;
+  }
+  Line(x_1,y_1,x_2,y_2, 145 + (I*(15)/((x2-x)+(y2-y))));
+  x_1++;
+  y_1++;
+  x_2++;
+  y_2++;
+
+ }
+ DrawWindowBorder(x,y,x2,y2);
+} */
+
+
+void DrawWindowBorder(int x, int y, int x2, int y2)
+{
+  HLine(x+3,y,x2-3,1);
+  HLine(x+3,y2,x2-3,1);
+  VLine(x,y+3,y2-3,1);
+  VLine(x2,y+3,y2-3,1);
+  HLine(x+3,y+1,x2-3,19);
+  HLine(x+3,y2-1,x2-3,19);
+  VLine(x+1,y+3,y2-3,19);
+  VLine(x2-1,y+3,y2-3,19);
+  Rect(x+2,y+2, x2-2, y2-2, 26);
+  Rect(x+3,y+3, x2-3, y2-3, 16);
+  Rect(x+4,y+4, x2-4, y2-4, 1);
+
+  //Round off the edges a bit.
+
+  SetPixel(x+2,y+1,1);
+  SetPixel(x+1,y+2,1);
+  SetPixel(x+2,y+2,19);
+  SetPixel(x+3,y+3,26);
+  SetPixel(x+4,y+4,16);
+
+  SetPixel(x2-2,y+1,1);
+  SetPixel(x2-1,y+2,1);
+  SetPixel(x2-2,y+2,19);
+  SetPixel(x2-3,y+3,26);
+  SetPixel(x2-4,y+4,16);
+
+  SetPixel(x+2,y2-1,1);
+  SetPixel(x+1,y2-2,1);
+  SetPixel(x+2,y2-2,19);
+  SetPixel(x+2,y2-3,19);
+  SetPixel(x+3,y2-2,19);
+  SetPixel(x+3,y2-3,26);
+  SetPixel(x+3,y2-4,26);
+  SetPixel(x+4,y2-3,26);
+  SetPixel(x+4,y2-4,16);
+  SetPixel(x+4,y2-5,16);
+  SetPixel(x+5,y2-4,16);
+  SetPixel(x+5,y2-5,1);
+
+  SetPixel(x2-2,y2-1,1);
+  SetPixel(x2-1,y2-2,1);
+  SetPixel(x2-2,y2-2,19);
+  SetPixel(x2-2,y2-3,19);
+  SetPixel(x2-3,y2-2,19);
+  SetPixel(x2-3,y2-3,26);
+  SetPixel(x2-3,y2-4,26);
+  SetPixel(x2-4,y2-3,26);
+  SetPixel(x2-4,y2-4,16);
+  SetPixel(x2-4,y2-5,16);
+  SetPixel(x2-5,y2-4,16);
+  SetPixel(x2-5,y2-5,1);
+}

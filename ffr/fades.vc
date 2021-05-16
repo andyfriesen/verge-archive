@@ -1,0 +1,367 @@
+int snd_battle_zoom;
+
+void FadeOut(int span, int upd)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      if (upd) ProcessEntities();
+      k--;
+      timer--;
+      n++;
+    }
+    if (upd)
+    {
+      Render();
+      ShowPage();
+    }
+    if (n>span) n=span;
+    PaletteMorph(0,0,0,0,63-(n*63/span));
+  }
+  timer=0;
+}
+
+void FadeIn(int span, int upd)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      if (upd) ProcessEntities();
+      k--;
+      timer--;
+      n++;
+    }
+    if (upd)
+    {
+      Render();
+      ShowPage();
+    }
+    if (n>span) n=span;
+    PaletteMorph(0,0,0,0,n*63/span);
+  }
+  timer=0;
+}
+
+void BoxedFadeOut(int span, int upd)
+{
+ int n, k;
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   if (upd) ProcessEntities();
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  RectFill(0,0,0+(n*(ScreenX/2)/span),ScreenY, 0);
+  RectFill(ScreenX-(n*(ScreenX/2)/span),0,ScreenX,ScreenY, 0);
+  RectFill(0,ScreenY-(n*(ScreenY/2)/span),ScreenX,ScreenY, 0);
+  RectFill(0,0,ScreenX,0+(n*(ScreenY/2)/span), 0);
+//  PaletteMorph(0,0,0,0,63-(n*63/span));
+  ShowPage();
+ }
+ timer=0;
+ PaletteMorph(0,0,0,0,0);
+}
+
+void BoxedFadeIn(int span, int upd)
+{
+ int n, k;
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   if (upd) ProcessEntities();
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  RectFill(0,0,(ScreenX/2)-(n*(ScreenX/2)/span),ScreenY, 0);
+  RectFill((ScreenX/2)+(n*(ScreenX/2)/span),0,ScreenX,ScreenY, 0);
+  RectFill(0,(ScreenY/2)+(n*(ScreenY/2)/span),ScreenX,ScreenY, 0);
+  RectFill(0,0,ScreenX,(ScreenY/2)-(n*(ScreenY/2)/span), 0);
+//  PaletteMorph(0,0,0,0,n*63/span);
+  PaletteMorph(0,0,0,0,63);
+  ShowPage();
+ }
+ timer=0;
+// PaletteMorph(0,0,0,0,63);
+}
+
+
+void WhiteOut(int span)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      k--;
+      timer--;
+      n++;
+    }
+    if (n>span) n=span;
+    PaletteMorph(63,63,63,n*100/span,63);
+  }
+  timer=0;
+}
+void WhiteIn(int span)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      k--;
+      timer--;
+      n++;
+    }
+    if (n>span) n=span;
+    PaletteMorph(63,63,63,100-(n*63/span),63);
+  }
+  PaletteMorph(0,0,0,0,63);
+  timer=0;
+}
+
+void MosaicFadeOut(int span, int upd)
+{
+ int n, k;
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   if (upd) ProcessEntities();
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  Mosaic(1+(n*23/span), 1+(n*23/span), mosaic_table, 0, 0, ScreenX, ScreenY);
+//  New_Mosaic(1+(n*23/span), 1+(n*23/span), 0, 0, ScreenX, ScreenY);
+//  PaletteMorph(0,0,0,0,63-(n*63/span));
+  ShowPage();
+ }
+ timer=0;
+ PaletteMorph(0,0,0,0,0);
+}
+
+void MosaicFadeIn(int span, int upd)
+{
+ int n, k;
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   if (upd) ProcessEntities();
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  Mosaic(24-(n*23/span), 24-(n*23/span), mosaic_table, 0, 0, ScreenX, ScreenY);
+//  New_Mosaic(24-(n*23/span), 24-(n*23/span), 0, 0, ScreenX, ScreenY);
+//  PaletteMorph(0,0,0,0,n*63/span);
+  ShowPage();
+  PaletteMorph(0,0,0,0,63);
+ }
+ timer=0;
+// PaletteMorph(0,0,0,0,63);
+}
+
+void BoxedMosaicFadeOut(int span, int upd)
+{
+ int n, k;
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   if (upd) ProcessEntities();
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  Mosaic(1+(n*23/span), 1+(n*23/span), mosaic_table, 0+(n*(ScreenX/2)/span), 0+(n*(ScreenY/2)/span), ScreenX-(n*(ScreenX/2)/span), ScreenY-(n*(ScreenY/2)/span));
+//  New_Mosaic(1+(n*23/span), 1+(n*23/span), 0+(n*(ScreenX/2)/span), 0+(n*(ScreenY/2)/span), ScreenX-(n*(ScreenX/2)/span), ScreenY-(n*(ScreenY/2)/span));
+  RectFill(0,0,0+(n*(ScreenX/2)/span),ScreenY, 0);
+  RectFill(ScreenX-(n*(ScreenX/2)/span),0,ScreenX,ScreenY, 0);
+  RectFill(0,ScreenY-(n*(ScreenY/2)/span),ScreenX,ScreenY, 0);
+  RectFill(0,0,ScreenX,0+(n*(ScreenY/2)/span), 0);
+//  PaletteMorph(0,0,0,0,63-(n*63/span));
+  ShowPage();
+ }
+ timer=0;
+ PaletteMorph(0,0,0,0,0);
+}
+
+void BoxedMosaicFadeIn(int span, int upd)
+{
+ int n, k;
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   if (upd) ProcessEntities();
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  Mosaic(24-(n*23/span), 24-(n*23/span), mosaic_table, (ScreenX/2)-(n*(ScreenX/2)/span), (ScreenY/2)-(n*(ScreenY/2)/span), (ScreenX/2)+(n*(ScreenX/2)/span), (ScreenY/2)+(n*(ScreenY/2)/span));
+//  New_Mosaic(24-(n*23/span), 24-(n*23/span), (ScreenX/2)-(n*(ScreenX/2)/span), (ScreenY/2)-(n*(ScreenY/2)/span), (ScreenX/2)+(n*(ScreenX/2)/span), (ScreenY/2)+(n*(ScreenY/2)/span));
+  RectFill(0,0,(ScreenX/2)-(n*(ScreenX/2)/span),ScreenY, 0);
+  RectFill((ScreenX/2)+(n*(ScreenX/2)/span),0,ScreenX,ScreenY, 0);
+  RectFill(0,(ScreenY/2)+(n*(ScreenY/2)/span),ScreenX,ScreenY, 0);
+  RectFill(0,0,ScreenX,(ScreenY/2)-(n*(ScreenY/2)/span), 0);
+//  PaletteMorph(0,0,0,0,n*63/span);
+  ShowPage();
+  PaletteMorph(0,0,0,0,63);
+ }
+ timer=0;
+// PaletteMorph(0,0,0,0,63);
+}
+
+void BattleMosaicZoomIn(int span)
+{
+ int n, k, screen_buffer;
+ timer=0;
+ n=0;
+ k=span;
+ screen_buffer=malloc(ScreenX * ScreenY);
+ GrabRegion(0, 0, ScreenX-1, ScreenY-1, screen_buffer);
+ PlaySound(snd_battle_zoom, 128, 128);
+ while (k>0)
+ {
+  while (timer)
+  {
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  ScaleSprite(0-(n*4),0-(n*4), ScreenX-1, ScreenY-1, (ScreenX+(n*8)), (ScreenY+(n*8)), screen_buffer);
+  Mosaic(1+(n*23/span), 1+(n*23/span), mosaic_table, 0, 0, ScreenX, ScreenY);
+//  New_Mosaic(1+(n*23/span), 1+(n*23/span), 0, 0, ScreenX, ScreenY);
+  ShowPage();
+ }
+
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  Render();
+  ScaleSprite(0+(n*4)-(span*4),0+(n*4)-(span*4), ScreenX-1, ScreenY-1, (ScreenX+(span*8)-(n*8)), (ScreenY+(span*8)-(n*8)), screen_buffer);
+  Mosaic(24-(n*23/span), 24-(n*23/span), mosaic_table, 0, 0, ScreenX, ScreenY);
+//  New_Mosaic(24-(n*23/span), 24-(n*23/span), 0, 0, ScreenX, ScreenY);
+  ShowPage();
+ }
+
+ timer=0;
+ n=0;
+ k=span*2;
+ PlaySound(snd_battle_zoom, 128, 128);
+ while (k>0)
+ {
+  while (timer)
+  {
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>(span*2)) n=span*2;
+  Render();
+  ScaleSprite(0-(n*4),0-(n*4), ScreenX-1, ScreenY-1, (ScreenX+(n*8)), (ScreenY+(n*8)), screen_buffer);
+  Mosaic(1+(n*23/(span*2)), 1+(n*23/(span*2)), mosaic_table, 0, 0, ScreenX, ScreenY);
+//  New_Mosaic(1+(n*23/(span*2)), 1+(n*23/(span*2)), 0, 0, ScreenX, ScreenY);
+  ShowPage();
+ }
+ timer=0;
+ n=0;
+ k=span;
+ while (k>0)
+ {
+  while (timer)
+  {
+   k--;
+   timer--;
+   n++;
+  }
+  if (n>span) n=span;
+  PaletteMorph(0,0,0,0,63-(n*63/span));
+ }
+ PaletteMorph(0,0,0,0,0);
+ free(screen_buffer);
+ timer=0;
+}
+
+void New_Mosaic(int xfocus, int yfocus, int x1, int y1, int x2, int y2)
+{
+ int grab,grab2;
+ int xw,yw;
+ xw=x2-x1;
+ yw=y2-y1;
+ grab=malloc((xw+1)*(yw+1));
+ grab2=malloc((xw/xfocus)*(yw/yfocus));
+ GrabRegion(x1, y1, x2, y2, grab);
+ ScaleSprite(0,   0, xw-1, yw-1, (xw-1)/xfocus, (yw-1)/yfocus, grab);
+ free(grab);
+ GrabRegion(x1, y1, x1+(xw/xfocus), y1+(yw/yfocus), grab2);
+ ScaleSprite(x1, y1, (xw/xfocus), (yw/yfocus), xw-1, yw-1, grab2);
+ free(grab2);
+}

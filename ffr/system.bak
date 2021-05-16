@@ -1,0 +1,450 @@
+//old V1 functions emulated in V2
+//some of the variables may be useless because i cut and paste code to make this
+//--zero
+
+// -- Compatibility vars -- //
+
+int flags[8000];                      // Yeesh. 8000 flags.
+int gp;                               // Current gold.
+
+// -- Internal use -- //
+
+int system_initialized;               // V1 Compatibility lib initialized
+// int textbox;                          // Text box image pointer
+// int speechpic;                        // Speech portrait buffer
+// int tbfont;
+int ptrgfx;
+int msgspeed;
+int pcspic[6];
+
+// -- Mapswitch stuff -- //
+
+string current_map;
+int gotox, gotoy;
+
+// -- Temporary variable thingies. -- //
+
+int volatile;           // never assume this has any set value between routines
+int i, done;            // generic done flag for loops
+
+// -- raster thingos --
+
+int linectr, linecalc;
+int retrace, rxsize, rysize;
+
+// -- generic globals --
+int mosaic_table;
+
+// -- stuff --
+int mspeed;
+int font;
+
+// ================================= Code ====================================
+
+int wrap(int range, int n)
+{
+  while (n < 0) n += range;
+  while (n >= range) n -= range;
+
+  return n;
+}
+
+int bound(int lo, int hi, int n)
+{
+  if (lo > hi) exit("lo > hi in bound()");
+
+  if (n < lo) n = lo;
+  if (n > hi) n = hi;
+
+  return n;
+}
+
+int breach(int lo, int hi, int v, string s)
+{
+  if (v < lo || v > hi)
+    exit("breach: "+str(v)+" out of "+str(lo)+"-"+str(hi)+"; " + s);
+}
+
+// allocate mem and initialize all bytes to a given value
+int ialloc(int amount, int v)
+{
+  int m;
+
+  m = malloc(amount);
+  if (!m) exit("memory exhausted");
+
+  memset(m, v, amount);
+
+  return m;
+}
+
+void sound(int s)
+{
+  playsound(s, 64, 128);
+}
+
+/* void Text(int picidx, string a, string b, string c)
+{
+  int thx, thy;
+  if(!tbfont)
+  {
+    tbfont=LoadFont("text.fnt");
+  }
+  if(!speechpic)
+  {
+    speechpic=LoadImage("speech.pcx");
+  }
+  if(!textbox)
+  {
+    textbox=LoadImage("textbox.pcx");
+  }
+  while (timer)
+  {
+    ProcessEntities();
+    timer--;
+  }
+  Unpress(1);
+  while (!b1)
+  {
+    Render();
+    thx=screenx/2-160;
+    thy=screeny-65;
+    if (screenx!=256)
+    {
+      TCopySprite(thx+1, thy-33, 32, 32, speechpic+(picidx*1024));
+      TCopySprite(thx, thy, 320, 64, textbox);
+      GotoXY(thx+6,thy+5);  PrintString(1,a);
+      GotoXY(thx+6,thy+24); PrintString(1,b);
+      GotoXY(thx+6,thy+43); PrintString(1,c);
+    }
+    if (screenx==256)
+    {
+      TCopySprite(1, thy-33, 32, 32, speechpic+(picidx*1024));
+      ScaleSprite(1, thy, 320, 64, 256-2, 64, textbox);
+      GotoXY(1+6,thy+5);  PrintString(1,a);
+      GotoXY(1+6,thy+24); PrintString(1,b);
+      GotoXY(1+6,thy+43); PrintString(1,c);
+    }
+    ShowPage();
+    UpdateControls();
+    thy++;
+  }
+  Unpress(1);
+  timer=0;
+}
+
+void SText(int picidx, string a, string b, string c)
+{
+  int thx, thy, tdly, tick;
+  if(!tbfont)
+  {
+    tbfont=LoadFont("text.fnt");
+  }
+  if(!speechpic)
+  {
+    speechpic=LoadImage("speech.pcx");
+  }
+  if(!textbox)
+  {
+    textbox=LoadImage("textbox.pcx");
+  }
+  tdly=0;
+  Render();
+  thx=screenx/2-160;
+  thy=screeny-65;
+  Unpress(1);
+  TCopySprite(thx+1, thy-33, 32, 32, speechpic+(picidx*1024));
+  TCopySprite(thx, thy, 320, 64, textbox);
+  ShowPage();
+  while (timer)
+  {
+    ProcessEntities();
+    timer--;
+  }
+  While(!b1)
+  {
+    While(tdly<strlen(a))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+5);
+      PrintString(tbfont, left(a,tdly));
+      ShowPage();
+    }
+    While(tdly<(strlen(b)+strlen(a)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+24);
+      PrintString(tbfont, left(b,tdly-strlen(a)));
+      ShowPage();
+    }
+    While(tdly<(strlen(c)+strlen(a)+strlen(b)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+43);
+      PrintString(tbfont, left(c,tdly-strlen(a)-strlen(b)));
+      ShowPage();
+    }
+    UpdateControls();
+  }
+  ProcessEntities();
+  Unpress(1);
+  timer=0;
+}
+
+void TickText(int picidx, string a, string b, string c)
+{
+  int thx, thy, tdly, tick;
+  if(!tbfont)
+  {
+    tbfont=LoadFont("text.fnt");
+  }
+  if(!speechpic)
+  {
+    speechpic=LoadImage("speech.pcx");
+  }
+  if(!textbox)
+  {
+    textbox=LoadImage("textbox.pcx");
+  }
+  tdly=0;
+  Render();
+  thx=screenx/2-160;
+  thy=screeny-65;
+  Unpress(1);
+  TCopySprite(thx+1, thy-33, 32, 32, speechpic+(picidx*1024));
+  TCopySprite(thx, thy, 320, 64, textbox);
+  ShowPage();
+  tick=CacheSound("piano48.wav");
+  while (timer)
+  {
+    ProcessEntities();
+    timer--;
+  }
+  While(!b1)
+  {
+    While(tdly<strlen(a))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+5);
+      PrintString(tbfont, left(a,tdly));
+      ShowPage();
+      PlaySound(tick,64,128);
+    }
+    While(tdly<(strlen(b)+strlen(a)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+24);
+      PrintString(tbfont, left(b,tdly-strlen(a)));
+      ShowPage();
+      PlaySound(tick,64,128);
+    }
+    While(tdly<(strlen(c)+strlen(a)+strlen(b)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+43);
+      PrintString(tbfont, left(c,tdly-strlen(a)-strlen(b)));
+      ShowPage();
+      PlaySound(tick,64,128);
+    }
+    UpdateControls();
+  }
+  ProcessEntities();
+  FreeAllSounds();
+  Unpress(1);
+  timer=0;
+} */
+
+void AlterBTile(int x, int y, int value, int obs)
+{
+  SetTile(x, y, 0, value);
+  SetTile(x, y, 6, obs);
+}
+
+void AlterFTile(int x, int y, int value, int obs)
+{
+  SetTile(x, y, 1, value);
+  SetTile(x, y, 6, obs);
+}
+
+void ChangeZone(int x, int y, int newzone)
+{
+  SetTile(x,y, 7, newzone);
+}
+
+void MapSwitch(string mapname, int x, int y, int fade)
+{
+  current_map=mapname;
+  gotox=x;
+  gotoy=y;
+  Map(mapname);
+}
+
+/* void InitializeMap()
+{
+  SystemStartup();
+  SetPlayer(EntitySpawn(gotox, gotoy, "vecna.chr"));
+}
+
+void EnforceAnimation()
+{
+  InitializeMap();
+} */
+
+void Warp(int x, int y)
+{
+  FadeOut(25,1);
+  entity.x[player]=x*16;
+  entity.y[player]=y*16;
+  entity.tx[player]=x;
+  entity.ty[player]=y;
+  Render();
+  ShowPage();
+  FadeIn(25,1);
+}
+
+void Wait(int wdly)
+{
+  int i;
+
+  timer=0; i=0;
+  while (i<wdly)
+  {
+    while (timer)
+    {
+      timer--; i++;
+      ProcessEntities();
+    }
+    UpdateControls();
+//    Render();
+    ShowPage();
+  }
+  timer=0;
+}
+
+void FadeOut(int span, int upd)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      if (upd) ProcessEntities();
+      k--;
+      timer--;
+      n++;
+    }
+    if (upd)
+    {
+      Render();
+      ShowPage();
+    }
+    if (n>span) n=span;
+    PaletteMorph(0,0,0,0,63-(n*63/span));
+  }
+  timer=0;
+}
+
+void FadeIn(int span, int upd)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      if (upd) ProcessEntities();
+      k--;
+      timer--;
+      n++;
+    }
+    if (upd)
+    {
+      Render();
+      ShowPage();
+    }
+    if (n>span) n=span;
+    PaletteMorph(0,0,0,0,n*63/span);
+  }
+  timer=0;
+}
+
+void WhiteOut(int span)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      k--;
+      timer--;
+      n++;
+    }
+    if (n>span) n=span;
+    PaletteMorph(63,63,63,n*100/span,63);
+  }
+  timer=0;
+}
+
+int neg(int n)
+{
+  return 0-n;
+}
+
+int sgn(int n)
+{
+  if(n>0) return 1;
+  if(n<0) return neg(1);
+  return 0;
+}
+
+int nsgn(int n)
+{
+  if(n>0) return n;
+  else return 0-n;
+}
+
+int nwsgn(int n)
+{
+  n=n<<16;
+  if(n>0) return n>>16;
+  else return 0-(n>>16);
+}
+
+
+void WhiteIn(int span)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      k--;
+      timer--;
+      n++;
+    }
+    if (n>span) n=span;
+    PaletteMorph(63,63,63,100-(n*63/span),63);
+  }
+  PaletteMorph(0,0,0,0,63);
+  timer=0;
+}
+
+#include "texts.vc";
+
+
+

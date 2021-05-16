@@ -1,0 +1,21 @@
+#define Faceup 1
+#define Facedown 0
+#define Faceleft 3
+#define Faceright 2
+
+#define True 1
+#define False 0
+
+#define MaxEnts 256
+
+/* Engine Variables. */
+//int plr; //Stores the entity index of the player.
+int t; //Stores how much time has passed between frames. All movement calculations in the engine must be based on t.
+int zone; //stores the last zone the player had walked on.
+
+/* Entity Variables */
+int Ismoving[MaxEnts]; //stores whether an entity is moving or not.
+int FTime[MaxEnts]; //the frame timer for each entity,
+
+/* Misc variables */
+string Sub[4]; //Stores the strings to access the font subsets.

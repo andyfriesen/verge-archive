@@ -1,0 +1,279 @@
+int time; //Alternate timer variable.
+int plr; //Stores which entity the player is currently controlling.
+int obs[8]; //Stores the obstructions adjacent to the character, if any.
+int zones[4]; //Stores which zones are adjacent to the player.
+int talk[4]; //Stores which entities are adjacent to the player.(Sheng Long Gradilla)
+int frame; //Stores which frame to display for the player.
+int speed; //Stores how fast the player is moving.
+int run; //Stores if the player is running or not.
+int curzone; //The zone the player is currently over.
+int th; //highlighted tile;
+int PlrX, PlrY; //Variables for putting the player at the right spot on the map, after a mapswitch.
+string PlrChr; //Stores which chr file to use for the player.
+int SysInit; //Stores whether or not the Startup function, which loads up any graphics/sound, has been run.
+int numevents; //Number of map events, excluding entity actions (which must be at the end).(Sheng Long Gradilla) 
+int entcount; //Stores the number of entities on screen.(Sheng Long Gradilla)
+int adjaccent; //Tells if there's an entity adjaccent to the player.(Sheng Long Gradilla)
+int buttonpress; //Required for "adjaccent activable only" zones.
+int obsscan; //Used for scanning obstructions. If different than 0, there's an obstruction.
+int probe; //Used for probing obstructions
+int intown;
+int pointer;
+
+
+#define ChrWidth 16
+#define ChrHeight 16
+
+
+#define ChrNumFrames 7
+
+/////////////////////////////////////////////////////////////////////////////
+//Real code begins here./////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+void Main() //Main game function, gets called every retrace.
+{
+ if(!time) return; //Forces a max framerate of 100FPS. Sorry for all you people with high-end computers, but 100FPS should be enough for you anyways. ;)
+ ProcessZones();
+ DoButtons(); //Check if the player is pressing any keys.
+ MovePlayer(); //Move the player.
+ DoFrames(); //Update the player's walking frame.
+ time=0; //Reset the time to 0.
+}
+
+void DoButtons()
+{
+ UpdateControls();
+ If(key[29]) //If control is pressed...
+ {
+  run=1; //The player is now running.
+  speed=time*2; //Make the player move faster. Remember that running speed may vary from computer to computer, but it should be around 200 pixels/second.
+ }
+ else //If control isn't pressed...
+ {
+  run=0; //The player is no longer running.
+  speed=time; //This will move the player at a rate of 100 pixels/second, which is default walking speed.
+ }
+ if(b1) //If the player pressed enter...
+ {
+  Unpress(1);
+  buttonpress=1;
+  CallZone(entity.facing[plr]);
+  buttonpress=0;
+ }
+}
+
+void MovePlayer()
+{
+ int i;
+ ismoving[plr]=False;
+ if(up) 
+ { 
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceUp;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr])>>4,(entity.y[plr]-1)>>4,6) && !GetTile((entity.x[plr]+15)>>4,(entity.y[plr]-1)>>4,6))
+   { 
+    entity.y[plr]--; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ }
+ if(down) 
+ {  
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceDown;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr])>>4,(entity.y[plr]+16)>>4,6) && !GetTile((entity.x[plr]+15)>>4,(entity.y[plr]+16)>>4,6))
+   { 
+    entity.y[plr]++; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ } 
+ if(left) 
+ {  
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceLeft;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr]-1)>>4,(entity.y[plr])>>4,6) && !GetTile((entity.x[plr]-1)>>4,(entity.y[plr]+15)>>4,6))
+   { 
+    entity.x[plr]--; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ } 
+ if(right) 
+ {  
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceRight;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr]+16)>>4,(entity.y[plr])>>4,6) && !GetTile((entity.x[plr]+16)>>4,(entity.y[plr]+15)>>4,6))
+   { 
+    entity.x[plr]++; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ }  
+} 
+
+
+void DoFrames()
+{
+ frame+=speed; //Update the frame counter.
+ if(frame>=80) frame=0; //If it just went through the last frame, then reset it to the beginning.
+
+ //This code sets the approprate frames for the player. Note that it only supports V1 style movement frames currently, but I'll add support for different frame amounts later.
+ if(frame >=  0 && frame <=  9) entity.specframe[plr]=0+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 10 && frame <= 19) entity.specframe[plr]=1+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 20 && frame <= 29) entity.specframe[plr]=2+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 30 && frame <= 39) entity.specframe[plr]=3+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 40 && frame <= 49) entity.specframe[plr]=0+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 50 && frame <= 59) entity.specframe[plr]=4+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 60 && frame <= 69) entity.specframe[plr]=5+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 70 && frame <= 79) entity.specframe[plr]=6+(entity.facing[plr]*ChrNumFrames);
+}
+
+
+void ProcessZones()
+{
+ int z;
+ z=GetTile(entity.tx[plr], entity.ty[plr], 7);
+ if(z && z!=zone)
+ {
+  HookTimer(0);
+  HookRetrace(0); //Disable the movement script.
+  zone=z;
+  CallEvent(z);
+  HookTimer(TimeUpdate);
+  HookRetrace(Main); //Re-enable the movement script.
+ }
+ else if(!z && zone) zone=0;
+}
+
+void CallZone(int facing) //Check if there is a zone in front of the player, and if yes, call it.
+{
+ adjaccent=0;
+ for(entcount=0; entcount<numentsonscreen; entcount++)
+ {
+  if(facing=0 && entity.ty[entsonscreen[entcount]]=entity.ty[plr]+1 && entity.tx[entsonscreen[entcount]]=entity.tx[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+  if(facing=1 && entity.ty[entsonscreen[entcount]]=entity.ty[plr]-1 && entity.tx[entsonscreen[entcount]]=entity.tx[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+  if(facing=2 && entity.tx[entsonscreen[entcount]]=entity.tx[plr]-1 && entity.ty[entsonscreen[entcount]]=entity.ty[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+  if(facing=3 && entity.tx[entsonscreen[entcount]]=entity.tx[plr]+1 && entity.ty[entsonscreen[entcount]]=entity.ty[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+ }
+ if(adjaccent=1)
+ {
+  HookTimer(0);
+  HookRetrace(0); //Disable the movement script.
+  CallEvent(talk[facing]);
+  HookTimer(TimeUpdate);
+  HookRetrace(Main); //Re-enable the movement script.
+ }
+ else
+ {
+  if(zones[facing]>0) //If the zone in front of the player is not zone 0...
+  {
+   HookTimer(0);
+   HookRetrace(0); //Disable the movement script.
+   CallEvent(zones[facing]); //Call the zone's event. (The zone number must be the identical to the script number that it calls.)
+   HookTimer(TimeUpdate);
+   HookRetrace(Main); //Re-enable the movement script.
+  }
+  else{TickText(0, "There's nothing here.","","");}
+ }
+}
+
+void TimeUpdate() //Alternate timer function, because the real timer doesn't work that well after 2 ticks or so. This gets called by a hooktimer.
+{
+ time++; //Increase the timer by one every tick.
+}
+
+void PEnts() //Processes the entities at a constant rate. Much better than regular ProcessEntities. :)
+{
+ While(timer)
+ {
+  Timer--;
+  ProcessEntities();
+ }
+}
+
+void Startup() //Initialize any variables, load any graphics, etc. in here, and call it at the autoexec event of your first map.
+{
+ if(!SysInit) //If this function hasn't been run yet...
+ {
+  SysInit++; //This function can never be called again now. (Unless you set SysInit back to 0)
+  //Load any graphics, etc. here.
+  speechpic[0]=LoadImage("speech.pcx");
+  speechpic[1]=LoadImage("hspeech.pcx");
+  LoadFont("font0.fnt"); //Loads the textbox font into slot 1.
+  pointersnd=CacheSound("Pointer.wav");
+  buzz=CacheSound("Buzz.wav");
+  ttlcursor=LoadImage("Cursor.pcx");
+  lcursor=LoadImage("Cursor2.pcx");
+  bgimg=LoadImage("wbg0.pcx");
+  fanfare=CacheSound("Fanfare.wav");
+  guage=LoadImage("guage.pcx");
+  snd_battle_zoom=CacheSound("battle2.wav");
+  gamefile=fopen("mosaic.tbl");
+  mosaic_table=malloc(262144);
+  fread(mosaic_table,262144,gamefile);
+  fclose(gamefile);
+  txtsnd=1;
+  PlrChr=""+Str(PartyIndex[1])+""+Str(honored)+".chr";
+  HookKey(57, Menu);
+  HookKey(key_M, WorldMap);
+ }
+}
+
+void InitMap() //Call this function in the autoexec of your maps to have it automatically set the correct palette, and warp your chr to the right spots on the map. :)
+{
+  PlrChr=""+Str(PartyIndex[1])+""+Str(honored)+".chr";
+ //Start running the two main functions of the script.
+ if(intown)
+ {
+  HookTimer(TimeUpdate);
+  HookRetrace(Main);
+  plr=entityspawn(PlrX, PlrY, PlrChr); //Warp the player to the right spot.
+  CameraTracking=2;
+  Tracker=plr;
+ }
+ else
+ {
+  SetPlayer(entityspawn(PlrX, PlrY, PlrChr));
+ }
+}
+
+void MapSwitch(int X, int Y, string Mapname) //Does a mapswitch to the map you specify. If you have InitMap in the autoexec of the map, it will magically warp your chr to the X and Y co-ordinates, as well. ;)
+{
+ PlrX=X; PlrY=Y;
+ Map(Mapname);
+}
+
+
+
+
+
+
+
+
+

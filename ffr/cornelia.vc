@@ -1,0 +1,414 @@
+event // 0 autoexec
+{
+/* NumChars=4;
+ Character[1]=1;
+ Character[2]=1;
+ Character[3]=1;
+ Character[4]=1;
+ PartyIndex[1]=1;
+ PartyIndex[2]=2;
+ PartyIndex[3]=3;
+ PartyIndex[4]=4;
+ PlrX=50; PlrY=89; */
+ for(i=0; i<10; i++)
+ {
+  Plot_Item[i]=1;
+ }
+ PaletteMorph(0,0,0,0,0);
+ intown=1;
+ numevents=35;
+ Startup();
+ InitMap();
+ Render();
+ ShowPage();
+ if(!cambio){BoxedMosaicFadeIn(75,0);}
+ else
+ {
+  FadeIn(50,0);
+  cambio=0;
+ }
+ HookTimer(TimeUpdate);
+ HookRetrace(Main);
+ SetRString("1E23R");
+ GetAllStuff();
+/* Character[15]=1;
+ NumChars=5;
+ PartyIndex[5]=15; */
+}
+
+event // 1 Weapon Shop
+{
+ TickText(0, "Wally's Weapons:","Everything you need to hack up","baddies!");
+}
+
+event // 2 Armor Shop
+{
+ TickText(0, "The Armory:","Gear up for dangers ahead!","");
+}
+
+event // 3 White Magic
+{
+ TickText(0, "The Witch's Hut:","For ALL your White Magic needs!","");
+}
+
+event // 4 Black Magic
+{
+ TickText(0, "The Warlock's Warehouse:","For ALL your Black Magic needs!","");
+}
+
+event // 5 Item Shop
+{
+ TickText(0, "They have all kinds of useful","things here...","Even portable houses!");
+}
+
+event // 6 Clinic
+{
+ TickText(0, "It's nice to know that should","a comrade fall in battle,","they can be revived here...");
+ TickText(0, "For a price.","","");
+}
+
+event // 7 Inn
+{
+ TickText(0,"This is the Imp's Hide","inn and tavern.","");
+}
+
+event // 8 Well
+{
+ TickText(0,"It looks like an ordinary well...",
+            "Cornelia is also known as 'The",
+            "Dream City'...");
+ TickText(0,"Could it be a... Well of Wishes?",
+            "There's only one way to know that.","");
+}
+
+event // 9 Tree
+{
+ TickText(0, "Yep, that's a tree all right. Not",
+             "a fruit tree though! :(","");
+}
+
+event // 10 Water
+{
+ TickText(0, "Look at your face on the clean",
+             "water. How dirty! How about",
+             "splashing some cool water over it?");
+}
+
+event // 11 Bridge
+{
+ if(buttonpress)
+ {
+  TickText(0, "This bridge looks safe... But",
+              "we won't know until we cross it.",
+              "NOT a very happy thought :(");
+ }
+}
+
+event // 12 Fountain Loud
+{
+ if(!fountain)
+ {
+  fountain=CacheSound("fountain.wav");
+ }
+ if(counter=0){PlaySound(fountain,96,128);counter=50;}
+ else{counter--;}
+ if(buttonpress)
+ {
+  TickText(0,"There's nothing here.","","");
+ }
+}
+
+event // 13 Fountain Mid
+{
+ if(!fountain)
+ {
+  fountain=CacheSound("fountain.wav");
+ }
+ if(counter=0){PlaySound(fountain,72,128);counter=50;}
+ else{counter--;}
+ if(buttonpress)
+ {
+  TickText(0,"There's nothing here.","","");
+ }
+}
+
+event // 14 Fountain Low
+{
+ if(!fountain)
+ {
+  fountain=CacheSound("fountain.wav");
+ }
+ if(counter=0){PlaySound(fountain,48,128);counter=50;}
+ else{counter--;}
+ if(buttonpress)
+ {
+  TickText(0,"There's nothing here.","","");
+ }
+}
+
+event // 15 Fountain Lowest
+{
+ if(!fountain)
+ {
+  fountain=CacheSound("fountain.wav");
+ }
+ if(counter=0){PlaySound(fountain,24,128);counter=50;}
+ else{counter--;}
+ if(buttonpress)
+ {
+  TickText(0,"There's nothing here.","","");
+ }
+}
+
+event // 16 Nothing
+{
+ if(buttonpress)
+ {
+  TickText(0,"There's nothing here.","","");
+ }
+}
+
+
+event // 17 Fence
+{
+ TickText(0,"It's a wooden fence. The paint","looks new.","");
+}
+
+
+event // 18 Weapon Shop In
+{
+ If(!buttonpress){BoxedMosaicWarp(22,119);}
+ Else{TickText(0, "Wally's Weapons:","Everything you need to hack up","baddies!");}
+}
+
+event // 19 Armor Shop In
+{
+ If(!buttonpress){BoxedMosaicWarp(8,119);}
+ Else{TickText(0, "The Armory:","Gear up for dangers ahead!","");}
+}
+
+event // 20 White Magic In
+{
+ If(!buttonpress){BoxedMosaicWarp(58,119);}
+ Else{TickText(0, "The Witch's Hut:","For ALL your White Magic needs!","");}
+}
+
+event // 21 Black Magic In
+{
+ If(!buttonpress){BoxedMosaicWarp(44,119);}
+ Else{TickText(0, "The Warlock's Warehouse:","For ALL your Black Magic needs!","");}
+}
+
+event // 22 Item Shop In
+{
+ If(!buttonpress){BoxedMosaicWarp(8,140);}
+ Else{TickText(0, "They have all kinds of useful","things here...","Even portable houses!");}
+}
+
+event // 23 Clinic In
+{
+ If(!buttonpress){BoxedMosaicWarp(38,140);}
+ Else
+ {
+  TickText(0, "It's nice to know that should","a comrade fall in battle,","they can be revived here...");
+  TickText(0, "For a price.","","");
+ }
+}
+
+event // 24 Inn In
+{
+ If(!buttonpress){BoxedMosaicWarp(87,149);}
+ Else{TickText(0,"This is the Imp's Hide","inn and tavern.","");}
+}
+
+event // 25 Weapon Shop Out
+{
+ If(!buttonpress){BoxedMosaicWarp(35,52);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 26 Armor Shop Out
+{
+ If(!buttonpress){BoxedMosaicWarp(20,52);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 27 White Magic Out
+{
+ If(!buttonpress){BoxedMosaicWarp(23,34);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 28 Black Magic Out
+{
+ If(!buttonpress){BoxedMosaicWarp(11,34);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 29 Item Shop Out
+{
+ If(!buttonpress){BoxedMosaicWarp(83,52);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 30 Clinic Out
+{
+ If(!buttonpress){BoxedMosaicWarp(74,34);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 31 Inn Out
+{
+ If(!buttonpress){BoxedMosaicWarp(35,76);}
+ Else{TickText(0, "There's nothing here.","","");}
+}
+
+event // 32 Stone Wall
+{
+ TickText (0,"It's a stone wall, which",
+             "shows signs of wear from",
+             "its old age.");
+}
+
+
+event // 33 Entrance to Cornelia Castle
+{
+ TickText(0, "Cornelia Castle Map isn't",
+             "available yet. Sorry for the",
+             "inconvenience.");
+ BoxedMosaicWarp(50,20);
+}
+
+
+event // 33 Exit Cornelia
+{
+ HookRetrace(0);
+ HookTimer(0);
+ BoxedMosaicFadeOut(100,0);
+ MapSwitch(159,155,"world.map");
+}
+
+
+
+event // 0 Arylon
+{
+ TickText(0,"Hello! I am Arylon, the dancer.",
+            "Are you the Warriors of Light?","");
+}
+
+event // 1 Soldier North
+{
+ TickText(0, "The King is sure that someday",
+             "the Warriors of Light will come",
+             "to save the Princess,");
+ TickText(0, "just as in Lukahn's prophecy.","","");
+}
+
+event // 2 Sage
+{
+ TickText(0, "The Prophet Lukahn left the",
+             "town to join his colleages at",
+             "Crescent Lake.");
+}
+
+event // 3 Sailor
+{
+ TickText(0, "I come from Pravoka, a beautiful",
+             "port city located far to the east.","");
+}
+
+event // 4 Woman
+{
+ TickText(0,"This is Cornelia, the so called",
+            "Dream City...",
+            "Or it was!");
+}
+
+event // 5 Woman near Clinic
+{
+ TickText(0, "Please!",
+             "Save our Princess!","");
+}
+
+event // 6 Soldier near Shops
+{
+ TickText(0, "The Warriors of Light!",
+             "Please revive the Power of the",
+             "Orbs.");
+}
+
+event // 7 Old Woman near Shops
+{
+ TickText(0, "Please!",
+             "Save our Princess!","");
+}
+
+event // 8 Entity standing on Bridge
+{
+ TickText(0, "Voila! Entities standing over",
+             "zones now work!! You see, Clay?",
+             "I told you I fixed it.");
+}
+
+event // 9
+{
+
+}
+
+event // 10
+{
+
+}
+
+event // 11
+{
+
+}
+
+event // 12
+{
+ 
+}
+
+event // 13
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+event // 
+{
+}
+
+
+

@@ -1,0 +1,244 @@
+/* This file was created by myself, Sheng Long Gradilla. If you use this
+   file or part of it in your game, give me the credit I deserve. If you
+   downloaded this file from my Web Site, the files Textbox.pcx, Text.fnt
+   and Speech.pcx are included with it. Enjoy these three useful
+   functions. */
+
+//int textbox;                          // Text box image buffer
+//int speechpic[1];                     // Speech portrait buffer
+//int tbfont;                           // TextBox font pointer
+int msgspeed;                         // Message Speed Variable
+int honored;
+int txtsnd;
+
+void Text(int picidx, string a, string b, string c)
+{
+  int thx, thy;
+  HookRetrace(0);
+  Unpress(1);                       // Makes sure the button isn't being held
+  while (!b1)                       // down to properly execute the while loop
+  {
+    Render();                       // Sets the render screen and sets the
+    thx=screenx/2-160;              // position for the textbox
+    thy=screeny-66;
+      TCopySprite(thx+1, thy-34, 32, 32, speechpic[honored]+(picidx*1024));
+      DrawWindow(thx,thy,319,screeny-1,windowbg);
+      GotoXY(thx+6,thy+5);  PrintString(1,a);
+      GotoXY(thx+6,thy+24); PrintString(1,b);
+      GotoXY(thx+6,thy+43); PrintString(1,c);
+    ShowPage();
+    UpdateControls();
+  }
+  Unpress(1);
+  timer=0;
+  HookRetrace(Main);
+}
+
+void SText(int picidx, string a, string b, string c)
+{
+  int thx, thy, tdly;
+  HookRetrace(0);
+  tdly=0;
+  Render();
+  thx=screenx/2-160;
+  thy=screeny-66;
+  Unpress(1);
+  TCopySprite(thx+1, thy-34, 32, 32, speechpic[honored]+(picidx*1024));
+  DrawWindow(thx,thy,319,screeny-1,windowbg);
+  ShowPage();
+  While(!b1)
+  {
+    While(tdly<strlen(a))                // Checks the value and proceeds
+    {                                    // to display the letters one by
+      tdly++;                            // one, incrementing the tdly by
+      GotoXY(thx+6,thy+5);               // one, then checks the value again
+      PrintString(1, left(a,tdly)); // and displays as many letters
+      ShowPage();                        // as the tdly's numerical value.
+      UpdateControls();
+      timer=0;
+      If(b1)
+      {
+        While(timer<(msgspeed/4))
+        {
+        }
+      }
+      else
+      {
+        While(timer<msgspeed)
+        {
+        }
+      }
+      UpdateControls();
+      While(tdly=strlen(a) AND !strlen(b) AND !strlen(c) AND (b1))
+      {
+        UpdateControls();
+      }
+    }
+    While(tdly<(strlen(b)+strlen(a)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+24);
+      PrintString(1, left(b,tdly-strlen(a)));
+      ShowPage();
+      UpdateControls();
+      timer=0;
+      If(b1)
+      {
+        While(timer<(msgspeed/4))
+        {
+        }
+      }
+      else
+      {
+        While(timer<msgspeed)
+        {
+        }
+      }
+      UpdateControls();
+      While(tdly=(strlen(a)+strlen(b)) AND !strlen(c) AND (b1))
+      {
+        UpdateControls();
+      }
+    }
+    While(tdly<(strlen(c)+strlen(a)+strlen(b)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+43);
+      PrintString(1, left(c,tdly-strlen(a)-strlen(b)));
+      ShowPage();
+      UpdateControls();
+      timer=0;
+      If(b1)
+      {
+        While(timer<(msgspeed/4))
+        {
+        }
+      }
+      else
+      {
+        While(timer<msgspeed)
+        {
+        }
+      }
+      UpdateControls();
+      While(tdly=(strlen(c)+strlen(a)+strlen(b)) AND (b1))
+      {
+        UpdateControls();
+      }
+    }
+    UpdateControls();
+  }
+  Unpress(1);
+  timer=0;
+  HookRetrace(Main);
+}
+
+void TickText(int picidx, string a, string b, string c)
+{
+  int thx, thy, tdly, tick, retardo;
+  If(intown) HookRetrace(0);
+  tdly=0;
+  Render();
+  thx=screenx/2-160;
+  thy=screeny-66;
+  Unpress(1);
+  TCopySprite(thx+1, thy-34, 32, 32, speechpic[honored]+(picidx*1024));
+  DrawWindow(thx,thy,319,screeny-1,windowbg);
+  ShowPage();
+  tick=CacheSound("piano48.wav");
+  While(!b1)
+  {
+    While(tdly<strlen(a))                // Checks the value and proceeds
+    {                                    // to display the letters one by
+      tdly++;                            // one, playing a sound after each
+      GotoXY(thx+6,thy+5);               // one, incrementing the tdly by
+      UpdateControls();
+      If(b2){tdly=strlen(a);}
+      PrintString(1, left(a,tdly)); // one, then checks the value again
+      PlaySound(tick,64*txtsnd,128);            // and displays as many letters
+      ShowPage();                        // as the tdly's numerical value.
+      timer=0;
+      If(b1)
+      {
+        While(timer<(msgspeed/4))
+        {
+        }
+      }
+      else
+      {
+        While(timer<msgspeed)
+        {
+        }
+      }
+      UpdateControls();
+      While(tdly=strlen(a) AND !strlen(b) AND !strlen(c) AND (b1))
+      {
+        UpdateControls();
+      }
+    }
+    While(tdly<(strlen(b)+strlen(a)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+24);
+      UpdateControls();
+      If(b2){tdly=strlen(a)+strlen(b);}
+      PrintString(1, left(b,tdly-strlen(a)));
+      PlaySound(tick,64*txtsnd,128);
+      ShowPage();
+      timer=0;
+      If(b1)
+      {
+        While(timer<(msgspeed/4))
+        {
+        }
+      }
+      else
+      {
+        While(timer<msgspeed)
+        {
+        }
+      }
+      UpdateControls();
+      While(tdly=(strlen(a)+strlen(b)) AND !strlen(c) AND (b1))
+      {
+        UpdateControls();
+      }
+    }
+    While(tdly<(strlen(c)+strlen(a)+strlen(b)))
+    {
+      tdly++;
+      GotoXY(thx+6,thy+43);
+      UpdateControls();
+      If(b2){tdly=strlen(a)+strlen(b)+strlen(c);}
+      PrintString(1, left(c,tdly-strlen(a)-strlen(b)));
+      PlaySound(tick,64*txtsnd,128);
+      ShowPage();
+      timer=0;
+      If(b1)
+      {
+        While(timer<(msgspeed/4))
+        {
+        }
+      }
+      else
+      {
+        While(timer<msgspeed)
+        {
+        }
+      }
+      UpdateControls();
+      While(tdly=(strlen(c)+strlen(a)+strlen(b)) AND (b1))
+      {
+        UpdateControls();
+      }
+    }
+    UpdateControls();
+  }
+  Unpress(1);
+  timer=0;
+  if(intown) HookRetrace(Main);
+}
+
+
+
+

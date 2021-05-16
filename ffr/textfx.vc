@@ -1,0 +1,115 @@
+// From CYWolf
+
+#define max_credits 256
+
+string s_credits[max_credits];
+string s_line;
+string frase;
+int leido;
+
+void RollCredits(string file, int font)
+{	int lines, flen, x, y, fhandle;
+        int i, y2, fheight, fwidth, cuenta;
+	fwidth = FontWidth(font);
+	fheight = FontHeight(font);
+	// read in text to scroll
+	flen = FileSize(file);
+	fhandle = fopen(file);
+	lines = 0;
+	while(flen > 0)
+	{	fgetline(s_line,fhandle);
+		flen -= strlen(s_line) + 2;
+		s_credits[lines] = s_line;
+		lines++;
+	}
+	fclose(fhandle);
+	// scroll it!
+	Render();
+	SetClipRect(0,30,ScreenX-1,ScreenY-30);
+	y = ScreenY;
+	while(y2 >= 0)
+	{	y2 = y;
+		UpdateControls();
+		Render();
+		i = 0;
+		while(i < lines)
+		{	if(y2 < ScreenY)
+			{	x = ScreenX - (strlen(s_credits[i]) * FontWidth(font)) / 2;
+				GotoXY(x,y2);
+				PrintString(font,s_credits[i]);
+			}
+			y2 += FontHeight(font);
+			if(b1) y2 += 5;
+			i++;
+		}
+                cuenta++;         // This modification was done by Sheng
+                If(cuenta>8)      // Long Gradilla. It slows down the
+                {                 // text a bit. Increase the number
+                 y--;             // from (cuenta>8) to slow down the
+                 cuenta=0;        // text even more.
+                }                 //
+                if(b2) y-=2000;    // Have a lot of Fun.
+		ShowPage();
+	}
+	RestoreRenderSettings();
+}
+
+
+void Kisha(string file, int font)
+{	int lines, flen, x, y, fhandle;
+        int comparacion;
+        int i, y2, fheight, fwidth, cuenta;
+	fwidth = FontWidth(font);
+	fheight = FontHeight(font);
+	// read in text to scroll
+	flen = FileSize(file);
+	fhandle = fopen(file);
+	lines = 0;
+	while(flen > 0)
+	{	fgetline(s_line,fhandle);
+		flen -= strlen(s_line) + 2;
+		s_credits[lines] = s_line;
+		lines++;
+	}
+	fclose(fhandle);
+	// scroll it!
+	Render();
+	SetClipRect(0,30,ScreenX-1,ScreenY-30);
+	y = ScreenY;
+	while(y2 >= 0)
+	{	y2 = y;
+		UpdateControls();
+		Render();
+		i = 0;
+		while(i < lines)
+		{	if(y2 < ScreenY)
+			{	x = ScreenX - (strlen(s_credits[i]) * FontWidth(font)) / 2;
+				GotoXY(x,y2);
+				PrintString(font,s_credits[i]);
+			}
+			y2 += FontHeight(font);
+			if(b1) y2 += 5;
+			i++;
+		}
+                cuenta++;         // This modification was done by Sheng
+                If(cuenta>18)     // Long Gradilla. It slows down the
+                {                 // text a bit. Increase the number
+                 y--;             // from (cuenta>15) to slow down the
+                 cuenta=0;        // text even more.
+                }                 // Have a lot of Fun.
+                if(b2)
+                {
+                 leido=fopen("save00.sav");
+                 fgetline(frase, leido);
+                 fclose(leido);
+                 comparacion=strcmp("Ya lo leyeron!!!",frase);
+                 if(comparacion=0)
+                 {
+                  y-=2000;
+                 }
+                }
+		ShowPage();
+	}
+	RestoreRenderSettings();
+}
+

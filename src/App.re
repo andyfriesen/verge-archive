@@ -192,8 +192,13 @@ let games: array(Game.game) = [|
         title: "Monty Vecna Demo",
         description: "Demo of Monty Vecna by Thrasher.",
         engine: Game.V2        
+    },
+    {
+        name: "ffr",
+        title: "Final Fantasy Reprise",
+        description: "Final Fantasy Reprise demo, by Sheng Long.",
+        engine: Game.V2        
     }
-    
 |];
 
 let game_with_name = (name) => {

@@ -1,0 +1,70 @@
+int seven_counter;
+int scrSlide[30];
+int clouds;
+int buffer;
+
+
+void PrepareModeSeven()
+{
+ for(seven_counter = 0; seven_counter < 30; seven_counter++)
+ {
+  scrSlide[seven_counter] = malloc((screenx+1)*(((screeny+1)/30)+1));
+ }
+// entity.ty[player]--;
+ entity.y[player] -= 24;
+// clouds = LoadImage("CLOUDS.PCX");
+}
+
+void ModeSeven()
+{
+// buffer = 55;
+// buffer = 171;
+ buffer=0;
+ for(seven_counter = 0; seven_counter < 30; seven_counter++)
+ {
+  grabRegion(0, seven_counter*(screeny/30), screenx, seven_counter*(screeny/30)+(screeny/30), scrSlide[seven_counter]);
+ }
+// CopySprite(0,0,320,46,clouds);
+ RectFill(0,0,screenx,15,247);
+ for(seven_counter = 0; seven_counter < 30; seven_counter++)
+ {
+  scaleSprite(0+(((30-seven_counter))), buffer+15, screenx-1, screeny/30, (screenx)-(((60-(2*seven_counter)))), (screeny/30)-(3-(seven_counter/6)), scrSlide[seven_counter]);
+  buffer=buffer+((screeny/30)-(3-(seven_counter/6)));
+//  buffer=buffer-(10-seven_counter);
+//  buffer=buffer-(3-(seven_counter/10));
+ }
+ RectFill(0,screeny-16,screenx,screeny,247);
+ RectFill(0,0,30,screeny,247);
+ RectFill(screenx-30,0,screenx,screeny,247);
+}
+
+
+void EndModeSeven()
+{
+ for(seven_counter = 0; seven_counter < 10; seven_counter++)
+ {
+  free(scrSlide[seven_counter]);
+ }
+ free(clouds);
+}  
+
+//eof
+
+/* void ModeSeven()
+{
+ buffer = 57;
+ for(seven_counter = 0; seven_counter < 10; seven_counter++)
+ {
+  grabRegion(0, seven_counter*(screeny/10), screenx, seven_counter*(screeny/10)+(screeny/10), scrSlide[seven_counter]);
+ }
+// CopySprite(0,0,320,46,clouds);
+ RectFill(0,0,screenx,23,247);
+ for(seven_counter = 0; seven_counter < 10; seven_counter++)
+ {
+  scaleSprite(0+30-(3*seven_counter), seven_counter*(screeny/10)+buffer-(10-seven_counter)-23, screenx-1, screeny/10, (screenx-1)-60+(6*seven_counter), (screeny/10)-(9-seven_counter), scrSlide[seven_counter]);
+  buffer=buffer-(10-seven_counter);   
+ }
+ RectFill(0,screeny-23,screenx,screeny,247);
+ RectFill(0,0,30,screeny,247);
+ RectFill(screenx-31,0,screenx,screeny,247);
+} */ 

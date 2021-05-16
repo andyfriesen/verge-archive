@@ -1,0 +1,191 @@
+event // 0
+{
+ intown=0;
+// SetPlayer(EntitySpawn(PlrX,PlrY,""+Str(PartyIndex[1])+""+Str(honored)+".chr"));
+// SetPlayer(EntitySpawn(159,155,""+Str(PartyIndex[1])+""+Str(honored)+".chr"));
+ CameraTracking=1;
+ PaletteMorph(0,0,0,0,0);
+// HookKey(KEY_M,Worldmap);
+ InitMap();
+ TakeOffAirShip();
+ SetRString("123RE");
+ HookRetrace(AirShip);
+ Render();
+ ShowPage();
+ if(!cambio){BoxedMosaicFadeIn(75,0);}
+ else
+ {
+  FadeIn(50,0);
+  cambio=0;
+ }
+ EnableSave=1;
+}
+
+event // 1 Cornelia Town
+{
+ BoxedMosaicFadeOut(75,0);
+ HookRetrace(0);
+ MapSwitch(50,89, "cornelia.map");
+}
+
+event // 2 Cornelia Castle
+{
+ TickText(0, "Cornelia Castle Map isn't",
+             "available yet. Sorry for the",
+             "inconvenience.");
+}
+
+event // 3 Temple of Fiends
+{
+ TickText(0, "Temple of Fiends Map isn't",
+             "available yet. Sorry for the",
+             "inconvenience.");
+}
+
+event // 4 Matouya's Cave
+{
+}
+
+event // 5 Pravoca Town
+{
+}
+
+event // 6 ElfLand Town
+{
+}
+
+event // 7 ElfLand Castle
+{
+}
+
+event // 8 Dark Elf Castle
+{
+}
+
+event // 9 Marsh Cave
+{
+}
+
+event // 10 Dwarf Cave
+{
+}
+
+event // 11 Town of Melmond
+{
+}
+
+event // 12 Giant's Tunnel
+{
+}
+
+event // 13 Earth Cave
+{
+}
+
+event // 14 Sarda's Cave
+{
+}
+
+event // 15 Crescent Lake
+{
+}
+
+event // 16 Gurgu Volcano
+{
+}
+
+event // 17 Ice Cave
+{
+}
+
+event // 18 Town of Gaia
+{
+}
+
+event // 19 Cardia Isle 1
+{
+}
+
+event // 20 Cardia Isle 2
+{
+}
+
+event // 21 Cardia Isle 3
+{
+}
+
+event // 22 Cardia Isle 4
+{
+}
+
+event // 23 Cardia Isle 5
+{
+}
+
+event // 24 Bahamut's Cave
+{
+}
+
+event // 25 Castle of Ordeal
+{
+}
+
+event // 26 Town of Onrac
+{
+}
+
+event // 27 Caravan
+{
+}
+
+event // 28 Town of Lefein
+{
+}
+
+event // 29 Desert Tower
+{
+}
+
+event // 30 Mermaids' Shrine
+{
+}
+
+event // 31 Battle!!!!!
+{
+// done=4+Random(8);
+// done=130000;
+ BattleMosaicZoomIn(20);
+ BoxedMosaicFadeIn(75,0);
+ for(i=0;i<NumChars;i++)
+ {
+  If(CharStatus[PartyIndex[i+1]]<2)
+  {
+   done=nxt[PartyIndex[i+1]];
+   ExpUp(PartyIndex[i+1],done);
+  }
+ }
+}
+
+event // 32 Battle!!!!!
+{
+// done=4+Random(16);
+ done=130000;
+ BattleMosaicZoomIn(20);
+ for(i=0;i<NumChars;i++)
+ {
+  If(CharStatus[PartyIndex[i+1]]<2)
+  {
+//   done=nxt[PartyIndex[i+1]];
+   ExpUp(PartyIndex[i+1],done);
+  }
+ }
+ BoxedMosaicFadeIn(75,0);
+}
+
+
+
+
+
+
+
+

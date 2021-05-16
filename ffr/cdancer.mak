@@ -1,0 +1,19 @@
+/* Arylon */
+pcx_name=arylon;
+chr_name=arylon;
+frame_w=16;
+frame_h=32;
+hot_x=0;
+hot_y=16;
+hot_w=16;
+hot_h=16;
+per_row=3;
+total_frames=18;
+uidle=3;
+didle=0;
+lidle=6;
+ridle=9;
+uscript=F4W10F3W10F5W10F3W10;
+dscript=F1W10F0W10F2W10F0W10;
+lscript=F7W10F6W10F8W10F6W10;
+rscript=F10W10F9W10F11W10F9W10;

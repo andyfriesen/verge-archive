@@ -1,0 +1,61 @@
+V2 startup. Logfile initialized. 
+Sys: Initializing keyboard handler.... OK 
+Sys: Initializing timer. Set 100hz.... OK 
+Sys: Initializing CD Audio.... OK 
+Sys: Initializing music system.... OK 
+Sys: Initializing 320x240 (ModeX, planar).... OK 
+Initialize console.... OK 
+Initializing VC interpreter 
+system vclib init: 88 funcs, 129 ints (43688 bytes), 13 strings (93184 bytes) 
+Loading MAP intro.map. [1] ... OK 
+ --> VC opened file ffrintro, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+Loading MAP TITLE.MAP. [1] ... OK 
+ --> VC opened file mosaic.tbl, ptr 1238388 
+VC allocating 262144 bytes, ptr at 1736708. 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file weapons.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file weapons.stt, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file armors.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file armors.stt, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file shields.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file shields.stt, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file helmets.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file helmets.stt, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file gauntlet.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file gauntlet.stt, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 1.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 2.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 3.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 4.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 5.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 6.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 7.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 8.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 9.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 10.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 11.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+ --> VC opened file 12.nam, ptr 1238388 
+ --> VC closed file at ptr 1238388 
+Sys: Exiting with message: Exiting: ALT-X pressed. 

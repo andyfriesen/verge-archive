@@ -1,0 +1,1270 @@
+/* This file belongs to the Final Fantasy Reprise Project. It is the
+Menu System file */
+
+int menubg;      // Pointer to the Menu Background Image
+int statusbg;    // Pointer to the Status Background Image
+int cr2;         // Pointer to the CR2 Image
+int border;      // Pointer to a redraw pic
+int buzz;        // Pointer to Buzz sound
+int EnableSave;  // Save Variable
+int lcursor;     // Pointer to left cursor image
+int savenum;
+int guage;
+int windowbg;
+int windowbgtp;
+int cfgopt;
+int itemopt;
+int itemmnu;
+int itemicons;
+
+void ItemMenuDraw(int itemmnu)
+{
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(32,24,110,48,windowbg);
+ DrawWindow(32,49,82,71,windowbg);
+ DrawWindow(83,49,190,71,windowbg);
+ DrawWindow(32,72,288,204,windowbg);
+ GotoXY(39,33);
+ PrintString(0, "Item Menu");
+ GotoXY(39,57);
+ PrintString(0, "Items");
+ GotoXY(91,57);
+ PrintString(0, "Special Items");
+ switch(itemmnu)
+ {
+  case 0:
+          GotoXY(58,81);
+          PrintString(0, "Potion:");
+          TCopySprite(50,81,8,8,itemicons+(64*15));
+          GotoXY(264,81);
+          PrintString(0, Str(Potion[0]));
+          GotoXY(58,93);
+          PrintString(0, "Antidote:");
+          TCopySprite(50,93,8,8,itemicons+(64*15));
+          GotoXY(264,93);
+          PrintString(0, Str(Potion[1]));
+          GotoXY(58,105);
+          PrintString(0, "Soft Potion:");
+          TCopySprite(50,105,8,8,itemicons+(64*15));
+          GotoXY(264,105);
+          PrintString(0, Str(Potion[2]));
+          GotoXY(58,117);
+          PrintString(0, "Sleeping Bag:");
+          TCopySprite(50,117,8,8,itemicons+(64*16));
+          GotoXY(264,117);
+          PrintString(0, Str(Shelter[0]));
+          GotoXY(58,129);
+          PrintString(0, "Tent:");
+          TCopySprite(50,129,8,8,itemicons+(64*16));
+          GotoXY(264,129);
+          PrintString(0, Str(Shelter[1]));
+          GotoXY(58,141);
+          PrintString(0, "Cottage:");
+          TCopySprite(50,141,8,8,itemicons+(64*16));
+          GotoXY(264,141);
+          PrintString(0, Str(Shelter[2]));
+  case 1:
+          If(Plot_Item[0])
+          {
+           GotoXY(50,81);
+           PrintString(0, "Lute");
+          }
+          If(Plot_Item[1])
+          {
+           GotoXY(50,93);
+           PrintString(0, "Ordeal Crown");
+          }
+          GotoXY(50,105);
+          Switch(Plot_Item[2])
+          {
+           case 1: PrintString(0, "Matouya's Crystal");
+           case 2: PrintString(0, "Matouya's Herb");
+           case 3: PrintString(0, "Mystic Key");
+          }
+          GotoXY(50,117);
+          Switch(Plot_Item[3])
+          {
+           case 1: PrintString(0, "TNT");
+           case 2: PrintString(0, "Ruby");
+           case 3: PrintString(0, "Canoe");
+          }
+          GotoXY(50,129);
+          Switch(Plot_Item[4])
+          {
+           case 1: PrintString(0, "Floater Stone");
+           case 2: PrintString(0, "AirShip Key");
+          }
+          GotoXY(50,141);
+          Switch(Plot_Item[5])
+          {
+           case 1: PrintString(0, "Rat Tail");
+           case 2: PrintString(0, "Bahamut's Award");
+          }
+          GotoXY(50,153);
+          Switch(Plot_Item[6])
+          {
+           case 1: PrintString(0, "Bottle");
+           case 2: PrintString(0, "OxyAle");
+          }
+          GotoXY(50,165);
+          Switch(Plot_Item[7])
+          {
+           case 1: PrintString(0, "Stone Slab");
+           case 2: PrintString(0, "Lefein's Chime");
+          }
+          GotoXY(50,177);
+          If(Plot_Item[8])
+          {
+           PrintString(0, "Glowing Cube");
+          }
+          GotoXY(50,189);
+          If(Plot_Item[9])
+          {
+           PrintString(0, "Adamant Ore");
+          }
+ }
+ If(itemmnu==0)
+ {
+  TCopySprite(23, 56, 16,16,ttlcursor);
+ }
+ If(itemmnu==1)
+ {
+  TCopySprite(76, 56, 16,16,ttlcursor);
+ }
+ TCopySprite(33, 81+(itemopt*12),16,16,ttlcursor);
+ ShowPage();
+}
+
+void ItemMenu()
+{
+ int itemmnu;
+ ItemMenuDraw(itemmnu);
+ ShowPage();
+ FadeIn(50,0);
+ While(!b2)
+ {
+  ItemMenuDraw(itemmnu);
+  If(Left || Right)
+  {
+   Unpress(7);
+   Unpress(8);
+   PlaySound(pointersnd,64,128);
+   Switch(itemmnu)
+   {
+    case 0: itemmnu=1;
+    case 1: itemmnu=0;
+            If(itemopt>5)
+             itemopt=5;
+   }
+  }
+  If (Down)
+  {
+   Unpress(6);
+   itemopt++;
+   PlaySound(pointersnd,64,128);
+   If (itemopt>(5+(itemmnu*4))) {itemopt=0;}
+  }
+  If (Up)
+  {
+   Unpress(5);
+   PlaySound(pointersnd,64,128);
+   if (itemopt==0) {itemopt=(6+(itemmnu*4));}
+   itemopt--;
+  }
+  If (b1)
+  {
+   Unpress(1);
+   ExecItem(itemopt,itemmnu);
+  }
+  UpdateControls();
+ }
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ Unpress(2);
+ MenuDraw();
+ ShowPage();
+ FadeIn(50,0);
+}
+
+void CfgMenuDraw()
+{
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(32,24,131,48,windowbg);
+ DrawWindow(32,49,288,216,windowbg);
+ GotoXY(42,33);
+ PrintString(0, "Config Menu");
+ GotoXY(57,62);
+ PrintString(0, "Background Type");
+ if(windowbgtp=0)
+ {
+  GotoXY(212,62);
+  PrintString(0, "Gradient");
+ }
+ else
+ {
+  GotoXY(233,62);
+  PrintString(0, "Image");
+ }
+ GotoXY(57,76);
+ PrintString(0, "Background Select");
+ GotoXY(264,76);
+ PrintString(0, Str(windowbg));
+ GotoXY(57,90);
+ PrintString(0, "Message Speed");
+ GotoXY(264,90);
+ PrintString(0, Str(msgspeed));
+ GotoXY(57,104);
+ PrintString(0, "Text Sound");
+ If(txtsnd)
+ {
+  GotoXY(257,104);
+  PrintString(0, "On");
+ }
+ else
+ {
+  GotoXY(250,104);
+  PrintString(0, "Off");
+ }
+ switch(cfgopt)
+ {
+  case 0:TCopySprite(42,62,16,16,ttlcursor);
+  case 1:TCopySprite(42,76,16,16,ttlcursor);
+  case 2:TCopySprite(42,90,16,16,ttlcursor);
+  case 3:TCopySprite(42,104,16,16,ttlcursor);
+ }
+ ShowPage();
+}
+
+void ConfigMenu()
+{
+ CfgMenuDraw();
+ FadeIn(50,0);
+ While(!b2)
+ {
+  CfgMenuDraw();
+  If (Down)
+  {
+   Unpress(6);
+   cfgopt++;
+   PlaySound(pointersnd,64,128);
+   If (cfgopt>3) {cfgopt=0;}
+  }
+  If (Up)
+  {
+   Unpress(5);
+   PlaySound(pointersnd,64,128);
+   if (cfgopt==0) {cfgopt=4;}
+   cfgopt--;
+  }
+  switch(cfgopt)
+  {
+   case 0:If(Left || Right)
+          {
+           PlaySound(pointersnd,64,128);
+           Unpress(7);
+           Unpress(8);
+           If(windowbgtp=0)
+           {
+            windowbgtp=1;
+            windowbg=0;
+           }
+           else
+           {
+            windowbgtp=0;
+            windowbg=0;
+           }
+          }
+
+   case 1:If(Left)
+          {
+           PlaySound(pointersnd,64,128);
+           Unpress(7);
+           If(windowbgtp=0)
+           {
+            If(windowbg=0)
+            {
+             windowbg=3;
+            }
+           }
+           else
+           {
+            If(windowbg=0)
+            {
+             windowbg=7;
+            }
+           }
+           windowbg--;
+           free(bgimg);
+           bgimg=LoadImage("wbg"+Str(windowbg)+".pcx");
+          }
+
+          If(Right)
+          {
+           PlaySound(pointersnd,64,128);
+           Unpress(8);
+           windowbg++;
+           if(windowbgtp=0)
+           {
+            if(windowbg=3)
+            {
+             windowbg=0;
+            }
+           }
+           else
+           {
+            if(windowbg=7)
+            {
+             windowbg=0;
+            }
+           }
+           free(bgimg);
+           bgimg=LoadImage("wbg"+Str(windowbg)+".pcx");
+          }
+
+   case 2:If (Left)
+          {
+           Unpress(7);
+           msgspeed--;
+           PlaySound(pointersnd,96,128);
+           if (msgspeed==0) {msgspeed=8;}
+          }
+          if (Right)
+          {
+           Unpress(8);
+           msgspeed++;
+           PlaySound(pointersnd,96,128);
+           if (msgspeed==9) {msgspeed=1;}
+          }
+
+   case 3:If(Left || Right)
+          {
+           PlaySound(pointersnd,64,128);
+           Unpress(7);
+           Unpress(8);
+           If(txtsnd=0)
+           {
+            txtsnd=1;
+           }
+           else
+           {
+            txtsnd=0;
+           }
+          }
+  }
+  UpdateControls();
+ }
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ Unpress(0);
+ MenuDraw();
+ ShowPage();
+ FadeIn(50,0);
+}
+
+void MenuDraw()
+{
+ int i;
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(9, 7, 280, 232, windowbg);
+ DrawWindow(251, 7, 310, 131, windowbg);
+ DrawWindow(251, 132, 310, 191, windowbg);
+ DrawWindow(228, 206, 310, 232, windowbg);
+ for(i=1; i<=NumChars; i++)
+ {
+  GotoXY(60,20+(42*(i-1)));
+  PrintString(0, Name[PartyIndex[i]]);
+  GotoXY(156,20+(42*(i-1)));
+  PrintString(0, "LV "+Str(Level[PartyIndex[i]]));
+  TCopySprite(22,20+(42*(i-1)),32,32, speechpic[honored]+(1024*PartyIndex[i]));
+  GotoXY(60,32+(42*(i-1)));
+  PrintString(0, "HP");
+  GotoXY(109-(strlen(Str(CurHP[PartyIndex[i]]))*7),32+(42*(i-1)));
+  PrintString(0, Str(CurHP[PartyIndex[i]]));
+  GotoXY(109,32+(42*(i-1)));
+  PrintString(0,"/");
+  PrintString(0, Str(MaxHP[PartyIndex[i]]));
+  if(Level[PartyIndex[i]]!=50)
+  {
+   GotoXY(156,32+(42*(i-1)));
+   PrintString(0,"Next Level");
+  }
+  GotoXY(60,44+(42*(i-1)));
+  PrintString(0, "MP");
+  GotoXY(109-(strlen(Str(CurMP[PartyIndex[i]]))*7),44+(42*(i-1)));
+  PrintString(0, Str(CurMP[PartyIndex[i]]));
+  GotoXY(109,44+(42*(i-1)));
+  PrintString(0,"/");
+  PrintString(0, Str(MaxMP[PartyIndex[i]]));
+  if(Level[PartyIndex[i]]!=50)
+  {
+   TCopySprite(159,43+(42*(i-1)),64,10,guage);
+   If((Next[PartyIndex[i]]-Nxt[PartyIndex[i]])!=Exp[PartyIndex[i]])
+   {
+    HLine(164,46+(42*(i-1)),164+(53-(((Next[PartyIndex[i]]-Exp[PartyIndex[i]])*54)/Nxt[PartyIndex[i]])),23);
+    RectFill(163,47+(42*(i-1)),163+(56-(((Next[PartyIndex[i]]-Exp[PartyIndex[i]])*56)/Nxt[PartyIndex[i]])),48+(42*(i-1)),26);
+    HLine(164,49+(42*(i-1)),164+(53-(((Next[PartyIndex[i]]-Exp[PartyIndex[i]])*54)/Nxt[PartyIndex[i]])),23);
+   }
+  }
+ }
+ GotoXY(260,16);
+ PrintString(0, "Item");
+ GotoXY(260,30);
+ PrintString(0, "Magic");
+ GotoXY(260,44);
+ PrintString(0, "Equip");
+ GotoXY(260,58);
+ PrintString(0, "Status");
+ GotoXY(260,72);
+ PrintString(0, "Order");
+ GotoXY(260,86);
+ PrintString(0, "Config");
+ GotoXY(260,100);
+ PrintString(0, "Save");
+ GotoXY(260,114);
+ PrintString(0, "Quit");
+ GotoXY(280-(strlen(Str(GP))*7),215);
+ PrintString(0, Str(GP)+" GP");
+}
+
+
+void MagicMenu(int member)
+{
+ Render();
+ RectFill(0,0,320,240,0);
+ GotoXY(0,0);
+ PrintString(0, "Magic Menu is unavailable. Press Alt to exit");
+ ShowPage();
+ FadeIn(50,0);
+ While(!b2)
+ {
+  UpdateControls();
+ }
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ MenuDraw();
+ ShowPage();
+ FadeIn(50,0);
+}
+
+void EqMenuDraw(int member)
+{
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(32,24,131,48,windowbg);
+ DrawWindow(32,49,130,113,windowbg);
+ DrawWindow(79,49,205,113,windowbg);
+ GotoXY(40,33);
+ PrintString(0, "Equip Menu");
+ GotoXY(40,58);
+ PrintString(0, "RHand");
+ GotoXY(95,58);
+ PrintString(0, Nm_Weapon[Right_Hand[member]]);
+ If(Right_Hand[member]>0 && Right_Hand[member]<=4)
+  TCopySprite(87,58,8,8,itemicons);
+ If(Right_Hand[member]>4 && Right_Hand[member]<=23)
+  TCopySprite(87,58,8,8,itemicons+(64));
+ If(Right_Hand[member]==24 || Right_Hand[member]==25)
+  TCopySprite(87,58,8,8,itemicons+(64*2));
+ If(Right_Hand[member]>25 && Right_Hand[member]<=29)
+  TCopySprite(87,58,8,8,itemicons+(64*3));
+ If(Right_Hand[member]>29 && Right_Hand[member]<=32)
+  TCopySprite(87,58,8,8,itemicons+(64*4));
+ If(Right_Hand[member]>32 && Right_Hand[member]<=38)
+  TCopySprite(87,58,8,8,itemicons+(64*5));
+ If(Right_Hand[member]==39 || Right_Hand[member]==40)
+  TCopySprite(87,58,8,8,itemicons+(64*6));
+ If(Right_Hand[member]>40)
+  TCopySprite(87,58,8,8,itemicons+(64*7));
+ GotoXY(40,68);
+ PrintString(0, "LHand");
+ GotoXY(95,68);
+ PrintString(0, Nm_Shield[Left_Hand[member]]);
+ If(Left_Hand[member]!=0)
+  TCopySprite(87,68,8,8,itemicons+(64*8));
+ GotoXY(40,78);
+ PrintString(0, "Head");
+ GotoXY(95,78);
+ PrintString(0, Nm_Helm[Head[member]]);
+ If(Head[member]>0 && Head[member]<=5)
+  TCopySprite(87,78,8,8,itemicons+(64*9));
+ GotoXY(40,88);
+ PrintString(0, "Body");
+ GotoXY(95,88);
+ PrintString(0, Nm_Armor[Body[member]]);
+ If(Body[member]>0 && Body[member]<=9)
+  TCopySprite(87,88,8,8,itemicons+(640));
+ If(Body[member]>9 && Body[member]<=13)
+  TCopySprite(87,88,8,8,itemicons+(64*11));
+ If(Body[member]==14 || Body[member]==15 || Body[member]==16)
+  TCopySprite(87,88,8,8,itemicons+(64*12));
+ GotoXY(40,98);
+ PrintString(0, "Fists");
+ GotoXY(95,98);
+ PrintString(0, Nm_Gauntlet[Fist[member]]);
+ If(Fist[member]>0 && Fist[member]<=7)
+  TCopySprite(87,98,8,8,itemicons+(64*13));
+ If(Fist[member]==8)
+  TCopySprite(87,98,8,8,itemicons+(64*14));
+ DiffWindow(member);
+}
+
+void DiffWindow(int member)
+{
+ DrawWindow(196,49,288,113,windowbg);
+ GotoXY(204,58);
+ PrintString(0, "Dmg ");
+ GotoXY(250-(strlen(Str(Damage[member]))*7),58);
+ PrintString(0, Str(Damage[member]));
+ GotoXY(204,68);
+ PrintString(0, "Hit ");
+ GotoXY(250-(strlen(Str(Hit2[member]))*7),68);
+ PrintString(0, Str(Hit2[member]));
+ GotoXY(204,78);
+ PrintString(0, "Abs ");
+ GotoXY(250-(strlen(Str(Absorb[member]))*7),78);
+ PrintString(0, Str(Absorb[member]));
+ GotoXY(204,88);
+ PrintString(0, "Evd ");
+ GotoXY(250-(strlen(Str(Evade[member]))*7),88);
+ PrintString(0, Str(Evade[member]));
+}
+void EquipMenu(int member)
+{
+ int slotsel,eqsel,scanvar,cn,otr,numeqs,file,test,test2;
+ EqMenuDraw(member);
+ ShowPage();
+ FadeIn(50,0);
+ While(!b2)
+ {
+  EqMenuDraw(member);
+  TCopySprite(25,58+(10*slotsel),16,16,ttlcursor);
+  ShowPage();
+  If(Up)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(5);
+   If(slotsel==0){slotsel=5;}
+   slotsel--;
+  }
+  If(Down)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(6);
+   slotsel++;
+   If(slotsel>4){slotsel=0;}
+  }
+  If(b1)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(1);
+   otr=0;
+   eqsel=0;
+   Switch(slotsel)
+   {
+    case 0: numeqs=42;
+    case 1: numeqs=10;
+    case 2: numeqs=8;
+    case 3: numeqs=17;
+    case 4: numeqs=9;
+   }
+   While(!b1 && !b2)
+   {
+    UpdateControls();
+    DrawWindow(32,114,288,216,windowbg);
+    scanvar=0;
+    SetClipRect(0,122,288,212);
+    for(cn=1; cn<numeqs; cn++)
+    {
+     Switch(slotsel)
+     {
+      case 0:
+             If(Weapon[cn]>0)
+             {
+              GotoXY(58,123+(scanvar*10)-(otr*10));
+              PrintString(0, Nm_Weapon[cn]);
+              If(cn>0 && cn<=4)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons);
+              If(cn>4 && cn<=23)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64));
+              If(cn==24 || cn==25)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*2));
+              If(cn>25 && cn<=29)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*3));
+              If(cn>29 && cn<=32)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*4));
+              If(cn>32 && cn<=38)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*5));
+              If(cn==39 || cn==40)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*6));
+              If(cn>40)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*7));
+              GotoXY(264,123+(scanvar*10)-(otr*10));
+              PrintString(0, Str(Weapon[cn]));
+              scanvar++;
+             }
+      case 1:
+             If(Shield[cn]>0)
+             {
+              GotoXY(58,123+(scanvar*10)-(otr*10));
+              PrintString(0, Nm_Shield[cn]);
+              TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*8));
+              GotoXY(264,123+(scanvar*10)-(otr*10));
+              PrintString(0, Str(Shield[cn]));
+              scanvar++;
+             }
+      case 2:
+             If(Helm[cn]>0)
+             {
+              GotoXY(58,123+(scanvar*10)-(otr*10));
+              PrintString(0, Nm_Helm[cn]);
+              If(cn>0 && cn<=5)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*9));
+              GotoXY(264,123+(scanvar*10)-(otr*10));
+              PrintString(0, Str(Helm[cn]));
+              scanvar++;
+             }
+      case 3:
+             If(Armor[cn]>0)
+             {
+              GotoXY(58,123+(scanvar*10)-(otr*10));
+              PrintString(0, Nm_Armor[cn]);
+              If(cn>0 && cn<=9)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(640));
+              If(cn>9 && cn<=13)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*11));
+              If(cn==14 || cn==15 || cn==16)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*12));
+              GotoXY(264,123+(scanvar*10)-(otr*10));
+              PrintString(0, Str(Armor[cn]));
+              scanvar++;
+             }
+      case 4:
+             If(Gauntlet[cn]>0)
+             {
+              GotoXY(58,123+(scanvar*10)-(otr*10));
+              PrintString(0, Nm_Gauntlet[cn]);
+              If(cn>0 && cn<=7)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*13));
+              If(cn==8)
+               TCopySprite(50,123+(scanvar*10)-(otr*10),8,8,itemicons+(64*14));
+              GotoXY(264,123+(scanvar*10)-(otr*10));
+              PrintString(0, Str(Gauntlet[cn]));
+              scanvar++;
+             }
+     }
+    }
+    RestoreRenderSettings();
+    DiffWindow(member);
+    test=0-1;
+    cn=0;
+    While(test!=eqsel)
+    {
+     cn++;
+     If(cn<numeqs)
+     {
+      Switch(slotsel)
+      {
+       case 0:If(Weapon[cn]>0)
+               test++;
+       case 1:If(Shield[cn]>0)
+               test++;
+       case 2:If(Helm[cn]>0)
+               test++;
+       case 3:If(Armor[cn]>0)
+               test++;
+       case 4:If(Gauntlet[cn]>0)
+               test++;
+      }
+     }
+     If(cn>=numeqs)
+     {
+      cn=0;
+      test=eqsel;
+     }
+    }
+    Switch(slotsel)
+    {
+     case 0: If(cn==0)
+             {
+              If(member==5 || member==6)
+              {
+               GotoXY(279-(strlen(Str((Strength[member]/2)+(Level[member]*2)))*7),58);
+               PrintString(0, Str((Strength[member]/2)+(Level[member]*2)));
+              }
+              else
+              {
+               GotoXY(279-(strlen(Str((Strength[member]/2)+Dmg_Weapon[cn]))*7),58);
+               PrintString(0, Str((Strength[member]/2)+Dmg_Weapon[cn]));
+              }
+             }
+             else
+             {
+              GotoXY(279-(strlen(Str((Strength[member]/2)+Dmg_Weapon[cn]))*7),58);
+              PrintString(0, Str((Strength[member]/2)+Dmg_Weapon[cn]));
+             }
+             GotoXY(279-(strlen(Str(Hit[member]+Hit_Weapon[cn]))*7),68);
+             PrintString(0, Str(Hit[member]+Hit_Weapon[cn]));
+     case 1: GotoXY(279-(strlen(Str(Absorb[member]+Abs_Shield[cn]-Abs_Shield[Left_Hand[member]]))*7),78);
+             PrintString(0, Str(Absorb[member]+Abs_Shield[cn]-Abs_Shield[Left_Hand[member]]));
+             GotoXY(279-(strlen(Str(Evade[member]+Wg_Shield[Left_Hand[member]]+Abs_Shield[cn]-Wg_Shield[cn]-Abs_Shield[Left_Hand[member]]))*7),88);
+             PrintString(0, Str(Evade[member]+Wg_Shield[Left_Hand[member]]+Abs_Shield[cn]-Wg_Shield[cn]-Abs_Shield[Left_Hand[member]]));
+     case 2: GotoXY(279-(strlen(Str(Absorb[member]+Abs_Helm[cn]-Abs_Helm[Head[member]]))*7),78);
+             PrintString(0, Str(Absorb[member]+Abs_Helm[cn]-Abs_Helm[Head[member]]));
+             GotoXY(279-(strlen(Str(Evade[member]+Wg_Helm[Head[member]]-Wg_Helm[cn]))*7),88);
+             PrintString(0, Str(Evade[member]+Wg_Helm[Head[member]]-Wg_Helm[cn]));
+     case 3: If(member==5 || member==6)
+             {
+              If(Body[member]==0)
+              {
+               If(cn!=0)
+               {
+                GotoXY(279-(strlen(Str(Absorb[member]-Level[member]+Abs_Armor[cn]))*7),78);
+                PrintString(0, Str(Absorb[member]-Level[member]+Abs_Armor[cn]));
+               }
+               else
+               {
+                GotoXY(279-(strlen(Str(Absorb[member]))*7),78);
+                PrintString(0, Str(Absorb[member]));
+               }
+              }
+              else
+              {
+               If(cn!=0)
+               {
+                GotoXY(279-(strlen(Str(Absorb[member]+Abs_Armor[cn]-Abs_Armor[Body[member]]))*7),78);
+                PrintString(0, Str(Absorb[member]+Abs_Armor[cn]-Abs_Armor[Body[member]]));
+               }
+               else
+               {
+                GotoXY(279-(strlen(Str(Absorb[member]+Level[member]-Abs_Armor[Body[member]]))*7),78);
+                PrintString(0, Str(Absorb[member]+Level[member]-Abs_Armor[Body[member]]));
+               }
+              }
+             }
+             else
+             {
+               GotoXY(279-(strlen(Str(Absorb[member]+Abs_Armor[cn]-Abs_Armor[Body[member]]))*7),78);
+               PrintString(0, Str(Absorb[member]+Abs_Armor[cn]-Abs_Armor[Body[member]]));
+             }
+             GotoXY(279-(strlen(Str(Evade[member]+Wg_Armor[Body[member]]-Wg_Armor[cn]))*7),88);
+             PrintString(0, Str(Evade[member]+Wg_Armor[Body[member]]-Wg_Armor[cn]));
+     case 4: GotoXY(279-(strlen(Str(Absorb[member]+Abs_Gauntlet[cn]-Abs_Gauntlet[Fist[member]]))*7),78);
+             PrintString(0, Str(Absorb[member]+Abs_Gauntlet[cn]-Abs_Gauntlet[Fist[member]]));
+             GotoXY(279-(strlen(Str(Evade[member]+Wg_Gauntlet[Fist[member]]-Wg_Gauntlet[cn]))*7),88);
+             PrintString(0, Str(Evade[member]+Wg_Gauntlet[Fist[member]]-Wg_Gauntlet[cn]));
+    }
+    TCopySprite(33, 123+(eqsel*10)-(otr*10),16,16,ttlcursor);
+    ShowPage();
+    If(Down)
+    {
+     PlaySound(pointersnd,64,128);
+     Unpress(6);
+     eqsel++;
+     If(eqsel>(scanvar)){eqsel=scanvar;}
+     If((eqsel-otr)==9){otr++;}
+    }
+    If(Up)
+    {
+     PlaySound(pointersnd,64,128);
+     Unpress(5);
+     If(eqsel==0){eqsel=1;}
+     eqsel--;
+     If((eqsel-otr)<0){otr--;}
+    }
+    If(b1)
+    {
+/*     scanvar=0-1;
+     cn=0;
+     While(scanvar!=eqsel)
+     {
+      cn++;
+      If(cn<numeqs)
+      {
+       Switch(slotsel)
+       {
+        case 0:If(Weapon[cn]>0)
+                scanvar++;
+        case 1:If(Shield[cn]>0)
+                scanvar++;
+        case 2:If(Helm[cn]>0)
+                scanvar++;
+        case 3:If(Armor[cn]>0)
+                scanvar++;
+        case 4:If(Gauntlet[cn]>0)
+                scanvar++;
+       }
+      }
+      If(cn>=numeqs)
+      {
+       cn=0;
+       scanvar=eqsel;
+      }
+     } */
+     Switch(slotsel)
+     {
+      case 0:
+             file=fopen("weapons.eqp");
+             fseekpos(cn,file);
+             test2=CanEquip(member,fgetbyte(file));
+             fclose(file);
+             If(test2)
+             {
+              If(Right_Hand[member]!=0)
+              {
+               Weapon[Right_Hand[member]]++;
+              }
+              Right_Hand[member]=cn;
+              If(cn!=0)
+               Weapon[cn]--;
+             }
+      case 1:
+             file=fopen("shields.eqp");
+             fseekpos(cn,file);
+             test2=CanEquip(member,fgetbyte(file));
+             fclose(file);
+             If(test2)
+             {
+              If(Left_Hand[member]!=0)
+              {
+               Shield[Left_Hand[member]]++;
+              }
+              Left_Hand[member]=cn;
+              If(cn!=0)
+               Shield[cn]--;
+             }
+      case 2:
+             file=fopen("helmets.eqp");
+             fseekpos(cn,file);
+             test2=CanEquip(member,fgetbyte(file));
+             fclose(file);
+             If(test2)
+             {
+              If(Head[member]!=0)
+              {
+               Helm[Head[member]]++;
+              }
+              Head[member]=cn;
+              If(cn!=0)
+               Helm[cn]--;
+             }
+      case 3:
+             file=fopen("armors.eqp");
+             fseekpos(cn,file);
+             test2=CanEquip(member,fgetbyte(file));
+             fclose(file);
+             If(test2)
+             {
+              If(Body[member]!=0)
+              {
+               Armor[Body[member]]++;
+              }
+              Body[member]=cn;
+              If(cn!=0)
+               Armor[cn]--;
+             }
+      case 4:
+             file=fopen("gauntlet.eqp");
+             fseekpos(cn,file);
+             test2=CanEquip(member,fgetbyte(file));
+             fclose(file);
+             If(test2)
+             {
+              If(Fist[member]!=0)
+              {
+               Gauntlet[Fist[member]]++;
+              }
+              Fist[member]=cn;
+              If(cn!=0)
+               Gauntlet[cn]--;
+             }
+     }
+     If(test2=1)
+     {
+      PlaySound(pointersnd,64,128);
+     }
+     Else
+     {
+      PlaySound(buzz,128,128);
+      Unpress(1);
+     }
+     UpdateStats(member);
+    }
+   }
+   Unpress(1);
+   Unpress(2);
+  }
+  UpdateControls();
+ }
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ MenuDraw();
+ ShowPage();
+ FadeIn(50,0);
+}
+
+void StatusMenu(int member)
+{
+ cr2=LoadImage(""+Str(member)+""+Str(honored)+".pcx");
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(9,9,118,118,windowbg);
+ DrawWindow(119,29,182,99,windowbg);
+ DrawWindow(183,9,310,81,windowbg);
+ DrawWindow(119,118,182,142,windowbg);
+ DrawWindow(183,82,310,142,windowbg);
+ DrawWindow(9,143,182,179,windowbg);
+ TCopySprite(16,16,96,96,cr2);
+ GotoXY(127,127);
+ PrintString(0, "LEV");
+ GotoXY(174-(strlen(Str(Level[member]))*7),127);
+ PrintString(0, Str(Level[member]));
+ GotoXY(17,152);
+ PrintString(0, "Exp. Points");
+ GotoXY(174-(strlen(Str(Exp[member]))*7),152);
+ PrintString(0, Str(Exp[member]));
+ GotoXY(17,164);
+ PrintString(0, "For Lev. Up");
+ If(Level[member]<50)
+ {
+  GotoXY(174-(strlen(Str(Next[member]-Exp[member]))*7),164);
+  PrintString(0, Str(Next[member]-Exp[member]));
+ }
+ else
+ {
+  GotoXY(174-(strlen("------")*7),164);
+  PrintString(0, "------");
+ }
+ GotoXY(191,18);
+ PrintString(0, "Strength");
+ GotoXY(302-(strlen(Str(Strength[member]))*7),18);
+ PrintString(0, Str(Strength[member]));
+ GotoXY(191,30);
+ PrintString(0, "Agility");
+ GotoXY(302-(strlen(Str(Agility[member]))*7),30);
+ PrintString(0, Str(Agility[member]));
+ GotoXY(191,42);
+ PrintString(0, "Intelligence");
+ GotoXY(302-(strlen(Str(Intelligence[member]))*7),42);
+ PrintString(0, Str(Intelligence[member]));
+ GotoXY(191,54);
+ PrintString(0, "Vitality");
+ GotoXY(302-(strlen(Str(Vitality[member]))*7),54);
+ PrintString(0, Str(Vitality[member]));
+ GotoXY(191,66);
+ PrintString(0, "Luck");
+ GotoXY(302-(strlen(Str(Luck[member]))*7),66);
+ PrintString(0, Str(Luck[member]));
+ GotoXY(191,91);
+ PrintString(0, "Damage");
+ GotoXY(302-(strlen(Str(Damage[member]))*7),91);
+ PrintString(0, Str(Damage[member]));
+ GotoXY(191,103);
+ PrintString(0, "Hit %");
+ GotoXY(302-(strlen(Str(Hit2[member]))*7),103);
+ PrintString(0, Str(Hit2[member]));
+ GotoXY(191,115);
+ PrintString(0, "Absorb");
+ GotoXY(302-(strlen(Str(Absorb[member]))*7),115);
+ PrintString(0, Str(Absorb[member]));
+ GotoXY(191,127);
+ PrintString(0, "Evade %");
+ GotoXY(302-(strlen(Str(Evade[member]))*7),127);
+ PrintString(0, Str(Evade[member]));
+ ShowPage();
+ FadeIn(50,0);
+ While(!b2)
+ {
+  UpdateControls();
+ }
+ Free(cr2);
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ MenuDraw();
+ ShowPage();
+ FadeIn(50,0);
+}
+
+void Menu()
+{
+ int tempor, toswap, okay, lead;
+ If(intown)
+ {
+  HookRetrace(0);
+  HookTimer(0);
+ }
+ lead=0;
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ MenuDraw();
+ ShowPage();
+ FadeIn(50,0);
+ While (!b2)
+ {
+  MenuDraw();TCopySprite(244,16+(14*choice),16,16,ttlcursor);
+  UpdateControls();
+  If (Down)
+  {
+   Unpress(6);
+   choice++;
+   PlaySound(pointersnd,64,128);
+   If (choice>7) {choice=0;}
+  }
+  If (Up)
+  {
+   Unpress(5);
+   PlaySound(pointersnd,64,128);
+   if (choice==0) {choice=8;}
+   choice--;
+  }
+  If (b1)
+  {
+   Unpress(1);
+   Switch (choice)
+   {
+    Case 0: PlaySound(pointersnd,64,128);
+            FadeOut(50,0);
+            ItemMenu();
+    Case 1: PlaySound(pointersnd,64,128);
+            If(!selection){selection=1;}
+            While(!b2)
+            {
+             MenuDraw();
+             TCopySprite(5,28+(42*(selection-1)),16,16,ttlcursor);
+             UpdateControls();
+             If (Down)
+             {
+              Unpress(6);
+              selection++;
+              PlaySound(pointersnd,64,128);
+              If(selection>numchars) {selection=1;}
+             }
+             If(Up)
+             {
+              Unpress(5);
+              selection--;
+              PlaySound(pointersnd,64,128);
+              If (selection=0) {selection=numchars;}
+             }
+             If(b1)
+             {
+              Unpress(1);
+              PlaySound(pointersnd,64,128);
+              FadeOut(50,0);
+              MagicMenu(PartyIndex[selection]);
+             }
+             ShowPage();
+            }
+    Case 2: PlaySound(pointersnd,64,128);
+            If(!selection){selection=1;}
+            While(!b2)
+            {
+             MenuDraw();
+             TCopySprite(5,28+(42*(selection-1)),16,16,ttlcursor);
+             UpdateControls();
+             If (Down)
+             {
+              Unpress(6);
+              selection++;
+              PlaySound(pointersnd,64,128);
+              If (selection>numchars) {selection=1;}
+             }
+             If (Up)
+             {
+              Unpress(5);
+              selection--;
+              PlaySound(pointersnd,64,128);
+              If (selection=0) {selection=numchars;}
+             }
+             If(b1)
+             {
+              Unpress(1);
+              PlaySound(pointersnd,64,128);
+              FadeOut(50,0);
+              EquipMenu(PartyIndex[selection]);
+             }
+             ShowPage();
+            }
+    Case 3: PlaySound(pointersnd,64,128);
+            If(!selection){selection=1;}
+            While(!b2)
+            {
+             MenuDraw();
+             TCopySprite(5,28+(42*(selection-1)),16,16,ttlcursor);
+             UpdateControls();
+             If (Down)
+             {
+              Unpress(6);
+              selection++;
+              PlaySound(pointersnd,64,128);
+              If (selection>numchars) {selection=1;}
+             }
+             If (Up)
+             {
+              Unpress(5);
+              selection--;
+              PlaySound(pointersnd,64,128);
+              If (selection=0) {selection=numchars;}
+             }
+             If(b1)
+             {
+              Unpress(1);
+              PlaySound(pointersnd,64,128);
+              FadeOut(50,0);
+              StatusMenu(PartyIndex[selection]);
+             }
+             ShowPage();
+            }
+    Case 4: PlaySound(pointersnd,64,128);
+            If(!selection){selection=1;}
+            While(!b2)
+            {
+             MenuDraw();
+             TCopySprite(5,28+(42*(selection-1)),16,16,ttlcursor);
+             UpdateControls();
+             If (Down)
+             {
+              Unpress(6);
+              selection++;
+              PlaySound(pointersnd,64,128);
+              If (selection>numchars) {selection=1;}
+             }
+             If (Up)
+             {
+              Unpress(5);
+              selection--;
+              PlaySound(pointersnd,64,128);
+              If (selection=0) {selection=numchars;}
+             }
+             If(b1)
+             {
+              Unpress(1);
+              PlaySound(pointersnd,64,128);
+              toswap=selection+1;
+              If(toswap>numchars){toswap=1;}
+              okay=0;
+              While(!okay)
+              {
+               MenuDraw();
+               TCopySprite(5,28+(42*(selection-1)),16,16,ttlcursor);
+               TCopySprite(5,28+(42*(toswap-1)),16,16,ttlcursor);
+               UpdateControls();
+               If (Down)
+               {
+                Unpress(6);
+                toswap++;
+                PlaySound(pointersnd,64,128);
+                If (toswap==selection) {toswap++;}
+                If (toswap>numchars) {toswap=1;}
+                If (toswap==selection) {toswap++;}
+               }
+               If (Up)
+               {
+                Unpress(5);
+                toswap--;
+                PlaySound(pointersnd,64,128);
+                If (toswap==selection) {toswap--;}
+                If (toswap==0) {toswap=numchars;}
+                If (toswap==selection) {toswap--;}
+               }
+               If(b1)
+               {
+                Unpress(1);
+                okay=1;
+                tempor=PartyIndex[selection];
+                PartyIndex[selection]=PartyIndex[toswap];
+                PartyIndex[toswap]=tempor;
+                PlaySound(pointersnd,64,128);
+                If(selection==1 || toswap==1) {lead++;}
+               }
+               If(b2)
+               {
+                okay=1;
+               }
+               ShowPage();
+              }
+             }
+             ShowPage();
+            }
+    Case 5: PlaySound(pointersnd,64,128);
+            FadeOut(50,0);
+            ConfigMenu();
+    Case 6: Unpress(1);
+            If(EnableSave)
+            {
+             gamefile=fwopen("savegame.dat");
+             PlrX=entity.tx[plr];
+             PlrY=entity.ty[plr];
+             WriteVars(gamefile);
+             fwclose(gamefile);
+             DrawWindow(100,80,192,98,menubg);
+             GotoXY(108,86);
+             PrintString(0, "Game Saved!");
+             ShowPage();
+             PlaySound(snd_twinkle,128,128);
+             While(!b1 && !b2)
+             {
+              UpdateControls();
+             }
+             Unpress(1);
+             Unpress(2);
+            }
+            Else
+            {
+             PlaySound(buzz,128,128);
+             MenuDraw();
+             Mosaic(2, 2, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(2, 2, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(3, 3, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(3, 3, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(4, 4, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(4, 4, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(3, 3, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(3, 3, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(2, 2, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+             MenuDraw();
+             Mosaic(2, 2, mosaic_table, 0, 0, ScreenX, ScreenY);
+             ShowPage();
+            }
+    Case 7: FadeOut(50,0);
+            Exit("Thanks for Playing Final Fantasy Reprise!"+
+                 " - Sheng, Clay, Sasha & Kisha");
+
+   }
+   Unpress(2);
+  }
+  ShowPage();
+ }
+ Unpress(2);
+ PlaySound(pointersnd,64,128);
+ FadeOut(50,0);
+ Render();
+ ShowPage();
+ If(lead) {ChangeLeader();}
+ FadeIn(50,0);
+ timer=0;
+ if(intown)
+ {
+  HookTimer(TimeUpdate);
+  HookRetrace(Main);
+ }
+}

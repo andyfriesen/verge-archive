@@ -1,0 +1,493 @@
+int time; //Alternate timer variable.
+int plr; //Stores which entity the player is currently controlling.
+int obs[8]; //Stores the obstructions adjacent to the character, if any.
+int zones[4]; //Stores which zones are adjacent to the player.
+int talk[4]; //Stores which entities are adjacent to the player.(Sheng Long Gradilla)
+int frame; //Stores which frame to display for the player.
+//int textbox; //Stores the (what else? :) textbox picture.
+int speed; //Stores how fast the player is moving.
+int run; //Stores if the player is running or not.
+int curzone; //The zone the player is currently over.
+int th; //highlighted tile;
+int PlrX, PlrY; //Variables for putting the player at the right spot on the map, after a mapswitch.
+string PlrChr; //Stores which chr file to use for the player.
+int SysInit; //Stores whether or not the Startup function, which loads up any graphics/sound, has been run.
+//int i; //Variable for the for loops.
+int numevents; //Number of map events, excluding entity actions (which must be at the end).(Sheng Long Gradilla) 
+int entcount; //Stores the number of entities on screen.(Sheng Long Gradilla)
+int adjaccent; //Tells if there's an entity adjaccent to the player.(Sheng Long Gradilla)
+int buttonpress; //Required for "adjaccent activable only" zones.
+int obsscan; //Used for scanning obstructions. If different than 0, there's an obstruction.
+int probe; //Used for probing obstructions
+int intown;
+int pointer;
+string nommapa;
+
+/*
+
+Important!!
+
+These two constants define the hotspot width and height of ALL of your entities in the game (Read chrmak.txt for more information on hotspots). This means, that the obstruction size of each entity will be exactly the same. This may change if I figure out a way of getting the hotspot width and height out of the chr, however.
+
+While this isn't an issue right now, because only the player can use the movement script, when regular entities start using it, it will be.
+
+The default right now has a 16x16 obstructable square. The top left of the square is the hotspot values you define in the mak file of your character (The default for V1 chrs is 0, 16).
+
+Note that the code assumes that the bottom of your chr is the bottom of the obstruction square, and that your chr's hotspot is at the left of the chr.
+
+*/
+
+#define ObsWidth 16
+#define ObsHeight 16
+
+/*
+
+These two constants are also required to determine proper obstruction placement. They're the chr's height and width. These are used for every entity in the game, so your entity sizes must be exactly the same. Again, sorry for any inconveniences this may cause... =\
+
+*/
+
+#define ChrWidth 16
+#define ChrHeight 16
+
+/*
+
+Constants for the walking scripts of entities. Not currently used, so my code still expects standard 5 frame V1 style walking animations. :(
+
+Note: The defaults defined here are for V1 style animation.
+
+*/
+
+#define dscript "F0W10F1F10F2W10F1W10F0W10F3W10F4W10F3W10"
+#define uscript "F5W10F6F10F7W10F6W10F5W10F8W10F9W10F8W10"
+#define lscript "F10W10F11F10F12W10F11W10F10W10F13W10F14W10F3W10"
+#define rscript "F15W10F16F10F17W10F16W10F15W10F18W10F19W10F18W10"
+
+/*
+
+Finally, this last constant is for how many frames of walking animation the chr has. Again, it is the same for every entity you have that uses the movement script.
+
+*/
+
+#define ChrNumFrames 7
+
+/////////////////////////////////////////////////////////////////////////////
+//Real code begins here./////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
+
+void Main() //Main game function, gets called every retrace.
+{
+ if(!time) return; //Forces a max framerate of 100FPS. Sorry for all you people with high-end computers, but 100FPS should be enough for you anyways. ;)
+
+ GetObsnZones(); //Get the obstructions and zones around the player.
+ DoButtons(); //Check if the player is pressing any keys.
+ MovePlr(); //Move the player.
+ DoFrames(); //Update the player's walking frame.
+
+ //Debugging messages.
+ /*
+ GotoXY(0, 0); PrintString(0, "Time:"+Str(time));
+ GotoXY(0, 15); PrintString(0, "Speed:"+Str(speed));
+ GotoXY(90, 0); PrintString(0, "Xwin:"+Str(xwin));
+ GotoXY(90, 15); PrintString(0, "Ywin:"+ Str(ywin));
+ */
+ 
+ time=0; //Reset the time to 0.
+}
+
+void GetObsnZones()
+{
+ UpdateZone(); //Find out if the player is standing on a zone, and if yes, activate the zone.
+ //Note: This will ignore the chance variable for the zone, and the zone script number MUST be the same as the zone number. I'll change this once V2 lets me access the zone variables.
+
+ //Get the obstructions which are adjacent to the player.
+/* obs[0]=GetTile((entity.x[plr]+(ObsWidth/2))/16,(entity.y[plr]+ObsHeight+2)/16,6); //Obstruction below the player.
+ obs[1]=GetTile((entity.x[plr]+(ObsWidth/2))/16,(entity.y[plr])/16,6); //Obstruction above the player.
+ obs[2]=GetTile((entity.x[plr]-2)/16,(entity.y[plr]+(ObsHeight/2))/16,6); //Obstruction to the left of the player.
+ obs[3]=GetTile((entity.x[plr]+ObsWidth+2)/16,(entity.y[plr]+(ObsHeight/2))/16,6); //Obstruction to the right of the player.
+ obs[4]=GetTile((entity.x[plr]-2)/16, (entity.y[plr])/16, 6); //Obstrutction above and to the left of the player.
+ obs[5]=GetTile((entity.x[plr]+ObsWidth+2)/16, (entity.y[plr])/16, 6); //Obstruction above and to the right of the player.
+ obs[6]=GetTile((entity.x[plr]-2)/16, (entity.y[plr]+ObsHeight+2)/16, 6); //Obstrutction below and to the left of the player.
+ obs[7]=GetTile((entity.x[plr]+ObsWidth+2)/16, (entity.y[plr]+ObsHeight+2)/16, 6); //Obstruction below and to the right of the player.
+*/
+ obsscan=0;
+// for(i=0; i<=15; i++)
+// {
+  probe=GetTile((entity.x[plr])/16,(entity.y[plr]+ObsHeight)/16,6);
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+1)/16,(entity.y[plr]+ObsHeight)/16,6);
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+14)/16,(entity.y[plr]+ObsHeight)/16,6);
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+15)/16,(entity.y[plr]+ObsHeight)/16,6);
+  If(probe=1){obsscan++;}
+// }
+ If(obsscan>0)
+ {
+  obs[0]=1;
+ }
+ Else
+ {
+  obs[0]=0;
+ }
+
+ obsscan=0;
+// for(i=0; i<=15; i++)
+// {
+  probe=GetTile((entity.x[plr])/16,(entity.y[plr]-1)/16,6); //Obstruction above the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+1)/16,(entity.y[plr]-1)/16,6); //Obstruction above the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+14)/16,(entity.y[plr]-1)/16,6); //Obstruction above the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+15)/16,(entity.y[plr]-1)/16,6); //Obstruction above the player.
+  If(probe=1){obsscan++;}
+// }
+ If(obsscan>0)
+ {
+  obs[1]=1;
+ }
+ Else
+ {
+  obs[1]=0;
+ }
+
+ obsscan=0;
+// for(i=0; i<=15; i++)
+// {
+  probe=GetTile((entity.x[plr]-1)/16,(entity.y[plr])/16,6); //Obstruction to the left of the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]-1)/16,(entity.y[plr]+1)/16,6); //Obstruction to the left of the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]-1)/16,(entity.y[plr]+14)/16,6); //Obstruction to the left of the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]-1)/16,(entity.y[plr]+15)/16,6); //Obstruction to the left of the player.
+  If(probe=1){obsscan++;}
+// }
+ If(obsscan>0)
+ {
+  obs[2]=1;
+ }
+ Else
+ {
+  obs[2]=0;
+ }
+
+ obsscan=0;
+// for(i=0; i<=15; i++)
+// {
+  probe=GetTile((entity.x[plr]+ObsWidth)/16,(entity.y[plr])/16,6); //Obstruction to the right of the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+ObsWidth)/16,(entity.y[plr]+1)/16,6); //Obstruction to the right of the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+ObsWidth)/16,(entity.y[plr]+14)/16,6); //Obstruction to the right of the player.
+  If(probe=1){obsscan++;}
+  probe=GetTile((entity.x[plr]+ObsWidth)/16,(entity.y[plr]+15)/16,6); //Obstruction to the right of the player.
+  If(probe=1){obsscan++;}
+// }
+ If(obsscan>0)
+ {
+  obs[3]=1;
+ }
+ Else
+ {
+  obs[3]=0;
+ }
+
+
+ //Debugging messages.
+ /*
+ for(i=0; i<8; i++)
+ {
+  GotoXY(0, 30+(15*i)); PrintString(0, "Obs["+str(i)+"]: "+str(obs[i]));
+ }
+ */
+ 
+ //Get the zones adjacent to the player.
+ zones[0]=GetTile((entity.x[plr]+8)/16,(entity.y[plr]+16)/16,7);
+ zones[1]=GetTile((entity.x[plr]+8)/16,(entity.y[plr]-1)/16,7);
+ zones[2]=GetTile((entity.x[plr]-1)/16,(entity.y[plr]+8)/16,7);
+ zones[3]=GetTile((entity.x[plr]+16)/16,(entity.y[plr]+8)/16,7);
+
+ //If there are any entities near the player, and they're obstructable, make sure he can't walk through them.
+ for(entcount=0; entcount<numentsonscreen; entcount++)
+ {
+  if(entity.y[entsonscreen[entcount]]<(entity.y[plr]+17) && entity.y[entsonscreen[entcount]]>entity.y[plr] && entity.tx[entsonscreen[entcount]]=entity.tx[plr] && entsonscreen[entcount]!=plr)
+  {
+   Obs[0]=1;
+   talk[0]=entsonscreen[entcount]+numevents;
+  }
+  if(entity.y[entsonscreen[entcount]]>(entity.y[plr]-17) && entity.y[entsonscreen[entcount]]<entity.y[plr] && entity.tx[entsonscreen[entcount]]=entity.tx[plr] && entsonscreen[entcount]!=plr)
+  {
+   Obs[1]=1;
+   talk[1]=entsonscreen[entcount]+numevents;
+  }
+  if(entity.x[entsonscreen[entcount]]>(entity.x[plr]-17) && entity.x[entsonscreen[entcount]]<entity.x[plr] && entity.ty[entsonscreen[entcount]]=entity.ty[plr] && entsonscreen[entcount]!=plr)
+  {
+   Obs[2]=1;
+   talk[2]=entsonscreen[entcount]+numevents;
+  }
+  if(entity.x[entsonscreen[entcount]]<(entity.x[plr]+17) && entity.x[entsonscreen[entcount]]>entity.x[plr] && entity.ty[entsonscreen[entcount]]=entity.ty[plr] && entsonscreen[entcount]!=plr)
+  {
+   Obs[3]=1;
+   talk[3]=entsonscreen[entcount]+numevents;
+  }
+ }
+}
+
+void DoButtons()
+{
+ UpdateControls();
+ If(key[29]) //If control is pressed...
+ {
+  run=1; //The player is now running.
+  speed=time*2; //Make the player move faster. Remember that running speed may vary from computer to computer, but it should be around 200 pixels/second.
+//  speed=2;
+ }
+ else //If control isn't pressed...
+ {
+  run=0; //The player is no longer running.
+  speed=time; //This will move the player at a rate of 100 pixels/second, which is default walking speed.
+//  speed=1;
+ }
+
+ if(b1) //If the player pressed enter...
+ {
+  Unpress(1);
+  buttonpress=1;
+  CallZone(entity.facing[plr]); //Check if there is a zone in front of the player, and if yes, call it.
+  //Note: Like UpdateZone(), this function ignores if adjacent activation is enabled or not. I'll add support for that once V2 allows me to. :)
+  buttonpress=0;
+ }
+}
+
+void MovePlr()
+{
+ If(!up && !down && !left && !right) //If the player isn't moving..
+ {
+  frame=0; //Reset the frame counter.
+  entity.specframe[plr]=0; //Set the player to the default frame.
+ }
+
+ If(down)
+ {
+  entity.facing[plr]=0;
+  if(!obs[0]) entity.y[plr]+=speed; //If there is no obstruction in front of the character, then move him at his speed.
+ }
+
+ If(up)
+ {
+  entity.facing[plr]=1;
+  if(!obs[1]) entity.y[plr]-=speed; //If there is no obstruction in front of the character, then move him at his speed.
+ }
+
+ If(left)
+ {
+  entity.facing[plr]=2;
+  if(!obs[2]) entity.x[plr]-=speed; //If there is no obstruction in front of the character, then move him at his speed.
+ }
+
+ If(right)
+ {
+  entity.facing[plr]=3;
+  if(!obs[3]) entity.x[plr]+=speed; //If there is no obstruction in front of the character, then move him at his speed.
+ }
+
+ //Update the player's tile coordinates.
+ entity.tx[plr]=(entity.x[plr]+8)/16;  entity.ty[plr]=(entity.y[plr]+8)/16;
+}
+
+void DoFrames()
+{
+ frame+=speed; //Update the frame counter.
+ if(frame>=80) frame=0; //If it just went through the last frame, then reset it to the beginning.
+
+ //This code sets the approprate frames for the player. Note that it only supports V1 style movement frames currently, but I'll add support for different frame amounts later.
+ if(frame >=  0 && frame <=  9) entity.specframe[plr]=0+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 10 && frame <= 19) entity.specframe[plr]=1+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 20 && frame <= 29) entity.specframe[plr]=2+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 30 && frame <= 39) entity.specframe[plr]=3+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 40 && frame <= 49) entity.specframe[plr]=0+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 50 && frame <= 59) entity.specframe[plr]=4+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 60 && frame <= 69) entity.specframe[plr]=5+(entity.facing[plr]*ChrNumFrames);
+ if(frame >= 70 && frame <= 79) entity.specframe[plr]=6+(entity.facing[plr]*ChrNumFrames);
+}
+
+void UpdateZone() //Find out if the player is standing on a zone, and if yes, activate the zone.
+{
+ curzone=GetTile((entity.x[plr]+(ObsWidth/2))/16,(entity.y[plr]+(ObsHeight/2))/16,7); //Get the zone that the player is standing on.
+ If(curzone>0) //If the player is standing on an activatable zone...
+ {
+  HookTimer(0);
+  HookRetrace(0); //Disable the movement script.
+  CallEvent(curzone); //Call the zone's event. (The zone number must be the identical to the script number that it calls.)
+  HookTimer(TimeUpdate);
+  HookRetrace(Main); //Re-enable the movement script.
+ }
+}
+
+void CallZone(int facing) //Check if there is a zone in front of the player, and if yes, call it.
+{
+ adjaccent=0;
+ for(entcount=0; entcount<numentsonscreen; entcount++)
+ {
+  if(facing=0 && entity.ty[entsonscreen[entcount]]=entity.ty[plr]+1 && entity.tx[entsonscreen[entcount]]=entity.tx[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+  if(facing=1 && entity.ty[entsonscreen[entcount]]=entity.ty[plr]-1 && entity.tx[entsonscreen[entcount]]=entity.tx[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+  if(facing=2 && entity.tx[entsonscreen[entcount]]=entity.tx[plr]-1 && entity.ty[entsonscreen[entcount]]=entity.ty[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+  if(facing=3 && entity.tx[entsonscreen[entcount]]=entity.tx[plr]+1 && entity.ty[entsonscreen[entcount]]=entity.ty[plr] && entsonscreen[entcount]!=plr)
+  {adjaccent=1;}
+ }
+ if(adjaccent=1)
+ {
+  HookTimer(0);
+  HookRetrace(0); //Disable the movement script.
+  CallEvent(talk[facing]);
+  HookTimer(TimeUpdate);
+  HookRetrace(Main); //Re-enable the movement script.
+ }
+ else
+ {
+  if(zones[facing]>0) //If the zone in front of the player is not zone 0...
+  {
+   HookTimer(0);
+   HookRetrace(0); //Disable the movement script.
+   CallEvent(zones[facing]); //Call the zone's event. (The zone number must be the identical to the script number that it calls.)
+   HookTimer(TimeUpdate);
+   HookRetrace(Main); //Re-enable the movement script.
+  }
+  else{TickText(0, "There's nothing here.","","");}
+ }
+}
+
+void TimeUpdate() //Alternate timer function, because the real timer doesn't work that well after 2 ticks or so. This gets called by a hooktimer.
+{
+ time++; //Increase the timer by one every tick.
+}
+
+void PEnts() //Processes the entities at a constant rate. Much better than regular ProcessEntities. :)
+{
+ While(timer)
+ {
+  Timer--;
+  ProcessEntities();
+ }
+}
+
+void Startup() //Initialize any variables, load any graphics, etc. in here, and call it at the autoexec event of your first map.
+{
+ int ccc;
+ if(!SysInit) //If this function hasn't been run yet...
+ {
+  SysInit++; //This function can never be called again now. (Unless you set SysInit back to 0)
+  //Load any graphics, etc. here.
+  speechpic[0]=LoadImage("speech.pcx");
+  speechpic[1]=LoadImage("hspeech.pcx");
+  LoadFont("font0.fnt"); //Loads the textbox font into slot 1.
+  pointersnd=CacheSound("Pointer.wav");
+  buzz=CacheSound("Buzz.wav");
+  ttlcursor=LoadImage("Cursor.pcx");
+  lcursor=LoadImage("Cursor2.pcx");
+  bgimg=LoadImage("wbg"+Str(windowbg)+".pcx");
+  fanfare=CacheSound("Fanfare.wav");
+  guage=LoadImage("guage.pcx");
+  snd_battle_zoom=CacheSound("battle2.wav");
+  snd_twinkle=CacheSound("twinkle.wav");
+  gamefile=fopen("mosaic.tbl");
+  mosaic_table=malloc(262144);
+  fread(mosaic_table,262144,gamefile);
+  fclose(gamefile);
+  itemicons=LoadImage("eqicons.pcx");
+  txtsnd=1;
+  PlrChr=""+Str(PartyIndex[1])+""+Str(honored)+".chr";
+  HookKey(57, Menu);
+  HookKey(key_M, WorldMap);
+  EquipInit();
+  Name[13]="Matouya";
+  Name[14]="Sarda";
+  Name[15]="Ryu";
+ }
+ for(ccc=1; ccc<16; ccc++)
+ {
+  UpdateStats(ccc);
+ }
+ for(ccc=1; ccc<=12; ccc++)
+ {
+  UpdateName(ccc);
+ }
+}
+
+void InitMap() //Call this function in the autoexec of your maps to have it automatically set the correct palette, and warp your chr to the right spots on the map. :)
+{
+ EnableSave=0;
+ PlrChr=""+Str(PartyIndex[1])+""+Str(honored)+".chr";
+ //Start running the two main functions of the script.
+ if(!intown)
+ {
+  SetPlayer(entityspawn(PlrX, PlrY, PlrChr));
+  plr=player;
+ }
+ else
+ {
+  plr=entityspawn(PlrX, PlrY, PlrChr); //Warp the player to the right spot.
+  CameraTracking=2;
+  Tracker=plr;
+ }
+}
+
+void MapSwitch(int X, int Y, string Mapname) //Does a mapswitch to the map you specify. If you have InitMap in the autoexec of the map, it will magically warp your chr to the X and Y co-ordinates, as well. ;)
+{
+ PlrX=X; PlrY=Y;
+ nommapa=Mapname;
+ Map(Mapname);
+}
+
+void RestartMap()
+{
+ PlrX=entity.tx[plr];
+ PlrY=entity.ty[plr];
+ Map(nommapa);
+}
+
+/* void Text(string Line1, string line2, string line3, string line4) //Basic text function, need I say more?
+{
+ int done;
+ unpress(0);
+ HookRetrace(0);
+ timer=0;
+ While(!done)
+ {
+  Render();
+  PEnts();
+  ScaleSprite(20, screeny-100, 200, 100, 280, 90, textbox);
+  GotoXY(35, screeny-90); PrintString(1, Line1);
+  GotoXY(35, screeny-70); PrintString(1, Line2);
+  GotoXY(35, screeny-50); PrintString(1, Line3);
+  GotoXY(35, screeny-30); PrintString(1, Line4);
+
+  ShowPage();
+  UpdateControls();
+  if(b1)
+  {
+   While(b1)
+   {
+    UpdateControls();
+   }
+   HookRetrace(Main);
+   Return;
+  }
+ }
+}
+*/
+
+
+
+
+
+
+
+
+
+
+

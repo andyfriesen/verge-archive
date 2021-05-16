@@ -1,0 +1,93 @@
+1/08/2001:
+- Modified the World map and its Tiles a little bit.
+- Added Character Naming. You'll be asked to name the
+  characters as you select them.
+- Added Equipment, as well as the Equip Menu! Weapons
+  and protective gear!! You'll receive all the existing
+  equipment once you appear in Cornelia, so you can
+  test it. Try to equip something unequipable by
+  certain character! Also set the "honored" variable
+  to 1 (press ` and then type "sv honored 1") so you
+  are able to equip the strongest equipment. Shops will
+  come soon (now there IS a point for working on them).
+- Added Items Menu! All Items work. Try them! You'll
+  receive 99 of each item at the begining of the game
+  so you can test them. Also, you'll get some of the
+  plot items (which are usable too).
+- Added some new CHR files (Female Ninja, Boy Monk,
+  unfinished Girl Fighter), and finished some of the
+  unfinished ones (Boy Thief, Male and Female Monks,
+  Male Ninja).
+- Added Save Game capability. Only one savefile, just
+  like the original FF1. If you want to have multiple
+  savefiles, just hit Alt+Tab, enter your favorite file
+  manager (e.g. Windows Explorer), open the game folder
+  and rename the "savegame.dat". Warning: Savefiles won't
+  work between versions, since I'm always optimizing the
+  game, adding and removing global variables, etc. (If you
+  know how savefiles work, you'll understand).
+- Finally added the "Order" routines. Now you can change
+  your characters' order, and the walking character is
+  replaced with the one on the first party index.
+- Optimized the Stats and Level Up code to be a bit closer
+  to the original FF1. Also added some new stuff for the
+  Inventory and Equipment code.
+
+10/09/2000:
+- Removed Kisha's message. I guess it annoyed everyone.
+- Optimized the Mode 7 code.
+- Added a function to generate windows. You can use either
+  gradients or images as background. More will come later.
+- Added Config Menu. You can now change the window
+  background, change the message speed, turn off the text
+  sound (it annoys almost everyone). The option to change
+  the window border will be added anytime soon.
+
+9/11/2000:
+- Documented the "Intro Skip" key (Alt). It has always been
+  there, but I guess few people figured out.
+- Kisha added a message for everyone.
+- Finished the Level Up code and added fake battles! Check
+  your Experience after each!
+- Added Male Fighter and Thief CHRs.
+- Mosaic Fade In and Out!
+- Did some work with the tiles. Look for yourself!
+- Added Mode 7 effect for the World Map. Can't remember the
+  Coder's name, sorry!
+- Started work on the Item and equipment stuff. Check items.vc
+- Added some new songs to the game directory: Castle Music and
+  Victory Fanfare, Castl_RM.S3M and Victory.XM respectively.
+
+
+6/19/2000:
+- Added Ninja CHR.
+- Modified the World Map a bit.
+- Rearranged the Status screen.
+- Optimized the Menu code and "Cursor Memory" (cursor keeps
+  last position).
+- Modified Character Selection screen. Now has all the spaces
+  for the selectable characters (but nor the characters).
+
+6/05/2000:
+- Changed the Intro song. The Prelude song is now complete.
+- Added two CR2 (Male Monk and Male Red Wizard) to the game.
+- Modified the Status Screen layout a bit.
+- Reduced and optimized the code in MENU.VC
+- Added a "Not available yet" message to the unavailable
+  menu items.
+- Added World Map.
+- Added the ability to View the World Map and get the
+  player's Current Position. !!yek M eht sserP
+- Added "Map not available" message for those who try to
+  enter Cornelia Castle and/or The Temple of Fiends.
+
+
+5/29/2000:
+- Some bugfixes and optimizations to the player movement code.
+- Added an Intro text, which scrolls down.
+- Added the Female White Wizard CHR (Just a front frame).
+- Made the Shop Interiors (still empty, but it's an interior).
+
+
+5/15/2000:
+- First public release.

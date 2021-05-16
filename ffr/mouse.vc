@@ -1,0 +1,46 @@
+/*
+--------------------------
+The Edge's V2 Mouse Script
+--------------------------
+This is a file you should include at the end of your
+system.vc file! Go to the very end of the system.vc file
+and add this line:
+
+#include "mouse.vc"
+
+Then, to enable it, go into your a map's vc file, in
+an event, and add a hookretrace() like so:
+
+hookretrace(Mouse_Enable);
+
+The mouse will popup on the screen. When you click, the mouse
+goes away because of the condition below:
+
+case 1: hookretrace(0);
+
+Have fun, and be sure to read the comments below to get it to work.
+If you have any questions, email me at petes@fast.net.
+
+If you use this code, please give me credit. Thanks
+*/
+  
+int MouseOn;
+
+void Mouse_Enable()
+{
+   MouseOn = loadimage("pointer.pcx"); // Make sure you specify what mouse picture
+                                      // you want to use here!! (pcx,gif,bmp)
+   ReadMouse();
+   TCopySprite(mx,my,16,16,MouseOn); // Replace the *x with the width of
+                                     // the mouse picture, and replace
+                                     // *y with the height of the mouse pic.
+                                     // example:
+                                     // tcopysprite(mx,my,16,16,MouseOn);
+   palettemorph(0,0,0,0,63);
+   switch(mb)                     // this "switch" is somewhat like an if()
+   {                              // statement. case 0: is the same as
+    case 0:                       // if(mb==0) {}. Case 1: hookretrace(0);
+    case 1: hookretrace(0);       // is the same as if(mb==1) {hookretrace(0);}
+   }
+
+}

@@ -1,0 +1,63 @@
+void WorldMap()
+{
+ int mapimage,locpoint;
+ if(!intown)
+ {
+  HookRetrace(0);
+  FadeOut(50,0);
+  SetResolution(640,480);
+  mapimage=LoadImage("worldmap.pcx");
+  locpoint=LoadImage("point.pcx");
+  Render();
+  RectFill(0,0,639,479,1);
+  CopySprite(183,114,272,272,mapimage);
+  TCopySprite(entity.tx[Player]+176,entity.ty[Player]+107,16,16,locpoint);
+  ShowPage();
+  FadeIn(50,0);
+  While(!b2)
+  {
+   Render();
+   RectFill(0,0,639,479,1);
+   CopySprite(183,114,272,250,mapimage);
+   ShowPage();
+   TCopySprite(entity.tx[Player]+176,entity.ty[Player]+107,16,16,locpoint);
+   ShowPage();
+   UpdateControls();
+  }
+  Free(mapimage);
+  Free(locpoint);
+  FadeOut(50,0);
+  SetResolution(320,240);
+  HookRetrace(AirShip);
+  Render();
+  ShowPage();
+  FadeIn(50,0);
+ }
+}
+
+void TakeOffAirShip()
+{
+ PrepareModeSeven();
+}
+
+void Walking()
+{
+ int checa;
+ ModeSeven();
+ checa=GetTile(entity.tx[plr],entity.ty[plr],7);
+ if(checa=0)
+ {
+
+ }
+}
+
+void AirShip()
+{
+ ModeSeven();
+}
+
+void LandAirShip()
+{
+ EndModeSeven();
+}
+

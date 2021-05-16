@@ -1,0 +1,716 @@
+/* Items */
+int Potion[3];
+#define Heal 0
+#define Antidote 1
+#define Soft 2
+
+int Shelter[3];
+#define Tent 0
+#define Cabin 1
+#define House 2
+
+int Plot_Item[10];
+/*
+[0] Lute
+[1] Ordeal Crown
+[2]=1 Matouya's Crystal 
+[2]=2 Matouya's Herb
+[2]=3 Mystic Key
+[3]=1 TNT
+[3]=2 Ruby
+[3]=3 Canoe
+[4]=1 Floater Stone
+[4]=2 AirShip Key
+[5]=1 Rat Tail
+[5]=2 Bahamut's Award
+[6]=1 Bottle
+[6]=2 OxyAle
+[7]=1 Stone Slab
+[7]=2 Lefein's Chime
+[8] Glowing Cube
+[9] Adamant Ore
+*/
+
+/* Equipment Slots */
+int Right_Hand[16]; // For Weapon
+int Left_Hand[16];  // For Shield
+int Head[16];       // For Helm
+int Body[16];       // For Body Armor
+int Fist[16];       // For Gauntlets
+
+/* Weapons */
+int Weapon[42];
+
+/* Armor */
+int Armor[17];
+int Helm[8];
+int Gauntlet[9];
+int Shield[10];
+
+/* Attributes */
+// Name
+string Nm_Weapon[42];
+string Nm_Armor[17];
+string Nm_Helm[8];
+string Nm_Gauntlet[9];
+string Nm_Shield[10];
+
+// Equipment Type
+/*
+Items were sorted strategically so no Equipment
+type database is needed.
+
+Knife 0
+Sword 1
+Katana 2
+Axe 3
+Hammer 4
+Staff 5
+Nunchuck 6
+Spear 7
+Shield 8
+Helm 9
+Armor 10
+Armlet 11
+Shirt 12
+Gauntlet 13
+Ring 14
+Potion 15
+Tent 16
+*/
+
+// Damage
+int Dmg_Weapon[42];
+
+// Hit %
+int Hit_Weapon[42];
+
+// Absorb
+int Abs_Armor[17];
+int Abs_Helm[8];
+int Abs_Gauntlet[9];
+int Abs_Shield[10];
+
+// Weight
+int Wg_Armor[17];
+int Wg_Helm[8];
+int Wg_Gauntlet[9];
+int Wg_Shield[10];
+
+// Magic Effects
+int Mgc_Weapon[42];
+
+int Mgc_Armor[17];
+int Mgc_Helm[8];
+int Mgc_Gauntlet[9];
+int Mgc_Shield[10];
+
+void EquipInit()
+{
+ InitWeapons();
+ InitArmors();
+ InitShields();
+ InitHelmets();
+ InitGauntlets();
+}
+
+void InitWeapons()
+{
+ int file,largo,cont;
+ largo=FileSize("weapons.nam");
+ file=fopen("weapons.nam");
+ cont=0;
+ While(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Weapon[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+ file=fopen("weapons.stt");
+ for(cont=0; cont<42; cont++)
+ {
+  Dmg_Weapon[cont]=fgetbyte(file);
+  Hit_Weapon[cont]=fgetbyte(file);
+ }
+ fclose(file);
+}
+
+void InitArmors()
+{
+ int file,largo,cont;
+ largo=FileSize("armors.nam");
+ file=fopen("armors.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Armor[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+ file=fopen("armors.stt");
+ for(cont=0; cont<17; cont++)
+ {
+  Abs_Armor[cont]=fgetbyte(file);
+  Wg_Armor[cont]=fgetbyte(file);
+ }
+ fclose(file);
+}
+
+void InitShields()
+{
+ int file,largo,cont;
+ largo=FileSize("shields.nam");
+ file=fopen("shields.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Shield[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+ file=fopen("shields.stt");
+ for(cont=0; cont<10; cont++)
+ {
+  Abs_Shield[cont]=fgetbyte(file);
+  Wg_Shield[cont]=fgetbyte(file);
+ }
+ fclose(file);
+}
+
+void InitHelmets()
+{
+ int file,largo,cont;
+ largo=FileSize("helmets.nam");
+ file=fopen("helmets.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Helm[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+ file=fopen("helmets.stt");
+ for(cont=0; cont<8; cont++)
+ {
+  Abs_Helm[cont]=fgetbyte(file);
+  Wg_Helm[cont]=fgetbyte(file);
+ }
+ fclose(file);
+}
+
+void InitGauntlets()
+{
+ int file,largo,cont;
+ largo=FileSize("gauntlet.nam");
+ file=fopen("gauntlet.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Gauntlet[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+ file=fopen("gauntlet.stt");
+ for(cont=0; cont<9; cont++)
+ {
+  Abs_Gauntlet[cont]=fgetbyte(file);
+  Wg_Gauntlet[cont]=fgetbyte(file);
+ }
+ fclose(file);
+}
+
+void DrawSelWindow(int potion)
+{
+ int i;
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(9, 7, 165, 232, windowbg);
+ DrawWindow(145, 7, 287, 31, windowbg);
+ for(i=1; i<=NumChars; i++)
+ {
+  GotoXY(60,20+(42*(i-1)));
+  Switch(CharStatus[PartyIndex[i]])
+  {
+   case 0: PrintString(0, "LV "+Str(Level[PartyIndex[i]])+"");
+   case 1: PrintString(0, "Poisoned");
+   case 2: PrintString(0, "Petrified");
+   case 3: PrintString(0, "Wounded");
+  }
+  TCopySprite(22,20+(42*(i-1)),32,32, speechpic[honored]+(1024*PartyIndex[i]));
+  GotoXY(60,32+(42*(i-1)));
+  PrintString(0, "HP");
+  GotoXY(109-(strlen(Str(CurHP[PartyIndex[i]]))*7),32+(42*(i-1)));
+  PrintString(0, Str(CurHP[PartyIndex[i]]));
+  GotoXY(109,32+(42*(i-1)));
+  PrintString(0,"/");
+  PrintString(0, Str(MaxHP[PartyIndex[i]]));
+  GotoXY(60,44+(42*(i-1)));
+  PrintString(0, "MP");
+  GotoXY(109-(strlen(Str(CurMP[PartyIndex[i]]))*7),44+(42*(i-1)));
+  PrintString(0, Str(CurMP[PartyIndex[i]]));
+  GotoXY(109,44+(42*(i-1)));
+  PrintString(0,"/");
+  PrintString(0, Str(MaxMP[PartyIndex[i]]));
+ }
+ GotoXY(153,16);
+ Switch(potion)
+ {
+  case 0: PrintString(0, "Need Healing? Who?");
+  case 1: PrintString(0, "Poisoned? Who?");
+  case 2: PrintString(0, "Petrified? Who?");
+ }
+}
+
+void ExecItem(int index, int itemmnu)
+{
+ int sel, llc;
+ If(itemmnu==0 && index<=2)
+ {
+  If(Potion[index]>0)
+  {
+   PlaySound(pointersnd,64,128);
+   FadeOut(50,0);
+   DrawSelWindow(index);
+   TCopySprite(5,28+(42*(sel-1)),16,16,ttlcursor);
+   ShowPage();
+   FadeIn(50,0);
+   sel=1;
+   While(Potion[index]>0 && !b2)
+   {
+    UpdateControls();
+    If(Down)
+    {
+     Unpress(6);
+     PlaySound(pointersnd,64,128);
+     sel++;
+     If(sel>NumChars)
+     {
+      sel=1;
+     }
+    }
+    If(Up)
+    {
+     Unpress(5);
+     PlaySound(pointersnd,64,128);
+     sel--;
+     If(sel==0)
+     {
+      sel=NumChars;
+     }
+    }
+    If(b1)
+    {
+     Unpress(1);
+     Switch(index)
+     {
+      case 0: If(CurHP[PartyIndex[sel]]==MaxHP[PartyIndex[sel]])
+              {
+               PlaySound(buzz,128,128);
+              }
+              Else
+              {
+               CurHP[PartyIndex[sel]]+=30;
+               If(CurHP[PartyIndex[sel]]>MaxHP[PartyIndex[sel]])
+               {
+                CurHP[PartyIndex[sel]]=MaxHP[PartyIndex[sel]];
+               }
+               Potion[index]--;
+               PlaySound(snd_twinkle,128,128);
+              }
+      case 1: If(CharStatus[PartyIndex[sel]]==1)
+              {
+               CharStatus[PartyIndex[sel]]=0;
+               Potion[index]--;
+               PlaySound(snd_twinkle,128,128);
+              }
+              Else
+              {
+               PlaySound(buzz,128,128);
+              }
+      case 2: If(CharStatus[PartyIndex[sel]]==2)
+              {
+               CharStatus[PartyIndex[sel]]=0;
+               Potion[index]--;
+               PlaySound(snd_twinkle,128,128);
+              }
+              Else
+              {
+               PlaySound(buzz,128,128);
+              }
+     }
+    }
+    DrawSelWindow(index);
+    TCopySprite(5,28+(42*(sel-1)),16,16,ttlcursor);
+    ShowPage();
+   }
+   If(b2)
+   {
+    Unpress(2);
+    PlaySound(pointersnd,64,128);
+   }
+   FadeOut(50,0);
+   ItemMenuDraw(0);
+   ShowPage();
+   FadeIn(50,0);
+  }
+  Else
+  {
+   PlaySound(buzz,128,128);
+  }
+ }
+ If(itemmnu==0 && index>2)
+ {
+  If(Shelter[index-3]>0)
+  {
+   If(EnableSave>0)
+   {
+    PlaySound(snd_twinkle,128,128);
+    Shelter[index-3]--;
+    Switch(index)
+    {
+     case 3:
+             For(llc=1; llc<=NumChars; llc++)
+             {
+              CurHP[PartyIndex[llc]]+=30;
+              If(CurHP[PartyIndex[llc]]>MaxHP[PartyIndex[llc]])
+              {
+               CurHP[PartyIndex[llc]]=MaxHP[PartyIndex[llc]];
+              }
+             }
+     case 4: 
+             For(llc=1; llc<=NumChars; llc++)
+             {
+              CurHP[PartyIndex[llc]]=MaxHP[PartyIndex[llc]];
+             }
+     case 5:
+             For(llc=1; llc<=NumChars; llc++)
+             {
+              CurHP[PartyIndex[llc]]=MaxHP[PartyIndex[llc]];
+              CurMP[PartyIndex[llc]]=MaxMP[PartyIndex[llc]];
+             }
+    }
+   }
+   Else
+   {
+    PlaySound(buzz,128,128);
+   }
+  }
+  Else
+  {
+   PlaySound(buzz,128,128);
+  }
+ }
+ If(itemmnu==1)
+ {
+  If(Plot_Item[index])
+  {
+   PlaySound(pointersnd,64,128);
+  }
+  Switch(index)
+  {
+   case 0: If(Plot_Item[0])
+           TickText(PartyIndex[1+Random(NumChars-1)], "Beautiful Music Fills the","place.","");
+   case 1: If(Plot_Item[1])
+           TickText(PartyIndex[1+Random(NumChars-1)], "The Stolen Crown!","","");
+   case 2: Switch(Plot_Item[2])
+           {
+            case 1: TickText(PartyIndex[1+Random(3)], "A Crystal Ball. It belongs","to Matouya.","");
+            case 2: TickText(PartyIndex[1+Random(NumChars-1)], "To awake the Elf Prince.","","");
+            case 3: TickText(PartyIndex[1+Random(NumChars-1)], "It can unlock anything!","","");
+           }
+   case 3: Switch(Plot_Item[3])
+           {
+            case 1: TickText(PartyIndex[1+Random(NumChars-1)], "Handle with Care!!!","","");
+            case 2: TickText(PartyIndex[1+Random(NumChars-1)], "Hmm... A red colored rock.","","");
+            case 3: TickText(PartyIndex[1+Random(NumChars-1)], "To cross rivers!","","");
+           }
+   case 4: Switch(Plot_Item[4])
+           {
+            case 1: TickText(PartyIndex[1+Random(NumChars-1)], "It levitates!","","");
+                    If(!strcmp(nommapa,"world.map") && entity.tx[Player]>=221 && entity.tx[Player]<=230 && entity.ty[Player]>=226 && entity.ty[Player]<=233)
+                    {
+                     TickText(PartyIndex[1+Random(NumChars-1)], "Hey! Something's emerging from", "the sand!","");
+                     TickText(PartyIndex[1+Random(NumChars-1)], "It's an AirShip!!","","");
+                     PlaySound(fanfare,255,128);
+                     flags[4000]=1;
+                     Plot_Item[4]=0;
+                    }
+            case 2: TickText(PartyIndex[1+Random(NumChars-1)], "It's Needed to start","the AirShip Engine.","");
+           }
+   case 5: Switch(Plot_Item[5])
+           {
+            case 1: TickText(PartyIndex[1+Random(NumChars-1)], "Ugh! A rotten tail!","Throw it away!","");
+                    TickText(PartyIndex[Numchars-Random(NumChars-1)], "No! Don't!","","");
+            case 2: TickText(PartyIndex[1+Random(NumChars-1)], "Our award of courage.","","");
+           }
+   case 6: Switch(Plot_Item[6])
+           {
+            case 1: TickText(PartyIndex[1+Random(NumChars-1)], "Hmm... There's something","inside... ","");
+                    TickText(PartyIndex[Numchars-Random(NumChars-1)], "Why don't you open it?","","");
+                    TickText(0, "Opened the bottle.","","");
+                    Plot_Item[6]=0;
+                    TickText(PartyIndex[1+Random(NumChars-1)], "Hey! It's a fairy!!","","");
+                    TickText(0, "The Fairy flew away.","","");
+                    flags[6000]=1;
+            case 2: TickText(PartyIndex[1+Random(NumChars-1)], "It provides us with fresh","air.","");
+           }
+   case 7: Switch(Plot_Item[7])
+           {
+            case 1: TickText(PartyIndex[1+Random(NumChars-1)], "A Cryptic Stone Slab...","weird symbols are written","all over it.");
+            case 2: TickText(PartyIndex[1+Random(NumChars-1)], "Stamped on the bottom:","MADE IN LEPHEIN","");
+           }
+   case 8: If(Plot_Item[8])
+           TickText(PartyIndex[1+Random(NumChars-1)], "Colors swirls around the cube.","","");
+   case 9: If(Plot_Item[9])
+           TickText(PartyIndex[1+Random(NumChars-1)], "A highly resistant mineral.","","");
+  }
+ }
+}
+
+void GetAllStuff()
+{
+ int cll;
+ for(cll=1; cll<42; cll++)
+ {
+  Weapon[cll]=4;
+ }
+ for(cll=1; cll<10; cll++)
+ {
+  Shield[cll]=4;
+ }
+ for(cll=1; cll<8; cll++)
+ {
+  Helm[cll]=4;
+ }
+ for(cll=1; cll<17; cll++)
+ {
+  Armor[cll]=4;
+ }
+ for(cll=1; cll<9; cll++)
+ {
+  Gauntlet[cll]=4;
+ }
+ for(cll=0; cll<3; cll++)
+ {
+  Potion[cll]=99;
+ }
+ for(cll=0; cll<3; cll++)
+ {
+  Shelter[cll]=99;
+ }
+}
+
+int CanEquip(int ch, int flagnum)
+{
+ int valor;
+ // Equipable by who?
+ /*
+ 0: Anyone
+ 1: Fighter/Knight, Thief/Ninja, Red Mage/Wizard
+ 2: Fighter/Knight, Ninja, Red Mage/Wizard
+ 3: Fighter/Knight, Ninja, White Mage/Wizard
+ 4: Fighter/Knight, Ninja
+ 5: Fighter/Knight, Thief/Ninja, Red Mage/Wizard, Black Mage/Wizard
+ 6: Fighter/Knight, Ninja, Red Wizard
+ 7: Knight, Ninja, Red Wizard
+ 8: Knight, Ninja
+ 9: Knight, White Mage/Wizard
+ 10: Knight
+ 11: Ninja, Black Mage/Wizard
+ 12: Ninja, Black Belt/Monk
+ 13: Ninja
+ 14: Anyone but Black Belt/Monk
+ 15: Anyone but Thief, Red Mage/Wizard
+ 16: Anyone but Black/White Mage/Wizard
+ 17: Dragoon
+ 
+ the flags are loaded from the following files:
+ weapons.eqp
+ shields.eqp
+ helmets.eqp
+ armors.eqp
+ gauntlet.eqp
+ */
+
+ Switch(flagnum)
+ {
+  case 0: valor=1;
+  case 1: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==7 || ch==8 || ch==15)
+           valor=1;
+          Else
+           valor=0;
+  case 2: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==7 || ch==8 || ch==15)
+          {
+           If(ch==3 || ch==4)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=1;
+          }
+          Else
+           valor=0;
+  case 3: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==9 || ch==10 || ch==15)
+          {
+           If(ch==3 || ch==4)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=1;
+          }
+          Else
+           valor=0;
+  case 4: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==15)
+          {
+           If(ch==3 || ch==4)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=1;
+          }
+          Else
+           valor=0;
+  case 5: If(ch!=5 && ch!=6 && ch!=9 && ch!=10)
+           valor=1;
+          Else
+           valor=0;
+  case 6: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==7 || ch==8 || ch==15)
+          {
+           If(ch==3 || ch==4 || ch==7 || ch==8)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=1;
+          }
+          Else
+           valor=0;
+  case 7: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==7 || ch==8 || ch==15)
+          {
+           If(honored)
+            valor=1;
+           Else
+            valor=0;
+          }
+          Else
+           valor=0;
+  case 8: If(ch==1 || ch==2 || ch==3 || ch==4 || ch==15)
+          {
+           If(honored)
+            valor=1;
+           Else
+            valor=0;
+          }
+          Else
+           valor=0;
+  case 9: If(ch==1 || ch==2 || ch==9 || ch==10)
+          {
+           If(ch==1 || ch==2)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=1;
+          }
+          Else
+           valor=0;
+  case 10: If(ch==1 || ch==2 || ch==15)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=0;
+  case 11: If(ch==3 || ch==4 || ch==11 || ch==12)
+           {
+            If(ch==3 || ch==4)
+            {
+             If(honored)
+              valor=1;
+             Else
+              valor=0;
+            }
+            Else
+             valor=1;
+           }
+           Else
+            valor=0;
+  case 12: If(ch==3 || ch==4 || ch==5 || ch==6)
+           {
+            If(ch==3 || ch==4)
+            {
+             If(honored)
+              valor=1;
+             Else
+              valor=0;
+            }
+            Else
+             valor=1;
+           }
+           Else
+            valor=0;
+  case 13: If(ch==3 || ch==4 || ch==15)
+           {
+            If(honored)
+             valor=1;
+            Else
+             valor=0;
+           }
+           Else
+            valor=0;
+  case 14: If(ch!=5 && ch!=6)
+            valor=1;
+          Else
+           valor=0;
+  case 15: If(ch!=3 && ch!=4 && ch!=7 && ch!=8)
+            valor=1;
+           Else
+           {
+            If(ch==3 || ch==4)
+            {
+             If(honored)
+              valor=1;
+            }
+            Else
+             valor=0;
+           }
+  case 16: If(ch!=9 && ch!=10 && ch!=11 && ch!=12)
+            valor=1;
+           Else
+            valor=0;
+  case 17: If(ch==15 && honored)
+            valor=1;
+           Else
+            valor=0;
+ }
+ return valor;
+}

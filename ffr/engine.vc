@@ -1,0 +1,128 @@
+//the main movement engine.
+void Main() 
+{
+ int done;
+ timer=0;
+ while(!done)
+ {
+  Updatecontrols();
+  while(!timer) { } //essentially a framerate cap of 100 fps.
+  t=timer; timer=0; //base all movement calcualations on t.
+  ProcessZones();
+  MovePlayer();
+  ShowPlayer();
+  Render();
+  ShowPage();
+ }
+}
+
+//HookRetraced version of Main. This version of the engine you can turn off at will, but I haven't found a situation where you would need to use this. 
+//NOTE: When I tested this function I found it to run slower than the looped version! Dunno why :\
+void HRMain() 
+{
+ timer=0;
+ while(!timer) { } //essentially a framerate cap of 100 fps.
+ t=timer; timer=0; //base all movement calcualations on t.
+ ProcessZones();
+ MovePlayer();
+ ShowPlayer();
+}
+
+//If there is a zone under the player, run its event.
+void ProcessZones()
+{
+ int z;
+ z=GetTile(entity.tx[plr], entity.ty[plr], 7);
+ if(z && z!=zone)
+ {
+  zone=z;
+  CallEvent(z);
+ }
+ else if(!z && zone) zone=0;
+}
+
+//moves the player around and checks for obstructions.
+void MovePlayer()
+{
+ int i;
+ ismoving[plr]=false;
+ if(up) 
+ { 
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceUp;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr])>>4,(entity.y[plr]-1)>>4,6) && !GetTile((entity.x[plr]+15)>>4,(entity.y[plr]-1)>>4,6))
+   { 
+    entity.y[plr]--; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ }
+ if(down) 
+ {  
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceDown;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr])>>4,(entity.y[plr]+16)>>4,6) && !GetTile((entity.x[plr]+15)>>4,(entity.y[plr]+16)>>4,6))
+   { 
+    entity.y[plr]++; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ } 
+ if(left) 
+ {  
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceLeft;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr]-1)>>4,(entity.y[plr])>>4,6) && !GetTile((entity.x[plr]-1)>>4,(entity.y[plr]+15)>>4,6))
+   { 
+    entity.x[plr]--; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ } 
+ if(right) 
+ {  
+  ismoving[plr]=true;
+  entity.facing[plr]=FaceRight;
+  for(i=0; i<t; i++) 
+  { 
+   if(!GetTile((entity.x[plr]+16)>>4,(entity.y[plr])>>4,6) && !GetTile((entity.x[plr]+16)>>4,(entity.y[plr]+15)>>4,6))
+   { 
+    entity.x[plr]++; 
+   }
+   else
+   {
+    ismoving[plr]=false; i=t;
+   }
+  } 
+ }  
+} 
+
+//Shows the proper frame for the player based on his current direction/actions. Could (and maybe should) possibly be expanded to work for all active entities.
+void ShowPlayer()
+{
+ if(ismoving[plr]) 
+ { 
+  ftime[plr]+=t; if(ftime[plr]>=64) ftime[plr]-=64; 
+  entity.specframe[plr]=(entity.facing[plr]*5)+1+(ftime[plr]/16);
+ }
+ else 
+ { 
+  ftime[plr]=0;
+  entity.specframe[plr]=(entity.facing[plr]*5); 
+ }
+}

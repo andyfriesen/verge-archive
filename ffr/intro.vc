@@ -1,0 +1,11 @@
+event
+{
+ PaletteMorph(0,0,0,0,0);
+ Render();
+ ShowPage();
+ FadeIn(100,0);
+ RollCredits("ffrintro", 0);
+ FadeOut(100,0);
+ Map("TITLE.MAP");
+}
+

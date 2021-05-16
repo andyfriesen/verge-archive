@@ -1,0 +1,92 @@
+event // Autoexec
+{
+  PaletteMorph(0,0,0,0,0);
+  Startup();
+  msgspeed=4;
+  Render();
+//  DrawWindow(120,120,198,151,windowbg);
+//  DrawWindow(120,152,198,183,windowbg);
+  DrawWindow(120,122,208,144,windowbg);
+  DrawWindow(120,144,208,166,windowbg);
+  DrawWindow(120,166,208,188,windowbg);
+  choice=0;
+  GotoXY(129,127);
+  PrintString(1, "New Game");
+  GotoXY(129,149);
+  PrintString(1, "Continue");
+  GotoXY(129,171);
+  PrintString(1, "Quit");
+  GotoXY(111,190);
+  PrintString(0, "Message Speed:"+Str(msgspeed)+"");
+  TCopySprite(105,128,16,16,ttlcursor);
+  ShowPage();
+  FadeIn(100,0);
+  while (choice<3)
+  {
+    switch (choice)
+    {
+      case 0: RectFill(105,122,120,188,0);
+              TCopySprite(105,128,16,16,ttlcursor);
+      case 1: RectFill(105,122,120,188,0);
+              TCopySprite(105,150,16,16,ttlcursor);
+      case 2: RectFill(105,122,120,188,0);
+              TCopySprite(105,172,16,16,ttlcursor);
+    }
+    UpdateControls();
+    if (Down)
+    {
+      Unpress(6);
+      choice++;
+      PlaySound(pointersnd,96,128);
+      if (choice>2) {choice=0;}
+    }
+    if (Up)
+    {
+      Unpress(5);
+      PlaySound(pointersnd,96,128);
+      if (choice==0) {choice=3;}
+      choice--;
+    }
+    if (Left)
+    {
+      Unpress(7);
+      msgspeed--;
+      PlaySound(pointersnd,96,128);
+      if (msgspeed==0) {msgspeed=8;}
+      RectFill(209,190,216,197,0);
+      GotoXY(209,190);
+      PrintString(0,""+Str(msgspeed)+"");
+    }
+    if (Right)
+    {
+      Unpress(8);
+      msgspeed++;
+      PlaySound(pointersnd,96,128);
+      if (msgspeed==9) {msgspeed=1;}
+      RectFill(209,190,216,197,0);
+      GotoXY(209,190);
+      PrintString(0,""+Str(msgspeed)+"");
+    }
+    if (B1)
+    {
+      switch (choice)
+      {
+       Case 0: PlaySound(pointersnd,96,128);
+               FadeOut(100,0);
+               Map("SELECT.MAP");
+       Case 1: PlaySound(pointersnd,96,128);
+               FadeOut(100,0);
+               LoadGame();
+               Map(nommapa);
+       Case 2: PlaySound(pointersnd,96,128);
+               FadeOut(100,0);
+               Exit("That's all for now!");
+      }
+    }
+    ShowPage();
+  }
+}
+
+
+
+

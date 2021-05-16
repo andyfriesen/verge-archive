@@ -1,0 +1,13 @@
+event
+{
+ PaletteMorph(0,0,0,0,0);
+ FadeIn(100,0);
+ Kisha("Kisha", 0);
+ FadeOut(100,0);
+ StopMusic();
+ leido=fwopen("save00.sav");
+ fwritestring("Ya lo leyeron!!!",leido);
+ fwclose(leido);
+ Map("INTRO.MAP");
+}
+

@@ -1,0 +1,639 @@
+/* This file belongs to the Final Fantasy Reprise Project. It is the
+Party System file */
+
+// ------------------- Variables for Party stuff -------------------------
+
+int Character[16];       // 0=Not in the party, 1=In the party
+int PartyIndex[6];       // Tells what character is in which party index, 0=None
+int CharStatus[16];      // 0=Normal, 1=Poisoned, 2=Petrified, 3=Dead
+int NumChars;            // Number of characters in party
+
+// ----------------- Variables for Character Stats -----------------------
+
+int Level[16];
+int Exp[16];
+int Next[16];            // Experience needed for next level
+int nxt[16];
+
+string Name[16];
+string tempname;
+
+int MaxHP[16];
+int CurHP[16];
+int MaxMP[16];
+int CurMP[16];
+
+int Strength[16];
+int Agility[16];
+int Intelligence[16];
+int Vitality[16];
+int Luck[16];
+
+int Damage[16];
+int Hit[16];
+int Hit2[16];
+int Absorb[16];
+int Evade[16];
+
+int Armor_Weight[16];
+int Armor_Abs[16];
+
+int cambio;
+
+// ----------------------- Functions -------------------------
+
+void UpdateArmor_Abs(int char)
+{
+ Armor_Abs[char]=0;
+ Armor_Abs[char]+=Abs_Helm[Head[char]];
+ Armor_Abs[char]+=Abs_Armor[Body[char]];
+ Armor_Abs[char]+=Abs_Gauntlet[Fist[char]];
+ Armor_Abs[char]+=Abs_Shield[Left_Hand[char]];
+}
+
+void UpdateArmor_Weight(int char)
+{
+ Armor_Weight[char]=0;
+ Armor_Weight[char]+=Wg_Helm[Head[char]];
+ Armor_Weight[char]+=Wg_Armor[Body[char]];
+ Armor_Weight[char]+=Wg_Gauntlet[Fist[char]];
+ Armor_Weight[char]+=Wg_Shield[Left_Hand[char]];
+}
+
+void UpdateStats(int char)
+{
+ UpdateArmor_Abs(char);
+ UpdateArmor_Weight(char);
+ If(char=5 || char=6)
+ {
+  If(Right_Hand[char]==0)
+   Damage[char]=(Strength[char]/2)+(Level[char]*2);
+  Else
+   Damage[char]=(Strength[char]/2)+(Dmg_Weapon[Right_Hand[char]]);
+  If(Body[char]==0)
+   Absorb[char]=(Vitality[char]/4)+(Level[char])+Armor_Abs[char];
+  Else
+   Absorb[char]=(Vitality[char]/4)+Armor_Abs[char];
+ }
+ else
+ {
+  Damage[char]=(Strength[char]/2)+(Dmg_Weapon[Right_Hand[char]]);
+  Absorb[char]=(Vitality[char]/4)+(Armor_Abs[char]);
+ }
+ Hit2[char]=Hit[char]+Hit_Weapon[Right_Hand[char]];
+ Evade[char]=(Agility[char]+48+Abs_Shield[Left_Hand[char]])-Armor_Weight[char];
+}
+
+void ChangeLeader()
+{
+ cambio=1;
+ RestartMap();
+}
+
+void ExpUp(int char,int x)
+{
+ int done,HP,MP,st,ag,intel,vit,lck,hitpct,evd,h;
+ done=0;
+ EXP[char]+=x;
+ while (!done)
+ {
+  done=1;
+  if(EXP[char]>=Next[char] && Level[char]<50)
+  {
+   done=0;
+   Level[char]++;
+   if(Level[char]>29)
+   {
+    h=(39*29*29)+1;
+   }
+   else h=(39*Level[char]*Level[char])+1;
+   Next[char]=Next[char]+h;
+   nxt[char]=h;
+   switch(char)
+   {
+    case 1:
+            HP=(14+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(5+Random(3))*honored;
+
+            st=1;
+            If(Random(7)<6)
+             ag=1;
+            If(Random(7)<3)
+             intel=1;
+            If(Random(7)<5)
+             vit=1;
+            If(Random(7)<4)
+             lck=1;
+            hitpct=3;
+
+    case 2: 
+            HP=(14+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(5+Random(3))*honored;
+
+            st=1;
+            If(Random(7)<6)
+             ag=1;
+            If(Random(7)<3)
+             intel=1;
+            If(Random(7)<5)
+             vit=1;
+            If(Random(7)<4)
+             lck=1;
+            hitpct=3;
+
+    case 3:
+            HP=(8+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(6+Random(4))*honored;
+
+            If(Random(7)<7)
+             st=1;
+            If(Random(7)<6)
+             ag=1;
+            If(Random(7)<3)
+             intel=1;
+            If(Random(7)<3)
+             vit=1;
+            If(Random(7)<8)
+             lck=1;
+            hitpct=2;
+
+    case 4:
+            HP=(8+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(6+Random(4))*honored;
+
+            If(Random(7)<7)
+            st=1;
+            If(Random(7)<6)
+             ag=1;
+            If(Random(7)<4)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<8)
+             lck=1;
+            hitpct=2;
+
+    case 5:
+            HP=(8+Random(5)+(Vitality[char]/(4-honored)));
+            MP=0;
+
+            If(Random(7)<5)
+            st=1;
+            If(Random(7)<5)
+             ag=1;
+            If(Random(7)<5)
+             intel=1;
+            If(Random(7)<8)
+             vit=1;
+            If(Random(7)<5)
+             lck=1;
+            hitpct=3;
+
+    case 6:
+            HP=(8+Random(5)+(Vitality[char]/(4-honored)));
+            MP=0;
+
+            If(Random(7)<5)
+            st=1;
+            If(Random(7)<5)
+             ag=1;
+            If(Random(7)<5)
+             intel=1;
+            If(Random(7)<8)
+             vit=1;
+            If(Random(7)<5)
+             lck=1;
+            hitpct=3;
+
+    case 7:
+            HP=(8+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(4+(Random(Level[char])));
+
+            If(Random(7)<4)
+            st=1;
+            If(Random(7)<4)
+             ag=1;
+            If(Random(7)<4)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<4)
+             lck=1;
+            hitpct=2;
+
+    case 8:
+            HP=(8+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(4+(Random(Level[char])));
+
+            If(Random(7)<4)
+            st=1;
+            If(Random(7)<4)
+             ag=1;
+            If(Random(7)<4)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<4)
+             lck=1;
+            hitpct=2;
+
+    case 9:
+            HP=(6+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(5+(((Level[char]/2)+Random(Level[char]/2))*2));
+
+            If(Random(7)<4)
+            st=1;
+            If(Random(7)<4)
+             ag=1;
+            If(Random(7)<8)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<5)
+             lck=1;
+            hitpct=1;
+
+    case 10:
+            HP=(6+Random(5)+(Vitality[char]/(3-honored)));
+            MP=(5+(((Level[char]/2)+Random(Level[char]/2))*2));
+
+            If(Random(7)<4)
+            st=1;
+            If(Random(7)<4)
+             ag=1;
+            If(Random(7)<8)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<5)
+             lck=1;
+            hitpct=1;
+
+    case 11:     
+            HP=(2*Random(4))+1+(Vitality[char]/4)+Random(5);
+            MP=(6+(((Level[char]/2)+Random(Level[char]/2))*2)*2);
+
+            If(Random(7)<4)
+            st=1;
+            If(Random(7)<3)
+             ag=1;
+            If(Random(7)<8)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<4)
+             lck=1;
+            hitpct=1;
+
+    case 12:
+            HP=(2*Random(4))+1+(Vitality[char]/4)+Random(5);
+            MP=(6+(((Level[char]/2)+Random(Level[char]/2))*2)*2);
+
+            If(Random(7)<4)
+            st=1;
+            If(Random(7)<3)
+             ag=1;
+            If(Random(7)<8)
+             intel=1;
+            If(Random(7)<4)
+             vit=1;
+            If(Random(7)<4)
+             lck=1;
+            hitpct=1;
+
+    case 13:
+            HP=(15+(Random(Level[char])*3))*(1+honored);
+            MP=Random(3)*honored;
+            st=(1+Random(3))*(1+honored);
+            ag=(1+Random(2))*(1+honored);
+            intel=Random(2)*(1+honored);
+            vit=(1+Random(2))*(1+honored);
+            lck=Random(2)*(1+honored);
+            hitpct=(3+Random(2))*(1+honored);
+
+    case 14:
+            HP=(15+(Random(Level[char])*3))*(1+honored);
+            MP=Random(3)*honored;
+            st=(1+Random(3))*(1+honored);
+            ag=(1+Random(2))*(1+honored);
+            intel=Random(2)*(1+honored);
+            vit=(1+Random(2))*(1+honored);
+            lck=Random(2)*(1+honored);
+            hitpct=(3+Random(2))*(1+honored);
+
+    case 15:
+            HP=(16+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=(5+Random(3));
+            st=3+Random(4)+honored;
+            ag=2+Random(2)+honored;
+            intel=1+Random(2+honored);
+            vit=2+Random(3)+honored;
+            lck=1+Random(2);
+            hitpct=3+Random(2);
+   }
+
+   MaxHP[char]+=HP;
+   MaxMP[char]+=MP;
+
+   Strength[char]+=st;
+   Agility[char]+=ag;
+   Intelligence[char]+=intel;
+   Vitality[char]+=vit;
+   Luck[char]+=lck;
+   Hit[char]=Hit[char]+hitpct;
+   UpdateStats(char);
+  }
+ }
+}
+
+void DrawNaming()
+{
+ Render();
+ RectFill(0,0,320,240,0);
+ DrawWindow(32,24,132,48,windowbg);
+ DrawWindow(32,49,288,216,windowbg);
+ GotoXY(40,58);
+ PrintString(0, "A  B  C  D  E  F  G  H  I  J  K  L");
+ GotoXY(40,74);
+ PrintString(0, "M  N  O  P  Q  R  S  T  U  V  W  X");
+ GotoXY(40,90);
+ PrintString(0, "Y  Z  a  b  c  d  e  f  g  h  i  j");
+ GotoXY(40,106);
+ PrintString(0, "k  l  m  n  o  p  q  r  s  t  u  v");
+ GotoXY(40,122);
+ PrintString(0, "w  x  y  z  _  -  +  =  '  `  !  ?");
+ GotoXY(40,138);
+ PrintString(0, ",  .     BS End");
+}
+
+void Naming(int index)
+{
+ int end,posicX,posicY,length;
+ tempname=Name[index];
+ FadeOut(50,0);
+ DrawNaming();
+ GotoXY(40,33);
+ PrintString(0, tempname);
+ TCopySprite(25+(posicX*21), 57+(posicY*16), 16,16, ttlcursor);
+ ShowPage();
+ FadeIn(50,0);
+ while(!end)
+ {
+  length=strlen(tempname);
+  UpdateControls();
+  If(Up)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(5);
+   If(posicY=0){posicY=6;}
+   posicY--;
+   If(posicY==5 && posicX>4){posicX=4;}
+  }
+  If(Down)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(6);
+   posicY++;
+   If(posicY>5){posicY=0;}
+   If(posicY==5 && posicX>4){posicX=4;}
+  }
+  If(Left)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(7);
+   If(posicX=0)
+   {
+    If(posicY==5){posicX=5;}
+    else{posicX=12;}
+   }
+   posicX--;
+  }
+  If(Right)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(8);
+   posicX++;
+   If(posicX>11){posicX=0;}
+   If(posicY==5 && posicX>4){posicX=0;}
+  }
+  If(b2)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(2);
+   If(length>0)
+    tempname=left(tempname, length-1);
+  }
+  If(b1)
+  {
+   PlaySound(pointersnd,64,128);
+   Unpress(1);
+   If(length<12)
+   {
+    switch(posicX)
+    {
+     case 0:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"A";
+             case 1:
+                     tempname=left(tempname, length)+"M";
+             case 2:
+                     tempname=left(tempname, length)+"Y";
+             case 3:
+                     tempname=left(tempname, length)+"k";
+             case 4:
+                     tempname=left(tempname, length)+"w";
+             case 5:
+                     tempname=left(tempname, length)+",";
+            }
+ 
+     case 1:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"B";
+             case 1:
+                     tempname=left(tempname, length)+"N";
+             case 2:
+                     tempname=left(tempname, length)+"Z";
+             case 3:
+                     tempname=left(tempname, length)+"l";
+             case 4:
+                     tempname=left(tempname, length)+"x";
+             case 5:
+                     tempname=left(tempname, length)+".";
+            }
+     case 2:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"C";
+             case 1:
+                     tempname=left(tempname, length)+"O";
+             case 2:
+                     tempname=left(tempname, length)+"a";
+             case 3:
+                     tempname=left(tempname, length)+"m";
+             case 4:
+                     tempname=left(tempname, length)+"y";
+             case 5:
+                     tempname=left(tempname, length)+" ";
+            }
+     case 3:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"D";
+             case 1:
+                     tempname=left(tempname, length)+"P";
+             case 2:
+                     tempname=left(tempname, length)+"b";
+             case 3:
+                     tempname=left(tempname, length)+"n";
+             case 4:
+                     tempname=left(tempname, length)+"z";
+             case 5:
+                     tempname=left(tempname, length-1);
+            }
+     case 4:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"E";
+             case 1:
+                     tempname=left(tempname, length)+"Q";
+             case 2:
+                     tempname=left(tempname, length)+"c";
+             case 3:
+                     tempname=left(tempname, length)+"o";
+             case 4:
+                     tempname=left(tempname, length)+"_";
+             case 5: end=1;
+            }
+     case 5:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"F";
+             case 1:
+                     tempname=left(tempname, length)+"R";
+             case 2:
+                     tempname=left(tempname, length)+"d";
+             case 3:
+                     tempname=left(tempname, length)+"p";
+             case 4:
+                     tempname=left(tempname, length)+"-";
+            }
+     case 6:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"G";
+             case 1:
+                     tempname=left(tempname, length)+"S";
+             case 2:
+                     tempname=left(tempname, length)+"e";
+             case 3:
+                     tempname=left(tempname, length)+"q";
+             case 4:
+                     tempname=left(tempname, length)+"+";
+            }
+     case 7:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"H";
+             case 1:
+                     tempname=left(tempname, length)+"T";
+             case 2:
+                     tempname=left(tempname, length)+"f";
+             case 3:
+                     tempname=left(tempname, length)+"r";
+             case 4:
+                     tempname=left(tempname, length)+"=";
+            }
+     case 8:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"I";
+             case 1:
+                     tempname=left(tempname, length)+"U";
+             case 2:
+                     tempname=left(tempname, length)+"g";
+             case 3:
+                     tempname=left(tempname, length)+"s";
+             case 4:
+                     tempname=left(tempname, length)+"'";
+            }
+     case 9:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"J";
+             case 1:
+                     tempname=left(tempname, length)+"V";
+             case 2:
+                     tempname=left(tempname, length)+"h";
+             case 3:
+                     tempname=left(tempname, length)+"t";
+             case 4:
+                     tempname=left(tempname, length)+"`";
+            }
+     case 10:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"K";
+             case 1:
+                     tempname=left(tempname, length)+"W";
+             case 2:
+                     tempname=left(tempname, length)+"i";
+             case 3:
+                     tempname=left(tempname, length)+"u";
+             case 4:
+                     tempname=left(tempname, length)+"!";
+            }
+     case 11:
+            switch(posicY)
+            {
+             case 0:
+                     tempname=left(tempname, length)+"L";
+             case 1:
+                     tempname=left(tempname, length)+"X";
+             case 2:
+                     tempname=left(tempname, length)+"j";
+             case 3:
+                     tempname=left(tempname, length)+"v";
+             case 4:
+                     tempname=left(tempname, length)+"?";
+            }
+    }
+   }
+   else{If(posicX==4 && posicY==5) end=1;}
+  }
+  DrawNaming();
+  TCopySprite(25+(posicX*21), 57+(posicY*16), 16,16, ttlcursor);
+  GotoXY(40,33);
+  PrintString(0, tempname);
+  ShowPage();
+ }
+ gamefile=fwopen(Str(index)+".nam");
+ fwritestring(tempname,gamefile);
+ fwclose(gamefile);
+ FadeOut(50,0);
+ Render();
+ Showpage();
+ FadeIn(50,0);
+ UpdateName(index);
+}
+
+
+void UpdateName(int index)
+{
+ gamefile=fopen(Str(index)+".nam");
+ fgetline(s_line, gamefile);
+ Name[index]=s_line;
+ fclose(gamefile);
+}

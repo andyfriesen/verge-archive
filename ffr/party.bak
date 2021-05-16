@@ -1,0 +1,278 @@
+/* This file belongs to the Final Fantasy Reprise Project. It is the
+Party System file */
+
+// ------------------- Variables for Party stuff -------------------------
+
+int Character[16];       // 0=Not in the party, 1=In the party
+int PartyIndex[5];       // Tells what character is in which party index, 0=None
+int CharStatus[16];      // 0=Normal, 1=Poisoned, 2=Petrified, 3=Dead
+int NumChars;            // Number of characters in party
+
+// ----------------- Variables for Character Stats -----------------------
+
+int Level[16];
+int Exp[16];
+int Next[16];            // Experience needed for next level
+int nxt[16];
+string Name[12];
+
+int MaxHP[16];
+int CurHP[16];
+int MaxMP[16];
+int CurMP[16];
+
+int Strength[16];
+int Agility[16];
+int Intelligence[16];
+int Vitality[16];
+int Luck[16];
+
+int Damage[16];
+int Hit[16];
+int Absorb[16];
+int Evade[16];
+
+// ----------------------- Functions -------------------------
+
+void AddCharacter(int char)
+{
+ If(!Character[char])
+ {
+  If(Numchars<5)
+  {
+   NumChars++;
+   PartyIndex[NumChars]=char;
+   Character[char]=1;
+  }
+  Else
+  {
+   Stext(0, "Party full!","","");
+  }
+ }
+ Else
+ {
+  Stext(0, "Character already in party!","","");
+ }
+}
+
+void RemoveCharacter(int char)
+{
+ If(Character[char])
+ {
+  Character[char]=0;
+  PartyIndex[NumChars]=0;
+  NumChars--;
+ }
+ Else
+ {
+  Stext(0, "Can't remove a character that","is not in the party!","");
+ }
+}
+
+
+void ExpUp(int char,int x)
+{
+ int done,HP,MP,st,ag,intel,vit,lck,hitpct,evd,h;
+ done=0;
+ EXP[char]=EXP[char]+x;
+ while (!done)
+ {
+  done=1;
+  if(EXP[char]>=Next[char] && Level[char]<50)
+  {
+   done=0;
+   Level[char]++;
+   h=(39*Level[char]*Level[char])+1;
+   Next[char]=Next[char]+h;
+   nxt[char]=h;
+   switch(char)
+   {
+    case 1:
+            HP=(25+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=(5+Random(3))*honored;
+            st=3+Random(4);
+            ag=2+Random(2);
+            intel=1+Random(2)*(1+honored);
+            vit=2+Random(3);
+            lck=1+Random(2);
+            hitpct=3+Random(2);
+
+    case 2:
+            HP=(25+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=(5+Random(3))*honored;
+            st=3+Random(4);
+            ag=2+Random(2);
+            intel=1+Random(2)*(1+honored);
+            vit=2+Random(3);
+            lck=1+Random(2);
+            hitpct=3+Random(2);
+
+    case 3:
+            HP=(12+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=(6+Random(4))*honored;
+            st=2+Random(3);
+            ag=2+Random(3);
+            intel=1+Random(2)*(1+honored);
+            vit=1+Random(2)*(1+honored);
+            lck=3+Random(4);
+            hitpct=2+Random(1);
+
+    case 4:
+            HP=(12+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=(6+Random(4))*honored;
+            st=2+Random(3);
+            ag=2+Random(3);
+            intel=1+Random(2)*(1+honored);
+            vit=1+Random(2)*(1+honored);
+            lck=3+Random(4);
+            hitpct=2+Random(1);
+
+    case 5:
+            HP=(16+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=0;
+            st=2+Random(3);
+            ag=2+Random(2);
+            intel=1+Random(2);
+            vit=3+Random(4);
+            lck=1+Random(2)*(1+honored);
+            hitpct=3+Random(2);
+
+    case 6:
+            HP=(16+(((Level[char]/2)+Random(Level[char]/2))*2));
+            MP=0;
+            st=2+Random(3);
+            ag=2+Random(2);
+            intel=1+Random(2);
+            vit=3+Random(4);
+            lck=1+Random(2)*(1+honored);
+            hitpct=3+Random(2);
+
+    case 7:
+            HP=(15+(Random(Level[char])*2));
+            MP=(4+(Random(Level[char])));
+            st=2+Random(2);
+            ag=2+Random(2);
+            intel=2+Random(3);
+            vit=2+Random(2);
+            lck=1+Random(2)*(1+honored);
+            hitpct=2+Random(1);
+
+    case 8:
+            HP=(15+(Random(Level[char])*2));
+            MP=(4+(Random(Level[char])));
+            st=2+Random(2);
+            ag=2+Random(2);
+            intel=2+Random(3);
+            vit=2+Random(2);
+            lck=1+Random(2)*(1+honored);
+            hitpct=2+Random(1);
+
+    case 9:
+            HP=(14+(Random(Level[char])*2));
+            MP=(5+(((Level[char]/2)+Random(Level[char]/2))*2));
+            st=(2+Random(2))*(1+honored);
+            ag=1+honored+(Random(2))*(1+honored);
+            intel=3+Random(4)*(1+honored);
+            vit=1+(Random(2))*(1+honored);
+            lck=1+Random(2)*(1+honored);
+            hitpct=(1+Random(1))*(1+honored);
+
+    case 10:
+            HP=(14+(Random(Level[char])*2));
+            MP=(5+(((Level[char]/2)+Random(Level[char]/2))*2));
+            st=(2+Random(2))*(1+honored);
+            ag=1+honored+(Random(2))*(1+honored);
+            intel=3+Random(4)*(1+honored);
+            vit=1+(Random(2))*(1+honored);
+            lck=1+Random(2)*(1+honored);
+            hitpct=(1+Random(1))*(1+honored);
+
+    case 11:     
+            HP=(10+(Random(Level[char])*2));
+            MP=(6+(((Level[char]/2)+Random(Level[char]/2))*2)*2);
+            st=(1+Random(2))*(1+honored);
+            ag=2+Random(3)*(1+honored);
+            intel=3+Random(4)*(1+honored);
+            vit=1+(Random(1))*(1+honored);
+            lck=1+Random(2)*(1+honored);
+            hitpct=(1+Random(1))*(1+honored);
+
+    case 12:
+            HP=(10+(Random(Level[char])*2));
+            MP=(6+(((Level[char]/2)+Random(Level[char]/2))*2)*2);
+            st=(1+Random(2))*(1+honored);
+            ag=2+Random(3)*(1+honored);
+            intel=3+Random(4)*(1+honored);
+            vit=1+(Random(1))*(1+honored);
+            lck=1+Random(2)*(1+honored);
+            hitpct=(1+Random(1))*(1+honored);
+
+    case 13:
+            HP=(15+(Random(Level[char])*3))*(1+honored);
+            MP=Random(3)*honored;
+            st=(1+Random(3))*(1+honored);
+            ag=(1+Random(2))*(1+honored);
+            intel=Random(2)*(1+honored);
+            vit=(1+Random(2))*(1+honored);
+            lck=Random(2)*(1+honored);
+            hitpct=(3+Random(2))*(1+honored);
+
+    case 14:
+            HP=(15+(Random(Level[char])*3))*(1+honored);
+            MP=Random(3)*honored;
+            st=(1+Random(3))*(1+honored);
+            ag=(1+Random(2))*(1+honored);
+            intel=Random(2)*(1+honored);
+            vit=(1+Random(2))*(1+honored);
+            lck=Random(2)*(1+honored);
+            hitpct=(3+Random(2))*(1+honored);
+
+    case 15:
+            HP=(15+(Random(Level[char])*3))*(1+honored);
+            MP=Random(3)*honored;
+            st=(1+Random(3))*(1+honored);
+            ag=(1+Random(2))*(1+honored);
+            intel=Random(2)*(1+honored);
+            vit=(1+Random(2))*(1+honored);
+            lck=Random(2)*(1+honored);
+            hitpct=(3+Random(2))*(1+honored);
+
+    case 16:
+            HP=(15+(Random(Level[char])*3))*(1+honored);
+            MP=Random(3)*honored;
+            st=(1+Random(3))*(1+honored);
+            ag=(1+Random(2))*(1+honored);
+            intel=Random(2)*(1+honored);
+            vit=(1+Random(2))*(1+honored);
+            lck=Random(2)*(1+honored);
+            hitpct=(3+Random(2))*(1+honored);
+
+   }
+
+   MaxHP[char]=MaxHP[char]+HP;
+   CurHP[char]=CurHP[char]+HP;
+   MaxMP[char]=MaxMP[char]+MP;
+   CurMP[char]=CurMP[char]+MP;
+
+   Strength[char]=Strength[char]+st;
+   Agility[char]=Agility[char]+ag;
+   Intelligence[char]=Intelligence[char]+intel;
+   Vitality[char]=Vitality[char]+vit;
+   Luck[char]=Luck[char]+lck;
+
+   If(char=5 || char=6)
+   {
+    Damage[char]=(Strength[char]/2)+(Level[char]*2);
+    Absorb[char]=(Vitality[char]/4)+(Level[char]);
+   }
+   else
+   {
+    Damage[char]=(Strength[char]/2);
+   }
+   Hit[char]=Hit[char]+hitpct;
+   Evade[char]=Agility[char]+48-Armorweight[char];
+  }
+ }
+}
+
+
