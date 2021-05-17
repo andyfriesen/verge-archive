@@ -161,7 +161,7 @@ intro.map
 intro.vc
 items.dat
 items.img
-items.vv
+items.vc
 keys.vc
 kill.wav
 kisha
