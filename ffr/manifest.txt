@@ -162,6 +162,7 @@ intro.vc
 items.dat
 items.img
 items.vc
+items.vc~
 keys.vc
 kill.wav
 kisha

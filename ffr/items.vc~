@@ -1,0 +1,174 @@
+/* Items */
+int Potion[3];
+#define Heal 0
+#define Antidote 1
+#define Soft 2
+
+int Shelter[3];
+#define Tent 0
+#define Cabin 1
+#define House 2
+
+int Plot_Item[10];
+/*
+[0] Lute
+[1] Ordeal Crown
+[2]=1 Matouya's Crystal 
+[2]=2 Matouya's Herb
+[2]=3 Mystic Key
+[3]=1 TNT
+[3]=2 Ruby
+[3]=3 Canoe
+[4]=1 Floater Stone
+[4]=2 AirShip Key
+[5]=1 Rat Tail
+[5]=2 Bahamut's Award
+[6]=1 Bottle
+[6]=2 OxyAle
+[7]=1 Stone Slab
+[7]=2 Lefein's Chime
+[8] Glowing Cube
+[9] Adamant Ore
+*/
+
+/* Equipment Slots */
+int Right_Hand[16]; // For Weapon
+int Left_Hand[16];  // For Shield
+int Head[16];       // For Helm
+int Body[16];       // For Body Armor
+int Fist[16];       // For Gauntlets
+
+/* Weapons */
+int Weapon[41];
+
+/* Armor */
+int Armor[17];
+int Helm[8];
+int Gauntlet[9];
+int Shield[10];
+
+/* Attributes */
+// Name
+string Nm_Weapon[41];
+string Nm_Armor[17];
+string Nm_Helm[8];
+string Nm_Gauntlet[9];
+string Nm_Shield[10];
+
+// Weapon Type
+int Type_Weapon[41];
+#define Sword 1
+#define Hammer 2
+#define Axe 3
+#define Knife 4
+#define Staff 5
+#define Nunchuck 6
+
+// Damage
+int Dmg_Weapon[41];
+
+// Hit %
+int Hit_Weapon[41];
+
+// Absorb
+int Abs_Armor[17];
+int Abs_Helm[8];
+int Abs_Gauntlet[9];
+int Abs_Shield[10];
+
+// Weight
+int Wg_Armor[17];
+int Wg_Helm[8];
+int Wg_Gauntlet[9];
+int Wg_Shield[10];
+
+// Magic Effects
+int Mgc_Weapon[41];
+
+int Mgc_Armor[17];
+int Mgc_Helm[8];
+int Mgc_Gauntlet[9];
+int Mgc_Shield[10];
+
+void EquipInit()
+{
+ int file,largo,cont;
+
+ //Weapons
+ largo=FileSize("weapons.nam");
+ file=fopen("weapons.nam");
+ cont=0;
+ While(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Weapon[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+ file=fopen("weapons.stt");
+ for(cont=0; cont<4; cont++)
+ {
+  Dmg_Weapon[cont]=fgetbyte(file);
+  Hit_Weapon[cont]=fgetbyte(file);
+ }
+ //Armors
+ largo=FileSize("armors.nam");
+ file=fopen("armors.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Armor[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+
+ // Shields
+ largo=FileSize("shields.nam");
+ file=fopen("shields.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Shield[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+
+ // Helmets
+ largo=FileSize("helmets.nam");
+ file=fopen("helmets.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Helm[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+
+ // Gauntlets
+ largo=FileSize("gauntlet.nam");
+ file=fopen("gauntlet.nam");
+ cont=0;
+ while(largo > 0)
+ {
+  fgetline(s_line,file);
+  largo -= strlen(s_line) + 2;
+  Nm_Gauntlet[cont] = s_line;
+  cont++;
+ }
+ fclose(file);
+
+}
+
+void ExecItem(int itemmnu, int index)
+{
+ If(itemmnu==0 && index<2)
+ {
+ }
+}
