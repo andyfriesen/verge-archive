@@ -1,0 +1,46 @@
+-----------------------------------------------------------
+Name:           Time Toilet
+Author:         Z-Files (Zaratustra & Zathras)
+Home Page:      http://hello.to/the.prophet
+                http://www.verge-rpg.com/~zathras
+Description:    Shooter. 48 HoV Entrance.
+-----------------------------------------------------------
+
+Features
+-----------------------------
+Style:          Shooter
+Graphics:       Created
+Music:          Created
+Battle System:  No
+Source Code:    Yes
+
+Technical Data
+-----------------------------
+Engine:         VERGE 2
+Build Time:     48 Hours!
+Programs Used:  MapEd, Deluxe Paint II, Fast Tracker II, GoldWave
+Ave. Play Time: 15 mins
+
+Commands
+-----------------------------
+ARROW KEYS  - Move ship
+SPACE/ENTER - Shoot
+ALT         - Choose highlighted weapon
+
+RED FLASK   - Highlights next weapon
+BLUE FLASK  - 5000 points!
+GREEN FLASK - Boosts flux capacitor
+
+Documentation
+-----------------------------
+In each stage, you have to wait for the flux capacitor to recharge (the dial
+on the upper left corner) before you try another time warp. When you're hit,
+the dial recedes. Get to 1997 and kill the mercenary!
+
+Version Notes
+-----------------------------
+v1.POOP: Now you take more damage from enemies. Yay.
+
+v1.CACA: 'Boss Won't Appear' Bug fixed.
+
+v1.FLUSH: First version.

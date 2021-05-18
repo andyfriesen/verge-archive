@@ -5,7 +5,8 @@ type game = {
     name: string,
     title: string,
     description: string,
-    engine: engine
+    engine: engine,
+    vtype: string
 };
 
 let supports_audioworklet: bool = [%raw {|

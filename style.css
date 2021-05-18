@@ -25,6 +25,18 @@
     cursor: pointer;
 }
 
+.v1game:hover {
+    color: #a8cca0;
+}
+
+.v2game:hover {
+    color: #a8a0cc;
+}
+
+.v2techdemo:hover {
+    color: #a8cccc;
+}
+
 .close-button:hover {
     text-decoration: underline;
     cursor: pointer;

@@ -1,0 +1,92 @@
+int stage, creatures, createflag, killed;
+string dummy;
+
+void StageEvent()
+{
+ switch(stage)
+ {
+  case 1: // Future
+    if (random(50)=0 && createflag=0)
+      {
+       if (creatures>20)  { CreateEntity(xWin+340,random(168)+16,random(3)+41); }
+       if (creatures<=20) { CreateEntity(xWin+340,random(168)+16,random(2)+41); }
+       createflag+=50;
+       creatures++;
+      }
+  case 2: // Prehistoria
+    if (random(50)=0 && createflag=0)
+      {
+       if (creatures>20) { CreateEntity(xWin+340,random(168)+16,random(3)+1); }
+       if (creatures>10 && creatures<=20) { CreateEntity(xWin+340,random(168)+16,random(2)+1); }
+       if (creatures<=10) { CreateEntity(xWin+340,random(168)+16,1); }
+       createflag+=50;
+       creatures++;
+      }
+  case 3: // Antique
+    if (random(50)=0 && createflag=0)
+      {
+       if (random(20)=0)
+        {
+         CreateEntity(xWin+340,random(168)+16,14);
+        }
+        else
+        {
+         if (creatures>20) { CreateEntity(xWin+340,random(168)+16,random(3)+11); }
+         if (creatures>10 && creatures<=20) { CreateEntity(xWin+340,random(168)+16,random(2)+11); }
+         if (creatures<=10) { CreateEntity(xWin+340,random(168)+16,11); }
+        }
+       createflag+=50;
+       creatures++;
+      }
+  case 4: // Medieval
+    if (random(50)=0 && createflag=0)
+      {
+       if (random(15)=0)
+        {
+         CreateEntity(xWin+340,168,22);
+        }
+        else
+        {
+         if (creatures>15) { CreateEntity(xWin+340,random(168)+16,random(2)*2+21); }
+         if (creatures<=15) { CreateEntity(xWin+340,random(168)+16,21); }
+        }
+       createflag+=30;
+       creatures++;
+      }
+  case 5: // Today
+    if (random(50)=0 && createflag=0)
+      {
+       if (creatures>30 && creatures<=50) { CreateEntity(xWin+340,random(168)+16,random(4)+31); }
+       if (creatures>20 && creatures<=30) { CreateEntity(xWin+340,random(168)+16,random(3)+31); }
+       if (creatures>10 && creatures<=20) { CreateEntity(xWin+340,random(168)+16,random(2)+31); }
+       if (creatures<=10) { CreateEntity(xWin+340,random(168)+16,31); }
+       if (creatures>50 && won=0) { CreateEntity(xWin+340,random(168)+16,35); createflag+=600;
+
+       text1="The Mercenary!";
+       text2="Destroy him!";
+       text1time=timer;
+       text2time=timer+50;
+
+       }
+       createflag+=70;
+       creatures++;
+      }
+ }
+ if (createflag>0) createflag--;
+}
+
+void ChangeStage(int s)
+{
+ switch(s)
+ {
+  case 0: dummy="INTRO.MAP";
+  case 1: dummy="FUTURE.MAP";
+  case 2: dummy="PREHIST.MAP";
+  case 3: dummy="ANTIQUE.MAP";
+  case 4: dummy="MEDIEVAL.MAP";
+  case 5: dummy="TODAY.MAP";
+  case 6: dummy="END.MAP";
+ }
+ Map(dummy);
+}
+

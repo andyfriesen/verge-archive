@@ -1,0 +1,8 @@
+event
+{
+ SystemStartUp();
+ Intro();
+ ToiletReset();
+ stage=1;
+ ChangeStage(stage);
+}

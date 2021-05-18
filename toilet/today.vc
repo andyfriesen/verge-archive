@@ -1,0 +1,12 @@
+event
+{
+ SystemStartUp();
+ text1="1997 AD";
+ text2="Friday";
+ text1time=timer;
+ text2time=timer+50;
+ StartStage();
+ SpaceShipProcess();
+ Map("INTERM.MAP");
+
+}

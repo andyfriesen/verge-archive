@@ -1,0 +1,223 @@
+int pic1, pic2, pic3, palpic;
+
+void Intro()
+{
+ int i, t;
+ Render();
+ CopySprite(0,0,320,200,pic1);
+ ShowPage();
+ FadeIn(100);
+ Wait(100);
+ FadeOut(100);
+ Render();
+ CopySprite(0,0,320,200,pic3);
+ ShowPage();
+ FadeIn(100);
+//  TimeTrip();
+ t=timer;
+ while (i<460)
+ {
+  i=(timer-t)/6;
+  CopySprite(0,0,320,200,pic3);
+  CenterString(200-i, "On the year €2050~, a mechanical emotionless");
+  CenterString(215-i, "entity known as €AOL~ controls the planet.");
+  CenterString(230-i, "Only a small group of rebels, which wields");
+  CenterString(245-i, "the legendary program €VERGE~, resists.");
+
+  CenterString(270-i, "The Empire of AOL has sent a €mercenary~ to");
+  CenterString(285-i, "€1997~ in order to remove all €toilet paper~");
+  CenterString(300-i, "in €vecna~'s house, rendering him crippled");
+  CenterString(315-i, "and unable to create VERGE.");
+
+  CenterString(340-i, "The rebels, having learned of the plan,");
+  CenterString(355-i, "send a single well-armed human on their last");
+  CenterString(370-i, "time travelling machine...");
+  CenterString(400-i, "€The Time Toilet!~");
+  CenterString(450-i, "[Corny, huh?]");
+  ShowPage();
+  UpdateControls();
+  if (b1 || b4) { Unpress(1); Unpress(4); i = 999; }
+ }
+ FadeOut(100);
+ CopySprite(0,0,320,200,pic2);
+ ShowPage();
+ FadeIn(100);
+ Options();
+}
+
+void Options()
+{
+ int o, done;
+ while (!done)
+ {
+  CopySprite(0,0,320,200,pic2);
+  if (o=0)
+   {
+    CenterString(150, "  €Start Game~");
+    CenterString(170, "Quit Game");
+   }
+  else
+   {
+    CenterString(150, "Start Game");
+    CenterString(170, "  €Quit Game~");
+   }
+  ShowPage();
+  UpDateControls();
+  if (up) { o=1-o; Unpress(5); }
+  if (down) { o=1-o; Unpress(6); }
+  if (b1 || b4) { Unpress(1); Unpress(4); done=1; }
+ }
+ FadeOut(100);
+ if (o) { Exit("It's flush-errific! http://hello.to/the.prophet                                                     http://www.verge-rpg.com/~zathras"); }
+ else { ToiletReset(); GameIntro(); }
+}
+
+void GameIntro()
+{
+ int i, t;
+ Render();
+ CopySprite(0,0,320,200,pic3);
+ ShowPage();
+ FadeIn(100);
+ t=timer;
+ while (i<390)
+ {
+  i=(timer-t)/6;
+  CopySprite(0,0,320,200,pic3);
+  CenterString(200-i, "Your mission, if you accept it, is to get");
+  CenterString(215-i, "to 1997 and provide vecna with toilet paper.");
+  CenterString(230-i, "If the Time Toilet malfunctions, it may");
+  CenterString(245-i, "go to a different age, and you will");
+  CenterString(260-i, "have to wait for the flux capacitors to");
+  CenterString(275-i, "recharge before you go on.");
+  CenterString(300-i, "If the Time Toilet is damaged, it will");
+  CenterString(315-i, "take more time to recharge, so be careful.");
+  CenterString(340-i, "€SPACE or ENTER~ - Shoot");
+  CenterString(355-i, "€ALT~ - Choose Weapon");
+  CenterString(380-i, "€Good Luck!~");
+  ShowPage();
+  UpDateControls();
+  if (b1 || b4) { Unpress(1); Unpress(4); i = 999; }
+ }
+ FadeOut(100);
+}
+
+
+
+void GameCredits()
+{
+ int i, t;
+ Render();
+ CopySprite(0,0,320,200,pic3);
+ ShowPage();
+ FadeIn(100);
+ t=timer;
+ while (i<530)
+ {
+  i=(timer-t)/6;
+  CopySprite(0,0,320,200,pic3);
+  CenterString(200-i, "Congratulations! The mercenary has been");
+  CenterString(215-i, "killed. Vecna's been provided with");
+  CenterString(230-i, "toilet paper and, with his physiological");
+  CenterString(245-i, "functions stable, can create VERGE.");
+
+  CenterString(270-i, "If he finds his blankie, that is.");
+
+  CenterString(300-i, "Time Toilet");
+  CenterString(315-i, "Staff");
+
+  CenterString(340-i, "Concept: Zaratustra");
+  CenterString(355-i, "Music: Zathras");
+  CenterString(370-i, "Programming: Zaratustra");
+  CenterString(385-i, "Sound Effects: Zathras");
+  CenterString(400-i, "Graphics: Zaratustra");
+  CenterString(415-i, "Beta Tester: Zathras");
+
+  CenterString(450-i, "Presented by");
+  CenterString(465-i, "Z Files");
+  CenterString(480-i, "[Zaratustra and Zathras]");
+
+  CenterString(505-i, "Zaratustra: http://hello.to/the.prophet");
+  CenterString(520-i, "Zathras: http://www.verge-rpg.com/`zathras");
+
+
+  CenterString(590-i, "Score:");
+  CenterString(605-i, str(score));
+
+  CenterString(630-i, "The Fim");
+
+  ShowPage();
+  UpDateControls();
+  if (b1 || b4) { Unpress(1); Unpress(4); i = 999; }
+ }
+ playsound(snd_stupid,64,128);
+ Wait(300);
+ FadeOut(150);
+ Wait(50);
+}
+
+void CenterString(int y, string text)
+{
+int x;
+x=strlen(text)*7/2;
+x=160-x;            
+GotoXY(x, y);
+PrintString(1, text);
+}
+
+void TimeTrip()
+{
+ int i, t, t1;
+ for (i=31; i>=1; i--)
+ {
+  CircleFill(160,100,i*10,i);
+ }
+  ShowPage();
+ t=timer;
+ while (timer-t<1000)
+ {
+  t1=timer-t;
+  for (i=1; i<=31; i++)
+   {
+    pal[i*3]  =0; // (i*2-(t1*t1/2000))%64;
+    pal[i*3+1]=0; // (i*2-(t1*t1/2000))%64;
+    pal[i*3+2]=(i*2-(t1*t1/1000))%64;
+   }
+  if (t1<100) PaletteMorph(0,0,0,100-t1,63);
+  if (t1>900) PaletteMorph(0,0,0,t1-900,63);
+  if (t1>=100 && t1<=900) PaletteMorph(0,0,0,0,63);
+  ShowPage();
+ }
+ Render();
+ palpic=LoadImage("PAL.PCX");
+ PaletteMorph(0,0,0,0,63);
+ free(palpic);
+}
+
+int Chance()
+{
+ int o, done;
+ Unpress(1); Unpress(4);
+ while (!done)
+ {
+  Render(); Status();
+
+    CenterString(80, "Time Freeze - You're About to Explode!");
+  if (o=0)
+   {
+    CenterString(100, "  €Emergency Time Warp!~");
+    CenterString(120, "Abort Game");
+   }
+  else
+   {
+    CenterString(100, "Emergency Time Warp!");
+    CenterString(120, "  €Abort Game~");
+   }
+  ShowPage();
+  UpDateControls();
+  if (up) { o=1-o; Unpress(5); }
+  if (down) { o=1-o; Unpress(6); }
+  if (b1 || b4) { Unpress(1); Unpress(4); done=1; }
+ }
+ return o;
+}

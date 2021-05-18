@@ -1,0 +1,87 @@
+int init;
+int snd_scream, snd_shot1, snd_shot2, snd_laser, snd_mail;
+int snd_boom, snd_smlboom, snd_fart1, snd_fart2, snd_stupid;
+
+void autoexec()
+{
+ Map("INTRO.MAP");
+// Map("END.MAP");
+}
+
+void SystemStartUp()
+{
+  if (init) return;
+  PaletteMorph(0,0,0,0,63);
+  if (LoadFont("toilet.fnt") != 1) { Log ("Hmmmm."); }
+  objpicbuf=LoadImage("pix.pcx");
+  pic1=LoadImage("ZFILES.PCX");
+  pic2=LoadImage("TOILET.PCX");
+  pic3=LoadImage("BG.PCX");
+  snd_boom=CacheSound("boom.wav");
+  snd_shot1=CacheSound("gunshot1.wav");
+  snd_shot2=CacheSound("gunshot2.wav");
+  snd_laser=CacheSound("laser.wav");
+  snd_scream=CacheSound("scream.wav");
+  snd_smlboom=CacheSound("smlboom.wav");
+  snd_mail=CacheSound("gotmail2.wav");
+  snd_fart1=CacheSound("fart1.wav");
+  snd_fart2=CacheSound("fart2.wav");
+  snd_stupid=CacheSound("notharm.wav");
+
+  init=1;
+}
+
+void FadeIn(int x)
+{
+ int t;
+ t=timer;
+ while (timer-t<x)
+ {
+  PaletteMorph(0,0,0,100-((timer-t)*100/x),63);
+ }
+  PaletteMorph(0,0,0,0,63);
+}
+
+void FadeOut(int x)
+{
+ int t;
+ t=timer;
+ while (timer-t<x)
+ {
+  PaletteMorph(0,0,0,((timer-t)*100/x),63);
+ }
+  PaletteMorph(0,0,0,100,63);
+}
+
+void PoopFlash(int x)
+{
+ int t;
+ t=timer;
+ while (timer-t<x)
+ {
+  PaletteMorph(30,25,15,((timer-t)*100/x),63);
+ }
+ t=timer;
+ while (timer-t<x)
+ {
+  PaletteMorph(30,25,15,100-((timer-t)*100/x),63);
+ }
+  PaletteMorph(0,0,0,0,63);
+}
+
+void Wait(int x)
+{
+ int t;
+ t=timer;
+ while (timer-t<x)
+ {
+  ShowPage();
+ }
+}
+
+#include "tmap.vc"
+#include "tobject.vc"
+#include "tentity.vc"
+#include "tstage.vc"
+#include "tintro.vc"
+#include "toilet.vc"

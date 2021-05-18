@@ -1,0 +1,6 @@
+event
+{
+ SystemStartUp();
+ GameCredits();
+ Exit("Corny, isn't it? http://hello.to/the.prophet                                                     http://www.verge-rpg.com/~zathras");
+}

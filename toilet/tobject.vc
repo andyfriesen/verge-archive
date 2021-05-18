@@ -1,0 +1,97 @@
+// Object Management
+
+#define OBJECTS 30
+
+#define NULL 1
+#define VANISHING 2
+#define GOINGRIGHT 4
+#define GOINGLEFT  8
+#define GOINGUP    16
+#define GOINGDOWN  32
+#define GOING2RIGHT 64
+#define GOING2LEFT  128
+#define GOING2UP    256
+#define GOING2DOWN  512
+#define GOING4RIGHT 1024
+#define GOING4LEFT  2048
+#define GOING4UP    4096
+#define GOING4DOWN  8192
+#define HITPLAYER   16384
+#define HITENEMY    32768
+#define ANIMATED    65536
+
+int object.x[OBJECTS], object.y[OBJECTS], object.type[OBJECTS];
+int object.time[OBJECTS], object.pic[OBJECTS];
+int object.1[OBJECTS], object.2[OBJECTS], object.3[OBJECTS];
+int objpicbuf;
+
+void SpawnObject(int x, int y, int o, int t, int p)
+{
+ int i;
+ i=1;
+ while(object.type[i]!=0) { i++; if (i>OBJECTS-1) { i=1; object.type[1]=0; } }
+ object.x[i]=x;
+ object.y[i]=y;
+ object.type[i]=o;
+ object.time[i]=t;
+ object.pic[i]=p;
+}
+
+void ProcessObjects()
+{
+ int i, t, k;
+ for (i=1; i<=OBJECTS; i++)
+  {
+   if(object.type[i])
+    {
+     object.time[i]--; if (object.time[i]=0) object.type[i]=0;
+     t=object.type[i];
+     if(t & VANISHING )   { if (object.time[i]%5=0) object.pic[i]++; }
+     if(t & GOINGLEFT )   object.x[i]--;
+     if(t & GOINGRIGHT )  object.x[i]++;
+     if(t & GOINGUP )     object.y[i]--;
+     if(t & GOINGDOWN )   object.y[i]++;
+     if(t & GOING2LEFT )  object.x[i]-=2;
+     if(t & GOING2RIGHT ) object.x[i]+=2;
+     if(t & GOING2UP )    object.y[i]-=2;
+     if(t & GOING2DOWN )  object.y[i]+=2;
+     if(t & GOING4LEFT )  object.x[i]-=4;
+     if(t & GOING4RIGHT ) object.x[i]+=4;
+     if(t & GOING4UP )    object.y[i]-=4;
+     if(t & GOING4DOWN )  object.y[i]+=4;
+     if(t & ANIMATED ) { if (counter%8=4) object.pic[i]=object.pic[i]/2*2+1;
+                         if (counter%8=0) object.pic[i]=object.pic[i]/2*2;
+                       }
+     if(t & HITENEMY ) {
+                        for (k=1; k<=numents; k++)
+                         {
+                           if (k!=player && entity.x[k]<object.x[i]+6 && entity.x[k]+16>object.x[i]-6
+                           && entity.y[k]<object.y[i]+6 && entity.y[k]+16>object.y[i]-6) // *breath*
+                         {
+                          entity.hurt[k]=1;
+                          object.type[i]=0;
+                         }
+                        }
+                       }
+     if(t & HITPLAYER ) {
+                         if (object.x[i]+6>entity.x[player] && object.y[i]+6>entity.y[player] &&
+                             object.x[i]-6<entity.x[player]+32 && object.y[i]-6<entity.y[player]+32)
+                              {
+                               health-=2; if (health<0) health=0;
+                               PlaySound(snd_fart1,64,128);
+                               object.type[i]=0;
+                              }
+                        }
+    }                   
+  }
+}
+
+void RenderObjects()
+{
+ int i;
+ for (i=1; i<=OBJECTS; i++)
+  {
+   if (object.type[i]) TCopySprite(object.x[i]-xWin-16,object.y[i]-yWin-16,32,32,objpicbuf+(object.pic[i]*32*32));
+  }
+}
+

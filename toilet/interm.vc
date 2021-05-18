@@ -1,0 +1,21 @@
+event
+{
+ creatures=0;
+ createflag=0;
+ timewarp=0;
+ health=1;
+ for(v0=0; v0<100; v0++)
+ {
+  entity.type[v0]=0;
+  entity.eval[v0]=0;
+  entity.health[v0]=0;
+  entity.hurt[v0]=0;
+ }
+ for(v0=1; v0<OBJECTS; v0++)
+ {
+  object.type[v0]=0;
+  object.time[v0]=0;
+ }
+ if (stage!=0 && stage!=6) TimeTrip();
+ ChangeStage(stage);
+}

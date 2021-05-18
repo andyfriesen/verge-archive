@@ -1,0 +1,225 @@
+int frameflag, playerx, playery, playerx2, playery2;
+int health, item, counter, weapon, strength;
+int shotflag, shot2flag, score, speed, timewarp;
+int text1time, text2time, won;
+int v0, v1, v2, v3, v4, v5, v6, v7, v8, v9;
+string text1, text2;
+
+void SpaceShipProcess()
+{
+ int done, opt;
+ SetPlayer(0);
+ health=1;
+ frameflag=timer;
+ counter=0;
+ cameratracking=0;
+ playerx2=32*2; playery2=84*2;
+ won=0;
+ while(!done)
+ {
+ MoveSpaceShip();
+ UpDatePlayer();
+ CheckZones();
+ StageEvent();
+ ProcessEnemies();
+ ProcessObjects();
+ counter++;
+ if (counter%500=0) health++;
+ if (health>=13)
+  { health=13;
+    if (stage!=5 && counter%50=0) timewarp++;
+  }
+ if (health<13 && stage!=5) timewarp=0;
+ if (health=0) done=2;
+ if (won=1 && stage=5)
+  {
+   if (counter%50=0) timewarp++;
+  }
+ if (timewarp=10) done=1;
+ SmoothRender();
+ }
+ if (done=1) stage++;
+ if (done=2)
+ {
+  opt=Chance();
+  if (opt=0) { weapon=0; speed=4; } else { done=3; }
+ }
+ if (done=3) stage=0;
+
+}
+
+void MoveSpaceShip()
+{
+ UpdateControls();
+ if (up)    playery2-=speed+1/2*2;
+ if (down)  playery2+=speed+1/2*2;
+ if (left)  playerx2-=speed/2*2;
+ if (right) playerx2+=speed/2*2;
+ if (b1=1 && shotflag=0) { Shoot(); }
+ if (b4=1 && shotflag=0) { Shoot(); }
+ if (b2=1) { GiveItem(); }
+ if (shotflag>0) { shotflag--; }
+ if (b1=0 && b4=0 && shot2flag>0) { shot2flag--; }
+ if (shot2flag>5) { shot2flag=0; } 
+ if (playerx2<XWin*2)       playerx2=XWin*2;
+ if (playerx2>(XWin+320)*2) playerx2=(XWin+320)*2;
+ if (playery2<0)            playery2=0;
+ if (playery2>168*2)        playery2=168*2;
+ if (counter%2) XWin++;
+ playerx2++;
+}
+
+void GiveItem()
+{
+ int i;
+ switch(item)
+ {
+  case 1: if (speed<8)   { speed++; item=0;
+       text1="Speed Up";
+       text1time=timer;
+  }
+  case 2: if (weapon!=2) { weapon=2; item=0; strength=2;
+       text1="Soap Beam";
+       text1time=timer;
+    }
+  case 3: if (weapon!=3) { weapon=3; item=0; strength=1;
+       text1="Toothpaste Gun";
+       text1time=timer;
+  }
+  case 4: if (weapon!=4) { weapon=4; item=0; strength=2;
+       text1="Q Tip Charge";
+       text1time=timer;
+  }
+
+  case 5: PoopFlash(20); item=0;
+           for (i=1; i<=numents; i++)
+            {
+             if (entity.eval[i]=1)
+             {
+              entity.health[i]=0;
+              entity.hurt[i]=0;
+             }
+            }
+           PlaySound(snd_fart2,64,128);
+          text1="Fart Bomb";
+          text1time=timer;
+
+  case 6: if (weapon!=6) { weapon=6; item=0; strength=3;
+       text1="Hairbrush Cannon";
+       text1time=timer;
+  }
+
+ }
+
+}
+
+void Shoot()
+{
+ switch(weapon)
+  {
+   case 0:
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT,100,0);
+    shotflag+=30;
+    PlaySound(snd_shot1,64,128);
+   case 2:
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOINGUP,100,1);
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOINGDOWN,100,1);
+    shotflag+=30;
+    PlaySound(snd_shot1,64,128);
+   case 3:                                              
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT,100,2);
+    shotflag+=3; shot2flag+=1;
+    if (shot2flag>5) shotflag+=30;
+    if (up || down || right ) shotflag+=3;
+    if (shot2flag=1) PlaySound(snd_laser,64,128);
+   case 4:
+    switch (random(3))
+     {
+      case 0: SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOING2RIGHT+ANIMATED,100,4);
+      case 1: SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOINGUP+ANIMATED,100,4);
+      case 2: SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOINGDOWN+ANIMATED,100,4);
+     }
+    shotflag+=10;
+    PlaySound(snd_shot2,64,128);
+   case 6:
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOING2RIGHT+ANIMATED,100,6);
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOINGUP+ANIMATED,100,6);
+    SpawnObject(playerx+34, playery+10,HITENEMY+GOING4RIGHT+GOINGDOWN+ANIMATED,100,6);
+    shotflag+=20;
+    PlaySound(snd_shot2,64,128);
+  }
+}
+
+void UpDatePlayer()
+{
+ playerx=playerx2/2;
+ playery=playery2/2;
+ entity.x[player]=playerx;
+ entity.y[player]=playery;
+ entity.specframe[player]=counter%2;
+}
+
+
+void SmoothRender()
+{
+  while(timer<frameflag+2)
+   { Render(); RenderObjects(); Status();
+     Showpage(); }
+  frameflag=frameflag+2;
+}
+
+void Status()
+{
+ int i;
+ TCopySprite(8,8,16,16,vsp+((health+1)*256));
+ TCopySprite(32,8,16,16,vsp+((weapon+21)*256));
+ GotoXY(264,8);
+ PrintString(1,right(str(1000000+score),6));
+   SetLucent(1);
+ for (i=0; i<=5; i++)
+  {
+   Rect(11+(i*50),179,59+(i*50),198,1);
+   TCopySprite(27+(i*50),181,16,16,vsp+((22+i)*256));
+  }
+ if (item)
+  {
+   RectFill(12+((item-1)*50),180,58+((item-1)*50),197,54);
+   TCopySprite(27+((item-1)*50),181,16,16,vsp+((22+(item-1))*256));
+  }
+  if (item>6) item-=6;
+   SetLucent(0);
+  if (timewarp) CenterString(10,"Time Warp Ready in... "+str(10-timewarp));
+ if (text1time>(timer-550)) CenterString(((text1time-timer+500)*2/5), text1);
+ if (text2time>(timer-550)) CenterString(((text2time-timer+500)*2/5), text2); 
+}
+
+void StartStage()
+{
+ int t, i;
+
+/* for (i=1; i<=100; i++)
+ {
+  entity.health[100]=0; entity.type[100]=0;
+  entity.dir[100]=0; entity.move[100]=0;
+  entity.eval[100]=0; entity.hurt[100]=0;
+
+ } */
+
+ t=timer;
+ frameflag=timer;
+ entity.x[player]=32;
+ entity.y[player]=84;
+ while(timer-t<100)
+ {
+  entity.x[player]=32-((100-(timer-t))/2);
+  PaletteMorph(0,0,0,100-(timer-t),63);
+  SmoothRender();
+ }
+}
+
+void ToiletReset()
+{
+ weapon=0;
+ item=0; speed=4; health=1;
+ strength=2;
+}

@@ -1,0 +1,31 @@
+
+void CheckZones()
+{
+ CheckZone(playerx+8,playery+8);
+ CheckZone(playerx+16,playery+8);
+ CheckZone(playerx+8,playery+16);
+ CheckZone(playerx+16,playery+16);
+}
+
+void CheckZone(int x, int y)
+{
+ int p;
+ p = GetTile(x/16,y/16,7);
+ if (p=0) return;
+ switch(p)
+  {
+   case 1:
+     score+=5000;
+     SetTile(x/16,y/16,7,0);
+     SetTile(x/16,y/16,0,0);
+   case 2:
+     if (item<6) item++;
+     SetTile(x/16,y/16,7,0);
+     SetTile(x/16,y/16,0,0);
+   case 3:
+     health++;
+     SetTile(x/16,y/16,7,0);
+     SetTile(x/16,y/16,0,0);
+  }
+}
+
