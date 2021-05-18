@@ -15,14 +15,16 @@ void FadeOut(int span, int upd)
       k--;
       timer--;
       n++;
+      UpdateControls();
+      ShowPage();
     }
     if (upd)
     {
       Render();
-      ShowPage();
     }
     if (n>span) n=span;
     PaletteMorph(0,0,0,0,63-(n*63/span));
+    ShowPage();
   }
   timer=0;
 }
@@ -42,14 +44,16 @@ void FadeIn(int span, int upd)
       k--;
       timer--;
       n++;
+      UpdateControls();      
+      ShowPage();
     }
     if (upd)
     {
       Render();
-      ShowPage();
     }
     if (n>span) n=span;
     PaletteMorph(0,0,0,0,n*63/span);
+    ShowPage();
   }
   timer=0;
 }
@@ -68,6 +72,8 @@ void BoxedFadeOut(int span, int upd)
    k--;
    timer--;
    n++;
+   UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -96,6 +102,8 @@ void BoxedFadeIn(int span, int upd)
    k--;
    timer--;
    n++;
+   UpdateControls();
+   ShowPage();   
   }
   if (n>span) n=span;
   Render();
@@ -126,9 +134,12 @@ void WhiteOut(int span)
       k--;
       timer--;
       n++;
+      UpdateControls();
+      ShowPage();      
     }
     if (n>span) n=span;
-    PaletteMorph(63,63,63,n*100/span,63);
+    PaletteMorph(63,63,63,n*100/span,63);       
+    ShowPage();
   }
   timer=0;
 }
@@ -146,9 +157,12 @@ void WhiteIn(int span)
       k--;
       timer--;
       n++;
+      UpdateControls();
+      ShowPage();
     }
     if (n>span) n=span;
-    PaletteMorph(63,63,63,100-(n*63/span),63);
+    PaletteMorph(63,63,63,100-(n*63/span),63);       
+    ShowPage();
   }
   PaletteMorph(0,0,0,0,63);
   timer=0;
@@ -168,6 +182,8 @@ void MosaicFadeOut(int span, int upd)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -194,6 +210,8 @@ void MosaicFadeIn(int span, int upd)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -221,6 +239,8 @@ void BoxedMosaicFadeOut(int span, int upd)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -251,6 +271,8 @@ void BoxedMosaicFadeIn(int span, int upd)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -284,6 +306,8 @@ void BattleMosaicZoomIn(int span)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -303,6 +327,8 @@ void BattleMosaicZoomIn(int span)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
   Render();
@@ -323,6 +349,8 @@ void BattleMosaicZoomIn(int span)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>(span*2)) n=span*2;
   Render();
@@ -341,9 +369,12 @@ void BattleMosaicZoomIn(int span)
    k--;
    timer--;
    n++;
+      UpdateControls();
+   ShowPage();
   }
   if (n>span) n=span;
-  PaletteMorph(0,0,0,0,63-(n*63/span));
+  PaletteMorph(0,0,0,0,63-(n*63/span));     
+   ShowPage();
  }
  PaletteMorph(0,0,0,0,0);
  free(screen_buffer);
