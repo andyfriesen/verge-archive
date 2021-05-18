@@ -72,4 +72,3 @@ trans.tbl
 tstage.vc
 user.cfg
 zfiles.pcx
-_backup_.pcx
