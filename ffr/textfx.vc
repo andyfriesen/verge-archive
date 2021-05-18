@@ -39,16 +39,16 @@ void RollCredits(string file, int font)
 				PrintString(font,s_credits[i]);
 			}
 			y2 += FontHeight(font);
-			if(b1) y2 += 5;
+			//if(b1) y2 += 5;
 			i++;
 		}
-                cuenta++;         // This modification was done by Sheng
-                If(cuenta>8)      // Long Gradilla. It slows down the
-                {                 // text a bit. Increase the number
-                 y--;             // from (cuenta>8) to slow down the
-                 cuenta=0;        // text even more.
-                }                 //
-                if(b2) y-=2000;    // Have a lot of Fun.
+        cuenta++;         // This modification was done by Sheng
+        If(cuenta>2)      // Long Gradilla. It slows down the
+        {                 // text a bit. Increase the number
+         y--;             // from (cuenta>8) to slow down the
+         cuenta=0;        // text even more.
+        }                 //
+        if(b1) y-=2000;    // Have a lot of Fun.
 		ShowPage();
 	}
 	RestoreRenderSettings();

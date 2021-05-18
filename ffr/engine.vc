@@ -18,6 +18,7 @@ void Main()
 
 //HookRetraced version of Main. This version of the engine you can turn off at will, but I haven't found a situation where you would need to use this. 
 //NOTE: When I tested this function I found it to run slower than the looped version! Dunno why :\
+
 void HRMain() 
 {
  timer=0;
