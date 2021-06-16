@@ -1,0 +1,223 @@
+event /* 0 */
+{
+wait(150);
+volume=100;
+entity.locX[var(0)]=24;
+entity.locY[var(0)]=23;
+wait(20);
+cameratracking=0;
+changeCHR(1,"POINTER.CHR");
+partymove("F1");
+flags[10]=0;
+flags[11]=0;
+flags[12]=0;
+flags[13]=0;
+wait(300);
+fadein(600);
+fade=0;
+wait(90);
+stext(0,"",
+        "Welcome in Tactics Verge !","");
+stext(0,"You are going to penetrate",
+        "in a pitiless world, the one",
+        "of Vecna !");
+stext(0,"But, to begin, you are going",
+        "to choose a hero among the",
+        "four first.");
+stext(0,"According to your choice,",
+        "your advanture won't start to",
+        "the same place !");
+stext(0,"Each of its little intro",
+        "will tell you what it plots",
+        "in the world of Verge");
+stext(0,"and how your hero is",
+        "implied there.","");
+wait(60);
+stext(0,"Enough spoken, make your",
+        "choice now...","");
+wait(40);
+}
+
+event /* 1 */
+{
+wait(20);
+entity.locX[var(0)]=40;
+entity.locY[var(0)]=40;
+wait(10);
+entitymove(5,"D3 R4 D1");
+wait(180);
+stext(0,"NOM : Menolly",
+        "CLASSE : Harper",
+        "AGE : 19");
+stext(0,"ORIGINE : MENOLLY -the game-",
+        "SPECIAL : Confusion","");
+prompt(0,"Do you want to choose Menolly ?","","",10,"No","Yes");
+if(flags[10])
+ {
+ wait(100);
+ volume=75;
+ wait(25);
+ volume=50;
+ wait(25);
+ volume=25;
+ wait(25);
+ volume=0;
+ flags[10]=1;
+ flags[11]=0;
+ flags[12]=0;
+ flags[13]=0;
+ fadeout(200);
+ fade=0;
+ mapswitch("INTRO.MAP",0,0,0);
+ }
+if(!flags[10])
+ {
+ wait(35);
+ entitymove(5,"U1 L4 U3 F0");
+ wait(180);
+ entity.locX[var(0)]=24;
+ entity.locY[var(0)]=23;
+ face[var(0)]=1;
+ wait(20);
+ stext(0,"Choose your hero.","","");
+ wait(20);
+ }
+}
+
+event /* 2 */
+{
+wait(20);
+entity.locX[var(0)]=40;
+entity.locY[var(0)]=40;
+wait(10);
+entitymove(6,"D3 R2 D1");
+wait(160);
+stext(0,"NOM : Kain",
+        "CLASSE : Warrior",
+        "AGE : 24");
+stext(0,"ORIGINE : Lord Of Ikuzo",
+        "SPECIAL : Two-handed Weapons","");
+prompt(0,"Do you want to choose Kain ?","","",11,"No","Yes");
+if(flags[11])
+ {
+ wait(100);
+ volume=75;
+ wait(25);
+ volume=50;
+ wait(25);
+ volume=25;
+ wait(25);
+ volume=0;
+ flags[11]=1;
+ flags[10]=0;
+ flags[12]=0;
+ flags[13]=0;
+ fadeout(250);
+ fade=0;
+ mapswitch("INTRO.MAP",0,0,0);
+ }
+if(!flags[11])
+ {
+ wait(35);
+ entitymove(6,"U1 L2 U3 F0");
+ wait(160);
+ entity.locX[var(0)]=24;
+ entity.locY[var(0)]=23;
+ face[var(0)]=1;
+ wait(20);
+ stext(0,"Choose your hero.","","");
+ wait(20);
+ }
+}
+
+event /* 3 */
+{
+wait(20);
+entity.locX[var(0)]=40;
+entity.locY[var(0)]=40;
+wait(10);
+entitymove(7,"D3 L2 D1");
+wait(160);
+stext(0,"NOM : Seren",
+        "CLASSE : Healer",
+        "AGE : 20");
+stext(0,"ORIGINE : Revelation",
+        "SPECIAL : Resurection","");
+prompt(0,"Do you want to choose Seren ?","","",12,"No","Yes");
+if(flags[12])
+ {
+ wait(100);
+ volume=75;
+ wait(25);
+ volume=50;
+ wait(25);
+ volume=25;
+ wait(25);
+ volume=0;
+ flags[12]=1;
+ flags[10)=0;
+ flags[11]=0;
+ flags[13]=0;
+ fadeout(250);
+ fade=0;
+ mapswitch("INTRO.MAP",0,0,0);
+ }
+if(!flags[12])
+ {
+ wait(35);
+ entitymove(7,"U1 R2 U3 F0");
+ wait(160);
+ entity.locX[var(0)]=24;
+ entity.locY[var(0)]=23;
+ face[var(0)]=1;
+ wait(20);
+ stext(0,"Choose your hero.","","");
+ wait(20);
+ }
+}
+
+event /* 4 */
+{
+wait(20);
+entity.locX[var(0)]=40;
+entity.locY[var(0)]=40;
+wait(10);
+entitymove(8,"D3 L4 D1");
+wait(180);
+stext(0,"NOM : Galador",
+        "CLASSE : Knight",
+        "AGE : 34");
+stext(0,"ORIGINE : Legend Of The Sylph",
+        "SPECAL : Charge","");
+prompt(0,"Do you want to choose Galador ?","","",13,"No","Yes");
+if(flags[13])
+ {
+ wait(100);
+ volume=75;
+ wait(25);
+ volume=50;
+ wait(25);
+ volume=25;
+ wait(25);
+ volume=0;
+ flags[13]=1;
+ flags[10]=0;
+ flags[11]=0;
+ flags[12]=0;
+ fadeout(250);
+ fade=0;
+ mapswitch("INTRO.MAP",0,0,0);
+ }
+if(!flags[13])
+ {
+ wait(35);
+ entitymove(8,"U1 R4 U3 F0");
+ wait(180);
+ entity.locX[var(0)]=24;
+ entity.locY[var(0)]=23;
+ face[var(0)]=1;
+ wait(20);
+ stext(0,"Choose your hero.","","");
+ wait(20);
+ }
+}

@@ -1,0 +1,14 @@
+READ BEFORE TO TEST THE " LOOKING " VERSION OF TACTICS VERGE!  
+  
+I marked a bug whom I am not succeeds to correct again.  
+Him it finds at the time of the menu of selection of the main 
+character.  
+If you choose the first character directly that you   
+choose, at the time of the launching of the intro, there will be a
+crash and the   
+game will plant.  
+To avoid it, I only found one means (for the meantime),  
+it is to choose a character and to say NO at the time of the demand 
+of choice.  
+Then all will walk normally: you will finally choose your  
+character !!

@@ -1,0 +1,33 @@
+event /* 0 */
+{
+volume=100;
+cameratracking=1;
+specialframe[var(0)]=0;
+speed[var(0)]=4;
+ADDcharacter(6);
+removecharacter(1);
+wait(300);
+redraw();
+drawentities=0;
+drawparty=0;
+cameratracking=0;
+wait(20);
+fadein(150);
+fade=0;
+layerVC=1;
+wait(20);
+VCcentertext(100,"In the world of LORD OF IKUZO...");
+a=XWin;
+Timer=0;
+While(Timer<550)
+ {
+ XWin=a-(Timer/2);
+ Redraw();
+ }
+wait(60);
+VCclear();
+fadeout(250);
+fade=0;
+wait(20);
+quit("It's all for now !! :)");
+}

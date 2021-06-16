@@ -1,0 +1,100 @@
+event /* 0 */
+{
+volume=100;
+cameratracking=1;
+entity.locX[var(0)]=50;
+entity.locY[var(0)]=50;
+disablemenu();
+layerVC=1;
+drawparty=1;
+redraw();
+partymove("F0");
+if(flags[10])
+ {
+ changeCHR(1,"MENOLLY.CHR");
+ }
+if(flags[11])
+ {
+ changeCHR(1,"KAIN.CHR");
+ }
+if(flags[12])
+ {
+ changeCHR(1,"SEREN.CHR");
+ }
+if(flags[13])
+ {
+ changeCHR(1,"GALADOR.CHR");
+ }
+specialframe[var(0)]=29;
+cameratracking=0;
+wait(600);
+fadein(350);
+fade=0;
+wait(100);
+VCcentertext(30,"- TACTICS VERGE -");
+speed[var(0)]=2;
+partymove("L9 U5");
+wait(40);
+Vcclear();
+wait(150);
+VCcentertext(30,"Vecna, the very honored King of the");
+VCcentertext(60,"VERGE world.");
+VCcentertext(90,"This world is pacific and marvelous.");
+VCcentertext(120,"Thanks to Vecna, other worlds were");
+VCcentertext(150,"created by adepts of VERGE.");
+wait(1100);
+VCclear();
+wait(50);
+VCcentertext(30,"But for the first time,");
+VCcentertext(60,"heroes of all these world are");
+VCcentertext(90,"going to be united all together");
+VCcentertext(120,"in an epic and titanic advanture.");
+wait(900);
+VCclear();
+wait(50);
+VCcentertext(30,"These heroes should fight");
+VCcentertext(60,"coasts to coasts to defend Vecna");
+VCcentertext(90,"of the forces of the pain thats wants");
+VCcentertext(120,"to destroy these fabulous worlds.");
+wait(800);
+VCclear();
+wait(100);
+partymove("R9 D4");
+wait(50);
+if(flags[10])
+ {
+ VCcentertext(100,"CHAPTER 1 : Menolly");
+ wait(400);
+ fadeout(250);
+ fade=0;
+ VCclear();
+ mapswitch("MENOLLY.MAP",0,0,0);
+ }
+if(flags[11])
+ {
+ VCcentertext(100,"CHAPTER 1 : Kain");
+ wait(400);
+ fadeout(250);
+ fade=0;
+ VCclear();
+ mapswitch("KAIN.MAP",0,0,0);
+ }
+if(flags[12])
+ {
+ VCcentertext(100,"CHAPTER 1 : Seren");
+ wait(400);
+ VCclear();
+ fadeout(250);
+ fade=0;
+ mapswitch("SEREN.MAP",0,0,0);
+ }
+if(flags[13])
+ {
+ VCcentertext(100,"CHAPTER 1 : Galador");
+ wait(400);
+ fadeout(250);
+ fade=0;
+ VCclear();
+ mapswitch("GALADOR.MAP",0,0,0);
+ }
+}
