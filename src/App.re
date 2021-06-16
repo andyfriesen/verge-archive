@@ -119,6 +119,13 @@ let v1games: array(Game.game) = [|
         engine: Game.V1, 
         vtype: "v1game",  
     },
+	{
+        name: "life",
+        title: "Life",
+        description: "V1 Game by Gurv.",
+        engine: Game.V1, 
+        vtype: "v1game",  
+    },
 |];    
 let v2games: array(Game.game) = [|    
     {
