@@ -137,10 +137,17 @@ let v1games: array(Game.game) = [|
 	{
         name: "vzelda",
         title: "Verge Zelda",
-        description: "Verge Zelda demo by Bugen.",
+        description: "Verge Zelda demo by Bugen",
         engine: Game.V1,   
 		vtype: "v1game",  		
     },
+	{
+        name: "adventure_quest",
+        title: "Adventure Quest",
+        description: "Roguelike game. Author unknown.",
+        engine: Game.V1, 
+        vtype: "v1game",  
+    },   
 |];    
 let v2games: array(Game.game) = [|    
     {
@@ -269,7 +276,7 @@ let v2games: array(Game.game) = [|
         engine: Game.V2, 
         vtype: "v2game",  
     },    
-    
+ 
     
 |];
 

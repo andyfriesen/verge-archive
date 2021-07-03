@@ -1,0 +1,4187 @@
+event  // 0
+{
+  PlayMusic("AURORA.MOD");
+  VCClear();
+  Flags[714] = 1;
+  flags[726] = 2;
+  GetItem(8,4);
+  GetItem(6,2);
+  GetItem(6,3);
+  GetItem(9,1);
+  ForceEquip(8,98);
+  ForceEquip(6,96);
+  ForceEquip(6,97);
+  ForceEquip(9,95);
+  AutoOn();
+  CameraTracking = 0;
+  Entity.LocX(95) = 44;
+  Entity.LocY(95) = 13;
+  Entity.LocX(96) = 44;
+  Entity.LocY(96) = 14;
+  Entity.LocX(97) = 43;
+  Entity.LocY(97) = 13;
+  Entity.LocX(98) = 43;
+  Entity.LocY(98) = 14;
+  For(a,1,4,1)
+  {
+    flags[3999+a] = 2;
+  }
+  flags[600] = 8;
+  flags[601] = 7;
+  flags[602] = 6;
+  flags[603] = 4;
+  flags[2800] = 3;
+  flags[2801] = 2;
+  flags[2802] = 2;
+  flags[2803] = 1;
+  flags[2805] = 2;
+  flags[2806] = 2;
+  flags[2807] = 2;
+  flags[2808] = 2;
+  FadeIn(50);
+  Text(0,"You have learned well, my",
+         "friends. Now has come the",
+         "time of your first trial.");
+  Text(0,"You must first enter the",
+         "catacombs which contain",
+         "Fellmarg's Tomb. You must");
+  Text(0,"seek out and destroy Verag,",
+         "a foul Gargoyle who hides",
+         "in the catacombs. This");
+  Text(0,"Quest is not easy and you",
+         "must work together in order",
+         "to survive. This is your");
+  Text(0,"first step on the road to",
+         "becoming true Heroes. Tread",
+         "carefully my friends.");
+  Text(0,"There are no traps or",
+         "secret doors in the first",
+         "quest.");
+  CallEvent(11);
+  CallEvent(2);
+}
+
+event // 1 - Updates Screen
+{
+  VCLayerWrite = 1;
+  LayerVC = 1;
+  VCClearRegion(1,1,100,150);
+  VCText(1,1,"Turn:");
+  VCCharName(40,1,t-1,0);
+  VCText(1,13,"Movement:");
+  VCTextNum(72,13,m);
+  VCText(1,25,"Gold:");
+  VCTextNum(44,25,GP);
+  VCText(1,37,"Health:");
+  VCTextNum(59,37,CurHP(t));
+}
+
+event // 2 - Starts Turn
+{
+  While (flags[2] = 0)
+  {
+    For (t,1,4,1)
+    {
+      If (flags[624+t] = 1 AND flags[2000] = 0)
+      {
+        flags[624+t] = 0;
+        flags[2799+t] = flags[2799+t] - 2;
+      }
+      CallEvent(1);
+      CallEvent(51);
+      flags[2150] = 0;
+      Flags[3] = 0;
+      Flags[6] = 0;
+      Flags[7] = 0;
+      If (CurHP(t) > 0)
+      {
+        While (flags[3] < 2)
+        {
+          Menu:
+          XWin = (Entity.LocX(94+t) * 16) - (16 * 9);
+          YWin = (Entity.LocY(94+t) * 16) - (16 * 6);
+          TextMenu(8,8,5,1,"Move","Attack","Use Item","Cast Spell","Search For Treasure","Search For Secret Doors","Search For Traps","Disarm A Trap","Skip Turn","Quit Game");
+          If (flags[5] = 1 AND flags[6] = 0)
+          {
+            CallEvent(3);             // Move
+            flags[6] = flags[6] + 1;
+            flags[3] = flags[3] + 1;
+          }
+          If (flags[5] = 2 AND flags[7] = 0)
+          {
+            flags[2150] = 1;
+            CallEvent(4);            // Attack
+            flags[7] = flags[7] + 1;
+            flags[3] = flags[3] + 1;
+          }
+          If (flags[5] = 3)
+          {
+            CallEvent(5);           // Use Item
+          }
+          If (flags[5] = 4 AND flags[7] = 0)
+          {
+            CallEvent(6);          // Cast A Spell
+          }
+          If (flags[5] = 5 AND flags[7] = 0)
+          {
+            CallEvent(7);         // Search For Treasure
+            BA:
+            flags[7] = flags[7] + 1;
+            flags[3] = flags[3] + 1;
+          }
+          If (flags[5] = 6 AND flags[7] = 0)
+          {
+            CallEvent(8);         // Search For Secret Doors
+            flags[7] = flags[7] + 1;
+            flags[3] = flags[3] + 1;
+          }
+          If (flags[5] = 7 AND flags[7] = 0)
+          {
+            CallEvent(9);        // Search For Traps
+            flags[7] = flags[7] + 1;
+            flags[3] = flags[3] + 1;
+          }
+          If (flags[5] = 8 AND flags[7] = 0)
+          {
+            CallEvent(10);      // Disarm Trap
+            flags[7] = flags[7] + 1;
+            flags[3] = flags[3] + 1;
+          }
+          If (flags[5] = 9)
+          {
+            GOTO Here;
+          }
+          If (flags[5] = 10)
+          {
+            WaitKeyUp();
+            OldStartupMenu();
+          }
+          If (flags[604+t] = 1)
+          {
+            flags[604+t] = 0;
+            flags[6] = 0;
+            flags[3] = flags[3] - 1;
+            GOTO Menu;
+          }
+        }
+      }
+      Here:
+      Flags[2150] = 0;
+      CallEvent(51);
+    }
+    CallEvent(34);
+    If (flags[6120] = 1)
+    {
+      Text(0,"Congratulations on",
+             "defeating Verag. Wait",
+             "for Quest 2.");
+      Text(0,"Don't forget to Save!","","");
+      SaveMenu();
+      Quit("Thanks for playing!");
+    }
+    For(a,1,4,1)
+    {
+      If (CurHP(a) = 0 AND flags[6127+a] = 0)
+      {
+        flags[2818] = flags[2818] + 1;
+        flags[6127+a] = 1;
+      }
+    }
+    If (flags[2818] = 4)
+    {
+      CallEvent(52);
+    }
+  }
+}
+
+
+
+event // 3 - Move Code
+{
+  m = Random(2,12);
+  CallEvent(1);
+  flags[8] = 1;
+  WaitKeyUp();
+  While(m != 0)
+  {
+    flags[2002] = 0;
+    flags[2003] = 0;
+    flags[2004] = 0;
+    flags[2005] = 0;
+    flags[2040] = 0;
+    flags[2041] = 0;
+    flags[2042] = 0;
+    flags[2043] = 0;
+    flags[420] = 0;
+    if ((Entity.LocX(94+t) * 16) - 32 = XWin) 
+    {
+      XWin = (Entity.LocX(94+t) * 16) - (16 * 9);
+      YWin = (Entity.LocY(94+t) * 16) - (16 * 6);
+    }  
+    if ((Entity.LocY(94+t) * 16) - 32 = YWin)
+    {
+      XWin = (Entity.LocX(94+t) * 16) - (16 * 9);
+      YWin = (Entity.LocY(94+t) * 16) - (16 * 6);
+    }  
+    if ((Entity.LocX(94+t) * 16) + 48 > XWin + (16 * 20)) 
+    {
+      XWin = (Entity.LocX(94+t) * 16) - (16 * 9);
+      YWin = (Entity.LocY(94+t) * 16) - (16 * 6);
+    }  
+    if ((Entity.LocY(94+t) * 16) + 48 > YWin + (16 * 12))
+    {
+      XWin = (Entity.LocX(94+t) * 16) - (16 * 9);
+      YWin = (Entity.LocY(94+t) * 16) - (16 * 6);
+    }  
+    If (Obs(Entity.LocX(94+t),Entity.LocY(94+t) - 1) = 1)
+    {
+      flags[2040] = 1;
+    }
+    If (Obs(Entity.LocX(94+t),Entity.LocY(94+t) + 1) = 1)
+    {
+      flags[2041] = 1;
+    }
+    If (Obs(Entity.LocX(94+t)-1,Entity.LocY(94+t)) = 1)
+    {
+      flags[2042] = 1;
+    }
+    If (Obs(Entity.LocX(94+t)+1,Entity.LocY(94+t)) = 1)
+    {
+      flags[2043] = 1;
+    }
+    For(a,5,29,1)
+    {
+        If (Entity.LocY(a) = Entity.LocY(94+t) - 1 AND Entity.LocX(a) = Entity.LocX(94+t))
+        {
+          flags[2002] = 1;
+        }
+        If (Entity.LocY(a) = Entity.LocY(94+t) + 1 AND Entity.LocX(a) = Entity.LocX(94+t))
+        {
+          flags[2003] = 1;
+        }
+        If (Entity.LocX(a) = Entity.LocX(94+t) + 1 AND Entity.LocY(a) = Entity.LocY(94+t))
+        {
+          flags[2005] = 1;
+        }
+        If (Entity.LocX(a) = Entity.LocX(94+t) - 1 AND Entity.LocY(a) = Entity.LocY(94+t))
+        {
+          flags[2004] = 1;
+        }
+    }
+    WaitKeyUp();
+    Wait(2);
+    ReadControls();
+    If (flags[614+t] = 1)
+    {
+    If (Up = 1 AND m != 0 AND flags[2040] = 1)
+    {
+      flags[10] = Entity.LocX(94+t);
+      flags[11] = Entity.LocY(94+t) - 2;
+      Entity.LocX(94+t) = flags[10];
+      Entity.LocY(94+t) = flags[11];
+      m = m - 2;
+      flags[420] = 1;
+      If (m > 14)
+      {
+        m = 0;
+      }
+    }
+    If (Down = 1 AND m != 0 AND flags[2041] = 1)
+    {
+      flags[10] = Entity.LocX(94+t);
+      flags[11] = Entity.LocY(94+t) + 2;
+      Entity.LocX(94+t) = flags[10];
+      Entity.LocY(94+t) = flags[11];
+      m = m - 2;
+      flags[420] = 1;
+      if (m > 14)
+      {
+        m = 0;
+      }
+    }
+    If (Left = 1 AND m != 0 AND flags[2042] = 1)
+    {
+      flags[10] = Entity.LocX(94+t) - 2;
+      flags[11] = Entity.LocY(94+t);
+      Entity.LocX(94+t) = flags[10];
+      Entity.LocY(94+t) = flags[11];
+      m = m - 2;
+      flags[420] = 1;
+      If (m > 14)
+      {
+        m = 0;
+      }
+    }
+    If (Right = 1 AND m != 0 AND flags[2043] = 1)
+    {
+      flags[10] = Entity.LocX(94+t) + 2;
+      flags[11] = Entity.LocY(94+t);
+      Entity.LocX(94+t) = flags[10];
+      Entity.LocY(94+t) = flags[11];
+      m = m - 2;
+      flags[420] = 1;
+      If (m > 14)
+      {
+        m = 0;
+      }
+    }
+    }
+    If (flags[609+t] = 1)
+    {
+    If (Up = 1 AND m != 0 AND flags[2002] = 1)
+    {
+      flags[10] = Entity.LocX(94+t);
+      flags[11] = Entity.LocY(94+t) - 2;
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        Entity.LocX(94+t) = flags[10];
+        Entity.LocY(94+t) = flags[11];
+        m = m - 2;
+        flags[420] = 1;
+        If (m > 14)
+        {
+          m = 0;
+        }
+      }
+    }
+    If (Down = 1 AND m != 0 AND flags[2003] = 1)
+    {
+      flags[10] = Entity.LocX(94+t);
+      flags[11] = Entity.LocY(94+t) + 2;
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        Entity.LocX(94+t) = flags[10];
+        Entity.LocY(94+t) = flags[11];
+        m = m - 2;
+        flags[420] = 1;
+        If (m > 14)
+        {
+          m = 0;
+        }
+      }
+    }
+    If (Left = 1 AND m != 0 AND flags[2004] = 1)
+    {
+      flags[10] = Entity.LocX(94+t) - 2;
+      flags[11] = Entity.LocY(94+t);
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        Entity.LocX(94+t) = flags[10];
+        Entity.LocY(94+t) = flags[11];
+        m = m - 2;
+        flags[420] = 1;
+        If (m > 14)
+        {
+          m = 0;
+        }
+      }
+    }
+    If (Right = 1 AND m != 0 AND flags[2005] = 1)
+    {
+      flags[10] = Entity.LocX(94+t) + 2;
+      flags[11] = Entity.LocY(94+t);
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        Entity.LocX(94+t) = flags[10];
+        Entity.LocY(94+t) = flags[11];
+        m = m - 2;
+        flags[420] = 1;
+        If (m > 14)
+        {
+          m = 0;
+        }
+      }
+    }
+    }
+    If (flags[420] != 1)
+    {
+    If (Up = 1 AND m != 0 AND flags[2002] != 1)
+    {
+      flags[10] = Entity.LocX(94+t);
+      flags[11] = Entity.LocY(94+t) - 1;
+        If (Obs(flags[10],flags[11]) = 0)
+        {
+          EntityMove(94+t,"U1");
+          While(movecode(94+t))
+          {
+            Wait(1);
+          }
+          m = m - 1;
+        }
+    }
+    If (Down = 1 AND m != 0 AND flags[2003] != 1)
+    {
+      flags[10] = Entity.LocX(94+t);
+      flags[11] = Entity.LocY(94+t) + 1;
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        EntityMove(94+t,"D1");
+        While(movecode(94+t))
+        {
+          Wait(1);
+        }
+        m = m - 1;
+      }
+    }
+    If (Left = 1 AND m != 0 AND flags[2004] != 1)
+    {
+      flags[10] = Entity.LocX(94+t) - 1;
+      flags[11] = Entity.LocY(94+t);
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        EntityMove(94+t,"L1");
+        While(movecode(94+t))
+        {
+          Wait(1);
+        }
+        m = m - 1;
+      }
+    }
+    If (Right = 1 AND m != 0 AND flags[2005] != 1)
+    {
+      flags[10] = Entity.LocX(94+t) + 1;
+      flags[11] = Entity.LocY(94+t);
+      If (Obs(flags[10],flags[11]) = 0)
+      {
+        EntityMove(94+t,"R1");
+        While(movecode(94+t))
+        {
+          Wait(1);
+        }
+        m = m - 1;
+      }
+    }
+    }
+    If (B1 = 1)
+    {
+      flags[6] = 1;
+      flags[8] = 0;
+      m = 0;
+      CallEvent(12);
+    }
+    If (m > 166)
+    {
+      m = 0;
+      CallEvent(12);
+    }
+    If (m = 0)
+    {
+      CallEvent(12);
+    }
+    CallEvent(35);
+    CallEvent(12);
+    CallEvent(11);
+    CallEvent(1);
+  }
+  flags[609+flags[614]] = 0;
+  flags[614+flags[619]] = 0;
+}
+
+event // 4               // Attack Code
+{
+  x = (Entity.LocX(94+t) * 16) - XWin;
+  y = (Entity.LocY(94+t) * 16) - YWin;
+  flags[13] = x;
+  flags[14] = y;
+  VCPutPCX("pointer.pcx",x,y);
+  flags[12] = 1;
+  For(g,1,4,1)
+  {
+    var[g-1] = 0;
+  }
+  While (flags[12] = 1)
+  {
+    WaitKeyUp();
+    Wait(2);
+    ReadControls();
+    If (UP = 1 AND var[2] != 1 AND var[3] != 1 AND var[1] != 1)
+    {
+      y = y - 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x,y+16,x+16,y+32);
+      If (x != flags[13])  
+      { 
+        var[2] = 1;
+      }
+      If (y != flags[14])
+      { 
+        var[2] = 1;
+      }
+      For(f,5,29,1)
+      {
+        If (Entity.LocX(f) = Entity.LocX(94+t) AND Entity.LocY(f) = Entity.LocY(94+t) - 1)
+        {
+          flags[2020] = f;
+        }
+      }
+      var[0] = 0;
+      var[1] = 0;
+      var[3] = 0;
+    }
+    If (DOWN = 1 AND var[0] != 1 AND var[3] != 1 AND var[1] != 1)
+    {
+      y = y + 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x,y-16,x+16,y);
+      If (x != flags[13])  
+      { 
+        var[0] = 1;
+      }
+      If (y != flags[14])
+      { 
+        var[0] = 1;
+      }
+      For(f,5,29,1)
+      {
+        If (Entity.LocX(f) = Entity.LocX(94+t) AND Entity.LocY(f) = Entity.LocY(94+t) + 1)
+        {
+          flags[2020] = f;
+        }
+      }
+      var[1] = 0;
+      var[2] = 0;
+      var[3] = 0;
+    }
+    If (LEFT = 1 AND var[3] != 1 AND var[2] != 1 AND var[0] != 1)
+    {
+      x = x - 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x+16,y,x+32,y+16);
+      If (x != flags[13])  
+      { 
+        var[3] = 1;
+      }
+      If (y != flags[14])
+      { 
+        var[3] = 1;
+      }
+      For(f,5,29,1)
+      {
+        If (Entity.LocX(f) = Entity.LocX(94+t) - 1 AND Entity.LocY(f) = Entity.LocY(94+t))
+        {
+          flags[2020] = f;
+        }
+      }
+      var[0] = 0;
+      var[1] = 0;
+      var[2] = 0;
+    }
+    If (RIGHT = 1 AND var[1] != 1 AND var[2] != 1 AND var[0] != 1)
+    {
+      x = x + 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x-16,y,x,y+16);
+      If (x != flags[13])  
+      { 
+        var[1] = 1;
+      }
+      If (y != flags[14])
+      { 
+        var[1] = 1;
+      }
+      For(f,5,29,1)
+      {
+        If (Entity.LocX(f) = Entity.LocX(94+t) + 1 AND Entity.LocY(f) = Entity.LocY(94+t))
+        {
+          flags[2020] = f;
+        }
+      }
+      var[0] = 0;
+      var[2] = 0;
+      var[3] = 0;
+    }
+      If (b1 = 1)
+      {
+        If (x != flags[13])
+        {
+          flags[12] = 0;
+        }
+        If (y != flags[14])
+        {
+          flags[12] = 0;
+        }
+        CallEvent(49);
+      }
+  
+  }
+  VCClearRegion(x,y,x+16,y+16);
+}
+
+event // 5               //  Draw Item Menu
+{
+  x = 159;
+  y = 7;
+  VCPutPCX("mgcmenu.pcx",1,1);
+      
+  VCText(x,y,"Potion of Strength");
+  VCTextNum(x+145,y,flags[725+t]);
+  y = y + 11;
+  
+  VCText(x,y,"Potion of Healing");
+  VCTextNum(x+145,y,flags[729+t]);
+  y = y + 11;
+  
+  VCText(x,y,"Heroic Brew");
+  VCTextNum(x+145,y,flags[733+t]);
+  y = y + 11;
+  
+  VCText(x,y,"Potion of Defense");
+  VCTextNum(x+145,y,flags[737+t]);
+  y = y + 11;
+  CallEvent(55);
+}
+
+event // 6
+{
+  If (t = 1) 
+  {
+    Text(0,"You don't have any magic.","","");
+  }
+  If (t = 2)
+  {
+    Text(0,"You don't have any magic.","","");
+  }
+  If (t > 2) 
+  {
+    CallEvent(13);
+    CallEvent(1);
+    flags[7] = flags[7] + 1;
+    flags[3] = flags[3] + 1;
+    CallEvent(14);
+  }
+  VCClear();
+  CallEvent(1);
+}
+
+event // 7
+{
+  If (flags[3999+t] = 0)
+  {
+    Text(0,"Can't Search For Treasure",
+           "Here!","");
+  }
+  If (flags[3999+t] = 1)
+  {
+    CallEvent(36);
+  }
+  If (flags[3999+t] = 2)
+  {
+    CallEvent(37);
+  }
+  If (flags[3999+t] = 3)
+  {
+    CallEvent(38);
+  }
+  If (flags[3999+t] = 4)
+  {
+    CallEvent(39);
+  }
+  If (flags[3999+t] = 5)
+  {
+    CallEvent(40);
+  }
+  If (flags[3999+t] = 6)
+  {
+    CallEvent(41);
+  }
+  If (flags[3999+t] = 7)
+  {
+    CallEvent(42);
+  }
+  If (flags[3999+t] = 8)
+  {
+    CallEvent(43);
+  }
+  If (flags[3999+t] = 9)
+  {
+    CallEvent(44);
+  }
+  If (flags[3999+t] = 10)
+  {
+    CallEvent(45);
+  }
+  If (flags[3999+t] = 11)
+  {
+    CallEvent(46);
+  }
+}
+
+event // 8
+{
+}
+
+event // 9
+{
+}
+
+event // 10
+{
+}
+
+event // 11
+{
+}
+
+event // 12
+{
+  if (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 9)
+  {
+    CallEvent(16);
+  }
+  if (Entity.LocX(94+t) = 29 AND Entity.LocY(94+t) = 9)
+  {
+    CallEvent(17);
+  }
+  if (Entity.LocX(94+t) = 28 AND Entity.LocY(94+t) = 17)
+  {
+    CallEvent(17);
+    CallEvent(18);
+  }
+  if (Entity.LocX(94+t) = 29 AND Entity.LocY(94+t) = 17)
+  {
+    CallEvent(17);
+    CallEvent(18);
+  }
+  if (Entity.LocX(94+t) = 24 AND Entity.LocY(94+t) = 17)
+  {
+    CallEvent(18);
+    CallEvent(19);
+  }
+  if (Entity.LocX(94+t) = 24 AND Entity.LocY(94+t) = 25)
+  {
+    CallEvent(19);
+    CallEvent(20);
+  }
+  if (Entity.LocX(94+t) = 33 AND Entity.LocY(94+t) = 25)
+  {
+    CallEvent(20);
+    CallEvent(21);
+  }
+  if (Entity.LocX(94+t) = 33 AND Entity.LocY(94+t) = 17)
+  {
+    CallEvent(18);
+    CallEvent(21);
+  }
+  if (Entity.LocX(94+t) = 33 AND Entity.LocY(94+t) = 21)
+  {
+    CallEvent(21);
+    CallEvent(22);
+  }
+  if (Entity.LocX(94+t) = 46 AND Entity.LocY(94+t) = 21)
+  {
+    CallEvent(22);
+    CallEvent(23);
+  }
+  if (Entity.LocX(94+t) = 46 AND Entity.LocY(94+t) = 9)
+  {
+    CallEvent(23);
+  }
+  if (Entity.LocX(94+t) = 37 AND Entity.LocY(94+t) = 10)
+  {
+    CallEvent(24);
+  }
+  if (Entity.LocX(94+t) = 34 AND Entity.LocY(94+t) = 13)
+  {
+    CallEvent(24);
+    CallEvent(25);
+  }
+  if (Entity.LocX(94+t) = 32 AND Entity.LocY(94+t) = 16)
+  {
+    CallEvent(25);
+    CallEvent(18);
+  }
+  if (Entity.LocX(94+t) = 27 AND Entity.LocY(94+t) = 13)
+  {
+    CallEvent(26);
+  }
+  if (Entity.LocX(94+t) = 25 AND Entity.LocY(94+t) = 21)
+  {
+    CallEvent(27);
+  }
+  if (Entity.LocX(94+t) = 45 AND Entity.LocY(94+t) = 18)
+  {
+    CallEvent(28);
+  }
+  if (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 22)
+  {
+    CallEvent(29);
+  }
+  if (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 28)
+  {
+    CallEvent(30);
+  }
+  if (Entity.LocX(94+t) = 34 AND Entity.LocY(94+t) = 30)
+  {
+    CallEvent(31);
+  }
+  if (Entity.LocX(94+t) = 40 AND Entity.LocY(94+t) = 30)
+  {
+    CallEvent(32);
+  }
+  if (Entity.LocX(94+t) = 36 AND Entity.LocY(94+t) = 22)
+  {
+    CallEvent(33);
+  }
+}
+
+event // 13                    Update Magic Screen
+{
+  x = 159;
+  y = 7;
+  VCPutPCX("mgcmenu.pcx",1,1);
+  If (t = 3)
+  {
+    If (flags[1] = 1)
+    {
+      For(a,1,3,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+    If (flags[1] = 2)
+    {
+      For(a,4,6,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+    If (flags[1] = 3)
+    {
+      For(a,7,9,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+    If (flags[1] = 4)
+    {
+      For(a,10,12,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+  }
+  If (t = 4)
+  {
+    If (flags[1] = 1)
+    {
+      For(a,4,12,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+    If (flags[1] = 2)
+    {
+      For(a,1,3,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+      For(a,7,12,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+    If (flags[1] = 3)
+    {
+      For(a,1,6,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+      For(a,10,12,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+    If (flags[1] = 4)
+    {
+      For(a,1,9,1)
+      {
+        VCSpellName(x,y,a,0);
+        y = y + 12;
+      }
+    }
+  }
+}
+}
+
+event // 14                         // Pick Spell
+{
+  x = 134;
+  y = 3;
+  VCPutPCX("point.pcx",x,y);
+  flags[15] = 1;
+  var[4] = 1;
+  If (flags[1] = 1 AND t = 3)
+  {
+    flags[2700] = 1;
+  }
+  If (flags[1] = 2 AND t = 3)
+  {
+    flags[2700] = 4;
+  }
+  If (flags[1] = 3 AND t = 3)
+  {
+    flags[2700] = 7;
+  }
+  If (flags[1] = 4 AND t = 3)
+  {
+    flags[2700] = 10;
+  }
+  If (flags[1] = 1 AND t = 4)
+  {
+    flags[2700] = 4;
+  }
+  If (flags[1] > 1 AND t = 4)
+  {
+    flags[2700] = 1;
+  }
+  While (flags[15] = 1)
+  {
+    WaitKeyUp();
+    ReadControls();
+    Wait(5);
+    If (B1 = 1 AND flags[694+flags[2700]] != 1)
+    {
+      flags[15] = 0;
+      flags[694+flags[2700]] = 1;
+    }
+    If (UP = 1 AND var[4] != 1)
+    {
+      y = y - 12;
+      VCPutPCX("point.pcx",x,y);
+      VCClearRegion(x,y+12,x+16,y+28);
+      var[4] = 0;
+      var[5] = 0;
+      If (t = 3)
+      {
+        flags[2700] = flags[2700] - 1;
+      }
+      If (flags[1] = 1 AND t = 4)
+      {
+        flags[2700] = flags[2700] - 1;
+      }
+      If (flags[1] = 2 AND t = 4)
+      {
+        If (flags[2700] < 4)
+        {
+          flags[2700] = flags[2700] - 1;
+        }
+        If (flags[2700] = 7)
+        {
+          flags[2700] = 3;
+        }
+        If (flags[2700] > 7)
+        {
+          flags[2700] = flags[2700] - 1;
+        }
+      }
+      If (flags[1] = 3 AND t = 4)
+      {
+        If (flags[2700] < 7)
+        {
+          flags[2700] = flags[2700] - 1;
+        }
+        If (flags[2700] = 10)
+        {
+          flags[2700] = 6;
+        }
+        If (flags[2700] > 10)
+        {
+          flags[2700] = flags[2700] - 1;
+        }
+      } 
+      If (flags[1] = 4 AND t = 4)
+      {
+        flags[2700] = flags[2700] - 1;
+      }
+    }
+    If (DOWN = 1 AND var[5] != 1)
+    {
+      y = y + 12;
+      VCPutPCX("point.pcx",x,y);
+      VCClearRegion(x,y-12,x+16,y);
+      var[4] = 0;
+      var[5] = 0;
+      If (t = 3)
+      {
+        flags[2700] = flags[2700] + 1;
+      }
+      If (flags[1] = 1 AND t = 4)
+      {
+        flags[2700] = flags[2700] + 1;
+      }
+      If (flags[1] = 2 AND t = 4)
+      {
+        If (flags[2700] > 6)
+        {
+          flags[2700] = flags[2700] + 1;
+        }
+        If (flags[2700] = 3)
+        {
+          flags[2700] = 7;
+        }
+        If (flags[2700] < 3)
+        {
+          flags[2700] = flags[2700] + 1;
+        }
+      }
+      If (flags[1] = 3 AND t = 4)
+      {
+        If (flags[2700] > 9)
+        {
+          flags[2700] = flags[2700] + 1;
+        }
+        If (flags[2700] = 6)
+        {
+          flags[2700] = 10;
+        }
+        If (flags[2700] < 6)
+        {
+          flags[2700] = flags[2700] + 1;
+        }
+      }
+      If (flags[1] = 4 AND t = 4)
+      {
+        flags[2700] = flags[2700] + 1;
+      }
+    }
+    If (y = 3)
+    {
+      var[4] = 1;
+    }
+    If (t = 3 AND y = 27)
+    {
+      var[5] = 1;
+    }
+    If (t = 4 AND y = 99)
+    {
+      var[5] = 1;
+    }
+  }
+  VCClear();
+  CallEvent(53);
+  VCClearRegion(x,y,x+16,y+16);
+  VCTextNum(1,50,4+flags[2700]);
+  CallEvent(54);
+}
+
+event // 15
+{
+}
+
+event // 16
+{
+  AlterBTile(27,9,427,1);
+  AlterBTile(37,10,640,0);
+  For(a,28,46,1)
+  {
+    AlterBTile(a,9,378,0);
+  }
+}
+
+event  // 17
+{
+  AlterBTile(27,13,640,0);
+  for(a,9,17,1)
+  {
+    AlterBTile(29,a,378,0);
+    AlterBTile(28,a,378,0);
+  }
+}
+
+event  // 18
+{
+  AlterBTile(32,16,640,0);
+  For(a,24,33,1)
+  {
+    AlterBTile(a,17,378,0);
+  }
+}
+
+event  // 19
+{
+  AlterBTile(25,21,640,0);
+  AlterBTile(23,21,427,1);
+  For(a,17,25,1)
+  {
+    AlterBTile(24,a,378,0);
+  }
+}
+
+event  // 20
+{
+  AlterBTile(28,26,427,1);
+  AlterBTile(29,26,427,1);
+  For(a,24,33,1)
+  {
+    AlterBTile(a,25,378,0);
+  }
+}
+
+event  // 21
+{
+  For(a,17,25,1)
+  {
+    AlterBTile(33,a,378,0);
+  }
+}
+
+event  // 22
+{
+  AlterBTile(36,22,640,0);
+  AlterBTile(42,22,640,0);
+  For(a,33,46,1)
+  {
+    AlterBTile(a,21,378,0);
+  }
+}
+
+event  // 23
+{
+  AlterBTile(46,32,427,1);
+  AlterBTile(45,18,640,0);
+  For(a,9,31,1)
+  {
+    AlterBTile(46,a,378,0);
+  }
+}
+
+event  // 24
+{
+  a = 0;
+  If (flags[6015] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 5;
+      flags[6003+a] = 6;
+      GOTO SB;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 5;
+    flags[6002] = 6;
+  }
+  }
+  SB:
+  flags[6015] = 1;
+  a = 0;
+  If (Flags[500] = 0)
+  {
+    Flags[2001] = Flags[2001] + 2;
+    Flags[500] = 1;
+    Flags[2000] = 1;
+    Entity.LocX(5) = 35;
+    Entity.LocY(5) = 13;
+    Entity.LocX(6) = 36;
+    Entity.LocY(6) = 14;
+  }
+  AlterBTile(38,11,634,1);
+  AlterBTile(39,11,635,1);
+  AlterBTile(38,12,654,1);
+  AlterBTile(39,12,655,1);
+  AlterBTile(38,13,674,1);
+  AlterBTile(39,13,675,1);
+  AlterBTile(37,15,627,1);
+  AlterBTile(38,15,628,1);
+  AlterBTile(39,15,629,1);
+  AlterBTile(37,14,378,0);
+  AlterBTile(38,14,378,0);
+  AlterBTile(34,13,640,0);
+  AlterBTile(39,14,378,0);
+  AlterBTile(36,15,378,0);
+  For(a,11,13,1)
+  {
+    AlterBTile(37,a,378,0);
+  }
+  For(a,11,15,1)
+  {
+    AlterBTile(35,a,378,0);
+  }
+  For(a,11,14,1)
+  {
+    AlterBTile(36,a,378,0);
+  }
+}
+
+event  // 25
+{
+  AlterBTile(31,11,703,1);
+  AlterBTile(31,12,723,1);
+  AlterBTile(31,13,743,1);
+  AlterBTile(31,14,378,0);
+  AlterBTile(31,15,378,0);
+  AlterBTile(32,16,640,0);
+  For(a,11,15,1)
+  {
+    AlterBTile(32,a,378,0);
+    AlterBTile(33,a,378,0);
+  }
+  a = 0;
+  If (flags[6016] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 17;
+      flags[6003+a] = 18;
+      GOTO ND;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 17;
+    flags[6002] = 18;
+  }
+  ND:
+  flags[6016] = 1;
+  }
+  If (flags[407] = 0)
+  {
+    Entity.LocX(17) = 32;
+    Entity.LocY(17) = 14;
+    Entity.LocX(18) = 32;
+    Entity.LocY(18) = 12;
+    flags[2000] = 1;
+    flags[2001] = flags[2001] + 2;
+    flags[407] = 1;
+  }
+}
+
+event  // 26
+{
+  AlterBTile(23,11,627,1);
+  AlterBTile(24,11,628,1);
+  AlterBTile(25,11,629,1);
+  AlterBTile(23,15,627,1);
+  AlterBTile(24,15,628,1);
+  AlterBTile(25,15,629,1);
+  AlterBTile(26,11,378,0);
+  AlterBTile(26,15,378,0);
+  AlterBTile(23,12,279,1);
+  AlterBTile(23,13,378,0);
+  AlterBTile(23,14,378,0);
+  For(a,24,26,1)
+  {
+    AlterBTile(a,12,378,0);
+    AlterBTile(a,13,378,0);
+    AlterBTile(a,14,378,0);
+  }
+  a = 0;
+  If (flags[6017] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 13;
+      flags[6003+a] = 14;
+      GOTO SB3;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 13;
+    flags[6002] = 14;
+  }
+  }
+  SB3:
+  flags[6017] = 1;
+  If (flags[404] = 0)
+  {
+    Entity.LocX(13) = 24;
+    Entity.LocY(13) = 13;
+    Entity.LocX(14) = 25;
+    Entity.LocY(14) = 12;
+    flags[2000] = 1;
+    flags[2001] = flags[2001] + 2;
+    flags[404] = 1;
+  }
+}
+
+event  // 27
+{
+  For(a,1,3,1)
+  {
+    AlterBTile(27+a,20,621+a,1);
+    AlterBTile(27+a,21,641+a,1);
+  }
+  AlterBTile(27,23,682,1);
+  AlterBTile(28,23,683,1);
+  AlterBTile(29,23,684,1);
+  AlterBTile(30,23,279,1);
+  AlterBTile(31,22,681,1);
+  AlterBTile(31,23,378,0);
+  AlterBTile(31,21,378,0);
+  AlterBTile(31,20,378,0);
+  For(a,19,23,1)
+  {
+    AlterBTile(26,a,378,0);
+  }
+  For(a,26,31,1)
+  {
+    AlterBTile(a,19,378,0);
+  }
+  For(a,26,30,1)
+  {
+    AlterBTile(a,22,378,0);
+  }
+  AlterBTile(27,20,378,0);
+  AlterBTile(27,21,378,0);
+  a = 0;
+  If (flags[6025] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 25;
+      flags[6003+a] = 26;
+      flags[6004+a] = 27;
+      flags[6004+a] = 28;
+      GOTO ND4;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 25;
+    flags[6002] = 26;
+    flags[6003] = 27;
+    flags[6004] = 28;
+  }
+  }
+  ND4:
+  flags[6025] = 1;
+  If (flags[411] = 0)
+  {
+    Entity.LocX(25) = 27;
+    Entity.LocY(25) = 22;
+    Entity.LocX(26) = 30;
+    Entity.LocY(26) = 19;
+    Entity.LocX(27) = 27;
+    Entity.LocY(27) = 19;
+    Entity.LocX(28) = 29;
+    Entity.LocY(28) = 22;
+    flags[2000] = 1;
+    flags[2001] = flags[2001] + 4;
+    flags[411] = 1;
+  }
+}
+
+event  // 28
+{
+  AlterBTile(41,17,634,1);
+  AlterBTile(41,18,654,1);
+  AlterBTile(41,19,674,1);
+  AlterBTile(42,17,635,1);
+  AlterBTile(42,18,655,1);
+  AlterBTile(42,19,675,1);
+  For(a,41,44,1)
+  {
+    AlterBTile(a,16,378,0);
+  }
+  For(a,16,19,1)
+  {
+    AlterBTile(43,a,378,0);
+    AlterBTile(44,a,378,0);
+  }
+  a = 0;
+  If (flags[6018] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6001+a] = 7;
+      flags[(6001+a)+a] = 8;
+      GOTO SC;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 7;
+    flags[6002] = 8;
+  }
+  }
+  SC:
+  flags[6018] = 1;
+  a = 0;
+  If (flags[400] = 0)
+  {
+    flags[2001] = flags[2001] + 2;
+    flags[400] = 1;
+    flags[2000] = 1;
+    Entity.LocX(7) = 43;
+    Entity.LocY(7) = 17;
+    Entity.LocX(8) = 43;
+    Entity.LocY(8) = 18;
+  }
+}
+
+event  // 29
+{
+  AlterBTile(43,24,634,1);
+  AlterBTile(43,25,654,1);
+  AlterBTile(43,26,674,1);
+  AlterBTile(44,24,635,1);
+  AlterBTile(44,25,655,1);
+  AlterBTile(44,26,675,1);
+  AlterBTile(43,23,378,0);
+  AlterBTile(43,27,378,0);
+  AlterBTile(44,23,378,0);
+  AlterBTile(44,27,378,0);
+  For(a,23,27,1)
+  {
+    AlterBTile(42,a,378,0);
+    AlterBTile(41,a,378,0);
+  }
+  AlterBTile(42,28,640,0);
+  a = 0;
+  If (flags[6019] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 11;
+      flags[6003+a] = 12;
+      GOTO SB4;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 11;
+    flags[6002] = 12;
+  }
+  }
+  SB4:
+  flags[6019] = 1;
+  If (flags[402] = 0)
+  {
+    flags[2001] = flags[2001] + 2;
+    Entity.LocX(11) = 42;
+    Entity.LocY(11) = 25;
+    Entity.LocX(12) = 41;
+    Entity.LocY(12) = 26;
+    flags[2000] = 1;
+    flags[402] = 1;
+  }
+}
+
+event  // 30
+{
+  For(a,41,44,1)
+  {
+    AlterBTile(a,29,378,0);
+    AlterBTile(a,30,378,0);
+    AlterBTile(a,31,378,0);
+  }
+  AlterBTile(40,30,640,0);
+  a = 0;
+  If (flags[6020] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 15;
+      flags[6003+a] = 16;
+      GOTO SB5;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 15;
+    flags[6002] = 16;
+  }
+  }
+  SB5:
+  flags[6020] = 1;
+  If (flags[405] = 0)
+  {
+    flags[2000] = 1;
+    flags[2001] = flags[2001] + 1;
+    flags[405] = 1;
+    Entity.LocX(15) = 42;
+    Entity.LocY(15) = 30;
+    Entity.LocX(16) = 43;
+    Entity.LocY(16) = 30;
+  }
+}
+
+event  // 31
+{
+  AlterBTile(31,29,638,1);
+  AlterBTile(31,30,658,1);
+  AlterBTile(31,31,678,1);
+  AlterBTile(32,29,639,1);
+  AlterBTile(32,30,659,1);
+  AlterBTile(32,31,679,1);
+  AlterBTile(31,28,378,0);
+  AlterBTile(31,27,378,0);
+  AlterBTile(32,28,378,0);
+  AlterBTile(32,27,279,0);
+  For(a,27,31,1)
+  {
+    AlterBTile(33,a,378,0);
+  }
+  a = 0;
+  If (flags[6022] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 19;
+      flags[6003+a] = 20;
+      flags[6004+a] = 21;
+      GOTO ND1;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 19;
+    flags[6002] = 20;
+    flags[6003] = 21;
+  }
+  }
+  ND1:
+  flags[6022] = 1;
+  If (flags[409] = 0)
+  {
+    Entity.LocX(19) = 33;
+    Entity.LocY(19) = 31;
+    Entity.LocX(20) = 33;
+    Entity.LocY(20) = 29;
+    Entity.LocX(21) = 33;
+    Entity.LocY(21) = 28;
+    flags[2000] = 1;
+    flags[2001] = flags[2001] + 3;
+    flags[409] = 1;
+  }
+}
+
+event  // 32
+{
+  For(a,35,39,1)
+  {
+    AlterBTile(a,29,378,0);
+    AlterBTile(a,30,378,0);
+    AlterBTile(a,31,378,0);
+  }
+  AlterBTile(34,30,640,0);
+  a = 0;
+  If (flags[6023] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 22;
+      flags[6003+a] = 23;
+      flags[6004+a] = 24;
+      GOTO ND2;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 22;
+    flags[6002] = 23;
+    flags[6003] = 24;
+  }
+  }
+  ND2:
+  flags[6023] = 1;
+  If (flags[410] = 0)
+  {
+    Entity.LocX(22) = 38;
+    Entity.LocY(22) = 31;
+    Entity.LocX(23) = 38;
+    Entity.LocY(23) = 29;
+    Entity.LocX(24) = 38;
+    Entity.LocY(24) = 30;
+    flags[2000] = 1;
+    flags[2001] = flags[2001] + 3;
+    flags[410] = 1;
+  }
+}
+
+event  // 33
+{
+  For(a,1,3,1)
+  {
+    AlterBTile(34+a,25,621+a,1);
+    AlterBTile(34+a,26,641+a,1);
+  }
+  AlterBTile(38,25,378,0);
+  AlterBTile(38,26,378,0);
+  AlterBTile(39,25,378,0);
+  AlterBTile(39,26,378,0);
+  For(a,35,39,1)
+  {
+    AlterBTile(a,23,378,0);
+    AlterBTile(a,24,378,0);
+    AlterBTile(a,27,378,0);
+  }
+  a = 0;
+  If (flags[6021] = 0)
+  {
+  While(flags[6001+a] != 0)
+  {
+    If (flags[6002+a] = 0)
+    {
+      flags[6002+a] = 9;
+      flags[6003+a] = 10;
+      GOTO SB6;
+    }
+    a = a + 1;
+  }
+  If (flags[6001] = 0)
+  {
+    flags[6001] = 9;
+    flags[6002] = 10;
+  }
+  }
+  SB6:
+  flags[6021] = 1;
+  If (flags[401] = 0)
+  {
+    flags[2001] = flags[2001] + 2;
+    Entity.LocX(9) = 36;
+    Entity.LocY(9) = 24;
+    Entity.LocX(10) = 37;
+    Entity.LocY(10) = 24;
+    flags[2000] = 1;
+    flags[401] = 1;
+  }
+}
+
+event  // 34  Monsters Action
+{
+  flags[6150] = 0;
+  If (flags[2000] = 1)
+  {
+  Banner("Enemy's Turn",2);
+  For(a,1,6,1)
+  {
+    flags[7050] = 0;
+    flags[2010] = 0;
+    flags[2011] = 0;
+    NextHere:
+    If (flags[6000+a] != 0)
+    {
+      If (flags[630+flags[6000+a]] != 1)
+      {
+      If (flags[657+flags[6000+a]] != 1)
+      {
+      XWin = (Entity.LocX(flags[6000+a]) * 16) - (16 * 9);
+      YWin = (Entity.LocY(flags[6000+a]) * 16) - (16 * 6);
+    For(b,1,4,1)
+    {
+      If (Entity.LocX(flags[6000+a]) = Entity.LocX(94+b) AND Entity.LocY(flags[6000+a]) = (Entity.LocY(94+b) - 1) AND flags[7050] != 1)
+      {
+        If (CurHP(b) > 0)
+        {
+        flags[7050] = 1;
+        flags[6000] = a;
+        SetFace(flags[6000+a],2);
+        CallEvent(47);
+        GOTO Hi;
+        }
+      }
+      If (Entity.LocX(flags[6000+a]) = Entity.LocX(94+b) AND Entity.LocY(flags[6000+a]) = (Entity.LocY(94+b) + 1) AND flags[7050] != 1)
+      {
+        If (CurHP(b) > 0)
+        {
+        flags[7050] = 1;
+        flags[6000] = a;
+        SetFace(flags[6000+a],2);
+        CallEvent(47);
+        GOTO Hi;
+        }
+      }
+      If (Entity.LocX(flags[6000+a]) = (Entity.LocX(94+b) - 1) AND Entity.LocY(flags[6000+a]) = Entity.LocY(94+b) AND flags[7050] != 1)
+      {  
+        If (CurHP(b) > 0)
+        {
+        flags[7050] = 1;
+        flags[6000] = a;
+        SetFace(flags[6000+a],2);
+        CallEvent(47);
+        GOTO Hi;
+        }
+      }
+      If (Entity.LocX(flags[6000+a]) = (Entity.LocX(94+b) + 1) AND Entity.LocY(flags[6000+a]) = Entity.LocY(94+b) AND flags[7050] != 1)
+      {
+        If (CurHP(b) > 0)
+        {
+        flags[7050] = 1;
+        flags[6000] = a;
+        SetFace(flags[6000+a],2);
+        CallEvent(47);
+        GOTO Hi;
+        }
+      }
+      flags[2010] = flags[2010] + 1;
+      If (flags[2010] = 4 AND flags[2011] = 0)
+      {
+        CallEvent(48);
+        flags[2011] = 1;
+        If (flags[7050] = 0)
+        {
+          GOTO NextHere;
+        }
+      }
+    }
+    Hi:
+    }
+    }
+    }
+    If (flags[630+flags[6000+a]] = 1)
+    {
+      flags[634+flags[6000+a]] = 0;
+    }
+    If (flags[657+flags[6000+a]] = 1)
+    {
+      If (Entity.CHRIndex(flags[2020]) = 5)
+      {
+        flags[690] = 2;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 6)
+      {
+        flags[690] = 1;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 7)
+      {
+        flags[690] = 3;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 8)
+      {
+        flags[690] = 0;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 9)
+      {
+        flags[690] = 3;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 10)
+      {
+        flags[690] = 0;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 11)
+      {
+        flags[690] = 0;
+      }
+      If (Entity.CHRIndex(flags[2020]) = 12)
+      {
+        flags[690] = 4;
+      }
+      If (flags[690] != 0)
+      {
+        flags[657+flags[2020]] = 1;
+        For(h,1,flags[690],1)
+        {
+          flags[691] = Random(1,6);
+          If (flags[691] = 6)
+          {
+            flags[657+flags[2020]] = 0;
+          }
+        }
+      }
+      If (flags[657+flags[2020]] = 1)
+      {
+        VCText(130,2,"Still Asleep");
+      }  
+      If (flags[657+flags[2020]] = 0)
+      {
+        VCText(130,2,"Woke Up");
+      }
+      Wait(300);
+    }
+  }
+  }
+}
+
+event  // 35  Treasure Variables
+{
+  If (Entity.LocX(94+t) = 37 AND Entity.LocY(94+t) = 11)
+  {
+    flags[3999+t] = 1;
+  }
+  If (Entity.LocX(94+t) = 37 AND Entity.LocY(94+t) = 10)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 35 AND Entity.LocY(94+t) = 13)
+  {
+    flags[3999+t] = 1;
+  }
+  If (Entity.LocX(94+t) = 34 AND Entity.LocY(94+t) = 13)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 11)
+  {
+    flags[3999+t] = 2;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 10)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 33 AND Entity.LocY(94+t) = 13)
+  {
+    flags[3999+t] = 3;
+  }
+  If (Entity.LocX(94+t) = 32 AND Entity.LocY(94+t) = 15)
+  {
+    flags[3999+t] = 3;
+  }
+  If (Entity.LocX(94+t) = 32 AND Entity.LocY(94+t) = 16)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 26 AND Entity.LocY(94+t) = 13)
+  {
+    flags[3999+t] = 4;
+  }
+  If (Entity.LocX(94+t) = 27 AND Entity.LocY(94+t) = 13)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 26 AND Entity.LocY(94+t) = 21)
+  {
+    flags[3999+t] = 5;
+  }
+  If (Entity.LocX(94+t) = 25 AND Entity.LocY(94+t) = 21)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 36 AND Entity.LocY(94+t) = 23)
+  {
+    flags[3999+t] = 6;
+  }
+  If (Entity.LocX(94+t) = 36 AND Entity.LocY(94+t) = 22)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 23)
+  {
+    flags[3999+t] = 7;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 23)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 27)
+  {
+    flags[3999+t] = 7;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 28)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 42 AND Entity.LocY(94+t) = 29)
+  {
+    flags[3999+t] = 8;
+  }
+  If (Entity.LocX(94+t) = 41 AND Entity.LocY(94+t) = 30)
+  {
+    flags[3999+t] = 8;
+  }
+  If (Entity.LocX(94+t) = 40 AND Entity.LocY(94+t) = 30)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 39 AND Entity.LocY(94+t) = 30)
+  {
+    If (flags[5003] = 0)
+    {
+      Text(0,"This Mummy is the Guardian",
+             "of Fellmarg's Tomb and was",
+             "once a mighty warrior. It's");
+      Text(0,"attack is 4 instead of 3.","","");
+      flags[5003] = 1;
+    }
+    flags[3999+t] = 9;
+  }
+  If (Entity.LocX(94+t) = 35 AND Entity.LocY(94+t) = 30)
+  {
+    flags[3999+t] = 9;
+  }
+  If (Entity.LocX(94+t) = 34 AND Entity.LocY(94+t) = 30)
+  {
+    flags[3999+t] = 0;
+  }
+  If (Entity.LocX(94+t) = 33 AND Entity.LocY(94+t) = 30)
+  {
+    flags[3999+t] = 10;
+  }
+  If (Entity.LocX(94+t) = 44 AND Entity.LocY(94+t) = 18)
+  {
+    flags[3999+t] = 11;
+  }
+  If (Entity.LocX(94+t) = 45 AND Entity.LocY(94+t) = 18)
+  {
+    flags[3999+t] = 0;
+  }
+}
+
+event  //  36  Search For Treasure - Room 1
+{
+  If (flags[4004+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 1 AND flags[4004+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+  flags[4004+t] = 1;
+}
+
+event  //  37  Search For Treasure - Room 2
+{
+  If (flags[4008+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 2 AND flags[4008+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+    flags[4008+t] = 1;
+}
+
+event  // Search For Treasure - Room 3
+{
+  If (flags[5000] = 0)
+  {
+    Text(0,"The weapons on this weapons",
+           "rack are chipped, rusted,",
+           "and broken. There is nothing");
+    Text(0,"here that the Heroes would",
+           "want.","");
+    flags[5000] = 1;
+  }
+  If (flags[4012+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 3 AND flags[4012+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 3)
+//  {
+    flags[4012+t] = 1;
+//  }
+}
+
+event  //  39 - Search For Treasure - Room 4
+{
+  If (flags[5001] = 0)
+  {
+    Text(0,"This treasure chest is",
+           "empty.","");
+    flags[5001] = 1;
+    flags[4016+t] = 1;
+    GOTO BA;
+  }
+  If (flags[4016+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 4 AND flags[4016+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 4)
+//  {
+    flags[4016+t] = 1;
+//  }
+}
+
+event  //  40 - Search For Treasure - Room 5
+{  
+  If (flags[5002] = 0)
+  {
+    Text(0,"You found 120 gold coins.","","");
+    GP = GP + 120;
+    flags[5002] = 1;
+    flags[4020+t] = 1;
+    GOTO BA;
+  }
+  If (flags[4020+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 5 AND flags[4020+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 5)
+//  {
+    flags[4020+t] = 1;
+//  }
+}
+
+event  // 41 - Search For Treasure - Room 6
+{  
+  If (flags[4024+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 6 AND flags[4024+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 6)
+//  {
+    flags[4024+t] = 1;
+//  }
+}
+
+event  //  Search For Treasure - Room 7
+{  
+  If (flags[4028+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 7 AND flags[4028+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 7)
+//  {
+    flags[4028+t] = 1;
+//  }
+}
+
+event //  43 - Search For Treasure - Room 8
+{  
+  If (flags[4032+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 8 AND flags[4032+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 8)
+//  {
+    flags[4032+t] = 1;
+//  }
+}
+
+event //  44 - Search For Treasure - Room 9
+{  
+  If (flags[4036+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 9 AND flags[4036+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 9)
+//  {
+    flags[4036+t] = 1;
+//  }
+}
+
+event // 45 - Search For Treasure - Room 10
+{  
+  If (flags[5004] = 0)
+  {
+    Text(0,"You found 84 gold.","","");
+    GP = GP + 84;
+    flags[4040+t] = 1;
+    flags[5004] = 1;
+    GOTO BA;
+  }
+  If (flags[4040+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 10 AND flags[4004+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 10)
+//  {
+    flags[4040+t] = 1;
+//  }
+}
+
+event //  46 - Search For Treasure - Room 11
+{  
+  If (flags[4044+t] = 1)
+  {
+    Text(0,"You already searched for",
+           "treasure in this room.","");
+  }
+  If (flags[2000] = 1)
+  {
+    Text(0,"You can't search for treasure",
+           "there are still monsters in",
+           "the room.");
+  }
+  If (flags[3999+t] = 11 AND flags[4004+t] != 1 AND flags[2000] != 1)
+  {
+  flags[4004] = Random(1,24);
+  If (flags[4004] = 1)
+  {
+    Text(0,"Got a Potion of Defense.","","");
+    flags[737+t] = flags[737+t] + 1;
+  }
+  If (flags[4004] > 1 AND flags[4004] < 5)
+  {
+    Text(0,"Got a Potion of Healing.","","");
+    flags[729+t] = flags[729+t] + 1;
+  }
+  If (flags[4004] = 5)
+  {
+    Text(0,"Got a Heroic Brew.","","");
+    flags[733+t] = flags[733+t] + 1;
+  }
+  If (flags[4004] = 6)
+  {
+    Text(0,"Got a Potion of Strength.","","");
+    flags[725+t] = flags[725+t] + 1;
+  }
+  If (flags[4004] > 6 AND flags[4004] < 11)
+  {
+    Text(0,"You found a hazard. You",
+           "lose 1 Body Point.","");
+    CurHP(t) = CurHP(t) - 1;
+  }
+  If (flags[4004] > 10 AND flags[4004] < 13)
+  {
+    Text(0,"You found a small wooden",
+           "box containing several small",
+           "jewels that are worth 50 gold");
+    Text(0,"coins.","","");
+    GP = GP + 50;
+  }
+  If (flags[4004] > 12 AND flags[4004] < 15)
+  {
+    Text(0,"Tucked into a toe of",
+           "an old boot you find a",
+           "small gem worth 35 gold");
+    Text(0,"coins.","","");
+    GP = GP + 35;
+  }
+  If (flags[4004] > 14 AND flags[4004] < 17)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 25 gold",
+           "coins.");
+    GP = GP + 25;
+  }
+  If (flags[4004] > 16 AND flags[4004] < 19)
+  {
+    Text(0,"You find a small leather",
+           "pouch containing 15 gold",
+           "coins.");
+    GP = GP + 15;
+  }
+  If (flags[4004] > 18)
+  {
+    Text(0,"Wandering Monster!","","");
+    CallEvent(50);
+    CallEvent(34);
+  }
+  }
+//  If (flags[3999+t] = 11)
+//  {
+    flags[4044+t] = 1;
+//  }
+}
+
+event  //  47 -  Do Attack Damage For Monster
+{
+  XWin = (Entity.LocX(94+b) * 16) - (16 * 9);
+  YWin = (Entity.LocY(94+b) * 16) - (16 * 6);
+  flags[2008] = 0;
+  flags[2006] = 0;
+  flags[2009] = flags[6000] * 5;
+  If (flags[6000+a] = 24)
+  {
+  For(flags[2080],1,4,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  GOTO Pee;
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 5)
+  {
+  For(flags[2080],1,3,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 6)
+  {
+  For(flags[2080],1,2,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 7)
+  {
+  For(flags[2080],1,4,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 8)
+  {
+  For(flags[2080],1,2,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 9)
+  {
+  For(flags[2080],1,3,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 10)
+  {
+  For(flags[2080],1,3,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 11)
+  {
+  For(flags[2080],1,2,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 12)
+  {
+  For(flags[2080],1,4,1) 
+  {
+    d = Random(1,6);
+    If(d > 0 AND d < 4)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  }
+  Pee:
+  flags[2007] = 0;
+  For(flags[2081],1,flags[2804+t],1)
+  {
+    e = Random(1,6);
+    If (e > 3 AND e < 6)
+    {
+      flags[2007] = flags[2007] + 1;
+    }
+  }
+  flags[2008] = flags[2006] - flags[2007];
+  If (flags[2008] > 12)
+  {
+    flags[2008] = 0;
+  }
+  If (flags[2008] > CurHP(b))
+  {
+    CurHP(b) = 0;
+  }
+  CurHP(b) = CurHP(b) - flags[2008];
+  If (flags[2008] > 0 AND flags[619+b] = 1)
+  {
+    flags[619+b] = 0;
+    flags[2804+b] = flags[2804+b] - 1;
+  }
+  If (CurHP(b) > 10)
+  {
+    CurHP(b) = 0;
+  }
+  If (CurHP(b) = 0)
+  {
+    Entity.LocX(94+b) = 10;
+    Entity.LocY(94+b) = 47;
+    flags[2818] = flags[2818] + 1;
+  }
+  VCClear();
+  If (Entity.CHRIndex(flags[6000+a]) = 5)
+  {
+    VCText(146,2,"Orc");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 6)
+  {
+    VCText(140,2,"Goblin");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 7)
+  {
+    VCText(132,2,"Chaos Warrior");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 8)
+  {
+    VCText(140,2,"Skeleton");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 9)
+  {
+    VCText(143,2,"Fimir");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 10)
+  {
+    VCText(140,2,"Mummy");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 11)
+  {
+    VCText(140,2,"Zombie");
+  }
+  If (Entity.CHRIndex(flags[6000+a]) = 12)
+  {
+    VCText(136,2,"Gargoyle");
+  }
+  VCText(140,13,"Damage:");
+  VCTextNum(195,13,flags[2008]);
+  VCText(140,23,"On");
+  VCCharName(160,23,b-1,0);
+  Wait(400);
+  VCClear();
+  If (flags[753] = 1)
+  {
+    flags[753] = 0;
+    flags[2804+b] = flags[2804+b] - 2;
+  }
+}
+
+event  // 48 - Monster Movement
+{
+  For(d,1,4,1)
+  {
+    flags[6100] = Entity.LocX(94+d);
+    flags[6101] = Entity.LocY(94+d);
+    flags[6102] = Entity.LocX(flags[6000+a]);
+    flags[6103] = Entity.LocY(flags[6000+a]);
+    If (flags[6102] > flags[6100])
+    {
+      flags[6104] = flags[6102] - flags[6100];
+    }
+    If (flags[6100] > flags[6102])
+    {
+      flags[6104] = flags[6100] - flags[6102];
+    }
+    If (flags[6103] > flags[6101])
+    {
+      flags[6105] = flags[6103] - flags[6101];
+    }
+    If (flags[6101] > flags[6103])
+    {
+      flags[6105] = flags[6101] - flags[6103];
+    }
+    flags[6106] = flags[6104] + flags[6105];
+    flags[6106] = flags[6106] - 1;
+    flags[6106+d] = flags[6106];
+  }
+  flags[6115] = flags[6107];
+  flags[6116] = 1;
+  For(d,1,3,1)
+  {
+    If (flags[6115] > flags[(6106+d)+1])
+    {
+      flags[6115] = flags[(6106+d)+1];
+      flags[6116] = d+1;
+    }
+  }
+  flags[6111] = flags[6000] * 5;
+  flags[6126] = 0;
+  p = Entity.LocX(94+flags[6116]);
+  q = Entity.LocY(94+flags[6116]);
+  If ((Entity.LocX(flags[6000+a])-p) = 0)
+  {
+    If (Entity.LocY(flags[6000+a]) > q)
+    {
+      flags[6124] = (Entity.LocY(flags[6000+a]) - q)-1;
+      For(k,1,flags[6124],1)
+      {
+        If (Obs(Entity.LocX(flags[6000+a]),Entity.LocY(flags[6000+a])-1) != 1)
+        {
+          EntityMove(flags[6000+a],"U1");
+          While(MoveCode(flags[6000+a]))
+          {
+            Wait(10);
+          }
+        }
+        If (Obs(Entity.LocX(flags[6000+a]),Entity.LocY(flags[6000+a])-1) = 1)
+        {
+          GOTO EndOfMovement;
+        }
+      }
+    }
+    If (q > Entity.LocY(flags[6000+a]))
+    {
+      flags[6124] = (q - Entity.LocY(flags[6000+a]))-1;
+      For(k,1,flags[6124],1)
+      {
+        If (Obs(Entity.LocX(flags[6000+a]),Entity.LocY(flags[6000+a])+1) != 1)
+        {
+          EntityMove(flags[6000+a],"D1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (Obs(Entity.LocX(flags[6000+a]),Entity.LocY(flags[6000+a])+1) = 1)
+        {
+          GOTO EndOfMovement;
+        }
+      }
+    }
+    GOTO EndOfMovement;
+  }
+  If (Entity.LocY(flags[6000+a]) - q = 0)
+  {
+    If (Entity.LocX(flags[6000+a]) > p)
+    {
+      flags[6124] = (Entity.LocX(flags[6000+a]) - p)-1;
+      For(k,1,flags[6124],1)
+      {
+        If (Obs(Entity.LocX(flags[6000+a])-1,Entity.LocY(flags[6000+a])) != 1)
+        {
+          If (p = Entity.LocX(flags[6000+a])-1 AND q = Entity.LocY(flags[6000+a]))
+          {
+            GOTO EndOfMovement;
+          }
+          EntityMove(flags[6000+a],"L1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (Obs(Entity.LocX(flags[6000+a])-1,Entity.LocY(flags[6000+a])) = 1)
+        {
+          If (Obs(Entity.LocX(flags[6000+a])-1,Entity.LocY(flags[6000+a])) = 1)
+          {
+            If (Entity.LocY(flags[6000+a]) > q)
+            {
+              If (q = Entity.LocY(flags[6000+a])-1 AND p = Entity.LocX(flags[6000+a]))
+              {
+                GOTO EndOfMovement;
+              }
+              EntityMove(flags[6000+a],"U1");
+              While(movecode(flags[6000+a]))
+              {
+                Wait(1);
+              }
+            }
+            If (q > Entity.LocY(flags[6000+a]))
+            {
+              If (q = Entity.LocY(flags[6000+a])+1 AND p = Entity.LocX(flags[6000+a]))
+              {
+                GOTO EndOfMovement;
+              }
+              EntityMove(flags[6000+a],"D1");
+              While(movecode(flags[6000+a]))
+              {
+                Wait(1);
+              }
+            }
+            If (q = Entity.LocX(flags[6000+a])-1)
+            {
+              GOTO EndOfMovement;
+            }
+          }
+        }
+      }
+    }
+    If (p > Entity.LocX(flags[6000+a]))
+    {
+      flags[6124] = (p - Entity.LocX(flags[6000+a]))-1;
+      For(k,1,flags[6124],1)
+      {
+        If (Obs(Entity.LocX(flags[6000+a])+1,Entity.LocY(flags[6000+a])) != 1)
+        {
+          If (p = Entity.LocX(flags[6000+a])+1 AND q = Entity.LocY(flags[6000+a]))
+          {
+            GOTO EndOfMovement;
+          }
+          EntityMove(flags[6000+a],"R1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (Obs(Entity.LocX(flags[6000+a])+1,Entity.LocY(flags[6000+a])) = 1)
+        {
+          If (Obs(Entity.LocX(flags[6000+a])+1,Entity.LocY(flags[6000+a])) = 1)
+          {
+            If (Entity.LocY(flags[6000+a]) > q)
+            {
+              If (q = Entity.LocY(flags[6000+a])-1 AND p = Entity.LocX(flags[6000+a]))
+              {
+                GOTO EndOfMovement;
+              }
+              EntityMove(flags[6000+a],"U1");
+              While(movecode(flags[6000+a]))
+              {
+                Wait(1);
+              }
+            }
+            If (q > Entity.LocY(flags[6000+a]))
+            {
+              If (q = Entity.LocY(flags[6000+a])+1 AND p = Entity.LocX(flags[6000+a]))
+              {
+                GOTO EndOfMovement;
+              }
+              EntityMove(flags[6000+a],"D1");
+              While(movecode(flags[6000+a]))
+              {
+                Wait(1);
+              }
+            }
+            If (q = Entity.LocX(flags[6000+a])+1)
+            {
+              GOTO EndOfMovement;
+            }
+          }
+        }
+      }
+    }
+    GOTO EndOfMovement;
+  }
+  If (Entity.LocX(flags[6000+a]) > p)
+  {
+    flags[6124] = Entity.LocX(flags[6000+a]) - p;
+    For(k,1,flags[6124],1)
+    {
+      If (Obs(Entity.LocX(flags[6000+a])-1,Entity.LocY(flags[6000+a])) != 1)
+      {
+        If (p = Entity.LocX(flags[6000+a])-1 AND q = Entity.LocY(flags[6000+a]))
+        {
+          GOTO EndOfMovement;
+        }
+        EntityMove(flags[6000+a],"L1");
+        While(movecode(flags[6000+a]))
+        {
+          Wait(1);
+        }
+      }
+      If (Obs(Entity.LocX(flags[6000+a])-1,Entity.LocY(flags[6000+a])) = 1)
+      {
+        If (Entity.LocY(flags[6000+a]) > q)
+        {
+          If (q = Entity.LocY(flags[6000+a])-1 AND p = Entity.LocX(flags[6000+a]))
+          {
+            GOTO EndOfMovement;
+          }
+          EntityMove(flags[6000+a],"U1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (q > Entity.LocY(flags[6000+a]))
+        {
+          If (q = Entity.LocY(flags[6000+a])+1 AND p = Entity.LocX(flags[6000+a]))
+          {
+            GOTO EndOfMovement;
+          }
+          EntityMove(flags[6000+a],"D1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (q = Entity.LocX(flags[6000+a])-1)
+        {
+          GOTO EndOfMovement;
+        }
+      }
+    }
+    GOTO EndOfXandY;
+  }
+  If (p > Entity.LocX(flags[6000+a]))
+  {
+    flags[6124] = p - Entity.LocX(flags[6000+a]);
+    For(k,1,flags[6124],1)
+    {
+      If (Obs(Entity.LocX(flags[6000+a])+1,Entity.LocY(flags[6000+a])) != 1)
+      {
+        If (p = Entity.LocX(flags[6000+a])+1 AND q = Entity.LocY(flags[6000+a]))
+        {
+          GOTO EndOfMovement;
+        }
+        EntityMove(flags[6000+a],"R1");
+        While(movecode(flags[6000+a]))
+        {
+          Wait(1);
+        }
+      }
+      If (Obs(Entity.LocX(flags[6000+a])+1,Entity.LocY(flags[6000+a])) = 1)
+      {
+        If (Entity.LocY(flags[6000+a]) > q)
+        {
+          If (q = Entity.LocY(flags[6000+a])-1 AND p = Entity.LocX(flags[6000+a]))
+          {
+            GOTO EndOfMovement;
+          }
+          EntityMove(flags[6000+a],"U1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (q > Entity.LocY(flags[6000+a]))
+        {
+          If (q = Entity.LocY(flags[6000+a])+1 AND p = Entity.LocX(flags[6000+a]))
+          {
+            GOTO EndOfMovement;
+          }
+          EntityMove(flags[6000+a],"D1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (q = Entity.LocX(flags[6000+a])+1)
+        {
+          GOTO EndOfMovement;
+        }
+      }
+    }
+  }
+  EndOfXandY:
+  If (Entity.LocY(flags[6000+a]) > q)
+  {
+    flags[6124] = (Entity.LocY(flags[6000+a]) - q)-1;
+    For(k,1,flags[6124],1)
+    {
+      If (Entity.LocY(flags[6000+a])-1 = q AND p = Entity.LocX(flags[6000+a]) )
+      {
+        GOTO EndOfMovement;
+      }
+      EntityMove(flags[6000+a],"U1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+    }
+    GOTO EndOfMovement;
+  }
+  If (q > Entity.LocY(flags[6000+a]))
+  {
+    flags[6124] = (q - Entity.LocY(flags[6000+a]))-1;
+    For(k,1,flags[6124],1)
+    {
+      If (Entity.LocY(flags[6000+a])+1 = q AND p = Entity.LocX(flags[6000+a]))
+      {
+        GOTO EndOfMovement;
+      }
+      EntityMove(flags[6000+a],"D1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+    }
+  }
+  EndOfMovement:
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+}
+
+      
+event  //  49 - Player Attacking Damage
+{
+  AttackAgain:
+  flags[2008] = 0;
+  flags[2007] = 0;
+  If (flags[657+flags[2020]] = 1)
+  {
+  If (Entity.CHRIndex(flags[2020]) = 5)
+  {
+    For(flags[2080],1,2,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 6)
+  {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 7)
+  {
+    For(flags[2080],1,4,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 8)
+  {
+    For(flags[2080],1,2,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 9)
+  {
+    For(flags[2080],1,3,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 10)
+  {
+    For(flags[2080],1,4,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 11)
+  {
+    For(flags[2080],1,3,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 12)
+  {
+    For(flags[2080],1,5,1) 
+    {
+      e = Random(1,6);
+      If(e > 4 AND e < 6)
+      {
+        flags[2007] = flags[2007] + 1;
+      }
+    }
+  }
+  }
+  flags[2006] = 0;
+  For(flags[2081],1,flags[7999+t],1)
+  {
+    d = Random(1,6);
+    If (d > 2 AND d < 6)
+    {
+      flags[2006] = flags[2006] + 1;
+    }
+  }
+  flags[2008] = flags[2006] - flags[2007];
+  If (flags[2008] > 12)
+  {
+    flags[2008] = 0;
+  }
+  If (Entity.CHRIndex(flags[2020]) = 5)
+  {
+    If (flags[2008] > 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 6)
+  {
+    If (flags[2008] > 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }
+  }
+  If (Entity.CHRIndex(flags[2020]) = 7)
+  {
+    If (flags[2008] > 2)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+    If (flags[2008] < 3)
+    {
+      If (flags[600+flags[2020]] = 0)
+      {
+        flags[17+flags[2020]] = 3;
+        flags[600+flags[2020]] = 1;
+      }
+      flags[17+flags[2020]] = flags[17+flags[2020]] - flags[2008];
+    }
+    If (flags[17+flags[2020]] = 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+    If (flags[17+flags[2020]] > 9)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+  }
+  If (Entity.CHRIndex(flags[2020]) = 8)
+  {
+    If (flags[2008] > 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      flags[2001] = flags[2001] - 1;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+  }
+  If (Entity.CHRIndex(flags[2020]) = 9)
+  {
+    If (flags[2008] > 1)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+    If (flags[2008] < 2)
+    {
+      If (flags[650+flags[2020]] = 0)
+      {
+        flags[17+flags[2020]] = 2;
+        flags[650+flags[2020]] = 1;
+      }
+      flags[17+flags[2020]] = flags[17+flags[2020]] - flags[2008];
+    }
+    If (flags[17+flags[2020]] = 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+    If (flags[17+flags[2020]] > 9)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+  }
+  If (Entity.CHRIndex(flags[2020]) = 10)
+  {
+    If (flags[2008] > 1)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+    If (flags[2008] < 2)
+    {
+      If (flags[650+flags[2020]] = 0)
+      {
+        flags[17+flags[2020]] = 2;
+        flags[650+flags[2020]] = 1;
+      }
+      flags[17+flags[2020]] = flags[17+flags[2020]] - flags[2008];
+    }
+    If (flags[17+flags[2020]] = 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+    If (flags[17+flags[2020]] > 9)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+  }
+  If (Entity.CHRIndex(flags[2020]) = 11)
+  {
+    If (flags[2008] > 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+    }  
+  }
+  If (Entity.CHRIndex(flags[2020]) = 12)
+  {
+    If (flags[2008] > 2)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+      flags[6118] = 1;
+    }  
+    If (flags[2008] < 3)
+    {
+      If (flags[600+flags[2020]] = 0)
+      {
+        flags[17+flags[2020]] = 3;
+        flags[600+flags[2020]] = 1;
+      }
+      flags[17+flags[2020]] = flags[17+flags[2020]] - flags[2008];
+    }
+    If (flags[17+flags[2020]] = 0)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+      flags[6118] = 1;
+    }  
+    If (flags[17+flags[2020]] > 9)
+    {
+      Entity.LocX(flags[2020]) = 30;
+      Entity.LocY(flags[2020]) = 60;
+      For (h,1,flags[2001],1)
+      {
+        If (flags[6000+h] = flags[2020])
+        {
+          flags[6000+h] = 0;
+        }
+      }
+      flags[2001] = flags[2001] - 1;
+      If (flags[2001] > 14)
+      {
+        flags[2001] = 0;
+      }
+      flags[6118] = 1;
+    }  
+  }
+  If (flags[2001] = 0)
+  {
+    flags[2000] = 0;
+  }
+  If (flags[750] = 1)
+  {
+    flags[2799+t] = flags[2799+t] - 2;
+    flags[750] = 0;
+  }
+  if (flags[2150] = 1)
+  {
+    VCClear();
+    VCText(150,2,"Damage:");
+    VCTextNum(205,2,flags[2008]);
+    Wait(400);
+    VCClear();
+  }
+  If (flags[752] = 1)
+  {
+    flags[752] = 0;
+    GOTO AttackAgain;
+  }
+  flags[2020] = 0;
+}
+
+event  //  50 - Wandering Monster
+{
+  If (Obs(Entity.LocX(94+t),Entity.LocY(94+t)+1) != 1)
+  {
+    Entity.LocX(29) = Entity.LocX(94+t);
+    Entity.LocY(29) = Entity.LocY(94+t)+1;
+    flags[6122] = 1;
+  }
+  If (Obs(Entity.LocX(94+t),Entity.LocY(94+t)-1) != 1 AND flags[6122] != 1)
+  {
+    Entity.LocX(29) = Entity.LocX(94+t);
+    Entity.LocY(29) = Entity.LocY(94+t)-1;
+    flags[6122] = 1;
+  }
+  If (Obs(Entity.LocX(94+t)+1,Entity.LocY(94+t)) != 1 AND flags[6122] != 1)  
+  {
+    Entity.LocX(29) = Entity.LocX(94+t)+1;
+    Entity.LocY(29) = Entity.LocY(94+t);
+   flags[6122] = 1;
+  }
+  If (Obs(Entity.LocX(94+t)-1,Entity.LocY(94+t)) != 1 AND flags[6122] != 1)  
+  {
+    Entity.LocX(29) = Entity.LocX(94+t)-1;
+    Entity.LocY(29) = Entity.LocY(94+t);
+    flags[6122] = 1;
+  }
+  flags[2000] = 1;
+  flags[2001] = flags[2001] + 1;
+  a = 0;
+  SF:
+  flags[6001] = 29;
+  flags[6026] = 1;
+}
+
+event  //  51 - Character Has Beaten Quest
+{
+  If (Entity.LocX(94+t) = 43 AND Entity.LocY(94+t) = 13 AND flags[6118] = 1)
+  {
+    flags[6120] = 1;
+  }
+  If (Entity.LocX(94+t) = 44 AND Entity.LocY(94+t) = 13 AND flags[6118] = 1)
+  {
+    flags[6120] = 1;
+  }
+  If (Entity.LocX(94+t) = 43 AND Entity.LocY(94+t) = 14 AND flags[6118] = 1)
+  {
+    flags[6120] = 1;
+  }
+  If (Entity.LocX(94+t) = 44 AND Entity.LocY(94+t) = 14 AND flags[6118] = 1)
+  {
+    flags[6120] = 1;
+  }
+}
+
+Event // 52 - Lost the Game
+{
+  Text(0,"Your party has died.",
+         "Farewell, until next",
+         "time.");
+  Quit("Try again.");
+}
+
+event //  53 - Pick Entity For A Spell
+{
+  x = (Entity.LocX(94+t) * 16) - XWin;
+  y = (Entity.LocY(94+t) * 16) - YWin;
+  flags[13] = Entity.LocX(94+t);
+  flags[14] = Entity.LocY(94+t);
+  VCPutPCX("pointer.pcx",x,y);
+  flags[2699] = 1;
+  While (flags[2699] = 1)
+  {
+    WaitKeyUp();
+    Wait(2);
+    ReadControls();
+    If (UP = 1 AND Obs(flags[13],flags[14]-1) != 1)
+    {
+      flags[14] = flags[14] - 1;
+      y = y - 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x,y+16,x+16,y+32);
+    }
+    If (DOWN = 1 AND Obs(flags[13],flags[14]+1) != 1)
+    {
+      flags[14] = flags[14] + 1;
+      y = y + 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x,y-16,x+16,y);
+    }
+    If (RIGHT = 1 AND Obs(flags[13]+1,flags[14]) != 1)
+    {
+      flags[13] = flags[13] + 1;
+      x = x + 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x-16,y,x,y+16);
+    }
+    If (LEFT = 1 AND Obs(flags[13]-1,flags[14]) != 1)
+    {
+      flags[13] = flags[13] - 1;
+      x = x - 16;
+      VCPutPCX("pointer.pcx",x,y);
+      VCClearRegion(x+16,y,x+32,y+16);
+    }
+    If (B1 = 1)
+    {
+      If (Spell.Type(flags[2700]) = 3)
+      {
+        For(l,5,31,1)
+        {
+          If (flags[13] = Entity.LocX(l) AND flags[14] = Entity.LocY(l))
+          {
+            flags[2020] = l;
+            flags[2699] = 0;
+          }
+        }
+      }
+      If (Spell.Type(flags[2700]) = 1)
+      {
+        If (flags[13] = Entity.LocX(95) AND flags[14] = Entity.LocY(95))
+        {
+          flags[2020] = 95;
+          flags[2021] = 1;
+          flags[2699] = 0;
+        }
+        If (flags[13] = Entity.LocX(96) AND flags[14] = Entity.LocY(96))
+        {
+          flags[2020] = 96;
+          flags[2021] = 2;
+          flags[2699] = 0;
+        }
+        If (flags[13] = Entity.LocX(97) AND flags[14] = Entity.LocY(97))
+        {
+          flags[2020] = 97;
+          flags[2021] = 3;
+          flags[2699] = 0;
+        }
+        If (flags[13] = Entity.LocX(98) AND flags[14] = Entity.LocY(98))
+        {
+          flags[2020] = 98;
+          flags[2021] = 4;
+          flags[2699] = 0;
+        }
+      }
+    }
+    If (B2 = 1)
+    {
+      flags[2699] = 0;
+      GOTO Menu;
+    }
+  }
+}
+
+event  //  54 - Call Magic Script
+{
+  flags[387] = 1;
+  CallEffect(3+flags[2700],x,y,flags[2020],flags[2021]);
+}
+
+event //  55 - Pick Item
+{
+  x = 134;
+  y = 3;
+  VCPutPCX("point.pcx",x,y);
+  var(1) = 1;
+  flags[745] = 1;
+  flags[746] = 1;
+  While(flags[746] = 1)
+  {
+    WaitKeyUp();
+    ReadControls();
+    Wait(2);
+    If (B2 = 1)
+    {
+      GOTO Menu;
+    }
+    If (UP = 1 AND var(1) != 1)
+    {
+      var(0) = 0;
+      y = y - 12;
+      VCPutPCX("point.pcx",x,y);
+      VCClearRegion(x,y+12,x+16,y+28);
+      flags[745] = flags[745] - 1;
+      If (flags[745] = 1)
+      {
+        var(1) = 1;
+      }
+    }
+    If(DOWN = 1 AND var(0) != 1)
+    {
+      var(1) = 0;
+      y = y + 12;
+      VCPutPCX("point.pcx",x,y);
+      VCClearRegion(x,y-12,x+16,y);
+      flags[745] = flags[745] + 1;
+      If (flags[745] = 4)
+      {
+        var(0) = 1;
+      }
+    }
+    If (B1 = 1)
+    {
+      If (flags[745] = 1)
+      {
+        If (flags[725+t] != 0)
+        {
+          flags[725+t] = flags[725+t] - 1;
+          flags[746] = 0;
+        }
+      }
+      If (flags[745] = 2)
+      {
+        If (flags[729+t] != 0)
+        {
+          flags[729+t] = flags[729+t] - 1;
+          flags[746] = 0;
+        }
+      }
+      If (flags[745] = 3)
+      {
+        If (flags[733+t] != 0)
+        {
+          flags[733+t] = flags[733+t] - 1;
+          flags[746] = 0;
+        }
+      }
+      If (flags[745] = 4)
+      {
+        If (flags[737+t] != 0)
+        {
+          flags[737+t] = flags[737+t] - 1;
+          flags[746] = 0;
+        }
+      }
+    }
+  }
+  VCClear();
+  CallEvent(56);
+}
+
+event //  56 - Use Item
+{
+  x = (Entity.LocX(94+t) * 16) - XWin;
+  y = (Entity.LocY(94+t) * 16) - YWin;
+  If (flags[745] = 1)
+  {
+    CallEffect(0,x,y,t);
+  }
+  If (flags[745] = 2)
+  {
+    CallEffect(1,x,y,t);
+  }
+  If (flags[745] = 3)
+  {
+    CallEffect(2,x,y,t);
+  }
+  If (flags[745] = 4)
+  {
+    CallEffect(3,x,y,t);
+  }
+  flags[745] = 0;
+}
+
+
+   
+
+  
+  
+
+
+
+
+
+
+
+
+
+
+
+        

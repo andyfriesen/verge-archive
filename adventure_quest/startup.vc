@@ -1,0 +1,30 @@
+script
+{
+  playmusic("AURORA.MOD");
+  fadein(100);
+  OldStartupMenu();
+  return;
+}
+
+script
+{
+}
+
+script
+{
+  flags[6] = 1;
+  flags[8] = 0;
+  m = 0;
+}
+
+script
+{
+  If (x != flags[13])
+  {
+    flags[12] = 0;
+  }
+  If (y != flags[14])
+  {        
+    flags[12] = 0;
+  }
+}

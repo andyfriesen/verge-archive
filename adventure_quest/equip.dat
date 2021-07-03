@@ -1,0 +1,37 @@
+12
+REA +1
+EQABLE 1 2 3 4 
+- // Short Sword
+ATK +2
+EQABLE 1 2 3  
+- 
+DEF +1
+EQABLE 1 2 3 
+- 
+ATK +1
+EQABLE 1 2 3 4
+- 
+ATK +3
+EQABLE 1 2 3
+- 
+DEF +1
+EQABLE 1 2 3
+- 
+ATK +1
+EQABLE 1 2 3 4
+- 
+ATK +3
+EQABLE 1 2 3
+- 
+DEF +1
+EQABLE 1 2 3
+- 
+ATK +3
+EQABLE 1 2 3 
+- 
+ATK +4
+EQABLE 1 2 3 
+-
+DEF +1
+EQABLE 1 2 3
+- 

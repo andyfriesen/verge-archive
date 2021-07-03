@@ -1,0 +1,32 @@
+12
+Water_Of_Healing 0 Assist            2 1 1 1 1 0 0 0
+Veil_Of_Mist 0 Assist                2 2 1 1 2 0 0 0
+Sleep 0 Attack                       2 3 3 1 3 0 0 0
+Tempest 0 Attack                     2 4 3 1 4 0 0 0  
+Swift_Wind 0 Assist                  2 5 1 1 5 0 0 0
+Genie 0 Attack                       2 6 3 1 6 0 0 0
+Pass_Through_Rock 0 Assist           2 7 1 1 7 0 0 0
+Rock_Skin 0 Assist                   2 8 1 1 8 0 0 0
+Heal_Body 0 Assist                   2 9 1 1 9 0 0 0
+Courage 0 Assist                     2 10 1 1 10 0 0 0
+Fire_Of_Wrath 0 Attack               2 11 3 1 11 0 0 0
+Ball_Of_Flame 0 Attack               2 12 3 1 12 0 0 0
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <mp cost> <price>
+
+<use>: 2 for usable an infinite number of times.
+       4 for usable ONLY camped, infinitely
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to MAGIC.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: This is vestigal data.                                                                      
+<equipidx> is a pointer to MAGICEQ.DAT when necessary.
+<mp cost>: This is the cost in mp for the spell
+<price>: This is the cost in stores for the spell
+
+

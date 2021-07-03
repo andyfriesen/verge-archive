@@ -1,0 +1,318 @@
+event  //  48 - Monster Movement
+{
+  For(d,1,4,1)
+  {
+    flags[6100] = Entity.LocX(94+d);
+    flags[6101] = Entity.LocY(94+d);
+    flags[6102] = Entity.LocX(flags[6000+a]);
+    flags[6103] = Entity.LocY(flags[6000+a]);
+    If (flags[6102] > flags[6100])
+    {
+      flags[6104] = flags[6102] - flags[6100];
+    }
+    If (flags[6100] > flags[6102])
+    {
+      flags[6104] = flags[6100] - flags[6102];
+    }
+    If (flags[6103] > flags[6101])
+    {
+      flags[6105] = flags[6103] - flags[6101];
+    }
+    If (flags[6101] > flags[6103])
+    {
+      flags[6105] = flags[6101] - flags[6103];
+    }
+    flags[6106] = flags[6104] + flags[6105];
+    flags[6106] = flags[6106] - 1;
+    flags[6106+d] = flags[6106];
+  }
+  flags[6115] = flags[6107];
+  flags[6116] = 1;
+  For(d,1,3,1)
+  {
+    If (flags[6115] > flags[(6106+d)+1])
+    {
+      flags[6115] = flags[(6106+d)+1];
+      flags[6116] = d+1;
+    }
+  }
+  flags[6111] = flags[6000] * 5;
+  p = Entity.LocX(94+flags[6116]);
+  q = Entity.LocY(94+flags[6116]);
+    If (p-Entity.LocX(flags[6000+a]) = 0)
+    {
+      If (q > Entity.LocY(flags[6000+a]))
+      {
+        flags[2025] = Entity.LocX(flags[6000+a]); 
+        flags[2026] = Entity.LocY(flags[6000+a])+1;
+        For(g,1,(q-Entity.LocY(flags[6000+a]))-1,1)
+        {
+            If (q = Entity.LocY(flags[6000+a]) + 1)
+            {
+              GOTO Next3;
+            }
+          If (Obs(flags[2025],flags[2026]) != 1) 
+          {
+            EntityMove(flags[6000+a],"D1");
+            While(movecode(flags[6000+a]))
+            {
+              Wait(1);
+            }
+          }
+          If (Obs(flags[2025],flags[2026]) != 1)
+          {
+            GOTO Next3;
+          }
+        }
+        GOTO Next3;
+      }
+      If (Entity.LocY(flags[6000+a]) > q)
+      {
+        flags[2025] = Entity.LocX(flags[6000+a]); 
+        flags[2026] = Entity.LocY(flags[6000+a])-1;
+        For(g,1,(Entity.LocY(flags[6000+a])-q)-1,1)
+        {
+            If (q = Entity.LocY(flags[6000+a]) - 1)
+            {
+              GOTO Next3;
+            }
+          If (Obs(flags[2025],flags[2026]) != 1) 
+          {
+            EntityMove(flags[6000+a],"U1");
+            While(movecode(flags[6000+a]))
+            {
+              Wait(1);
+            }
+          }
+        }
+        GOTO Next3;
+      }
+    }
+    If (q-Entity.LocX(flags[6000+a]) = 0)
+    {
+      If (p > Entity.LocX(flags[6000+a]))
+      {
+        For(g,1,(p-Entity.LocX(flags[6000+a]))-1,1)
+        {
+          If (p = Entity.LocX(flags[6000+a]) + 1)
+          {
+            GOTO Next3;
+          }
+          If (Obs(flags[2025],flags[2026]) != 1) 
+          {
+            EntityMove(flags[6000+a],"R1");
+            While(movecode(flags[6000+a]))
+            {
+              Wait(1);
+            }
+          }
+          If (Obs(flags[2025],flags[2026]) = 1)
+          {
+            GOTO Next3;
+          }
+        }
+      }
+      If (Entity.LocX(flags[6000+a]) > p)
+      {
+        flags[2025] = Entity.LocX(flags[6000+a])-1; 
+        flags[2026] = Entity.LocY(flags[6000+a]);
+        For(g,1,(Entity.LocX(flags[6000+a])-p)-1,1)
+        {
+          If (p = Entity.LocX(flags[6000+a]) - 1)
+          {
+            GOTO Next3;
+          }
+          If (Obs(flags[2025],flags[2026]) != 1) 
+          {
+            EntityMove(flags[6000+a],"L1");
+            While(movecode(flags[6000+a]))
+            {
+              Wait(1);
+            }
+          }
+          If (Obs(flags[2025],flags[2026]) = 1)
+          {
+            GOTO Next3;
+          }
+        }
+      }
+    }
+  If (p > Entity.LocX(flags[6000+a]))
+  {
+    For(g,1,p-Entity.LocX(flags[6000+a]),1)
+    {
+      flags[2025] = Entity.LocX(flags[6000+a])+1; 
+      flags[2026] = Entity.LocY(flags[6000+a]);
+      For(i,1,4,1)
+      {
+        If (Entity.LocX(94+i) = flags[2025])
+        {
+          GOTO Next3;
+        }
+      }
+      If (Obs(flags[2025],flags[2026]) != 1) 
+      {
+        EntityMove(flags[6000+a],"R1");
+        While(movecode(flags[6000+a]))
+        {
+          Wait(1);
+        }
+        GOTO Next4;
+      }
+      flags[2027] = Entity.LocX(flags[6000+a]);
+      flags[2028] = Entity.LocY(flags[6000+a]) - 1;
+      If (Obs(flags[2027],flags[2028]) != 1 AND Entity.LocY(flags[6000+a]) > q)
+      {
+        EntityMove(flags[6000+a],"U1");
+        While(movecode(flags[6000+a]))
+        {
+          Wait(1);
+        }
+        GOTO Next4;
+      }
+      flags[2029] = Entity.LocX(flags[6000+a]);
+      flags[2030] = Entity.LocY(flags[6000+a]) + 1;
+      If (Obs(flags[2029],flags[2030]) != 1 AND q > Entity.LocY(flags[6000+a]))
+      {
+        EntityMove(flags[6000+a],"D1");
+        While(movecode(flags[6000+a]))
+        {
+          Wait(1);
+        }
+        GOTO Next4;
+      }
+      If (Obs(flags[2027],flags[2028]) = 1 AND Obs(flags[2029],flags[2030]) = 1)
+      {
+        GOTO Next3;
+      }
+      Next4:
+    }
+    GOTO Next2;
+  }
+  If (Entity.LocX(flags[6000+a]) > p)
+  {
+    flags[2025] = Entity.LocX(flags[6000+a])-1; 
+    flags[2026] = Entity.LocY(flags[6000+a]);
+    For(g,1,(Entity.LocX(flags[6000+a])-p),1)
+    {
+      For(i,1,4,1)
+      {
+        If (Entity.LocX(94+i) = flags[2025])
+        {
+          GOTO Next3;
+        }
+      }
+      If (Obs(flags[2025],flags[2026]) != 1) 
+      {
+      EntityMove(flags[6000+a],"L1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+      }
+      If (Obs(flags[2025],flags[2026]) = 1)
+      {
+        If (q > Entity.LocY(flags[6000+a]))
+        {
+          EntityMove(flags[6000+a],"D1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+        If (Entity.LocY(flags[6000+a]) > q)
+        {
+          EntityMove(flags[6000+a],"U1");
+          While(movecode(flags[6000+a]))
+          {
+            Wait(1);
+          }
+        }
+      }
+    }
+    GOTO Next2;
+  }
+  Next2:
+  If (q > Entity.LocY(flags[6000+a]))
+  {
+    flags[2025] = Entity.LocX(flags[6000+a]); 
+    flags[2026] = Entity.LocY(flags[6000+a])+1;
+    For(g,1,(q-Entity.LocY(flags[6000+a]))-1,1)
+    {
+      If (q = Entity.LocY(flags[6000+a]) + 1)
+      {
+        GOTO Next3;
+      }
+      If (Obs(flags[2025],flags[2026]) != 1) 
+      {
+      EntityMove(flags[6000+a],"D1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+      }
+    }
+    GOTO Next3;
+  }
+  If (Entity.LocY(flags[6000+a]) > q)
+  {
+    flags[2025] = Entity.LocX(flags[6000+a]); 
+    flags[2026] = Entity.LocY(flags[6000+a])-1;
+    For(g,1,(Entity.LocY(flags[6000+a])-q)-1,1)
+    {
+      If (Obs(flags[2025],flags[2026]) != 1) 
+      {
+      EntityMove(flags[6000+a],"U1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+      }
+    }
+    GOTO Next3;
+  }
+  Upper:
+  If (q > Entity.LocY(flags[6000+a]))
+  {
+    flags[2025] = Entity.LocX(flags[6000+a]); 
+    flags[2026] = Entity.LocY(flags[6000+a])+1;
+    For(g,1,q-Entity.LocY(flags[6000+a]),1)
+    {
+      If (q = Entity.LocY(flags[6000+a]) - 1)
+      {
+        GOTO Next3;
+      }
+      If (Obs(flags[2025],flags[2026]) != 1) 
+      {
+      EntityMove(flags[6000+a],"D1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+      }
+    }
+    GOTO Next3;
+  }
+  If (Entity.LocY(flags[6000+a]) > q)
+  {
+    flags[2025] = Entity.LocX(flags[6000+a]); 
+    flags[2026] = Entity.LocY(flags[6000+a])-1;
+    For(g,1,Entity.LocY(flags[6000+a])-q,1)
+    {
+      If (q = Entity.LocY(flags[6000+a]) + 1)
+      {
+        GOTO Next3;
+      }
+      If (Obs(flags[2025],flags[2026]) != 1) 
+      {
+      EntityMove(flags[6000+a],"U1");
+      While(movecode(flags[6000+a]))
+      {
+        Wait(1);
+      }
+      }
+    }
+    GOTO Next3;
+  }
+  Next3:
+}
