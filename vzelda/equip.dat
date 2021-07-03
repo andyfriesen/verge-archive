@@ -1,0 +1,64 @@
+20
+// Two-Handed Iron Long Sword
+ATK +9
+EQABLE 2
+- // Two-Handed Iron Broad Sword
+ATK +10
+EQABLE 2
+- // Two-Handed Steel Long Sword
+ATK +18
+EQABLE 2
+- // Two-Handed Steel Broad Sword
+ATK +20
+EQABLE 2
+- // Two-Handed Obsidian Long Sword
+ATK +27
+EQABLE 2
+- // Two-Handed Obsidian Broad Sword
+ATK +30
+EQABLE 2
+- // Iron Long Sword
+ATK +7
+EQABLE 1
+- // Iron Broad Sword
+ATK +8
+EQABLE 1
+- // Steel Long Sword
+ATK +14
+EQABLE 1
+- // Steel Broad Sword
+ATK +16
+EQABLE 1
+- // Obsidian Long Sword
+ATK +21
+EQABLE 1
+- // Obsidian Broad Sword
+ATK +24
+EQABLE 1
+- // Iron Armor
+DEF +8
+EQABLE 1 2
+- // Iron Platemail
+DEF +10
+EQABLE 1 2
+- // Steel Armor
+DEF +16
+EQABLE 1 2
+- // Steel Platemail
+DEF +20
+EQABLE 1 2
+- // Obsidian Armor
+DEF +24
+EQABLE 1 2
+- // Obsidian Platemail
+DEF +30
+EQABLE 1 2
+- // Rise + Fall T-Shirt
+DEF +3
+EQABLE 1 2 3
+- // Wizard's Gear (Female)
+DEF +5
+MAG +5
+MGR +5
+EQABLE 3
+-

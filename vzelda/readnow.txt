@@ -1,0 +1,110 @@
+The Legend of... Zelda?:
+On The VERGE of Destruction
+
+R.E.A.D.M.E.  F.I.L.E.!
+
+
+-------------------------------------------------------
+
+Story
+Author's Notes
+
+-------------------------------------------------------
+                    S   T   O   R   Y
+                   (in Timeline format)
+
+Year: 1000 YoH (Year of Hyrule)
+A hero, named Link, defeats the evil forces of
+Ganon and gains the powers of the TriForce.
+
+Year: 1030 YoH
+A mysterious wizard named Bugen, with a strange
+ability to float in mid-air, comes to the land of
+Hyrule.
+
+Year: 1050 YoH
+Link dies of old age this year. His two sons, a wizard
+named Glenlin and a warrior, oddly named Twig, turn
+thirty.
+
+Year: 1080 YoH
+The wizard Bugen, who is still living, grows in power;
+Glenlin dies of old age, and Twig dies of old age the
+following year. Glenlin's son, named 'Wyrdwad', turns
+ten this year as well.
+
+Year: 1100 YoH
+Bugen gets the grasp of a mystical power of the Circuforce
+(something to do with the Triforce :), a magical force called
+VERGE, which allows him to create evil worlds and make
+'entities' to do his bidding. Princess MoonCrush,
+a descendant of Zelda, is captured. Wyrdwad, now 30
+years old owner of the privately-owned document
+"Top 100 ways to flirt with MoonCrush", goes out to
+save her.
+
+--------------------------------------------------------
+              A U T H O R ' S   N O T E S
+(The "Bugen says" is what I'm saying. The "Translation"
+ is the same thing put bluntly and exaggerated. :)
+
+Bugen says: I made this in a few days, including
+            fixing up bugs, etc., etc.
+Translation: I slapped this piece of crud together
+             in 5 minutes and then uploaded it.
+
+Bugen says: It's still a bit buggy, but I hope you
+            like it.
+Translation: See above translation.
+
+Bugen says: The final game probably won't be
+            very long -- I'm trying to take a
+            break from my 'mystery product'
+            (a serious game) and making a funny
+            VERGE game.
+Translation: I'm too lazy to make a long game,
+             so I'll just hurry up and beat
+             McGrue for first completed VERGE
+             game (that's over 5 minutes long,
+             no offense to the maker of Caveman
+             Village :-)
+
+Bugen says: This is not the secret project that
+            I've been keeping under wraps for
+            awhile -- that should be coming
+            soon, tho.
+Translation: I'm trying to keep one of my
+             projects secret to increase hype.
+             This isn't it.
+
+Bugen says: E-Mail me with what you think, at
+            web-kid@rocketmail.com
+Translation: E-Mail the weirdo and be honest.
+
+Bugen says: The "translations' are j/k -- I did
+            spend a few days on this, and I'm
+            not a weirdo. :)
+Translation: What Bugen said.
+
+-------------------------------------------------------
+                    C R E D I T S
+
+Artwork: Spram*, Hahn*, Bugen**
+
+Battle system by: Silencer***
+
+Almost Everything else by: Bugen****!
+
+* - I merged Hahn's hahn01.vsp and Spram's nature.vsp
+    for this demo.
+** - I did two tiles -- one in all black and one in
+     all red. ;) Death.vsp is mine. :)
+*** - I used Silencer's Real-Time battle system for
+      this game, with some bug fixes. Also, both
+      the main character's CHR and the Guard CHR
+      are taken from his demo.
+**** - There's a Bugen that's the enemy of this game,
+       and the Bugen that's writing this -- don't get
+       the two mixed up ;)
+
+-------------------------------------------------------

@@ -133,8 +133,14 @@ let v1games: array(Game.game) = [|
         engine: Game.V1, 
         vtype: "v1game",  
     },
-	
-	
+
+	{
+        name: "vzelda",
+        title: "Verge Zelda",
+        description: "Verge Zelda demo by Bugen.",
+        engine: Game.V1,   
+		vtype: "v1game",  		
+    },
 |];    
 let v2games: array(Game.game) = [|    
     {
@@ -262,15 +268,8 @@ let v2games: array(Game.game) = [|
         description: "48HoV shooter game by Zaratustra and Zathras.",
         engine: Game.V2, 
         vtype: "v2game",  
-    },
-	
+    },    
     
-    //{
-    //    name: "l2p",
-    //    title: "License to Poop",
-    //    description: "License to Poop demo by BlueStar.",
-    //    engine: Game.V1       
-    //}
     
 |];
 

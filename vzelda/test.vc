@@ -1,0 +1,71 @@
+event // 0
+{
+   PlayMusic("z3rain.xm");
+   FadeIn(1);
+   LayerVC=1;
+   DrawParty=0;
+  For(x,0,425,1)
+  {
+//   VCPutPCX("ISLAND.PCX",80,50);
+   if(x<200)
+   {
+    VCCenterText(200-x,"One hundred years ago, the famous");
+   }
+   if(x>25 and x<225)
+   {
+    VCCenterText(225-x,"hero, Link, defeated Ganon and gained");
+   }
+   if(x>50 and x<250)
+   {
+    VCCenterText(250-x,"the power of the TriForce.(TM)");
+   }
+   if(x>75 and x<275)
+   {
+    VCCenterText(275-x,"Now, the evil wizard Bugen is using");
+   }
+   if(x>100 and x<300)
+   {
+    VCCenterText(300-x,"a magical force called VERGE to");
+   }
+   if(x>125 and x<325)
+   {
+    VCCenterText(325-x,"create evil worlds and make");
+   }
+   if(x>150 and x<350)
+   {
+   VCCenterText(350-x,"'entites' to do his bidding.");
+   }
+   if(x>175 and x<375)
+   {
+   VCCenterText(375-x,"As Wyrdwad, descendent of Link,");
+   }
+   if(x>200 and x<400)
+   {
+   VCCenterText(400-x,"you must stop him.");
+   }
+   if(x>225 and x<425)
+   {
+   VCCenterText(425-x,"It's a dirty job, but");
+   }
+   if(x>250)
+   {
+   VCCenterText(450-x,"somebody's gotta do it.");
+   }
+   Wait(5);
+   VCClear();
+  }
+  VCClear();
+  FadeOut(30);
+  VCCenterText(82,"The Legend of... Zelda?:");
+  VCCenterText(110,"On The VERGE of Destruction");
+  Redraw();
+  FadeIn(120);
+  Wait(300);
+  FadeOut(120);
+  LayerVC=0;
+  VCClear();
+  FadeOut(30);
+  PlayMusic("null.mod");
+  Wait(1);
+  MapSwitch("game.map",0,0,0);
+}

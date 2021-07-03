@@ -1,0 +1,154 @@
+script
+{
+// flags[3]=1;
+BindKey(42,1);
+/* PlayMusic("zeldaop.xm");
+Sys_DisplayPCX("loz-l2p.pcx");
+VGADump();
+FadeIn(60);
+Delay(1000);
+PlayMusic("null.s3m");
+FadeOut(30); */
+NewGame("test.map");
+// NewGame("game.map");
+
+}
+
+script
+{
+ LayerVC=1;
+ X=Entity.LocX(0);
+ Y=Entity.LocY(0);
+ vcloadpcx("swipe.pcx",0);
+ a=Entity.LocX(5);
+ b=Entity.Locy(5);
+ c=Entity.LocX(6);
+ d=Entity.Locy(6);
+ e=Entity.LocX(7);
+ f=Entity.Locy(7);
+ Switch(flags[3])
+{
+ CASE(1): j=X*16;
+          k=Y*16;
+ CASE(2): j=(X*16)-304;
+          k=Y*16;
+ CASE(3): j=X*16;
+          k=(Y*16)-184;
+}
+if (facing(1))
+{
+ X=Entity.LocX(0);
+ Y=Entity.LocY(0);
+ AutoOn();
+ Specialframe[95]=20;
+ VCTBlitImage(j-8,k-15,32,16,0);
+ soundeffect(8);
+ if (A=X and Y=B+1)
+ {
+  entity.locy(5)=60;
+  soundeffect(8);
+ }
+ if (C=X and Y=D+1)
+ {
+  entity.locy(6)=61;
+  soundeffect(8);
+ }
+ if (E=X and Y=F+1)
+ {
+  entity.locy(7)=60;
+  soundeffect(8);
+ }
+wait(50);
+Specialframe[95]=5;
+VCClear();
+AutoOff();
+}
+if (facing(2))
+ {
+ X=Entity.LocX(0);
+ Y=Entity.LocY(0);
+ AutoOn();
+ specialframe[95]=22;
+ VCTBlitImage(j-8,k+1,32,16,1500);
+ soundeffect(8);
+ if (A=X+1 and Y=B)
+ {
+  entity.locy(5)=60;
+  soundeffect(8);
+ }
+ if (C=X+1 and Y=D)
+ {
+  entity.locy(6)=61;
+  soundeffect(8);
+ }
+ if (E=X+1 and Y=F)
+ {
+  entity.locy(7)=60;
+  soundeffect(8);
+ }
+wait(50);
+specialframe[95]=0;
+VCClear();
+AutoOff();
+ }
+if (facing(3))
+ {
+ X=Entity.LocX(0);
+ Y=Entity.LocY(0);
+ AutoOn();
+ Specialframe[95]=21;
+ VCTBlitImage(j-14,k+1,32,16,512);
+ soundeffect(8);
+ if (A=X-1 and Y=B)
+ {
+  entity.locy(5)=60;
+  soundeffect(8);
+ }
+ if (C=X-1 and Y=D)
+ {
+  entity.locy(6)=61;
+  soundeffect(8);
+ }
+ if (E=X-1 and Y=F)
+ {
+  entity.locy(7)=60;
+  soundeffect(8);
+ }
+wait(50);
+Specialframe[95]=10;
+VCClear();
+AutoOff();
+ }
+if(facing(0))
+{
+ X=Entity.LocX(0);
+ Y=Entity.LocY(0);
+ AutoOn();
+ VCTBlitImage(j-9,k+8,32,16,960);
+ soundeffect(8);
+ specialframe[95]=23;
+ if (A=X and Y=B-1)
+ {
+  entity.locy(5)=60;
+  soundeffect(8);
+ }
+ if (C=X and Y=D-1)
+ {
+  entity.locy(6)=61;
+  soundeffect(8);
+ }
+ if (E=X and Y=F-1)
+ {
+  entity.locy(7)=60;
+  soundeffect(8);
+ }
+wait(50);
+specialframe[95]=0;
+VCClear();
+autoOff();
+ }
+VCText(0,0,"HP:");
+VCTextNum(30,0,CurHP(1));
+VCText(60,0,"/");
+VCTextNum(70,0,MaxHP(1));
+}
