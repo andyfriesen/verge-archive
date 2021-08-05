@@ -1,0 +1,45 @@
+event
+{
+ redraw();
+ FadeIn(150);
+ PlayMusic("Lufia.mod");
+ AddCharacter(2);
+ Wait(100);
+ PartyMove("U2");
+ Stext(0, "They've got to be in here",
+           "somewhere...","");
+ Setface(1,0);
+ Wait(100);
+ Setface(1,2);
+ Wait(100);
+ Setface(1,3);
+ Wait(100);
+ Setface(1,1);
+ Wait(50);
+ Stext(0, "Oh! There they are!","","");
+ PartyMove("U5");
+ Wait(100);
+ AlterBTile(9,3,4,0);
+ AlterBTile(9,4,4,0);
+ AlterBTile(10,3,4,0);
+ AlterBTile(10,4,4,0);
+ AlterFTile(9,3,4,0);
+ AlterFTile(9,4,4,0);
+ AlterFTile(10,3,4,0);
+ AlterFTile(10,4,4,0);
+ Stext(0, "What great mushrooms!",
+	  "Mama's going to be so proud of",
+	  "me when --!!");
+ Wait(50);
+ SText(0, "She's not here. What should we",
+	  "do, sir?","");
+ Wait(50);
+ SText(0, "Torch the place. We don't need",
+          "it and you need the practice.","");
+ Wait(50);
+ Stext(0, "What was that?",
+          "It sounded like it came from",
+          "town... I should head back.");
+ PartyMove("D7");
+ Mapswitch("ruins.map",0,0,1);
+}

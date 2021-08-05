@@ -1,0 +1,89 @@
+event // Autoexec
+{
+ redraw();
+ FadeIn(100);
+ PlayMusic("leprit.xm");
+ if (!flags[101]) // Aiina enters LePrit for the first time
+  {
+   Wait(100);
+   PartyMove("U3");
+   Stext(0, "Aiina: So this is the town of",
+           "LePrit... Seems innocent",
+           "enough...");
+   EntityMoveScript(10,1);
+   Face[10]=0;
+   Stext(0, "Aiina D'Randa?","","");
+   Stext(0, "Aiina: Yes...","","");
+   Stext(0, "Luzi Vandia. I think we've",
+            "already met, about two years",
+            "ago?");
+   Stext(0, "Aiina: Yeah, that sounds about",
+            "right.","");
+   Stext(0, "Luzi: Anyways, the big green",
+            "cheese sent you here?","");
+   Stext(0, "Aiina: He actually lets you",
+            "call him that?","");
+   Stext(0, "Luzi: Well, not to his face...","","");
+   Stext(0, "[Aiina laughs]",
+            "Aiina: So, why're we here,",
+            "anyway?");
+   Stext(0, "Luzi: Finding out what LePrit",
+            "is up to, mostly. I've already",
+            "heard a rumor or two. Valrian");
+   Stext(0, "will be here tomorrow at noon...","","");
+   AddCharacter(3);
+   Entity.LocX[10]=70;
+   Wait(90);
+   Stext(0, "Luzi joins","","");
+   Flags[101]=1;
+  }
+ If(char(3))
+  {
+   Entity.LocX[10]=70;
+  }
+}
+
+Event // 1, the guy who says the town name
+{
+ Stext(0, "This is the town of LePrit,",
+          "capital of the LePrit",
+          "empire...");
+}
+
+Event //2, the guy in front of the bar
+{
+ Stext(0, "This is the bar, but hardly",
+          "anyone comes here anymore...","");
+}
+
+Event //3, Castle guardsmen
+{
+ Stext(0, "No entry into the castle.","","");
+}
+
+Event //4, generic guy
+{
+ Stext(0, "Lately, the Emperor's men have",
+          "been coming into town",
+          "periodically and taking people");
+ Stext(0, "into the castle... No one has",
+          "come back...","");
+ Stext(0, "Aiina: That doesn't sound very",
+          "good...",
+          "Luzi: ...");
+}
+
+Event //5, locked door
+{
+ Stext(0, "It's locked","","");
+}
+
+Event //6, Entering the bar
+{
+ Mapswitch("bar.map",0,0,1);
+}
+
+Event//7, entering the inn
+{
+ Mapswitch("inn.map",0,0,1);
+}

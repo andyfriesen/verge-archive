@@ -1,0 +1,319 @@
+Event//0, Autoexec
+{
+ Redraw();
+ FadeIn(150);
+ PlayMusic("Beginnin.mod");
+ if(!char(1) AND char(3))
+  {
+   PartyMove("D1");
+   Wait(50);
+   Stext(0, "Luzi: Dammit! I'm stuck in",
+            "here! There's some sort of",
+            "spell lock on the place!");
+   Wait(100);
+   Stext(0, "Hello? Friendly neighbourhood",
+            "jailbreak delivery service?",
+            "Today's 'get out of jail free'");
+   Stext(0, "card is awarded to a young-",
+            "looking man who's fond of",
+            "wearing a garish yellow straw");
+   Stext(0, "hat. Would you happen to know",
+            "him?","");
+   Stext(0, "Luzi: Valrian?","","");
+   Entity.LocX[5]=99;
+   Entity.LocY[5]=12;
+   EntityMove(5, "U3");
+   Wait(100);
+   Stext(0, "Valrian: Last time I checked,",
+            "yes. We have to get out of",
+            "here, but we need to get Aiina");
+   Stext(0, "first. I'll explain why we",
+            "can't find her the other way",
+            "later.");
+   AddCharacter(1);
+   Entity.LocX[5]=109;
+   Entity.LocY[5]=69;
+   Banner("Valrian Joins", 10);
+  }
+}
+
+Event//1, Leaving Luzi's cell
+{
+ Warp(6,6,0);
+}
+
+Event//2, Dungeon doors
+{
+ Stext(0, "It's locked.","","");
+}
+
+Event//3, Aiina1
+{
+ If(!flags[22])
+  {
+   FadeOut(100);
+   RemoveCharacter(1);
+   RemoveCharacter(3);
+   AddCharacter(2);
+   Warp(94,18,1);
+   Redraw();
+   FadeIn(100);
+   EntityMove(6, "U1");
+   EntityMove(7, "L2");
+   Wait(100);
+   Stext(0, "Aiina: This will be over, this",
+            "will end, it's nothing, I will",
+            "do nothing...");
+   FadeOut(100);
+   RemoveCharacter(2);
+   AddCharacter(1);
+   AddCharacter(3);
+   Warp(49,11,1);
+   Redraw();
+   FadeIn(100);
+   Flags[22]=1;
+  }
+}
+
+Event//4, Aiina2
+{
+ if(!flags[23])
+  {
+   FadeOut(100);
+   RemoveCharacter(1);
+   RemoveCharacter(3);
+   AddCharacter(2);
+   Warp(94,18,1);
+   EntityMove(6, "U1");
+   EntityMove(7, "L2");
+   Redraw();
+   FadeIn(100);
+   Wait(100);
+   Entity.LocX[8]=100;
+   Entity.LocY[8]=26;
+   EntityMove(8, "U4");
+   Wait(100);
+   Stext(0, "What are you doing!?","","");
+   SpecialFrame[6]=21;
+   SpecialFrame[7]=21;
+   Stext(0, "Ack! Um... nothing, sir...","","");
+   SpecialFrame[6]=0;
+   SpecialFrame[7]=0;
+   Wait(30);
+   Stext(0, "You've got a very interesting",
+            "definition of the word",
+            "'nothing'...");
+   Stext(0, "Eep!","","");
+   Stext(0, "Get out of here, both of you.",
+            "I'll deal with you later.","");
+   EntityMove(6, "R5 D6");
+   EntityMove(7, "R2 D8");
+   Wait(150);
+   Entity.LocX[6]=109;
+   Entity.LocY[6]=40;
+   Entity.LocX[7]=109;
+   Entity.LocY[7]=41;
+   EntityMove(8, "U4 L5");
+   Wait(200);
+   Stext(0, "Are you all right?","","");
+   FadeOut(100);
+   RemoveCharacter(2);
+   AddCharacter(1);
+   AddCharacter(3);
+   Warp(21,20,1);
+   Redraw();
+   FadeIn(100);
+   Flags[23]=1;
+  }
+}
+
+Event//5, Aiina3
+{
+ if(!flags[24])
+  {
+   FadeOut(100);
+   RemoveCharacter(1);
+   RemoveCharacter(3);
+   AddCharacter(2);
+   Warp(94,18,1);
+   Redraw();
+   FadeIn(100);
+   SetFace(1,2);
+   Stext(0, "I doubt this'll do much good",
+            "now, but I greatly apologize",
+            "for the... actions... of...");
+   Stext(0, "them...","","");
+   Stext(0, "Aiina: You're with the LePrit",
+            "Empire?","");
+   Stext(0, "I suppose you could say",
+            "that...","");
+   Stext(0, "Aiina: Then I have nothing to",
+            "say to you.","");
+   Stext(0, "Why?","","");
+   Stext(0, "Aiina: Ten years ago, my",
+            "entire town was burned by the",
+            "Empire.");
+   Stext(0, "I see.",
+            "And what did you say your name",
+            "was?");
+   Stext(0, "Aiina: I didn't.","","");
+   Stext(0, "Would you mind?","","");
+   Stext(0, "Aiina: Aiina. Aiina D'Randa.","","");
+   Stext(0, "Oh. Oh, OH.","","");
+   FadeOut(100);
+   RemoveCharacter(2);
+   AddCharacter(1);
+   AddCharacter(3);
+   Warp(71,30,1);
+   Redraw();
+   FadeIn(100);
+   Flags[24]=1;
+  }
+}
+
+Event//6, Aiina4
+{
+ if(!Flags[25])
+  {
+   FadeOut(100);
+   RemoveCharacter(1);
+   RemoveCharacter(3);
+   AddCharacter(2);
+   Warp(94,18,1);
+   Redraw();
+   FadeIn(100);
+   SetFace(1,2);
+   Stext(0, "Aiina: What the hell's so",
+            "important about my name?","");
+   Stext(0, "Nothing much, truly, though I",
+            "must say that your town should",
+            "NOT have been burned.");
+   Stext(0, "Aiina: Do they give you Empire",
+            "fools 'Stating the Obvious'",
+            "classes now?");
+   Stext(0, "...",
+            "At any rate, I shall have",
+            "to... talk to those involved");
+   Stext(0, "in that...","","");
+   Stext(0, "Aiina: What kind of bastard",
+            "are you to seem to believe",
+            "that a few words can fix a");
+   Stext(0, "lifetime of pain?","","");
+   Stext(0, "My dear, they call me Emperor",
+            "LePrit.","");
+   FadeOut(100);
+   RemoveCharacter(2);
+   AddCharacter(1);
+   AddCharacter(3);
+   Warp(49,40,1);
+   Redraw();
+   FadeIn(100);
+   Flags[24]=1;
+  }
+}
+
+Event//7, Aiina5
+{
+ if(!flags[25])
+  {
+   FadeOut(100);
+   RemoveCharacter(1);
+   RemoveCharacter(3);
+   AddCharacter(2);
+   Warp(94,18,1);
+   Redraw();
+   FadeIn(100);
+   SetFace(1,2);
+   Stext(0, "Aiina: You're Emperor",
+            "Le-fucking-Prit?","");
+   Stext(0, "LePrit: I wouldn't exactly put",
+            "it that way, but...","");
+   Wait(150);
+   Stext(0, "LePrit: It's awfully scummy",
+            "down here. Why don't you",
+            "come with me, and I'll see");
+   Stext(0, "what I can do about your",
+            "accomodations?","");
+   Stext(0, "Aiina: No bloody way!","","");
+   Wait(200);
+   Stext(0, "LePrit: You sound exactly like",
+            "your mother when you object to",
+            "things on principle alone...");
+   Stext(0, "Aiina: How the hell would scum",
+            "like you know my mother?","");
+   Stext(0, "LePrit: ...",
+            "I married her...",
+            "I'm also the reason she had a");
+   Stext(0, "daughter...","","");
+   Wait(150);
+   Stext(0, "LePrit: I'll return later, in",
+            "case you change your mind",
+            "about this place.");
+   EntityMove(8, "R5 D6");
+   Wait(200);
+   Face[8]=1;
+   Stext(0, "LePrit: Be well, Aiina.","","");
+   EntityMove(8, "D2");
+   Wait(100);
+   Entity.LocX[8]=109;
+   Entity.LocY[8]=44;
+   FadeOut(100);
+   RemoveCharacter(2);
+   AddCharacter(1);
+   AddCharacter(3);
+   Warp(30,54,1);
+   Redraw();
+   FadeIn(100);
+   Flags[25]=1;
+  }
+}
+
+Event//8, Aiina6
+{
+ If(!Flags[26])
+ {
+   FadeOut(100);
+   RemoveCharacter(1);
+   RemoveCharacter(3);
+   AddCharacter(2);
+   Warp(94,18,1);
+   Redraw();
+   FadeIn(100);
+   SetFace(1,2);
+   Stext(0, "Aiina: He's not... he can't be",
+            "my father...","");
+   FadeOut(100);
+   RemoveCharacter(2);
+   AddCharacter(1);
+   AddCharacter(3);
+   Warp(2,64,1);
+   Redraw();
+   FadeIn(100);
+   Flags[26]=1;
+ }
+}
+
+Event//9
+{
+ If(!Char(2))
+  {
+   Stext(0, "Valrian: Hello?","","");
+   Stext(0, "Aiina: The answer is still no!","","");
+   Stext(0, "Valrian: Answer to what?","","");
+   Stext(0, "Aiina: Oh! I'm sorry, Valrian.",
+            "I thought you were someone",
+            "else.");
+   Stext(0, "Valrian: Never mind, then.",
+            "Just let me get the door open",
+            "here... There!");
+   AddCharacter(2);
+   Banner("Aiina Joins", 10);
+   FadeOut(100);
+   FadeIn(10);
+   MapPaletteGradient(0,7,0,0);
+   Stext(0, "And that ends this demo.",
+            "Credits are in the read.me",
+            "Until next time...");
+   Quit("Ascend into darkness... descend to the light... beyond eternity...");
+  }
+}

@@ -1,0 +1,44 @@
+Event// 0
+{
+ Redraw();
+ FadeIn(50);
+ PlayMusic("leprit.xm");
+ Banner("LePrit Bar",10);
+}
+
+Event//1, Leaving
+{
+ Mapswitch("leprit.map",9,20,1);
+}
+
+Event//2, Guy in the bar
+{
+ Stext(0, "Don't talk to that woman in the",
+          "corner, she's crazy!","");
+}
+
+Event//3, the moment we've all been wating for
+{
+ Stext(0, "Y'know... I made this entire",
+          "place, you know...","");
+ Stext(0, "Aiina: Luzi, let's get out of",
+          "here...","");
+ PartyMove("R1"); 
+ Stext(0,"Waitaminit! I have some things",
+              "I need to take care of! New in",
+              "this version: Inn and dungeon");
+ Stext(0," sequences completed! A slight",
+               "addition to the startup BE:A",
+              "logo has been made, as well.");
+ Stext(0," Expect the preliminary world",
+               "map next release, and a battle",
+               "system. Yes, you might be made");
+ Stext(0," to fight the guards in the",
+               "dungeon! Ha-ha!",
+               " ");
+}
+
+Event//4, the jar
+{
+ banner("Nothing.",10);
+}

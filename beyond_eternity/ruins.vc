@@ -1,0 +1,30 @@
+Event
+{
+ redraw();
+ Fadein(150);
+ PlayMusic("beyonddr.xm");
+ PartyMove("R26");
+ Stext(0, "What happened here?","","");
+ Stext(0, "It looks like what's left",
+          "after a fire...",
+          "Was this place burned?");
+ SetFace(1,0);
+ Wait(100);
+ SetFace(1,1);
+ Wait(100);
+ SetFace(1,2);
+ Wait(100);
+ SetFace(1,3);
+ Stext(0, "There's no one left...",
+          "!!... Mama!","");
+ Speed[0]=6;
+ PartyMove("D23 R10");
+ SetFace(1,1);
+ Stext(0, "No... Mama...","","");
+ Stext(0, "Who could have done this?","","");
+ Speed[0]=4;
+ Redraw();
+ FadeOut(300);
+ Wait(150);
+ Mapswitch("test.map", 19,13,1);
+}

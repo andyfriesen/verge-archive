@@ -1,0 +1,17 @@
+script
+{
+ PlayMusic("jade.s3m");
+ sys_displaypcx("verge320.pcx");
+ vgadump();
+ fadein(150);
+ delay(200);
+ Fadeout(150);
+ sys_displaypcx("beyond.pcx");
+ vgadump();
+ fadein(150);
+ delay(200);
+ OldStartUpMenu();
+ StopMusic();
+ return;
+}
+  

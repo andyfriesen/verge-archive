@@ -1,0 +1,140 @@
+event
+{
+ if(char(2))
+  {
+   Addcharacter(1);
+   AutoOn();
+   Speed[96]=4;
+   Entity.LocY[96]=16;
+   Entity.LocX[96]=19;
+   Face[96]=1;
+   Face[95]=0;
+   FadeIn(250);
+   Wait(50);
+   SText(0, "Huh? Where am I?","","");
+   Wait(20);
+   SText(0, "This is no place, Aiina...","","");
+   Wait(10);
+   Stext(0, "Aiina: How do you know my",
+            "name?","");
+   Stext(0, "That's not important...",
+            "... Do you know who I am?","");
+   Stext(0, "Aiina: No.","","");
+   Stext(0, "[sigh] You can call me", 
+            "Valrian, then...","");
+   SpecialFrame[95]=21;
+   Stext(0, "Aiina: Valrian?! The god",
+            "Valrian?","");
+   SpecialFrame[95]=0;
+   Wait(50);
+   SpecialFrame[96]=25;
+   Wait(50);
+   Stext(0, "Valrian: Yes...","","");
+   SpecialFrame[96]=0;
+   Stext(0, "Valrian: Anyways... You saw",
+            "the ruins of your town? And",
+            "you wonder at the reason for");
+   Stext(0, "it?","","");
+   Wait(50);
+   Stext(0, "Aiina: I just want my Mama...",
+            "[sniffle]","");
+   EntityMove(96, "U2");
+   Stext(0, "Valrian: Aiina... don't cry...","","");
+   Wait(150);
+   Stext(0, "Aiina: [sniffle] Why not?","","");
+   Stext(0, "Valrian: ... Crying doesn't",
+            "rebuild cities or raise the",
+            "dead -- though some wish it");
+   Stext(0, "might...","","");
+   Stext(0, "Aiina: [sniff] I still want to",
+            "do it, though...","");
+   Stext(0, "Valrian: Can you cry and",
+            "listen?","");
+   Stext(0, "Aiina: I think so...","","");
+   Stext(0, "Valrian: Then listen",
+            "closely...","");
+   Stext(0, "Valrian: Have you ever heard",
+            "of the LePrit empire?","");
+   Stext(0, "Aiina: I think I might have",
+            "heard some people talking",
+            "about it...");
+   Stext(0, "Valrian: Good, then. LePrit is",
+            "looking for someone, or",
+            "something, I'm not sure which.");
+   Stext(0, "Though I do know that two", 
+            "years ago, the princess and",
+            "queen of LePrit vanished.");
+   Stext(0, "Maybe they're looking for",
+            "them...","");
+   Stext(0, "Aiina: ...Two years...?","","");
+   Stext(0, "Valrian: Anyways, their search",
+            "must have led them to your",
+            "town. When they didn't find");
+   Stext(0, "what they wanted, they burned",
+            "the place.","");
+   Stext(0, "Aiina: But how could they have",
+            "burned it? The town was made",
+            "out of stone...");
+   Stext(0, "Valrian: ... Magic... they",
+            "used magic...","");
+   Stext(0, "Aiina: But... don't YOU have",
+            "to let people use magic?","");
+   Wait(80);
+   Stext(0, "Valrian: ... They slipped",
+            "through the cracks...",
+            "Emperor LePrit is better than");
+   Stext(0, "one might think...","","");
+   Stext(0, "Aiina: But... Why am I here?","","");
+   Stext(0, "Valrian: I need you, Aiina...","","");
+   Stext(0, "Aiina: What for?","","");
+   Stext(0, "Valrian: You'll see...","","");
+   Redraw();
+   FadeOut(300);
+   Banner("10 years later...", 10);
+   AutoOff();
+   ChangeCHR(2, "AIINA.CHR");
+   AutoOn();
+   Entity.LocY[96]=16;
+   Entity.LocX[96]=19;
+   Entity.LocY[95]=13;
+   Entity.LocX[95]=19;
+   Face[96]=1;
+   Face[95]=0;
+   Redraw();
+   FadeIn(150);
+   Stext(0, "Aiina: You sent for me, sir?","","");
+   EntityMove(96, "D2");
+   Stext(0, "Valrian: Yes...","","");
+   Wait(30);
+   Speed[95]=4;
+   Speed[95]=4;
+   Face[95]=0;
+   Stext(0, "Aiina: What is it, sir?","","");
+   Wait(75);
+   Stext(0, "Valrian: I need you to go to",
+            "the town of LePrit...",
+            "Luzi will meet you there and");
+   Stext(0, "explain.","","");
+   Stext(0, "Aiina: Yes, sir. I'll leave",
+            "immediately.","");
+   Redraw();
+   FadeOut(150);
+   AutoOff();
+   RemoveCharacter(1);
+   Mapswitch("leprit.map",0,0,1);
+  }
+ Redraw();
+ FadeIn(150);
+ PlayMusic("MANAFORT.XM");
+ Wait(100);
+ AutoOn();
+ Speed[95]=2;
+ EntityMove(95,"U2");
+ Wait(100);
+ SText(0,"It's almost time...",
+         "I wish...", "");
+ Speed[95]=4;
+ AutoOff();
+ RemoveCharacter(1);
+ MapSwitch("mforest.map",0,0,1);
+}

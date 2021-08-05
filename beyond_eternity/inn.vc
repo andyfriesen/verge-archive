@@ -1,0 +1,104 @@
+event//0, autoexec
+{
+ Redraw();
+ FadeIn(100);
+ PlayMusic("leprit.xm");
+}
+
+event//1, exiting
+{
+ mapswitch("leprit.map",9,10,1);
+}
+
+Event//2, 2nd floor
+{
+ warp(14,27,0);
+}
+
+Event//3, 1st floor
+{
+ warp(4,3,0);
+}
+
+Event//4, Innkeeper
+{
+ if(Char(2) AND Char(3))
+  {
+   Stext(0, "The room you asked for earlier",
+            "is ready.","");
+   Stext(0, "Luzi: Thank you.","","");
+   PartyMove("L10 U5");
+   Warp(14,27,0);
+   PartyMove("U3");
+   AutoOn();
+   EntityMove(95, "R3");
+   Wait(45);
+   Stext(0, "Aiina: Not too bad...","","");
+   Face[95]=3;
+   Wait(30);
+   Stext(0, "Luzi: It works.","","");
+   Wait(15);
+   EntityMove(96, "U1 R1");
+   Face[96]=2;
+   Stext(0, "Luzi: There's only one bed.",
+            "I'll sleep on the floor, then.","");
+   Wait(20);
+   Stext(0, "Aiina: Why would you want to",
+            "do a stupid thing like that?","");
+   SpecialFrame[96]=23;
+   Wait(30);
+   SpecialFrame[96]=0;
+   Face[96]=2;
+   Stext(0, "Luzi: Surely you don't want to",
+            "sleep on the floor?","");
+   SpecialFrame[95]=22;
+   Wait(20);
+   SpecialFrame[95]=0;
+   Face[95]=3;
+   Stext(0, "Aiina: I wasn't suggesting",
+            "such...","");
+   Stext(0, "Luzi: Then, what do you... Oh.",
+            "That. The thing is... well...",
+            "y'kinda see...");
+   Stext(0, "[Luzi trails off, mumbling]","","");
+   EntityMove(95, "L1");
+   Stext(0, "Aiina: What is it, Luzi?","","");
+   Stext(0, "[whisper, whisper]","","");
+   SpecialFrame[95]=21;
+   Wait(20);
+   Stext(0, "Aiina: No! You're not serious!","","");
+   SpecialFrame[95]=0;
+   Stext(0, "Luzi: Ah... yes, I am...","","");
+   Stext(0, "Aiina: Oh, well... It's not",
+            "something that can't be",
+            "ammended, anyway...");
+   FadeOut(100);
+   Entity.LocX[95]=22;
+   Entity.LocY[95]=22;
+   Entity.LocX[96]=23;
+   Entity.LocY[96]=22;
+   Entity.LocX[6]=21;
+   Entity.LocY[6]=22;
+   Face[6]=2;
+   Entity.LocX[7]=24;
+   Entity.LocY[7]=22;
+   Face[7]=3;
+   Entity.LocX[8]=22;
+   Entity.LocY[8]=23;
+   Face[8]=1;
+   Entity.LocX[9]=23;
+   Entity.LocY[9]=23;
+   Face[9]=1;
+   Face[95]=0;
+   Face[96]=0;
+   Redraw();
+   FadeIn(100);
+   Stext(0, "Aiina: What the...?","","");
+   Stext(0, "You have been ordered captured",
+            "by the Emperor of LePrit.","");
+   FadeOut(150);
+   AutoOff();
+   RemoveCharacter(2);
+   Mapswitch("dungeon.map", 97, 6, 1);
+  }
+}

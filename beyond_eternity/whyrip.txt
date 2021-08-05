@@ -1,0 +1,4 @@
+Why I rip tiles:
+
+Take a look at test.vsp, then take a look at ff3e.vsp. I'm sorry if you don't
+like ripped art, but my graphics could ruin the game mostly. So there. Note, however, that I did draw the mushroom myself.
