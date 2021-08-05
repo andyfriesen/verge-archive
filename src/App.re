@@ -148,6 +148,13 @@ let v1games: array(Game.game) = [|
         engine: Game.V1, 
         vtype: "v1game",  
     },   
+	{
+        name: "beyond_eternity",
+        title: "Beyond Eternity: Ascension",
+        description: "V1 game made by Starmage",
+        engine: Game.V1, 
+        vtype: "v1game",  
+    },   
 |];    
 let v2games: array(Game.game) = [|    
     {
