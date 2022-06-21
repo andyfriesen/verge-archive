@@ -1,0 +1,8 @@
+This is the self extracting version of TCW.  I am doing this just so you don't
+screw up the install.
+
+Just Unzip the zip into a empty directroy for TCW.  Then just run tcwch2.exe
+and tcwfmvpk.exe (if you dled the fmv pack) and your all set.
+
+-xBig_D
+

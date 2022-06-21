@@ -1,0 +1,11 @@
+4
+// 9mm
+ATK +5
+EQABLE 1
+- // Ak_47
+ATK +15
+EQABLE 1 3
+- // Jncos
+DEF +5
+EQABLE 1 2 3
+-
