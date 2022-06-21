@@ -1,0 +1,17 @@
+cart_v.pcx
+ch1.pcx
+ch2.pcx
+dg2.pcx
+hhs.pcx
+intro.pcx
+monorail.pcx
+plane.pcx
+ps.pcx
+thing.pcx
+victory.pcx
+victory.vas
+items/9mm.vas
+items/ak47.vas
+items/nofmv.vas
+items/ps.vas
+items/ss.vas
