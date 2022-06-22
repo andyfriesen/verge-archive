@@ -66,6 +66,7 @@ xbd.chr
 xbd.cr2
 xbd.dat
 xbig_d.vsp
+intro.pcx
 battle/bg4.pcx
 battle/bg5.pcx
 battle/bg6.pcx
