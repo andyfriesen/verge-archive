@@ -1,0 +1,143 @@
+/* Stats system */
+
+#define PartySize 4
+
+string Names[PartySize];
+
+int Level[PartySize];
+int Exp[PartySize];
+
+int HP[PartySize];
+int MaxHP[PartySize];
+int MP[PartySize];
+int MaxMP[PartySize];
+
+int Strength[PartySize]; //Strength, unused
+int Agility[PartySize]; //Agility, determines chance to dodge and hit
+int Pwr[PartySize]; //base attack power
+int Def[PartySize]; //base defense power
+
+int Weapon[PartySize]; //holds the weapon index for the currently equipped weapon.
+int Armor[PartySize]; //holds the armor index for the currently equipped Armor.
+
+void InitStats()
+{
+ int i;
+ For(i=0; i<4; i++) //just a loop to initialize some stats.
+ {
+  Names[i]="Player "+Str(I+1);
+  HP[i]=40-(8*i);
+  MaxHP[i]=HP[i];
+  MP[i]=5*i;
+  MaxMP[i]=MP[i];
+
+  Strength[i]=6-i;
+  Agility[i]=3+Random(3);
+  Pwr[i]=6-i;
+  Def[i]=Random(i)+2;
+
+  Weapon[i]=i;
+  Armor[i]=i;
+ }
+
+}
+
+void ShowStats()
+{
+ int done, i;
+ while(!done)
+ {
+  RectFill(0,0,screenx-1, screeny-1, 64);
+  UpdateControls();
+  for(i=0; i<4; i++)
+  {
+   RectFill(18, 8+(50*i), 302, 50+(50*i), 24);
+   Rect(18, 8+(50*i), 302, 50+(50*i), 32);
+   GotoXY(20, 10+(50*i)); PrintString(0,Names[i]);
+   GotoXY(20, 20+(50*i)); PrintString(0,"HP: "+Str(HP[i])+"/"+Str(MaxHP[i]));
+   GotoXY(180, 20+(50*i)); PrintString(0,"MP: "+Str(MP[i])+"/"+Str(MaxMP[i]));
+   GotoXY(20, 30+(50*i)); PrintString(0, "Weapon: "+WeaponList[Weapon[i]]);
+   GotoXY(20, 40+(50*i)); PrintString(0, "Armor:  "+ArmorList[Armor[i]]);
+   GotoXY(180, 30+(50*i)); PrintString(0,"Attack:  "+Str(Pwr[i])+"(+"+Str(WeaponPower[Weapon[i]])+")");
+   GotoXY(180, 40+(50*i)); PrintString(0,"Defense: "+Str(Def[i])+"(+"+Str(ArmorPower[Armor[i]])+")");
+  }
+  Showpage();
+  If(B1) done++;
+ }
+}
+
+/* Weapons/Armor/Item system */
+#define MaxWeapons 10
+#define MaxArmor 10
+string WeaponList[MaxWeapons]; //stores the global list of weapon names
+int WeaponPower[MaxWeapons]; //stores the attack power for each weapon.
+
+string ArmorList[MaxArmor]; //stores the global list of armor names
+int ArmorPower[MaxArmor]; //stores the defense power for each armor
+
+#define MaxItems 10
+
+string ItemList[MaxItems]; //stores the global list of item names
+int NumItems[MaxItems]; //stores how many items of each type the party owns.
+
+#define ITEM_POTION 0
+#define ITEM_PURE 1
+void LoadItems()
+{
+ int i;
+ ItemList[ITEM_POTION]="Potion";
+ ItemList[ITEM_PURE]="Pure";
+ ItemList[2]="bwa2";
+ ItemList[3]="bwa3";
+ ItemList[4]="bwa4";
+ ItemList[5]="bwa5";
+ ItemList[6]="bwa6";
+ ItemList[7]="bwa7";
+ for(i=0; i<7; i++) { NumItems[i]=i+2; }
+ WeaponList[0]="Long Sword";
+ WeaponPower[0]=5;
+ WeaponList[1]="Dagger";
+ WeaponPower[1]=3;
+ WeaponList[2]="Mace";
+ WeaponPower[2]=3;
+ WeaponList[3]="Staff";
+ WeaponPower[3]=1;
+
+ ArmorList[0]="Plate Mail";
+ ArmorPower[0]=5;
+ ArmorList[1]="Leather";
+ ArmorPower[1]=3;
+ ArmorList[2]="Chain Mail";
+ ArmorPower[2]=4;
+ ArmorList[3]="Robes";
+ ArmorPower[3]=1;
+}
+
+/* Magic system */
+
+#define NumSpells 10
+string SpellList[NumSpells]; //stores the global list of spell names
+
+int Spells[40]; //stores which spells the players know, a simple 1/0 true/false array... 2d arrays would come in handy here, but for now we'll improvise. the 200 is NumSpells * 4 (NumSpells (10) possible spells per party member.
+//To reference this array properly, use this formula: Spells[Spellnumber+(Playernumber*NumSpells)]
+//EX: Spells[0] is cure for player 1, spells[11] is fire for player 2, etc
+
+//gives each spell index a name, so it's easier to reference in code.
+#define SPELL_CURE 0
+#define SPELL_FIRE 1
+
+void LoadSpells()
+{
+ SpellList[SPELL_CURE]="Cure";
+ SpellList[SPELL_FIRE]="Fire";
+
+ Spells[100]=1; //give player 3 cure.
+ spells[151]=1; //give player 4 fire.
+}
+
+
+
+
+
+
+

@@ -206,6 +206,13 @@ let v2games: array(Game.game) = [|
         engine: Game.V2,
         vtype: "v2game",
     },
+	{
+        name: "hatchbat",
+        title: "Hatchet's Battle System Demo",
+        description: "Dragon Warrior style battle system demo by Hatchet, unfinished.",
+        engine: Game.V2, 
+        vtype: "v2game",  
+    },   
     {
         name: "shippu",
         title: "SHIPPU",
@@ -290,6 +297,7 @@ let v2games: array(Game.game) = [|
         engine: Game.V2, 
         vtype: "v2game",  
     },    
+	
  
     
 |];

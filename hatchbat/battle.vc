@@ -1,0 +1,512 @@
+/*
+Battle Structure:
+
+main loop
+{
+ Choose menu for characters { }
+ Make Enemy choices { }
+ Execute commands in random order+agility.
+}
+
+*/
+#define MaxMonsters 6
+
+/* Monster Data */
+int NumMonsters; //number of monsters in battle.
+
+string MonsterName[MaxMonsters];
+int MonsterHP[MaxMonsters], MonsterMaxHP[MaxMonsters];
+int MonsterMP[MaxMonsters], MonsterMaxMP[MaxMonsters];
+int MonsterPwr[MaxMonsters];
+int MonsterDef[MaxMonsters];
+
+int MonsterImg[MaxMonsters]; //monster image
+int MonsterW[MaxMonsters], MonsterH[MaxMonsters]; //width and height of monster's image.
+int MonsterX[MaxMonsters], MonsterY[MaxMonsters]; //x and y coordinates of monster's image.
+
+
+/* Battle Control Arrays */
+int Who[10]; //who is attacking in what order? (should be party size + MaxMonsters)
+int PlayerCommand[PartySize]; //what command did the player choose?
+int PlayerWho[PartySize]; //who did the player select, if any?
+int PlayerWhat[PartySize]; //what item/magic did the player select, if any?
+int MonsterCommand[MaxMonsters];
+int MonsterWho[MaxMonsters];
+int MonsterWhat[MaxMonsters];
+
+int battle_bg; //battle background image.
+
+void LoadMonsters()
+{
+ int i;
+ //NumMonsters=random(5)+1;
+ NumMonsters=3;
+ for(i=0; i<NumMonsters; i++)
+ {
+  if(i>1) { 
+  MonsterImg[i]=LoadImage("slime.pcx");
+  MonsterName[i]="Slime "+Str(i+1);
+  MonsterW[i]=image_width; MonsterH[i]=image_height;
+  MonsterY[i]=150;      
+  MonsterHP[i]=15;
+  }
+  else {
+  MonsterImg[i]=LoadImage("zombie.pcx");
+  MonsterName[i]="Zombie "+Str(i+1);
+  MonsterW[i]=image_width; MonsterH[i]=image_height;
+  MonsterY[i]=100;
+  MonsterHP[i]=25;
+  }
+  MonsterX[i]=(screenx/2)-(30*nummonsters)+(60*i); //puts the monsters all in a row, based on how many there are to start with. Obviously, a more advanced formula than this one could be used, for better placement, multiple rows, spacing depending on MonsterW, etc.     
+  
+  MonsterMaxHP[i]=MonsterHP[i];
+  MonsterMP[i]=0;
+  MonsterMaxMP[i]=MonsterMP[i];
+  MonsterPwr[i]=4+random(4);
+  MonsterDef[i]=6;
+ }
+}
+
+int battledone;
+void Battle() //Main Battle Function! ;)
+{
+ int i;
+ LoadMonsters();
+ battle_bg=Loadimage("back.pcx");
+ battledone=0;
+ While(!battledone)
+ {
+  BattleMenu(); //let the players choose what they want to do!
+  MonsterAI(); //now it's the monsters' turn!
+  ExecuteCommands(); //here's where the fun begins!
+ }
+ for(i=0; i<nummonsters; i++) { free(MonsterImg[i]); } //free monster images.
+ free(battle_bg);
+ if(battledone=1) exit("you win");
+ else exit("you lost");
+}
+
+void DrawBattleScreen()
+{
+ int i;
+// RectFill(0,0,screenx-1, screeny-1, 144);
+CopySprite(0,0,320, 240, battle_bg);
+ for(i=0; i<4; i++) //draw the boxes for each character
+ {
+  Window(5+(80*i), 200, 70 ,35, 15, 31);
+  GotoXY(10+(80*i), 205); PrintString(0, Names[i]);
+  GotoXY(10+(80*i), 215); PrintString(0, "HP:"+Str(HP[i])+"/"+Str(MaxHP[i]));
+  GotoXY(10+(80*i), 225); PrintString(0, "MP:"+Str(MP[i])+"/"+Str(MaxMP[i]));
+ }
+ Window(75, 5, 240, 55, 15, 31); //main msg window
+ DrawMonsters();
+}
+
+void DrawMonsters()
+{
+ int i;
+ for(i=0; i<nummonsters; i++)
+ {
+  If(MonsterHP[i]) TCopySprite(MonsterX[i], MonsterY[i], MonsterW[i], MonsterH[i], MonsterImg[i]);
+ }
+}
+
+void BattleMenu() //player choice menu.
+{
+ int menudone;
+ int i;
+ int chr; //whose turn to choose is it?
+ int ptr; //what command is selected?
+ While(!menudone)
+ {
+   if(!HP[chr]) //it's this player's turn to choose, but he's dead! ;_;
+   { while (!HP[chr] && chr<4) chr++; }
+   updatecontrols();
+   DrawBattleScreen();
+   SelectBox(chr);
+   DrawChoiceWindow();
+   TCopySprite(0,8+(10*ptr), 16, 16, pointer);
+   Showpage();
+   if(up) { Unpress(5); PlaySound(menumove, 63, 127); ptr--; if(ptr<0) ptr=4; }
+   if(down) { Unpress(6); PlaySound(menumove, 63, 127); ptr++; if(ptr>4) ptr=0; }
+   if(b1) //enter pressed, let's decide what to do next!
+   {
+    PlaySound(menuopen, 63, 127);
+    Unpress(1);
+    switch(ptr)
+    {
+     case 0: //fight!
+      if(EnemySelectMenu(chr)) //if the player selected an enemy from the enemy select menu..
+      {
+       PlayerCommand[chr]=0; //fight
+       chr++;
+      }
+     case 1: //item
+      if(ItemSelectMenu(chr)) //if the player selected an item from the item select menu..
+      {
+       PlayerCommand[chr]=1;
+       chr++;
+      }
+     case 2: //magic
+
+     case 3: //Defend
+      PlayerCommand[chr]=3;
+      chr++;
+     case 4: //Run!
+      PlayerCommand[chr]=4;
+      chr++;
+    }
+   }
+   if(chr>3) menudone++; //everyone's decided!
+ }
+}
+
+void SelectBox(int chr)
+{
+ Box(5+(80*chr), 200, 70 ,35, 95); //this is the currently selected character, so draw a special colored window.
+}
+
+void DrawChoiceWindow()
+{
+ Window(10, 5, 55, 55, 15, 31); //menu window
+ GotoXY(15, 10); PrintString(0, "Fight");
+ GotoXY(15, 20); PrintString(0, "Item");
+ GotoXY(15, 30); PrintString(0, "Magic");
+ GotoXY(15, 40); PrintString(0, "Defend");
+ GotoXY(15, 50); PrintString(0, "Run");
+}
+
+int EnemySelectMenu(int plrindex) //lets the player decide which enemy to attack, use magic on, etc. returns 1 if the player selected, 0 if the player cancelled.
+{
+ int menudone;
+ int i;
+ int ptr; //what enemy is selected?
+ int m;
+ for(i=0; i<nummonsters; i++) //make sure the pointer doesn't start on someone who's dead.
+ { if(MonsterHP[i]) { ptr=i; i=nummonsters; } }
+ While(!menudone)
+ {
+  m=0;
+  updatecontrols();
+  DrawBattleScreen();
+  SelectBox(plrindex);
+  DrawChoiceWindow();
+  TCopySprite(MonsterX[ptr]-15,MonsterY[ptr], 16, 16, pointer);
+  //GotoXY(100, 10); PrintString(0, str(ptr));
+  GotoXY(80, 10); PrintString(0, MonsterName[ptr]);
+  GotoXY(80, 20); PrintString(0, Str(MonsterHP[ptr])+"/"+Str(MonsterMaxHP[ptr]));
+
+  ShowPage();
+  //warning - ignores dead monsters.
+  if(left)
+  {
+   Unpress(7); PlaySound(menumove, 63, 127);
+   while(!m) //skips over dead enemies.
+   { ptr--; if(ptr<0) ptr=nummonsters-1;
+     if(MonsterHP[ptr]) m=1;
+   }
+   m=0;
+  }
+  if(right)
+  {
+   Unpress(8); PlaySound(menumove, 63, 127);
+   while(!m) //skips over dead enemies.
+   {
+    ptr++; if(ptr>=nummonsters) ptr=0;
+    if(MonsterHP[ptr]) m=1;
+   }
+   m=0;
+  }
+  if(b2) //cancelled. :(
+  {
+   unpress(2);
+   return 0; //no-one was selected, so return false.
+  }
+  if(b1) //choice made.
+  {
+   unpress(1);
+   PlayerWho[plrindex]=ptr; //store which enemy the player chose.
+   return 1; //someone was selected, so return true.
+  }
+ }
+}
+
+void ExecuteCommands()
+{
+ int i;
+ int tmp;
+ int m;
+ int done;
+
+ for(i=0; i<4+nummonsters; i++) //determines the order for who is gonna attack first.
+ {
+  m=0;
+  while(!m)
+  {
+   tmp=random(4+nummonsters); //choose a random player/monster
+   if(NotSelected(tmp, i)) //this player/monster has not been chosen yet, so fill in this spot.
+   { m=1; Who[i]=tmp; }
+  }
+ }
+
+ for(i=0; i<4+nummonsters; i++) //do everyone's commands.
+ {
+  DrawBattleScreen();
+//  GotoXY(0, 70); PrintString(0, "i: "+str(i)+" who[i]: "+str(who[i]));
+  if(who[i]<4) //this is a player attacking
+  {
+   if(HP[who[i]]) //and he's still alive.
+   {
+    switch (PlayerCommand[Who[i]])
+    {
+     case 0: //fight!
+      Fight(Who[i]);
+     case 1: //item
+     case 2: //magic
+     case 3: //defend
+     case 4: //run!
+    }
+    if(MonstersDead())
+    {
+     PlayMusic("howdeep.mod");
+     DrawBattleScreen();
+     GotoXY(80, 10); PrintString(0, "You are victorious!");
+     Showpage();
+     While(!b1) { updatecontrols(); }
+     battledone=1;
+     return;
+    }
+   }
+   else //dead
+   {
+    DrawBattleScreen();
+    Write(Names[who[i]]+"'s turn, but he's already dead :(");
+    Showpage();
+   }
+  }
+  else //monster's turn!
+  {
+   if(MonsterHP[Who[i]-4])
+   {
+    //the -4 accounts for the player's party. If who[i] is 4, that means it's enemy 0 atttacking. if who[i] is 5, it means enemy 1, etc.
+    switch (MonsterCommand[Who[i]-4])
+    {
+     case 0: //fight!
+      MonsterFight(Who[i]-4);
+     case 1: //item
+     case 2: //magic
+     case 3: //defend
+     case 4: //run!
+    }
+    if(PlayersDead())
+    {
+     PlayMusic("polterg.xm");
+     DrawBattleScreen();
+     GotoXY(80, 10); PrintString(0, "You lost :(");
+     Showpage();
+     While(!b1) { updatecontrols(); }
+     battledone=2;
+     return;
+    }
+   }
+   else //dead
+   {
+    DrawBattleScreen();
+    Write(MonsterName[who[i]-4]+"'s turn, but he's already dead ;)");
+    Showpage();
+   }
+  }
+  While(!b1) updatecontrols();
+  unpress(1);
+ }
+}
+
+int MonstersDead() //returns whether or not the enemy party is dead.
+{
+ int i;
+ for(i=0; i<nummonsters; i++) if(MonsterHP[i]) return 0;
+ return 1;
+}
+
+int PlayersDead() //returns whether or not the player party is dead.
+{
+ int i;
+ for(i=0; i<4; i++) if(HP[i]) return 0;
+ return 1;
+}
+
+void Fight(int attacker)
+{
+ int i;
+ int dmg;
+ string msg;
+ playsound(sound_hit, 63, 127);
+ //DoAnimation();
+ dmg=random(Pwr[attacker])+Pwr[attacker]+WeaponPower[Weapon[attacker]]-MonsterDef[PlayerWho[attacker]];
+ if(dmg<0) dmg=0;
+ msg=Names[attacker]+" attacks "+MonsterName[PlayerWho[attacker]]+", ";
+
+ if(!MonsterHP[PlayerWho[attacker]]) //monster was dead before the attack!
+ {
+  msg=msg+"but the enemy was already dead! ";
+ }
+ else
+ {
+  if(dmg) msg=msg+"for "+str(dmg)+" damage. ";
+  else msg=msg+"but missed. ";
+  MonsterHP[PlayerWho[attacker]]-=dmg;
+  if(MonsterHP[PlayerWho[attacker]]<0) MonsterHP[PlayerWho[attacker]]=0;
+  if(!MonsterHP[PlayerWho[attacker]])
+  {
+   msg=msg+MonsterName[PlayerWho[attacker]]+" was killed. ";
+  }
+ }
+ Write(msg);
+}
+
+void MonsterFight(int attacker)
+{
+ int i;
+ int dmg;
+ string msg;
+ int modifier;
+ playsound(sound_hit, 63, 127);
+ //DoAnimation();
+
+ dmg=(random(MonsterPwr[attacker])/4)+MonsterPwr[attacker]-Def[MonsterWho[attacker]];
+ if(PlayerCommand[MonsterWho[attacker]]=3) //this player was defending.
+ { dmg=dmg/2; } //cut the damage in half.
+
+ if(dmg<0) dmg=0; //make sure an attack can't heal the player. ;)
+ msg=MonsterName[attacker]+" attacks "+Names[MonsterWho[attacker]]+", ";
+
+ if(!HP[MonsterWho[attacker]]) //player was dead before the attack!
+ {
+  msg=msg+"but he was already dead!";
+ }
+ else
+ {
+  if(dmg)
+  {
+   msg=msg+"for "+str(dmg)+" damage. ";
+   PaletteMorph(255,0,0,50,63);
+   Delay(4);
+   PaletteMorph(0,0,0,0,63);
+  }
+
+  else msg=msg+"but missed. ";
+  HP[MonsterWho[attacker]]-=dmg;
+  if(HP[MonsterWho[attacker]]<0) HP[MonsterWho[attacker]]=0;
+  if(!HP[MonsterWho[attacker]]) //dead :(
+  {
+   msg=msg+Names[MonsterWho[attacker]]+" was killed. ";
+  }
+ }
+ Write(msg);
+}
+
+void Write(string msg)
+{
+ //Wordwrap and write slow...
+ GotoXY(80, 10); PrintString(0, mid(msg, 0, 26));
+ GotoXY(80, 20); PrintString(0, mid(msg, 27, 26));
+ GotoXY(80, 30); PrintString(0, mid(msg, 53, 24));
+ ShowPage();
+}
+
+int NotSelected(int num, int size)
+{
+ int i;
+ if(size=0) return 1; //no one has been chosen yet, so return true.
+ for(i=0; i<size; i++) //check all the choices that were made.
+ {
+  if(Who[i]=num) return 0; //this player/monster has been chosen already.
+ }
+ return 1; //this player/monster has been chosen.
+}
+
+void MonsterAI()
+{
+ int i;
+ for(i=0; i<nummonsters; i++) //choose for all the monsters.
+ {
+  if(MonsterHP[i]) //monster has to be alive ;)
+  {
+   MonsterCommand[i]=0; //simple fight command.
+   MonsterWho[i]=ChoosePlayer(); //choose who to fight!
+  }
+ }
+}
+
+int ChoosePlayer()
+{
+ int i;
+ int m;
+ int r;
+ while(!m) //skips over dead characters.
+ {
+  r=Random(4);
+  if(HP[r]) return r; //make sure to choose only someone living.
+ }
+}
+
+int ItemSelectMenu(int plrindex)
+{
+ int menudone;
+ int i;
+ int ptr; //what position is being looked at?
+ int offset; //how far down the list have we gone?
+ //note, the actual item being pointed to is ptr+offset.
+ While(!menudone)
+ {
+  updatecontrols();
+  DrawBattleScreen();
+  SelectBox(plrindex);
+  DrawChoiceWindow();
+
+  GotoXY(0, 60); PrintString(0, str(ptr));
+  GotoXY(0, 70); PrintString(0, str(offset));
+
+  for(i=0; i<5; i++)
+  {
+   gotoxy(90, 10+(10*i)); printstring(0, ItemList[i+offset]);
+   gotoxy(300, 10+(10*i)); printstring(0, Str(NumItems[i+offset]));
+  }
+  TCopySprite(75, 8+(10*ptr), 16, 16, pointer);
+  ShowPage();
+  if(up)
+  {
+   unpress(5);
+   if(offset)
+   {
+    if(ptr>0) ptr--;
+    else offset--;
+   }
+   else
+   {
+    if(ptr>0) ptr--;
+   }
+  }
+  if(down)
+  {
+   unpress(6);
+   if(ptr<4) ptr++;
+   else if(offset+ptr < MaxItems-1) offset++;
+  }
+
+  if(b2) //cancelled. :(
+  {
+   unpress(2);
+   return 0; //no item was selected, so return false.
+  }
+  if(b1) //choice made.
+  {
+   unpress(1);
+   //PlayerWho[plrindex]=ptr; //store which enemy the player chose.
+   return 1; //item was selected, so return true.
+  }
+ }
+
+
+
+}

@@ -1,0 +1,52 @@
+#include "data.vc"
+#include "battle.vc"
+
+int pointer; //hand image
+int menumove, menuopen; //menu sounds
+int sound_hit, sound_fire, sound_cure; //misc battle sounds
+void Autoexec()
+{
+ setresolution(320,240);       
+ pointer=LoadImage("pointer.pcx");
+ menumove=CacheSound("menumove.wav"):
+ menuopen=CacheSound("menuopen.wav"):
+ sound_hit=CacheSound("hit01.wav");
+ //sound_fire=CacheSound("bomb.wav");
+ sound_cure=CacheSound("magic.wav");
+
+ palettemorph(0,0,0,0,63);
+ 
+ LoadItems();
+ LoadSpells();
+ InitStats();
+
+ //music_volume=0;
+ playsound(sound_fire, 63, 127);
+ ShowStats();
+
+ PlayMusic("battle.s3m");
+ Battle();
+}
+
+int delay(int d)
+{
+ int tm;
+ tm=timer;
+ while(d>timer-tm) { }
+}
+
+void Window(int x, int y, int w, int h, int c1, int c2)
+{
+ BoxFill(x, y, w ,h, c1);
+ Box(x, y, w ,h, c2);
+}
+
+void Box(int x, int y, int w, int h, int c) //draws a rectangle with given width and height, often easier to use than rect.
+{
+ Rect(x, y, x+w, y+h, c);
+}
+
+void BoxFill(int x, int y, int w, int h, int c) //draws a filled rectangle with given width and height, often easier to use than rectfill.
+{
+ RectFill(x, y, x+w, y+h, c);
+}

@@ -1,0 +1,7 @@
+*** Hatchet's Battle System Tutorial ***
+
+I finally decided to write a badly needed battle system tutorial. I will be writing a battle system from scratch, and writing down how I did it as I go along. This is just a bare bones one - don't expect fancy spell effects or great graphics or anything. However, it will contain a working stat, item, magic, and attack system, and support for multiple party members and enemies. I'm hoping that someone will make use of this.
+
+This battle system is loosely based on the original Dragon Warrior's system, since that was the easiest to program. However, unlike DW, it will have "time" in battles. 
+
+The first thing we need to do when writing a battle system is create a stats system. So let's do that! 
