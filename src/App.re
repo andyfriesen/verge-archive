@@ -297,7 +297,13 @@ let v2games: array(Game.game) = [|
         engine: Game.V2, 
         vtype: "v2game",  
     },    
-	
+    {
+        name: "slimesv2",
+        title: "Attack of the Slimes",
+        description: "48HoV puzzle game by Hatchet and Khadgar.",
+        engine: Game.V2, 
+        vtype: "v2game",  
+    },  	
  
     
 |];
