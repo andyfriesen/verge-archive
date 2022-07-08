@@ -170,6 +170,7 @@ int blocks[72]; //main playing screen
 int destruct[72]; //stores which blocks get to be destroyed. ;)
 
 int blockx[2], blocky[2], blockc[2], dir;
+int nextblockc[2];
 
 int bimg[8];
 int bg;
@@ -200,6 +201,20 @@ void PreMain()
  }
 }
 
+void GenerateBlock(int newgame) {
+  int i;
+
+  for(i=0; i<2; i++) {
+   if(newgame) blockc[i]=random(maxslimes)+1;
+   else blockc[i]=nextblockc[i];
+   nextblockc[i]=random(maxslimes)+1; 
+  }
+   blockx[0]=random(6);
+   blocky[0]=0;
+   blockx[1]=blockx[0];
+   blocky[1]=1;
+}	 
+
 int Main()
 {
  int done, i, j;
@@ -210,6 +225,7 @@ int Main()
  
  i=random(2);
  ///random music chance
+ //i=1;
  if(i) playmusic("sewers.xm");
  else playmusic("plop170.xm");
  
@@ -220,14 +236,10 @@ int Main()
  bimg[4]=LoadImage("yellow.pcx");
  bimg[5]=LoadImage("purple.pcx");
  bimg[6]=LoadImage("red.pcx");
+ 
 
- blockc[0]=random(maxslimes)+1; 
- blockx[0]=random(6);
- blocky[0]=0;
-   
- blockc[1]=random(maxslimes)+1;
- blockx[1]=blockx[0];
- blocky[1]=blocky[0]+1;
+ 
+ 
  dir=2;
 
  timer=0; 
@@ -235,6 +247,7 @@ int Main()
  level=1;
  maxslimes=3;
  firstmessage=0;
+ GenerateBlock(1); 
  
  while(alive)
  {
@@ -398,7 +411,7 @@ int Lose()
 void DrawScreen()
 {
   int x,y,b;
-
+  int size;
   copysprite(0,0, 320, 240, bg);
   //setlucent(1); RectFill(XOFFSET, YOFFSET, XOFFSET+96, YOFFSET+192, RGB(0,0,64)); Setlucent(0);
   setlucent(1); RectFill(XOFFSET, YOFFSET, XOFFSET+96, YOFFSET+192, 23); Setlucent(0);
@@ -409,12 +422,21 @@ void DrawScreen()
 
 
   setlucent(1); 
-  RectFill(144, 174, 254,196 , 23); 
+  RectFill(194, 174, 304,196 , 23); 
   Setlucent(0);
-  Rect(143, 173, 255, 197, 63);
+  Rect(193, 173, 305, 197, 63);
 
-  gotoXY(150, 177); Printstring(0, "Score: "+str(score));
-  gotoXY(150, 187); Printstring(0, "Level: "+str(level));
+  gotoXY(200, 177); Printstring(0, "Score: "+str(score));
+  gotoXY(200, 187); Printstring(0, "Level: "+str(level));
+  
+  size=36;
+  setlucent(1); 
+  RectFill(144, 174, 144+size,174+size+12 , 23); 
+  Setlucent(0);
+  Rect(143, 173, 143+size+2, 173+size+2+12, 63);
+  gotoXY(148, 177); Printstring(0, "Next");
+  tcopySprite(143+12, 173+16, 15, 16, bimg[nextblockc[0]]);
+  tcopySprite(143+12, 173+16+16, 15, 16, bimg[nextblockc[1]]);
   
   if(msgtimer)
   {
@@ -456,14 +478,8 @@ void LockBlocks()
  } 
  }
 
- blockc[0]=random(maxslimes)+1; 
- blockx[0]=random(6);
- blocky[0]=0;
-   
- blockc[1]=random(maxslimes)+1;
- blockx[1]=blockx[0];
- blocky[1]=blocky[0]+1;
- dir=2;
+  GenerateBlock(0);
+  dir=2;
 }
 
 
