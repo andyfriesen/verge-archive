@@ -1,0 +1,678 @@
+
+void Autoexec()
+{
+ setresolution(320,240);
+ bg=loadimage("bg.pcx");
+ bimg[1]=LoadImage("blue.pcx");
+ bimg[2]=LoadImage("green.pcx");
+ bimg[3]=LoadImage("orange.pcx");
+ bimg[4]=LoadImage("yellow.pcx");
+ bimg[5]=LoadImage("purple.pcx");
+ bimg[6]=LoadImage("red.pcx");
+ 
+ log("Intro");
+ Intro(); 
+ palettemorph(0,0,0,0,63);
+ Scroll();
+ PreMain(); 
+}
+
+
+void Intro()
+{
+ int img;
+ int t;
+ int x, y, i;
+ int done;
+ int l;
+ 
+ //pardon my crappy hacky code. ;)
+ /*
+ img=Loadimage("blank.pcx");
+ palettemorph(0,0,0,0,63);
+ timer = 0;
+ while(timer<500)
+ {
+  copysprite(0,0,320,240, img);  
+  Showpage();
+  UpdateControls();
+  if(b1) timer=500;
+ }
+ */
+ 
+ playmusic("evil.s3m");
+ img=Loadimage("credits.pcx");
+ timer=0;
+ 
+ while(timer<255)
+ {
+  copysprite(0,0,320,240, img);
+  PaletteMorph(0,0,0,0,timer/4);
+  Showpage();
+  UpdateControls();
+  if(b1) timer=255;
+ }
+ unpress(1);
+ palettemorph(0,0,0,0,63);
+ slimefade(200);  
+ free(img);
+
+ img=Loadimage("nobull.pcx"); 
+ timer=0; 
+ while(timer<255)
+ {
+  copysprite(0,0,320,240, img);
+  PaletteMorph(0,0,0,0,timer/4);
+  Showpage();
+  UpdateControls();
+  if(b1) timer=255;
+ }
+ unpress(1);
+ palettemorph(0,0,0,0,63);
+ slimefade(200);  
+ free(img);
+
+ img=Loadimage("title.pcx"); 
+ timer=0; 
+ while(timer<255)
+ {
+  copysprite(0,0,320,240, img);
+  PaletteMorph(0,0,0,0,timer/4);
+  Showpage();
+  UpdateControls();
+  if(b1) timer=255;
+ }
+ unpress(1);
+ palettemorph(0,0,0,0,63);
+ slimefade(200); 
+ timer=0;
+ free(img);
+}
+
+int in[12];
+
+void Scroll()
+{
+ int t, x, y, j, i, done;
+ for(i=0; i<10; i++) in[i]=Loadimage("line"+str(i+1)+".pcx");
+ unpress(1);
+ 
+ timer=0;
+ while(!done)
+ {
+  updatecontrols();
+  if(b1) done++;
+  rectfill(0,0,screenx, screeny, 1);
+  for(i=0; i<10; i++) 
+   {
+    y=240+(i*30)-(timer/4);
+
+    if(y<240 && y>0-30)
+    { 
+     scalesprite(70-(y/4),y,320,28,(y/2)+160, y/24+14, in[i]);
+    }
+    
+    if(i=9 && y<0-40) done++;
+   }
+   showpage();
+ }
+
+ for(i=0; i<10; i++) free(in[i]);
+ 
+}
+
+void SlimeFade(int fadetime)
+{
+ int l, done, x, y;
+ l=malloc(240); 
+ timer=0;
+ while(timer<=fadetime)
+ {
+  updatecontrols();
+  for(x=0; x<320; x++)
+  {
+    GrabRegion(x, 0, x, 240, l);
+    y=random(24)+16*timer/fadetime;
+    copysprite(x, y, 1, 240, l); 
+    line(x, 0, x, y, 1);
+  }
+  showpage();
+  if(b1) fadetime=0; //lemmie ouuuuut 
+ }
+ unpress(1);
+ free(l);
+}
+
+int t;
+int tm, tc;
+
+int dt, des;
+
+int score;
+int delay;
+int level, msgtimer;
+int alive;
+int maxslimes;
+int firstmessage;
+
+string msg[8];
+
+int hit, rotate, laugh;
+
+#define XSIZE 6
+#define YSIZE 12
+
+#define XOFFSET 32
+#define YOFFSET 32
+
+int blocks[72]; //main playing screen
+
+int destruct[72]; //stores which blocks get to be destroyed. ;)
+
+int blockx[2], blocky[2], blockc[2], dir;
+int nextblockc[2];
+
+int bimg[8];
+int bg;
+
+int GetBlock(int x, int y)
+{
+ if(x<0 || x>XSIZE-1 || y<0 || y>YSIZE-1) return 0-1;
+ return blocks[y*XSIZE+x];
+}
+
+void SetBlock(int x, int y, int c)
+{
+ blocks[y*XSIZE+x]=c;
+}
+
+
+void PreMain()
+{
+ int i;
+ laugh=cachesound("laugh.wav");
+ hit=cachesound("hit.wav");
+ rotate=cachesound("whoosh.wav");
+ while(1)
+ {
+  for(i=0; i<72; i++) { blocks[i]=0; destruct[i]=0; }
+  score=0; 
+  if(!Main()) exit("Thanks for playing Attack of the Slimes! Your final score was: "+str(score));
+ }
+}
+
+void GenerateBlock(int newgame) {
+  int i;
+
+  for(i=0; i<2; i++) {
+   if(newgame) blockc[i]=random(maxslimes)+1;
+   else blockc[i]=nextblockc[i];
+   nextblockc[i]=random(maxslimes)+1; 
+  }
+   blockx[0]=random(6);
+   blocky[0]=0;
+   blockx[1]=blockx[0];
+   blocky[1]=1;
+}	 
+
+int Main()
+{
+ int done, i, j;
+ int x,y;
+ int b;
+ 
+ delay=32;
+ 
+ i=random(2);
+ ///random music chance
+ //i=1;
+ if(i) playmusic("sewers.xm");
+ else playmusic("plop170.xm");
+ 
+ bg=loadimage("bg.pcx");
+ bimg[1]=LoadImage("blue.pcx");
+ bimg[2]=LoadImage("green.pcx");
+ bimg[3]=LoadImage("orange.pcx");
+ bimg[4]=LoadImage("yellow.pcx");
+ bimg[5]=LoadImage("purple.pcx");
+ bimg[6]=LoadImage("red.pcx");
+ 
+
+ 
+ 
+ dir=2;
+
+ timer=0; 
+ alive=1;
+ level=1;
+ maxslimes=3;
+ firstmessage=0;
+ GenerateBlock(1); 
+ 
+ while(alive)
+ {
+  while(!timer) { UpdateControls(); }
+  t=timer; timer=0; 
+  for(i=0; i<t; i++) 
+  {  
+    UpdateControls();
+    if(left) 
+    {
+     if(!GetBlock(blockx[0]-1, blocky[0]) && !GetBlock(blockx[1]-1, blocky[1])) 
+     { blockx[0]--; blockx[1]--; Unpress(7); }
+    } 
+    if(right) 
+    { 
+     if(!GetBlock(blockx[0]+1, blocky[0]) && !GetBlock(blockx[1]+1, blocky[1])) 
+     { blockx[0]++; blockx[1]++; Unpress(8); }           
+    }  
+    if(down) tm+=2;
+    if(up)
+    {
+     unpress(5);
+     switch(dir)
+     {
+      case 0: //block is on top
+       if(!GetBlock(blockx[0]+1, blocky[0]))
+       {
+        playsound(rotate, 64, 128);
+        blockx[1]=blockx[0]+1;
+        blocky[1]=blocky[0];
+        dir=1;
+       }
+      case 1: //block is on the right
+       if(!GetBlock(blockx[0], blocky[0]+1))
+       {
+        playsound(rotate, 64, 128);    
+        blockx[1]=blockx[0];
+        blocky[1]=blocky[0]+1;
+        dir=2;
+       }      
+      case 2: //block is on bottom
+       if(!GetBlock(blockx[0]-1, blocky[0]))
+       {
+        playsound(rotate, 64, 128);    
+        blockx[1]=blockx[0]-1;
+        blocky[1]=blocky[0];
+        dir=3;
+       }
+      case 3: //block is on the left
+       if(!GetBlock(blockx[0], blocky[0]-1))
+       {
+        playsound(rotate, 64, 128);    
+        blockx[1]=blockx[0];
+        blocky[1]=blocky[0]-1;
+        dir=0;
+       }
+     }         
+   }
+    
+   if(msgtimer) msgtimer--;
+   tm++;
+   if(tm>delay)
+   {
+    tm-=delay;
+    switch(dir)
+    {
+     case 0:    
+      if(!GetBlock(blockx[0], blocky[0]+1)) 
+      { 
+       blocky[0]++;
+       blocky[1]++;
+      }
+      else LockBlocks();
+    
+     case 1: 
+      if(!GetBlock(blockx[0], blocky[0]+1) && !GetBlock(blockx[1], blocky[1]+1)) 
+      { 
+       blocky[0]++;
+       blocky[1]++;
+      }
+      else LockBlocks();
+
+     case 2:    
+      if(!GetBlock(blockx[1], blocky[1]+1)) 
+      { 
+       blocky[0]++;
+       blocky[1]++;
+      }     
+      else LockBlocks();
+     case 3: 
+      if(!GetBlock(blockx[0], blocky[0]+1) && !GetBlock(blockx[1], blocky[1]+1)) 
+      { 
+       blocky[0]++;
+       blocky[1]++;
+      }
+      else LockBlocks();     
+    }
+ 
+   }
+  
+  } //end logic loop   
+
+  DrawScreen(); 
+  
+  
+  
+  for(y=0; y<YSIZE; y++)
+    {  
+     for(x=0; x<XSIZE; x++)
+     {
+      b=GetBlock(x, y);
+      if(b) 
+      {
+       TCopySprite(16*x+XOFFSET, 16*y+YOFFSET, 15, 16, bimg[b]);
+      }
+     }
+  }
+  
+  tcopySprite(16*blockx[0]+XOFFSET, 16*(blocky[0]-1)+YOFFSET+(tm*16/delay), 15, 16, bimg[blockc[0]]);
+  tcopySprite(16*blockx[1]+XOFFSET, 16*(blocky[1]-1)+YOFFSET+(tm*16/delay), 15, 16, bimg[blockc[1]]);
+
+  
+  ShowPage(); 
+  
+ }
+ 
+ for(i=0; i<7; i++) free(bimg[i]); 
+ playmusic("evil.s3m");
+ PlaySound(laugh, 64, 128); 
+ SlimeFade(100);
+ return Lose();
+
+}
+
+int Lose()
+{
+ int img;
+ img=loadimage("gameover.pcx");
+ timer=0;
+  while(timer<255)
+  {
+   copysprite(0,0,320,240, img);
+   PaletteMorph(0,0,0,0,timer/4);
+   Showpage();
+   if(b1) timer=255;
+ }
+ free(img);
+ PaletteMorph(0,0,0,0,63);
+ gotoXY(80, 200); Printstring(0,"Your score: "+str(score));
+ gotoXY(80, 220); Printstring(0,"Play again? (y/n)");
+ showpage();
+ while(1)
+ { Updatecontrols(); 
+  if(key[21]) { slimefade(100); return 1; } //yes
+  if(key[49]) { slimefade(100); return 0; } //no
+ }
+ 
+ 
+}
+
+void DrawScreen()
+{
+  int x,y,b;
+  int size;
+  copysprite(0,0, 320, 240, bg);
+  //setlucent(1); RectFill(XOFFSET, YOFFSET, XOFFSET+96, YOFFSET+192, RGB(0,0,64)); Setlucent(0);
+  setlucent(1); RectFill(XOFFSET, YOFFSET, XOFFSET+96, YOFFSET+192, 23); Setlucent(0);
+  Rect(XOFFSET-1, YOFFSET-1, XOFFSET+1+96, YOFFSET+1+192, 63);
+  
+  setlucent(1); RectFill(144, 32, 304,164 , 23); Setlucent(0);
+  Rect(143, 31, 305, 165, 63);
+
+
+  setlucent(1); 
+  RectFill(194, 174, 304,196 , 23); 
+  Setlucent(0);
+  Rect(193, 173, 305, 197, 63);
+
+  gotoXY(200, 177); Printstring(0, "Score: "+str(score));
+  gotoXY(200, 187); Printstring(0, "Level: "+str(level));
+  
+  size=36;
+  setlucent(1); 
+  RectFill(144, 174, 144+size,174+size+12 , 23); 
+  Setlucent(0);
+  Rect(143, 173, 143+size+2, 173+size+2+12, 63);
+  gotoXY(148, 177); Printstring(0, "Next");
+  tcopySprite(143+12, 173+16, 15, 16, bimg[nextblockc[0]]);
+  tcopySprite(143+12, 173+16+16, 15, 16, bimg[nextblockc[1]]);
+  
+  if(msgtimer)
+  {
+     gotoxy(150, 40); printstring(0, msg[0]);
+     gotoxy(150, 56); printstring(0, msg[1]);
+     gotoxy(150, 72); printstring(0, msg[2]);
+     gotoxy(150, 88); printstring(0, msg[3]);
+     gotoxy(150, 104); printstring(0, msg[4]); 
+     gotoxy(150, 120); printstring(0, msg[5]); 
+     gotoxy(150, 136); printstring(0, msg[6]); 
+     gotoxy(150, 152); printstring(0, msg[7]); 
+  }
+}
+
+void LockBlocks()
+{
+ int x, y, b, m; 
+ int done;
+  PlaySound(hit, 64, 128);
+ SetBlock(blockx[0], blocky[0], blockc[0]);
+ SetBlock(blockx[1], blocky[1], blockc[1]);
+ BlockFall();
+ m=1;
+ 
+ for(x=0; x<XSIZE; x++) if(GetBlock(x, 0)) alive=0; //looks like you lose! hahahah 
+ if (alive) {
+ while(!done)
+ {
+  
+  for(y=0; y<YSIZE; y++)
+  { for(x=0; x<XSIZE; x++)
+   {
+    b=GetBlock(x,y);
+    if(b) ColorMatch(x,y,b);
+   }
+  } 
+  if(des) { DoDestruct(m); m+=1; }
+  else done++;
+ } 
+ }
+
+  GenerateBlock(0);
+  dir=2;
+}
+
+
+void ColorMatch(int x, int y, int c)
+{
+ int d, a, b;
+ for(d=0; d<8; d++) //check each direction, starting up, counterclockwise
+ {
+  switch(d)
+  {
+   case 0: a=0; b=0-1; //up
+   case 1: a=1; b=0-1; //up-right
+   case 2: a=1; b=0; //right
+   case 3: a=1; b=1; //down-right
+   case 4: a=0; b=1; //down
+   case 5: a=0-1; b=1; //down-left
+   case 6: a=0-1; b=0; //left
+   case 7: a=0-1; b=0-1; //up-left
+  }
+  if(GetBlock(x+a,y+b)=c && GetBlock(x+(2*a),y+(2*b))=c)
+  {
+   des=1;
+   SetDestruct(x,y, 1); 
+   SetDestruct(x+a,y+b, 1); 
+   SetDestruct(x+(2*a),y+(2*b), 1);
+  }
+ }
+}
+
+void SetDestruct(int x, int y, int c)
+{
+ destruct[y*XSIZE+x]=c;
+}
+
+int GetDestruct(int x, int y)
+{
+ return destruct[y*XSIZE+x];
+}
+
+void DoDestruct(int m)
+{
+ int dt; 
+ int x,y, b, c;
+ int blah;
+ dt=timer;
+
+ while(dt+50>timer)
+ {
+  DrawScreen();
+ 
+  for(y=0; y<YSIZE; y++)
+  {  
+   for(x=0; x<XSIZE; x++)
+   {
+     b=GetBlock(x, y);
+     c=GetDestruct(x, y);
+     if(b) 
+     {
+      if(c) TCopySprite(16*x+XOFFSET, 16*y+YOFFSET, 15, 16, bimg[random(6)+1]);
+      else TCopySprite(16*x+XOFFSET, 16*y+YOFFSET, 15, 16, bimg[b]);
+     }
+   }
+  }
+
+  ShowPage();
+ }
+ 
+ for(y=0; y<YSIZE; y++)
+ {  
+  for(x=0; x<XSIZE; x++)
+  {
+   b=GetDestruct(x, y);
+   if(b) 
+   { 
+    SetBlock(x,y,0);
+    SetDestruct(x,y, 0);
+    score+=50*m;
+   }
+  }
+ }
+ 
+ if(score>0 && score<1000 && level=1 && firstmessage=0)
+ {
+  firstmessage=1;
+  msgtimer=500;  
+  msg[0]="I've got it! I've";
+  msg[1]="solved the mystery!";
+  msg[2]="When 3 slimes of ";
+  msg[3]="the same color are";
+  msg[4]="touching, they die!";    
+  msg[5]="";
+  msg[6]="";
+  msg[7]="";
+ }
+ else {
+	 while(score > level * 1000) LevelUp();
+ }
+ 
+ if(m=2) 
+ {
+   msgtimer=500;
+   switch(random(6))
+   {
+    case 0: msg[0]="Who's your daddy!";
+    case 1: msg[0]="Go me! Go me!";
+    case 2: msg[0]="Kabooooooom!!!!";
+    case 3: msg[0]="I 4m L33t!";
+    case 4: msg[0]="I'm on fire!";
+    case 5: msg[0]="Nuke 'em, baby!";    
+   }
+   msg[1]="";
+   msg[2]="";
+   msg[3]="";
+   msg[4]="";    
+   msg[5]="";
+   msg[6]="";
+   msg[7]="";
+ 
+ }
+ if(m=4) 
+ {
+   msgtimer=500;
+   msg[0]="I'm the slimebusta!";
+   msg[1]="";
+   msg[2]="";
+   msg[3]="";
+   msg[4]="";    
+   msg[5]="";
+   msg[6]="";
+   msg[7]="";
+ 
+ }
+ if(m>4) 
+ {
+   msgtimer=500;
+   msg[0]="You go to hell!";
+   msg[1]="";
+   msg[2]="You go to hell";
+   msg[3]="and you die!";
+   msg[4]="";    
+   msg[5]="";
+   msg[6]="";
+   msg[7]="";
+ }
+ 
+ BlockFall();
+ des=0;
+ timer=dt; //so that it doesn't affect the game timer.
+}
+
+void LevelUp() {
+	level+=1;
+	if(level>0 && level <= 2) maxslimes=3;
+	if(level>2 && level <= 4) maxslimes=4;
+	if(level>4 && level <= 6) maxslimes=5;
+	if(level>6) maxslimes=6;
+	
+}
+
+void BlockFall()
+{
+ int x, y, a, moved, m, b;
+ vctrace=1;
+ for(x=0; x<XSIZE; x++)
+ {
+  m=0;
+  a=0;
+  for(y=YSIZE-1; y>0; y--)
+  {
+   b=GetBlock(x,y);
+   if(!b)
+   {
+    a++;
+   }
+   else
+   {
+    if(a)
+    {
+     //log("x: "+str(x)+" y: "+str(y)+" a: "+str(a));
+     setblock(x,y,0);
+     setblock(x, y+a, b);
+     m=1;
+     moved=1;
+    } 
+   }
+  }
+  
+ } 
+ vctrace=0;
+// return moved;
+}
+
+
+
+
+
