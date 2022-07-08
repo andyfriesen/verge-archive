@@ -2,10 +2,7 @@
 void Autoexec()
 {
  setresolution(320,240);
- log("playmusic");
- //playmusic("sewers.xm");
- playmusic("plop170.xm");
-  bg=loadimage("bg.pcx");
+ bg=loadimage("bg.pcx");
  bimg[1]=LoadImage("blue.pcx");
  bimg[2]=LoadImage("green.pcx");
  bimg[3]=LoadImage("orange.pcx");
@@ -21,7 +18,6 @@ void Autoexec()
 }
 
 
-
 void Intro()
 {
  int img;
@@ -31,6 +27,7 @@ void Intro()
  int l;
  
  //pardon my crappy hacky code. ;)
+ /*
  img=Loadimage("blank.pcx");
  palettemorph(0,0,0,0,63);
  timer = 0;
@@ -41,6 +38,7 @@ void Intro()
   UpdateControls();
   if(b1) timer=500;
  }
+ */
  
  playmusic("evil.s3m");
  img=Loadimage("credits.pcx");
@@ -116,10 +114,7 @@ void Scroll()
     
     if(i=9 && y<0-40) done++;
    }
- 
-
-
-  showpage();
+   showpage();
  }
 
  for(i=0; i<10; i++) free(in[i]);
@@ -157,6 +152,8 @@ int score;
 int delay;
 int level, msgtimer;
 int alive;
+int maxslimes;
+int firstmessage;
 
 string msg[8];
 
@@ -210,7 +207,11 @@ int Main()
  int b;
  
  delay=32;
- //playmusic("plop170.xm");
+ 
+ i=random(2);
+ ///random music chance
+ if(i) playmusic("sewers.xm");
+ else playmusic("plop170.xm");
  
  bg=loadimage("bg.pcx");
  bimg[1]=LoadImage("blue.pcx");
@@ -220,17 +221,21 @@ int Main()
  bimg[5]=LoadImage("purple.pcx");
  bimg[6]=LoadImage("red.pcx");
 
- blockc[0]=random(3)+1; 
+ blockc[0]=random(maxslimes)+1; 
  blockx[0]=random(6);
  blocky[0]=0;
    
- blockc[1]=random(3)+1;
+ blockc[1]=random(maxslimes)+1;
  blockx[1]=blockx[0];
  blocky[1]=blocky[0]+1;
  dir=2;
 
  timer=0; 
  alive=1;
+ level=1;
+ maxslimes=3;
+ firstmessage=0;
+ 
  while(alive)
  {
   while(!timer) { UpdateControls(); }
@@ -403,7 +408,13 @@ void DrawScreen()
   Rect(143, 31, 305, 165, 63);
 
 
-  gotoXY(150, 170); Printstring(0, "Score: "+str(score));
+  setlucent(1); 
+  RectFill(144, 174, 254,196 , 23); 
+  Setlucent(0);
+  Rect(143, 173, 255, 197, 63);
+
+  gotoXY(150, 177); Printstring(0, "Score: "+str(score));
+  gotoXY(150, 187); Printstring(0, "Level: "+str(level));
   
   if(msgtimer)
   {
@@ -445,11 +456,11 @@ void LockBlocks()
  } 
  }
 
- blockc[0]=random(3)+1; 
+ blockc[0]=random(maxslimes)+1; 
  blockx[0]=random(6);
  blocky[0]=0;
    
- blockc[1]=random(3)+1;
+ blockc[1]=random(maxslimes)+1;
  blockx[1]=blockx[0];
  blocky[1]=blocky[0]+1;
  dir=2;
@@ -534,10 +545,10 @@ void DoDestruct(int m)
   }
  }
  
- if(score>0 && score<1000 && level=0)
+ if(score>0 && score<1000 && level=1 && firstmessage=0)
  {
-  msgtimer=500;
-  level=1;
+  firstmessage=1;
+  msgtimer=500;  
   msg[0]="I've got it! I've";
   msg[1]="solved the mystery!";
   msg[2]="When 3 slimes of ";
@@ -547,6 +558,10 @@ void DoDestruct(int m)
   msg[6]="";
   msg[7]="";
  }
+ else {
+	 while(score > level * 1000) LevelUp();
+ }
+ 
  if(m=2) 
  {
    msgtimer=500;
@@ -599,6 +614,15 @@ void DoDestruct(int m)
  timer=dt; //so that it doesn't affect the game timer.
 }
 
+void LevelUp() {
+	level+=1;
+	if(level>0 && level <= 2) maxslimes=3;
+	if(level>2 && level <= 4) maxslimes=4;
+	if(level>4 && level <= 6) maxslimes=5;
+	if(level>6) maxslimes=6;
+	
+}
+
 void BlockFall()
 {
  int x, y, a, moved, m, b;
@@ -618,7 +642,7 @@ void BlockFall()
    {
     if(a)
     {
-     log("x: "+str(x)+" y: "+str(y)+" a: "+str(a));
+     //log("x: "+str(x)+" y: "+str(y)+" a: "+str(a));
      setblock(x,y,0);
      setblock(x, y+a, b);
      m=1;

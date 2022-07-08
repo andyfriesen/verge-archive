@@ -6,6 +6,7 @@ blue.pcx
 c.pcx
 credits.pcx
 evil.s3m
+font2.pcx
 g.pcx
 gameover.pcx
 green.pcx
