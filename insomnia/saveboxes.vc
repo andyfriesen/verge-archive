@@ -1,0 +1,45 @@
+void SaveBox1()
+  {
+		checktimer1();
+		GotoXY(203,69); PrintString(1,str(HP1));
+		GotoXY(235,69); PrintString(1,"/");
+		GotoXY(244,69); PrintString(1,str(MAX1));
+		GotoXY(259,53); PrintString(1,str(LV1));
+		GotoXY(235,53); PrintString(2,"LV");
+		GotoXY(43,77); PrintString(1,time1);
+  		GotoXY(51,69); PrintString(2,"Time");
+  		GotoXY(51,51); PrintString(1,saname[1]);
+	        /*Switch(savechr[1])
+		{
+		#include "savenames.vc"
+		}*/
+		iou=0;
+		Switch(savechr[1])
+		{
+		#include "savechrs.vc"
+		}
+		iou=23;
+		Switch(savechr[2])
+		{
+		#include "savechrs.vc"
+		}
+		iou=46;
+		Switch(savechr[3])
+		{
+		#include "savechrs.vc"
+		}
+		iou=69;
+		Switch(savechr[4])
+		{
+		#include "savechrs.vc"
+		}
+  }
+  
+
+string space1, space2, time1;
+void checktimer1()
+{
+If(min1<10) { space1=":0"; } Else { space1=":"; }
+If(hour1<10) { space2="0"; } Else { space2=""; }
+time1 = space2+str(hour1)+space1+str(min1);
+}

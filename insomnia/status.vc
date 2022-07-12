@@ -1,0 +1,156 @@
+int staty[5];
+int todo;
+int index, done;
+
+/*
+int HP[4];
+int MaxHP[4];
+int MP[4];
+int MaxMP[4];
+int Level[4];
+*/
+
+void status()
+{
+ todo=1;
+ done=0;
+ FadeOut(50,0);
+ //setresolution(640,480);
+ updatecontrols();
+ unpress(2);
+ FadeIn(50,0);
+ while(!done)
+ {
+  UpdateControls();
+  If(b2) { done=10; Unpress(2); }
+  //If(right) { Unpress(8); index++; if(index>3) index=0; }
+  //If(left) { Unpress(7); index--; If(index<0) index=3; }
+  RectFill(0,0,640,480,0);
+  DGW16(20,12,620,460);
+  DGW16(20,12,180,54);
+  DGW16(340,146,516,254);
+  Printit(40,26,2,Sub[2] + "Status");
+  //safety.vc
+  if(right)
+        {
+         if(todo!=5)
+         {
+         updatecontrols();
+         unpress(8);
+         todo++;
+         showpage();
+         }
+         if(todo=5)
+         {
+         updatecontrols();
+         unpress(8);
+         todo=1;
+         showpage();
+         }
+        }
+  if(left)
+        {
+         if(todo!=0)
+         {
+         updatecontrols();
+         unpress(7);
+         todo--;
+         showpage();
+         }
+         if(todo=0)
+         {
+         updatecontrols();
+         unpress(7);
+         todo=4;
+         showpage();
+         }
+        }
+  stats();
+  showpage();
+ }
+rectfill(0,0,640,480,0);
+FadeOut(50,0);
+Showpage();
+FadeIn(50,0);
+}
+
+
+void Stats()
+{
+Staty[1]=party.chr[0];
+Staty[2]=party.chr[1];
+Staty[3]=party.chr[2];
+Staty[4]=party.chr[3];
+gotoxy(200,94);
+PrintString(2,Sub[2] + "LV");
+gotoxy(200,110); PrintString(2,Sub[2] + "HP");
+gotoxy(200,126); PrintString(2,Sub[2] + "MP");
+PrintIt(40,184,2,Sub[2] + "Your Exp:");
+PrintIt(40,226,2,Sub[2] + "For level up:");
+PrintIt(60,352,2,Sub[2] + "Vigor  |");
+PrintIt(60,372,2,Sub[2] + "Speed  |");
+PrintIt(60,392,2,Sub[2] + "Stamina|");
+PrintIt(60,412,2,Sub[2] + "Mag.Pwr|");
+PrintIt(320,332,2,Sub[2] + "Bat.Pwr  |");
+PrintIt(320,352,2,Sub[2] + "Defense  |");
+PrintIt(320,372,2,Sub[2] + "Evade %  |");
+PrintIt(320,392,2,Sub[2] + "Mag.Def  |");
+PrintIt(320,412,2,Sub[2] + "MBlock%  |"+Sub[1]);
+
+TCopySprite(72, 64, 105, 105, port[Staty[todo]]);
+Printit(216, 62, 2, cname[Staty[todo]]);
+Printit(264,94,2, Str(LV[Staty[todo]]));
+Printit(264,110,2, Str(CurHP[Staty[todo]]) + "/" + Str(MaxHP[Staty[todo]]));
+Printit(264,126,2, Str(CurMP[Staty[todo]]) + "/" + Str(MaxMP[Staty[todo]]));
+PrintIt(232-((StrLen(Str(Exp[Staty[todo]]))-1)*FontWidth(2)),204, 2, Sub[1]+Str(Exp[Staty[todo]]));
+PrintIt(232-((StrLen(Str(ExpNext[Staty[todo]]))-1)*FontWidth(2)),246, 2, Sub[1]+Str(ExpNext[Staty[todo]]));
+PrintIt(205,352,2, Str(Vigor[Staty[todo]]));
+PrintIt(205,372,2, Str(Speed[Staty[todo]]));
+PrintIt(205,392,2, Str(Stamina[Staty[todo]]));
+PrintIt(204,412,2, Str(MagPwr[Staty[todo]]));
+PrintIt(497,332,2, Str(BatPwr[Staty[todo]]));
+PrintIt(497,352,2, Str(Defense[Staty[todo]]));
+PrintIt(497,372,2, Str(Evade[Staty[todo]])+"%");
+PrintIt(497,392,2, Str(MagDef[Staty[todo]]));
+PrintIt(497,412,2, Str(Mblock[Staty[todo]])+"%");
+PrintIt(400,162,2,"Fight");
+PrintIt(400,184,2,"Power");
+PrintIt(400,206,2,"Magic");
+PrintIt(400,228,2,"Item");
+
+/*Switch(Staty[todo])
+   {
+   #include "stats.vc"
+   }
+*/
+
+}
+
+
+Void PrintIt(int x1, int y1, int fonto, string texto)
+{
+gotoxy(x1,y1);
+PrintString(fonto, texto);
+}
+
+Void RightPrint(int x1, int y1, int fonto, string texto)
+{
+gotoxy(x1-(fontwidth(fonto)*strlen(texto)),y1);
+PrintString(fonto,right(texto,strlen(texto)));
+}
+
+Void CenterPrint(int y1, int fonto, string texto)
+{
+gotoxy((screenx/2)-((fontwidth(fonto)*strlen(texto))/2),y1);
+PrintString(fonto,texto);
+}
+
+Void CenterPrint2(int x1, int y1, int fonto, string texto)
+{
+gotoxy(x1-((fontwidth(fonto)*strlen(texto))/2),y1);
+PrintString(fonto,texto);
+}
+
+
+//leave space for me!
+

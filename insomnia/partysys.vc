@@ -1,0 +1,105 @@
+int party.chr[4];
+int playx, playy;
+int holdchr;
+int curHP[Nochar], maxHP[Nochar], curMP[Nochar], maxMP[Nochar], LV[Nochar], Exp[Nochar], Expnext[Nochar];
+int Vigor[Nochar], Speed[Nochar], Stamina[Nochar], MagPwr[Nochar], BatPwr[Nochar], Defense[Nochar], Evade[Nochar], MagDef[Nochar], MBlock[Nochar];
+string cname[51];
+
+void LoadChrs() //this function will load all possible player controlled entities to the map
+{
+EntitySpawn(0,0, "manrid.chr");
+EntitySpawn(0,0, "shadow.chr");
+EntitySpawn(0,0, "sqrbase.chr");
+EntitySpawn(0,0, "silv.chr");
+}
+
+void firstcheck() //this checks who is leading the group and places them as the visible and controllable character
+{
+playx=entity.tx[player];
+playy=entity.ty[player];
+Switch(party.chr[0])
+	{
+Case (0): Warp(0,0);
+          SetPlayer(0);
+	  Warp(playx,playy);
+Case (1): Warp(0,0);
+          SetPlayer(1);
+	  Warp(playx,playy);
+Case (2): Warp(0,0);
+	  SetPlayer(2);
+	  Warp(playx,playy);
+Case (3): Warp(0,0);
+	  SetPlayer(3);
+	  Warp(playx,playy);
+Case (4): Warp(0,0);
+	  SetPlayer(4);
+	  Warp(playx,playy);
+Case (5): Warp(0,0);
+	  SetPlayer(5);
+	  Warp(playx,playy);	  
+	}
+}
+
+Void AddChar(int addwho) //adds character to current party, if there is room
+{
+if (party.chr[0]=Nochar && party.chr[1]!=addwho && party.chr[2]!=addwho && party.chr[3]!=addwho)
+{
+party.chr[0]=addwho;
+}
+if (party.chr[1]=Nochar && party.chr[0]!=addwho && party.chr[2]!=addwho && party.chr[3]!=addwho)
+{
+party.chr[1]=addwho;
+}
+if (party.chr[2]=Nochar && party.chr[0]!=addwho && party.chr[1]!=addwho && party.chr[3]!=addwho)
+{
+party.chr[2]=addwho;
+}
+if (party.chr[3]=Nochar && party.chr[0]!=addwho && party.chr[1]!=addwho && party.chr[2]!=addwho)
+{
+party.chr[3]=addwho;
+}
+}
+
+Void BlankChrs()
+{
+party.chr[0]=Nochar;
+party.chr[1]=Nochar;
+party.chr[2]=Nochar;
+party.chr[3]=Nochar;
+}
+
+Void CharacterInfo()
+{
+cname[0]="Manrid";
+cname[1]="Shadow64";
+cname[2]="Gahat";
+cname[3]="Template";
+curHP[0]=543;
+maxHP[0]=700;
+curMP[0]=124;
+maxMP[0]=247;
+LV[0]=9;
+Exp[0]=10000;
+Expnext[0]=100;
+BatPwr[0]=200;
+Vigor[0]=10;
+Stamina[0]=12;
+Speed[0]=15;
+Defense[0]=16;
+Evade[0]=25;
+MagPwr[0]=0;
+MagDef[0]=20;
+MBlock[0]=10;
+EquipLH(FindItemByName("Sword"), 0);
+EquipLH(FindItemByName("Dirk"), 1);
+EquipLH(FindItemByName("Dagger"), 2);
+}
+
+Void CharacterStuff()
+{
+port[0]=loadimage("dada.pcx");
+port[1]=loadimage("dada.pcx");
+port[2]=loadimage("gahatprt.pcx");
+port[3]=loadimage("gahatprt.pcx");
+port[50]=loadimage("blankprt.pcx");
+}

@@ -1,0 +1,190 @@
+int party[5];
+int hand2;
+int sdone;
+
+Void Pointer1()
+{
+TCopySprite(handx, handy, 32, 32, hand);
+updatecontrols();
+if (pointerpos=0)
+{
+if(up)
+  {
+   updatecontrols();
+   unpress(5);
+   if(handy!=16 && handx=450 && menu!=2)
+   {
+   handy=handy-26;
+   PlaySound(psound, 63, 127); Delay(2);
+   }
+   if(handy!=54 && handx=62 && menu!=2)
+   {
+   handy=handy-114;
+   PlaySound(psound, 63, 127); Delay(2);
+   }
+  }
+
+if(down)
+  {
+   updatecontrols();
+   unpress(6);
+   if(handy!=172 && handx=450 && menu!=2)
+   {
+   handy=handy+26;
+   PlaySound(psound, 63, 127); Delay(2);
+   }
+   if(handy!=396 && handx=62 && menu!=2)
+   {
+   handy=handy+114;
+   PlaySound(psound, 63, 127); Delay(2);
+   }
+  }
+if(right)
+  {
+   if(touch1>14 && menu!=2)
+   {
+   updatecontrols();
+   unpress(8);
+   PlaySound(psound, 63, 127); Delay(2);
+   handx=450;
+   handy=16;
+   }
+  }
+if(left)
+  {
+   if(touch1>14 && menu!=2)
+   {
+   updatecontrols();
+   unpress(7);
+   PlaySound(psound, 63, 127); Delay(2);
+   handx=62;
+   handy=54;
+   }
+  }
+if(b1)
+  {
+   updatecontrols();
+   unpress(1);
+   if(handx=450)
+   {
+   switch(handy)
+      {
+      case 16: Item();
+      case 42: skills();
+      case 68: equip();
+      case 94: relics();
+      case 120: status();
+      case 146: config();
+      case 172: if(saveok!=1)
+      		{
+      		save();
+      		}
+      }
+   }
+   if(handx=62)
+   {
+      if (touch1>14)
+         {
+            Switch(handy)
+            {
+            case 54: touch1=party.chr[0];
+                STAR();
+            case 168:touch1=party.chr[1];
+                STAR();
+            case 282:touch1=party.chr[2];
+                STAR();
+            case 396:touch1=party.chr[3];
+                STAR();
+            }
+         }
+   }
+
+
+
+
+
+
+  }
+ }
+}
+
+
+
+Void STAR()
+{
+sdone=0;
+While(!sdone)
+{
+  RectFill(0,0,640,480,0);
+  DGW16(58,2,584,476);
+  DGW16(472,222,584,296);
+  DGW16(472,2,584,226);
+  DGW16(454,292,584,370);
+  GotoXY(482,15);  PrintString(2,sub[1]+" ");
+  GotoXY(482,20);  PrintString(2,"Item");
+  GotoXY(482,46);  PrintString(2,"Skills");
+  GotoXY(482,72);  PrintString(2,"Equip");
+  GotoXY(482,98);  PrintString(2,"Cards");
+  GotoXY(482,124);  PrintString(2,"Status");
+  GotoXY(482,150);  PrintString(2,"Config");
+  GotoXY(482,176);  PrintString(2,"Save");
+  LoadPlayerInfo();
+  GotoXY(464,328);  PrintString(2,sub[2] + "GP");
+  GotoXY(490,246);  PrintString(2,"Time");
+  GotoXY(464,346);  PrintString(2,sub[1] + str(curGP));
+  #include "clock.vc"
+  SetLucent(1);
+  switch(touch1)
+  {
+  case party.chr[0]: TCopySprite(62, 54, 32, 32, hand);
+  case party.chr[1]: TCopySprite(62, 168, 32, 32, hand);
+  case party.chr[2]: TCopySprite(62, 282, 32, 32, hand);
+  case party.chr[3]: TCopySprite(62, 396, 32, 32, hand);
+  }
+  SetLucent(0);
+  pointer2();
+  showpage();
+ }
+
+}
+
+Void Pointer2()
+{
+TCopySprite(handx, handy, 32, 32, hand);
+updatecontrols();
+if(up)
+  {
+   updatecontrols();
+   unpress(5);
+   if(handy!=54 && handx=62)
+   {
+   handy=handy-114;
+   }
+  }
+
+if(down)
+  {
+   updatecontrols();
+   unpress(6);
+   if(handy!=396 && handx=62)
+   {
+   handy=handy+114;
+   }
+  }
+
+ if(b2) { Unpress(2); sdone++; touch1=15; }
+
+if(b1)
+  {
+   updatecontrols();
+   unpress(1);
+   if (touch1!=20)
+   {
+   #include "swatch.vc"
+   }
+   sdone++;
+   touch1=15;
+  }
+
+}
+

@@ -1,0 +1,461 @@
+string default[nochar];
+string name;
+int nx, ny, finish;
+int nchrs[51];
+int nmenu;
+int nameru;
+int singler;
+
+
+void call_name() 
+{
+centerprint2(379,189,2,name); //
+TCopySprite(55, 19, 105, 105, port[party.chr[nameru]]);
+CenterPrint2(380,42,2,myballs);
+}
+
+string myballs;
+int p[4];
+
+void namemenu(int single, int nam2) 
+{
+nameru=nam2;
+setresolution(640,480);
+name=cname[party.chr[nameru]];
+if(single=1)
+{
+nmenu=1;
+letta=1;
+p[1]=124;
+p[2]=248;
+singler=1;
+}
+else
+{
+nmenu=0;
+letta=91;
+p[1]=168;
+p[2]=108;
+}
+updatecontrols();
+unpress(1);
+while(!finish) 
+ {
+ 	UpdateControls();
+	Render();
+  	RectFill(0,0,640,480,0);
+  	DGW16(120,210,632,480);  //big fatty letter box
+  	DGW16(180,166,580,223);   //name box (complete)
+  	DGW16(160,14,600,70);	 //please pick char/please enter name
+  	DGW16(50,14,165,127);	 //portrait
+	if(single=1)
+	{
+	TCopySprite(352, 91, 48, 64, nchrs[nameru]);
+	}
+	else
+	{
+  	partysetup();
+  	}
+  	if(nmenu=0)
+  	{
+  	myballs="Please Choose A Character.";
+  	}
+  	else if(nmenu=1)
+  	{
+  	myballs="Please Enter A Name.";
+  	}
+  	pointing3();
+  	PrintIt(156,252,2,"A  B  C  D  E");
+  	PrintIt(404,252,2,"a  b  c  d  e");
+  	PrintIt(156,280,2,"F  G  H  I  J");
+  	PrintIt(404,280,2,"f  g  h  i  j");
+  	PrintIt(156,308,2,"K  L  M  N  O");
+  	PrintIt(404,308,2,"k  l  m  n  o");
+  	PrintIt(156,336,2,"P  Q  R  S  T");
+  	PrintIt(404,336,2,"p  q  r  s  t");
+  	PrintIt(156,364,2,"U  V  W  X  Y");
+	PrintIt(404,364,2,"u  v  w  x  y");
+        PrintIt(156,392,2,"Z  !  ?  /  :");
+	PrintIt(404,392,2,"z  '  -  .  ");
+	PrintIt(156,420,2,"0  1  2  3  4");
+	PrintIt(404,420,2,"5  6  7  8  9");
+  	PrintIt(548,448,2,"END");
+  	PrintIt(404,448,2,"BSpace");
+  	PrintIt(252,448,2,"Default");
+  	curletter();
+  	call_name();
+  	showpage();
+  }
+  cname[nameru]=name;
+  finish=0;
+}
+
+int letta;
+
+Void Pointing3()
+{
+int movet;
+movet=1;
+TCopySprite(p[1],p[2], 32, 32, hand);
+if(up)
+  {
+	updatecontrols();
+	unpress(5);
+	if(letta>10 && letta<71)
+	{
+	letta=letta-10;
+	p[2]=p[2]-28;
+	TCopySprite(p[1],p[2], 32, 32, hand);
+	}
+	else if(letta=71)
+	{
+	letta=66;
+	p[2]=416;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=72)
+	{
+	letta=69;
+	p[2]=416;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=73)
+	{
+	letta=63;
+	p[2]=416;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta>=1 && letta<=5)
+	{
+	letta=73;
+	p[1]=220;
+	p[2]=444;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta>=6 && letta<=8)
+	{
+	letta=71;
+	p[1]=372;
+	p[2]=444;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta>=9 && letta<=10)
+	{
+	letta=72;
+	p[1]=516;
+	p[2]=444;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+ }
+
+if(down)
+  {
+	updatecontrols();
+	unpress(6);
+	if(letta<61 && letta!=0)
+	{
+	letta=letta+10;
+	p[2]=p[2]+28;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta>=61 && letta<=65)
+	{
+	letta=73;
+	p[1]=220;
+	p[2]=p[2]+28;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta>=66 && letta<=68)
+	{
+	letta=71;
+	p[1]=372;
+	p[2]=p[2]+28;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta>=69 && letta<=70)
+	{
+	letta=72;
+	p[1]=516;
+	p[2]=p[2]+28;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=71)
+	{
+	letta=6;
+	p[2]=248;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=72)
+	{
+	letta=9;
+	p[2]=248;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=73)
+	{
+	letta=3;
+	p[2]=248;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+  }
+
+
+if(b1)
+  {
+	updatecontrols();
+	unpress(1);
+	if(letta=71)
+	{
+	name=left(name,strlen(name)-1);
+	}
+	if(letta=73)
+	{
+	name=default[party.chr[nameru]];
+	}
+	if(strlen(name)<8)
+	{
+	Switch(letta)
+	{
+	#include "alphabet.vc"
+	}
+	}
+	if(letta>90 && party.chr[nameru]!=nochar)
+	{
+	nmenu=1;
+	letta=1;
+	p[1]=124;
+	p[2]=248;
+	}
+	if(letta=72)
+	{
+	if(singler=0)
+		{
+		letta=91;
+		p[1]=168;
+		p[2]=108;
+		nmenu=0;
+		nameru=0;
+		name=cname[party.chr[nameru]];
+		}
+	else
+		{
+		finish=1;
+		}
+	}
+  }
+
+if(b2)
+  {
+	updatecontrols();
+	unpress(2);
+	if(nmenu=0)
+	{
+	finish=1;
+	}
+	if(letta<90)
+	{
+	p[1]=516;
+	p[2]=444;
+	letta=72;
+	}
+  }
+
+
+
+if(right)
+  {
+  	updatecontrols();
+	unpress(8);
+	happiness(0);
+	happiness(10);
+	happiness(20);
+	happiness(30);
+	happiness(40);
+	happiness(50);
+	happiness(60);
+	if(letta=71)
+	{
+	p[1]=516;
+	letta=72;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=72)
+	{
+	p[1]=220;
+	letta=73;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	else if(letta=73)
+	{
+	p[1]=372;
+	letta=71;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+	if(letta<94 && letta>89)
+	{
+	letta++;
+	p[1]+=106;
+	nameru=nameru+1;
+	name=cname[party.chr[nameru]];
+	}
+	
+  }
+
+if(left)
+  {
+  	updatecontrols();
+	unpress(7);
+	happiness2(0);
+	happiness2(10);
+	happiness2(20);
+	happiness2(30);
+	happiness2(40);
+	happiness2(50);
+	happiness2(60);
+  	if(letta=73)
+	{
+	p[1]=516;
+	letta=72;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	updatecontrols();
+	unpress(7);
+	}
+  	else if(letta=71)
+	{
+	p[1]=220;
+	letta=73;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	updatecontrols();
+	unpress(7);
+	}
+	else if(letta=72)
+	{
+	p[1]=372;
+	letta=71;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	updatecontrols();
+	unpress(7);
+	}
+	if(letta>91)
+	{
+	letta--;
+	p[1]-=106;
+	if(nameru!=0)
+	{
+	nameru=nameru-1;
+	}
+	name=cname[party.chr[nameru]];
+	}	
+  }
+
+ 
+}
+
+void curletter()
+{
+gotoXY(0,0); PrintString(1,str(letta));
+}
+
+void happiness(int incr)
+{
+updatecontrols();
+unpress(8);
+if(letta>0+incr && letta<5+incr)
+	{
+	p[1]=p[1]+48;
+	letta=letta+1;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+else if(letta=5+incr)
+	{
+	p[1]=p[1]+56;
+	letta=letta+1;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+else if(letta>5+incr && letta<10+incr)
+	{
+	p[1]=p[1]+48;
+	letta=letta+1;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+else if(letta=10+incr)
+	{
+	p[1]=p[1]-440;
+	letta=1+incr;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+}
+
+void happiness2(int incr)
+{
+updatecontrols();
+unpress(7);
+if(letta>1+incr && letta<6+incr)
+	{
+	p[1]=p[1]-48;
+	letta=letta-1;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+else if(letta=6+incr)
+	{
+	p[1]=p[1]-56;
+	letta=letta-1;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+else if(letta>6+incr && letta<11+incr)
+	{
+	p[1]=p[1]-48;
+	letta=letta-1;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+else if(letta=1+incr)
+	{
+	p[1]=p[1]+440;
+	letta=10+incr;
+	TCopySprite(p[1], p[2], 32, 32, hand);
+	}
+}
+
+void partysetup()
+{
+for(s=0;s<4;s++)
+{
+	switch(party.chr[s])
+	{
+	Case (0): TCopySprite(200+(s*106), 91, 48, 64, nchrs[0]);
+	Case (1): TCopySprite(200+(s*106), 91, 48, 64, nchrs[1]);
+	Case (2): TCopySprite(200+(s*106), 91, 48, 64, nchrs[2]);
+	Case (3): TCopySprite(200+(s*106), 91, 48, 64, nchrs[3]);
+	Case (nochar): TCopySprite(200+(s*106), 91, 48, 64, nchrs[nochar]);
+	}
+}
+}
+
+void loadnchrs()
+{
+nchrs[0]=LoadImage("manrid1.pcx");
+nchrs[1]=LoadImage("Shadf.pcx");
+nchrs[2]=LoadImage("gahaf.pcx");
+nchrs[3]=LoadImage("tempf.pcx");
+//nchrs[3]=LoadImage("domo1.pcx");
+nchrs[4]=LoadImage("blank1.pcx");
+nchrs[5]=LoadImage("blank1.pcx");
+nchrs[6]=LoadImage("blank1.pcx");
+nchrs[7]=LoadImage("blank1.pcx");
+nchrs[8]=LoadImage("blank1.pcx");
+nchrs[nochar]=LoadImage("blank1.pcx");
+//nchrs[50]=LoadImage("Gaha1.pcx");
+}
+//leave at the bottom
+//leave at the bottom
+
+void defaultnamebank()
+{
+default[0]="Manrid" ;
+default[1]="Shadow64" ;
+default[2]="Gahat" ;
+default[3]="Template" ;
+default[4]=" " ;
+default[5]=" " ;
+default[nochar]=" " ;
+}

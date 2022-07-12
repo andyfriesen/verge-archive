@@ -1,0 +1,220 @@
+int gradbar;
+int BtlTime[4];
+int BattleSpeed;
+int bg;
+
+int Numenemies;
+int EnemyImage[6];
+int EnemyX[6], EnemyY[6];
+int EnemyWidth[6], EnemyHeight[6];
+string EnemyName[6];
+int EHP[6], EMaxHP[6], EMP[6], EMaxMP[6];
+int EVigor[6], ESpeed[6], EStamina[6], EMagPwr[6], EBatPwr[6], EDefense[6], EEvade[6], EMagDef[6], EMBlock[6];
+
+void Battle(string region, int group)
+{
+ int done;
+ int i;
+ int t;
+ int isready;
+ int pointer;
+ 
+ LoadEnemies(region, group);
+ //PlayMusic("battle.xm");
+ //init variables, should be removed when the BS is finished. :P
+ cname[3]="Blah";
+ party.chr[3]=3;
+ speed[1]=8;
+ speed[2]=6;
+ speed[3]=16;
+ BattleSpeed=4;
+ isready=0-1;
+
+
+ timer=0;
+ while(!done)
+ {
+  while(!timer) { }
+  t=timer; timer=0;
+  updatecontrols();
+  
+  //Draw background
+  TCopySprite(0,0,640,480, bg);
+  
+  //draw the two main windows
+  DGW16(0, 380, 199, screeny-1); 
+  DGW16(200, 380, screenx-1, screeny-1);
+  for(i=0; i<4; i++) //draw the info for each chr
+  {
+   if(party.chr[i]!=6) //There is someone in this slot.
+   {
+    GotoXY(210, 386+(24*i)); 
+    if(isready=i) Printstring(2, nSub[2]+cname[party.chr[i]]+nSub[1]);
+    else Printstring(2, cname[party.chr[i]]);
+    GotoXY(350, 386+(24*i)); Printstring(2, str(CurHP[party.chr[i]])+"/"+str(MaxHP[party.chr[i]]));
+    DrawBar(i);
+    btltime[i]+=Speed[party.chr[i]]*t*BattleSpeed; 
+    if(btltime[i]>10000) //player's ready to fight ;)
+    {
+     if(isready<0) isready=i; 
+     btltime[i]=10000;
+    } 
+   }
+  }
+  
+
+  //Show menus if needed
+  if(isready>=0)
+  {
+   DGW16(20, 380, 180, screeny-1); 
+   GotoXY(40, 386); Printstring(2, "Fight"); 
+   GotoXY(40, 410); Printstring(2, "Special");
+   GotoXY(40, 434); Printstring(2, "Magic");
+   GotoXY(40, 458); Printstring(2, "Item");
+   TCopySprite(10, 382+(24*pointer), 32, 32, hand);
+   if(up) { Unpress(5); pointer--; if(pointer<0) pointer=3; }
+   if(down) { Unpress(6); pointer++; if(pointer>3) pointer=0; }
+   if(B1)
+   {
+    Unpress(1);
+    Switch(pointer)
+    {
+    
+   
+   
+    }
+   }
+  }
+  else PrintEnemyNames();  
+
+  //Process stuff
+  
+   for(i=0; i<numenemies; i++)
+   {
+    TCopySprite(enemyx[i], EnemyY[i], EnemyWidth[i], EnemyHeight[i], EnemyImage[i]);    
+   }
+      
+  ShowPage();
+  If(B1) done++;
+ }
+// Playmusic("blank.s3m");
+ Freestuff();
+}
+
+String Tempnames[4];
+
+void LoadEnemyNames()
+{
+ int i, j, t, n;
+ for(i=0; i<NumEnemies; i++)
+ {
+  t=1;
+  for(j=0; j<4; j++) if(!strcmp(Tempnames[j], EnemyName[i])) { t=0; j=4; }
+  if(t=1) { Tempnames[n]=EnemyName[i]; n++; } 
+ }
+}
+
+void PrintEnemyNames()
+{
+ int i;
+ for(i=0; i<4; i++) { GotoXY(10, 386+(24*i)); PrintString(2, TempNames[i]); }
+}
+
+void DrawBar(int index)
+{
+ int i;
+ RectGradFill(500,390+(index*24),500+((1*btltime[index])/100),396+(index*24),RGB(255,255,255),RGB(100,100,100));
+ outline(500,390+(index*24),600,395+(index*24),RGB(85,85,85));
+}
+
+string temp;
+
+void LoadEnemies(string region, int group)
+{
+ int file, pfile, i, num;
+ string pattern;
+ file=Fopen(region+".rgn"); //open the region file.
+ FGetLine(temp, file); bg=Loadimage(temp); //load the background image
+ Log("Loading bg: "+temp);
+ FGetLine(temp, file); //blank line
+ FGetLine(temp, file); numenemies=val(temp); //get the number of enemies.
+ Log("Numenemies: "+Str(numenemies));
+ FGetLine(temp, file); //get the enemy pattern.
+ Log("Enemy pattern: "+temp);
+ pfile=fopen(Temp+".ptn"); //open the pattern file
+ for(i=0; i<numenemies; i++)
+ {
+  FGetLine(temp, file); //read the enemy
+  Log("Enemy: "+temp);
+  LoadEnemy(temp+".nmy", i); //load that enemy's stats.
+  LoadPattern(pfile, i); //load the coords (pattern) for the enemy.
+ }
+ LoadEnemyNames(); //load the enemy names and eliminate any duplicates.
+ fclose(file);
+ fclose(pfile);
+}
+
+void LoadPattern(int file, int i)
+{
+ FSeekline((2*i)+1, file);
+ FGetLine(temp, file);   
+ log("X("+str(i)+"): "+temp);
+ EnemyX[i]=Val(temp);
+ FGetLine(temp, file);   
+ log("Y("+str(i)+"): "+temp);
+ EnemyY[i]=Val(temp);
+}
+
+void LoadEnemy(string fname, int i)
+{
+ int file, i; 
+ file=Fopen(fname);
+ 
+ FGetLine(temp, file); 
+ Log("Enemyname: "+temp);
+ EnemyName[i]=temp; 
+ FGetLine(temp, file); 
+ Log("Enemy image: "+temp);
+ enemyimage[i]=LoadImage(temp);
+ enemywidth[i]=Image_Width;
+ enemyheight[i]=Image_Height; 
+ FGetLine(temp, file); 
+ EHP[i]=Val(Temp); 
+ EMaxHP[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EMP[i]=Val(Temp);
+ EMaxMP[i]=Val(Temp); 
+ FGetLine(temp, file); 
+ EVigor[i]=Val(Temp);
+ FGetLine(temp, file); 
+ ESpeed[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EStamina[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EMagPwr[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EBatPwr[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EDefense[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EEVade[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EMagDef[i]=Val(Temp);
+ FGetLine(temp, file); 
+ EMBlock[i]=Val(Temp); 
+ fclose(file);
+}
+
+void Freestuff()
+{
+ int i;
+ for(i=0; i<4; i++) Tempnames[i]="";
+ for(i=0; i<6; i++) 
+ { 
+  if(enemyimage[i]) free(enemyimage[i]);
+  EnemyName[i]=""; 
+  EnemyX[i]=0; EnemyY[i]=0;
+  EnemyWidth[i]=0; EnemyHeight[i]=0;
+ } 
+ free(bg);
+}

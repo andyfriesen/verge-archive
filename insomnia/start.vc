@@ -1,0 +1,174 @@
+event
+{
+//saveok=1;
+Current_Map="start.map";
+loadchrs();
+SetPlayer(party.chr[0]);
+if(LoadFile!=1 && StartNew=0)
+{
+resetclock();
+CharacterInfo();
+//NameMenu(0,party.chr[0]);
+}
+if(LoadFile=1)
+{
+Warp(px,py);
+LoadFile=0;
+}
+gametimestart();
+checkkeys();
+setresolution(640,480);
+Battle("test", 0);
+//CallEvent(1);
+//Text("Hi my name is What?", "My name is Who?", "My name is (whicka whicka) Slim Shady.");
+}
+
+event
+   {
+ Text("MAN:",
+  "But I couldn't Sleep!",
+  "",
+  "",0);
+ beginText();
+ Text("OFFICER:",
+  "Listen sir... I'm gonna have to ask",
+  "you to calm yourself...",
+  "you're raving.", 0);
+ Text("MAN:",
+  "I'm not!",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "You are.",
+  "",
+  "", 0);
+ Text("MAN:",
+  "I'm sorry... I just can't sleep",
+  "lately, it's been days in fact...",
+  "", 0);
+ Text("OFFICER:",
+  "So? You have insomnia. Why come",
+  "to a police station? Why not",
+  "a drug store or a doctor's office.", 0);
+ Text("MAN:",
+  "Because they don't help!!",
+  "",
+  "", 0);
+  // At this point, we will need to insert a frame with Manrid rising to his feet shaking wielding a hand
+ Text("OFFICER:",
+  "Listen sir, nobody asked you to",
+  "waltz in here and ruin my day.",
+  "And I sure as hell didn't ask", 1);
+
+ Text("you to come in here wavin' a gun",
+  "at me. So I'll ask again, why here?",
+  "",
+  "", 0);
+ Text("MAN:",
+  "I told you...",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "This is becomming a waste of my",
+  "time sir...is there a point to",
+  "all of this?", 0);
+ Text("MAN:",
+  "Yes.",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "Then let's get to it with some",
+  "haste. Now, can I have your name?",
+  "", 0);
+ 
+ Endtext();// 
+ 
+ Namemenu(1,0);
+ 
+ Text(cname[0]+":",
+  "My name is "+cname[0]+"...",
+  "",
+  "", 0);
+ BeginText();
+ Text("OFFICER:",
+  "And your last name?",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "I don't remember.",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "You don't remember your own name?",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "No, now may I continue?",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "I would think that wise...",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "Three nights ago I began noticing",
+  "strange...occurances",
+  "", 0);
+ Text("OFFICER:",
+  "Like what?",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "Doors that I've locked are found",
+  "open minutes later. Things are",
+  "disappearing everywhere.", 0);
+ Text("OFFICER:",
+  "What do you mean?",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "This place for instance...",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "Yes? What about it?",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "That picture... it wasn't on",
+  "the wall a moment ago.",
+  "", 0);
+ Text("OFFICER:",
+  "That picture has always been",
+  "there... hasn't it?..",
+  "", 0);
+ Text("MANRID:",
+  "And you... Your suit was blue",
+  "when I came in..",
+  "", 0);
+ Text("OFFICER:",
+  "I remember putting this suit on",
+  "this morning...black suit...all day.",
+  "", 0);
+ Text("MANRID:",
+  "Are you sure about that?",
+  "",
+  "", 0);
+ Text("OFFICER:",
+  "No...",
+  "",
+  "", 0);
+ Text("MANRID:",
+  "You see, once you start to",
+  "focus on things... you notice",
+  "the inconsistencies...", 0);
+ Text("OFFICER:",
+  "OR...MAYBE you are just lookin'",
+  "too hard for these changes,",
+  "MAYBE they are inventions of your mind.", 0);
+
+ endText();
+
+
+
+} 

@@ -1,0 +1,36 @@
+
+
+void gameplay()
+{
+ gametime++;
+ updatecontrols();
+ if(sec<61)
+ {
+   if(gametime=100)
+   {
+     gametime=0;
+     sec++;
+     secstr=str(sec);
+   }
+ }
+
+ if(sec=60)
+ {
+   sec=0;
+   min++;
+   secstr=str(sec);
+   minstr=str(min);
+   hourstr=str(hour);
+ }
+
+ if(min=60)
+ {
+  min=0;
+  hour++;
+  secstr=str(sec);
+  minstr=str(min);
+  hourstr=str(hour);
+ }
+
+}
+    

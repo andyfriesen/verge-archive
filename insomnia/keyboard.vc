@@ -1,0 +1,6 @@
+void checkkeys()
+{
+hookkey(30,QuickLeadSwitchForward);
+hookkey(44,QuickLeadSwitchBackward);
+}
+

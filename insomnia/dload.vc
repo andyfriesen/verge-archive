@@ -1,0 +1,297 @@
+int LoadFile, startnew;
+int px, py;
+Void LoadGame(int GameNumber)
+{
+
+Switch (GameNumber)
+{
+case 1: curfile=fopen("savedat1.in2"); //  Opens the Save Data File 1
+case 2: curfile=fopen("savedat2.in2"); //  Opens the Save Data File 2
+case 3: curfile=fopen("savedat3.in2"); //  Opens the Save Data File 3
+}
+
+fgetline(tempostr, curfile);		//  Loads the Current Map and Position You Were In
+current_map=tempostr;
+fgetline(tempostr, curfile);
+entity.x[player]=val(tempostr);
+fgetline(tempostr, curfile);
+entity.y[player]=val(tempostr);
+fgetline(tempostr, curfile);
+px=val(tempostr);
+fgetline(tempostr, curfile);
+py=val(tempostr);
+
+fgetline(tempostr, curfile);		//  Loads Your Time and Money
+sec=val(tempostr);
+fgetline(tempostr, curfile);
+min=val(tempostr);
+fgetline(tempostr, curfile);
+hour=val(tempostr);
+fgetline(tempostr, curfile);
+gametime=val(tempostr);
+/*
+fgetline(tempostr, curfile);
+minstr=tempostr;
+fgetline(tempostr, curfile);
+hourstr=tempostr;
+fgetline(tempostr, curfile);
+secstr=tempostr;
+*/
+fgetline(tempostr, curfile);
+CurGP=val(tempostr);
+
+for(s=0;s<4;s++)			//  Loads the Current Characters's in the Party
+{
+fgetline(tempostr, curfile);
+party.chr[s]=val(tempostr);
+}
+
+for(s=0;s<nochar;s++)			//  Saves the Characters' CurHP/MP and MaxHP/MP and LV
+{
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	cname[s]="";
+	}
+	else
+	{
+	cname[s]=tempostr;		//  Character Names
+	}
+	fgetline(tempostr, curfile);
+	CurHP[s]=val(tempostr);		//  Current HP Values
+	fgetline(tempostr, curfile);
+	MaxHP[s]=val(tempostr);		//  Maximum HP Values
+	fgetline(tempostr, curfile);
+	CurMP[s]=val(tempostr);		//  Current MP Values
+	fgetline(tempostr, curfile);
+	MaxMP[s]=val(tempostr);		//  Maximum MP Values
+	fgetline(tempostr, curfile);
+	LV[s]=val(tempostr);		//  Current Experience Level
+	fgetline(tempostr, curfile);
+	Exp[s]=val(tempostr);		//  Current Number of Experience Points
+	fgetline(tempostr, curfile);
+	ExpNext[s]=val(tempostr);	//  Number of Experience Points to Next Level
+}
+
+for(s=0;s<nochar;s++)			//  Loads the Characters' Stats
+{
+	fgetline(tempostr, curfile);
+	Vigor[s]=val(tempostr);		//  Vigor
+	fgetline(tempostr, curfile);
+	Speed[s]=val(tempostr);		//  Speed
+	fgetline(tempostr, curfile);
+	Stamina[s]=val(tempostr);	//  Stamina
+	fgetline(tempostr, curfile);
+	MagPwr[s]=val(tempostr);	//  Magic Power
+	fgetline(tempostr, curfile);
+	BatPwr[s]=val(tempostr);	//  Battle Power
+	fgetline(tempostr, curfile);
+	Defense[s]=val(tempostr);	//  Defense
+	fgetline(tempostr, curfile);
+	Evade[s]=val(tempostr);		//  Evade
+	fgetline(tempostr, curfile);
+	MagDef[s]=val(tempostr);	//  Magic Defense
+	fgetline(tempostr, curfile);
+	MBlock[s]=val(tempostr);	//  Magic Block Percentage
+}
+
+for(s=0;s<2;s++)			//  Loads the Gradient Colors
+{
+	fgetline(tempostr, curfile);
+	Red[s]=val(tempostr);		//  Red Values
+	fgetline(tempostr, curfile);
+	Blue[s]=val(tempostr);		//  Blue Values
+	fgetline(tempostr, curfile);
+	Green[s]=val(tempostr);		//  Green Values
+}
+
+for(s=0;s<maxitems;s++)			//  Loads the Current Items Owned
+{
+	fgetline(tempostr, curfile);
+	NumItems[s]=val(tempostr);
+}
+
+// OH GOOD GOD DAMNIT!!!!
+
+for(s=0;s<nochar;s++)
+{
+	fgetline(tempostr, curfile);
+	LHVigor[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHSpeed[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHStamina[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHMagPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHBatPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHDefense[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHEvade[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHMagDef[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	LHMBlock[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	LHItemName[s]="";
+	}
+	else
+	{
+	LHItemName[s]=tempostr;
+	}
+	
+	fgetline(tempostr, curfile);
+	RHVigor[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHSpeed[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHStamina[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHMagPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHBatPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHDefense[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHEvade[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHMagDef[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	RHMBlock[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	RHItemName[s]="";
+	}
+	else
+	{
+	RHItemName[s]=tempostr;
+	}
+	
+	fgetline(tempostr, curfile);
+	HVigor[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HSpeed[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HStamina[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HMagPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HBatPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HDefense[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HEvade[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HMagDef[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	HMBlock[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	HItemName[s]="";
+	}
+	else
+	{
+	HItemName[s]=tempostr;
+	}
+	
+	fgetline(tempostr, curfile);
+	BVigor[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BSpeed[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BStamina[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BMagPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BBatPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BDefense[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BEvade[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BMagDef[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	BMBlock[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	BItemName[s]="";
+	}
+	else
+	{
+	BItemName[s]=tempostr;
+	}
+	
+	fgetline(tempostr, curfile);
+	R1Vigor[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1Speed[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1Stamina[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1MagPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1BatPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1Defense[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1Evade[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1MagDef[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R1MBlock[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	R1ItemName[s]="";
+	}
+	else
+	{
+	R1ItemName[s]=tempostr;
+	}
+	
+	fgetline(tempostr, curfile);
+	R2Vigor[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2Speed[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2Stamina[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2MagPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2BatPwr[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2Defense[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2Evade[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2MagDef[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	R2MBlock[s]=val(tempostr);
+	fgetline(tempostr, curfile);
+	if(!Strcmp(tempostr, "###"))
+	{
+	R2ItemName[s]="";
+	}
+	else
+	{
+	R2ItemName[s]=tempostr;
+	}
+}
+
+
+fclose(curfile);
+
+//Actual Load Data Complete
+LoadFile=1;
+Startnew=1;
+MenuGenesis();
+Map(current_map);
+}
+
+//end command savegame()

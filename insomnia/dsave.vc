@@ -1,0 +1,224 @@
+int saveg[4], curfile, kjh, s;
+Void SaveGame(int GameNumber)
+{
+curfile=fwopen("lifesavr.in1"); //Opens the Life Saver File
+for(s=1;s<4;s++)		//Writes Down That A Game Has Been Saved
+{
+	fwritestring(str(saveg[s]), curfile);
+}
+fwclose(curfile);		//Closes the Life Saver File
+
+//Lifesaver Save Complete
+
+Switch (GameNumber)
+{
+case 1:curfile=fwopen("savedat1.in1"); //Opens the Save Screen Data File 1
+case 2:curfile=fwopen("savedat2.in1"); //Opens the Save Screen Data File 2
+case 3:curfile=fwopen("savedat3.in1"); //Opens the Save Screen Data File 3
+}
+
+for(s=0;s<4;s++)
+{
+fwritestring(str(party.chr[s]), curfile); //saves the characters in the party
+}
+fwritestring(str(hour), curfile); //saves the hour
+fwritestring(str(min), curfile);  //saves the minute
+fwritestring(cname[party.chr[0]], curfile);  //saves the shown stats of the leading chr
+fwritestring(str(LV[party.chr[0]]), curfile); 
+fwritestring(str(curHP[party.chr[0]]), curfile);
+fwritestring(str(maxHP[party.chr[0]]), curfile);
+for(s=0;s<2;s++)
+{
+fwritestring(str(red[s]), curfile);  //saves the colors of the gradient
+fwritestring(str(blue[s]), curfile);
+fwritestring(str(green[s]), curfile);
+}
+fwclose(curfile);			     //Closes the Save Screen Data File
+
+//Save Screen Data Save Complete
+
+Switch (GameNumber)
+{
+case 1: curfile=fwopen("savedat1.in2"); //  Opens the Save Data File 1
+case 2: curfile=fwopen("savedat2.in2"); //  Opens the Save Data File 2
+case 3: curfile=fwopen("savedat3.in2"); //  Opens the Save Data File 3
+}
+
+fwritestring(current_map, curfile);	//  Saves the Current Map and Your Exact Map Coords
+fwritestring(str(entity.x[player]), curfile);
+fwritestring(str(entity.y[player]), curfile);
+fwritestring(str(entity.tx[player]), curfile);
+fwritestring(str(entity.ty[player]), curfile);
+
+fwritestring(str(sec), curfile);	//  Saves the Time and Money
+fwritestring(str(min), curfile);
+fwritestring(str(hour), curfile);
+fwritestring(str(gametime), curfile);
+/*
+fwritestring(minstr, curfile);
+fwritestring(hourstr, curfile);
+fwritestring(secstr, curfile);
+*/
+fwritestring(str(curGP), curfile);
+
+for(s=0;s<4;s++)			//  Saves the Current Characters's in the Party
+{
+fwritestring(str(party.chr[s]), curfile);
+}
+
+for(s=0;s<nochar;s++)			//  Saves the Characters' CurHP/MP and MaxHP/MP and LV
+{
+	if(!Strcmp(cname[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(cname[s], curfile);
+	}
+	fwritestring(str(CurHP[s]), curfile);
+	fwritestring(str(MaxHP[s]), curfile);
+	fwritestring(str(CurMP[s]), curfile);
+	fwritestring(str(MaxMP[s]), curfile);
+	fwritestring(str(LV[s]), curfile);
+	fwritestring(str(Exp[s]), curfile);
+	fwritestring(str(ExpNext[s]), curfile);
+}
+
+for(s=0;s<nochar;s++)			//  Saves the Characters' Stats
+{
+	fwritestring(str(Vigor[s]), curfile);
+	fwritestring(str(Speed[s]), curfile);
+	fwritestring(str(Stamina[s]), curfile);
+	fwritestring(str(MagPwr[s]), curfile);
+	fwritestring(str(BatPwr[s]), curfile);
+	fwritestring(str(Defense[s]), curfile);
+	fwritestring(str(Evade[s]), curfile);
+	fwritestring(str(MagDef[s]), curfile);
+	fwritestring(str(MBlock[s]), curfile);
+}
+
+for(s=0;s<2;s++)			//  Saves the Gradient Colors
+{
+	fwritestring(str(Red[s]), curfile);
+	fwritestring(str(Blue[s]), curfile);
+	fwritestring(str(Green[s]), curfile);
+}
+
+for(s=0;s<maxitems;s++)
+{
+	fwritestring(str(NumItems[s]), curfile);
+}
+
+for(s=0;s<nochar;s++)
+{
+	fwritestring(str(LHVigor[s]), curfile);
+	fwritestring(str(LHSpeed[s]), curfile);
+	fwritestring(str(LHStamina[s]), curfile);
+	fwritestring(str(LHMagPwr[s]), curfile);
+	fwritestring(str(LHBatPwr[s]), curfile);
+	fwritestring(str(LHDefense[s]), curfile);
+	fwritestring(str(LHEvade[s]), curfile);
+	fwritestring(str(LHMagDef[s]), curfile);
+	fwritestring(str(LHMBlock[s]), curfile);
+        if(!Strcmp(LHItemName[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(LHItemName[s], curfile);
+	}
+	fwritestring(str(RHVigor[s]), curfile);
+	fwritestring(str(RHSpeed[s]), curfile);
+	fwritestring(str(RHStamina[s]), curfile);
+	fwritestring(str(RHMagPwr[s]), curfile);
+	fwritestring(str(RHBatPwr[s]), curfile);
+	fwritestring(str(RHDefense[s]), curfile);
+	fwritestring(str(RHEvade[s]), curfile);
+	fwritestring(str(RHMagDef[s]), curfile);
+	fwritestring(str(RHMBlock[s]), curfile);
+	if(!Strcmp(RHItemName[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(RHItemName[s], curfile);
+	}
+	fwritestring(str(HVigor[s]), curfile);
+	fwritestring(str(HSpeed[s]), curfile);
+	fwritestring(str(HStamina[s]), curfile);
+	fwritestring(str(HMagPwr[s]), curfile);
+	fwritestring(str(HBatPwr[s]), curfile);
+	fwritestring(str(HDefense[s]), curfile);
+	fwritestring(str(HEvade[s]), curfile);
+	fwritestring(str(HMagDef[s]), curfile);
+	fwritestring(str(HMBlock[s]), curfile);
+        if(!Strcmp(HItemName[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(HItemName[s], curfile);
+	}
+        fwritestring(str(BVigor[s]), curfile);
+	fwritestring(str(BSpeed[s]), curfile);
+	fwritestring(str(BStamina[s]), curfile);
+	fwritestring(str(BMagPwr[s]), curfile);
+	fwritestring(str(BBatPwr[s]), curfile);
+	fwritestring(str(BDefense[s]), curfile);
+	fwritestring(str(BEvade[s]), curfile);
+	fwritestring(str(BMagDef[s]), curfile);
+	fwritestring(str(BMBlock[s]), curfile);
+        if(!Strcmp(BItemName[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(BItemName[s], curfile);
+	}
+        fwritestring(str(R1Vigor[s]), curfile);
+	fwritestring(str(R1Speed[s]), curfile);
+	fwritestring(str(R1Stamina[s]), curfile);
+	fwritestring(str(R1MagPwr[s]), curfile);
+	fwritestring(str(R1BatPwr[s]), curfile);
+	fwritestring(str(R1Defense[s]), curfile);
+	fwritestring(str(R1Evade[s]), curfile);
+	fwritestring(str(R1MagDef[s]), curfile);
+	fwritestring(str(R1MBlock[s]), curfile);
+        if(!Strcmp(R1ItemName[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(R1ItemName[s], curfile);
+	}
+        fwritestring(str(R2Vigor[s]), curfile);
+	fwritestring(str(R2Speed[s]), curfile);
+	fwritestring(str(R2Stamina[s]), curfile);
+	fwritestring(str(R2MagPwr[s]), curfile);
+	fwritestring(str(R2BatPwr[s]), curfile);
+	fwritestring(str(R2Defense[s]), curfile);
+	fwritestring(str(R2Evade[s]), curfile);
+	fwritestring(str(R2MagDef[s]), curfile);
+	fwritestring(str(R2MBlock[s]), curfile);
+        if(!Strcmp(R2ItemName[s], ""))
+	{
+	fwritestring("###", curfile);
+	}
+	else
+	{
+	fwritestring(R2ItemName[s], curfile);
+	}
+}
+
+fwclose(curfile);
+
+//Actual Save Data Complete
+}
+
+//end command savegame()

@@ -1,0 +1,579 @@
+int gox[10], hackynono;
+int red[10], green[10], blue[10];
+string redvalstr, bluevalstr, greenvalstr, whatcolor;
+string redvalstr1, bluevalstr1, greenvalstr1;
+int handox[10], handoy[10];
+
+Void Config()
+{
+handox[1]=123;
+handoy[1]=84;
+hackynono=6;
+//color1
+redvalstr=str(red[0]);
+greenvalstr=str(green[0]);
+bluevalstr=str(blue[0]);
+gox[0]=screenx/2-(strlen(redvalstr)/2*16)-48;
+gox[1]=screenx/2-(strlen(greenvalstr)/2*16)-48;
+gox[2]=screenx/2-(strlen(bluevalstr)/2*16)-48;
+//color2
+redvalstr1=str(red[1]);
+greenvalstr1=str(green[1]);
+bluevalstr1=str(blue[1]);
+gox[3]=screenx/2-(strlen(redvalstr1)/2*16)+48;
+gox[4]=screenx/2-(strlen(greenvalstr1)/2*16)+48;
+gox[5]=screenx/2-(strlen(bluevalstr1)/2*16)+48;
+//done
+updatecontrols();
+unpress(2);
+while(!b2) //50
+{
+UpdateControls();
+render();
+rectfill(0,0,640,480,0);
+DGW16(118,20,522,460);
+TCopySprite(handox[1], handoy[1], 32, 32, hand);
+//color1
+gotoxy(154,45);
+PrintString(2,"color1");
+gotoxy(156,85);
+PrintString(2,"r  " + redvalstr);
+gotoxy(154,105);
+PrintString(2,"g  " + greenvalstr);
+gotoxy(154,125);
+PrintString(2,"b  " + bluevalstr);
+//color2
+gotoxy(154,165);
+PrintString(2,"color2");
+gotoxy(156,205);
+PrintString(2,"r  " + redvalstr1);
+gotoxy(154,225);
+PrintString(2,"g  " + greenvalstr1);
+gotoxy(154,245);
+PrintString(2,"b  " + bluevalstr1);
+//red[0]
+//new
+RectGradFill(269,89,269+((116*red[0])/255),97,RGB(255,255,255),RGB(100,100,100));
+outline(269,89,385,97,RGB(85,85,85));
+RectGradFill(269,109,269+((116*green[0])/255),117,RGB(255,255,255),RGB(100,100,100));
+outline(269,109,385,117,RGB(85,85,85));
+RectGradFill(269,129,269+((116*blue[0])/255),137,RGB(255,255,255),RGB(100,100,100));
+outline(269,129,385,137,RGB(85,85,85));
+RectGradFill(269,209,269+((116*red[1])/255),217,RGB(255,255,255),RGB(100,100,100));
+outline(269,209,385,217,RGB(85,85,85));
+RectGradFill(269,229,269+((116*green[1])/255),237,RGB(255,255,255),RGB(100,100,100));
+outline(269,229,385,237,RGB(85,85,85));
+RectGradFill(269,249,269+((116*blue[1])/255),257,RGB(255,255,255),RGB(100,100,100));
+outline(269,249,385,257,RGB(85,85,85));
+//new
+if(hackynono=6)
+{
+	if(right)
+	  {
+		if(red[0]!=255)
+		{
+		updatecontrols();
+		key[77]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		red[0]++;
+		redvalstr=str(red[0]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+	  }
+  	 if(left)
+	  {
+		if(red[0]!=0)
+		{
+		updatecontrols();
+		key[75]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		red[0]--;
+		redvalstr=str(red[0]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+  	  } 
+  	  if(key[72]=1)
+		  {
+		  updatecontrols();
+		  key[72]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]+=160;
+		  hackynono=1;
+		  showpage();
+		  }
+	  if(key[80]=1)
+		  {
+		  updatecontrols();
+		  key[80]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]+=20;
+		  hackynono--;
+		  showpage();
+		  }
+	if(key[44]=1)
+		  {
+		  if(red[0]>0)
+			{
+			updatecontrols();
+			key[44]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			red[0]-=10;
+			if(red[0]<0)
+			{
+			red[0]=0;
+			}
+			redvalstr=str(red[0]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }
+	if(key[30]=1)
+		  {
+		  if(red[0]<255)
+			{
+			updatecontrols();
+			key[30]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			red[0]+=10;
+			if(red[0]>255)
+			{
+			red[0]=255;
+			}
+			redvalstr=str(red[0]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }  
+
+}
+//green[0]
+if(hackynono=5)
+{
+	if(right)
+	  {
+		if(green[0]!=255)
+		{
+		updatecontrols();
+		key[77]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		green[0]++;
+		greenvalstr=str(green[0]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+	  }
+  	 if(left)
+	  {
+		if(green[0]!=0)
+		{
+		updatecontrols();
+		key[75]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		green[0]--;
+		greenvalstr=str(green[0]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+  	  } 
+  	  if(key[72]=1)
+		  {
+		  updatecontrols();
+		  key[72]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]-=20;
+		  hackynono++;
+		  showpage();
+		  }
+	  if(key[80]=1)
+		  {
+		  updatecontrols();
+		  key[80]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]+=20;
+		  hackynono--;
+		  showpage();
+		  }
+	if(key[44]=1)
+		  {
+		  if(green[0]>0)
+			{
+			updatecontrols();
+			key[44]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			green[0]-=10;
+			if(green[0]<0)
+			{
+			green[0]=0;
+			}
+			greenvalstr=str(green[0]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }
+	if(key[30]=1)
+		  {
+		  if(green[0]<255)
+			{
+			updatecontrols();
+			key[30]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			green[0]+=10;
+			if(green[0]>255)
+			{
+			green[0]=255;
+			}
+			greenvalstr=str(green[0]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }  
+
+}
+//blue[0]
+if(hackynono=4)
+{
+	if(right)
+	  {
+		if(blue[0]!=255)
+		{
+		updatecontrols();
+		key[77]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		blue[0]++;
+		bluevalstr=str(blue[0]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+	  }
+  	 if(left)
+	  {
+		if(blue[0]!=0)
+		{
+		updatecontrols();
+		key[75]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		blue[0]--;
+		bluevalstr=str(blue[0]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+  	  } 
+  	  if(key[72]=1)
+		  {
+		  updatecontrols();
+		  key[72]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]-=20;
+		  hackynono++;
+		  showpage();
+		  }
+	  if(key[80]=1)
+		  {
+		  updatecontrols();
+		  key[80]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]+=80;
+		  hackynono--;
+		  showpage();
+		  }
+	if(key[44]=1)
+		  {
+		  if(blue[0]>0)
+			{
+			updatecontrols();
+			key[44]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			blue[0]-=10;
+			if(blue[0]<0)
+			{
+			blue[0]=0;
+			}
+			bluevalstr=str(blue[0]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }
+	if(key[30]=1)
+		  {
+		  if(blue[0]<256)
+			{
+			updatecontrols();
+			key[30]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			blue[0]+=10;
+			if(blue[0]>255)
+			{
+			blue[0]=255;
+			}
+			bluevalstr=str(blue[0]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }  
+
+}
+//end first color
+//red[1]
+if(hackynono=3)
+{
+	if(right)
+	  {
+		if(red[1]!=255)
+		{
+		updatecontrols();
+		key[77]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		red[1]++;
+		redvalstr1=str(red[1]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+	  }
+  	 if(left)
+	  {
+		if(red[1]!=0)
+		{
+		updatecontrols();
+		key[75]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		red[1]--;
+		redvalstr1=str(red[1]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+  	  } 
+  	  if(key[72]=1)
+		  {
+		  updatecontrols();
+		  key[72]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]-=80;
+		  hackynono++;
+		  showpage();
+		  }
+	  if(key[80]=1)
+		  {
+		  updatecontrols();
+		  key[80]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]+=20;
+		  hackynono--;
+		  showpage();
+		  }
+	if(key[44]=1)
+		  {
+		  if(red[1]>0)
+			{
+			updatecontrols();
+			key[44]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			red[1]-=10;
+			if(red[1]<0)
+			{
+			red[1]=0;
+			}
+			redvalstr1=str(red[1]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }
+	if(key[30]=1)
+		  {
+		  if(red[1]<255)
+			{
+			updatecontrols();
+			key[30]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			red[1]+=10;
+			if(red[1]>255)
+			{
+			red[1]=255;
+			}
+			redvalstr1=str(red[1]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }  
+
+}
+//green[1]
+if(hackynono=2)
+{
+	if(right)
+	  {
+		if(green[1]!=255)
+		{
+		updatecontrols();
+		key[77]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		green[1]++;
+		greenvalstr1=str(green[1]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+	  }
+  	 if(left)
+	  {
+		if(green[1]!=0)
+		{
+		updatecontrols();
+		key[75]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		green[1]--;
+		greenvalstr1=str(green[1]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+  	  } 
+  	  if(key[72]=1)
+		  {
+		  updatecontrols();
+		  key[72]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]-=20;
+		  hackynono++;
+		  showpage();
+		  }
+	  if(key[80]=1)
+		  {
+		  updatecontrols();
+		  key[80]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]+=20;
+		  hackynono--;
+		  showpage();
+		  }
+	if(key[44]=1)
+		  {
+		  if(green[1]>0)
+			{
+			updatecontrols();
+			key[44]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			green[1]-=10;
+			if(green[1]<0)
+			{
+			green[1]=0;
+			}
+			greenvalstr1=str(green[1]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }
+	if(key[30]=1)
+		  {
+		  if(green[1]<255)
+			{
+			updatecontrols();
+			key[30]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			green[1]+=10;
+			if(green[1]>255)
+			{
+			green[1]=255;
+			}
+			greenvalstr1=str(green[1]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }  
+
+}
+//blue[1]
+if(hackynono=1)
+{
+	if(right)
+	  {
+		if(blue[1]!=255)
+		{
+		updatecontrols();
+		key[77]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		blue[1]++;
+		bluevalstr1=str(blue[1]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+	  }
+  	 if(left)
+	  {
+		if(blue[1]!=0)
+		{
+		updatecontrols();
+		key[75]=0;
+		PlaySound(psound, 63, 127); Delay(2);
+		blue[1]--;
+		bluevalstr1=str(blue[1]);
+		GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+		showpage();
+		}
+  	  } 
+  	  if(key[72]=1)
+		  {
+		  updatecontrols();
+		  key[72]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]-=20;
+		  hackynono++;
+		  showpage();
+		  }
+	  if(key[80]=1)
+		  {
+		  updatecontrols();
+		  key[80]=0;
+		  PlaySound(psound, 63, 127); Delay(2);
+		  handoy[1]-=160;
+		  hackynono=6;
+		  showpage();
+		  }
+	  if(key[44]=1)
+		  {
+		  if(blue[1]>0)
+			{
+			updatecontrols();
+			key[44]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			blue[1]-=10;
+			if(blue[1]<0)
+			{
+			blue[1]=0;
+			}
+			bluevalstr1=str(blue[1]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }
+	  if(key[30]=1)
+		  {
+		  if(blue[1]<256)
+			{
+			updatecontrols();
+			key[30]=0;
+			PlaySound(psound, 63, 127); Delay(2);
+			blue[1]+=10;
+			if(blue[1]>255)
+			{
+			blue[1]=255;
+			}
+			bluevalstr1=str(blue[1]);
+			GenerateGradient(RGB(red[0],green[0],blue[0]),RGB(red[1],green[1],blue[1]));
+			showpage();
+			}
+		  }  
+}
+//end second color
+  	showpage();
+}
+ 
+ if(b2)
+   {
+ 	rectfill(0,0,640,480,0);
+ 	FadeOut(50,0);
+ 	Showpage();
+ 	FadeIn(50,0);
+   }
+}
+
+//safe keeping

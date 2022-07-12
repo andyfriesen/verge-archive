@@ -1,0 +1,235 @@
+int handx,handy,hand,hand2,menu,touch1;
+int pointerpos;
+
+
+
+
+
+
+if(b1)
+  {
+	updatecontrols();
+	unpress(1);
+	if(handy=9)
+	{
+	menu=2;
+	//Item();
+	}
+	if(handy=61)
+	{
+	menu=2;
+	//Status();
+	}
+	if(handy=74)
+	{
+	menu=2;
+	//Config();
+	}
+	if(handy=87)
+	{
+	menu=2;
+	handx=18;
+	handy=60;
+	//Save();
+	}
+	if(handy=60)
+	{
+	//savechr[1]=char1;
+	//savechr[2]=char2;
+	//savechr[3]=char3;
+	//savechr[4]=char4;
+	//save1=1;
+	//Saveit1();
+	}
+	if(handy=110)
+	{
+	//savechr[5]=char1;
+	//savechr[6]=char2;
+	//savechr[7]=char3;
+	//savechr[8]=char4;
+	//save2=1;
+	//Saveit2();
+	}
+	if(handy=160)
+	{
+	//savechr[9]=char1;
+	//savechr[10]=char2;
+	//savechr[11]=char3;
+	//savechr[12]=char4;
+	//save3=1;
+	//Saveit3();
+	}
+if (touch1>14)
+{
+	if(handy=25)
+	{
+	//touch1=char1;
+	STAR();
+	}
+	if(handy=73)
+	{
+	//touch1=char2;
+	STAR();
+	}
+	if(handy=121)
+	{
+	//touch1=char3;
+	STAR();
+	}
+	if(handy=169)
+	{
+	//touch1=char4;
+	STAR();
+	}
+}
+
+  }
+
+if(right)
+  {
+	if(touch1>14 && menu!=2)
+	{
+	updatecontrols();
+	unpress(4);
+	handx=218;
+	handy=9;	
+	TCopySprite(handx, handy, 16, 16, hand);
+	}
+  }
+
+if(left)
+  {
+	if(touch1>14 && menu!=2)
+	{
+	updatecontrols();
+	unpress(7);
+	handx=34;
+	handy=25;	
+	TCopySprite(handx, handy, 16, 16, hand);
+	}
+  }
+}
+}
+}
+
+int char1, char2, char3, char4;
+Void STAR()
+{
+While(!b1 and !b2)
+{
+if (touch1=char1)
+{
+	TCopySprite(34, 25, 16, 16, hand2);
+	showpage();
+	pointer2();
+}
+if (touch1=char2)
+{
+	TCopySprite(34, 73, 16, 16, hand2);
+	showpage();
+	pointer2();
+}
+if (touch1=char3)
+{
+	TCopySprite(34, 121, 16, 16, hand2);
+	showpage();
+	pointer2();
+}
+if (touch1=char4)
+{
+	TCopySprite(34, 169, 16, 16, hand2);
+	showpage();
+	pointer2();
+}
+}
+}
+
+
+
+Void Pointer2()
+{
+TCopySprite(handx, handy, 16, 16, hand);
+updatecontrols();
+if(up)
+  {
+	updatecontrols();
+	unpress(5);
+	if(handy!=9 && handx=218)
+	{
+	handy=handy-13;
+	RectFill(216,6,234,106,colorful);
+	TCopySprite(handx, handy, 16, 16, hand);
+	}
+	if(handy!=25 && handx=34)
+	{
+	handy=handy-48;
+	RectFill(33,16,50,185,colorful);
+	TCopySprite(handx, handy, 16, 16, hand);
+	}
+	
+  }
+
+if(down)
+  {
+	updatecontrols();
+	unpress(6);
+	if(handy!=87 && handx=218)
+	{
+	handy=handy+13;
+	RectFill(216,6,234,106,colorful);
+	TCopySprite(handx, handy, 16, 16, hand);
+	}
+	if(handy!=169 && handx=34)
+	{
+	handy=handy+48;
+	RectFill(33,16,50,185,colorful);
+	TCopySprite(handx, handy, 16, 16, hand);
+	}
+	
+  }
+
+
+
+if(b1)
+  {
+	updatecontrols();
+	unpress(1);
+	if(handy=87)
+	{
+	//save();
+	}
+if (touch1!=20)
+{
+	//#include "swatch.vc"
+	if(touch1=char2 && handy=25)
+	{
+	//party[5]=char1;
+	char1=char2;
+	//char2=party[5];
+	loadplayerinfo();
+	//menus();
+	firstcheck();
+	}
+	if(touch1=char1 && handy=73)
+	{
+	//party[5]=char2;
+	char2=char1;
+	//char1=party[5];
+	loadplayerinfo();
+	//menus();
+	firstcheck();
+	}
+}
+}
+}
+
+void howtobeaplayer()
+{
+While(!B2)
+{
+		//save1=1;
+		
+	showpage();
+}
+}
+

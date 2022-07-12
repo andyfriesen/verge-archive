@@ -1,0 +1,45 @@
+V2 startup. Logfile initialized.
+Sys: Initializing keyboard handler.... OK
+Sys: Initializing timer. Set 100hz.... OK
+Sys: Initializing music system.... OK
+... OK
+Initialize console.... OK
+Initializing VC interpreter
+system vclib init: 100 funcs, 187 ints (22304 bytes), 44 strings
+ --> VC opened file itemlist.txt, ptr 0x002759F0
+ --> VC closed file at ptr 0x002759F0
+Loading MAP start.map. [2] ... OK
+... OK
+ --> VC opened file test.rgn, ptr 0x0036B3D8
+Loading bg: bg.gif
+Numenemies: 3
+Enemy pattern: 1
+ --> VC opened file 1.ptn, ptr 0x0036BD28
+Enemy: Imp
+ --> VC opened file Imp.nmy, ptr 0x0039DC88
+Enemyname: Imp
+Enemy image: imp.pcx
+ --> VC closed file at ptr 0x0039DC88
+X(0): 100
+Y(0): 120
+Enemy: Imp
+ --> VC opened file Imp.nmy, ptr 0x0039DC88
+Enemyname: Imp
+Enemy image: imp.pcx
+ --> VC closed file at ptr 0x0039DC88
+X(1): 200
+Y(1): 120
+Enemy: Ogre
+ --> VC opened file Ogre.nmy, ptr 0x0039DC88
+Enemyname: Ogre
+Enemy image: ogre.pcx
+ --> VC closed file at ptr 0x0039DC88
+X(2): 100
+Y(2): 220
+ --> VC closed file at ptr 0x0036B3D8
+ --> VC closed file at ptr 0x0036BD28
+VC freeing allocated heap at 0x0041F960.
+VC freeing allocated heap at 0x0042F960.
+VC freeing allocated heap at 0x00437960.
+VC freeing allocated heap at 0x004CB138.
+Sys: Exiting with message: 

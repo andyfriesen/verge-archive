@@ -1,0 +1,242 @@
+void Save()
+{
+checksaves();
+handx=2;
+handy=162;
+setresolution(640,480);
+updatecontrols();
+unpress(2);
+while(!b2) //50
+	{
+	UpdateControls();
+	Render();
+	RectFill(0,0,640,480,0);
+	DGW16(20,32,620,101);
+	rectgradfill(23,35,617,99,RGB(0,127,255),RGB(0,0,127));
+	CenterPrint(65,2,"Save");
+	if(saveg[1]=5) //checks to see if saved file already exists
+	  {
+		DGW16(20,101,620,221);
+		rectgradfill(23,104,617,219,RGB(0,127,255),RGB(0,0,127));
+		GotoXY(63,131); PrintString(2,"Empty");
+  	  }
+  	if(saveg[1]=1) //if it does...
+  	  {
+  	   checksv1();
+  	   DGW16(20,101,620,221);
+  	   rectgradfill(23,104,617,219,RGB(red[2],green[2],blue[2]),RGB(red[3],green[3],blue[3]));
+  	   savebox1();
+  	  }
+	// END SAVE FILE 1!!!
+	if(saveg[2]=5) //checks to see if saved file already exists
+	  {
+	 	DGW16(20,221,620,341);
+		rectgradfill(23,224,617,339,RGB(0,127,255),RGB(0,0,127));
+		GotoXY(63,251); PrintString(2,"Empty");
+	  }
+	if(saveg[2]=1) //if it does...
+	  {
+	   checksv2();
+	   DGW16(20,221,620,341);
+	   rectgradfill(23,224,617,339,RGB(red[4],green[4],blue[4]),RGB(red[5],green[5],blue[5]));
+	   savebox2();
+	  }
+	// END SAVE FILE 2!!!
+	if(saveg[3]=5) //checks to see if saved file already exists
+	  {
+	 	DGW16(20,341,620,461);
+		rectgradfill(23,344,617,459,RGB(0,127,255),RGB(0,0,127));
+		GotoXY(63,371); PrintString(2,"Empty");
+	  }
+	if(saveg[3]=1) //if it does...
+	  {
+	   checksv3();
+	   DGW16(20,341,620,461);
+	   rectgradfill(23,344,617,459,RGB(red[6],green[6],blue[6]),RGB(red[7],green[7],blue[7]));
+	   savebox3();
+	  }
+	// END SAVE FILE 3!!!
+	
+	
+	Tcopysprite(handx, handy, 32, 32, hand);
+	if(up)
+	  {
+	   updatecontrols();
+	   unpress(5);
+	   if(handy!=162)
+	   {
+	   handy=handy-120;
+	   PlaySound(psound, 63, 127); Delay(2);
+   	   }
+   	  }
+   	if(down)
+	  {
+	   updatecontrols();
+	   unpress(6);
+	   if(handy!=402)
+	   {
+	   handy=handy+120;
+      	   PlaySound(psound, 63, 127); Delay(2);
+	   }
+   	  }	
+	if(b1)
+	  {
+	   updatecontrols();
+	   unpress(1);
+	   if(handx=2)
+	   {
+	   switch(handy)
+      		{
+      		case 162: saveg[1]=1;
+      			  savegame(1);
+      		case 282: saveg[2]=1;
+      			  savegame(2);
+      		case 402: saveg[3]=1;
+      			  savegame(3);
+      		}
+      	   }
+      	  }
+	showpage();
+	//end while loop
+	}
+rectfill(0,0,640,480,0);
+FadeOut(50,0);
+FadeIn(50,0);
+handx=450;
+handy=16;
+render();
+showpage();
+}
+
+//end command save()
+
+string tempostr, saname[30];
+int savechr[30], hour1, min1, max1, hp1, lv1;
+int hour2, min2, max2, hp2, lv2;
+int hour3, min3, max3, hp3, lv3;
+
+void checksaves()
+{
+curfile=fopen("lifesavr.in1");
+fgettoken (tempostr, curfile);
+saveg[1]=val(tempostr);
+fgettoken (tempostr, curfile);
+saveg[2]=val(tempostr);
+fgettoken (tempostr, curfile);
+saveg[3]=val(tempostr);
+fclose(curfile);
+}
+
+void checksv1()
+{
+curfile=fopen("savedat1.in1");
+fgettoken (tempostr, curfile);
+savechr[0]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[1]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[2]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[3]=val(tempostr);
+fgettoken (tempostr, curfile);
+hour1=val(tempostr);
+fgettoken (tempostr, curfile);
+min1=val(tempostr);
+fgettoken (tempostr, curfile);
+saname[0]=tempostr;
+fgettoken (tempostr, curfile);
+LV1=val(tempostr);
+fgettoken (tempostr, curfile);
+HP1=val(tempostr);
+fgettoken (tempostr, curfile);
+MAX1=val(tempostr);
+fgettoken (tempostr, curfile);
+red[2]=val(tempostr);
+fgettoken (tempostr, curfile);
+blue[2]=val(tempostr);
+fgettoken (tempostr, curfile);
+green[2]=val(tempostr);
+fgettoken (tempostr, curfile);
+red[3]=val(tempostr);
+fgettoken (tempostr, curfile);
+blue[3]=val(tempostr);
+fgettoken (tempostr, curfile);
+green[3]=val(tempostr);
+fclose(curfile);
+}
+
+void checksv2()
+{
+curfile=fopen("savedat2.in1");
+fgettoken (tempostr, curfile);
+savechr[4]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[5]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[6]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[7]=val(tempostr);
+fgettoken (tempostr, curfile);
+hour2=val(tempostr);
+fgettoken (tempostr, curfile);
+min2=val(tempostr);
+fgettoken (tempostr, curfile);
+saname[1]=tempostr;
+fgettoken (tempostr, curfile);
+LV2=val(tempostr);
+fgettoken (tempostr, curfile);
+HP2=val(tempostr);
+fgettoken (tempostr, curfile);
+MAX2=val(tempostr);
+fgettoken (tempostr, curfile);
+red[4]=val(tempostr);
+fgettoken (tempostr, curfile);
+blue[4]=val(tempostr);
+fgettoken (tempostr, curfile);
+green[4]=val(tempostr);
+fgettoken (tempostr, curfile);
+red[5]=val(tempostr);
+fgettoken (tempostr, curfile);
+blue[5]=val(tempostr);
+fgettoken (tempostr, curfile);
+green[5]=val(tempostr);
+fclose(curfile);
+}
+
+void checksv3()
+{
+curfile=fopen("savedat3.in1");
+fgettoken (tempostr, curfile);
+savechr[8]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[9]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[10]=val(tempostr);
+fgettoken (tempostr, curfile);
+savechr[11]=val(tempostr);
+fgettoken (tempostr, curfile);
+hour3=val(tempostr);
+fgettoken (tempostr, curfile);
+min3=val(tempostr);
+fgettoken (tempostr, curfile);
+saname[2]=tempostr;
+fgettoken (tempostr, curfile);
+LV3=val(tempostr);
+fgettoken (tempostr, curfile);
+HP3=val(tempostr);
+fgettoken (tempostr, curfile);
+MAX3=val(tempostr);
+fgettoken (tempostr, curfile);
+red[6]=val(tempostr);
+fgettoken (tempostr, curfile);
+blue[6]=val(tempostr);
+fgettoken (tempostr, curfile);
+green[6]=val(tempostr);
+fgettoken (tempostr, curfile);
+red[7]=val(tempostr);
+fgettoken (tempostr, curfile);
+blue[7]=val(tempostr);
+fgettoken (tempostr, curfile);
+green[7]=val(tempostr);
+fclose(curfile);
+}

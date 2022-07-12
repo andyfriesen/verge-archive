@@ -1,0 +1,155 @@
+int chrs[51];
+int chrs2[51], chrs3[51];
+int savy;
+
+void SaveBox1()
+  {		
+  		checktimer1();
+		GotoXY(0,0); PrintString(2, sub[1]+" ");
+		RightPrint(500,170,2,str(HP1));
+		GotoXY(500,170); PrintString(2,"/");
+		RightPrint(600,170,2,str(MAX1));
+		RightPrint(600,135,2,str(LV1));
+		GotoXY(43,187); PrintString(2,time1);
+  		GotoXY(63,131); PrintString(2,saname[0]);
+  		GotoXY(0,0); PrintString(2, sub[2]+" ");
+  		GotoXY(500,135); PrintString(2,"LV");
+  		GotoXY(63,170); PrintString(2,"Time");
+  		GotoXY(0,0); PrintString(2, sub[1]+" ");
+	        iou=0;
+	        savy=0;
+		Switch(savechr[0])
+		{
+		#include "savechrs.vc"
+		}
+		iou=45;
+		Switch(savechr[1])
+		{
+		#include "savechrs.vc"
+		}
+		iou=90;
+		Switch(savechr[2])
+		{
+		#include "savechrs.vc"
+		}
+		iou=135;
+		Switch(savechr[3])
+		{
+		#include "savechrs.vc"
+		}
+  }
+
+//end saveBox1
+void SaveBox2()
+  {		
+  		checktimer2();
+		GotoXY(0,0); PrintString(2, sub[1]+" ");
+		RightPrint(500,290,2,str(HP2));
+		GotoXY(500,290); PrintString(2,"/");
+		RightPrint(600,290,2,str(MAX2));
+		RightPrint(600,255,2,str(LV2));
+		GotoXY(43,307); PrintString(2,time2);
+  		GotoXY(63,251); PrintString(2,saname[1]);
+  		GotoXY(0,0); PrintString(2, sub[2]+" ");
+  		GotoXY(500,255); PrintString(2,"LV");
+  		GotoXY(63,290); PrintString(2,"Time");
+  		GotoXY(0,0); PrintString(2, sub[1]+" ");
+	        iou=0;
+	        savy=120;
+	        Switch(savechr[4])
+		{
+		#include "savechrs.vc"
+		}
+		iou=45;
+		Switch(savechr[5])
+		{
+		#include "savechrs.vc"
+		}
+		iou=90;
+		Switch(savechr[6])
+		{
+		#include "savechrs.vc"
+		}
+		iou=135;
+		Switch(savechr[7])
+		{
+		#include "savechrs.vc"
+		}
+		
+  }
+
+//end savebox2
+void SaveBox3()
+  {		
+  		checktimer3();
+		GotoXY(0,0); PrintString(2, sub[1]+" ");
+		RightPrint(500,410,2,str(HP3));
+		GotoXY(500,410); PrintString(2,"/");
+		RightPrint(600,410,2,str(MAX3));
+		RightPrint(600,375,2,str(LV3));
+		GotoXY(43,427); PrintString(2,time3);
+  		GotoXY(63,371); PrintString(2,saname[2]);
+  		GotoXY(0,0); PrintString(2, sub[2]+" ");
+  		GotoXY(500,375); PrintString(2,"LV");
+  		GotoXY(63,410); PrintString(2,"Time");
+  		GotoXY(0,0); PrintString(2, sub[1]+" ");
+	        iou=0;
+	        savy=240;
+	       	Switch(savechr[8])
+		{
+		#include "savechrs.vc"
+		}
+		iou=45;
+		Switch(savechr[9])
+		{
+		#include "savechrs.vc"
+		}
+		iou=90;
+		Switch(savechr[10])
+		{
+		#include "savechrs.vc"
+		}
+		iou=135;
+		Switch(savechr[11])
+		{
+		#include "savechrs.vc"
+		}
+ }
+
+string space1, space2, time1;
+void checktimer1()
+{
+If(min1<10) { space1=":0"; } Else { space1=":"; }
+If(hour1<10) { space2="0"; } Else { space2=""; }
+time1 = space2+str(hour1)+space1+str(min1);
+}
+
+string space3, space4, time2;
+void checktimer2()
+{
+If(min2<10) { space3=":0"; } Else { space3=":"; }
+If(hour2<10) { space4="0"; } Else { space4=""; }
+time2 = space4+str(hour2)+space3+str(min2);
+}
+
+string space5, space6, time3;
+void checktimer3()
+{
+If(min3<10) { space5=":0"; } Else { space5=":"; }
+If(hour3<10) { space6="0"; } Else { space6=""; }
+time3 = space6+str(hour3)+space5+str(min3);
+}
+
+void loadsavechrs()
+{
+chrs[0]=LoadImage("manr1.pcx");
+chrs[1]=LoadImage("shado.pcx");
+chrs[2]=LoadImage("Gaha1.pcx");
+chrs[3]=LoadImage("domo1.pcx");
+chrs[4]=LoadImage("blank1.pcx");
+chrs[5]=LoadImage("blank1.pcx");
+chrs[6]=LoadImage("blank1.pcx");
+chrs[7]=LoadImage("blank1.pcx");
+chrs[8]=LoadImage("blank1.pcx");
+chrs[50]=LoadImage("tempo1.pcx");
+}

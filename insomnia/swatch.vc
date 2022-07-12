@@ -1,0 +1,111 @@
+						//Char1!!
+	if(touch1=party.chr[0] && handy=54)
+	{
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[2] && handy=54)
+	{
+	party[5]=party.chr[0];
+	party.chr[0]=party.chr[2];
+	party.chr[2]=party[5];
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[3] && handy=54)
+	{
+	party[5]=party.chr[0];
+	party.chr[0]=party.chr[3];
+	party.chr[3]=party[5];
+	loadplayerinfo();
+	}
+
+						//Char2!!
+	if(touch1=party.chr[1] && handy=168)
+	{
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[2] && handy=168)
+	{
+	party[5]=party.chr[1];
+	party.chr[1]=party.chr[2];
+	party.chr[2]=party[5];
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[3] && handy=168)
+	{
+	party[5]=party.chr[1];
+	party.chr[1]=party.chr[3];
+	party.chr[3]=party[5];
+	loadplayerinfo();
+	}
+	
+						//party.chr[2]!!
+	if(touch1=party.chr[2] && handy=282)
+	{
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[1] && handy=282)
+	{
+	party[5]=party.chr[2];
+	party.chr[2]=party.chr[1];
+	party.chr[1]=party[5];
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[3] && handy=282)
+	{
+	party[5]=party.chr[2];
+	party.chr[2]=party.chr[3];
+	party.chr[3]=party[5];
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[0] && handy=282)
+	{
+	party[5]=party.chr[2];
+	party.chr[2]=party.chr[0];
+	party.chr[0]=party[5];
+	loadplayerinfo();
+	}
+						//char 4!!
+	if(touch1=party.chr[0] && handy=396)
+	{
+	party[5]=party.chr[3];
+	party.chr[3]=party.chr[0];
+	party.chr[0]=party[5];
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[1] && handy=396)
+	{
+	party[5]=party.chr[3];
+	party.chr[3]=party.chr[1];
+	party.chr[1]=party[5];
+	loadplayerinfo();
+	}
+	if(touch1=party.chr[2] && handy=396)
+	{
+	party[5]=party.chr[3];
+	party.chr[3]=party.chr[2];
+	party.chr[2]=party[5];
+	loadplayerinfo();
+	}
+	
+	if(touch1=party.chr[3] && handy=396)
+	{
+	loadplayerinfo();
+	}
+
+	if(touch1=party.chr[1] && handy=54)
+	{
+	party[5]=party.chr[0];
+	party.chr[0]=party.chr[1];
+	party.chr[1]=party[5];
+	loadplayerinfo();
+	}
+	
+	if(touch1=party.chr[0] && handy=168)
+	{
+	party[5]=party.chr[1];
+	party.chr[1]=party.chr[0];
+	party.chr[0]=party[5];
+	loadplayerinfo();
+	}
+
+

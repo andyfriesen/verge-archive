@@ -1,0 +1,69 @@
+//Light Magic
+cure    - 5MP  - gives roughly 270HP
+cure2   - 25MP - gives roughly 810HP
+cure3   - 40MP - gives roughly 1890HP
+life    - 30MP - restores enough HP to heal dead chrs
+life2   - 60MP - revives dead party member, gives full HP
+life3   - 50MP - casted before you die, when dead party member will come back 
+		 automatically
+antidot - 3MP  - cures poisoning
+remedy  - 10MP - restores HP at regular intervals for a short period of time
+regen   - 15MP - cures all status ailments except zombie
+
+//Dark Magic
+fire    - 4MP  - causes a considerable amount of damage
+fire2   - 20MP - 3 times the amount of damage as fire
+fire3   - 51MP - 6 times the amount of damage as fire
+bolt    - 6MP  - causes a considerable amount of damage 
+bolt2   - 22MP - 3 times the amount of damage as bolt
+bolt3   - 53MP - 3 times the amount of damage as bolt
+ice     - 5MP  - causes a considerable amount of damage 
+ice2    - 21MP - 3 times the amount of damage as ice
+ice3    - 52MP - 3 times the amount of damage as ice 
+poison  - 3MP  - gradually eats away at the enemies HP for the entire battle
+drain   - 15MP - takes HP from enemy and gives it to the character that cast
+bio     - 26MP - similar to poison, more powerful
+break   - 25MP - turns enemies to stone, effective for a long period of time
+doom    - 35MP - doom apears and takes the enemy away
+pearl   - 40MP - elemental attack, effective against those vulnerable to it
+flare   - 45MP - attacks all enemies, very powerfull fire spell
+demi    - 33MP - takes off 1/2 of the enemies current HP
+quartr  - 48MP - takes off 3/4 of the enemies current HP
+x-zone  - 53MP - throws enemies into a void in space somewhere
+meteor  - 62MP - sends a meteor crashing into the enemy
+ultima  - 80MP - hits and most likely kills both the enemy and your party
+quake   - 50MP - shakes the ground, damages both enemy and ally
+w.wind  - 75MP - takes of 90% of the enemies HP, but allies too.
+merton  - 85MP - blazing fire attack, massive damage to enemy
+ 
+//Effect Magic
+scan    - 3MP  - examines enemies to find their status, strengths, and 
+		 weaknesses
+slow    - 5MP  - slows down enemy so it takes longer for them to recover for 
+		 their next turn
+rasp    - 12MP - eats away at the enemies MP
+mute    - 8MP  - silences your enemies, can't use spells
+safe    - 12MP - protects one ally, raises defensive power for a short period
+sleep   - 5MP  - puts enemies into slumber for a few rounds
+muddle  - 8MP  - confuses your enemy, possibly causes them to attack their own
+		 allies
+haste   - 10MP - makes allies recover for their next turn quickly
+stop    - 10MP - stops enemies from recovering for their next turn
+bserk   - 16MP - makes party member automatically attack
+float   - 17MP - evades quake, lifts player off of the ground
+imp     - 10MP - turns enemy into a small green lifeform, also used to cure the
+		 imp status of allies
+rflect  - 22MP - reflects back ALL magic spells cast on ally or enemy, lasts 
+		 for short period
+shell   - 15MP - protects against magic for a short period
+vanish  - 18MP - makes enemy/ally become invisible and avoids damaging attacks
+haste2  - 38MP - makes the effect of haste cast on all of your party members
+slow2   - 26MP - makes the effect of slow cast on all enemies
+osmose  - 1MP  - takes MP from an enemy and gives it to you
+warp    - 20MP - lets you escape from battles or dungeons (caves, whales, etc.)
+quick   - 99MP - like haste but VERY fast
+dispel  - 25MP - removes some abnormal status ailments from allies
+
+
+
+

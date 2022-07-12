@@ -1,0 +1,21 @@
+-------------------------------------------------------------------------------
+January 14,2000
+-------------------------------------------------------------------------------
+added partysys.vc
+added int party.chr[4]; to partysys.vc
+added int playx, playy; to partysys.vc
+added void firstcheck(); to partysys.vc
+-------------------------------------------------------------------------------
+January 16,2000
+-------------------------------------------------------------------------------
+added void LoadChrs(); to partysys.vc
+added void Warp(int xloc, int yloc) to system.vc
+added void Addchar(int addwho); to partysys.vc
+-------------------------------------------------------------------------------
+January 18,2000
+-------------------------------------------------------------------------------
+added Boxcode.vc
+added Void MakeBox(int xcor, int ycor, int width1, int height1); to boxcode.vc
+added int colorful; to boxcode.vc
+added Void Text(string line1,string line2,string line3); to boxcode.vc
+added Void LoadAllFonts(); to boxcode.vc

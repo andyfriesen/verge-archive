@@ -1,0 +1,52 @@
+Case (0): TCopySprite(100, 14+iou, 105, 105, port[0]);
+	  GotoXY(224,32+iou); PrintString(2,cname[0]);
+	  GotoXY(260,50+iou); PrintString(2,sub[2] + "LV");	  
+	  GotoXY(296,50+iou); PrintString(2,sub[1] + str(LV[0]));	
+	  GotoXY(260,68+iou); PrintString(2,sub[2] + "HP");
+	  GotoXY(296,68+iou); PrintString(2,sub[1] + str(curHP[0]));
+	  GotoXY(356,68+iou); PrintString(2,"/");
+	  GotoXY(372,68+iou); PrintString(2,str(maxHP[0]));
+	  GotoXY(260,86+iou); PrintString(2,sub[2] + "MP");
+	  GotoXY(296,86+iou); PrintString(2,sub[1] + str(curMP[0]));
+	  GotoXY(356,86+iou); PrintString(2,"/");
+	  GotoXY(372,86+iou); PrintString(2,str(maxMP[0]));
+
+Case (1): TCopySprite(100, 14+iou, 105, 105, port[0]);
+	  GotoXY(224,32+iou); PrintString(2,cname[0]);
+	  GotoXY(260,50+iou); PrintString(2,sub[2] + "LV");	  
+	  GotoXY(296,50+iou); PrintString(2,sub[1] + str(LV[0]));	
+	  GotoXY(260,68+iou); PrintString(2,sub[2] + "HP");
+	  GotoXY(296,68+iou); PrintString(2,sub[1] + str(curHP[0]));
+	  GotoXY(356,68+iou); PrintString(2,"/");
+	  GotoXY(372,68+iou); PrintString(2,str(maxHP[0]));
+	  GotoXY(260,86+iou); PrintString(2,sub[2] + "MP");
+	  GotoXY(296,86+iou); PrintString(2,sub[1] + str(curMP[0]));
+	  GotoXY(356,86+iou); PrintString(2,"/");
+	  GotoXY(372,86+iou); PrintString(2,str(maxMP[0]));
+
+Case (2): TCopySprite(100, 14+iou, 105, 105, port[0]);
+	  GotoXY(224,32+iou); PrintString(2,cname[0]);
+	  GotoXY(260,50+iou); PrintString(2,sub[2] + "LV");	  
+	  GotoXY(296,50+iou); PrintString(2,sub[1] + str(LV[0]));	
+	  GotoXY(260,68+iou); PrintString(2,sub[2] + "HP");
+	  GotoXY(296,68+iou); PrintString(2,sub[1] + str(curHP[0]));
+	  GotoXY(356,68+iou); PrintString(2,"/");
+	  GotoXY(372,68+iou); PrintString(2,str(maxHP[0]));
+	  GotoXY(260,86+iou); PrintString(2,sub[2] + "MP");
+	  GotoXY(296,86+iou); PrintString(2,sub[1] + str(curMP[0]));
+	  GotoXY(356,86+iou); PrintString(2,"/");
+	  GotoXY(372,86+iou); PrintString(2,str(maxMP[0]));
+
+Case (3): TCopySprite(100, 14+iou, 105, 105, port[0]);
+	  GotoXY(224,32+iou); PrintString(2,cname[0]);
+	  GotoXY(260,50+iou); PrintString(2,sub[2] + "LV");	  
+	  GotoXY(296,50+iou); PrintString(2,sub[1] + str(LV[0]));	
+	  GotoXY(260,68+iou); PrintString(2,sub[2] + "HP");
+	  GotoXY(296,68+iou); PrintString(2,sub[1] + str(curHP[0]));
+	  GotoXY(356,68+iou); PrintString(2,"/");
+	  GotoXY(372,68+iou); PrintString(2,str(maxHP[0]));
+	  GotoXY(260,86+iou); PrintString(2,sub[2] + "MP");
+	  GotoXY(296,86+iou); PrintString(2,sub[1] + str(curMP[0]));
+	  GotoXY(356,86+iou); PrintString(2,"/");
+	  GotoXY(372,86+iou); PrintString(2,str(maxMP[0]));
+

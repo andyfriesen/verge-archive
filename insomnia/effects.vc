@@ -1,0 +1,71 @@
+string current_map;
+
+void Warp(int xloc, int yloc)
+ {
+  entity.tx[player]=xloc;
+  entity.x[player]=xloc*16;
+  entity.ty[player]=yloc;
+  entity.y[player]=yloc*16;
+ }
+ 
+
+void MapSwitch(string mapname, int x, int y)
+{
+  current_map=mapname;
+  warp(x,y);
+  Map(mapname);
+}
+
+void FadeOut(int span, int upd)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      if (upd) ProcessEntities();
+      k--;
+      timer--;
+      n++;
+    }
+    if (upd)
+    {
+      Render();
+      ShowPage();
+    }
+    if (n>span) n=span;
+    PaletteMorph(0,0,0,0,63-(n*63/span));
+  }
+  timer=0;
+}
+
+void FadeIn(int span, int upd)
+{
+  int n, k;
+
+  timer=0;
+  n=0;
+  k=span;
+  while (k>0)
+  {
+    while (timer)
+    {
+      if (upd) ProcessEntities();
+      k--;
+      timer--;
+      n++;
+    }
+    if (upd)
+    {
+      Render();
+      ShowPage();
+    }
+    if (n>span) n=span;
+    PaletteMorph(0,0,0,0,n*63/span);
+  }
+  timer=0;
+}

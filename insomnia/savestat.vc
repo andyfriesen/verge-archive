@@ -1,0 +1,20 @@
+Case (0): fwritestring(str(LV[0]), vr);
+	  fwritestring(str(curHP[0]), vr);
+  	  fwritestring(str(maxHP[0]), vr);
+	  
+Case (1): fwritestring(str(LV[1]), vr);
+	  fwritestring(str(curHP[1]), vr);
+  	  fwritestring(str(maxHP[1]), vr);
+
+Case (2): fwritestring(str(LV[2]), vr);
+	  fwritestring(str(curHP[2]), vr);
+  	  fwritestring(str(maxHP[2]), vr);
+
+Case (3): fwritestring(str(LV[3]), vr);
+	  fwritestring(str(curHP[3]), vr);
+  	  fwritestring(str(maxHP[3]), vr);
+
+Case (4): fwritestring(str(LV[4]), vr);
+	  fwritestring(str(curHP[4]), vr);
+  	  fwritestring(str(maxHP[4]), vr);
+

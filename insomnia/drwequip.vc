@@ -1,0 +1,41 @@
+  RectFill(0,0,640,480,0);
+  DGW16(20,49,620,204);
+  DGW16(20,204,620,462);
+  TCopySprite(460, 64, 105, 105, port[party.chr[index]]);
+  GotoXY(444, 174); PrintString(2, Sub[1]+cname[party.chr[index]]);
+
+  GotoXY(40, 80); PrintString(2, Sub[2]+"LHand"+Sub[1]+LHItemName[party.chr[index]]);
+  GotoXY(40, 96); PrintString(2, Sub[2]+"RHand"+Sub[1]+RHItemName[party.chr[index]]);
+  GotoXY(40, 112); PrintString(2, Sub[2]+"Head "+Sub[1]+HItemName[party.chr[index]]);
+  GotoXY(40, 128); PrintString(2, Sub[2]+"Body "+Sub[1]+BItemName[party.chr[index]]);
+  GotoXY(40, 144); PrintString(2, Sub[2]+"Relic"+Sub[1]+R1ItemName[party.chr[index]]);
+  GotoXY(40, 160); PrintString(2, Sub[2]+"Relic"+Sub[1]+R2ItemName[party.chr[index]]);
+
+  GotoXY(300, 216); PrintString(2, Sub[2]+"Vigor    "+ Sub[1]+Str(Vigor[party.chr[index]]));
+  GotoXY(300, 232); PrintString(2, Sub[2]+"Speed    "+ Sub[1]+Str(Speed[party.chr[index]]));
+  GotoXY(300, 248); PrintString(2, Sub[2]+"Stamina  "+ Sub[1]+Str(Stamina[party.chr[index]]));
+  GotoXY(300, 264); PrintString(2, Sub[2]+"Mag. Pwr "+ Sub[1]+Str(MagPwr[party.chr[index]]));
+  GotoXY(300, 280); PrintString(2, Sub[2]+"Bat. Pwr "+ Sub[1]+Str(BatPwr[party.chr[index]]));
+  GotoXY(300, 296); PrintString(2, Sub[2]+"Defense  "+ Sub[1]+Str(Defense[party.chr[index]]));
+  GotoXY(300, 312); PrintString(2, Sub[2]+"Evade %  "+ Sub[1]+Str(Evade[party.chr[index]]));
+  GotoXY(300, 328); PrintString(2, Sub[2]+"Mag. Def "+ Sub[1]+Str(MagDef[party.chr[index]]));
+  GotoXY(300, 344); PrintString(2, Sub[2]+"MBlock % "+ Sub[1]+Str(Mblock[party.chr[index]]));
+  GotoXY(516, 216);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 232);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 248);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 264);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 280);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 296);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 312);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 328);
+  PrintString(2, sub[2]+">");
+  GotoXY(516, 344);
+  PrintString(2, sub[2]+">"+Sub[1]);
+

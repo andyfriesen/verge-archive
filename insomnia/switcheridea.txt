@@ -1,0 +1,31 @@
+Void QuickLeadSwitchForward()
+{
+if(key[30])
+{
+holdchr=party.chr[0];
+party.chr[0]=party.chr[1];
+party.chr[1]=party.chr[2];
+party.chr[2]=party.chr[3];
+party.chr[3]=holdchr;
+}
+firstcheck();
+updatecontrols();
+key[30]=0;
+return;
+}
+
+Void QuickLeadSwitchBackward()
+{
+if(key[44])
+{
+holdchr=party.chr[3];
+party.chr[3]=party.chr[2];
+party.chr[2]=party.chr[1];
+party.chr[1]=party.chr[0];
+party.chr[0]=holdchr;
+}
+firstcheck();
+updatecontrols();
+key[44]=0;
+return;
+}

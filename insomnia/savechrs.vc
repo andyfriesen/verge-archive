@@ -1,0 +1,6 @@
+Case (0): TCopySprite(228+iou, 135+savy, 32, 64, chrs[0]);
+Case (1): TCopySprite(228+iou, 135+savy, 32, 64, chrs[1]);
+Case (2): TCopySprite(228+iou, 135+savy, 32, 64, chrs[2]);
+Case (3): TCopySprite(228+iou, 135+savy, 32, 64, chrs[3]);
+Case (4): TCopySprite(228+iou, 135+savy, 32, 64, chrs[4]);
+Case (50): TCopySprite(228+iou, 135+savy, 32, 64, chrs[50]);

@@ -1,0 +1,129 @@
+
+
+void Load()
+{
+checksaves();
+handx=2;
+handy=162;
+setresolution(640,480);
+updatecontrols();
+unpress(2);
+while(!b2) //50
+	{
+	UpdateControls();
+		RectFill(0,0,640,480,0);
+		DGW16(20,32,620,101);
+		rectgradfill(23,35,617,99,RGB(0,127,255),RGB(0,0,127));
+		CenterPrint(65,2,"Load");
+		if(saveg[1]=5) //checks to see if saved file already exists
+		  {
+			DGW16(20,101,620,221);
+			rectgradfill(23,104,617,219,RGB(0,127,255),RGB(0,0,127));
+			GotoXY(63,131); PrintString(2,"Empty");
+	  	  }
+	  	if(saveg[1]=1) //if it does...
+	  	  {
+	  	   checksv1();
+	  	   DGW16(20,101,620,221);
+	  	   rectgradfill(23,104,617,219,RGB(red[2],green[2],blue[2]),RGB(red[3],green[3],blue[3]));
+	  	   savebox1();
+	  	  }
+		// END SAVE FILE 1!!!
+		if(saveg[2]=5) //checks to see if saved file already exists
+		  {
+		 	DGW16(20,221,620,341);
+			rectgradfill(23,224,617,339,RGB(0,127,255),RGB(0,0,127));
+			GotoXY(63,251); PrintString(2,"Empty");
+		  }
+		if(saveg[2]=1) //if it does...
+		  {
+		   checksv2();
+		   DGW16(20,221,620,341);
+		   rectgradfill(23,224,617,339,RGB(red[4],green[4],blue[4]),RGB(red[5],green[5],blue[5]));
+		   savebox2();
+		  }
+		// END SAVE FILE 2!!!
+		if(saveg[3]=5) //checks to see if saved file already exists
+		  {
+		 	DGW16(20,341,620,461);
+			rectgradfill(23,344,617,459,RGB(0,127,255),RGB(0,0,127));
+			GotoXY(63,371); PrintString(2,"Empty");
+		  }
+		if(saveg[3]=1) //if it does...
+		  {
+		   checksv3();
+		   DGW16(20,341,620,461);
+		   rectgradfill(23,344,617,459,RGB(red[6],green[6],blue[6]),RGB(red[7],green[7],blue[7]));
+		   savebox3();
+		  }
+		// END SAVE FILE 3!!!
+		
+		
+		Tcopysprite(handx, handy, 32, 32, hand);
+		if(up)
+		  {
+		   updatecontrols();
+		   unpress(5);
+		   if(handy!=162)
+		   {
+		   handy=handy-120;
+		   PlaySound(psound, 63, 127); Delay(2);
+	   	   }
+	   	  }
+	   	if(down)
+		  {
+		   updatecontrols();
+		   unpress(6);
+		   if(handy!=402)
+		   {
+		   handy=handy+120;
+	      	   PlaySound(psound, 63, 127); Delay(2);
+		   }
+	   	  }	
+		if(b1)
+		  {
+		   updatecontrols();
+		   unpress(1);
+		   if(handx=2)
+		   {
+		   switch(handy)
+	      		{
+	      		case 162: if(saveg[1]=1)
+	      			  {
+	      			  loadgame(1);
+	      			  }
+	      		case 282: if(saveg[2]=1)
+	      			  {
+	      			  loadgame(2);
+	      			  }
+	      		case 402: if(saveg[3]=1)
+	      			  {
+	      			  loadgame(3);
+	      			  }
+	      		}
+	      	   }
+	      	  }
+		showpage();
+		//end while loop
+		}
+	rectfill(0,0,640,480,0);
+	FadeOut(50,0);
+	FadeIn(50,0);
+	handx=450;
+	handy=16;
+	render();
+	showpage();
+}
+
+int i;
+Void FreeImages()
+{
+for (i=0; i<51; i++)
+	{
+	free(port[i]);
+	free(chrs[i]);
+	free(hand);
+	free(hand2);
+	}
+}
+

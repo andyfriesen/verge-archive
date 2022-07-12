@@ -1,0 +1,441 @@
+"Magicite"
+12345
+Calls on the powers of a random esper
+
+Antidote
+50
+Cures poisoned party members
+
+Dried Meat
+150
+Recovers 150HP
+
+Echo Screen
+120
+Cures silence status
+
+Elixir
+12345
+Replenishes both HP and MP fully for user.
+
+Ether
+12345
+Refills 150MP.
+
+Eyedrop
+50
+Cures dark status
+
+Fenix Down
+500
+Rejuvenate wounded party members and make them able to function.
+ 
+Green Cherry
+150
+Reverses Imp Condition.
+
+Megalixir
+12345
+Refills HP and MP of the entire party
+
+Potion
+300
+Recover 250HP
+
+Remedy
+1000
+neutralizes the effects of all       ailments except Zombie.
+
+Revivify
+300
+Reverses Zombie Condition.
+
+Sleeping Bag
+500
+One member of your party can recover both HP and MP
+
+Smoke Bomb
+300
+Escape from battle.
+
+Soft
+200
+Reverses Petrify Condition.
+
+Super Ball
+10000
+Cause serious injuries to enemies    when they bounce around. 
+
+Tent
+1200
+Recover both HP and MP for entire    party.
+
+Tincture
+1500
+Replenishes 50MP, selectable during  battle.
+
+Tonic
+50
+Recover 50MP
+
+Warp Stone
+700
+Escape from battle or dungeon.
+
+X-Ether
+12345
+Completely refills the users MP.
+
+X-Potion
+12345
+Refills HP completely.
+
+*** END ***
+
+Dagger
+100
+A Simple dagger.
+0
+0
+0
+0
+5
+0
+0
+0
+0
+
+Dirk
+100
+A Simple Dirk.
+0
+0
+0
+0
+15
+0
+0
+0
+0
+
+Sword
+100
+A Simple... you get the idea.
+10
+-2
+0
+0
+25
+0
+0
+0
+0
+
+Dagger2
+100
+A Simple dagger.
+0
+0
+0
+0
+5
+0
+0
+0
+0
+
+Dirk2
+100
+A Simple Dirk.
+0
+0
+0
+0
+15
+0
+0
+0
+0
+
+Sword2
+100
+A Simple... you get the idea.
+10
+-2
+0
+0
+25
+0
+0
+0
+0
+
+Dagger3
+100
+A Simple dagger.
+0
+0
+0
+0
+5
+0
+0
+0
+0
+
+Dirk3
+100
+A Simple Dirk.
+0
+0
+0
+0
+15
+0
+0
+0
+0
+
+Sword3
+100
+A Simple... you get the idea.
+10
+-2
+0
+0
+25
+0
+0
+0
+0
+
+Dagger4
+100
+A Simple dagger.
+0
+0
+0
+0
+5
+0
+0
+0
+0
+
+Dirk4
+100
+A Simple Dirk.
+0
+0
+0
+0
+15
+0
+0
+0
+0
+
+Sword4
+100
+A Simple... you get the idea.
+10
+-2
+0
+0
+25
+0
+0
+0
+0
+
+Dagger5
+100
+A Simple dagger.
+0
+0
+0
+0
+5
+0
+0
+0
+0
+
+Dirk5
+100
+A Simple Dirk.
+0
+0
+0
+0
+15
+0
+0
+0
+0
+
+Sword5
+100
+A Simple... you get the idea.
+10
+-2
+0
+0
+25
+0
+0
+0
+0
+
+Dagger6
+100
+A Simple dagger.
+0
+0
+0
+0
+5
+0
+0
+0
+0
+
+Dirk6
+100
+A Simple Dirk.
+0
+0
+0
+0
+15
+0
+0
+0
+0
+
+Sword6
+100
+A Simple... you get the idea.
+10
+-2
+0
+0
+25
+0
+0
+0
+0
+
+*** END ***
+
+Buckler
+130
+A buckler... what else can I say?
+0
+0
+0
+0
+0
+16
+10
+10
+0
+
+Wood Shield
+130
+A wooden shield.
+0
+0
+0
+0
+0
+24
+5
+12
+0
+
+*** END ***
+
+Leather Hat
+130
+
+0
+0
+0
+0
+0
+11
+0
+7
+0
+
+Plumed Hat
+130
+A hat with a feather.. how nice.
+0
+0
+0
+0
+0
+14
+0
+9
+0
+
+*** END ***
+
+Leather Armor
+130
+
+0
+0
+0
+0
+0
+30
+0
+19
+0
+
+Iron Armor
+130
+Heavy armor, slows you down.
+0
+-2
+0
+0
+0
+40
+0
+27
+0
+
+*** END ***
+
+Some Relic
+130
+
+0
+0
+0
+0
+0
+30
+0
+19
+0
+
+Another Relic
+130
+
+0
+-2
+0
+0
+0
+40
+0
+27
+0
+
+*** END ***

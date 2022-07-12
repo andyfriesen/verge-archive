@@ -1,0 +1,129 @@
+if(hour<10&&hour!=0)
+     {
+       if(min<10&&min!=0)
+       {
+         if(sec<10&&sec!=0)
+         {
+           GotoXY(490,268); PrintString(2, "0"+hourstr+":"+"0"+minstr);
+         }
+	 if(sec>9)
+	 {
+	   GotoXY(490,268); PrintString(2, "0"+hourstr+":"+"0"+minstr);
+         }
+	 if(sec=0)
+	 {
+	   GotoXY(490,268); PrintString(2, "0"+hourstr+":"+"0"+minstr);
+	 }
+       }
+       if(min>9)
+       {
+	 if(sec<10&&sec!=0)
+	 {
+	   GotoXY(490,268); PrintString(2, "0"+hourstr+":"+minstr);
+	 }
+	 if(sec>9)
+	 {
+	   GotoXY(490,268); PrintString(2, "0"+hourstr+":"+minstr);
+	 }
+	 if(sec=0)
+	 {
+	/* 30 */   GotoXY(490,268); PrintString(2, "0"+hourstr+":"+minstr);
+	 }
+       }
+     }
+     if(hour>9)
+     {
+       if(min<10&&min!=0)
+       {
+	 if(sec<10&&sec!=0)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+"0"+minstr);
+	 }
+	 if(sec<9)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+"0"+minstr);
+	 }
+	 if(sec=0)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+"0"+minstr);
+	 }
+      }
+      if(min>9)
+       {
+	 if(sec<10&&sec!=0)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+minstr);
+	 }
+	 if(sec>9)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+minstr);
+	 }
+	 if(sec=0)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+minstr);
+	 }
+       }
+       if(min=0)
+       {
+	 if(sec<10&&sec!=0)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+"00");
+	 }
+	 if(sec>9)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+"00");
+	 }
+	 if(sec=0)
+	 {
+	   GotoXY(490,268); PrintString(2, hourstr+":"+"00");
+	 }
+       }
+     }
+     if(hour=0)
+     {
+       if(min<10&&min!=0)
+       {
+	 if(sec<10&&sec!=0)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+"0"+minstr);
+	 }
+	 if(sec>9)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+"0"+minstr);
+	 }
+	 if(sec=0)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+"0"+minstr);
+	 }
+       }
+       if(min>9)
+       {
+	 if(sec<10&&sec!=0)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+minstr);
+	 }
+	 if(sec>9)
+	 {
+	   GotoXY(490,268); PrintString(2, "00"+":"+minstr);
+	 }
+	 if(sec=0)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+minstr);
+	 }
+       }
+       if(min=0)
+       {
+         if(sec<10&&sec!=0)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+"00");
+	 }
+	 if(sec>9)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+"00");
+	 }
+	 if(sec=0)
+	 {
+   	   GotoXY(490,268); PrintString(2, "00"+":"+"00");
+	 } 
+       }
+}

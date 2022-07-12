@@ -1,0 +1,148 @@
+int sec, min, hour, gametime;
+string minstr, hourstr, secstr;
+int curGP, pointerpos;
+int handx, handy, hand, menu, touch1;
+int saveok;
+int port[51];
+int iou;
+
+void ResetClock()
+{
+sec=0;
+min=0;
+hour=0;
+gametime=0;
+}
+
+void GameTimeStart()
+{
+hooktimer(gameplay);
+}
+
+#include "gameplay.vc"
+
+void mainmenu()
+{
+pointerpos=0;
+
+uncheckkeys();
+menu=1;
+touch1=15;
+handx=450;
+handy=16;
+//FadeOut(50,0);
+setresolution(640,480);
+updatecontrols();
+unpress(2);
+//FadeIn(50,0);
+while(!B2) //50
+ {
+   UpdateControls();
+   Render();
+   RectFill(0,0,640,480,0);
+   DGW16(58,2,584,476);
+   DGW16(472,222,584,296);
+   DGW16(472,2,584,226);
+   DGW16(454,292,584,370);
+   GotoXY(482,15);  PrintString(2,sub[1]+" ");
+   GotoXY(482,20);  PrintString(2,"Item");
+   GotoXY(482,46);  PrintString(2,"Skills");
+   GotoXY(482,72);  PrintString(2,"Equip");
+   GotoXY(482,98);  PrintString(2,"Cards");
+   GotoXY(482,124);  PrintString(2,"Status");
+   GotoXY(482,150);  PrintString(2,"Config");
+   if(saveok!=1)
+   {
+   GotoXY(482,176);  PrintString(2,"Save");
+   }
+   else
+   {
+   GotoXY(482,15);  PrintString(2,sub[3] + "");
+   GotoXY(482,176);  PrintString(2,"Save");
+   }
+   LoadPlayerInfo();
+   GotoXY(464,328);  PrintString(2,sub[2] + "GP");
+   GotoXY(490,246);  PrintString(2,"Time");
+   GotoXY(464,346);  PrintString(2,sub[1] + str(curGP));
+   #include "clock.vc"
+   pointer1();
+   showpage();
+ }
+pointerpos=10;
+menu=10;
+firstcheck();
+checkkeys();
+//FadeOut(50,0);
+setresolution(320,240);
+//FadeIn(50,0);
+}
+
+void blank()
+{
+
+}
+
+void uncheckkeys()
+{
+hookkey(57,blank);
+//hookkey(13,blank);
+//hookkey(23,blank);
+}
+
+void checkkeys()
+{
+hookkey(57,mainmenu);
+//hookkey(13,savescreen);
+//hookkey(23,item);
+}
+
+void palette()
+{
+palettemorph(0,0,0,0,63);
+}
+
+
+Void LoadPlayerInfo()
+{
+ int i;
+ for(iou=0; iou<=342; iou+=114)
+ {
+  i=iou/114;
+  if(party.chr[i]!=Nochar)
+  {
+   TCopySprite(100, 14+iou, 105, 105, port[party.chr[i]]);
+   GotoXY(224,32+iou); PrintString(2,sub[1] + cname[party.chr[i]]);
+   GotoXY(260,50+iou); PrintString(2,sub[2] + "LV");
+   GotoXY(296,50+iou); PrintString(2,sub[1] + str(LV[party.chr[i]]));
+   GotoXY(260,68+iou); PrintString(2,sub[2] + "HP");
+   GotoXY(296,68+iou); PrintString(2,sub[1] + str(curHP[party.chr[i]]));
+   GotoXY(356,68+iou); PrintString(2,"/");
+   GotoXY(372,68+iou); PrintString(2,str(maxHP[party.chr[i]]));
+   GotoXY(260,86+iou); PrintString(2,sub[2] + "MP");
+   GotoXY(296,86+iou); PrintString(2,sub[1] + str(curMP[party.chr[i]]));
+   GotoXY(356,86+iou); PrintString(2,"/");
+   GotoXY(372,86+iou); PrintString(2,str(maxMP[party.chr[i]]));
+  }
+ }
+   /*   iou=0;
+   Switch (party.chr[0])
+   {
+   #include "players.vc"
+   }
+   iou=114;
+   Switch (party.chr[1])
+   {
+   #include "players.vc"
+   }
+   iou=228;
+   Switch (party.chr[2])
+   {
+   #include "players.vc"
+   }
+   iou=342;
+   Switch (party.chr[3])
+   {
+   #include "players.vc"
+   }
+  */
+}

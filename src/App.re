@@ -304,7 +304,13 @@ let v2games: array(Game.game) = [|
         engine: Game.V2, 
         vtype: "v2game",  
     },  	
- 
+     {
+        name: "insomnia",
+        title: "Insomnia",
+        description: "A FF style battle system demo, by Shadow64",
+        engine: Game.V2, 
+        vtype: "v2game",  
+    },  
     
 |];
 

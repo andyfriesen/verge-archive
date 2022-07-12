@@ -1,0 +1,20 @@
+void skills()
+{
+setresolution(640,480);
+updatecontrols();
+unpress(2);
+while(!b2) //50
+	{
+	UpdateControls();
+	Render();
+	RectFill(0,0,640,480,0);
+	DGW16(20,49,620,204);
+	DGW16(20,204,620,462);
+	showpage();
+	}
+rectfill(0,0,640,480,0);
+FadeOut(50,0);
+FadeIn(50,0);
+render();
+showpage();
+}

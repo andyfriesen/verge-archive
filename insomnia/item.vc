@@ -1,0 +1,366 @@
+#define MaxItems 100
+
+int NumItems[MaxItems]; //Stores the current number of the particular item.
+string ItemName[MaxItems]; //Stores the name of the item.
+int ItemType[MaxItems]; //Stores what the item is. (used for when the item is actually used)
+int ItemClass[MaxItems]; //Stores what type of equipment it is (if it's a usable item, armor, etc)
+int ItemCost[MaxItems]; //The cost of the item.
+String ItemText[MaxItems]; //The item description.
+// if the item is equipment of some type, these arrays are used.
+int IVigor[MaxItems], ISpeed[MaxItems], IStamina[MaxItems], IMagPwr[MaxItems], IBatPwr[MaxItems], IDefense[MaxItems], IEvade[MaxItems], IMagDef[MaxItems], IMBlock[MaxItems];
+
+int realpos;
+string EquipType[10];
+int TotalItems; //number of unique items the player is carrying.
+
+void item()
+{
+ int done, done2, i, offset, pos, pos2;
+ //FadeOut(50,0);
+ //setresolution(640,480); //remove when done
+ palette();
+ updatecontrols();
+ unpress(2);
+ //FadeIn(50,0);
+ realpos=0;
+ while(!done)
+ {
+  UpdateControls();
+  RectFill(0,0,640,480,0);
+  DGW16(20,12,140,68);
+  DGW16(138,12,620,68);
+  DGW16(20,66,620,138);
+  DGW16(20,136,620,470);
+  gotoxy(46,40); PrintString(2,sub[2] + "Item");
+  gotoxy(200,40); PrintString(2,sub[1] + "USE");
+  gotoxy(300,40); PrintString(2, "ARRANGE");
+  gotoxy(480,40); PrintString(2, "RARE");
+  for(i=0; i<20; i++)
+  {
+   if(Numitems[i+offset]) //if the player owns the current item
+   {
+    if(!ItemClass[i+offset])
+    {
+     GotoXY(50, 141+(i*FontHeight(2)));
+     PrintString(2, ItemName[i+offset]);
+     GotoXY(500, 141+(i*FontHeight(2)));
+     PrintString(2, Str(NumItems[i+offset]));
+    }
+    else
+    {
+     GotoXY(50-FontWidth(2), 141+(i*FontHeight(2))); //Compensate for the space from the font color change...
+     PrintString(2, sub[3] + ItemName[i+offset]);
+     GotoXY(320, 141+(i*FontHeight(2)));
+     PrintString(2, sub[3] + EquipType[ItemClass[i+offset]]);
+     GotoXY(500-Fontwidth(2), 141+(i*FontHeight(2)));
+     PrintString(2, sub[3] + Str(NumItems[i+offset])+sub[1]);
+    }
+   }
+  }
+  TCopySprite(20, 141+(pos*FontHeight(2)), 32, 32, hand);
+  if(Numitems[Realpos]) PrintDesc(ItemText[Realpos]);
+  showpage();
+
+  if(b2) //Go to secondary menu
+  {
+   UnPress(2);
+   done2=0;
+   While(!done2)
+   {
+    UpdateControls();
+    RectFill(0,0,640,480,0);
+    DGW16(20,12,140,68);
+    DGW16(138,12,620,68);
+    DGW16(20,66,620,138);
+    DGW16(20,136,620,470);
+    gotoxy(46,40); PrintString(2,sub[2] + "Item");
+    gotoxy(200,40); PrintString(2,sub[1] + "USE");
+    gotoxy(300,40); PrintString(2, "ARRANGE");
+    gotoxy(480,40); PrintString(2, "RARE");
+    for(i=0; i<20; i++)
+    {
+     if(Numitems[i+offset]) //if the player owns the current item
+     {
+      if(!ItemClass[i+offset])
+      {
+       GotoXY(50, 141+(i*FontHeight(2)));
+       PrintString(2, ItemName[i+offset]);
+       GotoXY(500, 141+(i*FontHeight(2)));
+       PrintString(2, Str(NumItems[i+offset]));
+      }
+      else
+      {
+       GotoXY(50-FontWidth(2), 141+(i*FontHeight(2))); //Compensate for the space from the font color change...
+       PrintString(2, sub[3] + ItemName[i+offset]);
+       GotoXY(320, 141+(i*FontHeight(2)));
+       PrintString(2, sub[3] + EquipType[ItemClass[i+offset]]);
+       GotoXY(500-Fontwidth(2), 141+(i*FontHeight(2)));
+       PrintString(2, sub[3] + Str(NumItems[i+offset])+sub[1]);
+      }
+     }
+    }
+    SetLucent(1); TCopySprite(20, 141+(pos*FontHeight(2)), 32, 32, hand); SetLucent(0); //Give the non-active hand a transluscent look.
+    if(Numitems[Realpos]) PrintDesc(ItemText[Realpos]);
+
+    switch(pos2)
+    {
+     Case 0: TCopySprite(170, 40, 32, 32, hand);
+     Case 1: TCopySprite(270, 40, 32, 32, hand);
+     Case 2: TCopySprite(450, 40, 32, 32, hand);
+    }
+    if(right) { UnPress(8); PlaySound(psound, 63, 127); pos2++; if(pos2>2) pos2=0; }
+    if(left) {  UnPress(7); PlaySound(psound, 63, 127); pos2--; if(pos2<0) pos2=2; }
+    showpage();
+    if (b2) { done++; done2++; Unpress(2); }
+    if (b1)
+    {
+     switch(pos2)
+     {
+      Case 0: Done2++;
+      Case 1: Arrange();
+      Case 2:
+     }
+     Unpress(1);
+    }
+   }
+  }
+
+  if(b1) { UseItem(Realpos); Unpress(1); }
+  if(up)
+  {
+   if(realpos) { realpos--; PlaySound(psound, 63, 127); Delay(2); }
+   //Unpress(5);
+   if(pos>0) pos--;
+   else
+   {
+    if (offset)
+    {
+      offset--;
+    }
+   }
+  }
+  if(down && realpos<MaxItems-1)
+  {
+   realpos++;
+   PlaySound(psound, 63, 127); Delay(2);
+   //Unpress(6);
+   if(pos>18)
+   {
+    if(Offset<MaxItems-19) offset++;
+   }
+   else pos++;
+  }
+ }
+ rectfill(0,0,640,480,0);
+ //FadeOut(50,0);
+ Showpage();
+ //FadeIn(50,0);
+}
+
+void PrintDesc(string Desc)
+{
+ GotoXY(28,75);
+ if(StrLen(Desc)<=37) PrintString(2, Desc);
+ else
+ {
+  PrintString(2, Mid(Desc,0, 37));
+  GotoXY(28,75+FontHeight(2)+2);
+  PrintString(2, Mid(Desc,37, StrLen(Desc)-37));
+ }
+}
+
+string TempString;
+void LoadItems()
+{
+ int i,j,f, lastpos;
+ int IType;
+ EquipType[1]="WEAPON";
+ EquipType[2]="SHIELD";
+ EquipType[3]="HELMET";
+ EquipType[4]="ARMOR";
+ EquipType[5]="RELIC";
+ f= fopen("itemlist.txt"); //open the itemlist file.
+ for(i=0; i<MaxItems; i++)
+ {
+  FGetLine(TempString, f);
+  if(!strcmp(TempString, "*** END ***")) //Move to the next item section.
+  {
+   FGetLine(TempString, f); //Get a blank line.
+   I--;
+   IType++;
+   if(IType>5) i=MaxItems;
+  }
+  else
+  {
+   If(Itype=0) //The item is a usable item.
+   {
+    TotalItems++; //remove when done
+    NumItems[i]=i%10; //remove when done
+    ItemType[i]=i;
+    ItemClass[i]=IType;
+    ItemName[i]=Tempstring;
+    //log(TempString);
+    FGetLine(TempString, f); //Read the item's cost.
+    ItemCost[i]=Val(Tempstring);
+    //log(TempString);
+    FGetLine(TempString, f); //Read the item description.
+    ItemText[i]=Tempstring;
+    //log(TempString);
+    FGetLine(TempString, f); //Get a blank line.
+   }
+   else //The item is equipment of some type.
+   {
+    TotalItems++; //remove when done
+    NumItems[i]=i%10; //remove when done
+    ItemClass[i]=IType;
+    ItemName[i]=Tempstring;
+    FGetLine(TempString, f); //Read the weapon's cost.
+    ItemCost[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon description.
+    ItemText[i]=Tempstring;
+    FGetLine(TempString, f); //Read the weapon's vigor modifier.
+    IVigor[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's speed modifier.
+    ISpeed[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's stamina modifier.
+    IStamina[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's magic power modifier.
+    IMagPwr[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's battle power modifier.
+    IBatPwr[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's defense modifier.
+    IDefense[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's evade modifier.
+    IEvade[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's magic defense modifier.
+    IMagDef[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Read the weapon's magic block modifier..
+    IMBlock[i]=Val(Tempstring);
+    FGetLine(TempString, f); //Get a blank line.
+   }
+  }
+ }
+ fclose(f);
+}
+
+void Arrange()
+{
+ int inner, outer, n;
+ For(outer=1; outer<Maxitems; outer++)
+ {
+  //Gets rid of "holes" between items.
+  for(Inner=outer; inner>0; inner--)
+  {
+   if(NumItems[Inner-1]=0)
+   {
+    SwapItems(Inner-1, Inner);
+   }
+   else inner=0;
+  }
+ }
+ for(inner=0; inner<MaxItems; Inner++)
+ {
+  if(!NumItems[inner]) inner=MaxItems;
+  else n++;
+ }
+  //Sorts items into their respective types.
+ For(outer=1; outer<n; outer++)
+ {
+  for(Inner=outer; inner>0; inner--)
+  {
+   if(ItemClass[Inner]<ItemClass[Inner-1])
+   {
+    SwapItems(Inner, Inner-1);
+   }
+   else inner=0;
+  }
+ }
+}
+
+void SwapItems(int a, int b)
+{
+ int t; string t2;
+ t=NumItems[a];
+ NumItems[a]=NumItems[b];
+ NumItems[b]=t;
+ t2=ItemName[a];
+ ItemName[a]=ItemName[b];
+ ItemName[b]=t2;
+ t=ItemType[a];
+ ItemType[a]=ItemType[b];
+ ItemType[b]=t;
+ t=ItemClass[a];
+ ItemClass[a]=ItemClass[b];
+ ItemClass[b]=t;
+ t=ItemCost[a];
+ ItemCost[a]=ItemCost[b];
+ ItemCost[b]=t;
+ t2=ItemText[a];
+ ItemText[a]=ItemText[b];
+ ItemText[b]=t2;
+ t=IVigor[a];
+ IVigor[a]=IVigor[b];
+ IVigor[b]=t;
+ t=IStamina[a];
+ IStamina[a]=IStamina[b];
+ IStamina[b]=t;
+ t=Speed[a];
+ ISpeed[a]=ISpeed[b];
+ ISpeed[b]=t;
+ t=IMagPwr[a];
+ IMagPwr[a]=IMagPwr[b];
+ IMagPwr[b]=t;
+ t=IBatPwr[a];
+ IBatPwr[a]=IBatPwr[b];
+ IBatPwr[b]=t;
+ t=IDefense[a];
+ IDefense[a]=IDefense[b];
+ IDefense[b]=t;
+ t=IEvade[a];
+ IEvade[a]=IEvade[b];
+ IEvade[b]=t;
+ t=IMagDef[a];
+ IMagDef[a]=IMagDef[b];
+ IMagDef[b]=t;
+ t=IMBlock[a];
+ IMBlock[a]=IMBlock[b];
+ IMBlock[b]=t;
+}
+
+void UseItem(int index)
+{
+ if(numitems[index]>0 && !ItemClass[index]) //If the player owns the item, and it's usable...
+ {
+  numitems[index]--; //decrease the number of items left.
+ }
+}
+
+int FindItemByType(int IType) //give it the item number of the item you want to find, it returns the index
+{
+ int i;
+ for(i=0; i<MaxItems; I++)
+ {
+  if(ItemType[i]=IType) return(i);
+ }
+ return 0;
+}
+
+int FindItemByName(string IType) //give it the name of the item you want to find, it returns the index.
+{
+ int i;
+ for(i=0; i<MaxItems; I++)
+ {
+  if(!strcmp(ItemName[i], IType)) return(i);
+ }
+ return 0;
+}
+
+
+void Delay(int delay1)
+{
+ timer=0;
+ while(timer<delay1) { }
+ timer = 0;
+}
+
+//leave space for me!

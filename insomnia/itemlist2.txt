@@ -1,0 +1,51 @@
+Green Cherry - 150GP   - Reverses Imp Condition
+
+Tincture     - 1500GP  - Replenishes 50MP, selectable during battle.
+
+X-Ether	     -    -    - Completely refils the users MP
+
+Ether	     -    -    - Refills 150MP
+
+X-Potion     -    -    - Refills HP completely
+
+Elixir       -    -    - Replenishes both HP and MP fully for user
+
+Soft         - 200GP   - Reverses Petrify Condition
+
+Smoke Bomb   - 300GP   - Escape from battle
+
+Super Ball   - 10000GP - Cause serious injuries to enemies when they bounce 
+			 around
+			 
+Revivify     - 300GP   - Reverses Zombie Condition
+
+Warp Stone   - 700GP   - Escape from battle or dungeon
+
+Tent	     - 1200GP  - Recover both HP and MP for entire party
+
+Antidote     - 50GP    - Cures poisoned party members
+
+Sleeping Bag - 500GP   - One member of your party can recover both HP and MP
+
+Potion	     - 300GP   - Recover 250HP
+
+Remedy	     - 1000GP  - neutralizes the effects of all ailments except Zombie.
+
+Fenix Down   - 500GP   - Rejuvenate wounded party members and make them able 
+			 to function.
+			 
+Dried Meat   - 150GP   - Recover 150HP
+
+Tonic	     - 50GP    - Recover 50MP
+
+"Magicite"   -    -    - Calls on the powers of a random esper
+
+Eyedrop	     - 50GP    - Cures dark status
+
+Echo Screen  - 120GP   - Cures silence status
+
+Megalixir    -    -    - Refills HP and MP of the entire party
+
+
+Hatchet, one note, "Magicite" will most likely be changed to something else.
+and so will the term "esper", I hope that's not a problem. ^_^

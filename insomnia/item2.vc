@@ -1,0 +1,170 @@
+#define MaxItems 100 
+
+int NumItems[MaxItems]; //Stores the current number of the particular item.
+string ItemName[MaxItems]; //Stores the name of the item.
+int ItemType[MaxItems]; //Stores what the item is. (used for when the item is actually used)
+int TotalItems; //number of unique items the player is carrying.
+int realpos;
+
+void item()
+{
+ int done, i, j, n, offset, pos, c;
+ LoadItems();
+ FadeOut(50,0);
+ setresolution(640,480); //remove when done
+ palette();
+ updatecontrols();
+ unpress(2);
+ FadeIn(50,0);
+ realpos=0;
+ while(!done) //50
+ {
+  n=0;
+  UpdateControls();
+  RectFill(0,0,640,480,0);
+  makebox(20,12,120,56);
+  makebox(138,12,482,56);
+  makebox(20,66,600,72);
+  makebox(20,136,600,334);
+  gotoxy(46,40); PrintString(2,sub[2] + "Item");
+  gotoxy(200,40); PrintString(2,sub[1] + "USE");
+  gotoxy(300,40); PrintString(2, "ARRANGE");
+  gotoxy(480,40); PrintString(2, "RARE");
+  for(i=0; i<TotalItems; i++)
+  {
+	if(Numitems[i+offset]) //if the player owns the current item 
+   {
+    GotoXY(50, 141+(n*FontHeight(2)));
+	 PrintString(2, ItemName[i+offset]);
+	 GotoXY(500, 141+(n*FontHeight(2)));
+	 PrintString(2, Str(NumItems[i+offset]));
+	 n++;
+	 if(n>19) i=TotalItems;
+	}
+  }
+  TCopySprite(20, 141+(pos*FontHeight(2)), 32, 32, hand);
+  showpage();
+  if(b2) done++;
+  if(b1) { UseItem(Realpos); Unpress(1); }
+  if(up) 
+  {
+	if(realpos) realpos--;
+	Unpress(5);
+	if(pos>0) pos--;
+	else
+	{
+	 if (offset) 
+	 {
+	  SetClipRect(21,137,618,466);
+	  for(j=0; j<FontHeight(2); j+=2)
+	  {
+	   n=0;
+	   RectFill(0,0,640,480,0);
+	   makebox(20,136,600,334);  
+	   for(i=0; i<TotalItems; i++)
+	   {
+	    if(Numitems[i+offset]) //if the player owns the current item 
+	  	 {
+	  	  GotoXY(50, 141+j+(n*FontHeight(2)));
+	  	  PrintString(2, ItemName[i+offset]);
+	  	  GotoXY(500, 141+j+(n*FontHeight(2)));
+	  	  PrintString(2, Str(NumItems[i+offset]));
+	  	  n++;
+	  	  if(n>20) i=TotalItems;
+	  	  }
+	  	 }
+	  	 makebox(20,12,120,56);
+	  	 makebox(138,12,482,56);
+	  	 makebox(20,66,600,72);
+	    TCopySprite(20, 141+(pos*FontHeight(2)), 32, 32, hand);
+	  	 ShowPage();
+	  	 Delay(1);
+	  	}
+	  	RestoreRenderSettings();
+	   offset--;
+	 }
+	}
+  }
+  if(down && pos<TotalItems) 
+  { 
+ 	realpos++;
+ 	Unpress(6);
+	if(pos>18 && Offset<MaxItems-10) 
+	{  
+	 SetClipRect(21,137,618,466);
+	 for(j=0; j<FontHeight(2); j+=2)
+	 {
+     n=0;
+     RectFill(0,0,640,480,0);
+ 	  makebox(20,136,600,334);  
+	  for(i=0; i<TotalItems; i++)
+	  {
+		if(Numitems[i+offset]) //if the player owns the current item 
+		{
+		 GotoXY(50, 141-j+(n*FontHeight(2)));
+		 PrintString(2, ItemName[i+offset]);
+		 GotoXY(500, 141-j+(n*FontHeight(2)));
+		 PrintString(2, Str(NumItems[i+offset]));
+		 n++;
+		 if(n>20) i=TotalItems;
+		}
+	  }
+	  makebox(20,12,120,56);
+	  makebox(138,12,482,56);
+	  makebox(20,66,600,72);
+     TCopySprite(20, 141+(pos*FontHeight(2)), 32, 32, hand);
+	  ShowPage();
+	  //Delay(1);
+	 }
+	 RestoreRenderSettings();
+	 offset++;
+	} 
+	else pos++;
+  }
+ }
+ rectfill(0,0,640,480,0);
+ FadeOut(50,0);
+ Showpage();
+ FadeIn(50,0);
+}
+
+string TempString;
+
+void LoadItems()
+{
+ int i, f;
+ f= fopen("itemlist.txt");
+ for(i=0; i<MaxItems; i++)
+ {
+  FGetLine(TempString, f);
+  if(!strcmp(TempString, "end")) i=MaxItems;
+  else
+  {
+   ItemName[i]=TempString;
+   TotalItems++; //remove when done
+   NumItems[i]=i+1; //remove when done
+   ItemType[i]=i;  
+  }
+ }
+ fclose(f);
+}
+
+void UseItem(int index)
+{
+ if(numitems[index]>0) 
+ { numitems[index]--; 
+   if(!numitems[index])
+   {
+    realpos++;
+   }
+ }
+}
+
+void Delay(int delay) 
+{
+ timer=0;
+ while(timer<delay) { }
+ timer = 0;
+}
+
+//leave space for me!

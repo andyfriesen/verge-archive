@@ -1,0 +1,121 @@
+
+
+void savescreen(string filepersona){
+int ScreenSave;
+ScreenSave=fwopen(filepersona);
+Save_PCX(ScreenSave);
+fwclose(ScreenSave);
+}
+
+//---------------------------------------------
+// Function:     Save_PCX
+// Description:  Actually Does the Screen Capturing
+// Syntax:       Save_PCX(filehandle);
+// Parameters:   
+//               File = file handle to use (Must be open for writing)
+// Returns:      void
+// Extras:       none
+//---------------------------------------------
+
+void Save_PCX(int File)
+{
+int Buffer;
+int X,Y,I;
+int runCount,this,last;
+Buffer=malloc(128); // Allocate 128 bytes for the PCX header.
+byte[buffer+0]=10; //Manufacterer
+byte[buffer+1]=5; //Version, MUST BE VERSION 5!!
+byte[buffer+2]=1; //Encoding, 1=.pcx run lengh encoding
+byte[buffer+3]=8; //Bit's per plane, Should be 8 for 256 colors
+word[buffer+4]=0; //X min 
+word[buffer+6]=0; //Y min
+word[buffer+8]=screenx-1; // This sets the width of the image.
+word[buffer+10]=screeny-1; // This sets the height of the image. 
+word[buffer+12]=72; // H Dots per inch 
+word[buffer+14]=72; // V Dots per inch
+for(I=16; I<64; I++)
+     {
+     byte[buffer+I]=0;       //16 color palette, not needed.
+     }
+byte[buffer+64]=0; //Reserved, should be 0
+byte[buffer+65]=1; //Number of Bitplanes
+word[buffer+66]=screenx; // Number of bytes per line. 
+word[buffer+68]=1;
+word[buffer+70]=screenx;
+word[buffer+72]=screeny;
+fwrite(buffer,128,File);
+for(I=73;I<129;I++)
+    {
+    byte[buffer+I]=0; //Filler, all should be 0
+    }
+for (Y=0;Y<screeny;Y++)
+    {
+    for (X=0;X<screenx;X++)
+         {
+         this =((screen[(Y*screenx)+X]));
+         if(X==0 && this==last)
+              {
+              byte[Buffer]=192+runCount;
+              byte[Buffer+1]=last;
+              fwrite(Buffer,2,File);
+              runCount=0;
+//              last=this;
+              }
+
+         if (this == last)
+              {
+
+              runCount++;
+              if (runCount==63)
+                   {
+                   byte[Buffer]=192+runCount;
+                   byte[Buffer+1]=last;
+                   fwrite(Buffer,2,File);
+                   runCount=0;
+                   }
+              }
+              else
+              {
+              if(runCount)
+                   {
+                   if (runCount=1)
+                        {
+                        if (last<192)
+                             {
+                             byte[Buffer]=last;
+                             fwrite(Buffer,1,File); 
+                             }
+                        else
+                             {
+                             byte[Buffer]=193;
+                             byte[Buffer+1]=last;
+                             fwrite(Buffer,2,File);
+                             }
+                        }
+                   else
+                        {
+                        byte[Buffer]=192+runCount;
+                        byte[Buffer+1]=last;
+                        fwrite(Buffer,2,File);
+                        }
+              runCount=0;
+              }
+         last=this;
+         runCount=1;
+         }
+}
+
+    }
+
+byte[buffer]=12;
+fwrite(Buffer,1,File);
+for (I=0;I<=255;I++) 
+ {
+ byte[buffer]=(pal[I*3]*255)/63;
+ byte[buffer+1]=(pal[I*3+1]*255)/63;
+ byte[buffer+2]=(pal[I*3+2]*255)/63;
+ fwrite(Buffer,3,File); 
+}
+free(Buffer); 
+} 
+

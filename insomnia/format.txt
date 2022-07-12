@@ -1,0 +1,8 @@
+Number of enemies in group (max of 6)
+enemy name
+enemy image file
+Enemy X
+Enemy Y
+other stuff like speed, damage, etc.
+
+repeat for each monster, including ones that aren't there. That way each group will be the same number of lines. Just put whatever you want for the values. ;)

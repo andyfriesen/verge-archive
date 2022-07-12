@@ -1,0 +1,196 @@
+#define TANI_DELAY 15
+int colorful;
+
+Void MakeBox(int xcor, int ycor, int width1, int height1)
+{
+Rectfill(xcor+1, ycor+1, xcor+width1-2, ycor+height1-1, colorful);
+////////////////////////////////////////////////////////////////////
+//outer grey!!!!!!!!
+//across top
+Line(xcor+2, ycor, xcor+width1-3, ycor, 23);
+//across bottom
+Line(xcor+2, ycor+height1, xcor+width1-3, ycor+height1, 23);
+//veritcal left
+Line(xcor, ycor+2, xcor, ycor+height1-2, 23);
+//veritcal right
+Line(xcor+width1-1, ycor+2, xcor+width1-1, ycor+height1-2, 23);
+///////////////////////////////////////////////////////////////////
+//middle grey!!!!!!!
+//across top
+Line(xcor+1, ycor+1, xcor+width1-2, ycor+1, 28);
+//across bottom
+Line(xcor+1, ycor+height1-1, xcor+width1-2, ycor+height1-1, 28);
+//veritcal left
+Line(xcor+1, ycor+1, xcor+1, ycor+height1-1, 28);
+//vertical right
+Line(xcor+width1-2, ycor+1, xcor+width1-2, ycor+height1-1, 28);
+///////////////////////////////////////////////////////////////////
+//inner grey!!!!!!!!
+//across top
+Line(xcor+2, ycor+2, xcor+width1-3, ycor+2, 23);
+//across bottom
+Line(xcor+2, ycor+height1-2, xcor+width1-3, ycor+height1-2, 23);
+//vertical left
+Line(xcor+2, ycor+3, xcor+2, ycor+height1-3, 23);
+//vertical right
+Line(xcor+width1-3, ycor+3, xcor+width1-3, ycor+height1-3, 23);
+////////////////////////////////////////////////////////////////////
+}
+
+
+string txtLines[4];
+int globalInText; // Same conversation? This is used to setup a series of textboxes,
+                  // So, that the first text box in the series pops up and the succesive ones
+                  // Just appear on top of it.
+                  // Change this via the helpers beginText()...endText()
+
+
+void beginText() { globalInText=1; }
+
+void endText()   { globalInText=0; }
+int  dArrow[5];
+
+void textIMG() { int i;
+ dArrow[0]=LoadImage("tdown.pcx");
+ for (i=1; i<5; i++) {
+  dArrow[i]=LoadImage("tdown"+str(i)+".pcx");
+ }
+}
+
+void textIMG_() { int i;
+ for (i=0; i<5; i++) {
+  free(dArrow[i]);
+ }
+}
+
+string prevLines[4];
+string _txtLines[4];
+int contin; // is this a continuation?
+
+void Text(string line1,string line2,string line3,string line4, int conclude)
+{
+int i, t;      // Dual looping... oohhhh.... ^_^
+int textDrawn; // Has the text been fully drawn?
+int windDrawn; // Has the window been drawn?
+int incrementor; // How fast does it scroll?
+int aframe;
+int counter;
+int offer;
+incrementor=4;
+updatecontrols();
+unpress(1);
+txtLines[0]=line1;
+txtLines[1]=line2;
+txtLines[2]=line3;
+txtLines[3]=line4;
+offer=(199*2+36)-(135*2+42);
+
+if (contin) {
+ for (i=0; i<(199*2+36)-(135*2+42); i+=2) {
+  DGW16(0,135*2+42,640-1,199*2+36);
+  SetClipRect(0, 145*2+32, 640-1, 190*2+32+fontheight(2));
+  gotoxy(15,145*2+32-i);PrintString(2,prevLines[0]);
+  gotoxy(15,160*2+32-i);PrintString(2,prevLines[1]);
+  gotoxy(15,175*2+32-i);PrintString(2,prevLines[2]);
+  gotoxy(15,190*2+32-i);PrintString(2,prevLines[3]);
+  gotoxy(15,offer+(145*2+32)-i);PrintString(2,line1);
+  gotoxy(15,offer+(160*2+32)-i);PrintString(2,line2);
+  gotoxy(15,offer+(175*2+32)-i);PrintString(2,line3);
+  gotoxy(15,offer+(190*2+32)-i);PrintString(2,line4);
+  RestoreRenderSettings();
+  ShowPage();
+ }
+ textDrawn++;
+}
+
+
+if (conclude) { textIMG(); }
+
+
+
+while(!b1)
+ {
+  UpdateControls();
+ Render();
+ if (!globalInText) {
+  if (!windDrawn) {
+   for (i=0; i<320; i+=5) {
+    DGW16(320-i,270+42,320+i,199*2+36);
+    ShowPage();
+   }
+   windDrawn++;
+  }
+ }
+ if (!textDrawn) {
+  for (t=0; t<4; t++)
+  {
+   if (strlen(txtLines[t]))
+   {
+    for (i=0; i<strlen(txtLines[t])*fontwidth(2); i+=incrementor)
+    {
+     incrementor=4;
+     UpdateControls();
+     if (b1) { incrementor=20; }
+     DGW16(0,135*2+42,640-1,199*2+36);
+     if (t==0) { SetClipRect(0,290+32,i,290+32+fontheight(2)); }
+     if (t>0) { SetClipRect(0, 290+32, 640, 290+32+fontheight(2)); }
+     gotoxy(15,145*2+32);PrintString(2,line1);
+     if (t==1) { SetClipRect(0,160*2+32,i,160*2+32+fontheight(2)); }
+     if (t>1) { SetClipRect(0,160*2+32,640,160*2+32+fontheight(2)); }
+     gotoxy(15,160*2+32);PrintString(2,line2);
+     if (t==2) { SetClipRect(0,175*2+32,i,175*2+32+fontheight(2)); }
+     if (t>2) { SetClipRect(0,175*2+32,640,175*2+32+fontheight(2)); }
+     gotoxy(15,175*2+32);PrintString(2,line3);
+     if (t==3) { SetClipRect(0,190*2+32,i,190*2+32+fontheight(2)); }
+     if (t>3) { SetClipRect(0,190*2+32,640,190*2+32+fontheight(2)); }
+     gotoxy(15,190*2+32);PrintString(2,line4);
+     RestoreRenderSettings();
+     showpage();
+    }
+   }
+  }
+  textDrawn++;
+  UnPress(1);
+ }
+ DGW16(0,135*2+42,640-1,199*2+36);
+ gotoxy(15,145*2+32);PrintString(2,line1);
+ gotoxy(15,160*2+32);PrintString(2,line2);
+ gotoxy(15,175*2+32);PrintString(2,line3);
+ gotoxy(15,190*2+32);PrintString(2,line4);
+ if (conclude) {
+  counter++;
+  if (counter==TANI_DELAY) { aframe++; counter=0; }
+  if (aframe>4) { aframe=0; }
+  tcopysprite(598,(199*2+36)-42,32,32,dArrow[aframe]);
+ }
+ showpage();
+ }
+ if (conclude) { textIMG_(); contin++; }
+ for (i=0; i<4; i++) {
+  prevLines[i]=txtLines[i];
+ }
+ if (!conclude) {
+  contin=0;
+ }
+}
+
+
+Void LoadAllFonts()
+{
+LoadFont("font2.fnt");
+LoadFont("font5.fnt");
+}
+
+string sub[5];
+string nsub[5];
+void InitFonts()
+{
+ Sub[1] = "~ ";
+ Sub[2] = "€ ";
+ Sub[3] = " ";
+ Sub[4] = "‚ ";
+ nSub[1] = "~";
+ nSub[2] = "€";
+ nSub[3] = "";
+ nSub[4] = "‚";
+}

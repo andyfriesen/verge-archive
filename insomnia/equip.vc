@@ -1,0 +1,724 @@
+
+//Modifers for the left hand.
+int LHVigor[Nochar], LHSpeed[Nochar], LHStamina[Nochar], LHMagPwr[Nochar], LHBatPwr[Nochar], LHDefense[Nochar], LHEvade[Nochar], LHMagDef[Nochar], LHMBlock[Nochar];
+string LHItemName[NoChar];
+//Modifers for the right hand.
+int RHVigor[Nochar], RHSpeed[Nochar], RHStamina[Nochar], RHMagPwr[Nochar], RHBatPwr[Nochar], RHDefense[Nochar], RHEvade[Nochar], RHMagDef[Nochar], RHMBlock[Nochar];
+string RHItemName[NoChar];
+//Modifers for the head.
+int HVigor[Nochar], HSpeed[Nochar], HStamina[Nochar], HMagPwr[Nochar], HBatPwr[Nochar], HDefense[Nochar], HEvade[Nochar], HMagDef[Nochar], HMBlock[Nochar];
+string HItemName[NoChar];
+//Modifers for the body.
+int BVigor[Nochar], BSpeed[Nochar], BStamina[Nochar], BMagPwr[Nochar], BBatPwr[Nochar], BDefense[Nochar], BEvade[Nochar], BMagDef[Nochar], BMBlock[Nochar];
+string BItemName[NoChar];
+int R1Vigor[Nochar], R1Speed[Nochar], R1Stamina[Nochar], R1MagPwr[Nochar], R1BatPwr[Nochar], R1Defense[Nochar], R1Evade[Nochar], R1MagDef[Nochar], R1MBlock[Nochar];
+string R1ItemName[NoChar];
+int R2Vigor[Nochar], R2Speed[Nochar], R2Stamina[Nochar], R2MagPwr[Nochar], R2BatPwr[Nochar], R2Defense[Nochar], R2Evade[Nochar], R2MagDef[Nochar], R2MBlock[Nochar];
+string R2ItemName[NoChar];
+
+int EOnscreen[MaxItems]; //indexes of the equipment type that you want to equip,
+
+void Equip()
+{
+ int done, done2, done3, done4, i, n, offset, pos, pos2, pos3, index;
+ //setresolution(640,480);
+ updatecontrols();
+ unpress(2);
+ while(!done) //50
+ {
+  #include "drwEquip.vc"
+  ShowPage();
+  UpdateControls();
+  If(b2) { done++; UnPress(2); }
+  if(right)
+  {
+   PlaySound(psound, 63, 127);
+   index++; if(index>3) index=0; Unpress(8);
+   if(party.chr[index]=NoChar)
+   {
+    while(party.chr[index]=NoChar)
+    {
+     index++; if(index>3) index=0;
+    }
+   }
+  }
+  if(left)
+  {
+   PlaySound(psound, 63, 127);
+   index--; if(index<0) index=3; UnPress(7);
+   if(party.chr[index]=NoChar)
+   {
+    while(party.chr[index]=NoChar)
+    {
+     index--; if(index<0) index=3;
+    }
+   }
+  }
+  if(b1) //Character chosen, now for choosing what you want to do.
+  {
+   Unpress(1);
+   done2=0;
+   while(!done2)
+   {
+    #include "drwEquip.vc"
+    DGW16(20,19 ,620, 59);
+    GotoXY(50, 31); PrintString(2, "EQUIP");
+    GotoXY(162, 31); PrintString(2, "OPTIMUM");
+    GotoXY(306, 31); PrintString(2, "REMOVE");
+    GotoXY(434, 31); PrintString(2, "EMPTY");
+    Switch(pos)
+    {
+     case 0: TCopySprite(20, 31, 32, 32, hand);
+     case 1: TCopySprite(132, 31, 32, 32, hand);
+     case 2: TCopySprite(276, 31, 32, 32, hand);
+     case 3: TCopySprite(404, 31, 32, 32, hand);
+    }
+    ShowPage();
+    UpdateControls();
+    If(b2) { done2++; UnPress(2); }
+    if(right) { UnPress(8); PlaySound(psound, 63, 127); pos++; if(pos>3) pos=0; }
+    if(left) {  UnPress(7); PlaySound(psound, 63, 127); pos--; if(pos<0) pos=3; }
+    if(b1) //Choice chosen...
+    {
+     Unpress(1);
+     Switch(pos) //Probably the biggest switch in this whole thing... eventually...
+     {
+      case 0:
+       done3=0;
+       while(!done3) //Third loop...
+       {
+        #include "drwEquip.vc"
+        DGW16(444,19 ,620, 59);
+        GotoXY(460, 31); PrintString(2, Sub[2]+"EQUIP"+Sub[1]);
+        TCopySprite(26, 80+(16*pos2), 32, 32, hand);
+        ShowPage();
+        UpdateControls();
+        If(b2) { done3++; UnPress(2); }
+        if(up) {  UnPress(5); PlaySound(psound, 63, 127); pos2--; if(pos2<0) pos2=5; }
+        if(down) { UnPress(6); PlaySound(psound, 63, 127); pos2++; if(pos2>5) pos2=0; }
+        if(b1) //Finally, to choose the equipment! (this is where the coding fun begins ;)
+        {
+         Unpress(1);
+         done4=0; pos3=0;
+         for(i=0; i<MaxItems; i++)
+         {
+          if(Numitems[i] && ItemClass[i]=1+Pos2-(Pos2/5)) //if the player owns the current item, and it's of the currently selected type...
+          {
+           EOnscreen[n]=i; //Store this item's index in the "onscreen" array.
+           n++; //Move to the next array index.
+          }
+         }
+         if(n=0) done4++;
+         While(!done4)
+         {
+          #include "drwEquip.vc"
+          DGW16(444,19 ,620, 59);
+          GotoXY(460, 31); PrintString(2, Sub[2]+"EQUIP"+Sub[1]);
+          SetLucent(1);
+          TCopySprite(26, 80+(16*pos2), 32, 32, hand);
+          SetLucent(0);
+          //whole calculation/printing of items and stuff goes here..
+          n=0;
+          for(i=0; i<MaxItems; i++) EOnscreen[i]=MaxItems; //This SHOULD blank the array, unless we actually fill up all the item slots...
+          for(i=0; i<MaxItems; i++)
+          {
+           if(Numitems[i] && ItemClass[i]=1+Pos2-(Pos2/5)) //if the player owns the current item, and it's of the currently selected type...
+           {
+            EOnscreen[n]=i; //Store this item's index in the "onscreen" array.
+            n++; //Move to the next array index.
+           }
+          }
+          if(n=0) done4++;
+          for(i=0; i<15; i++)
+          {
+           if(Eonscreen[i+offset]<MaxItems)
+           {
+            GotoXY(50, 216+(i*FontHeight(2)));
+            PrintString(2, ItemName[Eonscreen[i+offset]]);
+           }
+          }
+          TCopySprite(20, 212+(pos3*FontHeight(2)), 32, 32, hand);
+
+          If(pos2=0) //I would use a switch, but I'm already in one...
+          {
+           GotoXY(532, 216);
+           PrintString(2, Sub[IsGreater(IVigor[Eonscreen[pos3+offset]], LHVigor[party.chr[index]])] + str(Vigor[party.chr[index]] + IVigor[Eonscreen[pos3+offset]] - LHVigor[party.chr[index]]));
+           GotoXY(532, 232);
+           PrintString(2, Sub[IsGreater(ISpeed[Eonscreen[pos3+offset]], LHSpeed[party.chr[index]])]+str(Speed[party.chr[index]] + ISpeed[Eonscreen[pos3+offset]] - LHSpeed[party.chr[index]]));
+           GotoXY(532, 248);
+           PrintString(2, Sub[IsGreater(IStamina[Eonscreen[pos3+offset]], LHStamina[party.chr[index]])]+str(Stamina[party.chr[index]] + IStamina[Eonscreen[pos3+offset]] - LHStamina[party.chr[index]]));
+           GotoXY(532, 264);
+           PrintString(2, Sub[IsGreater(IMagPwr[Eonscreen[pos3+offset]], LHMagPwr[party.chr[index]])]+str(MagPwr[party.chr[index]] + IMagPwr[Eonscreen[pos3+offset]] - LHMagPwr[party.chr[index]]));
+           GotoXY(532, 280);
+           PrintString(2, Sub[IsGreater(IBatPwr[Eonscreen[pos3+offset]], LHBatPwr[party.chr[index]])]+str(BatPwr[party.chr[index]] + IBatPwr[Eonscreen[pos3+offset]] - LHBatPwr[party.chr[index]]));
+           GotoXY(532, 296);
+           PrintString(2, Sub[IsGreater(IDefense[Eonscreen[pos3+offset]], LHDefense[party.chr[index]])]+str(Defense[party.chr[index]] + IDefense[Eonscreen[pos3+offset]] - LHDefense[party.chr[index]]));
+           GotoXY(532, 312);
+           PrintString(2, Sub[IsGreater(IEvade[Eonscreen[pos3+offset]], LHEvade[party.chr[index]])]+str(Evade[party.chr[index]] + IEvade[Eonscreen[pos3+offset]] - LHEvade[party.chr[index]]));
+           GotoXY(532, 328);
+           PrintString(2, Sub[IsGreater(IMagDef[Eonscreen[pos3+offset]], LHMagDef[party.chr[index]])]+str(MagDef[party.chr[index]] + IMagDef[Eonscreen[pos3+offset]] - LHMagDef[party.chr[index]]));
+           GotoXY(532, 344);
+           PrintString(2, Sub[IsGreater(IMBlock[Eonscreen[pos3+offset]], LHMBlock[party.chr[index]])]+str(MBlock[party.chr[index]] + IMBlock[Eonscreen[pos3+offset]] - LHMBlock[party.chr[index]]));
+          }
+          If(pos2=1)
+          {
+           GotoXY(532, 216);
+           PrintString(2, Sub[IsGreater(IVigor[Eonscreen[pos3+offset]], RHVigor[party.chr[index]])]+str(Vigor[party.chr[index]] + IVigor[Eonscreen[pos3+offset]] - RHVigor[party.chr[index]]));
+           GotoXY(532, 232);
+           PrintString(2, Sub[IsGreater(ISpeed[Eonscreen[pos3+offset]], RHSpeed[party.chr[index]])]+str(Speed[party.chr[index]] + ISpeed[Eonscreen[pos3+offset]] - RHSpeed[party.chr[index]]));
+           GotoXY(532, 248);
+           PrintString(2, Sub[IsGreater(IStamina[Eonscreen[pos3+offset]], RHStamina[party.chr[index]])]+str(Stamina[party.chr[index]] + IStamina[Eonscreen[pos3+offset]] - RHStamina[party.chr[index]]));
+           GotoXY(532, 264);
+           PrintString(2, Sub[IsGreater(IMagPwr[Eonscreen[pos3+offset]], RHMagPwr[party.chr[index]])]+str(MagPwr[party.chr[index]] + IMagPwr[Eonscreen[pos3+offset]] - RHMagPwr[party.chr[index]]));
+           GotoXY(532, 280);
+           PrintString(2, Sub[IsGreater(IBatPwr[Eonscreen[pos3+offset]], RHBatPwr[party.chr[index]])]+str(BatPwr[party.chr[index]] + IBatPwr[Eonscreen[pos3+offset]] - RHBatPwr[party.chr[index]]));
+           GotoXY(532, 296);
+           PrintString(2, Sub[IsGreater(IDefense[Eonscreen[pos3+offset]], RHDefense[party.chr[index]])]+str(Defense[party.chr[index]] + IDefense[Eonscreen[pos3+offset]] - RHDefense[party.chr[index]]));
+           GotoXY(532, 312);
+           PrintString(2, Sub[IsGreater(IEvade[Eonscreen[pos3+offset]], RHEvade[party.chr[index]])]+str(Evade[party.chr[index]] + IEvade[Eonscreen[pos3+offset]] - RHEvade[party.chr[index]]));
+           GotoXY(532, 328);
+           PrintString(2, Sub[IsGreater(IMagDef[Eonscreen[pos3+offset]], RHMagDef[party.chr[index]])]+str(MagDef[party.chr[index]] + IMagDef[Eonscreen[pos3+offset]] - RHMagDef[party.chr[index]]));
+           GotoXY(532, 344);
+           PrintString(2, Sub[IsGreater(IMBlock[Eonscreen[pos3+offset]], RHMBlock[party.chr[index]])]+str(MBlock[party.chr[index]] + IMBlock[Eonscreen[pos3+offset]] - RHMBlock[party.chr[index]]));
+          }
+          If(pos2=2)
+          {
+           GotoXY(532, 216);
+           PrintString(2, Sub[IsGreater(IVigor[Eonscreen[pos3+offset]], HVigor[party.chr[index]])]+str(Vigor[party.chr[index]] + IVigor[Eonscreen[pos3+offset]] - HVigor[party.chr[index]]));
+           GotoXY(532, 232);
+           PrintString(2, Sub[IsGreater(ISpeed[Eonscreen[pos3+offset]], HSpeed[party.chr[index]])]+str(Speed[party.chr[index]] + ISpeed[Eonscreen[pos3+offset]] - HSpeed[party.chr[index]]));
+           GotoXY(532, 248);
+           PrintString(2, Sub[IsGreater(IStamina[Eonscreen[pos3+offset]], HStamina[party.chr[index]])]+str(Stamina[party.chr[index]] + IStamina[Eonscreen[pos3+offset]] - HStamina[party.chr[index]]));
+           GotoXY(532, 264);
+           PrintString(2, Sub[IsGreater(IMagPwr[Eonscreen[pos3+offset]], HMagPwr[party.chr[index]])]+str(MagPwr[party.chr[index]] + IMagPwr[Eonscreen[pos3+offset]] - HMagPwr[party.chr[index]]));
+           GotoXY(532, 280);
+           PrintString(2, Sub[IsGreater(IBatPwr[Eonscreen[pos3+offset]], HBatPwr[party.chr[index]])]+str(BatPwr[party.chr[index]] + IBatPwr[Eonscreen[pos3+offset]] - HBatPwr[party.chr[index]]));
+           GotoXY(532, 296);
+           PrintString(2, Sub[IsGreater(IDefense[Eonscreen[pos3+offset]], HDefense[party.chr[index]])]+str(Defense[party.chr[index]] + IDefense[Eonscreen[pos3+offset]] - HDefense[party.chr[index]]));
+           GotoXY(532, 312);
+           PrintString(2, Sub[IsGreater(IEvade[Eonscreen[pos3+offset]], HEvade[party.chr[index]])]+str(Evade[party.chr[index]] + IEvade[Eonscreen[pos3+offset]] - HEvade[party.chr[index]]));
+           GotoXY(532, 328);
+           PrintString(2, Sub[IsGreater(IMagDef[Eonscreen[pos3+offset]], HMagDef[party.chr[index]])]+str(MagDef[party.chr[index]] + IMagDef[Eonscreen[pos3+offset]] - HMagDef[party.chr[index]]));
+           GotoXY(532, 344);
+           PrintString(2, Sub[IsGreater(IMBlock[Eonscreen[pos3+offset]], HMBlock[party.chr[index]])]+str(MBlock[party.chr[index]] + IMBlock[Eonscreen[pos3+offset]] - HMBlock[party.chr[index]]));
+          }
+          If(pos2=3)
+          {
+           GotoXY(532, 216);
+           PrintString(2, Sub[IsGreater(IVigor[Eonscreen[pos3+offset]], BVigor[party.chr[index]])]+str(Vigor[party.chr[index]] + IVigor[Eonscreen[pos3+offset]] - BVigor[party.chr[index]]));
+           GotoXY(532, 232);
+           PrintString(2, Sub[IsGreater(ISpeed[Eonscreen[pos3+offset]], BSpeed[party.chr[index]])]+str(Speed[party.chr[index]] + ISpeed[Eonscreen[pos3+offset]] - BSpeed[party.chr[index]]));
+           GotoXY(532, 248);
+           PrintString(2, Sub[IsGreater(IStamina[Eonscreen[pos3+offset]], BStamina[party.chr[index]])]+str(Stamina[party.chr[index]] + IStamina[Eonscreen[pos3+offset]] - BStamina[party.chr[index]]));
+           GotoXY(532, 264);
+           PrintString(2, Sub[IsGreater(IMagPwr[Eonscreen[pos3+offset]], BMagPwr[party.chr[index]])]+str(MagPwr[party.chr[index]] + IMagPwr[Eonscreen[pos3+offset]] - BMagPwr[party.chr[index]]));
+           GotoXY(532, 280);
+           PrintString(2, Sub[IsGreater(IBatPwr[Eonscreen[pos3+offset]], BBatPwr[party.chr[index]])]+str(BatPwr[party.chr[index]] + IBatPwr[Eonscreen[pos3+offset]] - BBatPwr[party.chr[index]]));
+           GotoXY(532, 296);
+           PrintString(2, Sub[IsGreater(IDefense[Eonscreen[pos3+offset]], BDefense[party.chr[index]])]+str(Defense[party.chr[index]] + IDefense[Eonscreen[pos3+offset]] - BDefense[party.chr[index]]));
+           GotoXY(532, 312);
+           PrintString(2, Sub[IsGreater(IEvade[Eonscreen[pos3+offset]], BEvade[party.chr[index]])]+str(Evade[party.chr[index]] + IEvade[Eonscreen[pos3+offset]] - BEvade[party.chr[index]]));
+           GotoXY(532, 328);
+           PrintString(2, Sub[IsGreater(IMagDef[Eonscreen[pos3+offset]], BMagDef[party.chr[index]])]+str(MagDef[party.chr[index]] + IMagDef[Eonscreen[pos3+offset]] - BMagDef[party.chr[index]]));
+           GotoXY(532, 344);
+           PrintString(2, Sub[IsGreater(IMBlock[Eonscreen[pos3+offset]], BMBlock[party.chr[index]])]+str(MBlock[party.chr[index]] + IMBlock[Eonscreen[pos3+offset]] - BMBlock[party.chr[index]]));
+          }
+          If(pos2=4)
+          {
+           GotoXY(532, 216);
+           PrintString(2, Sub[IsGreater(IVigor[Eonscreen[pos3+offset]], R1Vigor[party.chr[index]])]+str(Vigor[party.chr[index]] + IVigor[Eonscreen[pos3+offset]] - R1Vigor[party.chr[index]]));
+           GotoXY(532, 232);
+           PrintString(2, Sub[IsGreater(ISpeed[Eonscreen[pos3+offset]], R1Speed[party.chr[index]])]+str(Speed[party.chr[index]] + ISpeed[Eonscreen[pos3+offset]] - R1Speed[party.chr[index]]));
+           GotoXY(532, 248);
+           PrintString(2, Sub[IsGreater(IStamina[Eonscreen[pos3+offset]], R1Stamina[party.chr[index]])]+str(Stamina[party.chr[index]] + IStamina[Eonscreen[pos3+offset]] - R1Stamina[party.chr[index]]));
+           GotoXY(532, 264);
+           PrintString(2, Sub[IsGreater(IMagPwr[Eonscreen[pos3+offset]], R1MagPwr[party.chr[index]])]+str(MagPwr[party.chr[index]] + IMagPwr[Eonscreen[pos3+offset]] - R1MagPwr[party.chr[index]]));
+           GotoXY(532, 280);
+           PrintString(2, Sub[IsGreater(IBatPwr[Eonscreen[pos3+offset]], R1BatPwr[party.chr[index]])]+str(BatPwr[party.chr[index]] + IBatPwr[Eonscreen[pos3+offset]] - R1BatPwr[party.chr[index]]));
+           GotoXY(532, 296);
+           PrintString(2, Sub[IsGreater(IDefense[Eonscreen[pos3+offset]], R1Defense[party.chr[index]])]+str(Defense[party.chr[index]] + IDefense[Eonscreen[pos3+offset]] - R1Defense[party.chr[index]]));
+           GotoXY(532, 312);
+           PrintString(2, Sub[IsGreater(IEvade[Eonscreen[pos3+offset]], R1Evade[party.chr[index]])]+str(Evade[party.chr[index]] + IEvade[Eonscreen[pos3+offset]] - R1Evade[party.chr[index]]));
+           GotoXY(532, 328);
+           PrintString(2, Sub[IsGreater(IMagDef[Eonscreen[pos3+offset]], R1MagDef[party.chr[index]])]+str(MagDef[party.chr[index]] + IMagDef[Eonscreen[pos3+offset]] - R1MagDef[party.chr[index]]));
+           GotoXY(532, 344);
+           PrintString(2, Sub[IsGreater(IMBlock[Eonscreen[pos3+offset]], R1MBlock[party.chr[index]])]+str(MBlock[party.chr[index]] + IMBlock[Eonscreen[pos3+offset]] - R1MBlock[party.chr[index]]));
+          }
+          If(pos2=5)
+          {
+           GotoXY(532, 216);
+           PrintString(2, Sub[IsGreater(IVigor[Eonscreen[pos3+offset]], R2Vigor[party.chr[index]])]+str(Vigor[party.chr[index]] + IVigor[Eonscreen[pos3+offset]] - R2Vigor[party.chr[index]]));
+           GotoXY(532, 232);
+           PrintString(2, Sub[IsGreater(ISpeed[Eonscreen[pos3+offset]], R2Speed[party.chr[index]])]+str(Speed[party.chr[index]] + ISpeed[Eonscreen[pos3+offset]] - R2Speed[party.chr[index]]));
+           GotoXY(532, 248);
+           PrintString(2, Sub[IsGreater(IStamina[Eonscreen[pos3+offset]], R2Stamina[party.chr[index]])]+str(Stamina[party.chr[index]] + IStamina[Eonscreen[pos3+offset]] - R2Stamina[party.chr[index]]));
+           GotoXY(532, 264);
+           PrintString(2, Sub[IsGreater(IMagPwr[Eonscreen[pos3+offset]], R2MagPwr[party.chr[index]])]+str(MagPwr[party.chr[index]] + IMagPwr[Eonscreen[pos3+offset]] - R2MagPwr[party.chr[index]]));
+           GotoXY(532, 280);
+           PrintString(2, Sub[IsGreater(IBatPwr[Eonscreen[pos3+offset]], R2BatPwr[party.chr[index]])]+str(BatPwr[party.chr[index]] + IBatPwr[Eonscreen[pos3+offset]] - R2BatPwr[party.chr[index]]));
+           GotoXY(532, 296);
+           PrintString(2, Sub[IsGreater(IDefense[Eonscreen[pos3+offset]], R2Defense[party.chr[index]])]+str(Defense[party.chr[index]] + IDefense[Eonscreen[pos3+offset]] - R2Defense[party.chr[index]]));
+           GotoXY(532, 312);
+           PrintString(2, Sub[IsGreater(IEvade[Eonscreen[pos3+offset]], R2Evade[party.chr[index]])]+str(Evade[party.chr[index]] + IEvade[Eonscreen[pos3+offset]] - R2Evade[party.chr[index]]));
+           GotoXY(532, 328);
+           PrintString(2, Sub[IsGreater(IMagDef[Eonscreen[pos3+offset]], R2MagDef[party.chr[index]])]+str(MagDef[party.chr[index]] + IMagDef[Eonscreen[pos3+offset]] - R2MagDef[party.chr[index]]));
+           GotoXY(532, 344);
+           PrintString(2, Sub[IsGreater(IMBlock[Eonscreen[pos3+offset]], R2MBlock[party.chr[index]])]+str(MBlock[party.chr[index]] + IMBlock[Eonscreen[pos3+offset]] - R2MBlock[party.chr[index]]));
+          }
+          ShowPage();
+          UpdateControls();
+          if(up)
+          {
+           if(pos3>0) { pos3--; PlaySound(psound, 63, 127); Delay(2); }
+           else
+           {
+            if (offset) { offset--; PlaySound(psound, 63, 127); Delay(2); }
+           }
+          }
+          if(down && pos3+offset<n-1)
+          {
+           PlaySound(psound, 63, 127); Delay(2);
+           if(pos3>13) offset++;
+           else pos3++;
+          }
+          If(b2) { done4++; UnPress(2); }
+          if(b1)
+          {
+           Unpress(1);
+           done4++;
+           if(pos2=0) //again, I would use a switch, but I'm already in one =\
+           {
+            if(Strcmp("", LHItemName[party.chr[index]])) NumItems[FindItemByName(LHItemName[party.chr[index]])]++; //Removing the character's weapon increases the stored amount of that weapon.
+            NumItems[EOnScreen[pos3+offset]]--; //Decrease the number of this item stored.
+            EquipLH(EOnScreen[pos3+offset],  party.chr[index]); //Equip the weapon.
+           }
+           if(pos2=1)
+           {
+            if(Strcmp("", RHItemName[party.chr[index]])) NumItems[FindItemByName(RHItemName[party.chr[index]])]++; //Removing the character's weapon increases the stored amount of that weapon.
+            NumItems[EOnScreen[pos3+offset]]--; //Decrease the number of this item stored.
+            EquipRH(EOnScreen[pos3+offset],  party.chr[index]); //Equip the weapon.
+           }
+           if(pos2=2)
+           {
+            if(Strcmp("", HItemName[party.chr[index]])) NumItems[FindItemByName(HItemName[party.chr[index]])]++; //Removing the character's weapon increases the stored amount of that weapon.
+            NumItems[EOnScreen[pos3+offset]]--; //Decrease the number of this item stored.
+            EquipH(EOnScreen[pos3+offset],  party.chr[index]); //Equip the weapon.
+           }
+           if(pos2=3)
+           {
+            if(Strcmp("", BItemName[party.chr[index]])) NumItems[FindItemByName(BItemName[party.chr[index]])]++; //Removing the character's weapon increases the stored amount of that weapon.
+            NumItems[EOnScreen[pos3+offset]]--; //Decrease the number of this item stored.
+            EquipB(EOnScreen[pos3+offset],  party.chr[index]); //Equip the weapon.
+           }
+           if(pos2=4)
+           {
+            if(Strcmp("", R1ItemName[party.chr[index]])) NumItems[FindItemByName(R1ItemName[party.chr[index]])]++; //Removing the character's weapon increases the stored amount of that weapon.
+            NumItems[EOnScreen[pos3+offset]]--; //Decrease the number of this item stored.
+            EquipR1(EOnScreen[pos3+offset],  party.chr[index]); //Equip the weapon.
+           }
+           if(pos2=5)
+           {
+            if(Strcmp("", R2ItemName[party.chr[index]])) NumItems[FindItemByName(R2ItemName[party.chr[index]])]++; //Removing the character's weapon increases the stored amount of that weapon.
+            NumItems[EOnScreen[pos3+offset]]--; //Decrease the number of this item stored.
+            EquipR2(EOnScreen[pos3+offset],  party.chr[index]); //Equip the weapon.
+           }
+          } //end if (b1)
+         } //end while (!done4)
+        }
+       } //end while
+     case 1: Optimum(party.chr[index]);
+
+     case 2: //Remove
+      done3=0;
+      while(!done3) //Third loop...
+      {
+       #include "drwEquip.vc"
+       DGW16(444,19 ,620, 59);
+       GotoXY(460, 31); PrintString(2, Sub[2]+"REMOVE"+Sub[1]);
+       TCopySprite(26, 80+(16*pos2), 32, 32, hand);
+       ShowPage();
+       UpdateControls();
+       If(b2) { done3++; UnPress(2); }
+       if(up) {  UnPress(5); PlaySound(psound, 63, 127); pos2--; if(pos2<0) pos2=5; }
+       if(down) { UnPress(6); PlaySound(psound, 63, 127); pos2++; if(pos2>5) pos2=0; }
+       if(b1) ERemove(pos2, party.chr[index]);
+      }
+     case 3: //Empty
+      ERemove(0, party.chr[index]);
+      ERemove(1, party.chr[index]);
+      ERemove(2, party.chr[index]);
+      ERemove(3, party.chr[index]);
+      ERemove(4, party.chr[index]);
+      ERemove(5, party.chr[index]);
+     } //end switch
+    }
+   }
+  }
+ }
+ //rectfill(0,0,640,480,0);
+ //FadeOut(50,0);
+ //FadeIn(50,0);
+ //render();
+ //showpage();
+}
+
+void Optimum(int c)
+{
+ int i;
+ for(i=0; i<MaxItems; i++)
+ {
+  If(NumItems[i] && ItemClass[i]=1 && IBatPwr[i]>LHBatPwr[c])
+  {
+   if(Strcmp("", LHItemName[c]))
+   {
+    NumItems[FindItemByName(LHItemName[c])]++;
+    Numitems[i]--;
+   }
+   EquipLH(i, c);
+  }
+  If(NumItems[i] && ItemClass[i]=2 && IDefense[i]>RHDefense[c])
+  {
+   if(Strcmp("", RHItemName[c]))
+   {
+    NumItems[FindItemByName(RHItemName[c])]++;
+    Numitems[i]--;
+   }
+   EquipRH(i, c);
+  }
+  If(NumItems[i] && ItemClass[i]=3 && IDefense[i]>HDefense[c])
+  {
+   if(Strcmp("", HItemName[c]))
+   {
+    NumItems[FindItemByName(HItemName[c])]++;
+    Numitems[i]--;
+   }
+   EquipH(i, c);
+  }
+  If(NumItems[i] && ItemClass[i]=4 && IDefense[i]>BDefense[c])
+  {
+   if(Strcmp("", BItemName[c]))
+   {
+    NumItems[FindItemByName(BItemName[c])]++;
+    Numitems[i]--;
+   }
+   EquipB(i, c);
+  }
+ }
+}
+
+void ERemove(int slot, int c)
+{
+ Switch(slot)
+ {
+  Case 0:
+   If(StrCmp("", LHItemName[c]))
+   {
+    NumItems[FindItemByName(LHItemName[c])]++;
+    Vigor[c]-=LHVigor[c];
+    Speed[c]-=LHSpeed[c];
+    Stamina[c]-=LHStamina[c];
+    MagPwr[c]-=LHMagPwr[c];
+    BatPwr[c]-=LHBatPwr[c];
+    Defense[c]-=LHDefense[c];
+    Evade[c]-=LHEvade[c];
+    MagDef[c]-=LHMagDef[c];
+    MBlock[c]-=LHMBlock[c];
+    LHItemName[c]="";
+    LHVigor[c]=0;
+    LHSpeed[c]=0;
+    LHStamina[c]=0;
+    LHMagPwr[c]=0;
+    LHBatPwr[c]=0;
+    LHDefense[c]=0;
+    LHEvade[c]=0;
+    LHMagDef[c]=0;
+    LHMBlock[c]=0;
+   }
+  Case 1:
+   If(StrCmp("", RHItemName[c]))
+   {
+    NumItems[FindItemByName(RHItemName[c])]++;
+    Vigor[c]-=RHVigor[c];
+    Speed[c]-=RHSpeed[c];
+    Stamina[c]-=RHStamina[c];
+    MagPwr[c]-=RHMagPwr[c];
+    BatPwr[c]-=RHBatPwr[c];
+    Defense[c]-=RHDefense[c];
+    Evade[c]-=RHEvade[c];
+    MagDef[c]-=RHMagDef[c];
+    MBlock[c]-=RHMBlock[c];
+    RHItemName[c]="";
+    RHVigor[c]=0;
+    RHSpeed[c]=0;
+    RHStamina[c]=0;
+    RHMagPwr[c]=0;
+    RHBatPwr[c]=0;
+    RHDefense[c]=0;
+    RHEvade[c]=0;
+    RHMagDef[c]=0;
+    RHMBlock[c]=0;
+   }
+  Case 2:
+   If(StrCmp("", HItemName[c]))
+   {
+    NumItems[FindItemByName(HItemName[c])]++;
+    Vigor[c]-=HVigor[c];
+    Speed[c]-=HSpeed[c];
+    Stamina[c]-=HStamina[c];
+    MagPwr[c]-=HMagPwr[c];
+    BatPwr[c]-=HBatPwr[c];
+    Defense[c]-=HDefense[c];
+    Evade[c]-=HEvade[c];
+    MagDef[c]-=HMagDef[c];
+    MBlock[c]-=HMBlock[c];
+    HItemName[c]="";
+    HVigor[c]=0;
+    HSpeed[c]=0;
+    HStamina[c]=0;
+    HMagPwr[c]=0;
+    HBatPwr[c]=0;
+    HDefense[c]=0;
+    HEvade[c]=0;
+    HMagDef[c]=0;
+    HMBlock[c]=0;
+   }
+  Case 3:
+   If(StrCmp("", BItemName[c]))
+   {
+    NumItems[FindItemByName(BItemName[c])]++;
+    Vigor[c]-=BVigor[c];
+    Speed[c]-=BSpeed[c];
+    Stamina[c]-=BStamina[c];
+    MagPwr[c]-=BMagPwr[c];
+    BatPwr[c]-=BBatPwr[c];
+    Defense[c]-=BDefense[c];
+    Evade[c]-=BEvade[c];
+    MagDef[c]-=BMagDef[c];
+    MBlock[c]-=BMBlock[c];
+    BItemName[c]="";
+    BVigor[c]=0;
+    BSpeed[c]=0;
+    BStamina[c]=0;
+    BMagPwr[c]=0;
+    BBatPwr[c]=0;
+    BDefense[c]=0;
+    BEvade[c]=0;
+    BMagDef[c]=0;
+    BMBlock[c]=0;
+   }
+   Case 4:
+      If(StrCmp("", R1ItemName[c]))
+      {
+       NumItems[FindItemByName(R1ItemName[c])]++;
+       Vigor[c]-=R1Vigor[c];
+       Speed[c]-=R1Speed[c];
+       Stamina[c]-=R1Stamina[c];
+       MagPwr[c]-=R1MagPwr[c];
+       BatPwr[c]-=R1BatPwr[c];
+       Defense[c]-=R1Defense[c];
+       Evade[c]-=R1Evade[c];
+       MagDef[c]-=R1MagDef[c];
+       MBlock[c]-=R1MBlock[c];
+       R1ItemName[c]="";
+       R1Vigor[c]=0;
+       R1Speed[c]=0;
+       R1Stamina[c]=0;
+       R1MagPwr[c]=0;
+       R1BatPwr[c]=0;
+       R1Defense[c]=0;
+       R1Evade[c]=0;
+       R1MagDef[c]=0;
+       R1MBlock[c]=0;
+   }
+   Case 5:
+      If(StrCmp("", R2ItemName[c]))
+      {
+       NumItems[FindItemByName(R2ItemName[c])]++;
+       Vigor[c]-=R2Vigor[c];
+       Speed[c]-=R2Speed[c];
+       Stamina[c]-=R2Stamina[c];
+       MagPwr[c]-=R2MagPwr[c];
+       BatPwr[c]-=R2BatPwr[c];
+       Defense[c]-=R2Defense[c];
+       Evade[c]-=R2Evade[c];
+       MagDef[c]-=R2MagDef[c];
+       MBlock[c]-=R2MBlock[c];
+       R2ItemName[c]="";
+       R2Vigor[c]=0;
+       R2Speed[c]=0;
+       R2Stamina[c]=0;
+       R2MagPwr[c]=0;
+       R2BatPwr[c]=0;
+       R2Defense[c]=0;
+       R2Evade[c]=0;
+       R2MagDef[c]=0;
+       R2MBlock[c]=0;
+   }
+ }
+}
+
+//////////////////////////////////////////////////////////////////////
+//The following functions equip weapons/armor on the characters. It //
+//is important to use party.chr for the character you're equipping, //
+//and remember that it DOESN'T modify the item count; you need to do//
+//that manually. This allows for equipping items which you don't    //
+//own yet (for a special character, whose items you don't want to   //
+//share, for example).                                              //
+//////////////////////////////////////////////////////////////////////
+
+void EquipLH(int i, int c)
+{
+ //apply the new modifiers, removing the old.
+ Vigor[c]+=IVigor[i]-LHVigor[c];
+ Speed[c]+=ISpeed[i]-LHSpeed[c];
+ Stamina[c]+=IStamina[i]-LHStamina[c];
+ MagPwr[c]+=IMagPwr[i]-LHMagPwr[c];
+ BatPwr[c]+=IBatPwr[i]-LHBatPwr[c];
+ Defense[c]+=IDefense[i]-LHDefense[c];
+ Evade[c]+=IEvade[i]-LHEvade[c];
+ MagDef[c]+=IMagDef[i]-LHMagDef[c];
+ MBlock[c]+=IMBlock[i]-LHMBlock[c];
+ //Equip the item.
+ LHItemName[c]=ItemName[i];
+ LHVigor[c]=IVigor[i];
+ LHSpeed[c]=ISpeed[i];
+ LHStamina[c]=IStamina[i];
+ LHMagPwr[c]=IMagPwr[i];
+ LHBatPwr[c]=IBatPwr[i];
+ LHDefense[c]=IDefense[i];
+ LHEvade[c]=IEvade[i];
+ LHMagDef[c]=IMagDef[i];
+ LHMBlock[c]=IMBlock[i];
+}
+
+void EquipRH(int i, int c)
+{
+ //apply the new modifiers, removing the old.
+ Vigor[c]+=IVigor[i]-RHVigor[c];
+ Speed[c]+=ISpeed[i]-RHSpeed[c];
+ Stamina[c]+=IStamina[i]-RHStamina[c];
+ MagPwr[c]+=IMagPwr[i]-RHMagPwr[c];
+ BatPwr[c]+=IBatPwr[i]-RHBatPwr[c];
+ Defense[c]+=IDefense[i]-RHDefense[c];
+ Evade[c]+=IEvade[i]-RHEvade[c];
+ MagDef[c]+=IMagDef[i]-RHMagDef[c];
+ MBlock[c]+=IMBlock[i]-RHMBlock[c];
+ //Equip the item.
+ RHItemName[c]=ItemName[i];
+ RHVigor[c]=IVigor[i];
+ RHSpeed[c]=ISpeed[i];
+ RHStamina[c]=IStamina[i];
+ RHMagPwr[c]=IMagPwr[i];
+ RHBatPwr[c]=IBatPwr[i];
+ RHDefense[c]=IDefense[i];
+ RHEvade[c]=IEvade[i];
+ RHMagDef[c]=IMagDef[i];
+ RHMBlock[c]=IMBlock[i];
+}
+
+void EquipH(int i, int c)
+{
+ //apply the new modifiers, removing the old.
+ Vigor[c]+=IVigor[i]-HVigor[c];
+ Speed[c]+=ISpeed[i]-HSpeed[c];
+ Stamina[c]+=IStamina[i]-HStamina[c];
+ MagPwr[c]+=IMagPwr[i]-HMagPwr[c];
+ BatPwr[c]+=IBatPwr[i]-HBatPwr[c];
+ Defense[c]+=IDefense[i]-HDefense[c];
+ Evade[c]+=IEvade[i]-HEvade[c];
+ MagDef[c]+=IMagDef[i]-HMagDef[c];
+ MBlock[c]+=IMBlock[i]-HMBlock[c];
+ //Equip the item.
+ HItemName[c]=ItemName[i];
+ HVigor[c]=IVigor[i];
+ HSpeed[c]=ISpeed[i];
+ HStamina[c]=IStamina[i];
+ HMagPwr[c]=IMagPwr[i];
+ HBatPwr[c]=IBatPwr[i];
+ HDefense[c]=IDefense[i];
+ HEvade[c]=IEvade[i];
+ HMagDef[c]=IMagDef[i];
+ HMBlock[c]=IMBlock[i];
+}
+
+void EquipB(int i, int c)
+{
+ //apply the new modifiers, removing the old.
+ Vigor[c]+=IVigor[i]-BVigor[c];
+ Speed[c]+=ISpeed[i]-BSpeed[c];
+ Stamina[c]+=IStamina[i]-BStamina[c];
+ MagPwr[c]+=IMagPwr[i]-BMagPwr[c];
+ BatPwr[c]+=IBatPwr[i]-BBatPwr[c];
+ Defense[c]+=IDefense[i]-BDefense[c];
+ Evade[c]+=IEvade[i]-BEvade[c];
+ MagDef[c]+=IMagDef[i]-BMagDef[c];
+ MBlock[c]+=IMBlock[i]-BMBlock[c];
+ //Equip the item.
+ BItemName[c]=ItemName[i];
+ BVigor[c]=IVigor[i];
+ BSpeed[c]=ISpeed[i];
+ BStamina[c]=IStamina[i];
+ BMagPwr[c]=IMagPwr[i];
+ BBatPwr[c]=IBatPwr[i];
+ BDefense[c]=IDefense[i];
+ BEvade[c]=IEvade[i];
+ BMagDef[c]=IMagDef[i];
+ BMBlock[c]=IMBlock[i];
+}
+
+void EquipR1(int i, int c)
+{
+ //apply the new modifiers, removing the old.
+ Vigor[c]+=IVigor[i]-R1Vigor[c];
+ Speed[c]+=ISpeed[i]-R1Speed[c];
+ Stamina[c]+=IStamina[i]-R1Stamina[c];
+ MagPwr[c]+=IMagPwr[i]-R1MagPwr[c];
+ BatPwr[c]+=IBatPwr[i]-R1BatPwr[c];
+ Defense[c]+=IDefense[i]-R1Defense[c];
+ Evade[c]+=IEvade[i]-R1Evade[c];
+ MagDef[c]+=IMagDef[i]-R1MagDef[c];
+ MBlock[c]+=IMBlock[i]-R1MBlock[c];
+ //Equip the item.
+ R1ItemName[c]=ItemName[i];
+ R1Vigor[c]=IVigor[i];
+ R1Speed[c]=ISpeed[i];
+ R1Stamina[c]=IStamina[i];
+ R1MagPwr[c]=IMagPwr[i];
+ R1BatPwr[c]=IBatPwr[i];
+ R1Defense[c]=IDefense[i];
+ R1Evade[c]=IEvade[i];
+ R1MagDef[c]=IMagDef[i];
+ R1MBlock[c]=IMBlock[i];
+}
+
+void EquipR2(int i, int c)
+{
+ //apply the new modifiers, removing the old.
+ Vigor[c]+=IVigor[i]-R2Vigor[c];
+ Speed[c]+=ISpeed[i]-R2Speed[c];
+ Stamina[c]+=IStamina[i]-R2Stamina[c];
+ MagPwr[c]+=IMagPwr[i]-R2MagPwr[c];
+ BatPwr[c]+=IBatPwr[i]-R2BatPwr[c];
+ Defense[c]+=IDefense[i]-R2Defense[c];
+ Evade[c]+=IEvade[i]-R2Evade[c];
+ MagDef[c]+=IMagDef[i]-R2MagDef[c];
+ MBlock[c]+=IMBlock[i]-R2MBlock[c];
+ //Equip the item.
+ R2ItemName[c]=ItemName[i];
+ R2Vigor[c]=IVigor[i];
+ R2Speed[c]=ISpeed[i];
+ R2Stamina[c]=IStamina[i];
+ R2MagPwr[c]=IMagPwr[i];
+ R2BatPwr[c]=IBatPwr[i];
+ R2Defense[c]=IDefense[i];
+ R2Evade[c]=IEvade[i];
+ R2MagDef[c]=IMagDef[i];
+ R2MBlock[c]=IMBlock[i];
+}
+
+int IsGreater(int a, int b) //returns which sub to use
+{
+ if(a=b) return 1;
+ if(a>b) return 2;
+ if(a<b) return 3;
+}

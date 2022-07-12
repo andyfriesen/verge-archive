@@ -1,0 +1,80 @@
+case 1: name=name+"A";
+case 2: name=name+"B";
+case 3: name=name+"C";
+case 4: name=name+"D";
+case 5: name=name+"E";
+case 6: name=name+"a";
+case 7: name=name+"b";
+case 8: name=name+"c";
+case 9: name=name+"d";
+case 10: name=name+"e";
+case 11: name=name+"F";
+case 12: name=name+"G";
+case 13: name=name+"H";
+case 14: name=name+"I";
+case 15: name=name+"J";
+case 16: name=name+"f";
+case 17: name=name+"g";
+case 18: name=name+"h";
+case 19: name=name+"i";
+case 20: name=name+"j";
+case 21: name=name+"K";
+case 22: name=name+"L";
+case 23: name=name+"M";
+case 24: name=name+"N";
+case 25: name=name+"O";
+case 26: name=name+"k";
+case 27: name=name+"l";
+case 28: name=name+"m";
+case 29: name=name+"n";
+case 30: name=name+"o";
+case 31: name=name+"P";
+case 32: name=name+"Q";
+case 33: name=name+"R";
+case 34: name=name+"S";
+case 35: name=name+"T";
+case 36: name=name+"p";
+case 37: name=name+"q";
+case 38: name=name+"r";
+case 39: name=name+"s";
+case 40: name=name+"t";
+case 41: name=name+"U";
+case 42: name=name+"V";
+case 43: name=name+"W";
+case 44: name=name+"X";
+case 45: name=name+"Y";
+case 46: name=name+"u";
+case 47: name=name+"v";
+case 48: name=name+"w";
+case 49: name=name+"x";
+case 50: name=name+"y";
+case 51: name=name+"Z";
+case 52: name=name+"!";
+case 53: name=name+"?";
+case 54: name=name+"/";
+case 55: name=name+":";
+case 56: name=name+"z";
+case 57: name=name+"'";
+case 58: name=name+"-";
+case 59: name=name+".";
+case 60: name=name+" ";
+case 61: name=name+"0";
+case 62: name=name+"1";
+case 63: name=name+"2";
+case 64: name=name+"3";
+case 65: name=name+"4";
+case 66: name=name+"5";
+case 67: name=name+"6";
+case 68: name=name+"7";
+case 69: name=name+"8";
+case 70: name=name+"9";
+
+
+
+
+
+
+
+
+//leave at the bottom
+//leave at the bottom
