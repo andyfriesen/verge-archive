@@ -1,0 +1,44 @@
+*** H@tchet's Basic Bomberman Engine *** 
+(Last updated May 11, 2000)
+
+Whats New:
+
+-Fixed the invincible black bomberman bug.
+-Added a gui to the game (thanks to Ear! :) to show you your current bomb number and size.
+-Added "unlit" bombs.
+-Random maps! (choose continue, for now...)
+-New title screen, by Niko!
+-Fixed the dying when you're nowhere near the explosion bug.
+-A "secret" map (Select Continue on the title screen ;)
+-Multiple resolutions, for those (few) people who can't run the game in 320x240 (it looks fugly though).
+-Bomb kicking powerup!
+-Animations for starting and ending the level. :)
+-Mooosac!
+-Many other minor things too numerous to put in here. :)
+
+This is my attempt at making a Bomberman game for V2... I wonder if anyone's gonna actually read this file? :)
+
+Controls:
+Enter - Lays a bomb. 
+Arrows - Move around.
+Space - Kick a bomb.
+
+Need I say more?
+
+I'm hoping to make a finished version of this game with a better looking titlescreen (with working continue!), movement, and sound effects, and many, many more levels and objectives! (not to mention the ability to actually complete the level!) And, hardest of all, I MIGHT make the evil bombermen able to drop bombs too! >:)
+
+Bugs? There's a few bugs... some are tricky to solve, like making the explosions combine just right (although I *think* I almost have it right), while others are sneakier, like bomb obstructions staying behind while the bomb is gone (happened to me *once*, and I still can't figure out why). But none are major, and the game for the most part runs flawlessly, near as I can tell.
+
+Special thanks to:
+Tricron: for providing the bomberman chrs and tileset!
+Arcticfox: for hanging out with me in #bomberman and making sure I didn't quit this project, as well as making a cool mod every now and then!
+Ear: For the gui!
+Kev: for tiles!
+Praetor: for the bomb kicking and teleport animation code!
+Thrasher: for the chr and teleport animations!
+Aen: For making V2.5 with entity.on to make enemies easy to KILL! MWAHAHAHA! ER, um.. yeah. :) 
+To everyone else: for downloading and enjoying this game. :)
+
+Comments? Questions? Suggestions? Bugs? E-mail me at hatchvcc@home.com
+-H@tchet
+

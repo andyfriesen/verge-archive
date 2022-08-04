@@ -1,0 +1,42 @@
+event //0 - Autoexec
+{
+ numenemies=6; 
+ //set where the player is to start.
+ startx=14;    
+ starty=8;
+ SetPlayer(EntitySpawn(startx,starty, "white.chr")); //create the player.
+ PaletteMorph(0,0,0,0,63); //set proper palette.
+ HookRetrace(Main); //start the game!
+}
+
+event //1 - Bomb size ++
+{
+ if(bombsize<maxsize) bombsize++;
+ SetTile(entity.tx[player], entity.ty[player], 2, 0);
+ SetTile(entity.tx[player], entity.ty[player], 7, 0);
+}
+
+event //2 - numbombs ++
+{
+ if(numbombs<maxbombs) numbombs++;
+ SetTile(entity.tx[player], entity.ty[player], 2, 0);
+ SetTile(entity.tx[player], entity.ty[player], 7, 0);
+}
+
+event //3 - Hit by enemy!
+{
+ if(!hit[player] && !hittimer[player]) //Hit the player only if he isn't already hit, and he wasn't recently hit.
+ {
+  hit[player]=1;
+  entity.speed[player]=9;
+ }
+}
+
+event //4 - Stronger bombs!
+{
+ BombPower=1;
+ SetTile(entity.tx[player], entity.ty[player], 2, 0);
+ SetTile(entity.tx[player], entity.ty[player], 7, 0);
+}
+
+//EOF

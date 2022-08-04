@@ -311,6 +311,13 @@ let v2games: array(Game.game) = [|
         engine: Game.V2, 
         vtype: "v2game",  
     },  
+	     {
+        name: "bman",
+        title: "Bomberman Verge Demo",
+        description: "A basic Bomberman game, made by Hatchet",
+        engine: Game.V2, 
+        vtype: "v2game",  
+    },  
     
 |];
 

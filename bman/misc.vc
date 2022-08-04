@@ -1,0 +1,183 @@
+void LoadConsoleImages()
+{
+ cIMG[0] = LoadImage("HEART.GIF");
+ cIMG[1] = LoadImage("FLAME.GIF");
+ cIMG[2] = LoadImage("BOMB.GIF");
+}
+
+
+void AddBlock(int index, int x, int y) //sets a block to be exploding.
+{
+ int z;
+ For(z=0; z<maxbombs; z++) //make sure the block at this position isn't already exploding.
+ {
+  if(blockx[z]=x && blocky[z]=y) return; //there's an exploding block at this position! So exit this function.
+ }
+ For(z=0; z<maxbombs; z++)
+ {
+  if(!block[z]) //this "explosion" slot is available.
+  {
+   blocktimer[z]=0; //reset the timer
+   blockx[z]=x; //store the location.
+   blocky[z]=y;
+   block[z]=1; //block is exploding.
+   return; //make sure only one block is set.
+  }
+ }
+}
+
+int CheckForExplosion(int x, int y) //checks if there's already an explosion at this spot.
+{
+ int G; G=Gettile(x,y,1); //get what's at this location.
+ if(G=0 || G=86 || G=98 || G=110 || G=122 || G=134 || G=146 || G=158) return 0; //any of the above are "blank" tiles.
+ else return 1; //explosion must be here.
+}
+
+void ClearLayer(int layer) //clears a map layer. Used for "erasing" bomb explosions.
+{
+ int x, y;
+ For(X=0; X<map_width; X++)
+ {
+  For(Y=0; Y<map_height; Y++)
+  {
+   SetTile(x,y,layer,0);
+  }
+ }
+}
+
+int FindBomb(int x, int y) //finds the bomb at these x/y coords.
+{
+ int i;
+ for(i=0; i<maxbombs; i++)
+ {
+  if(bombx[i]=x && bomby[i]=y) return i;
+ }
+ return 0-1;
+}
+
+int FindEnt(int x, int y) //finds the entity at these x/y coords.
+{
+ int i;
+ for(i=0; i<numents; i++)
+ {
+  if(entity.tx[i]=x && entity.ty[i]=y) return i;
+ }
+ return 0-1;
+}
+
+void RandomMap() //Creates the random maps for battle mode.
+{
+ int x, y;
+ for(x=2; x<=16; x++)
+ {
+  for(y=2; y<=12; y++)
+  {
+   If(GetTile(x,y,7) !=255 && !GetTile(x,y,6) && Random(10)>=5) //no reserved zone here, no obstruction here, and the random condition is met.
+   {
+    SetTile(x,y,3,204); //put explodable block here.
+    SetTile(x,y,6,1); //set as obstruction.
+   }
+  }
+ }
+}
+
+void WinAnimation()
+{
+ entity.specframe[player]=20;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=6;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=21;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=6;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=20;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=6;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=21;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=6;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=22;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=23;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=24;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=25;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=26;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=27;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=28;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=29;
+ Render(); ShowPage(); Delay(8);
+}
+
+void WarpIn()
+{
+ entity.specframe[player]=29;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=28;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=27;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=26;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=25;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=24;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=23;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=22;
+ Render(); ShowPage(); Delay(8);
+ entity.specframe[player]=0;
+}
+
+void Warp(int x, int y)
+{
+ entity.tx[plr]=x;
+ entity.x[plr]=x*16;
+ entity.ty[plr]=y;
+ entity.y[plr]=y*16;
+}
+
+void FadeOut() {
+  for(A=63; A>0; A--)
+ {
+  PaletteMorph(0,0,0,0,A);
+  Delay(1);
+ }
+}
+
+void FadeIn()
+{
+ For(A=0; A<63; A++)
+ {
+  PaletteMorph(0,0,0,0,A);
+  Delay(1);
+ }
+}
+
+void Delay(int d) //A short delay function. (note that it completely freezes the engine; nothing is redrawn.)
+{
+ timer=0;
+ while(timer<d) { }
+ timer=0;
+}
+
+void RDelay(int d) 
+{
+ timer=0;
+ while(timer<d) { Render(); ShowPage(); }
+ timer=0;
+}
+
+void TPents()
+{
+ for(i=t; i>0; i--) Processentities();
+}

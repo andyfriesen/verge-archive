@@ -1,0 +1,124 @@
+#define maxents 15 //max number of entities allowed.
+#define maxbombs 99 //max number of bombs allowed.
+#define maxsize 9 //max size of the bombs.
+#define pmaxbombs 9 //max bombs the player can have.
+
+#define fup 3
+#define fdown 2
+#define fleft 0
+#define fright 1
+
+#include "bombkick.vc"
+#include "CHEAT.VC"
+#include "main.vc"
+#include "misc.vc"
+#include "menu.vc"
+
+int plr, nomove;
+int animframe;
+
+int dir[maxbombs], animer;
+int bombmove[maxbombs];
+int curlevel; //current level of the player.
+int enemiesdead;
+int endx, endy;
+int startx, starty; //start location of the player.
+int lives; //player's lives
+
+int bombpower; //whether the bomb can go through expodable blocks or not.
+int numbombs; //number of bombs the player can carry
+int bombsize; //current size of the explosion, if the player set a bomb now.
+int bombkick;
+
+int numenemies; //number of enemies on each map.
+int hittimer[maxents], hit[maxents]; //timer for the hit animations, and whether an entity is hurt.
+int bombs[maxbombs]; //array of active bombs.
+int size[maxbombs]; //array of bomb sizes.
+int bombtimer[maxbombs]; //array bomb timers, used for timing when the explosion should occur, and to control the explosion animation.
+int bombx[maxbombs], bomby[maxbombs]; //location of the bombs.
+
+int block[maxbombs], blockx[maxbombs], blocky[maxbombs], blocktimer[maxbombs]; //arrays of active exploding blocks, their locations, and the animation timer.
+int i, a, b, x, y, t, h, s; //misc variables. ^_^;
+
+/* Added By Prae 5-6-00 */
+int tzone, tnum;
+int portx[10], porty[10];
+int px[10], py[10];
+int xloc, yloc;
+ /* Added By Prae 5-6-00 */
+
+// Added By Ear 5-9-00 //
+int cIMG[10];
+/////////////////////////
+
+void Autoexec() //autoexec function
+{
+ Lives=3;
+ numbombs=1;
+ bombsize=1;
+ curlevel=1;
+ MainMenu();
+ //Map("1.map");
+}
+
+
+//Misc functions.
+
+
+/* Added By Prae 5-6-00 */
+void TeleportGFX()
+{
+   int i, j, xdiff, ydiff;
+
+   if(!tnum)
+   {
+      FindPorters(map_width, map_height);
+      return;
+   }
+
+   xdiff = xwin - xloc;
+   ydiff = ywin - yloc;
+
+   for(i=0;i<tnum;i++)
+   {
+      for(j=0;j<10;j++)
+      {
+         px[j] = ((portx[i] * 16) + random(16) - xdiff);
+         py[j] = (((porty[i] - 1) * 16) + random(32) - ydiff);
+         SetPixel(px[j], py[j], random(256));
+      }
+   }
+}
+
+void FindPorters(int width, int height)
+{
+   int h, w;
+   int temp;
+
+   tnum = 0;
+
+   if(!tzone)
+      return;
+
+   xloc = xwin;
+   yloc = ywin;
+
+   for(h=0;h<=height;h++)
+   {
+      for(w=0;w<=width;w++)
+      {
+         temp = GetTile(w, h, 7);
+         if(temp == tzone)
+         {
+            portx[tnum] = w;
+            porty[tnum] = h;
+            tnum++;
+         }
+      }
+   }
+}
+/* Added By Prae 5-6-00 */
+
+
+
+//EOF

@@ -1,0 +1,506 @@
+#define maxents 10 //max number of entities allowed.
+#define maxbombs 9 //max number of bombs allowed.
+#define maxsize 9 //max size of the bombs.
+
+int curlevel; //current level of the player.
+
+int startx, starty; //start location of the player.
+int lives; //player's lives
+int bombpower; //whether the bomb can go through expodable blocks or not.
+int numbombs; //number of bombs the player can carry
+int bombsize; //current size of the explosion, if the player set a bomb now.
+int hittimer[maxents], hit[maxents]; //timer for the hit animations, and whether an entity is hurt.
+int bombs[maxbombs]; //array of active bombs.
+int size[maxbombs]; //array of bomb sizes.
+int bombtimer[maxbombs]; //array bomb timers, used for timing when the explosion should occur, and to control the explosion animation.
+int bombx[maxbombs], bomby[maxbombs]; //location of the bombs.
+int block[maxbombs], blockx[maxbombs], blocky[maxbombs], blocktimer[maxbombs]; //arrays of active exploding blocks, their locations, and the animation timer.
+int image, pointer, pimage, wdot, o; //misc variables for titlescreen. :)
+int timg[4];
+int numenemies; //number of enemies on each map.
+int i, a, b, x, y, t, h; //more misc variables. ^_^;
+
+void Autoexec() //autoexec function
+{
+ Lives=3;
+ numbombs=8;
+ bombsize=9;
+ curlevel=1;
+ Map("Start.map");
+}
+
+void MainMenu()
+{
+ image=LoadImage("title.gif");
+ pimage=LoadImage("dot.gif"):
+ wdot=LoadImage("wdot.gif");
+ timg[0]=LoadImage("newgame.gif");
+ timg[1]=LoadImage("continue.gif");
+ timg[2]=LoadImage("options.gif");
+ timg[3]=LoadImage("exit.gif");
+ PaletteMorph(0,0,0,0,63);
+ While(1)
+ {
+  UpdateControls();
+  CopySprite(0,0, screenx, screeny, image);
+  if(screenx=320) //low res menu
+  {
+   For(o=0; o<4; o++)
+   {
+    CopySprite(0,62+(36*o), 112, 28, timg[o]);
+    CopySprite(7, 71+(36*o), 10, 9, wdot);
+   }
+   TcopySprite(7, 71+(36*pointer), 10, 9, pimage);
+  }
+  else //high-res menu
+  {
+   For(o=0; o<4; o++)
+   {
+    CopySprite(0,124+(72*o), 224, 56, timg[o]);
+    CopySprite(14, 142+(72*o), 18, 18, wdot);
+   }
+   TcopySprite(14, 142+(72*pointer), 18, 18, pimage);
+  }
+  ShowPage();
+  If (up)
+  {
+   Unpress(5);
+   pointer--;
+   if(pointer<0) pointer=3;
+  }
+  if(down)
+  {
+   pointer++;
+   Unpress(6);
+   if(pointer>3) pointer=0;
+  }
+  free(image);
+  free(pimage);
+  If(B1)
+  {
+   Unpress(1);
+   switch(pointer)
+   {
+    case 0:  Fadeout(); Map("1.map");
+    case 1:  FadeOut(); Map("battle.map");
+    case 2:  Options();
+    case 3:  Exit("Bye!");
+   }
+  }
+ }
+}
+
+void Options()
+{
+ int i;
+ if(screenx=320)
+ {
+  SetResolution(640, 480);
+  free(image);
+  free(pimage);
+  free(wdot);
+  for(i=0; i<4; i++) Free(timg[i]);
+  image=LoadImage("title640.gif");
+  pimage=LoadImage("dothi.gif"):
+  wdot=LoadImage("wdothi.gif");
+  timg[0]=LoadImage("newhi.gif");
+  timg[1]=LoadImage("continhi.gif");
+  timg[2]=LoadImage("optionhi.gif");
+  timg[3]=LoadImage("exithi.gif");
+  PaletteMorph(0,0,0,0,63);
+ }
+ else
+ {
+  SetResolution(320, 240);
+  free(image);
+  free(pimage);
+  free(wdot);
+  for(i=0; i<4; i++) Free(timg[i]);
+  image=LoadImage("title.gif");
+  pimage=LoadImage("dot.gif"):
+   wdot=LoadImage("wdot.gif");
+  timg[0]=LoadImage("newgame.gif");
+  timg[1]=LoadImage("continue.gif");
+  timg[2]=LoadImage("options.gif");
+  timg[3]=LoadImage("exit.gif");
+  PaletteMorph(0,0,0,0,63);
+ }
+}
+
+void Main() //called every retrace.
+{
+ t=timer; timer=0; //start timing. t stores the amount of time since the last frame.
+ ClearLayer(1); //erase the bomb explosion layer.
+
+ //Debugging messages.
+ GotoXY(0,0); Printstring(0, Str(Lives));
+ GotoXY(0,10); Printstring(0, Str(numenemies));
+ for(h=0; h<maxents; h++) //loop for each entity.
+ {
+  if(h=player) //special case if the entity is the player.
+  {
+   if(hit[h]) //player is in the middle of dying.
+   {
+    hittimer[h]+=t; //increment his animation timer.
+    entity.specframe[h]=12+(hittimer[h]/10); //draw the appropriate death frame.
+    if(hittimer[h]>=80) //death animation is over.
+    {
+     hit[h]=0; //no longer "hit".
+     //reset to beginning condition.
+     EntityMove(player, ""); //make the player stop moving...
+     warp(startx, starty); //move him back to the map's start location.
+     entity.speed[player]=4; //back to normal speed.
+     entity.specframe[player]=0; //reset to normal frames.
+     //start back with no stuff. :)
+     numbombs=1;
+     bombsize=1;
+     bombpower=0;
+     lives--; //decrease number of lives.
+     if(lives=0) Exit("You dead!");
+    }
+   }
+   else //player isn't dying
+   {
+    if(hittimer[player]) //player recently was hit, so make the flashing effect.
+    {
+     hittimer[player]+=t; //increment death animation timer.
+     if(hittimer[player]>=580) { hittimer[player]=0; entity.visible[player]=1; } //player is back to normal.
+     else {
+      if(hittimer[player]%10<5) entity.visible[player]=0; //blank frame
+      else entity.visible[player]=1; //normal frame.
+     }
+    }
+    If(B1) LayBomb(); //Lay a bomb!
+   }
+  }
+  else //any other entity
+  {
+   if(hit[h]) //enemy is in the middle of dying.
+   {
+    hittimer[h]+=t; //increment death animation timer.
+    entity.specframe[h]=12+(hittimer[h]/10); //show the proper death frame. :)
+    if(hittimer[h]>=80) //death animation is over.
+    {
+     hittimer[h]=0; //reset timer.
+     hit[h]=0; //enemy's no longer hit.
+     numenemies--; //decrease the number of living enemies.
+     entity.on[h]=0; //enemy is now DEAD! MWAHAHA! >:)
+    }
+   }
+  }
+ }
+ //at this point, it doesn't matter if the player is alive or dead.
+ For(i=0; i<numbombs; i++) //Check each bomb.
+ {
+  if(bombs[i]=1) //a bomb is set.
+  {
+   bombtimer[i]+=t; //increment the bomb timer.
+   if(bombtimer[i]>200) //time for the explosion!
+   {
+    bombtimer[i]=0; //reset the timer for next phase.
+    bombs[i]=2; //Go to the next bomb phase.
+    SetTile(bombx[i], bomby[i],3,0); //Erase the bomb.
+   }
+  }
+  if(bombs[i]=2) //bomb is exploding.
+  {
+   //Draw the bomb explosion.
+   ExplodeCenter(i);
+   ExplodeUp(i);
+   ExplodeDown(i);
+   ExplodeLeft(i);
+   ExplodeRight(i);
+   bombtimer[i]+=t; //increment the bomb animation timer.
+   if(bombtimer[i]>=88) //explosion is done.
+   {
+    SetTile(bombx[i], bomby[i],6,0); //bomb is no longer an obstruction.
+    bombtimer[i]=0;
+    bombs[i]=0; //bomb is no longer active.
+   }
+  }
+ }
+ for(i=0; i<maxbombs; i++) //check each explodable block (up the number of bombs allowed).
+ {
+  if(block[i]) //block is exploding!
+  {
+   blocktimer[i]+=t;
+   if(blocktimer[i]>=88) //block is done exploding.
+   {
+    SetTile(blockx[i], blocky[i], 3, 0); //set to blank tile.
+    SetTile(blockx[i], blocky[i], 6, 0); //set to no obstruction.
+    block[i]=0; //no longer exploding.
+   }
+   else SetTile(blockx[i], blocky[i], 3, 204+(blocktimer[i]/8)); //draw disintgrating block animation.
+  }
+ }
+}
+
+void LayBomb() //self explanatory. :)
+{
+ Unpress(1);
+ For(i=0; i<numbombs; i++)
+ {
+  if(!bombs[i]) //if this bomb isn't active, activate it...
+  {
+   //store where the bomb is.
+   bombx[i]=entity.tx[player];
+   bomby[i]=entity.ty[player];
+   size[i]=bombsize; //set the size of the explosion
+   SetTile(bombx[i],bomby[i], 3, 72); //draw the bomb
+   SetTile(bombx[i],bomby[i], 6, 1); //set as obstruction
+   bombs[i]=1; //bomb is now active >:)
+   return; //make sure only one bomb gets set.
+  }
+ }
+}
+
+void ExplodeCenter(int index) //center explosion
+{
+ int e;
+ //if there is no explosion already here, draw the tile.
+ if(!CheckForExplosion(bombx[index], bomby[index])) SetTile(bombx[index], bomby[index],1, 75+(bombtimer[index]/8));
+ for(e=0; e<maxents; e++) //check for entity collisions.
+ {
+  if(entity.tx[e]=bombx[index] && entity.ty[e]=bomby[index] && !hit[e] && !hittimer[e] && entity.on[e]) //same location, entity isn't hit, and it's still alive.
+  {
+   hit[e]++; //entity is hit.
+   entity.speed[e]=9; //set to 9 to freeze the entity.
+  }
+ }
+}
+
+void ExplodeUp(int index) //exploding up.
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++) //draw each explosion tile indivually.
+ {
+  x=bombx[index]; y=bomby[index]-a; //Set the x/y location of this tile.
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74) //bomb here, so blow it up!
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190; //the bomb will explode very soon..
+  }
+  if(GetTile(x, y, 3)=204) //explodable tile here!
+  {
+   AddBlock(index, x, y); //make this block explode.
+   if(bombpower) SetTile(x,y,6,0); //if the player has the powerup, allow the explosion to go through the block by setting it as no obstruction.
+  }
+  if(GetTile(x, y, 6)=0) //no obstruction
+  {
+   if(a=size[index]) SetTile(x, y,1, 111+(bombtimer[index]/8)); //last tile of the explosion, so make it an end explosion tile.
+   else SetTile(x, y,1, 99+(bombtimer[index]/8)); //normal explosion tile
+  }
+  else a=size[index]+1; //there was an obstruction, so get out of the loop.
+  for(e=0; e<maxents; e++) //check for entity collisions.
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e]  && entity.on[e])
+   {
+    hit[e]++; entity.speed[e]=9;
+   }
+  }
+ }
+}
+
+//from this point the comments are the same as above so I won't bother repeating them.
+
+void ExplodeDown(int index)
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++)
+ {
+  x=bombx[index]; y=bomby[index]+a;
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74)
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190;
+  }
+  if(GetTile(x, y, 3)=204)
+  {
+   AddBlock(index, x, y);
+   if(bombpower) SetTile(x,y,6,0);
+  }
+  if(GetTile(x, y, 6)=0)
+  {
+   if(a=size[index]) SetTile(x, y,1, 135+(bombtimer[index]/8));
+   else SetTile(x, y,1, 99+(bombtimer[index]/8));
+  }
+  else a=size[index]+1;
+  for(e=0; e<maxents; e++)
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e] && entity.on[e])
+   {
+    hit[e]++; entity.speed[e]=9;
+   }
+  }
+ }
+}
+
+void ExplodeLeft(int index)
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++)
+ {
+  x=bombx[index]-a; y=bomby[index];
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74)
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190;
+  }
+  if(GetTile(x, y, 3)=204)
+  {
+   AddBlock(index, x, y);
+   if(bombpower) SetTile(x,y,6,0);
+  }
+  if(GetTile(x, y, 6)=0)
+  {
+   if(a=size[index]) SetTile(x, y,1, 147+(bombtimer[index]/8));
+   else SetTile(x, y, 1, 87+(bombtimer[index]/8));
+  }
+  else a=size[index]+1;
+  for(e=0; e<maxents; e++)
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e]  && entity.on[e] && entity.on[e])
+   {
+    hit[e]++; entity.speed[e]=9;
+   }
+  }
+ }
+}
+
+void ExplodeRight(int index)
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++)
+ {
+  x=bombx[index]+a; y=bomby[index];
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74)
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190;
+  }
+  if(GetTile(x, y, 3)=204)
+  {
+   AddBlock(index, x, y);
+   if(bombpower) SetTile(x,y,6,0);
+  }
+  if(GetTile(x, y, 6)=0)
+  {
+   if(a=size[index]) SetTile(x, y,1, 123+(bombtimer[index]/8));
+   else SetTile(x, y,1, 87+(bombtimer[index]/8));
+  }
+  else a=size[index];
+  for(e=0; e<maxents; e++)
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e] && entity.on[e])
+   {
+    hit[e]++; entity.speed[e]=9;
+   }
+  }
+ }
+}
+
+void AddBlock(int index, int x, int y) //sets a block to be exploding.
+{
+ int z;
+ if(bombtimer[index]=0) //make sure this block isn't already exploding.
+ {
+  For(z=0; z<maxbombs; z++)
+  {
+   if(!block[z]) //this "explosion" slot is available.
+   {
+    blocktimer[z]=0; //reset the timer
+    blockx[z]=x; //store the location.
+    blocky[z]=y;
+    block[z]=1; //block is exploding.
+    return; //make sure only one block is set.
+   }
+  }
+ }
+}
+
+int CheckForExplosion(int x, int y) //checks if there's already an explosion at this spot.
+{
+ int G; G=Gettile(x,y,1); //get what's at this location.
+ if(G=0 || G=86 || G=98 || G=110 || G=122 || G=134 || G=146 || G=158) return 0; //any of the above are "blank" tiles.
+ else return 1; //explosion must be here.
+}
+
+void ClearLayer(int layer) //clears a map layer. Used for "erasing" bomb explosions.
+{
+ int x, y;
+ For(X=0; X<map_width; X++)
+ {
+  For(Y=0; Y<map_height; Y++)
+  {
+   SetTile(x,y,layer,0);
+  }
+ }
+}
+
+int FindBomb(int x, int y) //finds the bomb at these x/y coords.
+{
+ int i;
+ for(i=0; i<maxbombs; i++)
+ {
+  if(bombx[i]=x && bomby[i]=y) return i;
+ }
+ return 0-1;
+}
+
+int FindEnt(int x, int y) //finds the entity at these x/y coords.
+{
+ int i;
+ for(i=0; i<numents; i++)
+ {
+  if(entity.tx[i]=x && entity.ty[i]=y) return i;
+ }
+ return 0-1;
+}
+
+void RandomMap() //Creates the random maps for battle mode.
+{
+ int x, y;
+ for(x=2; x<=16; x++)
+ {
+  for(y=2; y<=12; y++)
+  {
+   If(GetTile(x,y,7) !=255 && !GetTile(x,y,6) && Random(10)>=5) //no reserved zone here, no obstruction here, and the random condition is met.
+   {
+    SetTile(x,y,3,204); //put explodable block here.
+    SetTile(x,y,6,1); //set as obstruction.
+   }
+  }
+ }
+}
+
+//Misc functions.
+
+void Warp(int x, int y)
+{
+ entity.tx[player]=x;
+ entity.x[player]=x*16;
+ entity.ty[player]=y;
+ entity.y[player]=y*16;
+}
+
+void FadeOut() {
+  for(A=63; A>0; A--)
+ {
+  PaletteMorph(0,0,0,0,A);
+  Delay(1);
+ }
+}
+
+void FadeIn()
+{
+ For(A=0; A<63; A++)
+ {
+  PaletteMorph(0,0,0,0,A);
+  Delay(1);
+ }
+}
+
+void Delay(int d) //A short delay function. (note that it completely freezes the engine; nothing is redrawn.)
+{
+ timer=0;
+ while(timer<d) { }
+ timer=0;
+}
+
+//EOF

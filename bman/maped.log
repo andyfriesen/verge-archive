@@ -1,0 +1,12 @@
+GetConfig
+LoadTransTbl
+RegisterModLoaders
+RegisterSndDrivers
+Initialize snd lib
+Initialize CD audio
+Initialize timer
+Initialize video
+Initialize mouse
+Initialize keyboard IRQ handler
+Initializing map data
+Entering main loop

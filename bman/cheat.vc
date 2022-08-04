@@ -1,0 +1,235 @@
+string KeyPress, LastKey, Input, Output;
+int xx, Anim, Caps, Over, Code[2], Speed[256];
+
+void CheatInput()
+ {
+  int i; string Text, Temp;
+  HookRetrace(0);
+  PauseAllEnts();
+  UnpressAll();
+  for (Input = "", xx = 0; !B1; Anim++)
+   {
+    Render();
+    RectFill(0, 0, ScreenX - 1, FontHeight(0) + 5, 15);
+    Rect(1, 1, ScreenX - 1, FontHeight(0) + 5, 10);
+    Rect(0, 0, ScreenX - 2, FontHeight(0) + 4, 20);
+    Rect(0, 0, ScreenX - 1, FontHeight(0) + 5, 0);
+    if (Anim = 50) Anim = 0;
+    if (Left && xx)
+     {
+      Anim = 0;
+      if (!Key[29]) xx--;
+      else for (xx = xx; xx > 0 && StrCmp(Mid(Input, xx - 1, 1), " "); xx--) { }
+      Unpress(7);
+     }
+    if (Right && xx < StrLen(Input))
+     {
+      Anim = 0;
+      if (!Key[29]) xx++;
+      else for (xx = xx; xx < StrLen(Input) && StrCmp(Mid(Input, xx, 1), " "); xx++) { }
+      Unpress(8);
+     }
+    if (Key[71])
+     {
+      Anim = 0;
+      xx = 0;
+      Depress(71);
+     }
+    if (Key[79])
+     {
+      Anim = 0;
+      xx = StrLen(Input);
+      Depress(79);
+     }
+    if (Key[83] && xx < StrLen(Input))
+     {
+      Anim = 0;
+      if (!Over) Text = Left(Input, xx) + Right(Input, StrLen(Input) - xx - 1);
+      else Text = Left(Input, xx) + " " + Right(Input, StrLen(Input) - xx - 1);
+      Input = Text;
+      Depress(83);
+     }
+    if (Key[14] && xx)
+     {
+      if (!Over) Text = Left(Input, xx - 1) + Right(Input, StrLen(Input) - xx);
+      else Text = Left(Input, xx - 1) + " " + Right(Input, StrLen(Input) - xx);
+      xx--;
+      Input = Text;
+      Depress(14);
+     }
+    if (Anim < 25)
+     {
+      SetLucent(1);
+      if (!Over) vLine(xx * FontWidth(0) + 3, 2, 3 + FontHeight(0), 255);
+      else RectFill(xx * FontWidth(0) + 3, 2, 1 + xx * FontWidth(0) + 2, 3 + FontHeight(0), 40);
+      SetLucent(0);
+     }
+    if (Key[58]) { if (!Caps) Caps++; else Caps--; Depress(58); }
+    if (Key[82]) { if (!Over) Over++; else Over--; Depress(82); }
+    GetLetters(0);
+    GetSymbols1();
+    if (Key[42] || Key[54] && !Caps) GetLetters(1);
+    if (!Key[42] && !Key[54] && Caps) GetLetters(1);
+    if (Key[42] || Key[54]) GetSymbols2();
+    if (Key[57]) KeyPress = " ";
+    UpC(LastKey);
+    Temp = Output;
+    UpC(KeyPress);
+    if (!StrCmp(Output, Temp)) KeyPress = "";
+    else LastKey = KeyPress;
+    if (!Over || !StrCmp(KeyPress, "")) Text = Left(Input, xx) + KeyPress + Right(Input, StrLen(Input) - xx);
+    else Text = Left(Input, xx) + KeyPress + Right(Input, StrLen(Input) - xx - 1);
+    Input = Text;
+    if (StrCmp(KeyPress, "")) xx++;
+    Print(3, 3, Input);
+    ShowPage(); UpdateControls();
+   }
+  Unpress(1);
+  UpC(Input);
+  if (!StrCmp(Output, "PHOENIX HAPPY")) if (!Code[0]) Code[0]++; else Code[0]--;
+  if (!StrCmp(Output, "THERE CAN ONLY BE ONE") && !Code[1])
+   {
+    for (i = 0; i < NumEnemies; i++) Hit[i]++;
+    Code[1]++;
+   }
+  if (!StrCmp(Output, "SWEET REVENGE"))
+   {
+    SetPlayer(Random(NumEnts - 1));
+    Entity.x[Player] = Entity.Tx[Player] * 16;
+    Entity.y[Player] = Entity.Ty[Player] * 16;
+   }
+  if (!StrCmp(Output, "NAPALM")) BombSize = MaxSize;
+  if (!StrCmp(Output, "ARSENAL")) NumBombs = MaxBombs;
+  UnpauseAllEnts();
+  HookRetrace(Main);
+ }
+
+void GetLetters(int c)
+ {
+  if (Key[16]) KeyPress = Chr(Asc("q") - OnlyIf(c, 32));
+  if (Key[17]) KeyPress = Chr(Asc("w") - OnlyIf(c, 32));
+  if (Key[18]) KeyPress = Chr(Asc("e") - OnlyIf(c, 32));
+  if (Key[19]) KeyPress = Chr(Asc("r") - OnlyIf(c, 32));
+  if (Key[20]) KeyPress = Chr(Asc("t") - OnlyIf(c, 32));
+  if (Key[21]) KeyPress = Chr(Asc("y") - OnlyIf(c, 32));
+  if (Key[22]) KeyPress = Chr(Asc("u") - OnlyIf(c, 32));
+  if (Key[23]) KeyPress = Chr(Asc("i") - OnlyIf(c, 32));
+  if (Key[24]) KeyPress = Chr(Asc("o") - OnlyIf(c, 32));
+  if (Key[25]) KeyPress = Chr(Asc("p") - OnlyIf(c, 32));
+  if (Key[30]) KeyPress = Chr(Asc("a") - OnlyIf(c, 32));
+  if (Key[31]) KeyPress = Chr(Asc("s") - OnlyIf(c, 32));
+  if (Key[32]) KeyPress = Chr(Asc("d") - OnlyIf(c, 32));
+  if (Key[33]) KeyPress = Chr(Asc("f") - OnlyIf(c, 32));
+  if (Key[34]) KeyPress = Chr(Asc("g") - OnlyIf(c, 32));
+  if (Key[35]) KeyPress = Chr(Asc("h") - OnlyIf(c, 32));
+  if (Key[36]) KeyPress = Chr(Asc("j") - OnlyIf(c, 32));
+  if (Key[37]) KeyPress = Chr(Asc("k") - OnlyIf(c, 32));
+  if (Key[38]) KeyPress = Chr(Asc("l") - OnlyIf(c, 32));
+  if (Key[44]) KeyPress = Chr(Asc("z") - OnlyIf(c, 32));
+  if (Key[45]) KeyPress = Chr(Asc("x") - OnlyIf(c, 32));
+  if (Key[46]) KeyPress = Chr(Asc("c") - OnlyIf(c, 32));
+  if (Key[47]) KeyPress = Chr(Asc("v") - OnlyIf(c, 32));
+  if (Key[48]) KeyPress = Chr(Asc("b") - OnlyIf(c, 32));
+  if (Key[49]) KeyPress = Chr(Asc("n") - OnlyIf(c, 32));
+  if (Key[50]) KeyPress = Chr(Asc("m") - OnlyIf(c, 32));
+ }
+
+void GetSymbols1()
+ {
+  if (Key[12]) KeyPress = "-";
+  if (Key[13]) KeyPress = "=";
+  if (Key[43]) KeyPress = "\";
+  if (Key[26]) KeyPress = "[";
+  if (Key[27]) KeyPress = "]";
+  if (Key[39]) KeyPress = ";";
+  if (Key[40]) KeyPress = "'";
+  if (Key[41]) KeyPress = "`";
+  if (Key[51]) KeyPress = ",";
+  if (Key[52]) KeyPress = ".";
+  if (Key[53]) KeyPress = "/";
+  if (Key[2])  KeyPress = "1";
+  if (Key[3])  KeyPress = "2";
+  if (Key[4])  KeyPress = "3";
+  if (Key[5])  KeyPress = "4";
+  if (Key[6])  KeyPress = "5";
+  if (Key[7])  KeyPress = "6";
+  if (Key[8])  KeyPress = "7";
+  if (Key[9])  KeyPress = "8";
+  if (Key[10]) KeyPress = "9";
+  if (Key[11]) KeyPress = "0";
+ }
+
+void GetSymbols2()
+ {
+  if (Key[2])  KeyPress = "!";
+  if (Key[3])  KeyPress = "@";
+  if (Key[4])  KeyPress = "#";
+  if (Key[5])  KeyPress = "$";
+  if (Key[6])  KeyPress = "%";
+  if (Key[7])  KeyPress = "^";
+  if (Key[8])  KeyPress = "&";
+  if (Key[9])  KeyPress = "*";
+  if (Key[10]) KeyPress = "(";
+  if (Key[11]) KeyPress = ")";
+  if (Key[12]) KeyPress = "_";
+  if (Key[13]) KeyPress = "+";
+  if (Key[14]) KeyPress = "|";
+  if (Key[26]) KeyPress = Chr(123);
+  if (Key[27]) KeyPress = Chr(125);
+  if (Key[39]) KeyPress = ":";
+  if (Key[40]) KeyPress = Chr(34);
+  if (Key[41]) KeyPress = "~";
+  if (Key[43]) KeyPress = "|";
+  if (Key[51]) KeyPress = "<";
+  if (Key[52]) KeyPress = ">";
+  if (Key[53]) KeyPress = "?";
+ } 
+
+int OnlyIf(int a, int b)
+ {
+  if (a) return b;
+  return 0;
+ }
+
+void Print(int x, int y, string Text)
+ {
+  GotoXY(x, y); PrintString(0, Text);
+ }
+
+void Depress(int ScanCode)
+ {
+  Key[ScanCode] = 0;
+ }
+
+void UnpressAll()
+ {
+  int i;
+  for (i = 1; i <= 101; i++) Key[i] = 0;
+ }
+
+void UpC(string Text)
+ {
+  int i;
+  Output = "";
+  for (i = 0; i < StrLen(Text); i++)
+   {
+    if (Asc(Mid(Text, i, 1)) > 96 && Asc(Mid(Text, i, 1)) < 123) Output = Output + Chr(Asc(Mid(Text, i, 1)) - 32);
+    else Output = Output + Mid(Text, i, 1);
+   }
+ }
+
+void PauseAllEnts()
+ {
+  int i;
+  for (i = 0; i < NumEnts; i++)
+   {
+    Speed[i] = Entity.Speed[i];
+    Entity.Speed[i] = 9;
+   }
+ }
+
+void UnpauseAllEnts()
+ {
+  int i;
+  for (i = 0; i < NumEnts; i++) Entity.Speed[i] = Speed[i];
+ }

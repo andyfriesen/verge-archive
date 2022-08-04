@@ -1,0 +1,475 @@
+void Main() //called every retrace.
+{
+ int done;
+ while(!done)
+ {
+ while(!timer) { }
+ t=timer; timer=0; //start timing. t stores the amount of time since the last frame.
+ UpdateControls();
+ Tpents();
+ Render();
+// Changed By Ear 5-9-00 // - // MAIN CONSOLE //////////////////////////////////////////////////
+// RectFill(0, 0, ScreenX - 1, FontHeight(0) + 5, 20); 
+// Rect(1, 1, ScreenX - 1, FontHeight(0) + 5, 25);
+// Rect(0, 0, ScreenX - 2, FontHeight(0) + 4, 15);
+// Rect(0, 0, ScreenX - 1, FontHeight(0) + 5, 0);
+ tCopySprite(3, 3, 7, 7, cIMG[0]);
+ tCopySprite(StrLen(Str(Lives)) + 5 * FontWidth(0) + 12, 3, 8, 8, cIMG[1]);
+ tCopySprite(StrLen(Str(Lives)) + StrLen(Str(BombSize)) + 11 * FontWidth(0) + 12, 3, 7, 7, cIMG[2]);
+ Print(12, 3, ": " + Str(Lives));
+ Print(StrLen(Str(Lives)) + 3 * FontWidth(0) + 12, 3, "/  : " + Str(BombSize));
+ Print(StrLen(Str(Lives)) + StrLen(Str(BombSize)) + 9 * FontWidth(0) + 12, 3, "/  : " + Str(NumBombs));
+ Rect(1, FontHeight(0) + 7, 18, FontHeight(0) + 24, 0);
+ if (BombPower = 1) tCopySprite(2, FontHeight(0) + 8, 16, 16, VSP + (70 * 256));
+////////////////////////////////////////////////////////////////////////////////////////////////
+ MovePlr();
+ DoFrames();
+ //SetLucent(1);
+ //RectFill(entity.tx[plr]<<4, entity.ty[plr]<<4, entity.tx[plr]<<4+16,  entity.ty[plr]<<4+16, 32);
+ //SetLucent(0);
+
+ for(h=0; h<numents; h++) //loop for each entity.
+ {
+  if(h=plr) //special case if the entity is the player.
+  {
+   if(hit[h]) //player is in the middle of dying.
+   {
+    hittimer[h]+=t; //increment his animation timer.
+    entity.specframe[h]=12+(hittimer[h]/10); //draw the appropriate death frame.
+    if(hittimer[h]>=80) //death animation is over.
+    {
+     hit[h]=0; //no longer "hit".
+     nomove=0; //player can move now.
+     warp(startx, starty); //move him back to the map's start location.
+     //reset to beginning conditions.
+     numbombs=1;
+     bombsize=1;
+     bombpower=0;
+     lives--; //decrease number of lives.
+     if(lives=0) Exit("You dead!");
+    }
+   }
+   else //player isn't dying
+   {
+    if(hittimer[plr]) //player recently was hit, so make the flashing effect.
+    {
+     hittimer[plr]+=t; //increment death animation timer.
+     if(hittimer[plr]>=580) { hittimer[plr]=0; entity.visible[plr]=1; } //player is back to normal.
+     else {
+      if(hittimer[plr]%10<5) entity.visible[plr]=0; //blank frame
+      else entity.visible[plr]=1; //normal frame.
+     }
+    }
+    If(B1) LayBomb(); //Lay a bomb!
+    If(B4 && bombkick) { KickBomb(); Unpress(4); }
+   }
+  }
+  else //any other entity
+  {
+   if(hit[h]) //enemy is in the middle of dying.
+   {
+    hittimer[h]+=t; //increment death animation timer.
+    entity.specframe[h]=12+(hittimer[h]/10); //show the proper death frame. :)
+    if(hittimer[h]>=80) //death animation is over.
+    {
+     hittimer[h]=0; //reset timer.
+     hit[h]=0; //enemy's no longer hit.
+     numenemies--; //decrease the number of living enemies.
+     entity.on[h]=0; //enemy is now DEAD! MWAHAHA! >:)
+    }
+   }
+  }
+ }
+ 
+ //at this point, it doesn't matter if the player is alive or dead.
+ For(i=0; i<maxbombs; i++) //Check each bomb.
+ {
+  if(bombs[i]=1) //a bomb is set.
+  {
+   if(entity.tx[plr]!=bombx[i] || entity.ty[plr]!=bomby[i])
+   {
+    SetTile(bombx[i],bomby[i], 6, 1); //set as obstruction only when the player has moved off the last bomb he set. 
+   }
+   bombtimer[i]+=t; //increment the bomb timer.
+   if(bombtimer[i]>200) //time for the explosion!
+   {
+    bombmove[i] = 0;
+    bombtimer[i]=0; //reset the timer for next phase.
+    bombs[i]=2; //Go to the next bomb phase.
+    SetTile(bombx[i], bomby[i],3,0); //Erase the bomb.
+   }
+  }
+  if(bombs[i]=2) //bomb is exploding.
+  {
+   bombtimer[i]+=t; //increment the bomb animation timer.
+   //Draw the bomb explosion.
+   ExplodeCenter(i);
+   ExplodeUp(i);
+   ExplodeDown(i);
+   ExplodeLeft(i);
+   ExplodeRight(i);
+   if(bombtimer[i]>88) //explosion is done.
+   {
+    SetTile(bombx[i], bomby[i],6,0); //bomb is no longer an obstruction.
+    bombtimer[i]=0;
+    bombs[i]=0; //bomb is no longer active.
+   }
+  }
+  if(bombmove[i])
+  {
+   SlideBomb(i);
+  }
+  //checking blocks now!
+  if(block[i]) //block is exploding!
+  {
+   blocktimer[i]+=t;
+   if(blocktimer[i]>=88) //block is done exploding.
+   {
+    SetTile(blockx[i], blocky[i], 3, 0); //set to blank tile.
+    SetTile(blockx[i], blocky[i], 6, 0); //set to no obstruction.
+    block[i]=0; //no longer exploding.
+   }
+   else SetTile(blockx[i], blocky[i], 3, 204+(blocktimer[i]/8)); //draw disintgrating block animation.
+  }
+ }
+ 
+ if(!numenemies && !enemiesdead)
+ {
+  Hookretrace(0); EndLevel(); enemiesdead++; HookRetrace(Main); // Ear: Do you see a SLIGHT problem here? -_-
+ }
+ //TeleportGFX();  /* Added By Praetor 5-6-00 */
+// Added By Ear 5-9-00 ///////////////////////////
+ if (Key[42] || Key[54] && Key[53]) CheatInput();
+ if (Key[25]) Pause();
+ if (Code[0]) Lives = 3;
+//////////////////////////////////////////////////
+
+ //GotoXY(0, 100); Printstring(0, "frame: "+Str(animframe));
+ ShowScreen();
+ //showpage();
+ }
+}
+
+int obs[8], moving;
+
+void MovePlr()
+{
+ int i;
+
+ if(!nomove)
+ {
+  If(!up && !down && !left && !right) //If the player isn't moving..
+  {
+   moving=0;
+   animframe=0; //Reset the frame counter.
+   entity.specframe[plr]=0; //Set the player to the default frame.
+  }
+
+  If(down)
+  {
+   moving=1;
+   entity.facing[plr]=fdown;
+   for(i=0; i<t; i++) //move him at his speed.
+   {
+    if(!GetTile((entity.x[plr]+8)>>4,(entity.y[plr]+17)>>4,6)) entity.y[plr]++; //If there is no obstruction in front of the character, then move him.
+    else i=t;
+   }
+  }
+
+  If(up)
+  {
+   moving=1;
+   entity.facing[plr]=fup;
+   for(i=0; i<t; i++) //move him at his speed.
+   {
+    if(!GetTile((entity.x[plr]+8)>>4,entity.y[plr]-1>>4,6)) entity.y[plr]--; //If there is no obstruction in front of the character, then move him.
+    else i=t;
+   }
+  }
+
+  If(left)
+  {
+   moving=1;
+   entity.facing[plr]=fleft;
+   for(i=0; i<t; i++) //move him at his speed.
+   {
+    if(!GetTile(entity.x[plr]-1>>4,(entity.y[plr]+8)>>4,6)) entity.x[plr]--; //If there is no obstruction in front of the character, then move him.
+    else i=t;
+   }
+  }
+
+  If(right)
+  {
+   moving=1;
+   entity.facing[plr]=fright;
+   for(i=0; i<t; i++) //move him at his speed.
+   {
+    if(!GetTile((entity.x[plr]+17)>>4,(entity.y[plr]+8)>>4,6)) entity.x[plr]++; //If there is no obstruction in front of the character, then move him.
+    else i=t;
+   }
+  }
+
+  //Update the player's tile coordinates.
+  entity.tx[plr]=(entity.x[plr]+8)>>4;  entity.ty[plr]=(entity.y[plr]+8)>>4;
+ }
+}
+
+void DoFrames()
+{
+ animframe+=t; //Update the frame counter.
+ if(animframe>=40) animframe=0; //If it just went through the last frame, then reset it to the beginning.
+
+ if(animframe >=0 && animframe <= 9) entity.specframe[plr]=0+(entity.facing[plr]*3);
+ if(animframe >= 10 && animframe <= 19) entity.specframe[plr]=1+(entity.facing[plr]*3);
+ if(animframe >= 20 && animframe <= 29) entity.specframe[plr]=0+(entity.facing[plr]*3);
+ if(animframe >= 30 && animframe <= 39) entity.specframe[plr]=2+(entity.facing[plr]*3);
+}
+
+// Added By Ear 5-9-00 /////////////////////////////////////
+void Pause()
+ {
+  HookRetrace(0);
+  PauseAllEnts();
+  PaletteMorph(0, 0, 0, 0, 41);
+  UnpressAll();
+  while (!B1 && !Key[25])
+   {
+    Render();
+    RectFill(0, 0, ScreenX - 1, FontHeight(0) + 5, 20);
+    Rect(1, 1, ScreenX - 1, FontHeight(0) + 5, 25);
+    Rect(0, 0, ScreenX - 2, FontHeight(0) + 4, 15);
+    Rect(0, 0, ScreenX - 1, FontHeight(0) + 5, 0);
+    Print(ScreenX - (8 * FontWidth(0)) / 2, 3, "-PAUSED-");
+    UpdateControls();
+    ShowPage();
+   }
+  UnpressAll();
+  PaletteMorph(0, 0, 0, 0, 63);
+  UnpauseAllEnts();
+  HookRetrace(Main);
+ }
+////////////////////////////////////////////////////////////
+
+void EndLevel()
+{
+ int m;
+ tzone=2;
+ for(m=0; m<=8; m++) { SetTile(endx, endy, 2, 225+m); RDelay(8); }
+}
+
+void LayBomb() //self explanatory. :)
+{
+ int i;
+ Unpress(1);
+ For(i=0; i<numbombs; i++)
+ {
+  if(!bombs[i]) //if this bomb isn't active, activate it...
+  {
+   //store where the bomb is.
+   bombx[i]=entity.tx[plr];
+   bomby[i]=entity.ty[plr];
+   size[i]=bombsize; //set the size of the explosion
+   SetTile(bombx[i],bomby[i], 3, 72); //draw the bomb
+   //SetTile(bombx[i],bomby[i], 6, 1); //set as obstruction
+   bombs[i]=1; //bomb is now active >:)
+   return; //make sure only one bomb gets set.
+  }
+ }
+}
+
+void SetBomb(int x, int y)
+{
+ For(s=0; s<maxbombs; s++)
+ {
+  if(!bombs[s]) //if this bomb isn't active, activate it...
+  {
+   //store where the bomb is.
+   bombx[s]=x;
+   bomby[s]=y;
+   size[s]=2; //set the size of the explosion
+   SetTile(x, y, 7, 0); //remove the zone.
+   SetTile(x, y, 3, 72); //draw bomb
+   bombs[s]=1; //bomb is exploding.
+   bombtimer[s]=190; //almost about to explode.
+   return; //make sure only one bomb gets set.
+  }
+ }
+}
+
+void ExplodeCenter(int index) //center explosion
+{
+ int e;
+ //if there is no explosion already here, draw the tile.
+ if(!CheckForExplosion(bombx[index], bomby[index])) TCopySprite(bombx[index]<<4, bomby[index]<<4, 16, 16, vsp+(75+(bombtimer[index]/8)<<8));
+ for(e=0; e<maxents; e++) //check for entity collisions.
+ {
+  if(entity.tx[e]=bombx[index] && entity.ty[e]=bomby[index] && !hit[e] && !hittimer[e] && entity.on[e]) //same location, entity isn't hit, and it's still alive.
+  {
+   hit[e]++; //entity is hit.
+   if(e=plr) nomove=1; //entity was the player, so make him not able to move.
+  }
+ }
+}
+
+void ExplodeUp(int index) //exploding up.
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++) //draw each explosion tile indivually.
+ {
+  x=bombx[index]; y=bomby[index]-a; //Set the x/y location of this tile.
+  if(GetTile(x, y, 7)=4) //unlit bomb here... so light it!
+  {
+   SetBomb(x,y);
+   a=size[index]+1;
+  }
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74) //bomb here, so blow it up!
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190; //the bomb will explode very soon..
+  }
+  if(GetTile(x, y, 3)=204) //explodable tile here!
+  {
+   AddBlock(index, x, y); //make this block explode.
+   if(bombpower) SetTile(x,y,6,0); //if the player has the powerup, allow the explosion to go through the block by setting it as no obstruction.
+  }
+  if(GetTile(x, y, 6)=0) //no obstruction
+  {
+   if(a=size[index]) 
+   TCopySprite(x<<4, y<<4,16,16, vsp+(111+(bombtimer[index]/8)<<8)); //last tile of the explosion, so make it an end explosion tile.
+   else TCopySprite(x<<4, y<<4,16,16, vsp+(99+(bombtimer[index]/8)<<8)); //normal explosion tile
+  }
+  else a=size[index]+1; //there was an obstruction, so get out of the loop.
+  for(e=0; e<maxents; e++) //check for entity collisions.
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e]  && entity.on[e])
+   {
+    hit[e]++; if(e=plr) nomove=1; //entity was the player, so make him not able to move.
+   }
+  }
+ }
+}
+
+//from this point the comments are the same as above so I won't bother repeating them.
+
+void ExplodeDown(int index)
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++)
+ {
+  x=bombx[index]; y=bomby[index]+a;
+  if(GetTile(x, y, 7)=4)
+  {
+   SetBomb(x,y);
+   a=size[index]+1;
+  }
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74)
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190;
+  }
+  if(GetTile(x, y, 3)=204)
+  {
+   AddBlock(index, x, y);
+   if(bombpower) SetTile(x,y,6,0);
+  }
+  if(GetTile(x, y, 6)=0)
+  {
+   if(a=size[index]) TCopySprite(x<<4, y<<4,16,16, vsp+(135+(bombtimer[index]/8)<<8));
+   else TCopySprite(x<<4, y<<4,16, 16, vsp+(99+(bombtimer[index]/8)<<8));
+  }
+  else a=size[index]+1;
+  for(e=0; e<maxents; e++)
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e] && entity.on[e])
+   {
+    hit[e]++; if(e=plr) nomove=1;
+   }
+  }
+ }
+}
+
+void ExplodeLeft(int index)
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++)
+ {
+  x=bombx[index]-a; y=bomby[index];
+  if(GetTile(x, y, 7)=4)
+  {
+   SetBomb(x,y);
+   a=size[index]+1;
+  }
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74)
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190;
+  }
+  if(GetTile(x, y, 3)=204)
+  {
+   AddBlock(index, x, y);
+   if(bombpower) SetTile(x,y,6,0);
+  }
+  if(GetTile(x, y, 6)=0)
+  {
+   if(a=size[index]) TCopySprite(x<<4, y<<4,16,16, vsp+(147+(bombtimer[index]/8)<<8));
+   else SetTile(x, y, 1, 87+(bombtimer[index]/8));
+  }
+  else a=size[index]+1;
+  for(e=0; e<maxents; e++)
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e]  && entity.on[e] && entity.on[e])
+   {
+    hit[e]++; if(e=plr) nomove=1;
+   }
+  }
+ }
+}
+
+void ExplodeRight(int index)
+{
+ int x, y, e;
+ for(a=1; a<=size[index]; a++)
+ {
+  x=bombx[index]+a; y=bomby[index];
+  if(GetTile(x, y, 7)=4)
+  {
+   SetBomb(x,y);
+   a=size[index]+1;
+  }
+  if(GetTile(x, y, 3)>=72 && GetTile(x, y, 3)<=74)
+  {
+   if(bombtimer[FindBomb(x,y)]<190) bombtimer[FindBomb(x,y)]=190;
+  }
+  if(GetTile(x, y, 3)=204)
+  {
+   AddBlock(index, x, y);
+   if(bombpower) SetTile(x,y,6,0);
+  }
+  if(GetTile(x, y, 6)=0)
+  {
+   if(a=size[index]) TCopySprite(x<<4, y<<4,16,16, vsp+(123+(bombtimer[index]/8)<<8));
+   else TCopySprite(x<<4, y<<4,16,16, vsp+(87+(bombtimer[index]/8)<<8));
+  }
+  else a=size[index];
+  for(e=0; e<maxents; e++)
+  {
+   if(entity.tx[e]=x && entity.ty[e]=y && !hit[e] && !hittimer[e] && entity.on[e])
+   {
+    hit[e]++; if(e=plr) nomove=1;
+   }
+  }
+ }
+}
+
+int Myscreen;
+
+void ShowScreen()
+{
+ if(!res) { Showpage(); }
+ else
+ {
+  RestoreRenderSettings();
+  ScaleSprite(0,0,320, 240, 640, 480, Myscreen);
+  
+  Showpage();
+  SetRenderDest(320, 240, Myscreen);
+  SetCLipRect(0, 0, 320, 240);
+ }
+}

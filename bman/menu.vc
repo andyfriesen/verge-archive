@@ -1,0 +1,85 @@
+int image, pointer, pimage, wdot, o, timg[10], res; //misc variables for titlescreen. :)
+
+void MainMenu()
+{
+ image=LoadImage("title640.gif");
+ pimage=LoadImage("dothi.gif"):
+ wdot=LoadImage("wdothi.gif");
+ timg[0]=LoadImage("newhi.gif");
+ timg[1]=LoadImage("continhi.gif");
+ timg[2]=LoadImage("optionhi.gif");
+ timg[3]=LoadImage("exithi.gif");
+ timg[4]=LoadImage("roptions.gif");
+ timg[5]=LoadImage("hires.gif");
+ timg[6]=LoadImage("bhires.gif");
+ timg[7]=LoadImage("lores.gif");
+ timg[8]=LoadImage("blores.gif");
+ PaletteMorph(0,0,0,0,63);
+ While(1)
+ {
+  UpdateControls();
+  CopySprite(0,0, 640, 480, image);
+  For(o=0; o<4; o++)
+  {
+   CopySprite(0,124+(72*o), 224, 56, timg[o]);
+   CopySprite(14, 142+(72*o), 18, 18, wdot);
+  }
+  TcopySprite(14, 142+(72*pointer), 18, 18, pimage);
+  ShowPage();
+  If (up)
+  {
+   Unpress(5);
+   pointer--;
+   if(pointer<0) pointer=3;
+  }
+  if(down)
+  {
+   pointer++;
+   Unpress(6);
+   if(pointer>3) pointer=0;
+  }
+  If(B1)
+  {
+   Unpress(1);
+   switch(pointer)
+   {
+    case 0:  Fadeout(); LoadConsoleImages(); If(!res) SetResolution(320, 240); else SetResolution(640, 480); Map("1.map");
+    case 1:  FadeOut(); LoadConsoleImages(); If(!res) SetResolution(320, 240); else SetResolution(640, 480); Map("battle.map");
+    case 2:  Options();
+    case 3:  Exit("Bye!");
+   }
+  }
+ }
+}
+
+void Options()
+{
+ int pointerx, pointery;
+ pointerx=res;
+ While(1)
+ {
+  UpdateControls();
+  CopySprite(0,0, 640, 480, image);
+  CopySprite(0,80, 229, 89, timg[4]);
+  if(right) { pointerx++; if(pointerx>1) pointerx=0; Unpress(8); }
+  if(left) { pointerx--; if(pointerx<0) pointerx=1; Unpress(7); }
+  if(!pointerx)
+  {
+   CopySprite(24, 184, 77, 17, timg[8]);
+   CopySprite(132, 184, 77, 17, timg[5]);
+  }
+  else
+  {
+   CopySprite(24, 184, 77, 17, timg[7]);
+   CopySprite(132, 184, 77, 17, timg[6]);
+  }
+  ShowPage();
+  If(b1)
+  {
+   unpress(1);
+   res=pointerx;
+   return;
+  }
+ }
+}
+

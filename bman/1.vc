@@ -1,0 +1,113 @@
+event //0 - Autoexec
+{
+ cameratracking=0;
+ numenemies=numents; //set the number of enemies on the map.
+ //set where the plr is to start.
+ enemiesdead=0;
+ startx=1;
+ starty=2;
+ //location of end teleporter.
+ endx=10;
+ endy=5;
+ FindPorters(map_width, map_height);
+
+ if(res) 
+ { 
+  if(!Myscreen) Myscreen=Malloc(320*240);
+  SetRenderDest(320, 240, Myscreen);
+  SetCLipRect(0, 0, 320, 240);
+ }
+ PaletteMorph(0,0,0,0,0);
+ Render(); ShowScreen(); //Show the map when fading in.
+ //Render(); ShowPage(); //Show the map when fading in.
+ FadeIn(); //fade in :)
+ //SetPlayer(EntitySpawn(startx,starty, "white.chr")); //create the plr.
+ plr=EntitySpawn(startx,starty, "white.chr"); //create the plr.
+ hittimer[plr]=80; //start off invincible.
+ //PlayMusic("bomb003.it");
+ WarpIn();
+ //HookRetrace(Main); //start the game!
+ Main();
+}
+
+event //1 - Hit by enemy!
+{
+ if(!hit[plr] && !hittimer[plr]) //Hit the plr only if he isn't already hit, and he wasn't recently hit.
+ {
+  hit[plr]=1; nomove=1;
+ }
+}
+
+event //2 - End of level teleporter.
+{
+ If(numenemies=0)
+ {
+  HookRetrace(0);
+  Curlevel++;
+  WinAnimation();
+  Fadeout();
+  Map(Str(Curlevel)+".map");
+ }
+}
+
+event // 3 - Inlevel teleporter.
+{
+
+}
+
+event // 4 - Unlit bomb
+{
+
+
+}
+
+event // 5 -
+{
+
+}
+
+event // 6 -
+{
+}
+
+event // 7 -
+{
+}
+
+event // 8 -
+{
+}
+
+event // 9 -
+{
+}
+
+event //10 - numbombs ++
+{
+ if(numbombs<pmaxbombs) numbombs++;
+ SetTile(entity.tx[plr], entity.ty[plr], 2, 0);
+ SetTile(entity.tx[plr], entity.ty[plr], 7, 0);
+}
+
+event //11 - Bomb size ++
+{
+ if(bombsize<maxsize) bombsize++;
+ SetTile(entity.tx[plr], entity.ty[plr], 2, 0);
+ SetTile(entity.tx[plr], entity.ty[plr], 7, 0);
+}
+
+event //12 - Stronger bombs!
+{
+ BombPower=1;
+ SetTile(entity.tx[plr], entity.ty[plr], 2, 0);
+ SetTile(entity.tx[plr], entity.ty[plr], 7, 0);
+}
+
+event //13 - Bomb kicking!
+{
+ BombKick=1;
+ SetTile(entity.tx[plr], entity.ty[plr], 2, 0);
+ SetTile(entity.tx[plr], entity.ty[plr], 7, 0);
+}
+
+//EOF
