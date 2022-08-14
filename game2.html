@@ -78,7 +78,7 @@
 <body>
     <div class="vergeContainer">
         <div id="canvasContainer">
-            <canvas id="vergeCanvas" width="320" height="200"></canvas>
+            <canvas id="vergeCanvas" width="320" height="200" tabindex="1"></canvas>
         </div>
         <div id='loadingProgress'><div></div></div>
         <footer>
@@ -160,6 +160,7 @@
             document.addEventListener('keydown', (e) => {
                e.preventDefault();
             });
+
 
             const u = new URLSearchParams(window.location.search);
             let game = u.get('game') || 'zeux';
