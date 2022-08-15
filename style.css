@@ -21,6 +21,14 @@
     overflow-y: auto;
 }
 
+.app .game-list .entry.v1 {
+    color: #a8cca0;
+}
+
+.app .game-list .entry.v2 {
+    color: #a8a0cc;
+}
+
 .app .game-list .entry:hover {
     text-decoration: underline;
     cursor: pointer;
