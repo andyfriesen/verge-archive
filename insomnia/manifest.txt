@@ -114,7 +114,6 @@ tempf.pcx
 tempfem.pcx
 tempo1.pcx
 test.rgn
-thumbs.db
 trans.tbl
 user.cfg
 user.cfg.txt
