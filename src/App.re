@@ -164,12 +164,12 @@ let games: array(Game.game) = [|
         description: "2nd Jimmy Bong compo game by Eldritch / GameMaster Ben. ",
         engine: Game.V2,
     },
-    // {
-    //     name: "tcod",
-    //     title: "The Curse of Dragmoria",
-    //     description: "TODO",
-    //     engine: Game.V2,
-    // },
+    {
+        name: "tcod",
+        title: "The Curse of Dragmoria",
+        description: "TODO",
+        engine: Game.V2,
+    },
     {
         name: "mannux",
         title: "Mannux",
