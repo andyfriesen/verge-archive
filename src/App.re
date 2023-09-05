@@ -43,6 +43,12 @@ let games: array(Game.game) = [|
         engine: Game.V1,
     },
     {
+        name: "lunarz",
+        title: "Lunar Z",
+        description: "Lunar inspired demo by Tempest.",
+        engine: Game.V1,
+    },	
+    {
         name: "phage",
         title: "PHAGE: Rhapsody",
         description: "Gregory 'GMW' Walpole made this full-blown RPG in 2001.  The story is darker than it looks.",

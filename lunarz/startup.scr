@@ -1,0 +1,19 @@
+playmusic apetecan.xm
+showpcx verge320.pcx 45
+wait 91
+fadeout 45
+showpcx credits.pcx 45
+wait 220
+fadeout 45
+showpcx intro1.pcx 45
+wait 190
+fadeout 45
+showpcx intro2.pcx 45
+wait 190
+fadeout 45
+showpcx intro3.pcx 45
+wait 190
+fadeout 45
+showpcx lunar-00.pcx 45
+wait 180
+end
