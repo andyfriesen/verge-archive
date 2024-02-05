@@ -1,0 +1,20 @@
+0
+
+Item_Name <#icon> Item_Description <use> <useeffect> <type> <equipflag> <equipidx> <mp cost> <price>
+
+<use>: 2 for usable an infinite number of times.
+       4 for usable ONLY camped, infinitely
+       6 for usable in combat only, indefinetly.
+<useeffect>: an index to MAGIC.VC
+<type>: one of the following
+        0 for OS. (Own Self)
+        1 for 1A. (One Ally)
+        2 for AA. (All Allies)
+        3 for 1E. (One Enemy)
+        4 for AE. (All Enemy)
+<equipflag>: This is vestigal data.                                                                      
+<equipidx> is a pointer to MAGICEQ.DAT when necessary.
+<mp cost>: This is the cost in mp for the spell
+<price>: This is the cost in stores for the spell
+
+

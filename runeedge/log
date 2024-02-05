@@ -1,0 +1,62 @@
+Changelog from 10/13/97 to 12/24/97:
+ - Bugfix: Fixed problems with writing to CurHp/MaxHp/CurMp/MaxMP values.
+ - MapEd: Fixed up font a bit; Added Current Tile number to editing view;
+          Fixed up speed-scroll keys (PGUP,PGDN,HOME,END);
+          F12 now dumps a PCX of your VSP...
+ - MapEd: F11 now dumps a MINIMAP.PCX, which is just how it sounds. Each tile
+          is represented by one pixel. If you have map that's 100x100 TILES
+          the resulting PCX will be 100x100 pixels. MapEd has a hard time
+          deciding what color ONE pixel should be to best represent an entire
+          16x16 tile, sometimes it doesn't work very well. It works best
+          in a situation like a large overworld. :)
+ - MapEd: Auto 5 minute backup. Every 5 minutes MapEd writes out a $BACKUP$.MAP
+   (doesn't compile VC for the map tho). If something happens to your map while
+   in MapEd, or MapEd crashes after you've been working on a map for hours
+   while stupidly not saving once, this can save your hide. :) (It also writes
+   out $BACKUP$.VSP)
+ - MapEd: Fixed a bug with it reporting errors from VCC after they had been
+          fixed. Mental note: close file BEFORE trying to delete it.
+ - MapEd: Added Entity mode (E), Entity Editor, etc.
+ - Updated MAIN and MapEd for MAP format version 4... If you are making a VERGE
+   game with the last version, you will need to do a few things to make your
+   game playable:
+       - First, run MAPCONV on ALL of your maps to update them to the new
+         MAP format.
+       - AFTER converting your MAPs, recompile ALL vcs.
+       - Delete SAVEDAT.*  ... The savegame format has changed again.
+       - Make new CHRs. The new CHR format has a total of 30 frames, 10
+         additional frames for misc use.
+       - Make a STARTUP.VC and compile it, might as well delete startup.scr.
+ - Main: Added a "fps limiting" device to the main redraw loop. Now VERGE will
+         NOT draw more than 100 frames per second to the video card regardless
+         of what your machine would be capable of. It seems to help reduce
+         flicker on my machine, and you're not losing any performance anyhow.
+ - VergeC: Added Switch/Case statement processing. Note to C programmers:
+           the 'break' command is not needed, and it's not recognized either;
+           using it will generate an error
+ - VergeC: C-style GOTO statements have been implemented. I'm sure these will
+           come in handy.. contrary to popular teachings, GOTOs are NOT the
+           antichrist of programming.. Especially when you have only a limited
+           subset of the full C language (VergeC) to work with, something like
+           gotos are QUITE useful. There is currently a limit of 100 labels per
+           VC and 100 actual goto statements per VC.
+ - VergeC: Thanks to Zeromus, VCC has a preprocessor which will process
+           #include and #define. Note that the #define format is a tad different
+           from real C, so read VERGEC.TXT for info on how to use it.
+ - VergeC: Cleaned up the 'v' switch (verbose).. It no longer dumps every
+           single token in the map, and instead, outputs actually useful (to me
+           anyway) information. :)
+ - Entities and players are now variable-speed controlled by VC! Wee! :)
+ - Added ONEQUIP and ONDEEQUIP parameters to the EQUIP.DAT which calls a script
+   in EFFECTS.VC. Should be handy.
+ - If a MAP's music field is blank, the music will just continue uninterrupted
+   from whatever music was playing last.
+ - SText now runs the same speed regardless of computer speed.
+ - You can now set the VC layer to be drawn at different 'layers' on the screen.
+   LayerVC=1 as normal, draws the VC layer on top of everything else.
+   LayerVC=2 draws it under the foreground layer but on top of he chars, and
+   LayerVC=3 draws it under both the foreground and the characters.
+ - The foreground layer can be scrolled independently with the variables
+   foregroundlock, xwin1 and ywin1.
+ - Mwahahaha! At long last, the entities/players are now properly Y-sorted
+   before they are drawn! <:)

@@ -120,6 +120,12 @@ let games: array(Game.game) = [|
         description: "V1 Game by Gurv & Azure Productions",
         engine: Game.V1,
     },
+    {
+        name: "runeedge",
+        title: "Rune Edge",
+        description: "A game made by Hyptosis.",
+        engine: Game.V1,
+    },	
 	{
         name: "tactics_verge",
         title: "Tactics Verge",
