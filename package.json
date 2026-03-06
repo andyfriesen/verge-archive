@@ -6,7 +6,7 @@
     "build": "bsb -make-world",
     "start": "bsb -make-world -w -ws _ ",
     "clean": "bsb -clean-world",
-    "server": "moduleserve ./ --port 8000",
+    "server": "python3 -m http.server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "bs-platform": "^9.0.0",
-    "moduleserve": "^0.9.1",
     "webpack": "^5.76.0",
     "webpack-cli": "^4.5.0"
   }
